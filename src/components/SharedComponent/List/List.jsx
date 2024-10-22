@@ -4,6 +4,7 @@ import Edit from '../../../assets/images/Pen.svg';
 import Cancel from '../../../assets/images/Cancel.svg';
 import Delete from '../../../assets/images/Delete.svg';
 import View from '../../../assets/images/ViewEye.svg'
+import { useNavigate } from 'react-router-dom';
 
 
 const List = ({tableHeaders, listData, keyMapping, pageHeading}) => {
@@ -17,6 +18,8 @@ const List = ({tableHeaders, listData, keyMapping, pageHeading}) => {
         { id: 'OFR664ae8b54868j', name: 'Fast Charger', price: 'AED 300', status: 'Un-active' }
     ];
 
+    const navigate = useNavigate()
+
     const [currentPage, setCurrentPage] = useState(1);
     const chargersPerPage = 5;
     const offset = currentPage * chargersPerPage;
@@ -26,6 +29,10 @@ const List = ({tableHeaders, listData, keyMapping, pageHeading}) => {
         setCurrentPage(event.selected);
     };
 
+    const handleSignupDetails = (id) => {
+        navigate(`/rider-details/${id}`)
+    }
+
     return (
         <div className={styles.containerCharger}>
             
@@ -33,19 +40,19 @@ const List = ({tableHeaders, listData, keyMapping, pageHeading}) => {
                 <thead>
                 <tr>
                         {tableHeaders?.map((header, i) => (
-                            <th key={i}>{header}</th> // Add key prop for each header
+                            <th key={i}>{header}</th> 
                         ))}
                     </tr>
                     
                 </thead>
                 <tbody>
-                    {listData.map((charger, index) => (
+                    {listData.map((data, index) => (
                         <tr key={index}>
                            {keyMapping.map((keyObj, keyIndex) => (
                                 <td key={keyIndex}>
                                     {keyObj.format 
-                                        ? keyObj.format(charger[keyObj.key]) 
-                                        : charger[keyObj.key]
+                                        ? keyObj.format(data[keyObj.key]) 
+                                        : data[keyObj.key]
                                     }
                                 </td>
                             ))}
@@ -70,6 +77,14 @@ const List = ({tableHeaders, listData, keyMapping, pageHeading}) => {
                                     {pageHeading === 'Portable Charger Slot List' && (
                                         <>
                                             <img src={Edit} alt='edit' />
+                                            <img src={Delete} alt='delete' />
+                                        </>
+                                    )}
+                                    {pageHeading === 'App Signup List' && (
+                                        <>
+                                            <img src={View} alt="view" 
+                                            onClick={() => handleSignupDetails(data.rider_id)}
+                                            />
                                             <img src={Delete} alt='delete' />
                                         </>
                                     )}

@@ -39,7 +39,7 @@
             </NavLink>
           </li>
           <li className={styles.menuItem}>
-            <NavLink to="/add-signup" className={({ isActive }) => (isActive ? styles.active : '')}>
+            <NavLink to="/app-signup-list" className={({ isActive }) => (isActive ? styles.active : '')}>
               App Sign Up List
             </NavLink>
           </li>

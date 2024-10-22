@@ -5,8 +5,9 @@ import Person from '../../../assets/images/Person.svg'
 import Mobile from '../../../assets/images/Mobile.svg'
 import Email from '../../../assets/images/Email.svg'
 import DateofBirth from '../../../assets/images/DateofBirth.svg'
+import moment from 'moment';
 
-const RiderInfo = () => {
+const RiderInfo = ({headerDetails}) => {
   return (
       <div className={styles.infoCard}>
         <div className="row">
@@ -17,7 +18,7 @@ const RiderInfo = () => {
               </div>
               <div className={styles.infoBlock}>
                 <span className={styles.infoHeading}>Customer Name</span>
-                <span className={styles.infoText}> Karthik Rao</span>
+                <span className={styles.infoText}> {headerDetails?.rider_name}</span>
               </div>
             </div>
           </div>  
@@ -28,7 +29,7 @@ const RiderInfo = () => {
               </div>
               <div className={styles.infoBlock}>
                 <span className={styles.infoHeading}>Mobile No</span>
-                <span className={styles.infoText}> +971 558 454 940</span>
+                <span className={styles.infoText}> {headerDetails?.country_code} {headerDetails?.rider_mobile}</span>
               </div>
             </div>
           </div>
@@ -39,7 +40,7 @@ const RiderInfo = () => {
               </div>
               <div className={styles.infoBlock}>
                 <span className={styles.infoHeading}>Email</span>
-                <span className={styles.infoText}>shivanshitripathi8@gmail.com</span>
+                <span className={styles.infoText}>{headerDetails?.rider_email}</span>
               </div>
             </div>
           </div>
@@ -50,7 +51,7 @@ const RiderInfo = () => {
               </div>
               <div className={styles.infoBlock}>
                 <span className={styles.infoHeading}>Date of Birth</span>
-                <span className={styles.infoText}>1994-08-10</span>
+                <span className={styles.infoText}>{moment(headerDetails?.date_of_birth).format('YYYY-MM-DD')}</span>
               </div>
             </div>
           </div>

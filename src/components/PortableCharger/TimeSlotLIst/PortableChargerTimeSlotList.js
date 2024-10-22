@@ -44,28 +44,15 @@ const PortableChargerTimeSlotList = () => {
           keyMapping={[
             { key: 'slot_id', label: 'Slot ID' }, 
             { 
-                key: 'start_time', // Using a custom key
-                label: 'Timing', // Change label to "Timing"
-                
+                key: 'start_time',
+                label: 'Timing',  
             }, 
             { key: 'total_booking', label: 'Total Booking' },
-            // { 
-            //     key: 'service_price', 
-            //     label: 'Price', 
-            //     format: (price) => (price ? `AED ${price}` : '') 
-            // },
             { 
                 key: 'booking_limit', 
-                label: 'Booking Limit', 
-                // format: (date) => moment(date).format('DD MMM YYYY h:mm A') 
+                label: 'Booking Limit',  
             } ,
-            // { key: 'status', label: 'Status' },
             { key: 'status', label: 'Status', format: (status) => (status === 1 ? "Active" : "Un-active") } 
-            // {
-            //     key: 'driver_assign', // Assuming you have a field for driver assigned
-            //     label: 'Driver Assign',
-            //     format: () => <img src="/path/to/logo.png" alt="Drive Assign Logo" className={"logo"} /> // Change the path to your logo
-            // },
         ]}
         pageHeading="Portable Charger Slot List"
           />

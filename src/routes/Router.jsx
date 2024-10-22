@@ -1,12 +1,19 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Dashboard from "../components/Dashboard/index.jsx";
 import PortableCharger from "../components/PortableCharger/index.jsx";
+import AppSignupList from "../components/AppSignUp/AppSignupList.js"
 import AppSignup from "../components/AppSignUp/index.jsx";
 import EmergencyTeam from "../components/EmergencyTeam/index.jsx";
 import Layout from "../components/SharedComponent/Layout.jsx";
 import ChargerList from "../components/PortableCharger/ChargerList/ChargerList.jsx";
 import ChargerBooking from "../components/PortableCharger/ChargerBooking/ChargerBooking.jsx";
 import Login from  "../components/Login/index.jsx"
+import ChargerBookingList from "../components/PortableCharger/ChargerBooking/ChargerBookingList.js";
+import InvoiceList from "../components/PortableCharger/InvoiceList/InvoiceList.js";
+import ChargerBookingInvoiceList from "../components/PortableCharger/InvoiceList/InvoiceList.js";
+import PortableChargerTimeSlotList from "../components/PortableCharger/TimeSlotLIst/PortableChargerTimeSlotList.js";
+
+
 const router = createBrowserRouter([
   {
       path: "/login",
@@ -47,8 +54,13 @@ const router = createBrowserRouter([
         element: <PortableChargerTimeSlotList />,
       },
 
+// app signup list
       {
-        path: "/add-signup",
+        path: "/app-signup-list",
+        element: <AppSignupList />,
+      },
+      {
+        path: "/rider-details/:riderId",
         element: <AppSignup />,
       },
       {
