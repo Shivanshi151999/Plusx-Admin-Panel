@@ -4,7 +4,7 @@ import DetailsHeader from '../../SharedComponent/Details/DetailsHeader'
 import DetailsSection from '../../SharedComponent/Details/DetailsSection'
 import DetailsList from '../../SharedComponent/Details/DetailsList'
 import DetailsVehicleList from '../../SharedComponent/Details/DetailsVehicleList'
-import { getRequestWithToken } from '../../../api/Requests';
+import { postRequestWithToken } from '../../../api/Requests';
 import { useParams } from 'react-router-dom';
 
 
@@ -21,7 +21,7 @@ const ChargerBookingDetails = () => {
         // booking_id : bookingId
     };
 
-    getRequestWithToken('charger-booking-details', obj, (response) => {
+    postRequestWithToken('charger-booking-details', obj, (response) => {
         if (response.code === 200) {
             setBookingDetails(response?.data || {});  
         } else {

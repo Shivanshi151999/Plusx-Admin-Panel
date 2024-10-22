@@ -25,7 +25,7 @@ const PortableChargerTimeSlotList = () => {
             page_no : "1"
         }
 
-        getRequestWithToken('charger-slot-list', obj, async(response) => {
+        postRequestWithToken('charger-slot-list', obj, async(response) => {
             if (response.code === 200) {
                 setTimeSlotList(response?.data)
             } else {
@@ -47,10 +47,14 @@ const PortableChargerTimeSlotList = () => {
                 key: 'timing',
                 label: 'Timing',  
             }, 
-            { key: 'total_booking', label: 'Total Booking' },
+            { key: 'total_booking', 
+                label: 'Total Booking',
+                format: (limit) => (limit ? ` ${limit}` : '0') 
+            },
             { 
                 key: 'booking_limit', 
                 label: 'Booking Limit',  
+                
             } ,
             { key: 'status', label: 'Status', format: (status) => (status === 1 ? "Active" : "Un-active") } 
         ]}

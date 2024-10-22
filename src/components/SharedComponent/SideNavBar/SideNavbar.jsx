@@ -20,13 +20,49 @@
       setOpenDropdown(openDropdown === menu ? null : menu);
     };
 
-    const handleItemClick = (id, path) => {
-      setCheckedItems((prevState) => ({
-        ...prevState,
-        [id]: !prevState[id],
-      }));
-      navigate(path);
-    };
+    // const handleItemClick = (id, path) => {
+    //   setCheckedItems((prevState) => ({
+    //     ...prevState,
+    //     [id]: !prevState[id],
+    //   }));
+    //   navigate(path);
+    // };
+
+
+    const handleItemClick = (id, e) => {
+      // Prevent default action
+      e.stopPropagation();
+  
+      // Reset all checkboxes to false, then set the clicked one to true
+      setCheckedItems((prevState) => {
+          // Create a new state object
+          const newState = {
+              chargerList: false,
+              chargerBooking: false,
+              invoiceList: false,
+              timeSlot: false,
+              [id]: true, // Set the clicked item to true
+          };
+  
+          return newState;
+      });
+  
+      // Map of paths based on item IDs
+      const pathMapping = {
+          chargerList: '/charger-list',
+          chargerBooking: '/charger-booking-list',
+          invoiceList: '/charger-booking-invoice-list',
+          timeSlot: '/charger-booking-time-slot-list',
+      };
+  
+      // Navigate to the path associated with the item
+      const path = pathMapping[id];
+      if (path) {
+          navigate(path);
+      }
+  };
+  
+  
     return (
       <div className={styles.sidebar}>
         <div className={styles.logo}>
@@ -63,7 +99,7 @@
                 {/* Charger List */}
                 <li
                   className={`${styles.menuItemContainer} ${checkedItems.chargerList ? styles.activeItem : styles.inactiveItem}`}
-                  onClick={() => handleItemClick('chargerList')}
+                  onClick={(e) => handleItemClick('chargerList', e)}
                 >
                   <input
                     className={styles.checkboxInput}
@@ -85,7 +121,7 @@
                 {/* Charger Booking */}
                 <li
                   className={`${styles.menuItemContainer} ${checkedItems.chargerBooking ? styles.activeItem : styles.inactiveItem}`}
-                  onClick={() => handleItemClick('chargerBooking')}
+                  onClick={(e) => handleItemClick('chargerBooking', e)}
                 >
                   <input
                     className={styles.checkboxInput}
@@ -107,7 +143,7 @@
                 {/* Invoice List */}
                 <li
                   className={`${styles.menuItemContainer} ${checkedItems.invoiceList ? styles.activeItem : styles.inactiveItem}`}
-                  onClick={() => handleItemClick('invoiceList' )}
+                  onClick={(e) => handleItemClick('invoiceList', e )}
                 >
                   <input
                     className={styles.checkboxInput}
@@ -129,7 +165,7 @@
                 {/* Time Slot */}
                 <li
                   className={`${styles.menuItemContainer} ${checkedItems.timeSlot ? styles.activeItem : styles.inactiveItem}`}
-                  onClick={() => handleItemClick('timeSlot',  )}
+                  onClick={(e) => handleItemClick('timeSlot', e )}
                 >
                   <input
                     className={styles.checkboxInput}
@@ -161,7 +197,7 @@
                 <li>
                   <input className={styles.checkboxInput} type="checkbox" id="bookingList" />
                   <label htmlFor="bookingList" className={styles.checkmark}></label>
-                  <NavLink to="/sii" className={({ isActive }) => (isActive ? styles.active : '')}>
+                  <NavLink to="/pick-and-drop-booking-list" className={({ isActive }) => (isActive ? styles.active : '')}>
                     Booking List
                   </NavLink>
 

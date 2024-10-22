@@ -15,7 +15,7 @@ const statusMapping = {
     'C': 'Cancel'
 };
 
-const ChargerBookingList = () => {
+const BookingList = () => {
     const [chargerBookingList, setChargerBookingList] = useState([])
 
     useEffect(() => {
@@ -25,7 +25,7 @@ const ChargerBookingList = () => {
             page_no : "1"
         }
 
-        postRequestWithToken('charger-booking-list', obj, async(response) => {
+        postRequestWithToken('pick-and-drop-booking-list', obj, async(response) => {
             if (response.code === 200) {
                 setChargerBookingList(response?.data)
             } else {
@@ -39,7 +39,7 @@ const ChargerBookingList = () => {
         <>
          <SubHeader heading = "Portable Charger Boking List"/>
         <List 
-        tableHeaders={["ID", "Name", "Service Name", "Price", "Date & Time", "Status", "Driver Assign", "Action"]}
+        tableHeaders={["ID", "Name", "Price", "Date & Time", "Status", "Driver Assign", "Action"]}
           listData = {chargerBookingList}
           keyMapping={[
             { key: 'booking_id', label: 'ID' }, 
@@ -75,4 +75,4 @@ const ChargerBookingList = () => {
     );
 };
 
-export default ChargerBookingList;
+export default BookingList;

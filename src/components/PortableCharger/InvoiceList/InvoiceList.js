@@ -15,7 +15,7 @@ const ChargerBookingInvoiceList = () => {
             page_no : "1"
         }
 
-        getRequestWithToken('charger-booking-invoice-list', obj, async(response) => {
+        postRequestWithToken('charger-booking-invoice-list', obj, async(response) => {
             if (response.code === 200) {
                 setInvoiceList(response?.data)
             } else {

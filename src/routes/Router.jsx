@@ -13,7 +13,7 @@ import InvoiceList from "../components/PortableCharger/InvoiceList/InvoiceList.j
 import ChargerBookingInvoiceList from "../components/PortableCharger/InvoiceList/InvoiceList.js";
 import PortableChargerTimeSlotList from "../components/PortableCharger/TimeSlotLIst/PortableChargerTimeSlotList.js";
 import ChargerBookingDetails from "../components/PortableCharger/ChargerBooking/ChargerBookingDetails.js";
-
+import PickAndDropBookingList from '../components/PickAndDrop/BookingList/BookingList.jsx'
 
 const router = createBrowserRouter([
   {
@@ -71,6 +71,12 @@ const router = createBrowserRouter([
       {
         path: "/emergency-team",
         element: <EmergencyTeam />,
+      },
+
+      //pick and drop
+      {
+        path: "/pick-and-drop-booking-list",
+        element: <PickAndDropBookingList />,
       },
     ],
   },

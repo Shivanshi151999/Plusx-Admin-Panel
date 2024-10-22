@@ -70,9 +70,9 @@ export const postRequestWithToken = async (URL, requestData, callback) => {
             data    : requestData,
             // withCredentials : true,
             headers : {
-                "access_token" : sessionStorage.getItem('token') || localStorage.getItem('token'),
-                "buyer_id"     : sessionStorage.getItem('buyer_id') || localStorage.getItem('buyer_id'),
-                // access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aW1lIjoiVGh1IE1heSAwMiAyMDI0IDExOjM2OjE2IEdNVCswNTMwIChJbmRpYSBTdGFuZGFyZCBUaW1lKSIsImJ1eWVySWQiOiJCVVktcDQ4MHhxdXNjeiIsImlhdCI6MTcxNDYyOTk3Nn0.NADTShvxaTLQBizjnmA9-NC1v-jFcFcLqrx5yOwAP8g',
+                // "access_token" : sessionStorage.getItem('token') || localStorage.getItem('token'),
+                access_token : "lQIjtDlvQp5Herw08dmSV0XdHDcuRLqBHcm56Vb5cgbycZ4hWMm46oe4i8tlGihQ",
+                "userId"     : sessionStorage.getItem('admin_id') || localStorage.getItem('admin_id') || "1",
                 "Content-Type" : "application/json"
             } 
         });

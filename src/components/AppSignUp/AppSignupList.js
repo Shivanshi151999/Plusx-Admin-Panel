@@ -17,7 +17,7 @@ const SignupList = () => {
             page_no: page
         };
 
-        getRequestWithToken('rider-list', obj, (response) => {
+        postRequestWithToken('rider-list', obj, (response) => {
             if (response.code === 200) {
                 setSignupList(response?.data || []);  
                 setTotalPages(response?.data?.total_pages || 1);  
