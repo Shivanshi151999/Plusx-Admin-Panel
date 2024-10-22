@@ -47,6 +47,19 @@
     font-size: 18px;
     color: #ffffff;
 }
+.passwordContainer {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.eyeIcon {
+    position: absolute;
+    right: 10px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
 .formInput{
     outline: none;
     background-color: #242424;
@@ -55,6 +68,7 @@
     border-radius: 6px;
     color: #ffffff;
     font-size: 16px;
+    width: 100%;
 }
 .formButtonSection{
     display: flex;
