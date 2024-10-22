@@ -34,6 +34,18 @@ const router = createBrowserRouter([
         path: "/charger-booking",
         element: <ChargerBooking />,
       },
+      {
+        path: "/charger-booking-list",
+        element: <ChargerBookingList />,
+      },
+      {
+        path: "/charger-booking-invoice-list",
+        element: <ChargerBookingInvoiceList />,
+      },
+      {
+        path: "/charger-booking-time-slot-list",
+        element: <PortableChargerTimeSlotList />,
+      },
 
       {
         path: "/add-signup",
