@@ -1,0 +1,42 @@
+.subHeaderContainer{
+    padding: 20px;
+    background-color: #242424;
+    color: white;
+    font-family: "Inter", sans-serif !important;
+}
+.headerCharger {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.subHeaderButtonSection{
+    display: flex;
+    column-gap: 14px;
+}
+.headingList {
+    font-size: 24px;
+    font-weight: 600;
+    color: #00ffcc;
+}
+
+.addButtonSection {
+    display: flex;
+    align-items: center;
+    column-gap: 8px;
+    background-color: #00ffcc;
+    color: #000000;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.addButtonImg img {
+    width: 24px;
+    height: auto;
+}
+
+.addButtonText {
+    font-size: 16px;
+    font-weight: 600;
+}

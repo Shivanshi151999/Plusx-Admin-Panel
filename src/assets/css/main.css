@@ -1,0 +1,15 @@
+body{
+    font-family: "Inter", sans-serif !important;
+}
+.container-fluid{
+    padding: 20px;
+    background-color: #242424;
+    color: white;
+    font-family: "Inter", sans-serif !important;
+  }
+  .row{
+    row-gap: 20px !important;
+  }
+  .table>thead {
+    vertical-align: top !important  ;
+  }

@@ -1,0 +1,110 @@
+/* start the details header section */
+.infoCard{
+  padding: 20px;
+  background-color: #242424;
+  color: white;
+  font-family: "Inter", sans-serif !important;
+}
+.detailsHeaderSection{
+  display: flex;
+  align-items: center;
+  column-gap: 12px;
+  border: 2px solid #64FFC5;
+  padding: 18px 16px;
+  border-radius: 14px;
+}
+.detailsImageSection img{
+  width: 40px;
+  height: auto;
+}
+.infoBlock{
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  gap: 4px;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-all;
+  max-width: 100%;
+}
+.infoText{
+  display: block;
+  white-space: normal;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  font-size: 15px;
+  line-height: 16px;
+  color: #ffffff; 
+}
+.infoHeading{
+  font-size: 12px;
+  color: #ffffff;
+}
+/* end the details header section */
+/* start the details section */
+.infoSection{
+  padding: 20px;
+  border-radius: 14px;
+  background-color: #000000;
+  color: white;
+  font-family: "Inter", sans-serif !important;
+}
+.Detailshead{
+  font-size: 18px;
+  font-weight: 600;
+  color: #64FFC5;
+}
+/* end the details section */
+/* start the list section */
+.detailsListSection{
+background-color: #242424;
+}
+.table>thead {
+  vertical-align: top !important;
+}
+.addressListContainer {
+  padding: 20px;
+  display: flex;
+  background-color: #242424;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  flex-direction: column;
+  row-gap: 20px;
+  justify-content: start;
+  align-items: start;
+}
+.sectionTitle {
+  color: #64FFC5;
+  font-size: 26px;
+  font-weight: 600;
+}
+.customTable {
+  background-color: #000 !important;
+  border-radius: 14px !important; 
+  overflow: hidden; 
+  padding: 12px !important;
+}
+.customTable thead {
+  background-color: #000000;  
+  border-bottom: #000 !important;
+}
+.customTable th {
+  color: #64FFC5!important;
+  background-color: #000000 !important;
+  font-size: 13px !important;
+  font-weight: 400 !important;
+  padding: 10px!important;
+  text-align: left;
+}
+.customTable td {
+  color: #ffffff !important;
+  background-color: #000000 !important;
+  padding: 12px 10px !important;
+  font-size: 13px !important;
+}
+.customTable {
+  border-collapse: separate;  
+  border-spacing: 0;
+  border-radius: 8px;
+}
+
+/* start the list section */

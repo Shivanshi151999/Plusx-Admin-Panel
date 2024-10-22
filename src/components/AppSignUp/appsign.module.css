@@ -1,0 +1,9 @@
+.appSignupSection{
+    background-color: #242424;
+    height: 94vh;
+    overflow: scroll;
+    padding: 20px 0px;
+}
+.appSignupSection::-webkit-scrollbar{
+    display: none;
+}
