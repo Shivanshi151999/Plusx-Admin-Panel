@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './details.module.css'
 
-const DetailsVehicleList = () => {
+const DetailsVehicleList = ({vehicleList}) => {
   const addresses = [
     {
      vehicletype: "RIOT Experience Center",
@@ -51,18 +51,18 @@ const DetailsVehicleList = () => {
           </tr>
         </thead>
         <tbody>
-          {addresses.map((address, index) => (
+          {vehicleList?.map((address, index) => (
             <tr key={index}>
-              <td>{address.vehicletype}</td>
-              <td>{address.vehicleno}</td>
-              <td>{address.vehiclecode}</td>
-              <td>{address.yearmanufacture}</td>
-              <td>{address.vehiclemodal}</td>
-              <td>{address.vehiclemake}</td>
-              <td>{address.leasedfrom}</td>
-              <td>{address.ownertype}</td>
+              <td>{address.vehicle_type}</td>
+              <td>{address.vehicle_number}</td>
+              <td>{address.vehicle_code}</td>
+              <td>{address.year_manufacture}</td>
+              <td>{address.vehicle_model}</td>
+              <td>{address.vehicle_make}</td>
+              <td>{address.leased_from}</td>
+              <td>{address.owner_type}</td>
               <td>{address.owner}</td>
-              <td>{address.vehiclespecification}</td>
+              <td>{address.vehicle_specification}</td>
               <td>{address.emirates}</td>
             </tr>
           ))}

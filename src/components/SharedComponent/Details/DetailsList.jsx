@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './details.module.css'
 
-const DetailsList = () => {
+const DetailsList = ({addressList}) => {
   const addresses = [
     {
       buildingName: "RIOT Experience Center",
@@ -36,14 +36,14 @@ const DetailsList = () => {
           </tr>
         </thead>
         <tbody>
-          {addresses.map((address, index) => (
+          {addressList?.map((address, index) => (
             <tr key={index}>
-              <td>{address.buildingName}</td>
-              <td>{address.streetName}</td>
-              <td>{address.areaName}</td>
-              <td>{address.unitNo}</td>
-              <td>{address.nickName}</td>
-              <td>{address.emirates}</td>
+              <td>{address.building_name}</td>
+              <td>{address.street}</td>
+              <td>{address.area}</td>
+              <td>{address.unit_no}</td>
+              <td>{address.nick_name}</td>
+              <td>{address.emirate}</td>
             </tr>
           ))}
         </tbody>

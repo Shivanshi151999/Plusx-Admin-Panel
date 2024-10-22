@@ -12,6 +12,7 @@ import ChargerBookingList from "../components/PortableCharger/ChargerBooking/Cha
 import InvoiceList from "../components/PortableCharger/InvoiceList/InvoiceList.js";
 import ChargerBookingInvoiceList from "../components/PortableCharger/InvoiceList/InvoiceList.js";
 import PortableChargerTimeSlotList from "../components/PortableCharger/TimeSlotLIst/PortableChargerTimeSlotList.js";
+import ChargerBookingDetails from "../components/PortableCharger/ChargerBooking/ChargerBookingDetails.js";
 
 
 const router = createBrowserRouter([
@@ -44,6 +45,10 @@ const router = createBrowserRouter([
       {
         path: "/charger-booking-list",
         element: <ChargerBookingList />,
+      },
+      {
+        path: "/charger-booking-details/:bookingId",
+        element: <ChargerBookingDetails />,
       },
       {
         path: "/charger-booking-invoice-list",

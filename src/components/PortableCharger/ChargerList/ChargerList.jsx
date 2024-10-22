@@ -36,7 +36,7 @@ const ChargerList = () => {
 
     return (
         <>
-            <SubHeader heading = "Charger List"/>
+            <SubHeader heading = "Portable Charger List"/>
             <List
                 // heading="Charger List"
                 tableHeaders={["ID", "Charger Name", "Charger Price", "Status", "Action"]}

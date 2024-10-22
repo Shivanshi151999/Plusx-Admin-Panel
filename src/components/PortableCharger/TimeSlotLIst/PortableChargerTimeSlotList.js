@@ -44,7 +44,7 @@ const PortableChargerTimeSlotList = () => {
           keyMapping={[
             { key: 'slot_id', label: 'Slot ID' }, 
             { 
-                key: 'start_time',
+                key: 'timing',
                 label: 'Timing',  
             }, 
             { key: 'total_booking', label: 'Total Booking' },

@@ -33,6 +33,10 @@ const List = ({tableHeaders, listData, keyMapping, pageHeading}) => {
         navigate(`/rider-details/${id}`)
     }
 
+    const handleBookingDetails = (id) => {
+        navigate(`/charger-booking-details/${id}`)
+    }
+
     return (
         <div className={styles.containerCharger}>
             
@@ -61,7 +65,7 @@ const List = ({tableHeaders, listData, keyMapping, pageHeading}) => {
 
                                 {pageHeading === 'Charger Booking List' && (
                                         <>
-                                            <img src={View} alt="view" />
+                                            <img src={View} alt="view" onClick={() => handleBookingDetails(data.booking_id)}/>
                                             <img src={Cancel} alt='cancel' />
                                         </>
                                     )}
