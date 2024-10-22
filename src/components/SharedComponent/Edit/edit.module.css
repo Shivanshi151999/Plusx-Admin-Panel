@@ -1,8 +1,148 @@
 /* Start the edit header section */
 .editHeaderContainer{
-
+padding: 20px;
 }
 .editHeading{
-    
+    color: #64FFC5;
+    font-size: 26px;
+    font-weight: 600; 
 }
 /* End the edit header section */
+/* Start the edit content section */
+.editChargerContentSection{
+    padding: 20px;
+    border-radius: 14px;
+    background-color: #000000;
+    color: white;
+    font-family: "Inter", sans-serif !important;
+}
+.editChargerContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    gap: 4px;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-all;
+    max-width: 100%;
+}
+.editChargerChargerHeading{
+    font-size: 12px;
+    color: #ffffff;
+}
+.editChargerContent{
+    font-size: 18px;
+    font-weight: 600;
+    color: #64FFC5;
+}
+/* End the edit content section */
+/* Start the feature section */
+.editfeatureContainer{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 0px 10px;
+}
+.editfeatureContentSection{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+.editfeatureHeading{
+    font-size: 12px;
+    color: #ffffff;
+}
+.editfeatureContent{
+    font-size: 18px;
+    font-weight: 600;
+    color: #64FFC5;
+}
+.editfeatureInputContent{
+    width: 100%;
+}
+.editFromSection{
+    width: 100%;
+    border: none;
+    background-color: #242424;
+    border-bottom: 1px solid white;
+    padding: 8px;
+    outline: none;
+    color: #ffffff;
+}
+
+/* Container for toggle switch */
+.toggleContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #242424;
+    padding: 22px 10px;
+    border-radius: 14px;
+    border: 1px solid #64FFC5 ;
+  }
+  
+  /* Label for status */
+  .statusLabel {
+    color: #ffffff;
+    font-size: 18px;
+  }
+  
+  /* Toggle switch area */
+  .toggleSwitch {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 20px;
+    padding: 5px;
+  }
+  
+  /* Toggle labels for Un-active and Active */
+  .toggleLabel {
+    color: #64FFC5;
+    font-size: 12px;
+    padding: 0 6px;
+  }
+  
+  .toggleLabel.active {
+    color: #64FFC5;
+  }
+  
+  .toggleLabel.inactive {
+    color:#828282;
+  }
+  
+  /* Toggle button container */
+  .toggleButton {
+    position: relative;
+    border: 2px solid #64FFC5;
+    background-color: #242424;
+    border-radius: 6px;
+    width: 60px;
+    height: 28px;
+    margin: 0 6px;
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Active state background */
+  .toggleButton.active {
+   border: 2px solid #64FFC5;
+  }
+  
+  /* Slider inside the button */
+  .slider {
+    position: absolute;
+    top: 50%;
+    left: 0px;
+    width: 26px;
+    height: 26px;
+    background-color: #64FFC5;
+    border-radius: 4px;
+    transform: translateY(-50%);
+    transition: all 0.3s ease;
+  }
+  
+  .toggleButton.active .slider {
+    left: 30px;
+  }
+  
+/* End the feature section */

@@ -16,7 +16,7 @@ const RiderInfo = () => {
                 <img src={Person} alt="Person" />
               </div>
               <div className={styles.infoBlock}>
-                <span className={styles.infoHeading}>Rider Name</span>
+                <span className={styles.infoHeading}>Customer Name</span>
                 <span className={styles.infoText}> Karthik Rao</span>
               </div>
             </div>

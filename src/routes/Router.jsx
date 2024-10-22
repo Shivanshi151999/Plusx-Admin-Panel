@@ -6,8 +6,12 @@ import EmergencyTeam from "../components/EmergencyTeam/index.jsx";
 import Layout from "../components/SharedComponent/Layout.jsx";
 import ChargerList from "../components/PortableCharger/ChargerList/ChargerList.jsx";
 import ChargerBooking from "../components/PortableCharger/ChargerBooking/ChargerBooking.jsx";
-
+import Login from  "../components/Login/index.jsx"
 const router = createBrowserRouter([
+  {
+      path: "/login",
+      element: <Login />,
+  },
   {
     path: "/",
     element: <Layout />,
@@ -16,6 +20,8 @@ const router = createBrowserRouter([
         index: true,
         element: <Dashboard />,
       },
+      
+      
       {
         path: "/portable-charger",
         element: <PortableCharger />,

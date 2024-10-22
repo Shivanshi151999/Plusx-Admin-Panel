@@ -2,7 +2,6 @@ import React from "react";
 import { Outlet } from "react-router-dom";
 import SideNavbar from "./SideNavBar/SideNavbar";
 import Header from './Header/Header'
-
 function Layout() {
   return (
     <>
@@ -15,7 +14,6 @@ function Layout() {
        <div><Outlet /></div> 
        </div>
     </div>
-      
     </>
   );
 }
