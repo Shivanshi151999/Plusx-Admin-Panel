@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import styles from './edit.module.css'
+import EditImage from './EditImage'
 
 const EditFeature = () => {
   const [isActive, setIsActive] = useState(false);
@@ -40,6 +41,13 @@ const EditFeature = () => {
           </div>
         </div>
       </div>
+      <EditImage />
+      {/* start the button section */}
+      <div className={styles.editButton}>
+        <button className={styles.editCancelBtn}>Cancel</button>
+        <button className={styles.editSubmitBtn}>Submit</button>
+      </div>
+      {/* end the button section */}
     </div>
   )
 }

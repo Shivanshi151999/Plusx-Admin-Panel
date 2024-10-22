@@ -1,0 +1,9 @@
+.evBuysellContainer{
+    background-color: #242424;
+    height: 94.2vh;
+    overflow: scroll;
+    padding: 20px 0px;
+}
+.evBuysellContainer::-webkit-scrollbar{
+    display: none;
+}

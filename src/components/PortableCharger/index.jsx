@@ -1,15 +1,12 @@
 import React from "react";
-import ChargerList from "./ChargerList/ChargerList";
-import ChargerBooking from "./ChargerBooking/ChargerBooking";
+import styles from './ChargerBooking/chargerbooking.module.css'
 import { Outlet } from "react-router-dom";
 
 const index = () => {
   return (
-    <>
-      {/* <ChargerList/> */}
-      {/* <ChargerBooking/> */}
+    <div className={styles.portableChargerContainer}>
       <Outlet />
-    </>
+    </div>
   );
 };
 

@@ -1,9 +1,13 @@
+.portableChargerContainer{
+    height: 94.3vh;
+    background-color: #242424;
+    overflow: scroll;
+}
+.portableChargerContainer::-webkit-scrollbar{
+    display: none;
+}
+
 .chargerBookingContainer{
     background-color: #242424;
-    height: 94.2vh;
-    overflow: scroll;
     padding: 20px 0px;
-}
-.chargerBookingContainer::-webkit-scrollbar{
-    display: none;
 }

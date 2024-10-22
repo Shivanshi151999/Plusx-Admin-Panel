@@ -81,7 +81,7 @@
           </li>
           <li className={styles.menuItem}>
             <NavLink to="/emergency-team" className={({ isActive }) => (isActive ? styles.active : '')}>
-              Emergency Team
+            Riders
             </NavLink>
           </li>
 
@@ -110,7 +110,7 @@
                   />
                   <label htmlFor="chargerList" className={styles.checkmark}></label>
                   <NavLink
-                    to='/charger-list'
+                    to='/portable-charger/charger-list'
                     className={({ isActive }) => (isActive ? styles.activeText : '')}
                     onClick={(e) => e.stopPropagation()}end
                   >
@@ -132,7 +132,7 @@
                   />
                   <label htmlFor="chargerBooking" className={styles.checkmark}></label>
                   <NavLink
-                    to="/charger-booking-list"
+                    to="/portable-charger/charger-booking-list"
                     className={({ isActive }) => (isActive ? styles.activeText : '')}
                     onClick={(e) => e.stopPropagation()}
                   >
@@ -154,7 +154,7 @@
                   />
                   <label htmlFor="invoiceList" className={styles.checkmark}></label>
                   <NavLink
-                    to="/charger-booking-invoice-list"
+                    to="/portable-charger/charger-booking-invoice-list"
                     className={({ isActive }) => (isActive ? styles.activeText : '')}
                     onClick={(e) => e.stopPropagation()}
                   >
@@ -176,7 +176,7 @@
                   />
                   <label htmlFor="timeSlot" className={styles.checkmark}></label>
                   <NavLink
-                    to="/charger-booking-time-slot-list"
+                    to="/portable-charger/charger-booking-time-slot-list"
                     className={({ isActive }) => (isActive ? styles.activeText : '')}
                     onClick={(e) => e.stopPropagation()}
                   >
@@ -357,7 +357,7 @@
           </div>
 
           <li className={styles.menuItem}>
-            <NavLink to="/sii" className={({ isActive }) => (isActive ? styles.active : '')}>
+            <NavLink to="/ev-buy-sell" className={({ isActive }) => (isActive ? styles.active : '')}>
               EV Buy & Sell
             </NavLink>
           </li>
