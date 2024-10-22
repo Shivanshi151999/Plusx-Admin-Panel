@@ -6,7 +6,16 @@ import EmergencyTeam from "../components/EmergencyTeam/index.jsx";
 import Layout from "../components/SharedComponent/Layout.jsx";
 import ChargerList from "../components/PortableCharger/ChargerList/ChargerList.jsx";
 import ChargerBooking from "../components/PortableCharger/ChargerBooking/ChargerBooking.jsx";
+<<<<<<< Updated upstream
 import Login from  "../components/Login/index.jsx"
+=======
+import ChargerBookingList from "../components/PortableCharger/ChargerBooking/ChargerBookingList.js";
+import InvoiceList from "../components/PortableCharger/InvoiceList/InvoiceList.js";
+import ChargerBookingInvoiceList from "../components/PortableCharger/InvoiceList/InvoiceList.js";
+import PortableChargerTimeSlotList from "../components/PortableCharger/TimeSlotLIst/PortableChargerTimeSlotList.js";
+
+
+>>>>>>> Stashed changes
 const router = createBrowserRouter([
   {
       path: "/login",
@@ -33,6 +42,18 @@ const router = createBrowserRouter([
       {
         path: "/charger-booking",
         element: <ChargerBooking />,
+      },
+      {
+        path: "/charger-booking-list",
+        element: <ChargerBookingList />,
+      },
+      {
+        path: "/charger-booking-invoice-list",
+        element: <ChargerBookingInvoiceList />,
+      },
+      {
+        path: "/charger-booking-time-slot-list",
+        element: <PortableChargerTimeSlotList />,
       },
 
       {

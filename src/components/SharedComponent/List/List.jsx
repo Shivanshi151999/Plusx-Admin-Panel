@@ -4,7 +4,9 @@ import Edit from '../../../assets/images/Pen.svg';
 import Cancel from '../../../assets/images/Cancel.svg';
 import Delete from '../../../assets/images/Delete.svg';
 import View from '../../../assets/images/ViewEye.svg'
-const List = () => {
+
+
+const List = ({tableHeaders, listData, keyMapping, pageHeading}) => {
     const chargers = [
         { id: 'OFR664ae8b54868f', name: 'Super Charger', price: 'AED 150', status: 'Un-active' },
         { id: 'OFR664ae8b54868f', name: 'Super Charger', price: 'AED 150', status: 'Un-active' },
@@ -15,7 +17,7 @@ const List = () => {
         { id: 'OFR664ae8b54868j', name: 'Fast Charger', price: 'AED 300', status: 'Un-active' }
     ];
 
-    const [currentPage, setCurrentPage] = useState(0);
+    const [currentPage, setCurrentPage] = useState(1);
     const chargersPerPage = 5;
     const offset = currentPage * chargersPerPage;
     const currentChargers = chargers.slice(offset, offset + chargersPerPage);
@@ -29,27 +31,52 @@ const List = () => {
             
             <table className={styles.table}>
                 <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Charger Name</th>
-                        <th>Charger Price</th>
-                        <th>Status</th>
-                        <th>Action</th>
+                <tr>
+                        {tableHeaders?.map((header, i) => (
+                            <th key={i}>{header}</th> // Add key prop for each header
+                        ))}
                     </tr>
+                    
                 </thead>
                 <tbody>
-                    {currentChargers.map((charger, index) => (
+                    {listData.map((charger, index) => (
                         <tr key={index}>
-                            <td>{charger.id}</td>
-                            <td>{charger.name}</td>
-                            <td>{charger.price}</td>
-                            <td>{charger.status}</td>
+                           {keyMapping.map((keyObj, keyIndex) => (
+                                <td key={keyIndex}>
+                                    {keyObj.format 
+                                        ? keyObj.format(charger[keyObj.key]) 
+                                        : charger[keyObj.key]
+                                    }
+                                </td>
+                            ))}
                             <td>
                                 <div className={styles.editContent}>
-                                <img src={View} alt="view" />
+
+                                {pageHeading === 'Charger Booking List' && (
+                                        <>
+                                            <img src={View} alt="view" />
+                                            <img src={Cancel} alt='cancel' />
+                                        </>
+                                    )}
+                                    {pageHeading === 'Portable Charger List' && (
+                                        <>
+                                            <img src={Edit} alt='edit' />
+                                            <img src={Cancel} alt='cancel' />
+                                        </>
+                                    )}
+                                    {pageHeading === 'Portable Charger Invoice List' && (
+                                        <img src={View} alt="view" />
+                                    )}
+                                    {pageHeading === 'Portable Charger Slot List' && (
+                                        <>
+                                            <img src={Edit} alt='edit' />
+                                            <img src={Delete} alt='delete' />
+                                        </>
+                                    )}
+                                {/* <img src={View} alt="view" />
                                     <img src={Edit} alt='edit' />
                                     <img src={Cancel} alt='cancel' />
-                                    <img src={Delete} alt='delete' />
+                                    <img src={Delete} alt='delete' /> */}
                                     
                                 </div>
                             </td>

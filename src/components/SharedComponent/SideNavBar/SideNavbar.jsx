@@ -96,7 +96,7 @@
                   />
                   <label htmlFor="chargerBooking" className={styles.checkmark}></label>
                   <NavLink
-                    to="/charger-booking"
+                    to="/charger-booking-list"
                     className={({ isActive }) => (isActive ? styles.activeText : '')}
                     onClick={(e) => e.stopPropagation()}
                   >
@@ -118,7 +118,7 @@
                   />
                   <label htmlFor="invoiceList" className={styles.checkmark}></label>
                   <NavLink
-                    to="/sii"
+                    to="/charger-booking-invoice-list"
                     className={({ isActive }) => (isActive ? styles.activeText : '')}
                     onClick={(e) => e.stopPropagation()}
                   >
@@ -140,7 +140,7 @@
                   />
                   <label htmlFor="timeSlot" className={styles.checkmark}></label>
                   <NavLink
-                    to="/sii"
+                    to="/charger-booking-time-slot-list"
                     className={({ isActive }) => (isActive ? styles.activeText : '')}
                     onClick={(e) => e.stopPropagation()}
                   >
