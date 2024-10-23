@@ -3,7 +3,7 @@ import styles from './appsign.module.css'
 import List from '../SharedComponent/List/List'
 import SubHeader from '../SharedComponent/SubHeader/SubHeader'
 import Pagination from '../SharedComponent/Pagination/Pagination'
-import { getRequestWithToken, postRequestWithToken } from '../../api/Requests';
+import { postRequestWithToken } from '../../api/Requests';
 import moment from 'moment';
 
 const SignupList = () => {
@@ -47,7 +47,7 @@ const SignupList = () => {
         <div className={styles.appSignupContainer}>
             <SubHeader heading = "App Signup List" fetchFilteredData={fetchFilteredData}/>
             <List
-                tableHeaders={["Customer ID", "Customer Name", "Email", "Emirate", "Date & Time", "Action"]}
+                tableHeaders={["Customer ID", "Customer Name", "Email", "Emirate", "Date", "Action"]}
                 listData={signupList}
                 keyMapping={[
                     { key: 'rider_id', label: 'Customer ID' },
@@ -56,8 +56,8 @@ const SignupList = () => {
                     { key: 'emirates', label: 'Emirate' },
                     { 
                         key: 'created_at', 
-                        label: 'Date & Time', 
-                        format: (date) => moment(date).format('DD MMM YYYY h:mm A') 
+                        label: 'Date', 
+                        format: (date) => moment(date).format('DD MMM YYYY') 
                     } ,
                 ]}
                 pageHeading="App Signup List"

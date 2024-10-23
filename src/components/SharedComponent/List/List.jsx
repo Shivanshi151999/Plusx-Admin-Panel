@@ -8,26 +8,8 @@ import { useNavigate } from 'react-router-dom';
 
 
 const List = ({tableHeaders, listData, keyMapping, pageHeading}) => {
-    const chargers = [
-        { id: 'OFR664ae8b54868f', name: 'Super Charger', price: 'AED 150', status: 'Un-active' },
-        { id: 'OFR664ae8b54868f', name: 'Super Charger', price: 'AED 150', status: 'Un-active' },
-        { id: 'OFR664ae8b54868f', name: 'Super Charger', price: 'AED 150', status: 'Un-active' },
-        { id: 'OFR664ae8b54868g', name: 'Mega Charger', price: 'AED 200', status: 'Active' },
-        { id: 'OFR664ae8b54868h', name: 'Ultra Charger', price: 'AED 250', status: 'Active' },
-        { id: 'OFR664ae8b54868i', name: 'Power Charger', price: 'AED 180', status: 'Active' },
-        { id: 'OFR664ae8b54868j', name: 'Fast Charger', price: 'AED 300', status: 'Un-active' }
-    ];
 
     const navigate = useNavigate()
-
-    const [currentPage, setCurrentPage] = useState(1);
-    const chargersPerPage = 5;
-    const offset = currentPage * chargersPerPage;
-    const currentChargers = chargers.slice(offset, offset + chargersPerPage);
-    const pageCount = Math.ceil(chargers.length / chargersPerPage);
-    const handlePageClick = (event) => {
-        setCurrentPage(event.selected);
-    };
 
     const handleSignupDetails = (id) => {
         navigate(`/rider-details/${id}`)
