@@ -49,10 +49,10 @@
   
       // Map of paths based on item IDs
       const pathMapping = {
-          chargerList: '/charger-list',
-          chargerBooking: '/charger-booking-list',
-          invoiceList: '/charger-booking-invoice-list',
-          timeSlot: '/charger-booking-time-slot-list',
+          chargerList: '/portable-charger/charger-list',
+          chargerBooking: '/portable-charger/charger-booking-list',
+          invoiceList: '/portable-charger/charger-booking-invoice-list',
+          timeSlot: '/portable-charger/charger-booking-time-slot-list',
       };
   
       // Navigate to the path associated with the item
@@ -60,7 +60,7 @@
       if (path) {
           navigate(path);
       }
-  };
+    };
   
   
     return (
@@ -272,7 +272,7 @@
           </div>
 
           <li className={styles.menuItem}>
-            <NavLink to="/sii" className={({ isActive }) => (isActive ? styles.active : '')}>
+            <NavLink to="/charger-installation-list" className={({ isActive }) => (isActive ? styles.active : '')}>
               Charger Installation
             </NavLink>
           </li>

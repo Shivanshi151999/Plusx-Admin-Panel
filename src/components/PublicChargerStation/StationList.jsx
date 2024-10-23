@@ -8,23 +8,34 @@ import moment from 'moment';
 
 const StationList = () => {
     const [stationList, setStationList] = useState([])
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
 
-    useEffect(() => {
+    const fetchList = (page) => {
         const obj = {
             userId : "1",
             email : "admin@shunyaekai.com",
-            page_no : "1"
+            page_no : page
         }
 
         postRequestWithToken('public-charger-station-list', obj, async(response) => {
             if (response.code === 200) {
                 setStationList(response?.data)
+                setTotalPages(response?.total_page || 1); 
             } else {
                 // toast(response.message, {type:'error'})
                 console.log('error in public-charger-station-list api', response);
             }
         })
-    }, [])
+    }
+
+    useEffect(() => {
+        fetchList(currentPage);
+    }, [currentPage]);
+
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
 
     return (
         <>
@@ -49,7 +60,11 @@ const StationList = () => {
         pageHeading="Public Chargers List"
           />
            
-        <Pagination />
+        <Pagination 
+          currentPage={currentPage} 
+          totalPages={totalPages} 
+          onPageChange={handlePageChange} 
+        />
         </>
     );
 };

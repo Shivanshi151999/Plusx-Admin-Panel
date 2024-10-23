@@ -12,28 +12,40 @@ const statusMapping = {
     'CS': 'Charging Started',
     'CC': 'Charging Completed',
     'PU': 'POD Picked Up',
+    'WC': 'Work Completed',
     'C': 'Cancel'
 };
 
 const BookingList = () => {
     const [chargerBookingList, setChargerBookingList] = useState([])
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
 
-    useEffect(() => {
+    const fetchList = (page) => {
         const obj = {
             userId : "1",
             email : "admin@shunyaekai.com",
-            page_no : "1"
+            page_no : page
         }
 
         postRequestWithToken('pick-and-drop-booking-list', obj, async(response) => {
             if (response.code === 200) {
                 setChargerBookingList(response?.data)
+                setTotalPages(response?.total_page || 1); 
             } else {
                 // toast(response.message, {type:'error'})
                 console.log('error in charger-booking-list api', response);
             }
         })
-    }, [])
+    }
+
+    useEffect(() => {
+        fetchList(currentPage);
+    }, [currentPage]);
+
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
 
     return (
         <>
@@ -54,12 +66,11 @@ const BookingList = () => {
                 label: 'Date & Time', 
                 format: (date) => moment(date).format('DD MMM YYYY h:mm A') 
             } ,
-            { key: 'order_status', label: 'Status' },
-            // { 
-            //     key: 'order_status', 
-            //     label: 'Status',
-            //     format: (status) => statusMapping[status] || status // Format the status here
-            // },
+            {   key: 'order_status',
+                label: 'Status',
+                format: (status) => statusMapping[status] || status 
+
+            },
             {
                 key: 'driver_assign', 
                 label: 'Driver Assign',
@@ -69,7 +80,11 @@ const BookingList = () => {
         pageHeading="Pick & Drop Booking List"
           />
            
-        <Pagination />
+        <Pagination 
+          currentPage={currentPage} 
+          totalPages={totalPages} 
+          onPageChange={handlePageChange} 
+        />
         </>
     );
 };

@@ -19,7 +19,7 @@ const ChargerList = () => {
         getRequestWithToken('charger-list', obj, (response) => {
             if (response.code === 200) {
                 setChargerList(response?.data || []);  
-                setTotalPages(response?.data?.total_pages || 1);  
+                setTotalPages(response?.data?.total_page || 1);  
             } else {
                 console.log('error in charger-list API', response);
             }

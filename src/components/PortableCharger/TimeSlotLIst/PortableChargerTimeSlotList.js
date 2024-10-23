@@ -5,35 +5,36 @@ import Pagination from '../../SharedComponent/Pagination/Pagination'
 import { getRequestWithToken, postRequestWithToken } from '../../../api/Requests';
 import moment from 'moment';
 
-const statusMapping = {
-    'CNF': 'Booking Confirmed',
-    'A': 'Assigned',
-    'RL': 'POD Reached at Location',
-    'CS': 'Charging Started',
-    'CC': 'Charging Completed',
-    'PU': 'POD Picked Up',
-    'C': 'Cancel'
-};
-
 const PortableChargerTimeSlotList = () => {
     const [timeSlotList, setTimeSlotList] = useState([])
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
 
-    useEffect(() => {
+    const fetchList = (page) => {
         const obj = {
             userId : "1",
             email : "admin@shunyaekai.com",
-            page_no : "1"
+            page_no : page
         }
 
         postRequestWithToken('charger-slot-list', obj, async(response) => {
             if (response.code === 200) {
                 setTimeSlotList(response?.data)
+                setTotalPages(response?.total_page || 1); 
             } else {
                 // toast(response.message, {type:'error'})
-                console.log('error in charger-booking-list api', response);
+                console.log('error in charger-slot-list api', response);
             }
         })
-    }, [])
+    }
+
+    useEffect(() => {
+        fetchList(currentPage);
+    }, [currentPage]);
+
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
 
     return (
         <>
@@ -61,7 +62,11 @@ const PortableChargerTimeSlotList = () => {
         pageHeading="Portable Charger Slot List"
           />
            
-        <Pagination />
+           <Pagination 
+          currentPage={currentPage} 
+          totalPages={totalPages} 
+          onPageChange={handlePageChange} 
+        />
         </>
     );
 };

@@ -119,6 +119,12 @@ const List = ({tableHeaders, listData, keyMapping, pageHeading}) => {
                                             <img src={Delete} alt='delete' />
                                         </>
                                     )}
+
+                                   {pageHeading === 'Charger Installation List' && (
+                                        <>
+                                            <img src={View} alt="view" />
+                                        </>
+                                    )}
                                     
                                 {/* <img src={View} alt="view" />
                                     <img src={Edit} alt='edit' />

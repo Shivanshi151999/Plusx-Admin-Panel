@@ -8,23 +8,34 @@ import moment from 'moment';
 
 const TimeSlotList = () => {
     const [timeSlotList, setTimeSlotList] = useState([])
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
 
-    useEffect(() => {
+    const fetchList = (page) => {
         const obj = {
             userId : "1",
             email : "admin@shunyaekai.com",
-            page_no : "1"
+            page_no : page
         }
 
         postRequestWithToken('pick-and-drop-slot-list', obj, async(response) => {
             if (response.code === 200) {
                 setTimeSlotList(response?.data)
+                setTotalPages(response?.total_page || 1); 
             } else {
                 // toast(response.message, {type:'error'})
                 console.log('error in pick-and-drop-slot-list api', response);
             }
         })
-    }, [])
+    }
+
+    useEffect(() => {
+        fetchList(currentPage);
+    }, [currentPage]);
+
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
 
     return (
         <>
@@ -52,7 +63,11 @@ const TimeSlotList = () => {
         pageHeading="Pick & Drop Time Slot List"
           />
            
-        <Pagination />
+        <Pagination 
+          currentPage={currentPage} 
+          totalPages={totalPages} 
+          onPageChange={handlePageChange} 
+        />
         </>
     );
 };

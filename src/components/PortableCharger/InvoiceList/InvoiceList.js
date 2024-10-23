@@ -7,23 +7,34 @@ import moment from 'moment';
 
 const ChargerBookingInvoiceList = () => {
     const [invoiceList, setInvoiceList] = useState([])
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
 
-    useEffect(() => {
+    const fetchList = (page) => {
         const obj = {
             userId : "1",
             email : "admin@shunyaekai.com",
-            page_no : "1"
+            page_no : page
         }
 
         postRequestWithToken('charger-booking-invoice-list', obj, async(response) => {
             if (response.code === 200) {
                 setInvoiceList(response?.data)
+                setTotalPages(response?.total_page || 1); 
             } else {
                 // toast(response.message, {type:'error'})
                 console.log('error in charger-booking-invoice-list api', response);
             }
         })
-    }, [])
+    }
+
+    useEffect(() => {
+        fetchList(currentPage);
+    }, [currentPage]);
+
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
 
     return (
         <>
@@ -32,7 +43,6 @@ const ChargerBookingInvoiceList = () => {
         tableHeaders={["Invoice Date", "Invoice ID", "Customer Name", "Amount", "Status", "Action"]}
           listData = {invoiceList}
           keyMapping={[
-            // { key: 'invoice_date', label: 'Invoice Date' }, 
             { 
                 key: 'invoice_date', 
                 label: 'Invoice Date', 
@@ -45,15 +55,17 @@ const ChargerBookingInvoiceList = () => {
                 label: 'Amount', 
                 format: (amount) => (amount ? `AED ${amount}` : amount) 
             },
-            
-            // { key: 'payment_status', label: 'Status' },
             { key: 'payment_status', label: 'Status', format: (status) => (status === "succeeded" ? "Completed" : "") }
            
         ]}
         pageHeading="Portable Charger Invoice List"
           />
            
-        <Pagination />
+           <Pagination 
+            currentPage={currentPage} 
+            totalPages={totalPages} 
+            onPageChange={handlePageChange} 
+            />
         </>
     );
 };

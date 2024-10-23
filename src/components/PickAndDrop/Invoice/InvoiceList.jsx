@@ -5,35 +5,36 @@ import Pagination from '../../SharedComponent/Pagination/Pagination'
 import { getRequestWithToken, postRequestWithToken } from '../../../api/Requests';
 import moment from 'moment';
 
-const statusMapping = {
-    'WC': 'Work Completed',
-    'A': 'Assigned',
-    'RL': 'POD Reached at Location',
-    'CS': 'Charging Started',
-    'CC': 'Charging Completed',
-    'PU': 'POD Picked Up',
-    'C': 'Cancel'
-};
-
 const InvoiceList = () => {
     const [invoiceList, setInvoiceList] = useState([])
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
 
-    useEffect(() => {
+    const fetchList = (page) => {
         const obj = {
             userId : "1",
             email : "admin@shunyaekai.com",
-            page_no : "1"
+            page_no : page
         }
 
         postRequestWithToken('pick-and-drop-invoice-list', obj, async(response) => {
             if (response.code === 200) {
                 setInvoiceList(response?.data)
+                setTotalPages(response?.total_page || 1); 
             } else {
                 // toast(response.message, {type:'error'})
                 console.log('error in charger-booking-list api', response);
             }
         })
-    }, [])
+    }
+
+    useEffect(() => {
+        fetchList(currentPage);
+    }, [currentPage]);
+
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
 
     return (
         <>
@@ -62,7 +63,11 @@ const InvoiceList = () => {
         pageHeading="Pick & Drop Invoice List"
           />
            
-        <Pagination />
+        <Pagination 
+          currentPage={currentPage} 
+          totalPages={totalPages} 
+          onPageChange={handlePageChange} 
+        />
         </>
     );
 };

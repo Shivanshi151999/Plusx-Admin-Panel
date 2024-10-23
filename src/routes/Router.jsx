@@ -14,12 +14,13 @@ import ChargerBookingInvoiceList from "../components/PortableCharger/InvoiceList
 import PortableChargerTimeSlotList from "../components/PortableCharger/TimeSlotLIst/PortableChargerTimeSlotList.js";
 import ChargerBookingDetails from "../components/PortableCharger/ChargerBooking/ChargerBookingDetails.js";
 
-import PickAndDrop from '../components/PickAndDrop/index.jsx'
+import PickAndDrop from "../components/PickAndDrop/index.jsx"
 import PickAndDropBookingList from '../components/PickAndDrop/BookingList/BookingList.jsx'
 import PickAndDropInvoiceList from '../components/PickAndDrop/Invoice/InvoiceList.jsx'
 import PickAndDropTimeSlotList from '../components/PickAndDrop/TimeSlot/TimeSlotList.jsx'
 
 import PublicChargerStationList from '../components/PublicChargerStation/StationList.jsx'
+import ChargerInstallationList from '../components/ChargerInstallationList/ChargerInstallationList.jsx'
 
 const router = createBrowserRouter([
   {
@@ -34,36 +35,6 @@ const router = createBrowserRouter([
         index: true,
         element: <Dashboard />,
       },
-      
-      
-      // {
-      //   path: "/portable-charger",
-      //   element: <PortableCharger />,
-      // },
-      // {
-      //   path: "/portable-charger/charger-list",
-      //   element: <ChargerList />,
-      // },
-      // {
-      //   path: "/charger-booking",
-      //   element: <ChargerBooking />,
-      // },
-      // {
-      //   path: "/portable-charger/charger-booking-list",
-      //   element: <ChargerBookingList />,
-      // },
-      // {
-      //   path: "/portable-charger/charger-booking-details/:bookingId",
-      //   element: <ChargerBookingDetails />,
-      // },
-      // {
-      //   path: "/portable-charger/charger-booking-invoice-list",
-      //   element: <ChargerBookingInvoiceList />,
-      // },
-      // {
-      //   path: "/portable-charger/charger-booking-time-slot-list",
-      //   element: <PortableChargerTimeSlotList />,
-      // },
 
       {
         path: "/portable-charger",
@@ -104,27 +75,7 @@ const router = createBrowserRouter([
       {
         path: "/emergency-team",
         element: <EmergencyTeam />,
-      },
-
-      //pick and drop
-      // {
-      //   path: "/pick-and-drop-booking-list",
-      //   element: <PickAndDropBookingList />,
-      // },
-      // {
-      //   path: "/pick-and-drop-invoice-list",
-      //   element: <PickAndDropInvoiceList />,
-      // },
-      // {
-      //   path: "/pick-and-drop-time-slot-list",
-      //   element: <PickAndDropTimeSlotList />,
-      // },
-
-      //public charger station
-      {
-        path: "/public-charger-station-list",
-        element: <PublicChargerStationList />,
-      },
+      },      
 
       {
         path: "/pick-and-drop",
@@ -143,6 +94,18 @@ const router = createBrowserRouter([
             element: <PickAndDropTimeSlotList />,
           },
         ],
+      },
+
+      //public charger station
+      {
+        path: "/public-charger-station-list",
+        element: <PublicChargerStationList />,
+      },
+
+      //charger installation
+      {
+        path: "/charger-installation-list",
+        element: <ChargerInstallationList />,
       },
     ],
   },

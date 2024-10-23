@@ -20,7 +20,7 @@ const SignupList = () => {
         postRequestWithToken('rider-list', obj, (response) => {
             if (response.code === 200) {
                 setSignupList(response?.data || []);  
-                setTotalPages(response?.data?.total_pages || 1);  
+                setTotalPages(response?.total_page || 1);  
             } else {
                 console.log('error in charger-list API', response);
             }
@@ -39,11 +39,11 @@ const SignupList = () => {
         <>
             <SubHeader heading = "App Signup List"/>
             <List
-                tableHeaders={["Rider ID", "Rider Name", "Email", "Emirate", "Date & Time", "Action"]}
+                tableHeaders={["Customer ID", "Customer Name", "Email", "Emirate", "Date & Time", "Action"]}
                 listData={signupList}
                 keyMapping={[
-                    { key: 'rider_id', label: 'Rider ID' },
-                    { key: 'rider_name', label: 'Rider Name' },
+                    { key: 'rider_id', label: 'Customer ID' },
+                    { key: 'rider_name', label: 'Customer Name' },
                     { key: 'rider_email', label: 'Email' },
                     { key: 'emirates', label: 'Emirate' },
                     { 

@@ -17,23 +17,35 @@ const statusMapping = {
 
 const ChargerBookingList = () => {
     const [chargerBookingList, setChargerBookingList] = useState([])
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+
+        const fetchList = (page) => {
+            const obj = {
+                userId : "1",
+                email : "admin@shunyaekai.com",
+                page_no : page
+            }
+    
+            postRequestWithToken('charger-booking-list', obj, async(response) => {
+                if (response.code === 200) {
+                    setChargerBookingList(response?.data)
+                    setTotalPages(response?.total_page || 1); 
+                } else {
+                    // toast(response.message, {type:'error'})
+                    console.log('error in charger-booking-list api', response);
+                }
+            })
+        }
+        
 
     useEffect(() => {
-        const obj = {
-            userId : "1",
-            email : "admin@shunyaekai.com",
-            page_no : "1"
-        }
+        fetchList(currentPage);
+    }, [currentPage]);
 
-        postRequestWithToken('charger-booking-list', obj, async(response) => {
-            if (response.code === 200) {
-                setChargerBookingList(response?.data)
-            } else {
-                // toast(response.message, {type:'error'})
-                console.log('error in charger-booking-list api', response);
-            }
-        })
-    }, [])
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
 
     return (
         <>
@@ -55,22 +67,25 @@ const ChargerBookingList = () => {
                 label: 'Date & Time', 
                 format: (date) => moment(date).format('DD MMM YYYY h:mm A') 
             } ,
-            // { key: 'status', label: 'Status' },
             { 
                 key: 'status', 
                 label: 'Status',
-                format: (status) => statusMapping[status] || status // Format the status here
+                format: (status) => statusMapping[status] || status 
             },
             {
-                key: 'driver_assign', // Assuming you have a field for driver assigned
+                key: 'driver_assign', 
                 label: 'Driver Assign',
-                format: () => <img src="/path/to/logo.png" alt="Drive Assign Logo" className={"logo"} /> // Change the path to your logo
+                format: () => <img src="/path/to/logo.png" alt="Drive Assign Logo" className={"logo"} /> 
             },
         ]}
         pageHeading="Charger Booking List"
           />
            
-        <Pagination />
+        <Pagination 
+          currentPage={currentPage} 
+          totalPages={totalPages} 
+          onPageChange={handlePageChange} 
+        />
         </>
     );
 };

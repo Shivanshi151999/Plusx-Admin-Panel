@@ -3,30 +3,48 @@ import ReactPaginate from 'react-paginate';
 import styles from './pagination.module.css'
 import { ReactComponent as PreviousIcon } from '../../../assets/images/right.svg';
 import { ReactComponent as NextIcon } from '../../../assets/images/left.svg'; 
-const Pagination = () => {
-  // const [currentPage, setCurrentPage] = useState(0);
-  // const chargersPerPage = 5;
-  // const offset = currentPage * chargersPerPage;
-  // const currentChargers = chargers.slice(offset, offset + chargersPerPage);
-  // const pageCount = Math.ceil(chargers.length / chargersPerPage);
-  // const handlePageClick = (event) => {
-  //   setCurrentPage(event.selected);
-  // };
+
+
+// const Pagination = () => {
+//   return (
+//     <>
+//       <ReactPaginate
+//         previousLabel={<PreviousIcon className={styles.icon} />}
+//         nextLabel={<NextIcon className={styles.icon} />}
+//         breakLabel={"..."}
+//         // pageCount={pageCount}
+//         marginPagesDisplayed={2}
+//         pageRangeDisplayed={3}
+//         // onPageChange={handlePageClick}
+//         containerClassName={styles.pagination}
+//         activeClassName={styles.activePage}
+//       />
+//     </>
+//   )
+// }
+
+const Pagination = ({ currentPage, totalPages, onPageChange }) => {
+  const handlePageClick = (data) => {
+    const selectedPage = data.selected + 1; // ReactPaginate is zero-indexed, so add 1
+    onPageChange(selectedPage);
+  };
+
   return (
     <>
       <ReactPaginate
         previousLabel={<PreviousIcon className={styles.icon} />}
         nextLabel={<NextIcon className={styles.icon} />}
         breakLabel={"..."}
-        // pageCount={pageCount}
+        pageCount={totalPages} // Use totalPages from props
         marginPagesDisplayed={2}
         pageRangeDisplayed={3}
-        // onPageChange={handlePageClick}
+        onPageChange={handlePageClick} // Call handlePageClick on page change
         containerClassName={styles.pagination}
         activeClassName={styles.activePage}
+        forcePage={currentPage - 1} // Set current page (ReactPaginate expects zero-indexed pages)
       />
     </>
-  )
-}
+  );
+};
 
 export default Pagination
