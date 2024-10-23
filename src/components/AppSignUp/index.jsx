@@ -42,10 +42,7 @@ const RiderDetails = () => {
       <DetailsSection sectionDetails = {riderDetails}/>
       <DetailsList addressList = {riderAddressList}/>
       <DetailsVehicleList vehicleList = {vehicleList} />
-<<<<<<< Updated upstream
-=======
       <DetailsBookingHistory />
->>>>>>> Stashed changes
     </div>
   )
 }
