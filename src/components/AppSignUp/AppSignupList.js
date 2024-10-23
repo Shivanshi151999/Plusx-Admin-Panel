@@ -10,12 +10,14 @@ const SignupList = () => {
     const [signupList, setSignupList] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const [filters, setFilters] = useState({});
 
-    const fetchChargers = (page) => {
+    const fetchChargers = (page, appliedFilters = {}) => {
         const obj = {
             userId: "1",
             email: "admin@shunyaekai.com",
-            page_no: page
+            page_no: page,
+            ...appliedFilters,
         };
 
         postRequestWithToken('rider-list', obj, (response) => {
@@ -29,16 +31,21 @@ const SignupList = () => {
     };
 
     useEffect(() => {
-        fetchChargers(currentPage);
-    }, [currentPage]);
+        fetchChargers(currentPage, filters);
+    }, [currentPage, filters]);
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
 
+    const fetchFilteredData = (newFilters = {}) => {
+        setFilters(newFilters);  
+        setCurrentPage(1); 
+    };
+
     return (
         <div className={styles.appSignupContainer}>
-            <SubHeader heading = "App Signup List"/>
+            <SubHeader heading = "App Signup List" fetchFilteredData={fetchFilteredData}/>
             <List
                 tableHeaders={["Customer ID", "Customer Name", "Email", "Emirate", "Date & Time", "Action"]}
                 listData={signupList}

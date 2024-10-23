@@ -52,7 +52,6 @@ const DeatilsBookingHistory = () => {
               <td>
                 <div className={styles.editContent}>
                   <img src={Eye} alt="Eye" />
-                  <img src={Delete} alt='delete' />
 
                 </div>
               </td>
