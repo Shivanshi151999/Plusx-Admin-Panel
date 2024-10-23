@@ -34,7 +34,7 @@ const List = ({tableHeaders, listData, keyMapping, pageHeading}) => {
     }
 
     const handleBookingDetails = (id) => {
-        navigate(`/charger-booking-details/${id}`)
+        navigate(`/portable-charger/charger-booking-details/${id}`)
     }
 
     return (

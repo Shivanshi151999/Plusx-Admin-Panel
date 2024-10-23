@@ -4,6 +4,8 @@ import DetailsHeader from '../../SharedComponent/Details/DetailsHeader'
 import DetailsSection from '../../SharedComponent/Details/DetailsSection'
 import DetailsList from '../../SharedComponent/Details/DetailsList'
 import DetailsVehicleList from '../../SharedComponent/Details/DetailsVehicleList'
+import BookingDetailsHeader from '../../SharedComponent/Details/BookingDetails/BookingDetailsHeader'
+import BookingDetailsSection from '../../SharedComponent/Details/BookingDetails/BookingDetailsSection'
 import { postRequestWithToken } from '../../../api/Requests';
 import { useParams } from 'react-router-dom';
 
@@ -17,8 +19,8 @@ const ChargerBookingDetails = () => {
     const obj = {
         userId: "1",
         email: "admin@shunyaekai.com",
-        booking_id : "PCB0107"
-        // booking_id : bookingId
+        // booking_id : "PCB0107"
+        booking_id : bookingId
     };
 
     postRequestWithToken('charger-booking-details', obj, (response) => {
@@ -35,7 +37,8 @@ const ChargerBookingDetails = () => {
   }, []);
   return (
     <div className={styles.appSignupSection}>
-      <DetailsHeader headerDetails = {bookingDetails}/>
+      <BookingDetailsHeader headerDetails = {bookingDetails}/>
+      <BookingDetailsSection details = {bookingDetails}/>
       {/* <DetailsSection sectionDetails = {bookingDetails}/> */}
       {/* <DetailsList addressList = {riderAddressList}/>
       <DetailsVehicleList vehicleList = {vehicleList} /> */}
