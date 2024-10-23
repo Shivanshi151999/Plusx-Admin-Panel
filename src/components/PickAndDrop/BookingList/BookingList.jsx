@@ -37,37 +37,36 @@ const BookingList = () => {
 
     return (
         <>
-         <SubHeader heading = "Portable Charger Boking List"/>
+         <SubHeader heading = "Pick & Drop Booking List"/>
         <List 
         tableHeaders={["ID", "Name", "Price", "Date & Time", "Status", "Driver Assign", "Action"]}
           listData = {chargerBookingList}
           keyMapping={[
-            { key: 'booking_id', label: 'ID' }, 
-            { key: 'user_name', label: 'Charger Name' }, 
-            { key: 'service_name', label: 'Service Name' },
+            { key: 'request_id', label: 'ID' }, 
+            { key: 'name', label: 'Name' }, 
             { 
-                key: 'service_price', 
+                key: 'price', 
                 label: 'Price', 
-                format: (price) => (price ? `AED ${price}` : '') 
+                format: (price) => (price ? `AED ${price}` : 'AED 0') 
             },
             { 
                 key: 'created_at', 
                 label: 'Date & Time', 
                 format: (date) => moment(date).format('DD MMM YYYY h:mm A') 
             } ,
-            // { key: 'status', label: 'Status' },
-            { 
-                key: 'status', 
-                label: 'Status',
-                format: (status) => statusMapping[status] || status // Format the status here
-            },
+            { key: 'order_status', label: 'Status' },
+            // { 
+            //     key: 'order_status', 
+            //     label: 'Status',
+            //     format: (status) => statusMapping[status] || status // Format the status here
+            // },
             {
-                key: 'driver_assign', // Assuming you have a field for driver assigned
+                key: 'driver_assign', 
                 label: 'Driver Assign',
-                format: () => <img src="/path/to/logo.png" alt="Drive Assign Logo" className={"logo"} /> // Change the path to your logo
+                format: () => <img src="/path/to/logo.png" alt="Drive Assign Logo" className={"logo"} /> 
             },
         ]}
-        pageHeading="Charger Booking List"
+        pageHeading="Pick & Drop Booking List"
           />
            
         <Pagination />

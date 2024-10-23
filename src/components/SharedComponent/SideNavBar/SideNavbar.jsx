@@ -197,7 +197,7 @@
                 <li>
                   <input className={styles.checkboxInput} type="checkbox" id="bookingList" />
                   <label htmlFor="bookingList" className={styles.checkmark}></label>
-                  <NavLink to="/pick-and-drop-booking-list" className={({ isActive }) => (isActive ? styles.active : '')}>
+                  <NavLink to="/pick-and-drop/booking-list" className={({ isActive }) => (isActive ? styles.active : '')}>
                     Booking List
                   </NavLink>
 
@@ -205,7 +205,7 @@
                 <li>
                   <input className={styles.checkboxInput} type="checkbox" id="invoiceList" />
                   <label htmlFor="invoiceList" className={styles.checkmark}></label>
-                  <NavLink to="/sii" className={({ isActive }) => (isActive ? styles.active : '')}>
+                  <NavLink to="/pick-and-drop/invoice-list" className={({ isActive }) => (isActive ? styles.active : '')}>
                     Invoice List
                   </NavLink>
 
@@ -213,7 +213,7 @@
                 <li>
                   <input className={styles.checkboxInput} type="checkbox" id="timeSlot" />
                   <label htmlFor="timeSlot" className={styles.checkmark}></label>
-                  <NavLink to="/sii" className={({ isActive }) => (isActive ? styles.active : '')}>
+                  <NavLink to="/pick-and-drop/time-slot-list" className={({ isActive }) => (isActive ? styles.active : '')}>
                     Time Slot
                   </NavLink>
 
@@ -223,8 +223,8 @@
           </div>
 
           <li className={styles.menuItem}>
-            <NavLink to="/sii" className={({ isActive }) => (isActive ? styles.active : '')}>
-              Public Chargers Bookings
+            <NavLink to="/public-charger-station-list" className={({ isActive }) => (isActive ? styles.active : '')}>
+              Public Chargers Station
             </NavLink>
           </li>
           <li className={styles.menuItem}>

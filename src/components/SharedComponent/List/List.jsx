@@ -92,6 +92,34 @@ const List = ({tableHeaders, listData, keyMapping, pageHeading}) => {
                                             <img src={Delete} alt='delete' />
                                         </>
                                     )}
+
+                                    {pageHeading === 'Pick & Drop Booking List' && (
+                                        <>
+                                            <img src={View} alt="view" />
+                                            <img src={Cancel} alt='cancel' />
+                                        </>
+                                    )}
+                                   {pageHeading === 'Pick & Drop Invoice List' && (
+                                        <>
+                                            <img src={View} alt="view" />
+                                        </>
+                                    )}
+                                    {pageHeading === 'Pick & Drop Time Slot List' && (
+                                        <>
+                                            <img src={Edit} alt='edit' />
+                                            <img src={Delete} alt='delete' />
+                                        </>
+                                    )}
+
+
+                                    {pageHeading === 'Public Chargers List' && (
+                                        <>
+                                         <img src={View} alt="view" />
+                                            <img src={Edit} alt='edit' />
+                                            <img src={Delete} alt='delete' />
+                                        </>
+                                    )}
+                                    
                                 {/* <img src={View} alt="view" />
                                     <img src={Edit} alt='edit' />
                                     <img src={Cancel} alt='cancel' />

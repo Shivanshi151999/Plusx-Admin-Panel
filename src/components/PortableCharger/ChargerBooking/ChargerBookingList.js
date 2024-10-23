@@ -37,7 +37,7 @@ const ChargerBookingList = () => {
 
     return (
         <>
-         <SubHeader heading = "Portable Charger Boking List"/>
+         <SubHeader heading = "Portable Charger Booking List"/>
         <List 
         tableHeaders={["ID", "Name", "Service Name", "Price", "Date & Time", "Status", "Driver Assign", "Action"]}
           listData = {chargerBookingList}
