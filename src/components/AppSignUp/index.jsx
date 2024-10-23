@@ -4,7 +4,6 @@ import DetailsHeader from '../SharedComponent/Details/DetailsHeader'
 import DetailsSection from '../SharedComponent/Details/DetailsSection'
 import DetailsList from '../SharedComponent/Details/DetailsList'
 import DetailsVehicleList from '../SharedComponent/Details/DetailsVehicleList'
-<<<<<<< Updated upstream
 import { getRequestWithToken } from '../../api/Requests';
 import { useParams } from 'react-router-dom';
 
@@ -43,17 +42,6 @@ const RiderDetails = () => {
       <DetailsSection sectionDetails = {riderDetails}/>
       <DetailsList addressList = {riderAddressList}/>
       <DetailsVehicleList vehicleList = {vehicleList} />
-=======
-import DeatilsBookingHistory from '../SharedComponent/Details/DeatilsBookingHistory'
-const index = () => {
-  return (
-    <div className={styles.appSignupSection}>
-      <DetailsHeader />
-      <DetailsSection />
-      <DetailsList />
-      <DetailsVehicleList />
-      <DeatilsBookingHistory/>
->>>>>>> Stashed changes
     </div>
   )
 }
