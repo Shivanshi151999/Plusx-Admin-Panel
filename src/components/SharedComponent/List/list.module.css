@@ -7,9 +7,11 @@
 .editContent{
     display: flex;
     column-gap: 10px;
+    cursor: pointer;
 }
 .editContent img{
     width: 24px;
+    cursor: pointer;
 }
 .table {
     width: 100%;

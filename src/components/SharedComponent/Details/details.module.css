@@ -108,3 +108,11 @@ background-color: #242424;
 }
 
 /* start the list section */
+.editContent{
+  display: flex;
+  column-gap: 10px;
+  cursor: pointer;
+}
+.editContent img{
+  width: 30px;
+}

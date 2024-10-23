@@ -1,8 +1,15 @@
-import React from 'react'
-import styles from './subheader.module.css'
+import React, { useState } from 'react';
+import styles from './subheader.module.css';
 import Plus from '../../../assets/images/Plus.svg';
 import Filter from '../../../assets/images/Filter.svg';
-const SubHeader = ({heading}) => {
+import AccordionFilter from '../Accordion/Accordions';
+
+const SubHeader = ({ heading }) => {
+    const [isAccordionOpen, setIsAccordionOpen] = useState(false);
+    const toggleAccordion = () => {
+        setIsAccordionOpen(!isAccordionOpen);
+    };
+
     return (
         <div className={styles.subHeaderContainer}>
             <div className={styles.headerCharger}>
@@ -14,7 +21,7 @@ const SubHeader = ({heading}) => {
                         </div>
                         <div className={styles.addButtonText}>Add</div>
                     </div>
-                    <div className={styles.addButtonSection}>
+                    <div className={styles.addButtonSection} onClick={toggleAccordion}>
                         <div className={styles.addButtonImg}>
                             <img src={Filter} alt='Filter' />
                         </div>
@@ -22,8 +29,11 @@ const SubHeader = ({heading}) => {
                     </div>
                 </div>
             </div>
-        </div>
-    )
-}
 
-export default SubHeader
+            {/* Render AccordionFilter Component */}
+            <AccordionFilter isOpen={isAccordionOpen} />
+        </div>
+    );
+};
+
+export default SubHeader;

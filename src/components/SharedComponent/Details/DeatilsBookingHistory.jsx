@@ -1,34 +1,28 @@
 import React from 'react';
 import styles from './details.module.css'
+import Eye from '../../../assets/images/ViewEye.svg'
+import Delete from '../../../assets/images/Delete.svg'
 
 const DeatilsBookingHistory = () => {
   const addresses = [
     {
-     vehicletype: "RIOT Experience Center",
-      vehicleno: "Production City",
-      vehiclecode: "Production City",
-      yearmanufacture: "0000",
-      vehiclemodal: "Name Here",
-      vehiclemake: "Dubai",
-      leasedfrom: "Production City",
-      ownertype: "Production City",
-      owner: "0000",
-      vehiclespecification: "Name Here",
-      emirates: "Dubai",
+      id: "123456",
+      service_name: "E-POD",
+      service_type: "on-demand",
+      price: "AED 123",
+      datetime: "11 OCT 2024 11:15 AM",
+      status: "POP Picked Up"
+
     },
     {
-        vehicletype: "RIOT Experience Center",
-         vehicleno: "Production City",
-         vehiclecode: "Production City",
-         yearmanufacture: "0000",
-         vehiclemodal: "Name Here",
-         vehiclemake: "Dubai",
-         leasedfrom: "Production City",
-         ownertype: "Production City",
-         owner: "0000",
-         vehiclespecification: "Name Here",
-         emirates: "Dubai",
-       },
+      id: "123456",
+      customer_name: "Husaain ji",
+      service_name: "E-POD",
+      price: "AED 123",
+      datetime: "11 OCT 2024 11:15 AM",
+      status: "POP Picked Up"
+
+    },
   ];
 
   return (
@@ -37,33 +31,31 @@ const DeatilsBookingHistory = () => {
       <table className={`table ${styles.customTable}`}>
         <thead>
           <tr>
-            <th>Vehicle Type</th>
-            <th>Vehicle No.</th>
-            <th>Vehicle Code</th>
-            <th>Year Manufacture</th>
-            <th>Vehicle Modal</th>
-            <th>Vehicle Make</th>
-            <th>Leased From</th>
-            <th>Owner Type</th>
-            <th>Owner</th>
-            <th>Vehicle Specification</th>
-            <th>Emirates</th>
+            <th>ID</th>
+            <th>Service Name</th>
+            <th>Service Type</th>
+            <th>Price</th>
+            <th>Date & Time</th>
+            <th>Status</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
           {addresses.map((address, index) => (
             <tr key={index}>
-              <td>{address.vehicletype}</td>
-              <td>{address.vehicleno}</td>
-              <td>{address.vehiclecode}</td>
-              <td>{address.yearmanufacture}</td>
-              <td>{address.vehiclemodal}</td>
-              <td>{address.vehiclemake}</td>
-              <td>{address.leasedfrom}</td>
-              <td>{address.ownertype}</td>
-              <td>{address.owner}</td>
-              <td>{address.vehiclespecification}</td>
-              <td>{address.emirates}</td>
+              <td>{address.id}</td>
+              <td>{address.service_name}</td>
+              <td>{address.service_type}</td>
+              <td>{address.price}</td>
+              <td>{address.datetime}</td>
+              <td>{address.status}</td>
+              <td>
+                <div className={styles.editContent}>
+                  <img src={Eye} alt="Eye" />
+                  <img src={Delete} alt='delete' />
+
+                </div>
+              </td>
             </tr>
           ))}
         </tbody>

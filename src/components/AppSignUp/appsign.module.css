@@ -1,3 +1,13 @@
+.appSignupContainer{
+    background-color: #242424;
+    height: 94.3vh;
+    overflow: scroll;
+    padding: 20px 0px; 
+}
+.appSignupContainer::-webkit-scrollbar{
+    display: none;
+}
+
 .appSignupSection{
     background-color: #242424;
     height: 94vh;

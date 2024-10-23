@@ -3,6 +3,7 @@ import styles from './appsign.module.css'
 import DetailsHeader from '../SharedComponent/Details/DetailsHeader'
 import DetailsSection from '../SharedComponent/Details/DetailsSection'
 import DetailsList from '../SharedComponent/Details/DetailsList'
+import DetailsBookingHistory from '../SharedComponent/Details/DeatilsBookingHistory'
 import DetailsVehicleList from '../SharedComponent/Details/DetailsVehicleList'
 import { getRequestWithToken } from '../../api/Requests';
 import { useParams } from 'react-router-dom';
@@ -18,7 +19,6 @@ const RiderDetails = () => {
     const obj = {
         userId: "1",
         email: "admin@shunyaekai.com",
-        // riderId : "ER0108"
         riderId : riderId
     };
 
@@ -42,6 +42,10 @@ const RiderDetails = () => {
       <DetailsSection sectionDetails = {riderDetails}/>
       <DetailsList addressList = {riderAddressList}/>
       <DetailsVehicleList vehicleList = {vehicleList} />
+<<<<<<< Updated upstream
+=======
+      <DetailsBookingHistory />
+>>>>>>> Stashed changes
     </div>
   )
 }

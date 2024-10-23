@@ -6,13 +6,12 @@ import AppSignup from "../components/AppSignUp/index.jsx";
 import EmergencyTeam from "../components/EmergencyTeam/index.jsx";
 import Layout from "../components/SharedComponent/Layout.jsx";
 import ChargerList from "../components/PortableCharger/ChargerList/ChargerList.jsx";
-import ChargerBooking from "../components/PortableCharger/ChargerBooking/ChargerBooking.jsx";
 import Login from  "../components/Login/index.jsx"
 import ChargerBookingList from "../components/PortableCharger/ChargerBooking/ChargerBookingList.js";
-import InvoiceList from "../components/PortableCharger/InvoiceList/InvoiceList.js";
 import ChargerBookingInvoiceList from "../components/PortableCharger/InvoiceList/InvoiceList.js";
 import PortableChargerTimeSlotList from "../components/PortableCharger/TimeSlotLIst/PortableChargerTimeSlotList.js";
 import ChargerBookingDetails from "../components/PortableCharger/ChargerBooking/ChargerBookingDetails.js";
+<<<<<<< Updated upstream
 
 import PickAndDrop from "../components/PickAndDrop/index.jsx"
 import PickAndDropBookingList from '../components/PickAndDrop/BookingList/BookingList.jsx'
@@ -22,6 +21,10 @@ import PickAndDropTimeSlotList from '../components/PickAndDrop/TimeSlot/TimeSlot
 import PublicChargerStationList from '../components/PublicChargerStation/StationList.jsx'
 import ChargerInstallationList from '../components/ChargerInstallationList/ChargerInstallationList.jsx'
 
+=======
+import PickAndDropBookingList from '../components/PickAndDrop/BookingList/BookingList.jsx'
+import EVBuySell from "../components/EVBuySell/index.jsx"
+>>>>>>> Stashed changes
 const router = createBrowserRouter([
   {
       path: "/login",
@@ -62,6 +65,13 @@ const router = createBrowserRouter([
           },
         ],
       },
+<<<<<<< Updated upstream
+=======
+      {
+        path: "/charger-booking-details/:bookingId",
+        element: <ChargerBookingDetails />,
+      },
+>>>>>>> Stashed changes
 
 // app signup list
       {
@@ -75,7 +85,11 @@ const router = createBrowserRouter([
       {
         path: "/emergency-team",
         element: <EmergencyTeam />,
+<<<<<<< Updated upstream
       },      
+=======
+      },
+>>>>>>> Stashed changes
 
       {
         path: "/pick-and-drop",
@@ -95,8 +109,11 @@ const router = createBrowserRouter([
           },
         ],
       },
+<<<<<<< Updated upstream
 
       //public charger station
+=======
+>>>>>>> Stashed changes
       {
         path: "/public-charger-station-list",
         element: <PublicChargerStationList />,
@@ -107,6 +124,10 @@ const router = createBrowserRouter([
         path: "/charger-installation-list",
         element: <ChargerInstallationList />,
       },
+<<<<<<< Updated upstream
+=======
+      
+>>>>>>> Stashed changes
     ],
   },
 ]);

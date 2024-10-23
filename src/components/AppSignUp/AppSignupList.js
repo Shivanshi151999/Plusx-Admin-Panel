@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import styles from './appsign.module.css'
 import List from '../SharedComponent/List/List'
 import SubHeader from '../SharedComponent/SubHeader/SubHeader'
 import Pagination from '../SharedComponent/Pagination/Pagination'
@@ -36,7 +37,7 @@ const SignupList = () => {
     };
 
     return (
-        <>
+        <div className={styles.appSignupContainer}>
             <SubHeader heading = "App Signup List"/>
             <List
                 tableHeaders={["Customer ID", "Customer Name", "Email", "Emirate", "Date & Time", "Action"]}
@@ -59,7 +60,7 @@ const SignupList = () => {
                 totalPages={totalPages} 
                 onPageChange={handlePageChange} 
             />
-        </>
+        </div>
     );
 };
 
