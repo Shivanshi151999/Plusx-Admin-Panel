@@ -31,11 +31,6 @@ const DeatilsBookingHistory = ({ title, headers, bookingData, bookingType }) => 
               <td>
                 <div className={styles.editContent}>
                   <img src={Eye} alt="Eye" />
-<<<<<<< Updated upstream
-=======
-                  {/* <img src={Delete} alt='delete' /> */}
-
->>>>>>> Stashed changes
                 </div>
               </td>
             </tr>

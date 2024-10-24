@@ -2,13 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { Accordion, Card } from 'react-bootstrap';
 import styles from './accordion.module.css';
 import { motion, AnimatePresence } from 'framer-motion';
-<<<<<<< Updated upstream
+import Calendar from "../Calendar/Calendar"
 
 const AccordionFilter = ({ isOpen, fetchFilteredData }) => {
-=======
-import Calendar from "../Calendar/Calendar"
-const AccordionFilter = ({ isOpen }) => {
->>>>>>> Stashed changes
     const [showContent, setShowContent] = useState(isOpen);
 
     const [filterValues, setFilterValues] = useState({
@@ -55,7 +51,6 @@ const AccordionFilter = ({ isOpen }) => {
                                     <Card.Body>
                                         <form className={styles.filterForm}>
                                             <div className={styles.filterItem}>
-<<<<<<< Updated upstream
                                                 <label className={styles.filterLabel} htmlFor="riderName">Customer Name</label>
                                                 <input 
                                                  className={styles.filterInput} 
@@ -66,10 +61,6 @@ const AccordionFilter = ({ isOpen }) => {
                                                     onBlur={handleBlur}
                                                  autoComplete='off'
                                                   />
-=======
-                                                <label className={styles.filterLabel} htmlFor="riderName">Name</label>
-                                                <input className={styles.filterInput} type="text" id="riderName" name="customerName" autoComplete='off' />
->>>>>>> Stashed changes
                                             </div>
                                             <div className={styles.filterItem}>
                                                 <label className={styles.filterLabel} htmlFor="email">Email</label>
@@ -94,7 +85,6 @@ const AccordionFilter = ({ isOpen }) => {
                                                 autoComplete='off' />
                                             </div>
                                             <div className={styles.filterItem}>
-<<<<<<< Updated upstream
                                                 <label className={styles.filterLabel} htmlFor="ios">Device By</label>
                                                 <select className={styles.filterSelect} id="ios"
                                                  name="addedFrom"
@@ -105,10 +95,6 @@ const AccordionFilter = ({ isOpen }) => {
                                                 }}
                                                  >
                                                     <option value="">Select Device</option>
-=======
-                                                <label className={styles.filterLabel} htmlFor="device">Device By</label>
-                                                <select className={styles.filterSelect} id="device" name="device">
->>>>>>> Stashed changes
                                                     <option value="Android">Android</option>
                                                     <option value="IOS">IOS</option>
                                                 </select>
