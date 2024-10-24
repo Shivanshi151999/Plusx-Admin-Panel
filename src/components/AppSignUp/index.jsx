@@ -9,6 +9,16 @@ import { getRequestWithToken } from '../../api/Requests';
 import { useParams } from 'react-router-dom';
 import moment from 'moment';
 
+  const statusMapping = {
+    'CNF': 'Booking Confirmed',
+    'A': 'Assigned',
+    'RL': 'POD Reached at Location',
+    'CS': 'Charging Started',
+    'CC': 'Charging Completed',
+    'PU': 'POD Picked Up',
+    'WC': 'Work Completed',
+    'C': 'Cancel'
+  };
 
 const RiderDetails = () => {
   const {riderId} = useParams()
@@ -63,9 +73,9 @@ const RiderDetails = () => {
           id: booking.booking_id,
           service_name: booking.service_name,
           service_type: booking.service_type,
-          price: booking.service_price || '0', 
+          price: `AED ${booking.service_price || 'AED 0'}`,
           datetime:  moment(booking.created_at).format('DD MMM YYYY h:mm A'),
-          status: booking.order_status,
+          status: statusMapping[booking.order_status] || '',
         }))}
         bookingType="portableCharger"
       />
@@ -75,10 +85,9 @@ const RiderDetails = () => {
         headers={pickAndDropHeaders}
         bookingData={pickAndDropBookings.map((booking) => ({
           id: booking.request_id,
-          
-          price: booking.price || '0',
+          price: `AED ${booking.price || 'AED 0'}`,
           datetime: moment(booking.created_at).format('DD MMM YYYY h:mm A') ,
-          status: booking.status,
+          status: statusMapping[booking.status] || '',
         }))}
         bookingType="pickAndDrop"
       />
