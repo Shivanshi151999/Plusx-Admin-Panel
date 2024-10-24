@@ -1,21 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import styles from './chargerbooking.module.css'
-import DetailsHeader from '../../SharedComponent/Details/DetailsHeader'
-import DetailsSection from '../../SharedComponent/Details/DetailsSection'
-import DetailsList from '../../SharedComponent/Details/DetailsList'
-import DetailsVehicleList from '../../SharedComponent/Details/DetailsVehicleList'
 import BookingDetailsHeader from '../../SharedComponent/Details/BookingDetails/BookingDetailsHeader'
 import BookingDetailsSection from '../../SharedComponent/Details/BookingDetails/BookingDetailsSection'
 import { postRequestWithToken } from '../../../api/Requests';
 import { useParams } from 'react-router-dom';
 import moment from 'moment';
 
+const statusMapping = {
+  'CNF': 'Booking Confirmed',
+  'A': 'Assigned',
+  'RL': 'POD Reached at Location',
+  'CS': 'Charging Started',
+  'CC': 'Charging Completed',
+  'PU': 'POD Picked Up',
+  'WC': 'Work Completed',
+  'C': 'Cancel'
+};
 
 const ChargerBookingDetails = () => {
   const {bookingId} = useParams()
   const [bookingDetails, setBookingDetails] = useState()
   
-
   const fetchDetails = () => {
     const obj = {
         userId: "1",
@@ -65,7 +70,7 @@ const ChargerBookingDetails = () => {
   };
 
   const sectionContent = {
-    bookingStatus: bookingDetails?.booking?.status,
+    bookingStatus: statusMapping[bookingDetails?.booking?.status] || bookingDetails?.booking?.status,
     serviceName: bookingDetails?.booking?.service_name,
     price: bookingDetails?.booking?.service_price,
     vehicle: bookingDetails?.vehicle?.vehicle_model,
@@ -80,18 +85,13 @@ const ChargerBookingDetails = () => {
   return (
     <div className={styles.appSignupSection}>
       <BookingDetailsHeader 
-      // headerDetails = {bookingDetails}
-      content={content} titles={headerTitles}
-      type = 'portableChargerBooking'
+        content={content} titles={headerTitles}
+        type = 'portableChargerBooking'
       />
       <BookingDetailsSection 
-      // details = {bookingDetails}
       titles = {sectionTitles} content = {sectionContent}
       type = 'portableChargerBooking'
       />
-      {/* <DetailsSection sectionDetails = {bookingDetails}/> */}
-      {/* <DetailsList addressList = {riderAddressList}/>
-      <DetailsVehicleList vehicleList = {vehicleList} /> */}
     </div>
   )
 }

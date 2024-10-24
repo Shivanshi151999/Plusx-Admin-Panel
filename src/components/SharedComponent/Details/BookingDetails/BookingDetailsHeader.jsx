@@ -33,7 +33,7 @@ const BookingDetailsHeader = ({content, titles, type}) => {
             </div>
           </div>
           {
-                type == 'pickAndDropBooking' && (
+                type === 'portableChargerBooking' && (
                 <div className="col-xl-3 col-lg-6 col-12">
             <div className={styles.detailsHeaderSection}>
               <div className={styles.detailsImageSection}>

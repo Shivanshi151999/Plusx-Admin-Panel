@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import List from '../../SharedComponent/List/List'
 import SubHeader from '../../SharedComponent/SubHeader/SubHeader'
 import Pagination from '../../SharedComponent/Pagination/Pagination'
-import { getRequestWithToken, postRequestWithToken } from '../../../api/Requests';
+import { postRequestWithToken } from '../../../api/Requests';
 import moment from 'moment';
 
 const statusMapping = {

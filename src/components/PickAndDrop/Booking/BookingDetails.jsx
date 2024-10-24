@@ -6,7 +6,17 @@ import { postRequestWithToken } from '../../../api/Requests';
 import { useParams } from 'react-router-dom';
 import moment from 'moment';
 
-
+const statusMapping = {
+    'CNF': 'Booking Confirmed',
+    'A': 'Assigned',
+    'RL': 'POD Reached at Location',
+    'CS': 'Charging Started',
+    'CC': 'Charging Completed',
+    'PU': 'POD Picked Up',
+    'WC': 'Work Completed',
+    'C': 'Cancel'
+  };
+  
 const PickAndDropBookingDetails = () => {
   const {requestId} = useParams()
   const [bookingDetails, setBookingDetails] = useState()
@@ -42,13 +52,9 @@ const PickAndDropBookingDetails = () => {
   const sectionTitles = {
     bookingStatus: "Booking Status",
     price: "Price",
-    // serviceName: "Service Name",
     vehicle: "Vehicle",
-    // serviceType: "Service Type",
-    // serviceFeature: "Service Type",
     address: "Address",
     slotDate: "Slot Date",
-    // slotTime: "Slot Time"
   }
 
   const content = {
@@ -61,27 +67,23 @@ const PickAndDropBookingDetails = () => {
   };
 
   const sectionContent = {
-    bookingStatus: bookingDetails?.order_status,
-    // serviceName: bookingDetails?.booking?.service_name,
+    bookingStatus: statusMapping[bookingDetails?.order_status] || bookingDetails?.order_status,
     price: bookingDetails?.price,
     vehicle: bookingDetails?.vehicle_make,
     parking: bookingDetails?.parking_number,
-    // serviceFeature: bookingDetails?.booking?.service_feature,
     address: bookingDetails?.pickup_address,
     slotDate: moment(bookingDetails?.slot_date_time).format('DD MMM YYYY h:mm A'),
-    // slotTime: bookingDetails?.booking?.slot_time
   }
 
   return (
     <div className={styles.appSignupSection}>
       <BookingDetailsHeader 
-    //   headerDetails = {bookingDetails}
-    content={content} titles={headerTitles}
+       content={content} titles={headerTitles}
+       type = 'pickAndDropBooking'
       />
       <BookingDetailsSection 
-    //   details = {bookingDetails}
-    titles = {sectionTitles} content = {sectionContent}
-    type = 'pickAndDropBooking'
+        titles = {sectionTitles} content = {sectionContent}
+        type = 'pickAndDropBooking'
       />
     </div>
   )
