@@ -13,7 +13,8 @@ import PortableChargerTimeSlotList from "../components/PortableCharger/TimeSlotL
 import ChargerBookingDetails from "../components/PortableCharger/ChargerBooking/ChargerBookingDetails.js";
 
 import PickAndDrop from "../components/PickAndDrop/index.jsx"
-import PickAndDropBookingList from '../components/PickAndDrop/BookingList/BookingList.jsx'
+import PickAndDropBookingList from '../components/PickAndDrop/Booking/BookingList.jsx'
+import PickAndDropBookingDetails from "../components/PickAndDrop/Booking/BookingDetails.jsx";
 import PickAndDropInvoiceList from '../components/PickAndDrop/Invoice/InvoiceList.jsx'
 import PickAndDropTimeSlotList from '../components/PickAndDrop/TimeSlot/TimeSlotList.jsx'
 
@@ -84,6 +85,10 @@ const router = createBrowserRouter([
           {
             path: "booking-list", 
             element: <PickAndDropBookingList />,
+          },
+          {
+            path: "booking-details/:requestId", 
+            element: <PickAndDropBookingDetails />,
           },
           {
             path: "invoice-list", 

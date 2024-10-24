@@ -1,5 +1,5 @@
 import React from "react";
-import styles from './BookingList/bookinglist.module.css'
+import styles from './Booking/bookinglist.module.css'
 import { Outlet } from "react-router-dom";
 
 const PickAndDrop = () => {

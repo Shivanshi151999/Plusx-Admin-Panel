@@ -19,6 +19,10 @@ const List = ({tableHeaders, listData, keyMapping, pageHeading}) => {
         navigate(`/portable-charger/charger-booking-details/${id}`)
     }
 
+    const handlePDBookingDetails = (id) => {
+        navigate(`/pick-and-drop/booking-details/${id}`)
+    }
+
     return (
         <div className={styles.containerCharger}>
             
@@ -77,7 +81,7 @@ const List = ({tableHeaders, listData, keyMapping, pageHeading}) => {
 
                                     {pageHeading === 'Pick & Drop Booking List' && (
                                         <>
-                                            <img src={View} alt="view" />
+                                            <img src={View} alt="view" onClick={() => handlePDBookingDetails(data.request_id)} />
                                             <img src={Cancel} alt='cancel' />
                                         </>
                                     )}
