@@ -23,6 +23,8 @@ import ChargerInstallationList from '../components/ChargerInstallationList/Charg
 
 // import PickAndDropBookingList from '../components/PickAndDrop/BookingList/BookingList.jsx'
 import EVBuySell from "../components/EVBuySell/index.jsx"
+import ChargerInstallationDetails from "../components/ChargerInstallationList/ChargerInstallationDetails.jsx";
+
 const router = createBrowserRouter([
   {
       path: "/login",
@@ -111,6 +113,10 @@ const router = createBrowserRouter([
       {
         path: "/charger-installation-list",
         element: <ChargerInstallationList />,
+      },
+      {
+        path: "/charger-installation-details/:requestId",
+        element: <ChargerInstallationDetails />,
       },
     ],
   },
