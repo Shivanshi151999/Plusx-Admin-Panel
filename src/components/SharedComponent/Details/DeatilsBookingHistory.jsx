@@ -1,8 +1,6 @@
 import React from 'react';
 import styles from './details.module.css'
 import Eye from '../../../assets/images/ViewEye.svg'
-import Delete from '../../../assets/images/Delete.svg'
-
 
 
 const DeatilsBookingHistory = ({ title, headers, bookingData, bookingType }) => {
