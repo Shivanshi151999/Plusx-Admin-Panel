@@ -2,8 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { Accordion, Card } from 'react-bootstrap';
 import styles from './accordion.module.css';
 import { motion, AnimatePresence } from 'framer-motion';
+<<<<<<< Updated upstream
 
 const AccordionFilter = ({ isOpen, fetchFilteredData }) => {
+=======
+import Calendar from "../Calendar/Calendar"
+const AccordionFilter = ({ isOpen }) => {
+>>>>>>> Stashed changes
     const [showContent, setShowContent] = useState(isOpen);
 
     const [filterValues, setFilterValues] = useState({
@@ -15,9 +20,9 @@ const AccordionFilter = ({ isOpen, fetchFilteredData }) => {
 
     useEffect(() => {
         if (isOpen) {
-            setShowContent(true); 
+            setShowContent(true);
         } else {
-            const timer = setTimeout(() => setShowContent(false), 300); 
+            const timer = setTimeout(() => setShowContent(false), 300);
             return () => clearTimeout(timer);
         }
     }, [isOpen]);
@@ -42,14 +47,15 @@ const AccordionFilter = ({ isOpen, fetchFilteredData }) => {
                         <AnimatePresence>
                             {showContent && (
                                 <motion.div
-                                    initial={{ height: 0, opacity: 0 }} 
-                                    animate={{ height: "auto", opacity: 1 }} 
-                                    exit={{ height: 0, opacity: 0 }} 
-                                    transition={{ duration: 0.3 }} 
+                                    initial={{ height: 0, opacity: 0 }}
+                                    animate={{ height: "auto", opacity: 1 }}
+                                    exit={{ height: 0, opacity: 0 }}
+                                    transition={{ duration: 0.3 }}
                                 >
                                     <Card.Body>
                                         <form className={styles.filterForm}>
                                             <div className={styles.filterItem}>
+<<<<<<< Updated upstream
                                                 <label className={styles.filterLabel} htmlFor="riderName">Customer Name</label>
                                                 <input 
                                                  className={styles.filterInput} 
@@ -60,6 +66,10 @@ const AccordionFilter = ({ isOpen, fetchFilteredData }) => {
                                                     onBlur={handleBlur}
                                                  autoComplete='off'
                                                   />
+=======
+                                                <label className={styles.filterLabel} htmlFor="riderName">Name</label>
+                                                <input className={styles.filterInput} type="text" id="riderName" name="customerName" autoComplete='off' />
+>>>>>>> Stashed changes
                                             </div>
                                             <div className={styles.filterItem}>
                                                 <label className={styles.filterLabel} htmlFor="email">Email</label>
@@ -84,6 +94,7 @@ const AccordionFilter = ({ isOpen, fetchFilteredData }) => {
                                                 autoComplete='off' />
                                             </div>
                                             <div className={styles.filterItem}>
+<<<<<<< Updated upstream
                                                 <label className={styles.filterLabel} htmlFor="ios">Device By</label>
                                                 <select className={styles.filterSelect} id="ios"
                                                  name="addedFrom"
@@ -94,9 +105,17 @@ const AccordionFilter = ({ isOpen, fetchFilteredData }) => {
                                                 }}
                                                  >
                                                     <option value="">Select Device</option>
+=======
+                                                <label className={styles.filterLabel} htmlFor="device">Device By</label>
+                                                <select className={styles.filterSelect} id="device" name="device">
+>>>>>>> Stashed changes
                                                     <option value="Android">Android</option>
                                                     <option value="IOS">IOS</option>
                                                 </select>
+                                            </div>
+                                            <div className={styles.filterItem}>
+                                                <label className={styles.filterLabel} htmlFor="device">Date Picker</label>
+                                                <Calendar/>
                                             </div>
                                         </form>
                                     </Card.Body>

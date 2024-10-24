@@ -1,21 +1,17 @@
 .pagination {
-    margin-top: 20px;
+    width: 100%;
     display: flex;
     justify-content: center;
+    list-style-type: none;
+    padding: 0;
+    cursor: pointer;
 }
 
 .pagination span {
     margin: 0 5px;
     cursor: pointer;
 }
-.pagination {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-    list-style-type: none;
-    padding: 0;
-    cursor: pointer;
-}
+
 .icon{
     width: 8px;
 }

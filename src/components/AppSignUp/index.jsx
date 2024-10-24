@@ -65,6 +65,7 @@ const RiderDetails = () => {
       <DetailsSection sectionDetails = {riderDetails}/>
       <DetailsList addressList = {riderAddressList}/>
       <DetailsVehicleList vehicleList = {vehicleList} />
+<<<<<<< Updated upstream
  
       <DetailsBookingHistory
         title="Portable Charger Booking History"
@@ -91,6 +92,9 @@ const RiderDetails = () => {
         }))}
         bookingType="pickAndDrop"
       />
+=======
+      <DetailsBookingHistory />
+>>>>>>> Stashed changes
     </div>
   )
 }
