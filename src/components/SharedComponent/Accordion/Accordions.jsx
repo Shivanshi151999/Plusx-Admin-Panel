@@ -51,7 +51,7 @@ const AccordionFilter = ({ isOpen, fetchFilteredData }) => {
                                     <Card.Body>
                                         <form className={styles.filterForm}>
                                             <div className={styles.filterItem}>
-                                                <label className={styles.filterLabel} htmlFor="riderName">Customer Name</label>
+                                                <label className={styles.filterLabel} htmlFor="riderName">Name</label>
                                                 <input 
                                                  className={styles.filterInput} 
                                                  type="text" id="riderName" 
@@ -99,10 +99,10 @@ const AccordionFilter = ({ isOpen, fetchFilteredData }) => {
                                                     <option value="IOS">IOS</option>
                                                 </select>
                                             </div>
-                                            <div className={styles.filterItem}>
+                                            {/* <div className={styles.filterItem}>
                                                 <label className={styles.filterLabel} htmlFor="device">Date Picker</label>
                                                 <Calendar/>
-                                            </div>
+                                            </div> */}
                                         </form>
                                     </Card.Body>
                                 </motion.div>

@@ -1,9 +1,21 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from './details.module.css'
 import Eye from '../../../assets/images/ViewEye.svg'
 
 
 const DeatilsBookingHistory = ({ title, headers, bookingData, bookingType }) => {
+
+  const navigate = useNavigate(); 
+
+  const handleViewClick = (id) => {
+    if (bookingType === 'portableCharger') {
+      navigate(`/portable-charger/charger-booking-details/${id}`); 
+    } else if (bookingType === 'pickAndDrop') {
+      navigate(`/pick-and-drop/${id}`); 
+    }
+
+  };
   return (
     <div className={styles.addressListContainer}>
       <span className={styles.sectionTitle}>{title}</span>
@@ -30,7 +42,10 @@ const DeatilsBookingHistory = ({ title, headers, bookingData, bookingType }) => 
               <td>{booking.status}</td>
               <td>
                 <div className={styles.editContent}>
-                  <img src={Eye} alt="Eye" />
+                  <img src={Eye} alt="Eye" 
+                  onClick={() => handleViewClick(booking.id)} 
+                  style={{ cursor: 'pointer' }}
+                  />
                 </div>
               </td>
             </tr>
