@@ -18,10 +18,14 @@
 .pagination li {
     display: inline;
     margin: 0 2px;
-    padding: 2px 10px;
+    padding: 0px 10px;
     border-radius: 4px;
 }
 
 .activePage {
     background-color: #00ffcc;
+}
+.activePage a {
+    color: #000000 !important;
+    font-size: 16px !important;
 }

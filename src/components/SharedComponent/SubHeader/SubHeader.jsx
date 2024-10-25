@@ -3,6 +3,8 @@ import styles from './subheader.module.css';
 import Plus from '../../../assets/images/Plus.svg';
 import Filter from '../../../assets/images/Filter.svg';
 import AccordionFilter from '../Accordion/Accordions';
+import { Link } from 'react-router-dom';
+
 
 const SubHeader = ({ heading, fetchFilteredData }) => {
     const [isAccordionOpen, setIsAccordionOpen] = useState(false);
@@ -16,26 +18,28 @@ const SubHeader = ({ heading, fetchFilteredData }) => {
                 <div className={styles.headingList}>{heading}</div>
 
 
-                    <div className={styles.subHeaderButtonSection}>
-                        {heading !== "App Signup List" && (
-                        <div className={styles.addButtonSection}>
-                            <div className={styles.addButtonImg}>
-                                <img src={Plus} alt='plus' />
+                <div className={styles.subHeaderButtonSection}>
+                    {heading !== "App Signup List" && (
+                        <Link to='/add-charger'>
+                            <div className={styles.addButtonSection}>
+                                <div className={styles.addButtonImg}>
+                                    <img src={Plus} alt='plus' />
+                                </div>
+                                <div className={styles.addButtonText}>Add</div>
                             </div>
-                            <div className={styles.addButtonText}>Add</div>
+                        </Link>
+                    )}
+                    <div className={styles.addButtonSection} onClick={toggleAccordion}>
+                        <div className={styles.addButtonImg}>
+                            <img src={Filter} alt='Filter' />
                         </div>
-                        )}
-                        <div className={styles.addButtonSection} onClick={toggleAccordion}>
-                            <div className={styles.addButtonImg}>
-                                <img src={Filter} alt='Filter' />
-                            </div>
-                            <div className={styles.addButtonText}>Filter</div>
-                        </div>
+                        <div className={styles.addButtonText}>Filter</div>
                     </div>
-                
+                </div>
+
             </div>
 
-            <AccordionFilter isOpen={isAccordionOpen} fetchFilteredData={fetchFilteredData}/>
+            <AccordionFilter isOpen={isAccordionOpen} fetchFilteredData={fetchFilteredData} />
         </div>
     );
 };

@@ -13,3 +13,23 @@ body{
   .table>thead {
     vertical-align: top !important  ;
   }
+  /* Style the multi dropdown section */
+.rmsc .dropdown-container {
+  outline: none !important;
+  background-color: #242424 !important;
+  border: none !important;
+  padding: 16px 10px !important;
+  border-radius: 6px !important;
+  color: #ffffff !important;
+  font-size: 16px !important;
+  width: 100% !important;
+}
+.rmsc .dropdown-heading {
+  padding: 0px !important;
+  height: 22px !important;
+  cursor:  pointer !important;
+}
+.rmsc .dropdown-container:focus-within {
+  box-shadow: unset !important;
+}
+  /* End the multi dropdown section */

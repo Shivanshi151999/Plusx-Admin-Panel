@@ -1,9 +1,4 @@
 @import "rsuite/dist/rsuite.css";
-
-#root {
-    padding: 10px;
-}
-
 .rs-picker-popup {
     top: 246px !important;
     border-radius: 4px !important;

@@ -2,8 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { Accordion, Card } from 'react-bootstrap';
 import styles from './accordion.module.css';
 import { motion, AnimatePresence } from 'framer-motion';
+<<<<<<< Updated upstream
 import Calendar from "../Calendar/Calendar"
 
+=======
+import Calendar from '../Calendar/Calendar'
+>>>>>>> Stashed changes
 const AccordionFilter = ({ isOpen, fetchFilteredData }) => {
     const [showContent, setShowContent] = useState(isOpen);
 

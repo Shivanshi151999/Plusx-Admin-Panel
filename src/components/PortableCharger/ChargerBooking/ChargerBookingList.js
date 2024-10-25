@@ -4,6 +4,7 @@ import SubHeader from '../../SharedComponent/SubHeader/SubHeader'
 import Pagination from '../../SharedComponent/Pagination/Pagination'
 import { getRequestWithToken, postRequestWithToken } from '../../../api/Requests';
 import moment from 'moment';
+import { AiOutlinePlus } from 'react-icons/ai';  
 
 const statusMapping = {
     'CNF': 'Booking Confirmed',
@@ -75,7 +76,7 @@ const ChargerBookingList = () => {
             {
                 key: 'driver_assign', 
                 label: 'Driver Assign',
-                format: () => <img src="/path/to/logo.png" alt="Drive Assign Logo" className={"logo"} /> 
+                format: () => <AiOutlinePlus className={"logo"} />
             },
         ]}
         pageHeading="Charger Booking List"

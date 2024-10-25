@@ -331,7 +331,7 @@
                 <li>
                   <input className={styles.checkboxInput} type="checkbox" id="shopList" />
                   <label htmlFor="shopList" className={styles.checkmark}></label>
-                  <NavLink to="/sii" className={({ isActive }) => (isActive ? styles.active : '')}>
+                  <NavLink to="/add-shop-list" className={({ isActive }) => (isActive ? styles.active : '')}>
                     Shop List
                   </NavLink>
 
