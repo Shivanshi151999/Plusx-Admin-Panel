@@ -6,11 +6,25 @@ import AccordionFilter from '../Accordion/Accordions';
 import { Link } from 'react-router-dom';
 
 
-const SubHeader = ({ heading, fetchFilteredData, dynamicFilters, filterValues }) => {
+const SubHeader = ({ heading, fetchFilteredData, dynamicFilters, filterValues, addButtonProps }) => {
     const [isAccordionOpen, setIsAccordionOpen] = useState(false);
     const toggleAccordion = () => {
         setIsAccordionOpen(!isAccordionOpen);
     };
+
+    const shouldShowAddButton = 
+    !["App Signup List","Portable Charger Booking List", "Pick & Drop Booking List", "Portable Charger Invoice List",
+     "Pick & Drop Invoice List", "Charger Installation List"].includes(heading);
+
+    const shouldShowFilterButton = 
+        heading !== "Portable Charger List" && 
+        heading !== "Portable Charger Invoice List" && 
+        heading !== "Pick & Drop Invoice List" &&
+        heading !== "Portable Charger Slot List" &&
+        heading !== "Pick & Drop Time Slot List" &&
+        heading !== "Charger Installation List"
+
+
 
     return (
         <div className={styles.subHeaderContainer}>
@@ -19,27 +33,35 @@ const SubHeader = ({ heading, fetchFilteredData, dynamicFilters, filterValues })
 
 
                 <div className={styles.subHeaderButtonSection}>
-                    {heading !== "App Signup List" && (
-                        <Link to='/add-charger'>
+                {shouldShowAddButton && (
+                        <Link to={addButtonProps?.link}>
                             <div className={styles.addButtonSection}>
                                 <div className={styles.addButtonImg}>
                                     <img src={Plus} alt='plus' />
                                 </div>
-                                <div className={styles.addButtonText}>Add</div>
+                                <div className={styles.addButtonText}>{addButtonProps?.heading}</div>
                             </div>
                         </Link>
                     )}
-                    <div className={styles.addButtonSection} onClick={toggleAccordion}>
-                        <div className={styles.addButtonImg}>
-                            <img src={Filter} alt='Filter' />
+
+                   {shouldShowFilterButton && (
+                        <div className={styles.addButtonSection} onClick={toggleAccordion}>
+                            <div className={styles.addButtonImg}>
+                                <img src={Filter} alt='Filter' />
+                            </div>
+                            <div className={styles.addButtonText}>Filter</div>
                         </div>
-                        <div className={styles.addButtonText}>Filter</div>
-                    </div>
+                    )}
                 </div>
 
             </div>
 
-            <AccordionFilter isOpen={isAccordionOpen} fetchFilteredData={fetchFilteredData} dynamicFilters={dynamicFilters} filterValues={filterValues} />
+            <AccordionFilter 
+                isOpen={isAccordionOpen} 
+                fetchFilteredData={fetchFilteredData} 
+                dynamicFilters={dynamicFilters} 
+                filterValues={filterValues} 
+            />
         </div>
     );
 };

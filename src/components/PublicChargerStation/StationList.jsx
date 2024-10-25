@@ -2,20 +2,30 @@ import React, { useEffect, useState } from 'react';
 import List from '../SharedComponent/List/List'
 import SubHeader from '../SharedComponent/SubHeader/SubHeader'
 import Pagination from '../SharedComponent/Pagination/Pagination'
-import { getRequestWithToken, postRequestWithToken } from '../../api/Requests';
+import { postRequestWithToken } from '../../api/Requests';
 import moment from 'moment';
 
+const dynamicFilters = [
+    { label: 'Name', name: 'search_text', type: 'text' },
+]
 
 const StationList = () => {
     const [stationList, setStationList] = useState([])
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const [filters, setFilters] = useState({});
 
-    const fetchList = (page) => {
+    const addButtonProps = {
+        heading: "Add Public Charger", 
+        link: "/add-public-charger"
+    };
+
+    const fetchList = (page, appliedFilters = {}) => {
         const obj = {
             userId : "1",
             email : "admin@shunyaekai.com",
-            page_no : page
+            page_no : page,
+            ...appliedFilters,
         }
 
         postRequestWithToken('public-charger-station-list', obj, async(response) => {
@@ -30,16 +40,24 @@ const StationList = () => {
     }
 
     useEffect(() => {
-        fetchList(currentPage);
-    }, [currentPage]);
+        fetchList(currentPage, filters);
+    }, [currentPage, filters]);
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
+    const fetchFilteredData = (newFilters = {}) => {
+        setFilters(newFilters);  
+        setCurrentPage(1); 
+    };
 
     return (
         <>
-         <SubHeader heading = "Public Chargers List"/>
+         <SubHeader heading = "Public Chargers List" 
+         addButtonProps={addButtonProps}
+         fetchFilteredData={fetchFilteredData} 
+         dynamicFilters={dynamicFilters} filterValues={filters}
+         />
         <List 
         tableHeaders={["Station Name", "Charging For", "Charging Type", "Price", "Address", "Action"]}
           listData = {stationList}

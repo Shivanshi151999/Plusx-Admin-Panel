@@ -9,6 +9,10 @@ const ChargerList = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
 
+    const addButtonProps = {
+        heading: "Add Charger", 
+        link: "/add-charger"
+    };
     const fetchChargers = (page) => {
         const obj = {
             userId: "1",
@@ -36,7 +40,7 @@ const ChargerList = () => {
 
     return (
         <>
-            <SubHeader heading = "Portable Charger List"/>
+            <SubHeader heading = "Portable Charger List" addButtonProps={addButtonProps}/>
             <List
                 // heading="Charger List"
                 tableHeaders={["ID", "Charger Name", "Charger Price", "Status", "Action"]}

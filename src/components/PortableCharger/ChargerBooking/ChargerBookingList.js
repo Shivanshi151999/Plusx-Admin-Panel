@@ -22,13 +22,15 @@ const dynamicFilters = [
     { label: 'Mobile', name: 'contact_no', type: 'text' },
 ]
 
+
+
 const ChargerBookingList = () => {
     const [chargerBookingList, setChargerBookingList] = useState([])
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [filters, setFilters] = useState({});
 
-
+    
         const fetchList = (page, appliedFilters = {}) => {
             const obj = {
                 userId : "1",
@@ -66,7 +68,9 @@ const ChargerBookingList = () => {
          <SubHeader heading = "Portable Charger Booking List" 
         //  filterFields = {filterFields}
         fetchFilteredData={fetchFilteredData} 
-         dynamicFilters={dynamicFilters} filterValues={filters}/>
+         dynamicFilters={dynamicFilters} filterValues={filters}
+         
+         />
         <List 
         tableHeaders={["ID", "Name", "Service Name", "Price", "Date & Time", "Status", "Driver Assign", "Action"]}
           listData = {chargerBookingList}

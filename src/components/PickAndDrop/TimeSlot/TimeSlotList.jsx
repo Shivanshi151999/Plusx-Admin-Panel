@@ -11,6 +11,11 @@ const TimeSlotList = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
 
+    const addButtonProps = {
+        heading: "Add Slot", 
+        link: "/add-time-slot"
+    };
+
     const fetchList = (page) => {
         const obj = {
             userId : "1",
@@ -39,7 +44,7 @@ const TimeSlotList = () => {
 
     return (
         <>
-         <SubHeader heading = "Pick & Drop Time Slot List"/>
+         <SubHeader heading = "Pick & Drop Time Slot List" addButtonProps={addButtonProps}/>
         <List 
         tableHeaders={["Slot ID", "Timing", "Total Booking", "Booking Limit", "Status", "Action"]}
         listData = {timeSlotList}
