@@ -1,3 +1,5 @@
+
+import React from 'react';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Dashboard from "../components/Dashboard/index.jsx";
 import PortableCharger from "../components/PortableCharger/index.jsx";
@@ -6,19 +8,11 @@ import AppSignup from "../components/AppSignUp/index.jsx";
 import EmergencyTeam from "../components/EmergencyTeam/index.jsx";
 import Layout from "../components/SharedComponent/Layout.jsx";
 import ChargerList from "../components/PortableCharger/ChargerList/ChargerList.jsx";
-<<<<<<< Updated upstream
 import Login from  "../components/Login/index.jsx"
-=======
-import Login from "../components/Login/index.jsx"
->>>>>>> Stashed changes
 import ChargerBookingList from "../components/PortableCharger/ChargerBooking/ChargerBookingList.js";
 import ChargerBookingInvoiceList from "../components/PortableCharger/InvoiceList/InvoiceList.js";
 import PortableChargerTimeSlotList from "../components/PortableCharger/TimeSlotLIst/PortableChargerTimeSlotList.js";
 import ChargerBookingDetails from "../components/PortableCharger/ChargerBooking/ChargerBookingDetails.js";
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
 import PickAndDrop from "../components/PickAndDrop/index.jsx"
 import PickAndDropBookingList from '../components/PickAndDrop/Booking/BookingList.jsx'
 import PickAndDropBookingDetails from "../components/PickAndDrop/Booking/BookingDetails.jsx";
@@ -28,13 +22,10 @@ import PickAndDropTimeSlotList from '../components/PickAndDrop/TimeSlot/TimeSlot
 import PublicChargerStationList from '../components/PublicChargerStation/StationList.jsx'
 import ChargerInstallationList from '../components/ChargerInstallationList/ChargerInstallationList.jsx'
 import EVBuySell from "../components/EVBuySell/index.jsx"
-<<<<<<< Updated upstream
 import ChargerInstallationDetails from "../components/ChargerInstallationList/ChargerInstallationDetails.jsx";
 
-=======
 import AddCharger from "../components/PortableCharger/ChargerList/AddCharger.jsx"
 import AddShopListForm from "../components/EVSpecializedShops/ShopList/AddShopListForm.jsx"
->>>>>>> Stashed changes
 const router = createBrowserRouter([
   {
       path: "/login",
@@ -76,9 +67,6 @@ const router = createBrowserRouter([
         ],
       },
 
-<<<<<<< Updated upstream
-// app signup list
-=======
       // app signup list
       
       {
@@ -91,7 +79,6 @@ const router = createBrowserRouter([
         element: <AddCharger />,
 
       },
->>>>>>> Stashed changes
       {
         path: "/app-signup-list",
         element: <AppSignupList />,
@@ -103,11 +90,7 @@ const router = createBrowserRouter([
       {
         path: "/emergency-team",
         element: <EmergencyTeam />,
-<<<<<<< Updated upstream
-      },      
-=======
       },
->>>>>>> Stashed changes
 
       {
         path: "/pick-and-drop",

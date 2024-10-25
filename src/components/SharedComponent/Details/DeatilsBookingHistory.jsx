@@ -1,8 +1,8 @@
-<<<<<<< Updated upstream
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './details.module.css'
 import Eye from '../../../assets/images/ViewEye.svg'
+import Pagination from '../Pagination/Pagination';
 
 
 const DeatilsBookingHistory = ({ title, headers, bookingData, bookingType }) => {
@@ -17,13 +17,7 @@ const DeatilsBookingHistory = ({ title, headers, bookingData, bookingType }) => 
     }
 
   };
-=======
-import React, { useEffect, useState } from 'react';
-import styles from './details.module.css';
-import Eye from '../../../assets/images/ViewEye.svg';
-import Pagination from '../Pagination/Pagination';
 
-const DeatilsBookingHistory = ({ title, headers, bookingData, bookingType }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const itemsPerPage = 3;
@@ -39,8 +33,6 @@ const DeatilsBookingHistory = ({ title, headers, bookingData, bookingType }) => 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
-
->>>>>>> Stashed changes
   return (
     <div className={styles.addressListContainer}>
       <span className={styles.sectionTitle}>{title}</span>
@@ -67,14 +59,10 @@ const DeatilsBookingHistory = ({ title, headers, bookingData, bookingType }) => 
               <td>{booking.status}</td>
               <td>
                 <div className={styles.editContent}>
-<<<<<<< Updated upstream
                   <img src={Eye} alt="Eye" 
                   onClick={() => handleViewClick(booking.id)} 
                   style={{ cursor: 'pointer' }}
                   />
-=======
-                  <img src={Eye} alt="Eye" />
->>>>>>> Stashed changes
                 </div>
               </td>
             </tr>
