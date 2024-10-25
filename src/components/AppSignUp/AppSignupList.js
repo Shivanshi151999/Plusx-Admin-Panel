@@ -6,6 +6,23 @@ import Pagination from '../SharedComponent/Pagination/Pagination'
 import { postRequestWithToken } from '../../api/Requests';
 import moment from 'moment';
 
+const dynamicFilters = [
+    { label: 'Name', name: 'riderName', type: 'text' },
+    { label: 'Email', name: 'riderEmail', type: 'email' },
+    { label: 'Mobile', name: 'riderMobile', type: 'text' },
+    {
+        label: 'Device By', 
+        name: 'addedFrom', 
+        type: 'select', 
+        options: [
+            { value: 'Select Device', label: 'Select Device' },
+            { value: 'Android', label: 'Android' },
+            { value: 'IOS', label: 'IOS' }
+        ]
+    },
+    // Add more filters as needed
+]
+
 const SignupList = () => {
     const [signupList, setSignupList] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -45,7 +62,9 @@ const SignupList = () => {
 
     return (
         <div className={styles.appSignupContainer}>
-            <SubHeader heading = "App Signup List" fetchFilteredData={fetchFilteredData}/>
+            <SubHeader heading = "App Signup List" 
+            fetchFilteredData={fetchFilteredData} 
+            dynamicFilters={dynamicFilters} filterValues={filters}/>
             <List
                 tableHeaders={["Customer ID", "Customer Name", "Email", "Emirate", "Date", "Action"]}
                 listData={signupList}

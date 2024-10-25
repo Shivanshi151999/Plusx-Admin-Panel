@@ -16,16 +16,24 @@ const statusMapping = {
     'C': 'Cancel'
 };
 
+const dynamicFilters = [
+    { label: 'Booking ID', name: 'request_id', type: 'text' },
+    { label: 'Name', name: 'name', type: 'text' },
+    { label: 'Mobile', name: 'contact_no', type: 'text' },
+]
+
 const BookingList = () => {
     const [chargerBookingList, setChargerBookingList] = useState([])
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const [filters, setFilters] = useState({});
 
-    const fetchList = (page) => {
+    const fetchList = (page, appliedFilters = {}) => {
         const obj = {
             userId : "1",
             email : "admin@shunyaekai.com",
-            page_no : page
+            page_no : page,
+            ...appliedFilters,
         }
 
         postRequestWithToken('pick-and-drop-booking-list', obj, async(response) => {
@@ -34,22 +42,30 @@ const BookingList = () => {
                 setTotalPages(response?.total_page || 1); 
             } else {
                 // toast(response.message, {type:'error'})
-                console.log('error in charger-booking-list api', response);
+                console.log('error in pick-and-drop-booking-list api', response);
             }
         })
     }
 
     useEffect(() => {
-        fetchList(currentPage);
-    }, [currentPage]);
+        fetchList(currentPage, filters);
+    }, [currentPage, filters]);
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
 
+    const fetchFilteredData = (newFilters = {}) => {
+        setFilters(newFilters);  
+        setCurrentPage(1); 
+    };
+
     return (
         <>
-         <SubHeader heading = "Pick & Drop Booking List"/>
+         <SubHeader heading = "Pick & Drop Booking List"
+         fetchFilteredData={fetchFilteredData} 
+         dynamicFilters={dynamicFilters} filterValues={filters}
+         />
         <List 
         tableHeaders={["ID", "Name", "Price", "Date & Time", "Status", "Driver Assign", "Action"]}
           listData = {chargerBookingList}

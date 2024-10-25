@@ -16,16 +16,25 @@ const statusMapping = {
     'C': 'Cancel'
 };
 
+const dynamicFilters = [
+    { label: 'Booking ID', name: 'booking_id', type: 'text' },
+    { label: 'Name', name: 'name', type: 'text' },
+    { label: 'Mobile', name: 'contact_no', type: 'text' },
+]
+
 const ChargerBookingList = () => {
     const [chargerBookingList, setChargerBookingList] = useState([])
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const [filters, setFilters] = useState({});
 
-        const fetchList = (page) => {
+
+        const fetchList = (page, appliedFilters = {}) => {
             const obj = {
                 userId : "1",
                 email : "admin@shunyaekai.com",
-                page_no : page
+                page_no : page,
+                ...appliedFilters,
             }
     
             postRequestWithToken('charger-booking-list', obj, async(response) => {
@@ -41,16 +50,23 @@ const ChargerBookingList = () => {
         
 
     useEffect(() => {
-        fetchList(currentPage);
-    }, [currentPage]);
+        fetchList(currentPage, filters);
+    }, [currentPage, filters]);
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
+    const fetchFilteredData = (newFilters = {}) => {
+        setFilters(newFilters);  
+        setCurrentPage(1); 
+    };
 
     return (
         <>
-         <SubHeader heading = "Portable Charger Booking List"/>
+         <SubHeader heading = "Portable Charger Booking List" 
+        //  filterFields = {filterFields}
+        fetchFilteredData={fetchFilteredData} 
+         dynamicFilters={dynamicFilters} filterValues={filters}/>
         <List 
         tableHeaders={["ID", "Name", "Service Name", "Price", "Date & Time", "Status", "Driver Assign", "Action"]}
           listData = {chargerBookingList}

@@ -6,15 +6,15 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 // import Calendar from "../Calendar/Calendar"
 
-const AccordionFilter = ({ isOpen, fetchFilteredData }) => {
+const AccordionFilter = ({ isOpen, fetchFilteredData, dynamicFilters, filterValues }) => {
     const [showContent, setShowContent] = useState(isOpen);
 
-    const [filterValues, setFilterValues] = useState({
-        riderName: '',
-        riderEmail: '',
-        riderMobile: '',
-        addedFrom: 'Select Device',
-    });
+    // const [filterValues, setFilterValues] = useState({
+    //     riderName: '',
+    //     riderEmail: '',
+    //     riderMobile: '',
+    //     addedFrom: 'Select Device',
+    // });
 
     useEffect(() => {
         if (isOpen) {
@@ -25,13 +25,19 @@ const AccordionFilter = ({ isOpen, fetchFilteredData }) => {
         }
     }, [isOpen]);
 
+    // const handleInputChange = (e) => {
+    //     const { name, value } = e.target;
+    //     setFilterValues(prevValues => ({
+    //         ...prevValues,
+    //         [name]: value
+    //     }));
+    // };
+
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setFilterValues(prevValues => ({
-            ...prevValues,
-            [name]: value
-        }));
+        fetchFilteredData({ ...filterValues, [name]: value }); // Call fetchFilteredData with updated filter values
     };
+    
 
     const handleBlur = () => {
         fetchFilteredData(filterValues);
@@ -50,7 +56,7 @@ const AccordionFilter = ({ isOpen, fetchFilteredData }) => {
                                     exit={{ height: 0, opacity: 0 }}
                                     transition={{ duration: 0.3 }}
                                 >
-                                    <Card.Body>
+                                    {/* <Card.Body>
                                         <form className={styles.filterForm}>
                                             <div className={styles.filterItem}>
                                                 <label className={styles.filterLabel} htmlFor="riderName">Name</label>
@@ -101,12 +107,45 @@ const AccordionFilter = ({ isOpen, fetchFilteredData }) => {
                                                     <option value="IOS">IOS</option>
                                                 </select>
                                             </div>
-                                            {/* <div className={styles.filterItem}>
-                                                <label className={styles.filterLabel} htmlFor="device">Date Picker</label>
-                                                <Calendar/>
-                                            </div> */}
+                                            
+                                        </form>
+                                    </Card.Body> */}
+
+<Card.Body>
+                                        <form className={styles.filterForm}>
+                                            {dynamicFilters?.map((filter) => (
+                                                <div key={filter.name} className={styles.filterItem}>
+                                                    <label className={styles.filterLabel} htmlFor={filter.name}>{filter.label}</label>
+                                                    {filter.type === 'select' ? (
+                                                        <select 
+                                                            className={styles.filterSelect} 
+                                                            id={filter.name}
+                                                            name={filter.name}
+                                                            value={filterValues[filter.name] || ''}
+                                                            onChange={handleInputChange}
+                                                            onBlur={handleBlur}
+                                                        >
+                                                            {filter.options.map((option) => (
+                                                                <option key={option.value} value={option.value}>{option.label}</option>
+                                                            ))}
+                                                        </select>
+                                                    ) : (
+                                                        <input 
+                                                            className={styles.filterInput} 
+                                                            type={filter.type} 
+                                                            id={filter.name} 
+                                                            name={filter.name} 
+                                                            value={filterValues[filter.name] || ''}
+                                                            onChange={handleInputChange}
+                                                            onBlur={handleBlur}
+                                                            autoComplete='off'
+                                                        />
+                                                    )}
+                                                </div>
+                                            ))}
                                         </form>
                                     </Card.Body>
+                                   
                                 </motion.div>
                             )}
                         </AnimatePresence>
@@ -116,5 +155,10 @@ const AccordionFilter = ({ isOpen, fetchFilteredData }) => {
         </div>
     );
 };
+
+{/* <div className={styles.filterItem}>
+<label className={styles.filterLabel} htmlFor="device">Date Picker</label>
+<Calendar/>
+</div> */}
 
 export default AccordionFilter;

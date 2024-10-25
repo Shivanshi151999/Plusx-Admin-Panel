@@ -6,7 +6,7 @@ import AccordionFilter from '../Accordion/Accordions';
 import { Link } from 'react-router-dom';
 
 
-const SubHeader = ({ heading, fetchFilteredData }) => {
+const SubHeader = ({ heading, fetchFilteredData, dynamicFilters, filterValues }) => {
     const [isAccordionOpen, setIsAccordionOpen] = useState(false);
     const toggleAccordion = () => {
         setIsAccordionOpen(!isAccordionOpen);
@@ -39,7 +39,7 @@ const SubHeader = ({ heading, fetchFilteredData }) => {
 
             </div>
 
-            <AccordionFilter isOpen={isAccordionOpen} fetchFilteredData={fetchFilteredData} />
+            <AccordionFilter isOpen={isAccordionOpen} fetchFilteredData={fetchFilteredData} dynamicFilters={dynamicFilters} filterValues={filterValues} />
         </div>
     );
 };
