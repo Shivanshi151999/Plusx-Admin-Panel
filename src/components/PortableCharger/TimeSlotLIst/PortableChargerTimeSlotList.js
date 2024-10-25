@@ -3,7 +3,7 @@ import List from '../../SharedComponent/List/List'
 import SubHeader from '../../SharedComponent/SubHeader/SubHeader'
 import Pagination from '../../SharedComponent/Pagination/Pagination'
 import { getRequestWithToken, postRequestWithToken } from '../../../api/Requests';
-import moment from 'moment';
+import { toast, ToastContainer } from "react-toastify";
 
 const PortableChargerTimeSlotList = () => {
     const [timeSlotList, setTimeSlotList] = useState([])
@@ -26,8 +26,9 @@ const PortableChargerTimeSlotList = () => {
             if (response.code === 200) {
                 setTimeSlotList(response?.data)
                 setTotalPages(response?.total_page || 1); 
+                toast(response.message[0], { type: "success" });
             } else {
-                // toast(response.message, {type:'error'})
+                toast(response.message, {type:'error'})
                 console.log('error in charger-slot-list api', response);
             }
         })
@@ -41,8 +42,29 @@ const PortableChargerTimeSlotList = () => {
         setCurrentPage(pageNumber);
     };
 
+    const handleDeleteSlot = (slotId) => {
+        const confirmDelete = window.confirm("Are you sure you want to delete this slot?");
+        if (confirmDelete) {
+            const obj = { 
+                userId : "1",
+                email : "admin@shunyaekai.com",
+                slot_id: slotId 
+            };
+            postRequestWithToken('charger-delete-time-slot', obj, async (response) => {
+                if (response.code === 200) {
+                    fetchList(currentPage);
+                    toast(response.message[0], { type: "success" });
+                } else {
+                    toast(response.message, { type: 'error' });
+                    console.log('error in delete-charger-slot api', response);
+                }
+            });
+        }
+    };
+
     return (
         <>
+        {/* <ToastContainer /> */}
          <SubHeader heading = "Portable Charger Slot List" addButtonProps={addButtonProps}/>
         <List 
         tableHeaders={["Slot ID", "Timing", "Total Booking", "Booking Limit", "Status", "Action"]}
@@ -65,6 +87,7 @@ const PortableChargerTimeSlotList = () => {
             { key: 'status', label: 'Status', format: (status) => (status === 1 ? "Active" : "Un-active") } 
         ]}
         pageHeading="Portable Charger Slot List"
+        onDeleteSlot={handleDeleteSlot}
           />
            
            <Pagination 

@@ -7,7 +7,7 @@ import View from '../../../assets/images/ViewEye.svg'
 import { useNavigate } from 'react-router-dom';
 
 
-const List = ({tableHeaders, listData, keyMapping, pageHeading}) => {
+const List = ({tableHeaders, listData, keyMapping, pageHeading, onDeleteSlot}) => {
 
     const navigate = useNavigate()
 
@@ -78,7 +78,7 @@ const List = ({tableHeaders, listData, keyMapping, pageHeading}) => {
                                             <img src={Edit} alt='edit' 
                                             onClick={() => handleChargerEditTimeSlot(data.slot_id)}
                                             />
-                                            <img src={Delete} alt='delete' />
+                                            <img src={Delete} alt='delete' onClick={() => onDeleteSlot(data.slot_id)}/>
                                         </>
                                     )}
                                     {pageHeading === 'App Signup List' && (

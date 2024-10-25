@@ -28,6 +28,7 @@ import ChargerInstallationDetails from "../components/ChargerInstallationList/Ch
 import AddCharger from "../components/PortableCharger/ChargerList/AddCharger.jsx"
 import AddShopListForm from "../components/EVSpecializedShops/ShopList/AddShopListForm.jsx"
 import EditPortableChargerTimeSlot from '../components/PortableCharger/TimeSlotLIst/EditTimeSlot.jsx';
+
 const router = createBrowserRouter([
   {
       path: "/login",
@@ -147,7 +148,9 @@ const router = createBrowserRouter([
 function Router() {
   return (
     <>
+    
       <RouterProvider router={router} />
+      
     </>
   );
 }
