@@ -12,7 +12,7 @@ const PortableChargerTimeSlotList = () => {
 
     const addButtonProps = {
         heading: "Add Slot", 
-        link: "/add-time-slot"
+        link: '/portable-charger/add-time-slot'
     };
 
     const fetchList = (page) => {
@@ -68,9 +68,9 @@ const PortableChargerTimeSlotList = () => {
           />
            
            <Pagination 
-          currentPage={currentPage} 
-          totalPages={totalPages} 
-          onPageChange={handlePageChange} 
+            currentPage={currentPage} 
+            totalPages={totalPages} 
+            onPageChange={handlePageChange} 
         />
         </>
     );

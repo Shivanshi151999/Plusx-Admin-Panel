@@ -12,6 +12,7 @@ import Login from  "../components/Login/index.jsx"
 import ChargerBookingList from "../components/PortableCharger/ChargerBooking/ChargerBookingList.js";
 import ChargerBookingInvoiceList from "../components/PortableCharger/InvoiceList/InvoiceList.js";
 import PortableChargerTimeSlotList from "../components/PortableCharger/TimeSlotLIst/PortableChargerTimeSlotList.js";
+import AddPortableChargerTimeSlot from '../components/PortableCharger/TimeSlotLIst/AddTimeSlot.jsx'
 import ChargerBookingDetails from "../components/PortableCharger/ChargerBooking/ChargerBookingDetails.js";
 import PickAndDrop from "../components/PickAndDrop/index.jsx"
 import PickAndDropBookingList from '../components/PickAndDrop/Booking/BookingList.jsx'
@@ -26,6 +27,7 @@ import ChargerInstallationDetails from "../components/ChargerInstallationList/Ch
 
 import AddCharger from "../components/PortableCharger/ChargerList/AddCharger.jsx"
 import AddShopListForm from "../components/EVSpecializedShops/ShopList/AddShopListForm.jsx"
+import EditPortableChargerTimeSlot from '../components/PortableCharger/TimeSlotLIst/EditTimeSlot.jsx';
 const router = createBrowserRouter([
   {
       path: "/login",
@@ -63,6 +65,14 @@ const router = createBrowserRouter([
           {
             path: "charger-booking-time-slot-list", 
             element: <PortableChargerTimeSlotList />,
+          },
+          {
+            path: "add-time-slot", 
+            element: <AddPortableChargerTimeSlot />,
+          },
+          {
+            path: "edit-time-slot/:slotId", 
+            element: <EditPortableChargerTimeSlot />,
           },
         ],
       },
