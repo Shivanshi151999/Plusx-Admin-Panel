@@ -2,12 +2,14 @@ import React, { useEffect, useState } from 'react';
 import List from '../../SharedComponent/List/List'
 import SubHeader from '../../SharedComponent/SubHeader/SubHeader'
 import Pagination from '../../SharedComponent/Pagination/Pagination'
+import { toast, ToastContainer } from "react-toastify";
 import { getRequestWithToken, postRequestWithToken } from '../../../api/Requests';
 
 const ChargerList = () => {
     const [chargerList, setChargerList] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const [refresh, setRefresh] = useState(false)
 
     const addButtonProps = {
         heading: "Add Charger", 
@@ -32,10 +34,30 @@ const ChargerList = () => {
 
     useEffect(() => {
         fetchChargers(currentPage);
-    }, [currentPage]);
+    }, [currentPage, refresh]);
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
+    };
+
+    const handleDeleteSlot = (chargerId) => {
+        const confirmDelete = window.confirm("Are you sure you want to delete this?");
+        if (confirmDelete) {
+            const obj = { 
+                userId : "1",
+                email : "admin@shunyaekai.com",
+                charger_id: chargerId 
+            };
+            postRequestWithToken('delete-charger', obj, async (response) => {
+                if (response.code === 200) {
+                    setRefresh(prev => !prev);
+                    toast(response.message[0], { type: "success" });
+                } else {
+                    toast(response.message, { type: 'error' });
+                    console.log('error in delete-charger-slot api', response);
+                }
+            });
+        }
     };
 
     return (
@@ -57,6 +79,7 @@ const ChargerList = () => {
                     { key: 'status', label: 'Status', format: (status) => (status === 1 ? "Active" : "Un-active") } // Custom formatting
                 ]}
                 pageHeading="Portable Charger List"
+                onDeleteSlot={handleDeleteSlot}
             />
             <Pagination 
                 currentPage={currentPage} 

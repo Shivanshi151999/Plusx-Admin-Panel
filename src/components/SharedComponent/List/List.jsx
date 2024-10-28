@@ -30,6 +30,10 @@ const List = ({tableHeaders, listData, keyMapping, pageHeading, onDeleteSlot}) =
     const handleChargerEditTimeSlot = (id) => {
         navigate(`/portable-charger/edit-time-slot/${id}`)
     }
+
+    const handleChargerDetails = (id) => {
+        navigate(`/edit-charger/${id}`)
+    }
     
 
     return (
@@ -66,8 +70,8 @@ const List = ({tableHeaders, listData, keyMapping, pageHeading, onDeleteSlot}) =
                                     )}
                                     {pageHeading === 'Portable Charger List' && (
                                         <>
-                                            <img src={Edit} alt='edit' />
-                                            <img src={Cancel} alt='cancel' />
+                                            <img src={Edit} alt='edit' onClick={() => handleChargerDetails(data.charger_id)} />
+                                            <img src={Cancel} alt='cancel' onClick={() => onDeleteSlot(data.charger_id)}/>
                                         </>
                                     )}
                                     {pageHeading === 'Portable Charger Invoice List' && (

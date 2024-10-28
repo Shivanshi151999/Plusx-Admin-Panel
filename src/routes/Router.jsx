@@ -28,6 +28,7 @@ import ChargerInstallationDetails from "../components/ChargerInstallationList/Ch
 import AddCharger from "../components/PortableCharger/ChargerList/AddCharger.jsx"
 import AddShopListForm from "../components/EVSpecializedShops/ShopList/AddShopListForm.jsx"
 import EditPortableChargerTimeSlot from '../components/PortableCharger/TimeSlotLIst/EditTimeSlot.jsx';
+import EditPortableCharger from '../components/PortableCharger/ChargerList/EditCharger.jsx';
 
 const router = createBrowserRouter([
   {
@@ -88,6 +89,11 @@ const router = createBrowserRouter([
       {
         path: "/add-charger",
         element: <AddCharger />,
+
+      },
+      {
+        path: "/edit-charger/:chargerId",
+        element: <EditPortableCharger />,
 
       },
       {
