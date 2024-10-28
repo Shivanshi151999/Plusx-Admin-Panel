@@ -31,10 +31,7 @@ const EditPortableChargerTimeSlot = () => {
         if (response.code === 200) {
             const data = response.data || {};
                 setSlotDetails(data);  
-
-                // setStartTime(data.start_time ? dayjs(data.start_time, "hh:mm A") : null);
                 setStartTime(dayjs(data.start_time, "HH:mm:ss")); 
-                // setEndTime(data.end_time ? dayjs(data.end_time, "hh:mm A") : null);
                 setEndTime(dayjs(data.end_time, "HH:mm:ss")); 
                 setBookingLimit(data.booking_limit || "");
         } else {
@@ -151,6 +148,7 @@ const handleBookingLimitChange = (e) => {
                                     />
                                 </div>
                                 </DemoContainer>
+                                {errors.startTime && <span className={styles.error} style={{color: 'red'}}>{errors.startTime}</span>}
                             </LocalizationProvider>
                         </div>
                         <div className={styles.inputGroup}>
@@ -172,6 +170,7 @@ const handleBookingLimitChange = (e) => {
                                     </div>
                                </DemoContainer>
                            </LocalizationProvider>
+                           {errors.endTime && <span className={styles.error} style={{color: 'red'}}>{errors.endTime}</span>}
                         </div>
                         <div className={styles.inputGroup}>
                             <label className={styles.label}>Booking Limit</label>
@@ -179,6 +178,7 @@ const handleBookingLimitChange = (e) => {
                             placeholder="Enter Booking Limit" value={bookingLimit}
                             onChange={handleBookingLimitChange}
                              />
+                             {errors.bookingLimit && <span className={styles.error} style={{color: 'red'}}>{errors.bookingLimit}</span>}
                         </div>
                     </div>
                     <div className={styles.actions}>

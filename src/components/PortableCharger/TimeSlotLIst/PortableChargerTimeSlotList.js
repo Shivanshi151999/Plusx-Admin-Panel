@@ -9,6 +9,7 @@ const PortableChargerTimeSlotList = () => {
     const [timeSlotList, setTimeSlotList] = useState([])
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const [refresh, setRefresh] = useState(false)
 
     const addButtonProps = {
         heading: "Add Slot", 
@@ -36,7 +37,7 @@ const PortableChargerTimeSlotList = () => {
 
     useEffect(() => {
         fetchList(currentPage);
-    }, [currentPage]);
+    }, [currentPage, refresh]);
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -52,7 +53,7 @@ const PortableChargerTimeSlotList = () => {
             };
             postRequestWithToken('charger-delete-time-slot', obj, async (response) => {
                 if (response.code === 200) {
-                    fetchList(currentPage);
+                    setRefresh(prev => !prev);
                     toast(response.message[0], { type: "success" });
                 } else {
                     toast(response.message, { type: 'error' });

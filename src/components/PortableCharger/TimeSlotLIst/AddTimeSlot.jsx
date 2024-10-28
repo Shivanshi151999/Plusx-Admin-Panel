@@ -94,7 +94,7 @@ const AddPortableChargerTimeSlot = () => {
     
             postRequestWithToken('charger-add-time-slot', obj, async(response) => {
                 if (response.code === 200) {
-                    toast(response.message, { type: "success" });
+                    toast(response.message[0], { type: "success" });
                     navigate('/portable-charger/charger-booking-time-slot-list')
                 } else {
                     // toast(response.message, {type:'error'})
@@ -131,6 +131,7 @@ const AddPortableChargerTimeSlot = () => {
                                 </div>
                                 </DemoContainer>
                             </LocalizationProvider>
+                            {errors.startTime && <span className={styles.error} style={{color: 'red'}}>{errors.startTime}</span>}
                         </div>
                         <div className={styles.inputGroup}>
                             <label className={styles.label}>End Time</label>
@@ -151,6 +152,7 @@ const AddPortableChargerTimeSlot = () => {
                                     </div>
                                </DemoContainer>
                            </LocalizationProvider>
+                           {errors.endTime && <span className={styles.error} style={{color: 'red'}}>{errors.endTime}</span>}
                         </div>
                         <div className={styles.inputGroup}>
                             <label className={styles.label}>Booking Limit</label>
@@ -160,6 +162,7 @@ const AddPortableChargerTimeSlot = () => {
                             onChange={handleBookingLimitChange}
                             onKeyPress={handleBookingLimitKeyPress}
                             />
+                            {errors.bookingLimit && <span className={styles.error} style={{color: 'red'}}>{errors.bookingLimit}</span>}
                         </div>
                     </div>
                     <div className={styles.actions}>
