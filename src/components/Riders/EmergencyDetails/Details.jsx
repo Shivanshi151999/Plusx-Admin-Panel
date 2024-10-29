@@ -36,7 +36,7 @@ const Details = () => {
     <div className={styles.emergencyContainer}>
       <EmergencyCards details = {details}/>
       {/* <EmergencyDetails/> */}
-      <EmergencyList/>
+      <EmergencyList detail = {details}/>
     </div>
   )
 }

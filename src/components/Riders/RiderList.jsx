@@ -45,7 +45,7 @@ const RiderList = () => {
 
     useEffect(() => {
         fetchList(currentPage, filters);
-    }, [currentPage, filters]);
+    }, [currentPage, filters, refresh]);
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);

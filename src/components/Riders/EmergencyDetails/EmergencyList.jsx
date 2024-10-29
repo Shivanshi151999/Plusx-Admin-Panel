@@ -3,7 +3,7 @@ import styles from './emergency.module.css'
 import Eye from '../../../assets/images/ViewEye.svg'
 import Delete from '../../../assets/images/Delete.svg'
 
-const EmergencyList = () => {
+const EmergencyList = ({details}) => {
     const addresses = [
         {
             id: "RIOT Experience Center",

@@ -5,6 +5,7 @@ import SubHeader from '../SharedComponent/SubHeader/SubHeader'
 import Pagination from '../SharedComponent/Pagination/Pagination'
 import { postRequestWithToken } from '../../api/Requests';
 import moment from 'moment';
+import { toast, ToastContainer } from "react-toastify";
 
 const dynamicFilters = [
     { label: 'Name', name: 'riderName', type: 'text' },
@@ -20,7 +21,6 @@ const dynamicFilters = [
             { value: 'IOS', label: 'IOS' }
         ]
     },
-    // Add more filters as needed
 ]
 
 const SignupList = () => {
@@ -28,6 +28,7 @@ const SignupList = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [filters, setFilters] = useState({});
+    const [refresh, setRefresh] = useState(false)
 
     const fetchChargers = (page, appliedFilters = {}) => {
         const obj = {
@@ -49,7 +50,7 @@ const SignupList = () => {
 
     useEffect(() => {
         fetchChargers(currentPage, filters);
-    }, [currentPage, filters]);
+    }, [currentPage, filters, refresh]);
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -58,6 +59,26 @@ const SignupList = () => {
     const fetchFilteredData = (newFilters = {}) => {
         setFilters(newFilters);  
         setCurrentPage(1); 
+    };
+
+    const handleDeleteSlot = (riderId) => {
+        const confirmDelete = window.confirm("Are you sure you want to delete this?");
+        if (confirmDelete) {
+            const obj = { 
+                userId : "1",
+                email : "admin@shunyaekai.com",
+                rider_id: riderId 
+            };
+            postRequestWithToken('delete-rider', obj, async (response) => {
+                if (response.code === 200) {
+                    setRefresh(prev => !prev);
+                    toast(response.message[0], { type: "success" });
+                } else {
+                    toast(response.message, { type: 'error' });
+                    console.log('error in delete-rider api', response);
+                }
+            });
+        }
     };
 
     return (
@@ -80,6 +101,7 @@ const SignupList = () => {
                     } ,
                 ]}
                 pageHeading="App Signup List"
+                onDeleteSlot={handleDeleteSlot}
             />
             <Pagination 
                 currentPage={currentPage} 

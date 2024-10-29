@@ -108,7 +108,7 @@ const List = ({tableHeaders, listData, keyMapping, pageHeading, onDeleteSlot}) =
                                             <img src={View} alt="view" 
                                             onClick={() => handleSignupDetails(data.rider_id)}
                                             />
-                                            <img src={Delete} alt='delete' />
+                                            <img src={Delete} alt='delete' onClick={() => onDeleteSlot(data.rider_id)}/>
                                         </>
                                     )}
 
