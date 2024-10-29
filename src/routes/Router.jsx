@@ -21,6 +21,8 @@ import PickAndDropInvoiceList from '../components/PickAndDrop/Invoice/InvoiceLis
 import PickAndDropTimeSlotList from '../components/PickAndDrop/TimeSlot/TimeSlotList.jsx'
 
 import PublicChargerStationList from '../components/PublicChargerStation/StationList.jsx'
+import PublicChargerStationDetails from '../components/PublicChargerStation/StationDetails.jsx'
+
 import ChargerInstallationList from '../components/ChargerInstallationList/ChargerInstallationList.jsx'
 import EVBuySell from "../components/EVBuySell/index.jsx"
 import ChargerInstallationDetails from "../components/ChargerInstallationList/ChargerInstallationDetails.jsx";
@@ -163,6 +165,10 @@ const router = createBrowserRouter([
       {
         path: "/public-charger-station-list",
         element: <PublicChargerStationList />,
+      },
+      {
+        path: "/public-charger-station-details/:stationId",
+        element: <PublicChargerStationDetails />,
       },
 
       //charger installation

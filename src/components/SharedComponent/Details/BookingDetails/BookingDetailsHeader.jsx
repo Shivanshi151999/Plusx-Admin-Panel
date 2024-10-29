@@ -19,10 +19,11 @@ const BookingDetailsHeader = ({content, titles, type}) => {
               </div>
             </div>
           </div>  
+          {
+                type !== 'publicChargingStation' && (
           <div className="col-xl-3 col-lg-6 col-12">
             <div className={styles.detailsHeaderSection}>
               <div className={styles.detailsImageSection}>
-                {/* <img src={Mobile} alt="Mobile" /> */}
               </div>
               
               <div className={styles.infoBlock}>
@@ -32,6 +33,8 @@ const BookingDetailsHeader = ({content, titles, type}) => {
               </div>
             </div>
           </div>
+           )}
+
           {
                 type === 'portableChargerBooking' && (
                 <div className="col-xl-3 col-lg-6 col-12">
@@ -43,6 +46,40 @@ const BookingDetailsHeader = ({content, titles, type}) => {
                 <span className={styles.infoHeading}>{titles.driverDetailsTitle}</span>
                 <span className={styles.infoText}>{content.driverName}</span>
                 <span className={styles.infoText}>{content.driverContact}</span>
+              </div>
+            </div>
+          </div>
+              )}
+
+{
+                type === 'publicChargingStation' && (
+                <div className="col-xl-3 col-lg-6 col-12">
+            <div className={styles.detailsHeaderSection}>
+              <div className={styles.detailsImageSection}>
+                {/* <img src={Email} alt="Email" /> */}
+              </div>
+              <div className={styles.infoBlock}>
+                <span className={styles.infoHeading}>{titles.stationDetailsTitle}</span>
+                <span className={styles.infoText}>Station Name: {content.stationName}</span>
+                <span className={styles.infoText}>Charger Type: {content.chargerType}</span>
+                <span className={styles.infoText}>Charging For: {content.chargingFor}</span>
+              </div>
+            </div>
+          </div>
+              )}
+
+{
+                type === 'publicChargingStation' && (
+                <div className="col-xl-3 col-lg-6 col-12">
+            <div className={styles.detailsHeaderSection}>
+              <div className={styles.detailsImageSection}>
+                {/* <img src={Email} alt="Email" /> */}
+              </div>
+              <div className={styles.infoBlock}>
+                <span className={styles.infoHeading}>{titles.feeDetailsTitle}</span>
+                <span className={styles.infoText}>Price: {content.price}</span>
+                <span className={styles.infoText}>Charging Point: {content.chargingPoint}</span>
+                <span className={styles.infoText}>Status: {content.status}</span>
               </div>
             </div>
           </div>

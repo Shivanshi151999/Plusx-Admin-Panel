@@ -45,6 +45,9 @@ const List = ({tableHeaders, listData, keyMapping, pageHeading, onDeleteSlot}) =
         navigate(`/emergency-team-details/${id}`)
     }
     
+    const handlePublicChargerStationDetails = (id) => {
+        navigate(`/public-charger-station-details/${id}`)
+    }
 
     return (
         <div className={styles.containerCharger}>
@@ -133,7 +136,7 @@ const List = ({tableHeaders, listData, keyMapping, pageHeading, onDeleteSlot}) =
 
                                     {pageHeading === 'Public Chargers List' && (
                                         <>
-                                         <img src={View} alt="view" />
+                                         <img src={View} alt="view" onClick={() => handlePublicChargerStationDetails(data.station_id)}/>
                                             <img src={Edit} alt='edit' />
                                             <img src={Delete} alt='delete' />
                                         </>
