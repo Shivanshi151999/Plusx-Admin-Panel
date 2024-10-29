@@ -29,6 +29,8 @@ import AddCharger from "../components/PortableCharger/ChargerList/AddCharger.jsx
 import AddShopListForm from "../components/EVSpecializedShops/ShopList/AddShopListForm.jsx"
 import EditPortableChargerTimeSlot from '../components/PortableCharger/TimeSlotLIst/EditTimeSlot.jsx';
 import EditPortableCharger from '../components/PortableCharger/ChargerList/EditCharger.jsx';
+import AddPickAndDropTimeSlot from '../components/PickAndDrop/TimeSlot/AddTimeSlot.jsx';
+import EditPickAndDropTimeSlot from '../components/PickAndDrop/TimeSlot/EditTimeSlot.jsx';
 
 const router = createBrowserRouter([
   {
@@ -128,6 +130,15 @@ const router = createBrowserRouter([
           {
             path: "time-slot-list", 
             element: <PickAndDropTimeSlotList />,
+          },
+          {
+            path: "add-time-slot", 
+            element: <AddPickAndDropTimeSlot />,
+          },
+
+          {
+            path: "edit-time-slot/:slotId", 
+            element: <EditPickAndDropTimeSlot />,
           },
         ],
       },

@@ -1,5 +1,5 @@
 import React, { useEffect, useState }  from 'react';
-import styles from './addtimeslot.module.css';
+import styles from './addpickanddroptimeslot.module.css';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -13,7 +13,7 @@ import { useNavigate,useParams } from 'react-router-dom';
 
 dayjs.extend(isSameOrAfter);
 
-const EditPortableChargerTimeSlot = () => {
+const EditPickAndDropTimeSlot = () => {
 
     const {slotId} = useParams()
     const navigate = useNavigate()
@@ -30,7 +30,7 @@ const EditPortableChargerTimeSlot = () => {
         slot_id : slotId
     };
 
-    postRequestWithToken('charger-slot-details', obj, (response) => {
+    postRequestWithToken('pick-and-drop-slot-details', obj, (response) => {
         if (response.code === 200) {
             const data = response.data || {};
                 setSlotDetails(data);  
@@ -38,7 +38,7 @@ const EditPortableChargerTimeSlot = () => {
                 setEndTime(dayjs(data.end_time, "HH:mm:ss")); 
                 setBookingLimit(data.booking_limit || "");
         } else {
-            console.log('error in charger-slot-details API', response);
+            console.log('error in pick-and-drop-slot-details API', response);
         }
     });
 };
@@ -48,7 +48,7 @@ const EditPortableChargerTimeSlot = () => {
   }, []);
 
   const handleCancel = () => {
-    navigate('/portable-charger/charger-booking-time-slot-list')
+    navigate('/pick-and-drop/time-slot-list')
 }
 
 const handleStartTimeChange = (newTime) => {
@@ -95,6 +95,7 @@ const handleBookingLimitChange = (e) => {
 //     return formIsValid;
 // };
 
+
 const validateForm = () => {
     let formIsValid = true;
     const newErrors = {};
@@ -132,27 +133,23 @@ const validateForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validateForm()) {
-        console.log("Start Time:", startTime ? dayjs(startTime).format("hh:mm A") : "Not set");
-        console.log("End Time:", endTime ? dayjs(endTime).format("hh:mm A") : "Not set");
-        console.log("Booking Limit:", bookingLimit);
-
         const obj = {
             userId : "1",
             email : "admin@shunyaekai.com",
             slot_id: slotId,
-            status: "0",
+            status: "1",
             start_time : startTime ? dayjs(startTime).format("hh:mm A") : '',
             end_time : endTime ? dayjs(endTime).format("hh:mm A") : '',
-            booking_limit : bookingLimit
+            booking_limit : bookingLimit.toString()
         }
 
-        postRequestWithToken('charger-edit-time-slot', obj, async(response) => {
-            if (response.code === 200) {
-                toast(response.message, { type: "success" });
-                navigate('/portable-charger/charger-booking-time-slot-list')
+        postRequestWithToken('pick-and-drop-edit-slot', obj, async(response) => {
+            if (response.status === 1) {
+                toast(response.message[0], { type: "success" });
+                navigate('/pick-and-drop/time-slot-list')
             } else {
                 // toast(response.message, {type:'error'})
-                console.log('error in charger-slot-list api', response);
+                console.log('error in charger-edit-time-slot api', response);
             }
         })
     } else {
@@ -228,4 +225,4 @@ const validateForm = () => {
     );
 };
 
-export default EditPortableChargerTimeSlot;
+export default EditPickAndDropTimeSlot;

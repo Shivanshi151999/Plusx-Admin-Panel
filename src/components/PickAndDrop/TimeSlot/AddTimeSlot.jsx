@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styles from './addtimeslot.module.css';
+import styles from './addpickanddroptimeslot.module.css';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -13,7 +13,7 @@ import { useNavigate } from 'react-router-dom';
 
 dayjs.extend(isSameOrAfter);
 
-const AddPortableChargerTimeSlot = () => {
+const AddPickAndDropTimeSlot = () => {
     const navigate = useNavigate()
     const [startTime, setStartTime] = useState(null);
     const [endTime, setEndTime] = useState(null);
@@ -21,7 +21,7 @@ const AddPortableChargerTimeSlot = () => {
     const [errors, setErrors] = useState({});
 
     const handleCancel = () => {
-        navigate('/portable-charger/charger-booking-time-slot-list')
+        navigate('/pick-and-drop/time-slot-list')
     }
 
     const handleStartTimeChange = (newTime) => {
@@ -81,7 +81,7 @@ const AddPortableChargerTimeSlot = () => {
     // };
 
 
-    
+
     const validateForm = () => {
         let formIsValid = true;
         const newErrors = {};
@@ -115,6 +115,7 @@ const AddPortableChargerTimeSlot = () => {
         setErrors(newErrors);
         return formIsValid;
     };
+
     const handleSubmit = (e) => {
         e.preventDefault();
         if (validateForm()) {
@@ -130,10 +131,10 @@ const AddPortableChargerTimeSlot = () => {
                 booking_limit : bookingLimit
             }
     
-            postRequestWithToken('charger-add-time-slot', obj, async(response) => {
+            postRequestWithToken('pick-and-drop-add-slot', obj, async(response) => {
                 if (response.code === 200) {
                     toast(response.message[0], { type: "success" });
-                    navigate('/portable-charger/charger-booking-time-slot-list')
+                    navigate('/pick-and-drop/time-slot-list')
                 } else {
                     // toast(response.message, {type:'error'})
                     console.log('error in charger-slot-list api', response);
@@ -213,4 +214,4 @@ const AddPortableChargerTimeSlot = () => {
     );
 };
 
-export default AddPortableChargerTimeSlot;
+export default AddPickAndDropTimeSlot;

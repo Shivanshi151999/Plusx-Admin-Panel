@@ -34,6 +34,10 @@ const List = ({tableHeaders, listData, keyMapping, pageHeading, onDeleteSlot}) =
     const handleChargerDetails = (id) => {
         navigate(`/edit-charger/${id}`)
     }
+
+    const handlePickDropEditTimeSlot = (id) => {
+        navigate(`/pick-and-drop/edit-time-slot/${id}`)
+    }
     
 
     return (
@@ -107,8 +111,8 @@ const List = ({tableHeaders, listData, keyMapping, pageHeading, onDeleteSlot}) =
                                     )}
                                     {pageHeading === 'Pick & Drop Time Slot List' && (
                                         <>
-                                            <img src={Edit} alt='edit' />
-                                            <img src={Delete} alt='delete' />
+                                            <img src={Edit} alt='edit' onClick={() => handlePickDropEditTimeSlot(data.slot_id)}/>
+                                            <img src={Delete} alt='delete' onClick={() => onDeleteSlot(data.slot_id)}/>
                                         </>
                                     )}
 
