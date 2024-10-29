@@ -331,7 +331,7 @@
                 <li>
                   <input className={styles.checkboxInput} type="checkbox" id="shopList" />
                   <label htmlFor="shopList" className={styles.checkmark}></label>
-                  <NavLink to="/add-shop-list" className={({ isActive }) => (isActive ? styles.active : '')}>
+                  <NavLink to="/ev-specialized/shop-list" className={({ isActive }) => (isActive ? styles.active : '')}>
                     Shop List
                   </NavLink>
 
@@ -339,7 +339,7 @@
                 <li>
                   <input className={styles.checkboxInput} type="checkbox" id="shopServices" />
                   <label htmlFor="shopServices" className={styles.checkmark}></label>
-                  <NavLink to="/sii" className={({ isActive }) => (isActive ? styles.active : '')}>
+                  <NavLink to="/ev-specialized/service-list" className={({ isActive }) => (isActive ? styles.active : '')}>
                     Shop Services
                   </NavLink>
 
@@ -347,7 +347,7 @@
                 <li>
                   <input className={styles.checkboxInput} type="checkbox" id="shopBrands" />
                   <label htmlFor="shopBrands" className={styles.checkmark}></label>
-                  <NavLink to="/sii" className={({ isActive }) => (isActive ? styles.active : '')}>
+                  <NavLink to="/ev-specialized/brand-list" className={({ isActive }) => (isActive ? styles.active : '')}>
                     Shop Brands
                   </NavLink>
 

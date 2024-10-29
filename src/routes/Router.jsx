@@ -28,7 +28,7 @@ import EVBuySell from "../components/EVBuySell/index.jsx"
 import ChargerInstallationDetails from "../components/ChargerInstallationList/ChargerInstallationDetails.jsx";
 
 import AddCharger from "../components/PortableCharger/ChargerList/AddCharger.jsx"
-import AddShopListForm from "../components/EVSpecializedShops/ShopList/AddShopListForm.jsx"
+import AddShopListForm from "../components/EVSpecializedShops/ShopList/ShopList/AddShopListForm.jsx"
 import EditPortableChargerTimeSlot from '../components/PortableCharger/TimeSlotLIst/EditTimeSlot.jsx';
 import EditPortableCharger from '../components/PortableCharger/ChargerList/EditCharger.jsx';
 import AddPickAndDropTimeSlot from '../components/PickAndDrop/TimeSlot/AddTimeSlot.jsx';
@@ -36,6 +36,9 @@ import EditPickAndDropTimeSlot from '../components/PickAndDrop/TimeSlot/EditTime
 import RiderList from '../components/Riders/RiderList.jsx';
 import AddEmergencyTeam from '../components/Riders/AddEmergencyTeam.jsx';
 import EditEmergencyTeam from '../components/Riders/EditEmergencyTeam.jsx';
+import ShopList from '../components/EVSpecializedShops/ShopList/ShopList/ShopList.jsx';
+import ServiceList from '../components/EVSpecializedShops/ShopList/ServiceList/ServiceList.jsx';
+import BrandList from '../components/EVSpecializedShops/ShopList/BrandList/BrandList.jsx';
 
 const router = createBrowserRouter([
   {
@@ -179,6 +182,46 @@ const router = createBrowserRouter([
       {
         path: "/charger-installation-details/:requestId",
         element: <ChargerInstallationDetails />,
+      },
+
+      {
+        path: "/ev-specialized",
+        // element: <ShopList />,
+        children: [ 
+          {
+            path: "shop-list", 
+            element: <ShopList />,
+          },
+          {
+            path: "service-list", 
+            element: <ServiceList />,
+          },
+          {
+            path: "brand-list", 
+            element: <BrandList />,
+          },
+          // {
+          //   path: "booking-details/:requestId", 
+          //   element: <PickAndDropBookingDetails />,
+          // },
+          // {
+          //   path: "invoice-list", 
+          //   element: <PickAndDropInvoiceList />,
+          // },
+          // {
+          //   path: "time-slot-list", 
+          //   element: <PickAndDropTimeSlotList />,
+          // },
+          // {
+          //   path: "add-time-slot", 
+          //   element: <AddPickAndDropTimeSlot />,
+          // },
+
+          // {
+          //   path: "edit-time-slot/:slotId", 
+          //   element: <EditPickAndDropTimeSlot />,
+          // },
+        ],
       },
     ],
   },

@@ -147,6 +147,28 @@ const List = ({tableHeaders, listData, keyMapping, pageHeading, onDeleteSlot}) =
                                             <img src={View} alt="view" onClick={() => handleChargerInstallationDetails(data.request_id)}/>
                                         </>
                                     )}
+
+                                    {pageHeading === 'Shop List' && (
+                                        <>
+                                         <img src={View} alt="view" />
+                                            <img src={Edit} alt='edit' />
+                                            <img src={Delete} alt='delete' />
+                                        </>
+                                    )}
+
+                                    {pageHeading === 'Shop Service List' && (
+                                        <>
+                                            <img src={Edit} alt='edit' />
+                                            <img src={Delete} alt='delete' />
+                                        </>
+                                    )}
+
+                                    {pageHeading === 'Shop Brand List' && (
+                                        <>
+                                            <img src={Edit} alt='edit' />
+                                            <img src={Delete} alt='delete' />
+                                        </>
+                                    )}
                                     
                                 {/* <img src={View} alt="view" />
                                     <img src={Edit} alt='edit' />
