@@ -38,6 +38,12 @@ const List = ({tableHeaders, listData, keyMapping, pageHeading, onDeleteSlot}) =
     const handlePickDropEditTimeSlot = (id) => {
         navigate(`/pick-and-drop/edit-time-slot/${id}`)
     }
+    const handleRsaDetails = (id) => {
+        navigate(`/edit-emergency-team/${id}`)
+    }
+    const viewRsaDetails = (id) => {
+        navigate(`/emergency-team-details/${id}`)
+    }
     
 
     return (
@@ -65,6 +71,14 @@ const List = ({tableHeaders, listData, keyMapping, pageHeading, onDeleteSlot}) =
                             ))}
                             <td>
                                 <div className={styles.editContent}>
+
+                                {pageHeading === 'Emergency Team List' && (
+                                        <>
+                                         <img src={View} alt="view" onClick={() => viewRsaDetails(data.rsa_id)}/>
+                                            <img src={Edit} alt='edit' onClick={() => handleRsaDetails(data.rsa_id)} />
+                                            <img src={Delete} alt='delete' onClick={() => onDeleteSlot(data.rsa_id)}/>
+                                        </>
+                                    )}
 
                                 {pageHeading === 'Charger Booking List' && (
                                         <>

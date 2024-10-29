@@ -68,15 +68,14 @@ const ChargerList = () => {
                 tableHeaders={["ID", "Charger Name", "Charger Price", "Status", "Action"]}
                 listData={chargerList}
                 keyMapping={[
-                    { key: 'charger_id', label: 'ID' }, // assuming your data uses 'id' for ID
-                    { key: 'charger_name', label: 'Charger Name' }, // or 'charger_name'
-                    // { key: 'charger_price', label: 'Charger Price' },
+                    { key: 'charger_id', label: 'ID' }, 
+                    { key: 'charger_name', label: 'Charger Name' }, 
                     { 
                         key: 'charger_price', 
                         label: 'Charger Price', 
                         format: (price) => (price ? `AED ${price}` : '') 
                     },
-                    { key: 'status', label: 'Status', format: (status) => (status === 1 ? "Active" : "Un-active") } // Custom formatting
+                    { key: 'status', label: 'Status', format: (status) => (status === 1 ? "Active" : "Un-active") } 
                 ]}
                 pageHeading="Portable Charger List"
                 onDeleteSlot={handleDeleteSlot}

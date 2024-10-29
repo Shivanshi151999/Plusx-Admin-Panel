@@ -105,8 +105,6 @@ const EditPortableCharger = () => {
     // };
 
 
-
-
     const handleSubmit = (e) => {
         e.preventDefault();
         if (validateForm()) {

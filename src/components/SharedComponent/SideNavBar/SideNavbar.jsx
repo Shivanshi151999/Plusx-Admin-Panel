@@ -80,7 +80,7 @@
             </NavLink>
           </li>
           <li className={styles.menuItem}>
-            <NavLink to="/emergency-team" className={({ isActive }) => (isActive ? styles.active : '')}>
+            <NavLink to="/rider-list" className={({ isActive }) => (isActive ? styles.active : '')}>
             Riders
             </NavLink>
           </li>

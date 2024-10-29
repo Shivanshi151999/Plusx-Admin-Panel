@@ -3,7 +3,7 @@ import styles from './emergency.module.css'
 import Person from '../../../assets/images/Person.svg'
 import Mobile from '../../../assets/images/Mobile.svg'
 import Email from '../../../assets/images/Email.svg'
-const EmergencyCards = () => {
+const EmergencyCards = ({details}) => {
     return (
         <div className={styles.infoCard}>
             <div className="row">
@@ -14,7 +14,7 @@ const EmergencyCards = () => {
                         </div>
                         <div className={styles.infoBlock}>
                             <span className={styles.infoHeading}>Rider Name</span>
-                            <span className={styles.infoText}> Karthik Rao</span>
+                            <span className={styles.infoText}> {details?.rsa_name}</span>
                         </div>
                     </div>
                 </div>
@@ -25,7 +25,7 @@ const EmergencyCards = () => {
                         </div>
                         <div className={styles.infoBlock}>
                             <span className={styles.infoHeading}>Mobile No</span>
-                            <span className={styles.infoText}> +971 558 454 940</span>
+                            <span className={styles.infoText}> {details?.country_code} {details?.mobile}</span>
                         </div>
                     </div>
                 </div>
@@ -36,7 +36,7 @@ const EmergencyCards = () => {
                         </div>
                         <div className={styles.infoBlock}>
                             <span className={styles.infoHeading}>Email</span>
-                            <span className={styles.infoText}>shivanshitripathi8@gmail.com</span>
+                            <span className={styles.infoText}>{details?.email}</span>
                         </div>
                     </div>
                 </div>

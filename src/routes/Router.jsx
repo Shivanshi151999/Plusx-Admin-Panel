@@ -5,7 +5,7 @@ import Dashboard from "../components/Dashboard/index.jsx";
 import PortableCharger from "../components/PortableCharger/index.jsx";
 import AppSignupList from "../components/AppSignUp/AppSignupList.js"
 import AppSignup from "../components/AppSignUp/index.jsx";
-import EmergencyTeam from "../components/EmergencyTeam/index.jsx";
+import EmergencyTeam from "../components/Riders/EmergencyDetails/Details.jsx";
 import Layout from "../components/SharedComponent/Layout.jsx";
 import ChargerList from "../components/PortableCharger/ChargerList/ChargerList.jsx";
 import Login from  "../components/Login/index.jsx"
@@ -31,6 +31,9 @@ import EditPortableChargerTimeSlot from '../components/PortableCharger/TimeSlotL
 import EditPortableCharger from '../components/PortableCharger/ChargerList/EditCharger.jsx';
 import AddPickAndDropTimeSlot from '../components/PickAndDrop/TimeSlot/AddTimeSlot.jsx';
 import EditPickAndDropTimeSlot from '../components/PickAndDrop/TimeSlot/EditTimeSlot.jsx';
+import RiderList from '../components/Riders/RiderList.jsx';
+import AddEmergencyTeam from '../components/Riders/AddEmergencyTeam.jsx';
+import EditEmergencyTeam from '../components/Riders/EditEmergencyTeam.jsx';
 
 const router = createBrowserRouter([
   {
@@ -44,6 +47,30 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <Dashboard />,
+      },
+      {
+        path: "/app-signup-list",
+        element: <AppSignupList />,
+      },
+      {
+        path: "/rider-details/:riderId",
+        element: <AppSignup />,
+      },
+      {
+        path: "/rider-list",
+        element: <RiderList />,
+      },
+      {
+        path: "/emergency-team-details/:rsaId",
+        element: <EmergencyTeam />,
+      },
+      {
+        path: "/add-emergency-team",
+        element: <AddEmergencyTeam />,
+      },
+      {
+        path: "/edit-emergency-team/:rsaId",
+        element: <EditEmergencyTeam />,
       },
 
       {
@@ -98,18 +125,7 @@ const router = createBrowserRouter([
         element: <EditPortableCharger />,
 
       },
-      {
-        path: "/app-signup-list",
-        element: <AppSignupList />,
-      },
-      {
-        path: "/rider-details/:riderId",
-        element: <AppSignup />,
-      },
-      {
-        path: "/emergency-team",
-        element: <EmergencyTeam />,
-      },
+     
 
       {
         path: "/pick-and-drop",
