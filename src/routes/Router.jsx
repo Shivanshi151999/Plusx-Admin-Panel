@@ -39,6 +39,8 @@ import ShopList from '../components/EVSpecializedShops/ShopList/ShopList/ShopLis
 import ServiceList from '../components/EVSpecializedShops/ShopList/ServiceList/ServiceList.jsx';
 import BrandList from '../components/EVSpecializedShops/ShopList/BrandList/BrandList.jsx';
 import ClubList from '../components/EvRiderClub/ClubList.jsx';
+import CarList from '../components/ElectricCarLeasing/CarList.jsx';
+import BikeList from '../components/ElectricBikeLeasing/BikeList.jsx';
 
 const router = createBrowserRouter([
   {
@@ -184,11 +186,25 @@ const router = createBrowserRouter([
         element: <ChargerInstallationDetails />,
       },
 
+      //Electric Car Leasing
+      {
+        path: "/electric-car-list",
+        element: <CarList />,
+      },
+
+      //Electric Bilke Leasing
+      {
+        path: "/electric-bike-list",
+        element: <BikeList />,
+      },
+
       //Ev Rider Club
       {
         path: "/club-list",
         element: <ClubList />,
       },
+
+      //ev-specialized
       {
         path: "/ev-specialized",
         // element: <ShopList />,
@@ -205,27 +221,7 @@ const router = createBrowserRouter([
             path: "brand-list", 
             element: <BrandList />,
           },
-          // {
-          //   path: "booking-details/:requestId", 
-          //   element: <PickAndDropBookingDetails />,
-          // },
-          // {
-          //   path: "invoice-list", 
-          //   element: <PickAndDropInvoiceList />,
-          // },
-          // {
-          //   path: "time-slot-list", 
-          //   element: <PickAndDropTimeSlotList />,
-          // },
-          // {
-          //   path: "add-time-slot", 
-          //   element: <AddPickAndDropTimeSlot />,
-          // },
-
-          // {
-          //   path: "edit-time-slot/:slotId", 
-          //   element: <EditPickAndDropTimeSlot />,
-          // },
+          
         ],
       },
     ],

@@ -228,12 +228,12 @@
             </NavLink>
           </li>
           <li className={styles.menuItem}>
-            <NavLink to="/sii" className={({ isActive }) => (isActive ? styles.active : '')}>
+            <NavLink to="/electric-car-list" className={({ isActive }) => (isActive ? styles.active : '')}>
               Electric Car Leasing
             </NavLink>
           </li>
           <li className={styles.menuItem}>
-            <NavLink to="/sii" className={({ isActive }) => (isActive ? styles.active : '')}>
+            <NavLink to="/electric-bike-list" className={({ isActive }) => (isActive ? styles.active : '')}>
               Electric Bike Leasing
             </NavLink>
           </li>

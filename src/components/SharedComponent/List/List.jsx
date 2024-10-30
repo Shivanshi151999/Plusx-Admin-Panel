@@ -180,6 +180,22 @@ const List = ({tableHeaders, listData, keyMapping, pageHeading, onDeleteSlot}) =
                                             <img src={Delete} alt='delete' />
                                         </>
                                     )}
+
+                                    {pageHeading === 'Electric Cars Leasing List' && (
+                                        <>
+                                         <img src={View} alt="view"/>
+                                            <img src={Edit} alt='edit' />
+                                            <img src={Delete} alt='delete' />
+                                        </>
+                                    )}
+
+                                    {pageHeading === 'Electric Bikes Leasing List' && (
+                                        <>
+                                         <img src={View} alt="view"/>
+                                            <img src={Edit} alt='edit' />
+                                            <img src={Delete} alt='delete' />
+                                        </>
+                                    )}
                                     
                                 {/* <img src={View} alt="view" />
                                     <img src={Edit} alt='edit' />
