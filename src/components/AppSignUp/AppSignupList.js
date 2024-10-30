@@ -91,7 +91,17 @@ const SignupList = () => {
                 listData={signupList}
                 keyMapping={[
                     { key: 'rider_id', label: 'Customer ID' },
-                    { key: 'rider_name', label: 'Customer Name' },
+                    { 
+                        key: 'rider_name', 
+                        label: 'Customer Name',
+                        relatedKeys: ['country_code', 'rider_mobile'], 
+                        format: (data, key, relatedKeys) => (
+                            <>
+                                {data[key]}<br />
+                                {relatedKeys.map((relatedKey) => data[relatedKey]).join(" ")}
+                            </>
+                        )
+                    }, 
                     { key: 'rider_email', label: 'Email' },
                     { key: 'emirates', label: 'Emirate' },
                     { 

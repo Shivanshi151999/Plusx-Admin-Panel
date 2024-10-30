@@ -42,7 +42,7 @@ const EmergencyList = ({details}) => {
                             <td>
                                 <div className={styles.editContent}>
                                    <img src={Eye} alt="Eye" />
-                                    <img src={Delete} alt='delete' />
+                                    {/* <img src={Delete} alt='delete' /> */}
 
                                 </div>
                             </td>

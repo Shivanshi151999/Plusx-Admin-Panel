@@ -39,6 +39,7 @@ import EditEmergencyTeam from '../components/Riders/EditEmergencyTeam.jsx';
 import ShopList from '../components/EVSpecializedShops/ShopList/ShopList/ShopList.jsx';
 import ServiceList from '../components/EVSpecializedShops/ShopList/ServiceList/ServiceList.jsx';
 import BrandList from '../components/EVSpecializedShops/ShopList/BrandList/BrandList.jsx';
+import ClubList from '../components/EvRiderClub/ClubList.jsx';
 
 const router = createBrowserRouter([
   {
@@ -183,6 +184,13 @@ const router = createBrowserRouter([
         path: "/charger-installation-details/:requestId",
         element: <ChargerInstallationDetails />,
       },
+
+      //Ev Rider Club
+      {
+        path: "/club-list",
+        element: <ClubList />,
+      },
+
 
       {
         path: "/ev-specialized",

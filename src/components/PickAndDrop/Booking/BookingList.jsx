@@ -71,7 +71,17 @@ const BookingList = () => {
           listData = {chargerBookingList}
           keyMapping={[
             { key: 'request_id', label: 'ID' }, 
-            { key: 'name', label: 'Name' }, 
+            { 
+                key: 'name', 
+                label: 'Name',
+                relatedKeys: ['country_code', 'contact_no'], 
+                format: (data, key, relatedKeys) => (
+                    <>
+                        {data[key]}<br />
+                        {relatedKeys.map((relatedKey) => data[relatedKey]).join(" ")}
+                    </>
+                )
+            }, 
             { 
                 key: 'price', 
                 label: 'Price', 

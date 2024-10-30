@@ -277,7 +277,7 @@
             </NavLink>
           </li>
           <li className={styles.menuItem}>
-            <NavLink to="/sii" className={({ isActive }) => (isActive ? styles.active : '')}>
+            <NavLink to="/club-list" className={({ isActive }) => (isActive ? styles.active : '')}>
               EV Rider Clubs
             </NavLink>
           </li>

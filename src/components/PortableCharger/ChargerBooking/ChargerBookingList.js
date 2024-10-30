@@ -75,8 +75,18 @@ const ChargerBookingList = () => {
         tableHeaders={["ID", "Name", "Service Name", "Price", "Date & Time", "Status", "Driver Assign", "Action"]}
           listData = {chargerBookingList}
           keyMapping={[
-            { key: 'booking_id', label: 'ID' }, 
-            { key: 'user_name', label: 'Charger Name' }, 
+            { key: 'booking_id', label: 'ID' },  
+            { 
+                key: 'user_name', 
+                label: 'Name',
+                relatedKeys: ['country_code', 'contact_no'], 
+                format: (data, key, relatedKeys) => (
+                    <>
+                        {data[key]}<br />
+                        {relatedKeys.map((relatedKey) => data[relatedKey]).join(" ")}
+                    </>
+                )
+            }, 
             { key: 'service_name', label: 'Service Name' },
             { 
                 key: 'service_price', 

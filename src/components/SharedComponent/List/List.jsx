@@ -66,10 +66,12 @@ const List = ({tableHeaders, listData, keyMapping, pageHeading, onDeleteSlot}) =
                         <tr key={index}>
                            {keyMapping.map((keyObj, keyIndex) => (
                                 <td key={keyIndex}>
-                                    {keyObj.format 
-                                        ? keyObj.format(data[keyObj.key]) 
-                                        : data[keyObj.key]
-                                    }
+                                {keyObj.format 
+                                    ? keyObj.relatedKeys 
+                                        ? keyObj.format(data, keyObj.key, keyObj.relatedKeys) 
+                                        : keyObj.format(data[keyObj.key]) 
+                                    : data[keyObj.key]
+                                }
                                 </td>
                             ))}
                             <td>
@@ -165,6 +167,15 @@ const List = ({tableHeaders, listData, keyMapping, pageHeading, onDeleteSlot}) =
 
                                     {pageHeading === 'Shop Brand List' && (
                                         <>
+                                            <img src={Edit} alt='edit' />
+                                            <img src={Delete} alt='delete' />
+                                        </>
+                                    )}
+
+
+                                     {pageHeading === 'Club List' && (
+                                        <>
+                                         <img src={View} alt="view" />
                                             <img src={Edit} alt='edit' />
                                             <img src={Delete} alt='delete' />
                                         </>
