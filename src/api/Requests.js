@@ -68,7 +68,7 @@ export const postRequestWithToken = async (URL, requestData, callback) => {
             method  : "POST",
             url     : URL,    
             data    : requestData,
-            // withCredentials : true,
+            withCredentials: true,
             headers : {
                 // "access_token" : sessionStorage.getItem('token') || localStorage.getItem('token'),
                 access_token : "lQIjtDlvQp5Herw08dmSV0XdHDcuRLqBHcm56Vb5cgbycZ4hWMm46oe4i8tlGihQ",
@@ -95,6 +95,7 @@ export const postRequestWithTokenAndFile = async (URL, requestData, callback) =>
             method  : "POST",
             url     : URL,
             data    : requestData,
+            withCredentials: true,
             headers : {
                 access_token : "lQIjtDlvQp5Herw08dmSV0XdHDcuRLqBHcm56Vb5cgbycZ4hWMm46oe4i8tlGihQ",
                 // "access_token" : sessionStorage.getItem('token') || localStorage.getItem('token'),

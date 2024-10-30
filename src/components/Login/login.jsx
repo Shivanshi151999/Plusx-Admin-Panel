@@ -3,61 +3,10 @@ import styles from './login.module.css';
 import PanelLogo from '../SharedComponent/CompanyLogo';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { postRequest } from '../../api/Requests';
-
-// const Login = () => {
-//     const [passwordVisible, setPasswordVisible] = useState(false);
-//     const [password, setPassword] = useState("");
-
-//     const togglePasswordVisibility = () => {
-//         if (password.length > 0) {
-//             setPasswordVisible(!passwordVisible);
-//         }
-//     };
-
-//     return (
-//         <div className="container">
-//             <div className={styles.formMainContainer}>
-//                 <div className={styles.formSection}>
-//                     <div className={styles.formImgSection}>
-//                         <PanelLogo />
-//                     </div>
-//                     <form className={styles.formContainer}>
-//                         <div className={styles.formFiled}>
-//                             <label className={styles.formLabel}>Username</label>
-//                             <input className={styles.formInput} type="text" />
-//                         </div>
-//                         <div className={styles.formFiled}>
-//                             <label className={styles.formLabel}>Password</label>
-//                             <div className={styles.passwordContainer}>
-//                                 <input
-//                                     className={styles.formInput}
-//                                     type={passwordVisible ? "text" : "password"}
-//                                     value={password}
-//                                     onChange={(e) => setPassword(e.target.value)}
-//                                 />
-//                                 <div
-//                                     className={styles.eyeIcon}
-//                                     onClick={togglePasswordVisibility}
-//                                     style={{ color: passwordVisible ? '#00ffc3' : '#fff' }}
-//                                 >
-//                                     {passwordVisible ? <FaEye /> : <FaEyeSlash />}
-//                                 </div>
-//                             </div>
-//                         </div>
-//                         <div className={styles.formPassword}>
-//                             Forgot Password?
-//                         </div>
-//                         <div className={styles.formButtonSection}>
-//                             <div className={styles.formButton}>Login</div>
-//                         </div>
-//                     </form>
-//                 </div>
-//             </div>
-//         </div>
-//     );
-// };
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
+    const navigate = useNavigate()
     const [passwordVisible, setPasswordVisible] = useState(false);
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -94,10 +43,20 @@ const Login = () => {
     
             postRequest('login', obj, async(response) => {
                 if (response.code === 200) {
-                    // setTimeSlotList(response?.data)
+                    const userDetails = {
+                        user_id: response.userDetails.id,
+                        name: response.userDetails.name,
+                        email: response.userDetails.email,
+                        phone: response.userDetails.phone,
+                        image: response.userDetails.image,
+                        access_token: response.Token 
+                    };
+            
+                    sessionStorage.setItem('userDetails', JSON.stringify(userDetails));
+                    navigate('/')
                 } else {
                     // toast(response.message, {type:'error'})
-                    console.log('error in charger-booking-list api', response);
+                    console.log('error in login api', response);
                 }
             })
         }
@@ -120,7 +79,7 @@ const Login = () => {
                                 value={username}
                                 onChange={(e) => setUsername(e.target.value)}
                             />
-                            {errors.username && <span className={styles.error}>{errors.username}</span>}
+                            {errors.username && <span className={styles.error} style={{color:'red'}}>{errors.username}</span>}
                         </div>
                         <div className={styles.formFiled}>
                             <label className={styles.formLabel}>Password</label>
@@ -139,7 +98,7 @@ const Login = () => {
                                     {passwordVisible ? <FaEye /> : <FaEyeSlash />}
                                 </div>
                             </div>
-                            {errors.password && <span className={styles.error}>{errors.password}</span>}
+                            {errors.password && <span className={styles.error} style={{color:'red'}}>{errors.password}</span>}
                         </div>
                         <div className={styles.formPassword}>
                             Forgot Password?
