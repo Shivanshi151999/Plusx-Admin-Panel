@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './addpickanddroptimeslot.module.css';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -14,6 +14,7 @@ import { useNavigate } from 'react-router-dom';
 dayjs.extend(isSameOrAfter);
 
 const AddPickAndDropTimeSlot = () => {
+    const userDetails = JSON.parse(sessionStorage.getItem('userDetails')); 
     const navigate = useNavigate()
     const [startTime, setStartTime] = useState(null);
     const [endTime, setEndTime] = useState(null);
@@ -37,7 +38,6 @@ const AddPickAndDropTimeSlot = () => {
     const handleBookingLimitChange = (e) => {
         const value = e.target.value;
 
-        // Only allow digits and restrict length to 4
         if (/^\d{0,4}$/.test(value)) {
             setBookingLimit(value);
             setErrors((prev) => ({ ...prev, bookingLimit: "" })); 
@@ -50,36 +50,6 @@ const AddPickAndDropTimeSlot = () => {
             e.preventDefault();
         }
     };
-
-    // const validateForm = () => {
-    //     let formIsValid = true;
-    //     const newErrors = {};
-
-    //     if (!startTime) {
-    //         newErrors.startTime = "Start time is required";
-    //         formIsValid = false;
-    //     }
-
-    //     if (!endTime) {
-    //         newErrors.endTime = "End time is required";
-    //         formIsValid = false;
-    //     } else if (startTime && endTime && !dayjs(endTime).isAfter(startTime)) {
-    //         newErrors.endTime = "End time must be after start time";
-    //         formIsValid = false;
-    //     }
-
-    //     if (!bookingLimit) {
-    //         newErrors.bookingLimit = "Booking limit is required";
-    //         formIsValid = false;
-    //     } else if (isNaN(bookingLimit) || bookingLimit <= 0) {
-    //         newErrors.bookingLimit = "Booking limit must be a positive number";
-    //         formIsValid = false;
-    //     }
-
-    //     setErrors(newErrors);
-    //     return formIsValid;
-    // };
-
 
 
     const validateForm = () => {
@@ -124,8 +94,8 @@ const AddPickAndDropTimeSlot = () => {
             console.log("Booking Limit:", bookingLimit);
 
             const obj = {
-                userId : "1",
-                email : "admin@shunyaekai.com",
+                userId : userDetails?.user_id,
+                email : userDetails?.email,
                 start_time : startTime ? dayjs(startTime).format("hh:mm A") : '',
                 end_time : endTime ? dayjs(endTime).format("hh:mm A") : '',
                 booking_limit : bookingLimit
@@ -144,6 +114,13 @@ const AddPickAndDropTimeSlot = () => {
             console.log('error');
         }
     };
+
+    useEffect(() => {
+        if (!userDetails || !userDetails.access_token) {
+            navigate('/login'); 
+            return; 
+        }
+    }, []);
 
     return (
         <div className={styles.containerCharger}>

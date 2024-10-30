@@ -4,6 +4,7 @@ import SubHeader from '../SharedComponent/SubHeader/SubHeader'
 import Pagination from '../SharedComponent/Pagination/Pagination'
 import { postRequestWithToken } from '../../api/Requests';
 import { toast, ToastContainer } from "react-toastify";
+import { useNavigate } from 'react-router-dom';
 
 const dynamicFilters = [
     { label: 'RSA ID', name: 'rsa_id', type: 'text' },
@@ -13,6 +14,8 @@ const dynamicFilters = [
 ]
 
 const RiderList = () => {
+    const userDetails = JSON.parse(sessionStorage.getItem('userDetails')); 
+    const navigate = useNavigate()
     const [rsaList, setRsaList] = useState([])
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
@@ -26,8 +29,8 @@ const RiderList = () => {
 
     const fetchList = (page, appliedFilters = {}) => {
         const obj = {
-            userId : "1",
-            email : "admin@shunyaekai.com",
+            userId : userDetails?.user_id,
+            email : userDetails?.email,
             page_no : page,
             ...appliedFilters,
         }
@@ -44,6 +47,10 @@ const RiderList = () => {
     }
 
     useEffect(() => {
+        if (!userDetails || !userDetails.access_token) {
+            navigate('/login'); 
+            return; 
+        }
         fetchList(currentPage, filters);
     }, [currentPage, filters, refresh]);
 
@@ -59,8 +66,8 @@ const RiderList = () => {
         const confirmDelete = window.confirm("Are you sure you want to delete this?");
         if (confirmDelete) {
             const obj = { 
-                userId : "1",
-                email : "admin@shunyaekai.com",
+                userId : userDetails?.user_id,
+                email : userDetails?.email,
                 rsa_id: rsaId 
             };
             postRequestWithToken('rsa-delete', obj, async (response) => {

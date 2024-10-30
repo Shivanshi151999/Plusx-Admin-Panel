@@ -5,6 +5,8 @@ import Pagination from '../../SharedComponent/Pagination/Pagination'
 import { getRequestWithToken, postRequestWithToken } from '../../../api/Requests';
 import moment from 'moment';
 import { AiOutlinePlus } from 'react-icons/ai';  
+import { toast, ToastContainer } from "react-toastify";
+import { useNavigate } from 'react-router-dom';
 
 const statusMapping = {
     'CNF': 'Booking Confirmed',
@@ -22,9 +24,9 @@ const dynamicFilters = [
     { label: 'Mobile', name: 'contact_no', type: 'text' },
 ]
 
-
-
 const ChargerBookingList = () => {
+    const userDetails = JSON.parse(sessionStorage.getItem('userDetails')); 
+    const navigate = useNavigate()
     const [chargerBookingList, setChargerBookingList] = useState([])
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
@@ -33,8 +35,8 @@ const ChargerBookingList = () => {
     
         const fetchList = (page, appliedFilters = {}) => {
             const obj = {
-                userId : "1",
-                email : "admin@shunyaekai.com",
+                userId : userDetails?.user_id,
+                email : userDetails?.email,
                 page_no : page,
                 ...appliedFilters,
             }
@@ -52,7 +54,11 @@ const ChargerBookingList = () => {
         
 
     useEffect(() => {
-        fetchList(currentPage, filters);
+        if (!userDetails || !userDetails.access_token) {
+            navigate('/login'); 
+            return; 
+        }
+     fetchList(currentPage, filters);
     }, [currentPage, filters]);
 
     const handlePageChange = (pageNumber) => {

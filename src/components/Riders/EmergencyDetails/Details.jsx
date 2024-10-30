@@ -5,17 +5,18 @@ import EmergencyDetails from './EmergencyDetails'
 import EmergencyList from './EmergencyList'
 import { postRequestWithToken } from '../../../api/Requests';
 import { useParams } from 'react-router-dom';
-import moment from 'moment';
+import { useNavigate } from 'react-router-dom';
 
 const Details = () => {
+  const userDetails = JSON.parse(sessionStorage.getItem('userDetails')); 
+    const navigate = useNavigate()
     const {rsaId} = useParams()
     const [details, setDetails] = useState()
     
     const fetchDetails = () => {
       const obj = {
-          userId: "1",
-          email: "admin@shunyaekai.com",
-          // booking_id : "PCB0107"
+          userId : userDetails?.user_id,
+          email : userDetails?.email,
           rsa_id : rsaId
       };
   
@@ -29,6 +30,10 @@ const Details = () => {
   };
   
     useEffect(() => {
+      if (!userDetails || !userDetails.access_token) {
+        navigate('/login'); 
+        return; 
+    }
       fetchDetails();
     }, []);
 

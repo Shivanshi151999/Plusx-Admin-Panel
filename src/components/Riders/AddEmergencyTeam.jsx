@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './addemergency.module.css';
 import { AiOutlineClose, AiOutlineDown, AiOutlineUp } from 'react-icons/ai'; 
 import UploadIcon from '../../assets/images/uploadicon.svg'; 
@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 
 const AddEmergencyTeam = () => {
+    const userDetails = JSON.parse(sessionStorage.getItem('userDetails')); 
     const navigate = useNavigate();
     const [file, setFile] = useState();
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -84,8 +85,8 @@ const AddEmergencyTeam = () => {
         if (validateForm()) {
 
             const formData = new FormData();
-            formData.append("userId", "1");
-            formData.append("email", "admin@shunyaekai.com");
+            formData.append("userId", userDetails?.user_id);
+            formData.append("email", userDetails?.email);
             formData.append("rsa_email", email);
             formData.append("rsa_name", rsaName);
             formData.append("mobile", mobileNo);
@@ -110,6 +111,13 @@ const AddEmergencyTeam = () => {
             console.log("Form validation failed.");
         }
     };
+
+    useEffect(() => {
+        if (!userDetails || !userDetails.access_token) {
+            navigate('/login'); 
+            return; 
+        }
+    }, []);
 
     return (
         <div className={styles.container}>

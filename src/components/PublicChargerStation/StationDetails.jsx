@@ -5,6 +5,8 @@ import BookingDetailsSection from '../SharedComponent/Details/BookingDetails/Boo
 import { postRequestWithToken } from '../../api/Requests';
 import { useParams } from 'react-router-dom';
 import moment from 'moment';
+import { toast, ToastContainer } from "react-toastify";
+import { useNavigate } from 'react-router-dom';
 
 const statusMapping = {
     'CNF': 'Booking Confirmed',
@@ -61,14 +63,16 @@ const getFormattedOpeningHours = (details) => {
 };
   
 const StationDetails = () => {
+  const userDetails = JSON.parse(sessionStorage.getItem('userDetails')); 
+  const navigate = useNavigate()
   const {stationId} = useParams()
   const [bookingDetails, setBookingDetails] = useState()
   
 
   const fetchDetails = () => {
     const obj = {
-        userId: "1",
-        email: "admin@shunyaekai.com",
+        userId : userDetails?.user_id,
+        email : userDetails?.email,
         station_id : stationId
     };
 
@@ -82,6 +86,10 @@ const StationDetails = () => {
 };
 
   useEffect(() => {
+    if (!userDetails || !userDetails.access_token) {
+      navigate('/login'); 
+      return; 
+  }
     fetchDetails();
   }, []);
 

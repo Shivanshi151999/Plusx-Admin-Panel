@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const EditEmergencyTeam = () => {
+    const userDetails = JSON.parse(sessionStorage.getItem('userDetails')); 
     const navigate = useNavigate();
     const {rsaId} = useParams()
     const [file, setFile] = useState();
@@ -86,8 +87,8 @@ const EditEmergencyTeam = () => {
         if (validateForm()) {
 
             const formData = new FormData();
-            formData.append("userId", "1");
-            formData.append("email", "admin@shunyaekai.com");
+            formData.append("userId", userDetails?.user_id);
+            formData.append("email", userDetails?.email);
             formData.append("rsa_id", rsaId);
             formData.append("rsa_email", email);
             formData.append("rsa_name", rsaName);
@@ -115,8 +116,8 @@ const EditEmergencyTeam = () => {
 
     const fetchDetails = () => {
         const obj = {
-            userId: "1",
-            email: "admin@shunyaekai.com",
+            userId : userDetails?.user_id,
+            email : userDetails?.email,
             rsa_id : rsaId
         };
     
@@ -139,6 +140,10 @@ const EditEmergencyTeam = () => {
     };
     
       useEffect(() => {
+        if (!userDetails || !userDetails.access_token) {
+            navigate('/login'); 
+            return; 
+        }
         fetchDetails();
       }, []);
 

@@ -8,6 +8,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 
 const EditPortableCharger = () => {
+    const userDetails = JSON.parse(sessionStorage.getItem('userDetails')); 
     const navigate = useNavigate()
     const {chargerId} = useParams()
     const [details, setDetails] = useState()
@@ -71,47 +72,13 @@ const EditPortableCharger = () => {
         return formIsValid;
     };
 
-    // const handleSubmit = (e) => {
-    //     e.preventDefault();
-    //     if (validateForm()) {
-
-    //         const formData = new FormData();
-    //         formData.append("userId", "1");
-    //         formData.append("email", "admin@shunyaekai.com");
-    //         formData.append("charger_id", chargerId);
-    //         formData.append("charger_name", chargerName);
-    //         formData.append("charger_price", chargerPrice);
-    //         formData.append("charger_feature", chargerFeature);
-    //         formData.append("charger_type", chargerType);
-    //         formData.append("status", "1");
-            
-    //         if (file) {
-    //             formData.append("charger_image", file);
-    //         }
-    
-    //         postRequestWithTokenAndFile('edit-charger', formData, async(response) => {
-    //             if (response.code === 200) {
-    //                 toast(response.message[0], { type: "success" });
-    //                 navigate('/portable-charger/charger-list')
-    //             } else {
-    //                 // toast(response.message, {type:'error'})
-    //                 console.log('error in edit-charger api', response);
-    //             }
-    //         })
-            
-    //     } else {
-    //         console.log("Form validation failed.");
-    //     }
-    // };
-
-
     const handleSubmit = (e) => {
         e.preventDefault();
         if (validateForm()) {
     
             const formData = new FormData();
-            formData.append("userId", "1");
-            formData.append("email", "admin@shunyaekai.com");
+            formData.append("userId", userDetails?.user_id);
+            formData.append("email", userDetails?.email);
             formData.append("charger_id", chargerId);
             formData.append("charger_name", chargerName);
             formData.append("charger_price", chargerPrice);
@@ -139,8 +106,8 @@ const EditPortableCharger = () => {
     
     const fetchDetails = () => {
         const obj = {
-            userId: "1",
-            email: "admin@shunyaekai.com",
+            userId : userDetails?.user_id,
+            email : userDetails?.email,
             charger_id : chargerId
         };
     
@@ -163,6 +130,10 @@ const EditPortableCharger = () => {
     };
     
       useEffect(() => {
+        if (!userDetails || !userDetails.access_token) {
+            navigate('/login'); 
+            return; 
+        }
         fetchDetails();
       }, []);
 

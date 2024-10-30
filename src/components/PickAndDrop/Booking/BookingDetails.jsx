@@ -5,6 +5,7 @@ import BookingDetailsSection from '../../SharedComponent/Details/BookingDetails/
 import { postRequestWithToken } from '../../../api/Requests';
 import { useParams } from 'react-router-dom';
 import moment from 'moment';
+import { useNavigate } from 'react-router-dom';
 
 const statusMapping = {
     'CNF': 'Booking Confirmed',
@@ -18,16 +19,17 @@ const statusMapping = {
   };
   
 const PickAndDropBookingDetails = () => {
+  const userDetails = JSON.parse(sessionStorage.getItem('userDetails')); 
+  const navigate = useNavigate()
   const {requestId} = useParams()
   const [bookingDetails, setBookingDetails] = useState()
   
 
   const fetchDetails = () => {
     const obj = {
-        userId: "1",
-        email: "admin@shunyaekai.com",
-        // booking_id : "PCB0107"
-        request_id : requestId
+      userId : userDetails?.user_id,
+      email : userDetails?.email,
+      request_id : requestId
     };
 
     postRequestWithToken('pick-and-drop-booking-details', obj, (response) => {
@@ -40,6 +42,10 @@ const PickAndDropBookingDetails = () => {
 };
 
   useEffect(() => {
+    if (!userDetails || !userDetails.access_token) {
+      navigate('/login'); 
+      return; 
+  }
     fetchDetails();
   }, []);
 

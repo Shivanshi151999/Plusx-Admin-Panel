@@ -14,7 +14,7 @@ import { useNavigate,useParams } from 'react-router-dom';
 dayjs.extend(isSameOrAfter);
 
 const EditPortableChargerTimeSlot = () => {
-
+    const userDetails = JSON.parse(sessionStorage.getItem('userDetails')); 
     const {slotId} = useParams()
     const navigate = useNavigate()
     const [startTime, setStartTime] = useState(null);
@@ -25,8 +25,8 @@ const EditPortableChargerTimeSlot = () => {
   
   const fetchDetails = () => {
     const obj = {
-        userId: "1",
-        email: "admin@shunyaekai.com",
+        userId : userDetails?.user_id,
+        email : userDetails?.email,
         slot_id : slotId
     };
 
@@ -44,6 +44,10 @@ const EditPortableChargerTimeSlot = () => {
 };
 
   useEffect(() => {
+    if (!userDetails || !userDetails.access_token) {
+        navigate('/login'); 
+        return; 
+    }
     fetchDetails();
   }, []);
 
@@ -65,35 +69,6 @@ const handleBookingLimitChange = (e) => {
     setBookingLimit(e.target.value);
     setErrors((prev) => ({ ...prev, bookingLimit: "" })); 
 };
-
-//   const validateForm = () => {
-//     let formIsValid = true;
-//     const newErrors = {};
-
-//     if (!startTime) {
-//         newErrors.startTime = "Start time is required";
-//         formIsValid = false;
-//     }
-
-//     if (!endTime) {
-//         newErrors.endTime = "End time is required";
-//         formIsValid = false;
-//     } else if (startTime && endTime && !dayjs(endTime).isAfter(startTime)) {
-//         newErrors.endTime = "End time must be after start time";
-//         formIsValid = false;
-//     }
-
-//     if (!bookingLimit) {
-//         newErrors.bookingLimit = "Booking limit is required";
-//         formIsValid = false;
-//     } else if (isNaN(bookingLimit) || bookingLimit <= 0) {
-//         newErrors.bookingLimit = "Booking limit must be a positive number";
-//         formIsValid = false;
-//     }
-
-//     setErrors(newErrors);
-//     return formIsValid;
-// };
 
 const validateForm = () => {
     let formIsValid = true;
@@ -137,8 +112,8 @@ const validateForm = () => {
         console.log("Booking Limit:", bookingLimit);
 
         const obj = {
-            userId : "1",
-            email : "admin@shunyaekai.com",
+            userId : userDetails?.user_id,
+            email : userDetails?.email,
             slot_id: slotId,
             status: "0",
             start_time : startTime ? dayjs(startTime).format("hh:mm A") : '',

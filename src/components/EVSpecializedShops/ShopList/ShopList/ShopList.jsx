@@ -3,18 +3,9 @@ import List from '../../../SharedComponent/List/List'
 import SubHeader from '../../../SharedComponent/SubHeader/SubHeader'
 import Pagination from '../../../SharedComponent/Pagination/Pagination'
 import { postRequestWithToken } from '../../../../api/Requests';
-import moment from 'moment';
+import { toast, ToastContainer } from "react-toastify";
+import { useNavigate } from 'react-router-dom';
 
-const statusMapping = {
-    'CNF': 'Booking Confirmed',
-    'A': 'Assigned',
-    'RL': 'POD Reached at Location',
-    'CS': 'Charging Started',
-    'CC': 'Charging Completed',
-    'PU': 'POD Picked Up',
-    'WC': 'Work Completed',
-    'C': 'Cancel'
-};
 
 const dynamicFilters = [
     { label: 'Shop Name', name: 'search', type: 'text' },
@@ -26,6 +17,8 @@ const addButtonProps = {
 };
 
 const ShopList = () => {
+    const userDetails = JSON.parse(sessionStorage.getItem('userDetails')); 
+    const navigate = useNavigate()
     const [shopList, setShopList] = useState([])
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
@@ -33,8 +26,8 @@ const ShopList = () => {
 
     const fetchList = (page, appliedFilters = {}) => {
         const obj = {
-            userId : "1",
-            email : "admin@shunyaekai.com",
+            userId : userDetails?.user_id,
+            email : userDetails?.email,
             page_no : page,
             ...appliedFilters,
         }
@@ -51,6 +44,10 @@ const ShopList = () => {
     }
 
     useEffect(() => {
+        if (!userDetails || !userDetails.access_token) {
+            navigate('/login'); 
+            return; 
+        }
         fetchList(currentPage, filters);
     }, [currentPage, filters]);
 

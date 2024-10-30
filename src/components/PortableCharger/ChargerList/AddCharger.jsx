@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './addcharger.module.css';
 import { AiOutlineClose, AiOutlineDown, AiOutlineUp } from 'react-icons/ai'; 
 import UploadIcon from '../../../assets/images/uploadicon.svg'; 
@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 const AddPortableCharger = () => {
+    const userDetails = JSON.parse(sessionStorage.getItem('userDetails')); 
     const navigate = useNavigate()
     const [file, setFile] = useState();
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -99,6 +100,13 @@ const AddPortableCharger = () => {
             console.log("Form validation failed.");
         }
     };
+
+    useEffect(() => {
+        if (!userDetails || !userDetails.access_token) {
+            navigate('/login'); 
+            return; 
+        }
+    }, []);
 
     return (
         <div className={styles.containerCharger}>

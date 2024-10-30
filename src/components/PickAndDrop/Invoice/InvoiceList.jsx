@@ -4,16 +4,20 @@ import SubHeader from '../../SharedComponent/SubHeader/SubHeader'
 import Pagination from '../../SharedComponent/Pagination/Pagination'
 import { getRequestWithToken, postRequestWithToken } from '../../../api/Requests';
 import moment from 'moment';
+import { toast, ToastContainer } from "react-toastify";
+import { useNavigate } from 'react-router-dom';
 
 const InvoiceList = () => {
+    const userDetails = JSON.parse(sessionStorage.getItem('userDetails')); 
+    const navigate = useNavigate()
     const [invoiceList, setInvoiceList] = useState([])
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
 
     const fetchList = (page) => {
         const obj = {
-            userId : "1",
-            email : "admin@shunyaekai.com",
+            userId : userDetails?.user_id,
+            email : userDetails?.email,
             page_no : page
         }
 
@@ -29,6 +33,10 @@ const InvoiceList = () => {
     }
 
     useEffect(() => {
+        if (!userDetails || !userDetails.access_token) {
+            navigate('/login'); 
+            return; 
+        }
         fetchList(currentPage);
     }, [currentPage]);
 

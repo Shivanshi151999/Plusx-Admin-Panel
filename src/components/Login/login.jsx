@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './login.module.css';
 import PanelLogo from '../SharedComponent/CompanyLogo';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
@@ -61,6 +61,16 @@ const Login = () => {
             })
         }
     };
+
+    useEffect(() => {
+        const userDetails = sessionStorage.getItem('userDetails');
+        if (userDetails) {
+            const { access_token } = JSON.parse(userDetails);
+            if (access_token) {
+                navigate(-1);
+            }
+        }
+    }, [navigate]);
 
     return (
         <div className="container">

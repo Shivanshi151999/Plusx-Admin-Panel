@@ -3,11 +3,13 @@ import List from '../../SharedComponent/List/List'
 import SubHeader from '../../SharedComponent/SubHeader/SubHeader'
 import Pagination from '../../SharedComponent/Pagination/Pagination'
 import { getRequestWithToken, postRequestWithToken } from '../../../api/Requests';
-import moment from 'moment';
 import { toast, ToastContainer } from "react-toastify";
+import { useNavigate } from 'react-router-dom';
 
 
 const TimeSlotList = () => {
+    const userDetails = JSON.parse(sessionStorage.getItem('userDetails')); 
+    const navigate = useNavigate()
     const [timeSlotList, setTimeSlotList] = useState([])
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
@@ -20,8 +22,8 @@ const TimeSlotList = () => {
 
     const fetchList = (page) => {
         const obj = {
-            userId : "1",
-            email : "admin@shunyaekai.com",
+            userId : userDetails?.user_id,
+            email : userDetails?.email,
             page_no : page
         }
 
@@ -37,6 +39,10 @@ const TimeSlotList = () => {
     }
 
     useEffect(() => {
+        if (!userDetails || !userDetails.access_token) {
+            navigate('/login'); 
+            return; 
+        }
         fetchList(currentPage);
     }, [currentPage, refresh]);
 
@@ -48,8 +54,8 @@ const TimeSlotList = () => {
         const confirmDelete = window.confirm("Are you sure you want to delete this slot?");
         if (confirmDelete) {
             const obj = { 
-                userId : "1",
-                email : "admin@shunyaekai.com",
+                userId : userDetails?.user_id,
+                email : userDetails?.email,
                 slot_id: slotId 
             };
             postRequestWithToken('pick-and-drop-delete-slot', obj, async (response) => {

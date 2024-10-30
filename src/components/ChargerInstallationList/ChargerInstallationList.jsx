@@ -4,6 +4,7 @@ import SubHeader from '../SharedComponent/SubHeader/SubHeader'
 import Pagination from '../SharedComponent/Pagination/Pagination'
 import { getRequestWithToken, postRequestWithToken } from '../../api/Requests';
 import moment from 'moment';
+import { useNavigate } from 'react-router-dom';
 
 const statusMapping = {
     'P': 'Placed',
@@ -17,14 +18,16 @@ const statusMapping = {
 };
 
 const ChargerInstallationList = () => {
+    const userDetails = JSON.parse(sessionStorage.getItem('userDetails')); 
+    const navigate = useNavigate()
     const [chargerInstallationList, setChargerInstallationList] = useState([])
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
 
     const fetchList = (page) => {
         const obj = {
-            userId : "1",
-            email : "admin@shunyaekai.com",
+            userId : userDetails?.user_id,
+            email : userDetails?.email,
             page_no : page
         }
 
@@ -40,6 +43,10 @@ const ChargerInstallationList = () => {
     }
 
     useEffect(() => {
+        if (!userDetails || !userDetails.access_token) {
+            navigate('/login'); 
+            return; 
+        }
         fetchList(currentPage);
     }, [currentPage]);
 

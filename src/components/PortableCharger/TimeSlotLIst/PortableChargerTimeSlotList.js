@@ -4,8 +4,11 @@ import SubHeader from '../../SharedComponent/SubHeader/SubHeader'
 import Pagination from '../../SharedComponent/Pagination/Pagination'
 import { getRequestWithToken, postRequestWithToken } from '../../../api/Requests';
 import { toast, ToastContainer } from "react-toastify";
+import { useNavigate } from 'react-router-dom';
 
 const PortableChargerTimeSlotList = () => {
+    const userDetails = JSON.parse(sessionStorage.getItem('userDetails')); 
+    const navigate = useNavigate()
     const [timeSlotList, setTimeSlotList] = useState([])
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
@@ -18,8 +21,8 @@ const PortableChargerTimeSlotList = () => {
 
     const fetchList = (page) => {
         const obj = {
-            userId : "1",
-            email : "admin@shunyaekai.com",
+            userId : userDetails?.user_id,
+            email : userDetails?.email,
             page_no : page
         }
 
@@ -36,6 +39,10 @@ const PortableChargerTimeSlotList = () => {
     }
 
     useEffect(() => {
+        if (!userDetails || !userDetails.access_token) {
+            navigate('/login'); 
+            return; 
+        }
         fetchList(currentPage);
     }, [currentPage, refresh]);
 
@@ -47,8 +54,8 @@ const PortableChargerTimeSlotList = () => {
         const confirmDelete = window.confirm("Are you sure you want to delete this slot?");
         if (confirmDelete) {
             const obj = { 
-                userId : "1",
-                email : "admin@shunyaekai.com",
+                userId : userDetails?.user_id,
+            email : userDetails?.email,
                 slot_id: slotId 
             };
             postRequestWithToken('charger-delete-time-slot', obj, async (response) => {
