@@ -11,3 +11,12 @@
     background-color: #242424;
     padding: 20px 0px;
 }
+.addDriver{
+    width: 24px;
+    cursor: pointer;
+}
+.bookingDetailsSection{
+    display: flex;
+    padding: 20px;
+    column-gap: 20px;
+}

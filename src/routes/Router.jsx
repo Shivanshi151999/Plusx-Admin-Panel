@@ -18,7 +18,6 @@ import PickAndDropBookingList from '../components/PickAndDrop/Booking/BookingLis
 import PickAndDropBookingDetails from "../components/PickAndDrop/Booking/BookingDetails.jsx";
 import PickAndDropInvoiceList from '../components/PickAndDrop/Invoice/InvoiceList.jsx'
 import PickAndDropTimeSlotList from '../components/PickAndDrop/TimeSlot/TimeSlotList.jsx'
-
 import PublicChargerStationList from '../components/PublicChargerStation/StationList.jsx'
 import PublicChargerStationDetails from '../components/PublicChargerStation/StationDetails.jsx'
 
@@ -27,6 +26,7 @@ import EVBuySell from "../components/EVBuySell/index.jsx"
 import ChargerInstallationDetails from "../components/ChargerInstallationList/ChargerInstallationDetails.jsx";
 
 import AddCharger from "../components/PortableCharger/ChargerList/AddCharger.jsx"
+<<<<<<< Updated upstream
 import AddShopListForm from "../components/EVSpecializedShops/ShopList/ShopList/AddShopListForm.jsx"
 import EditPortableChargerTimeSlot from '../components/PortableCharger/TimeSlotLIst/EditTimeSlot.jsx';
 import EditPortableCharger from '../components/PortableCharger/ChargerList/EditCharger.jsx';
@@ -42,6 +42,9 @@ import ClubList from '../components/EvRiderClub/ClubList.jsx';
 import CarList from '../components/ElectricCarLeasing/CarList.jsx';
 import BikeList from '../components/ElectricBikeLeasing/BikeList.jsx';
 
+=======
+import AddShopListForm from "../components/EVSpecializedShops/ShopList/AddShopListForm.jsx"
+>>>>>>> Stashed changes
 const router = createBrowserRouter([
   {
       path: "/login",
@@ -114,13 +117,21 @@ const router = createBrowserRouter([
           },
         ],
       },
+<<<<<<< Updated upstream
 
       // app signup list
 
+=======
+      
+>>>>>>> Stashed changes
       {
         path: "/add-shop-list",
         element: <AddShopListForm />,
 
+      },
+      {
+        path: "/ev-buy-sell",
+        element:<EVBuySell/>
       },
       {
         path: "/add-charger",
@@ -132,7 +143,18 @@ const router = createBrowserRouter([
         element: <EditPortableCharger />,
 
       },
+<<<<<<< Updated upstream
 
+=======
+      {
+        path: "/rider-details/:riderId",
+        element: <AppSignup />,
+      },
+      {
+        path: "/emergency-team",
+        element: <EmergencyTeam />,
+      },      
+>>>>>>> Stashed changes
 
       {
         path: "/pick-and-drop",

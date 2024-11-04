@@ -64,24 +64,55 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    column-gap: 20px;
   }
-  
-  .dropdown {
-    width: 20%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+  .selectWrapper {
+    position: relative;
+    display: inline-block;
+    width: 100%;
   }
-  
+  .selectField{
+    outline: none;
+    background-color: #242424;
+    border: none;
+    padding: 16px 10px;
+    border-radius: 6px;
+    color: #ffffff;
+    font-size: 16px;
+    width: 100%;
+    appearance: none;
+    cursor:  pointer;
+  }
+
+  .dropdownIcon {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    pointer-events: none;
+    transform: translateY(-50%);
+    font-size: 16px; 
+    color: #ffffff; 
+  }
   .addButton {
-    background-color: #f9a825;
-    color: white;
-    padding: 10px 20px;
+    background-color: #00ffc3;
+    display: flex;
+    color: #000000;
+    padding: 0px 20px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    column-gap: 10px;
   }
-  
+  .addButton img{
+    width: 16px;
+  }
+  .addButton span{
+    font-size: 18px;
+    font-weight: 600;
+  }
   .scheduleSection {
     margin-top: 20px;
   }
@@ -89,10 +120,11 @@
   .alwaysOpen {
     display: flex;
     align-items: center;
+    column-gap: 10px;
   }
   
   .alwaysOpen label {
-    margin-left: 10px;
+   font-size: 18px;
   }
   
   .dayRow {
@@ -107,4 +139,26 @@
     border: 1px solid #ccc;
     border-radius: 4px;
   }
-  
+  .textAreaField{
+    outline: none;
+    background-color: #242424;
+    border: none;
+    padding: 16px 10px;
+    border-radius: 6px;
+    color: #ffffff;
+    font-size: 16px;
+    width: 100%;
+  }
+  .addShopAddressSection{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    gap: 6px;
+  }
+  .addShopAddress{
+    display: flex;
+    column-gap: 20px;
+    row-gap: 6px;
+    width: 100%;
+  }

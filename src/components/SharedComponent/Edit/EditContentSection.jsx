@@ -15,12 +15,12 @@ const EditChargerContentSection = () => {
           <div className="col-xl-4 col-lg-6 col-12">
             <div className={styles.editChargerContainer}>
               <span className={styles.editChargerChargerHeading}>Charger Name</span>
-              <span className={styles.editChargerContent}>Super Charger</span>
+              <input type="text" className={styles.editChargerContent} placeholder='Super Charger' />
             </div>
           </div>
           <div className="col-xl-4 col-lg-6 col-12">
             <div className={styles.editChargerContainer}>
-              <span className={styles.editChargerHeading}>Charger Type</span>
+              <span className={styles.editChargerChargerHeading}>Charger Type</span>
               <select
                 value={chargerType}
                 onChange={handleChargerTypeChange}
@@ -33,8 +33,8 @@ const EditChargerContentSection = () => {
           </div>
           <div className="col-xl-4 col-lg-6 col-12">
             <div className={styles.editChargerContainer}>
-              <span className={styles.editChargerHeading}>Charger Price</span>
-              <span className={styles.editChargerContent}>AED 150</span>
+              <span className={styles.editChargerChargerHeading}>Charger Price</span>
+              <input type="text" className={styles.editChargerContent} placeholder='AED 150' />
             </div>
           </div>
         </div>

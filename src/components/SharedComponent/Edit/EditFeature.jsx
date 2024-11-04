@@ -16,7 +16,7 @@ const EditFeature = () => {
             <div className={styles.editfeatureContainer}>
               <div className={styles.editfeatureContentSection}>
                 <span className={styles.editfeatureHeading}>Charger Feature</span>
-                <span className={styles.editfeatureContent}>For AED 150 Per Charger</span>
+                {/* <span className={styles.editfeatureContent}>For AED 150 Per Charger</span> */}
               </div>
               <div className={styles.editfeatureInputContent}>
                 <input type="text" className={styles.editFromSection} />

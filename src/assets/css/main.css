@@ -33,3 +33,34 @@ body{
   box-shadow: unset !important;
 }
   /* End the multi dropdown section */
+  .accordion-button:not(.collapsed) {
+    color: #fff !important;
+    background-color: #242424 !important;
+    box-shadow: unset !important;
+}
+.accordion-button {
+  color: #ffffff !important;
+  background-color: #242424 !important;
+  border-radius: 4px !important;
+  border: 1px solid #242424 !important;
+}
+.accordion-item {
+  color: #fff !important;
+  background-color: #242424 !important;
+  border: 1px solid #242424 !important;
+}
+.accordion-button::after {
+display: none !important;
+}
+.accordion-button:not(.collapsed)::after {
+  transform: rotate(-180deg) !important;
+}
+.accordion-button::after {
+  transition: rotate(-180deg) !important;
+}
+.accordion-button {
+  justify-content: space-between !important;
+}
+.accordion-button:focus {
+  box-shadow: unset !important;
+}

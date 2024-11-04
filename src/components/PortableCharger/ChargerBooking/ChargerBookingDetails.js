@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import styles from './chargerbooking.module.css'
 import BookingDetailsHeader from '../../SharedComponent/Details/BookingDetails/BookingDetailsHeader'
 import BookingDetailsSection from '../../SharedComponent/Details/BookingDetails/BookingDetailsSection'
+import BookingLeftDetails from '../../SharedComponent/BookingDetails/BookingLeftDetails.jsx'
+import BookingDetailsAccordion from '../../SharedComponent/BookingDetails/BookingDetailsAccordion.jsx'
 import { postRequestWithToken } from '../../../api/Requests';
 import { useParams } from 'react-router-dom';
 import moment from 'moment';
@@ -95,10 +97,14 @@ const ChargerBookingDetails = () => {
         content={content} titles={headerTitles}
         type = 'portableChargerBooking'
       />
-      <BookingDetailsSection 
+      {/* <BookingDetailsSection 
       titles = {sectionTitles} content = {sectionContent}
       type = 'portableChargerBooking'
-      />
+      /> */}
+      <div className={styles.bookingDetailsSection}>
+      <BookingLeftDetails/>
+      <BookingDetailsAccordion/>
+      </div>
     </div>
   )
 }
