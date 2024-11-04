@@ -29,6 +29,7 @@ const ChargerBookingList = () => {
     const userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
     const navigate = useNavigate();
     const [chargerBookingList, setChargerBookingList] = useState([]);
+    const [rsaList, setRsaList] = useState([])
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [filters, setFilters] = useState({});
@@ -39,11 +40,15 @@ const ChargerBookingList = () => {
         { name: 'Driver 3', isUnavailable: false }
     ]);
 
+    const [selectedBookingId, setSelectedBookingId] = useState(null);
+    const [selectedDriverId, setSelectedDriverId] = useState(null);
+
     const fetchList = (page, appliedFilters = {}) => {
         const obj = {
             userId: userDetails?.user_id,
             email: userDetails?.email,
             page_no: page,
+            service_type: 'Portable Charger',
             ...appliedFilters,
         };
 
@@ -55,6 +60,16 @@ const ChargerBookingList = () => {
                 console.log('error in charger-booking-list api', response);
             }
         });
+
+        postRequestWithToken('rsa-list', obj, async(response) => {
+            if (response.code === 200) {
+                setRsaList(response?.data)
+                setTotalPages(response?.total_page || 1); 
+            } else {
+                // toast(response.message, {type:'error'})
+                console.log('error in public-charger-station-list api', response);
+            }
+        })
     };
 
     useEffect(() => {
@@ -74,17 +89,45 @@ const ChargerBookingList = () => {
         setCurrentPage(1);
     };
 
-    const openModal = () => {
+    const openModal = (bookingId) => {
+        console.log('bookingIdss',bookingId);
+        
+        setSelectedBookingId(bookingId);
         setIsModalOpen(true);
     };
 
     const closeModal = () => {
         setIsModalOpen(false);
+        setSelectedBookingId(null);
     };
 
     const handleDriverSelect = (driver) => {
         console.log(`Driver selected: ${driver}`);
+        setSelectedDriverId(driver);
     };
+
+    const assignDriver = () => {
+        const obj = {
+            userId: userDetails?.user_id,
+            email: userDetails?.email,
+            rsa_id: selectedDriverId, 
+            booking_id: selectedBookingId
+        }
+        postRequestWithToken('/charger-booking-assign', obj, async(response) => {
+            if (response.code === 200) {
+                
+                setIsModalOpen(false);
+                alert(response.message || response.message[0])
+                fetchList(currentPage, filters);
+            } else {
+                // toast(response.message, {type:'error'})
+                alert(response.message || response.message[0])
+                console.log('error in/charger-booking-assign api', response);
+            }
+        })
+
+    }
+
 
     return (
         <>
@@ -114,11 +157,40 @@ const ChargerBookingList = () => {
                     { key: 'service_price', label: 'Price', format: (price) => (price ? `AED ${price}` : '') },
                     { key: 'created_at', label: 'Date & Time', format: (date) => moment(date).format('DD MMM YYYY h:mm A') },
                     { key: 'status', label: 'Status', format: (status) => statusMapping[status] || status },
+                    // {
+                    //     key: 'booking_id',
+                    //     label: 'Driver Assign',
+                    //     format: (data) => {
+                    //         return (
+                    //             <img 
+                    //                 src={AddDriver} 
+                    //                 className={"logo"} 
+                    //                 onClick={() => openModal(data)} 
+                    //                 alt="Assign Driver" 
+                    //             /> 
+                    //         );
+                    //     }
+                    // }
+
                     {
                         key: 'driver_assign',
                         label: 'Driver Assign',
-                        format: () => <img src={AddDriver} className={"logo"} onClick={openModal} />
-                    },
+                        relatedKeys: ['status'], 
+                        format: (data, key, relatedKeys) => {
+                            const isBookingConfirmed = data[relatedKeys[0]] === 'CNF'; 
+                            
+                            return isBookingConfirmed ? (
+                                <img 
+                                    src={AddDriver} 
+                                    className={"logo"} 
+                                    onClick={() => openModal(data.booking_id)} 
+                                    alt="Assign Driver" 
+                                />
+                            ) : null;
+                        }
+                    }
+                    
+                    
                 ]}
                 pageHeading="Charger Booking List"
             />
@@ -132,8 +204,10 @@ const ChargerBookingList = () => {
             <Custommodal
                 isOpen={isModalOpen}
                 onClose={closeModal}
-                driverList={driverList}
+                driverList={rsaList}
+                bookingId = {selectedBookingId}
                 onSelectDriver={handleDriverSelect}
+                onAssignDriver={assignDriver}
             />
         </>
     );

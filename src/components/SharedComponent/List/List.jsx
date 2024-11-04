@@ -88,7 +88,7 @@ const List = ({tableHeaders, listData, keyMapping, pageHeading, onDeleteSlot}) =
                                 {pageHeading === 'Charger Booking List' && (
                                         <>
                                             <img src={View} alt="view" onClick={() => handleBookingDetails(data.booking_id)}/>
-                                            <img src={Cancel} alt='cancel' />
+                                            {/* <img src={Cancel} alt='cancel' /> */}
                                         </>
                                     )}
                                     {pageHeading === 'Portable Charger List' && (

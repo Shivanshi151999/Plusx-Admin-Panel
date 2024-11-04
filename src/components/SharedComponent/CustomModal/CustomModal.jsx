@@ -2,26 +2,42 @@ import React, { useState } from 'react';
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import styles from './custommodal.module.css';
 
-const Custommodal = ({ isOpen, onClose, driverList, onSelectDriver }) => {
+const Custommodal = ({ isOpen, onClose, driverList, onSelectDriver, bookingId, onAssignDriver }) => {
+  
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [selectedDriver, setSelectedDriver] = useState(null);
 
   if (!isOpen) return null;
+
+  const getStatusLabel = (status) => {
+    if (status === 0) return "De-Active";
+    if (status === 1 || status === 3) return "Un-Available";
+    if (status === 2) return "Available";
+    return "Unknown";
+};
 
   return (
     <div className={styles.modalBackdrop}>
       <div className={styles.modal}>
         <div className={styles.modalHead}>
-          Select Driver <span>( SERVICE12345 )</span>
+          Select Driver <span>( {bookingId} )</span>
         </div>
         <div className={styles.driverSelect}>
           <select
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
             onBlur={() => setIsDropdownOpen(false)}
-            onChange={(e) => onSelectDriver(e.target.value)}
+            // onChange={(e) => onSelectDriver(e.target.value)}
+            onChange={(e) => {
+              const driverId = e.target.value;
+              onSelectDriver(driverId); 
+              setSelectedDriver(driverId);
+          }}
           >
+            <option value="" disabled selected>Select</option>
             {driverList.map((driver, index) => (
-              <option key={index} value={driver.name} disabled={driver.isUnavailable}>
-                {driver.name} {driver.isUnavailable ? '(Unavailable)' : ''}
+              <option key={index} value={driver.rsa_id} disabled={driver.isUnavailable}>
+                {/* {driver.rsa_name} {driver.isUnavailable ? '(Unavailable)' : ''} */}
+                {driver.rsa_name} ({getStatusLabel(driver.status)})
               </option>
             ))}
           </select>
@@ -33,7 +49,10 @@ const Custommodal = ({ isOpen, onClose, driverList, onSelectDriver }) => {
           <button className={styles.closeBtn} onClick={onClose}>
             Close
           </button>
-          <button className={styles.assignBtn} onClick={() => alert('Assigned!')}>
+          <button className={styles.assignBtn} 
+          // onClick={() => alert('Assigned!')}
+          onClick={onAssignDriver}
+          >
             Assign
           </button>
         </div>
