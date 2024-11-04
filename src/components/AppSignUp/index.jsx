@@ -29,11 +29,11 @@ const RiderDetails = () => {
   const [pickAndDropBookings, setPickAndDropBookings] = useState([])
 
   const portableChargerHeaders = [
-    'ID', 'Service Name', 'Service Type', 'Price', 'Date & Time', 'Status', 'Action'
+    'Date','ID', 'Service Name', 'Price', , 'Status', 'Driver Assign', 'Action' 
   ];
 
   const pickAndDropHeaders = [
-    'ID',  'Price', 'Date & Time', 'Status', 'Action'
+    'Date','ID',  'Price',  'Status', 'Action'
   ];
 
   const fetchDetails = () => {
@@ -65,9 +65,9 @@ const RiderDetails = () => {
       <DetailsSection sectionDetails = {riderDetails}/>
       <DetailsList addressList = {riderAddressList}/>
       <DetailsVehicleList vehicleList = {vehicleList} />
- 
+      <div className={styles.DetailsMainHeading}>Booking History</div>
       <DetailsBookingHistory
-        title="Portable Charger Booking History"
+        title="Portable Charger"
         headers={portableChargerHeaders}
         bookingData={portableChargerBookings.map((booking) => ({
           id: booking.booking_id,
@@ -81,7 +81,7 @@ const RiderDetails = () => {
       />
 
        <DetailsBookingHistory
-        title="Pick and Drop Booking History"
+        title="Pick and Drop"
         headers={pickAndDropHeaders}
         bookingData={pickAndDropBookings.map((booking) => ({
           id: booking.request_id,

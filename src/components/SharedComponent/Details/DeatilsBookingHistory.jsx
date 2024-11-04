@@ -3,7 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import styles from './details.module.css'
 import Eye from '../../../assets/images/ViewEye.svg'
 import Pagination from '../Pagination/Pagination';
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 
 const DeatilsBookingHistory = ({ title, headers, bookingData, bookingType }) => {
 
@@ -17,7 +20,10 @@ const DeatilsBookingHistory = ({ title, headers, bookingData, bookingType }) => 
     }
 
   };
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const itemsPerPage = 3;
@@ -35,7 +41,7 @@ const DeatilsBookingHistory = ({ title, headers, bookingData, bookingType }) => 
   };
   return (
     <div className={styles.addressListContainer}>
-      <span className={styles.sectionTitle}>{title}</span>
+      <span className={styles.secondTitle}>{title}</span>
       <table className={`table ${styles.customTable}`}>
         <thead>
           <tr>
@@ -47,15 +53,17 @@ const DeatilsBookingHistory = ({ title, headers, bookingData, bookingType }) => 
         <tbody>
           {currentItems.map((booking, index) => (
             <tr key={index}>
+               <td>{booking.datetime}</td>
               <td>{booking.id}</td>
               {bookingType === 'portableCharger' ? (
                 <>
+                
                   <td>{booking.service_name}</td>
-                  <td>{booking.service_type}</td>
+                  {/* <td>{booking.service_type}</td> */}
                 </>
               ) : null}
               <td>{booking.price}</td>
-              <td>{booking.datetime}</td>
+              <td>{booking.driver_assign}</td>
               <td>{booking.status}</td>
               <td>
                 <div className={styles.editContent}>

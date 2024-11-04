@@ -7,7 +7,12 @@
 .appSignupContainer::-webkit-scrollbar{
     display: none;
 }
-
+.DetailsMainHeading{
+    padding: 0px 20px;
+    color: #64FFC5;
+    font-size: 28px;
+    font-weight: 600;
+  }
 .appSignupSection{
     background-color: #242424;
     height: 94vh;

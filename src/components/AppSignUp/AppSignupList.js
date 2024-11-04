@@ -94,9 +94,14 @@ const SignupList = () => {
             fetchFilteredData={fetchFilteredData} 
             dynamicFilters={dynamicFilters} filterValues={filters}/>
             <List
-                tableHeaders={["Customer ID", "Customer Name", "Email", "Emirate", "Date", "Action"]}
+                tableHeaders={["Date","Customer ID", "Customer Name", "Email", "Emirate", "Action"]}
                 listData={signupList}
                 keyMapping={[
+                    { 
+                        key: 'created_at', 
+                        label: 'Date', 
+                        format: (date) => moment(date).format('DD MMM YYYY') 
+                    } ,
                     { key: 'rider_id', label: 'Customer ID' },
                     { 
                         key: 'rider_name', 
@@ -111,11 +116,7 @@ const SignupList = () => {
                     }, 
                     { key: 'rider_email', label: 'Email' },
                     { key: 'emirates', label: 'Emirate' },
-                    { 
-                        key: 'created_at', 
-                        label: 'Date', 
-                        format: (date) => moment(date).format('DD MMM YYYY') 
-                    } ,
+                   
                 ]}
                 pageHeading="App Signup List"
                 onDeleteSlot={handleDeleteSlot}

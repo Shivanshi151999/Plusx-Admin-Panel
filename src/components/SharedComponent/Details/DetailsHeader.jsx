@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './details.module.css';
-import Main from '../../../assets/css/main.css';
+import '../../../assets/css/main.css';
 import Person from '../../../assets/images/Person.svg'
 import Mobile from '../../../assets/images/Mobile.svg'
 import Email from '../../../assets/images/Email.svg'

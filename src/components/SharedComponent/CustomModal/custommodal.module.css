@@ -34,6 +34,13 @@
     font-weight: 600;
     color: #ffffff;
   }
+  .driverSelect {
+    position: relative;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+  
   .driverSelect select {
     width: 100%;
     padding: 12px;
@@ -42,9 +49,22 @@
     border-radius: 4px;
     margin-bottom: 20px;
     background-color: #242424;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 500;
     outline: none;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    padding-right: 30px;
+    cursor: pointer;
+  }
+  
+  .dropdownIcon {
+    position: absolute;
+    right: 12px;
+    transform: translateY(-50%);
+    color: #ffffff;
+    pointer-events: none;
   }
   
   .modalActions {

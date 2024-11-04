@@ -72,9 +72,15 @@ background-color: #242424;
   justify-content: start;
   align-items: start;
 }
+
+.secondTitle{
+  color: #ffffff;
+  font-size: 22px;
+  font-weight: 600;
+}
 .sectionTitle {
   color: #64FFC5;
-  font-size: 26px;
+  font-size: 22px;
   font-weight: 600;
 }
 .customTable {

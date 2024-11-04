@@ -64,3 +64,7 @@ display: none !important;
 .accordion-button:focus {
   box-shadow: unset !important;
 }
+.logo{
+  width: 24px !important;
+  cursor: pointer !important;
+}
