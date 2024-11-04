@@ -19,7 +19,7 @@ const BookingDetailsSection = ({ titles, content, type }) => {
                 </div>
               );
             }
-            return null; // Return null if title or content is missing for this key
+            return null; 
           })}
         </div>
       </div>

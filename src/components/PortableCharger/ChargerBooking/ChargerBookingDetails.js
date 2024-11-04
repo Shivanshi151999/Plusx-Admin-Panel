@@ -26,6 +26,7 @@ const ChargerBookingDetails = () => {
   const navigate = useNavigate()
   const {bookingId} = useParams()
   const [bookingDetails, setBookingDetails] = useState()
+  const [history, setHistory] = useState([])
   
   const fetchDetails = () => {
     const obj = {
@@ -37,6 +38,7 @@ const ChargerBookingDetails = () => {
     postRequestWithToken('charger-booking-details', obj, (response) => {
         if (response.code === 200) {
             setBookingDetails(response?.data || {});  
+            setHistory(response?.data?.bookingHistory)
         } else {
             console.log('error in rider-details API', response);
         }
@@ -90,7 +92,6 @@ const ChargerBookingDetails = () => {
     slotTime: bookingDetails?.booking?.slot_time
   }
 
-
   return (
     <div className={styles.appSignupSection}>
       <BookingDetailsHeader 
@@ -102,8 +103,11 @@ const ChargerBookingDetails = () => {
       type = 'portableChargerBooking'
       /> */}
       <div className={styles.bookingDetailsSection}>
-      <BookingLeftDetails/>
-      <BookingDetailsAccordion/>
+      <BookingLeftDetails  
+      titles = {sectionTitles} content = {sectionContent}
+      type = 'portableChargerBooking'
+      />
+      <BookingDetailsAccordion history = {history} rsa = {content}/>
       </div>
     </div>
   )
