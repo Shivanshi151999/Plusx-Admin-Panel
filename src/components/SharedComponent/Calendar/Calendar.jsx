@@ -37,18 +37,18 @@ const predefinedRanges = [
     }, appearance: 'default' }
 ];
 
-const App = () => (
+const App = ({handleDateChange}) => (
   <Stack direction="column" spacing={8} alignItems="flex-start">
-    <DateRangePicker
+
+    {/* <DateRangePicker
       ranges={predefinedRanges}
-      defaultValue={[new Date(), new Date()]} // Default to today
+      defaultValue={[new Date(), new Date()]} 
       placeholder="Select Date Range"  
       placement="bottomEnd"
       
-      // Format the date value based on whether it's a single date or a range
       renderValue={(value) => {
         if (!value) {
-          return ''; // If no value is selected, show placeholder
+          return ''; 
         }
 
         const [start, end] = value;
@@ -63,7 +63,22 @@ const App = () => (
       onShortcutClick={(shortcut, event) => {
         console.log(shortcut);
       }}
-    />
+    /> */}
+
+<DateRangePicker
+    ranges={predefinedRanges}
+    defaultValue={[new Date(), new Date()]} // Default to today
+    placeholder="Select Date Range"
+    placement="bottomEnd"
+    onChange={handleDateChange} 
+    renderValue={(value) => {
+      if (!value) return ''; // If no value is selected, show placeholder
+      const [start, end] = value;
+      const formattedStart = format(start, 'dd-MM-yyyy');
+      const formattedEnd = format(end, 'dd-MM-yyyy');
+      return formattedStart === formattedEnd ? formattedStart : `${formattedStart} - ${formattedEnd}`;
+    }}
+  />
   </Stack>
 );
 

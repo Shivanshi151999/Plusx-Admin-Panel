@@ -24,6 +24,22 @@ const dynamicFilters = [
     { label: 'Booking ID', name: 'request_id', type: 'text' },
     { label: 'Name', name: 'name', type: 'text' },
     { label: 'Mobile', name: 'contact_no', type: 'text' },
+    {
+        label: 'Status', 
+        name: 'order_status', 
+        type: 'select', 
+        options: [
+            { value: '', label: 'Select Status' },
+            { value: 'CNF', label: 'Confirmed' },
+            { value: 'A', label: 'Assigned' },
+            { value: 'VP', label: 'Vehicle Pickup' },
+            { value: 'RS', label: 'Reached Charging Spot' },
+            { value: 'CC', label: 'Charging Completed' },
+            { value: 'DO', label: 'Drop Off' },
+            { value: 'WC', label: 'Work Completed' },
+            { value: 'C', label: 'Cancel' },
+        ]
+    },
 ]
 
 const BookingList = () => {

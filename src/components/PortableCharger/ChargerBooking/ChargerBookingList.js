@@ -23,6 +23,21 @@ const dynamicFilters = [
     { label: 'Booking ID', name: 'booking_id', type: 'text' },
     { label: 'Name', name: 'name', type: 'text' },
     { label: 'Mobile', name: 'contact_no', type: 'text' },
+    {
+        label: 'Status', 
+        name: 'status', 
+        type: 'select', 
+        options: [
+            { value: '', label: 'Select Status' },
+            { value: 'CNF', label: 'Booking Confirmed' },
+            { value: 'A', label: 'Assigned' },
+            { value: 'RL', label: 'POD Reached at Location' },
+            { value: 'CS', label: 'Charging Started' },
+            { value: 'CC', label: 'Charging Completed' },
+            { value: 'PU', label: 'POD Picked Up' },
+            { value: 'C', label: 'Cancel' },
+        ]
+    },
 ];
 
 const ChargerBookingList = () => {
@@ -42,7 +57,7 @@ const ChargerBookingList = () => {
             userId: userDetails?.user_id,
             email: userDetails?.email,
             page_no: page,
-            service_type: 'Portable Charger',
+            // service_type: 'Portable Charger',
             ...appliedFilters,
         };
 
@@ -54,14 +69,15 @@ const ChargerBookingList = () => {
                 console.log('error in charger-booking-list api', response);
             }
         });
+        obj.service_type = 'Portable Charger'
 
         postRequestWithToken('rsa-list', obj, async(response) => {
             if (response.code === 200) {
                 setRsaList(response?.data)
-                setTotalPages(response?.total_page || 1); 
+                // setTotalPages(response?.total_page || 1); 
             } else {
                 // toast(response.message, {type:'error'})
-                console.log('error in public-charger-station-list api', response);
+                console.log('error in rsa-listt api', response);
             }
         })
     };

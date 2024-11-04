@@ -55,6 +55,7 @@ const SubHeader = ({ heading, fetchFilteredData, dynamicFilters, filterValues, a
             </div>
 
             <AccordionFilter 
+                type = {heading}
                 isOpen={isAccordionOpen} 
                 fetchFilteredData={fetchFilteredData} 
                 dynamicFilters={dynamicFilters} 

@@ -3,8 +3,9 @@ import { Accordion, Card } from 'react-bootstrap';
 import styles from './accordion.module.css';
 import { motion, AnimatePresence } from 'framer-motion';
 import Calendar from "../Calendar/Calendar"
+import { format } from 'date-fns';
 
-const AccordionFilter = ({ isOpen, fetchFilteredData, dynamicFilters, filterValues }) => {
+const AccordionFilter = ({ type, isOpen, fetchFilteredData, dynamicFilters, filterValues }) => {
     const [showContent, setShowContent] = useState(isOpen);
 
     useEffect(() => {
@@ -25,6 +26,17 @@ const AccordionFilter = ({ isOpen, fetchFilteredData, dynamicFilters, filterValu
 
     const handleBlur = () => {
         fetchFilteredData(filterValues);
+    };
+
+    const handleDateChange = (range) => {
+        const [start, end] = range;
+        const formattedStart = format(start, 'yyyy-MM-dd');
+        const formattedEnd = format(end, 'yyyy-MM-dd');
+        fetchFilteredData({
+            ...filterValues,
+            start_date: formattedStart,
+            end_date: formattedEnd
+        });
     };
 
     return (
@@ -75,10 +87,12 @@ const AccordionFilter = ({ isOpen, fetchFilteredData, dynamicFilters, filterValu
                                                     
                                                 </div>
                                             ))}
-                                                                               <div className={styles.filterItem}>
-<label className={styles.filterLabel} htmlFor="device">Date Picker</label>
-<Calendar/>
-</div> 
+                                           { (type === "Portable Charger Booking List" || type === "Pick & Drop Booking List") && (
+                                                <div className={styles.filterItem}>
+                                                    <label className={styles.filterLabel} htmlFor="date_filter">Date Picker</label>
+                                                    <Calendar handleDateChange={handleDateChange}/>
+                                                </div>
+                                            )}
                                         </form>
                                     </Card.Body>
  
