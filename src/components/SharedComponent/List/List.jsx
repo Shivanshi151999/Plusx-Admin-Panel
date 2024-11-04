@@ -120,7 +120,7 @@ const List = ({tableHeaders, listData, keyMapping, pageHeading, onDeleteSlot}) =
                                     {pageHeading === 'Pick & Drop Booking List' && (
                                         <>
                                             <img src={View} alt="view" onClick={() => handlePDBookingDetails(data.request_id)} />
-                                            <img src={Cancel} alt='cancel' />
+                                            {/* <img src={Cancel} alt='cancel' /> */}
                                         </>
                                     )}
                                    {pageHeading === 'Pick & Drop Invoice List' && (

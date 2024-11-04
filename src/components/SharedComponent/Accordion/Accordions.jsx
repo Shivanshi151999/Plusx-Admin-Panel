@@ -72,11 +72,16 @@ const AccordionFilter = ({ isOpen, fetchFilteredData, dynamicFilters, filterValu
                                                             autoComplete='off'
                                                         />
                                                     )}
+                                                    
                                                 </div>
                                             ))}
+                                                                               <div className={styles.filterItem}>
+<label className={styles.filterLabel} htmlFor="device">Date Picker</label>
+<Calendar/>
+</div> 
                                         </form>
                                     </Card.Body>
-                                   
+ 
                                 </motion.div>
                             )}
                         </AnimatePresence>
@@ -87,9 +92,6 @@ const AccordionFilter = ({ isOpen, fetchFilteredData, dynamicFilters, filterValu
     );
 };
 
- <div className={styles.filterItem}>
-<label className={styles.filterLabel} htmlFor="device">Date Picker</label>
-<Calendar/>
-</div> 
+
 
 export default AccordionFilter;

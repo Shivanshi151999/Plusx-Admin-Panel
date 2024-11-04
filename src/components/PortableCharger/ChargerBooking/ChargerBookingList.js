@@ -33,13 +33,7 @@ const ChargerBookingList = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [filters, setFilters] = useState({});
-    const [isModalOpen, setIsModalOpen] = useState(false); 
-    const [driverList, setDriverList] = useState([    
-        { name: 'Driver 1', isUnavailable: false },
-        { name: 'Driver 2', isUnavailable: false },
-        { name: 'Driver 3', isUnavailable: false }
-    ]);
-
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedBookingId, setSelectedBookingId] = useState(null);
     const [selectedDriverId, setSelectedDriverId] = useState(null);
 
@@ -90,8 +84,6 @@ const ChargerBookingList = () => {
     };
 
     const openModal = (bookingId) => {
-        console.log('bookingIdss',bookingId);
-        
         setSelectedBookingId(bookingId);
         setIsModalOpen(true);
     };
