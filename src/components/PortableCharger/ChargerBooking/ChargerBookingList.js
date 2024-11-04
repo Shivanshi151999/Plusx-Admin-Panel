@@ -4,17 +4,10 @@ import SubHeader from '../../SharedComponent/SubHeader/SubHeader';
 import Pagination from '../../SharedComponent/Pagination/Pagination';
 import { getRequestWithToken, postRequestWithToken } from '../../../api/Requests';
 import moment from 'moment';
-<<<<<<< Updated upstream
-import { AiOutlinePlus } from 'react-icons/ai';  
-import { toast, ToastContainer } from "react-toastify";
-import { useNavigate } from 'react-router-dom';
-import AddDriver from '../../../assets/images/AddDriver.svg'
-=======
 import AddDriver from '../../../assets/images/AddDriver.svg';
 import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from 'react-router-dom';
 import Custommodal from '../../SharedComponent/CustomModal/CustomModal.jsx';
->>>>>>> Stashed changes
 
 const statusMapping = {
     'CNF': 'Booking Confirmed',
@@ -46,15 +39,6 @@ const ChargerBookingList = () => {
         { name: 'Driver 3', isUnavailable: false }
     ]);
 
-<<<<<<< Updated upstream
-    
-        const fetchList = (page, appliedFilters = {}) => {
-            const obj = {
-                userId : userDetails?.user_id,
-                email : userDetails?.email,
-                page_no : page,
-                ...appliedFilters,
-=======
     const fetchList = (page, appliedFilters = {}) => {
         const obj = {
             userId: userDetails?.user_id,
@@ -69,7 +53,6 @@ const ChargerBookingList = () => {
                 setTotalPages(response?.total_page || 1);
             } else {
                 console.log('error in charger-booking-list api', response);
->>>>>>> Stashed changes
             }
         });
     };
@@ -91,62 +74,6 @@ const ChargerBookingList = () => {
         setCurrentPage(1);
     };
 
-<<<<<<< Updated upstream
-    return (
-        <>
-         <SubHeader heading = "Portable Charger Booking List" 
-        //  filterFields = {filterFields}
-        fetchFilteredData={fetchFilteredData} 
-         dynamicFilters={dynamicFilters} filterValues={filters}
-         
-         />
-        <List 
-        tableHeaders={["ID", "Name", "Service Name", "Price", "Date & Time", "Status", "Driver Assign", "Action"]}
-          listData = {chargerBookingList}
-          keyMapping={[
-            { key: 'booking_id', label: 'ID' },  
-            { 
-                key: 'user_name', 
-                label: 'Name',
-                relatedKeys: ['country_code', 'contact_no'], 
-                format: (data, key, relatedKeys) => (
-                    <>
-                        {data[key]}<br />
-                        {relatedKeys.map((relatedKey) => data[relatedKey]).join(" ")}
-                    </>
-                )
-            }, 
-            { key: 'service_name', label: 'Service Name' },
-            { 
-                key: 'service_price', 
-                label: 'Price', 
-                format: (price) => (price ? `AED ${price}` : '') 
-            },
-            { 
-                key: 'created_at', 
-                label: 'Date & Time', 
-                format: (date) => moment(date).format('DD MMM YYYY h:mm A') 
-            } ,
-            { 
-                key: 'status', 
-                label: 'Status',
-                format: (status) => statusMapping[status] || status 
-            },
-            {
-                key: 'driver_assign', 
-                label: 'Driver Assign',
-                format: () => <AiOutlinePlus className={"logo"} />
-            },
-        ]}
-        pageHeading="Charger Booking List"
-          />
-           
-        <Pagination 
-          currentPage={currentPage} 
-          totalPages={totalPages} 
-          onPageChange={handlePageChange} 
-        />
-=======
     const openModal = () => {
         setIsModalOpen(true);
     };
@@ -208,7 +135,6 @@ const ChargerBookingList = () => {
                 driverList={driverList}
                 onSelectDriver={handleDriverSelect}
             />
->>>>>>> Stashed changes
         </>
     );
 };
