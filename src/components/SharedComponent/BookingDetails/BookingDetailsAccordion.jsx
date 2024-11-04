@@ -8,6 +8,7 @@ import moment from 'moment';
 const BookingDetailsAccordion = ({history, rsa }) => {
 
   const statusTitles = {
+    P : 'Open',
     CNF: 'Booking Confirmed',
     A: 'Assigned',
     ER: 'Enroute',

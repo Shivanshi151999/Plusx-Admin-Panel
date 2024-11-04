@@ -24,6 +24,7 @@ const ChargerInstallationDetails = () => {
   const {requestId} = useParams()
   const navigate = useNavigate()
   const [bookingDetails, setBookingDetails] = useState()
+  const [history, setHistory] = useState([])
   const userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
 
   const fetchDetails = () => {
@@ -36,6 +37,7 @@ const ChargerInstallationDetails = () => {
     postRequestWithToken('charger-installation-details', obj, (response) => {
         if (response.code === 200) {
             setBookingDetails(response?.service_data || {});  
+            setHistory(response?.order_history)
         } else {
             console.log('error in charger-installation-details API', response);
         }
@@ -64,6 +66,9 @@ const ChargerInstallationDetails = () => {
     chargerFor: "Charger For",
     serviceType: "Service Type",
     noOfCharger: "No of Charger",
+    coverImage: "Cover Gallery",
+    galleryImages: "Station Gallery",
+    baseUrl: "Base Url"
     // address: "Address",
     // slotDate: "Slot Date",
   }
@@ -86,7 +91,9 @@ const ChargerInstallationDetails = () => {
     serviceType: bookingDetails?.service_type,
     residentType: bookingDetails?.resident_type,
     noOfCharger: bookingDetails?.no_of_charger,
-    
+    coverImage: bookingDetails?.station_image,
+    galleryImages: bookingDetails?.gallery_data,
+    baseUrl: bookingDetails?.base_url,
     slotDate: moment(bookingDetails?.slot_date_time).format('DD MMM YYYY h:mm A'),
   }
 
@@ -104,6 +111,7 @@ const ChargerInstallationDetails = () => {
       titles = {sectionTitles} content = {sectionContent}
       type = 'chargerInstallation'
       />
+      {/* <BookingDetailsAccordion history = {history} /> */}
     </div>
   )
 }

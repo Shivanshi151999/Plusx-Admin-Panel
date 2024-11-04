@@ -7,7 +7,7 @@ import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
 
 const statusMapping = {
-    'P': 'Placed',
+    'P': 'Open',
     'A': 'Assigned',
     'ER': 'Enroute',
     'AR': 'Arrived',
