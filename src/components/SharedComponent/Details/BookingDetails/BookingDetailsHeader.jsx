@@ -7,7 +7,7 @@ const BookingDetailsHeader = ({content, titles, type}) => {
   return (
       <div className={styles.infoCard}>
         <div className="row">
-          <div className="col-xl-4 col-lg-6 col-12">
+          <div className="col-xl-3 col-lg-6 col-12">
             <div className={styles.detailsHeaderSection}>
               <div className={styles.detailsImageSection}>
                 {/* <img src={Person} alt="Person" /> */}
@@ -19,13 +19,9 @@ const BookingDetailsHeader = ({content, titles, type}) => {
               </div>
             </div>
           </div>  
-<<<<<<< Updated upstream
           {
                 type !== 'publicChargingStation' && (
           <div className="col-xl-3 col-lg-6 col-12">
-=======
-          <div className="col-xl-4 col-lg-6 col-12">
->>>>>>> Stashed changes
             <div className={styles.detailsHeaderSection}>
               <div className={styles.detailsImageSection}>
               </div>
@@ -41,7 +37,7 @@ const BookingDetailsHeader = ({content, titles, type}) => {
 
           {
                 type === 'portableChargerBooking' && (
-                <div className="col-xl-4 col-lg-6 col-12">
+                <div className="col-xl-3 col-lg-6 col-12">
             <div className={styles.detailsHeaderSection}>
               <div className={styles.detailsImageSection}>
                 {/* <img src={Email} alt="Email" /> */}

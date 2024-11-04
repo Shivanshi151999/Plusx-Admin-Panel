@@ -6,13 +6,10 @@ import Pagination from '../../SharedComponent/Pagination/Pagination'
 import { getRequestWithToken, postRequestWithToken } from '../../../api/Requests';
 import CustomModal from '../../SharedComponent/CustomModal/CustomModal';
 import moment from 'moment';
-<<<<<<< Updated upstream
 import { AiOutlinePlus } from 'react-icons/ai';  
 import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from 'react-router-dom';
-=======
 import AddDriver from '../../../assets/images/AddDriver.svg'
->>>>>>> Stashed changes
 
 const statusMapping = {
     'CNF': 'Booking Confirmed',
@@ -36,23 +33,10 @@ const ChargerBookingList = () => {
     const [chargerBookingList, setChargerBookingList] = useState([])
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
-<<<<<<< Updated upstream
     const [filters, setFilters] = useState({});
 
     
         const fetchList = (page, appliedFilters = {}) => {
-=======
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [driverList, setDriverList] = useState([]);
-    useEffect(() => {
-        setDriverList([
-            { name: 'Driver 1', isUnavailable: false },
-            { name: 'Driver 2', isUnavailable: false },
-            { name: 'Driver 3', isUnavailable: false }
-        ]);
-    }, []);
-        const fetchList = (page) => {
->>>>>>> Stashed changes
             const obj = {
                 userId : userDetails?.user_id,
                 email : userDetails?.email,
@@ -88,17 +72,6 @@ const ChargerBookingList = () => {
         setCurrentPage(1); 
     };
 
-    const handleDriverClick = () => {
-        setIsModalOpen(true); 
-    };
-
-    const closeModal = () => {
-        setIsModalOpen(false); 
-    };
-    const handleSelectDriver = (driverName) => {
-        console.log(`Selected Driver: ${driverName}`);
-        closeModal();
-    };
     return (
         <>
          <SubHeader heading = "Portable Charger Booking List" 
@@ -142,7 +115,7 @@ const ChargerBookingList = () => {
             {
                 key: 'driver_assign', 
                 label: 'Driver Assign',
-                format: () =>  <img src={AddDriver} className={styles.addDriver} onClick={handleDriverClick}/>
+                format: () => <AiOutlinePlus className={"logo"} />
             },
         ]}
         pageHeading="Charger Booking List"
@@ -153,14 +126,9 @@ const ChargerBookingList = () => {
           totalPages={totalPages} 
           onPageChange={handlePageChange} 
         />
-         <CustomModal 
-            isOpen={isModalOpen} 
-            onClose={closeModal} 
-            driverList={driverList} 
-            onSelectDriver={handleSelectDriver} 
-          />
         </>
     );
 };
+
 
 export default ChargerBookingList;

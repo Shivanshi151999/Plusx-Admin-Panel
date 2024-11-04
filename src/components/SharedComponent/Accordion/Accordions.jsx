@@ -3,16 +3,10 @@ import { Accordion, Card } from 'react-bootstrap';
 import styles from './accordion.module.css';
 // import {AnimatePresence, motion} from 'framer-motion/dist/framer-motion'
 import { motion, AnimatePresence } from 'framer-motion';
-<<<<<<< Updated upstream
 
 // import Calendar from "../Calendar/Calendar"
 
 const AccordionFilter = ({ isOpen, fetchFilteredData, dynamicFilters, filterValues }) => {
-=======
-// import Calendar from "../Calendar/Calendar"
-
-const AccordionFilter = ({ isOpen, fetchFilteredData }) => {
->>>>>>> Stashed changes
     const [showContent, setShowContent] = useState(isOpen);
 
     // const [filterValues, setFilterValues] = useState({
