@@ -17,8 +17,12 @@ const statusMapping = {
   'CS': 'Charging Started',
   'CC': 'Charging Completed',
   'PU': 'POD Picked Up',
+  'VP': 'Vehicle Pickup',
+  'RS': 'Reached Charging Spot',
   'WC': 'Work Completed',
-  'C': 'Cancel'
+  'DO': 'Drop Off',
+  'C': 'Cancel',
+
 };
 
 const ChargerBookingDetails = () => {
@@ -78,6 +82,7 @@ const ChargerBookingDetails = () => {
     customerContact: `${bookingDetails?.rider?.country_code} ${bookingDetails?.rider?.rider_mobile}`,
     driverName: bookingDetails?.driver?.rsa_name,
     driverContact: `${bookingDetails?.driver?.country_code} ${bookingDetails?.driver?.mobile}`,
+    invoice: bookingDetails?.booking?.invoice_url,
   };
 
   const sectionContent = {
@@ -96,6 +101,7 @@ const ChargerBookingDetails = () => {
     <div className={styles.appSignupSection}>
       <BookingDetailsHeader 
         content={content} titles={headerTitles}
+        sectionContent = {sectionContent}
         type = 'portableChargerBooking'
       />
       {/* <BookingDetailsSection 
@@ -105,6 +111,7 @@ const ChargerBookingDetails = () => {
       <div className={styles.bookingDetailsSection}>
       <BookingLeftDetails  
       titles = {sectionTitles} content = {sectionContent}
+     
       type = 'portableChargerBooking'
       />
       <BookingDetailsAccordion history = {history} rsa = {content}/>

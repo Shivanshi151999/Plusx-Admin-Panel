@@ -15,6 +15,10 @@ const BookingDetailsAccordion = ({history, rsa }) => {
     CS: 'Charging Started',
     CC: 'Charging Completed',
     PU: 'Picked Up',
+    VP: 'Vehicle Pickup',
+    RS: 'Reached Charging Spot',
+    WC: 'Work Completed',
+    DO: 'Drop Off',
     S: "S",
     C: "Cancelled",
   };
@@ -23,7 +27,8 @@ const BookingDetailsAccordion = ({history, rsa }) => {
     title: statusTitles[item?.order_status] || 'Unknown Status',
     details: item.details,
     time: item.created_at ? moment(item.created_at).format('MMMM Do YYYY, h:mm:ss a') : null,
-    showRSA: item?.order_status !== 'CNF'
+    showRSA: item?.order_status !== 'CNF',
+    showInvoice: item?.order_status === 'PU',
   }));
 
   const [activeKey, setActiveKey] = useState("0");
@@ -40,7 +45,7 @@ const BookingDetailsAccordion = ({history, rsa }) => {
 
       <Accordion activeKey={activeKey} className={styles.accordion}>
       
-       {sections.map((section, index) => (
+       {sections?.map((section, index) => (
           <Accordion.Item eventKey={index.toString()} key={index} className={styles.accordionItem}>
             <Accordion.Header onClick={() => handleAccordionToggle(index.toString())} className={styles.accordionHeader}>
               <span>{section.title}</span>
@@ -52,8 +57,17 @@ const BookingDetailsAccordion = ({history, rsa }) => {
               {section.showRSA && rsa?.driverName && (
                 <p><strong>RSA:</strong> {rsa.driverName}</p>
               )}
+              {/* {section.showInvoice && rsa?.invoice && (
+                <p><strong>Image:</strong> {rsa.invoice}</p>
+              )} */}
+              {section.showInvoice && rsa?.invoice && (
+  <div>
+    <p><strong>Image:</strong></p>
+    <img src={rsa.invoice} alt="Invoice" style={{ maxWidth: '100%', height: 'auto' }} />
+  </div>
+)}
               {section.time && <p> {section.time}</p>}
-
+              
             </Accordion.Body>
           </Accordion.Item>
         ))}

@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import styles from './bookinglist.module.css'
 import BookingDetailsHeader from '../../SharedComponent/Details/BookingDetails/BookingDetailsHeader'
 import BookingDetailsSection from '../../SharedComponent/Details/BookingDetails/BookingDetailsSection'
+import BookingLeftDetails from '../../SharedComponent/BookingDetails/BookingLeftDetails.jsx'
+import BookingDetailsAccordion from '../../SharedComponent/BookingDetails/BookingDetailsAccordion.jsx'
 import { postRequestWithToken } from '../../../api/Requests';
 import { useParams } from 'react-router-dom';
 import moment from 'moment';
@@ -23,6 +25,7 @@ const PickAndDropBookingDetails = () => {
   const navigate = useNavigate()
   const {requestId} = useParams()
   const [bookingDetails, setBookingDetails] = useState()
+  const [history, setHistory] = useState([])
   
 
   const fetchDetails = () => {
@@ -35,6 +38,7 @@ const PickAndDropBookingDetails = () => {
     postRequestWithToken('pick-and-drop-booking-details', obj, (response) => {
         if (response.code === 200) {
             setBookingDetails(response?.data[0] || {});  
+            setHistory(response?.history)
         } else {
             console.log('error in rider-details API', response);
         }
@@ -85,12 +89,18 @@ const PickAndDropBookingDetails = () => {
     <div className={styles.appSignupSection}>
       <BookingDetailsHeader 
        content={content} titles={headerTitles}
+       sectionContent = {sectionContent}
        type = 'pickAndDropBooking'
       />
-      <BookingDetailsSection 
+      {/* <BookingDetailsSection 
         titles = {sectionTitles} content = {sectionContent}
         type = 'pickAndDropBooking'
+      /> */}
+      <BookingLeftDetails  
+      titles = {sectionTitles} content = {sectionContent}
+      type = 'pickAndDropBooking'
       />
+      <BookingDetailsAccordion history = {history} rsa = {content}/>
     </div>
   )
 }
