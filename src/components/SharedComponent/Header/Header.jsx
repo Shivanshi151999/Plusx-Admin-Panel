@@ -3,10 +3,10 @@ import styles from './header.module.css';
 import Notification from '../../../assets/images/Notification.svg';
 import ProfileIcon from '../../../assets/images/Profile.svg';
 import { Link } from 'react-router-dom';
-
+import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
-  // State to manage the visibility of dropdowns
+  const navigate = useNavigate()
   const [isNotificationOpen, setNotificationOpen] = useState(false);
   const [isProfileOpen, setProfileOpen] = useState(false);
 
@@ -20,6 +20,11 @@ const Header = () => {
     setProfileOpen(!isProfileOpen);
     setNotificationOpen(false); // Close notification dropdown if open
   };
+
+  const handleLogout = () => {
+    sessionStorage.removeItem('userDetails')
+    navigate('/login');
+  }
 
   return (
     <div className={styles.headerContainer}>
@@ -82,7 +87,7 @@ const Header = () => {
         {isProfileOpen && (
           <div className={styles.profileDropdown}>
             <p>Profile</p>
-            <p>Logout</p>
+            <p onClick={handleLogout}>Logout</p>
           </div>
         )}
       </div>
