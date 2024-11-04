@@ -102,7 +102,6 @@ const BookingDetailsHeader = ({ content, titles, sectionContent, type }) => {
             <div className={styles.detailsImageSection}>
               {/* <img src={Person} alt="Person" /> */}
             </div>
-<<<<<<< Updated upstream
             <div className={styles.infoBlock}>
               <span className={styles.infoHeading}>{titles?.bookingIdTitle}</span>
               <span className={styles.infoText}>{content?.bookingId}</span>
@@ -112,11 +111,6 @@ const BookingDetailsHeader = ({ content, titles, sectionContent, type }) => {
         </div>
         
         {type !== 'publicChargingStation' && (
-=======
-          </div>  
-          {
-                type !== 'publicChargingStation' && (
->>>>>>> Stashed changes
           <div className="col-xl-3 col-lg-6 col-12">
             <div className={styles.detailsHeaderSection}>
               <div className={styles.detailsImageSection}></div>
