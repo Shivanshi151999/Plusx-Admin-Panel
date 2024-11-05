@@ -145,7 +145,7 @@ const BookingList = () => {
          dynamicFilters={dynamicFilters} filterValues={filters}
          />
         <List 
-        tableHeaders={["ID", "Name", "Price", "Date & Time", "Status", "Driver Assign", "Action"]}
+        tableHeaders={["Date", "Booking ID", "Customer Name", "Price", "Status", "Driver Assign", "Action"]}
           listData = {chargerBookingList}
           keyMapping={[
             { key: 'request_id', label: 'ID' }, 

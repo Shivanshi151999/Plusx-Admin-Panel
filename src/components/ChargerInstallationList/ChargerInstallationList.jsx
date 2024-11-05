@@ -58,7 +58,7 @@ const ChargerInstallationList = () => {
         <>
          <SubHeader heading = "Charger Installation List"/>
         <List 
-        tableHeaders={["Request ID", "Name", "Service Type", "Vehicle Model", "Date & Time", "Status", "Action"]}
+        tableHeaders={["Date","Request ID", "Customer Name", "Service Type", "Vehicle Model",  "Status", "Action"]}
           listData = {chargerInstallationList}
           keyMapping={[
             { key: 'request_id', label: 'Station Name' }, 

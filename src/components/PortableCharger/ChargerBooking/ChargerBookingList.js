@@ -4,6 +4,10 @@ import SubHeader from '../../SharedComponent/SubHeader/SubHeader';
 import Pagination from '../../SharedComponent/Pagination/Pagination';
 import { getRequestWithToken, postRequestWithToken } from '../../../api/Requests';
 import moment from 'moment';
+<<<<<<< Updated upstream
+=======
+import { AiOutlinePlus } from 'react-icons/ai';  
+>>>>>>> Stashed changes
 import AddDriver from '../../../assets/images/AddDriver.svg';
 import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from 'react-router-dom';
@@ -146,9 +150,10 @@ const ChargerBookingList = () => {
                 filterValues={filters}
             />
             <List
-                tableHeaders={["ID", "Name", "Service Name", "Price", "Date & Time", "Status", "Driver Assign", "Action"]}
+                tableHeaders={["Date","Booking ID", "Customer Name", "Service Name", "Price",  "Status", "Driver Assign", "Action"]}
                 listData={chargerBookingList}
                 keyMapping={[
+                    { key: 'created_at', label: 'Date & Time', format: (date) => moment(date).format('DD MMM YYYY h:mm A') },
                     { key: 'booking_id', label: 'ID' },
                     {
                         key: 'user_name',
@@ -163,7 +168,7 @@ const ChargerBookingList = () => {
                     },
                     { key: 'service_name', label: 'Service Name' },
                     { key: 'service_price', label: 'Price', format: (price) => (price ? `AED ${price}` : '') },
-                    { key: 'created_at', label: 'Date & Time', format: (date) => moment(date).format('DD MMM YYYY h:mm A') },
+                    
                     { key: 'status', label: 'Status', format: (status) => statusMapping[status] || status },
                     // {
                     //     key: 'booking_id',

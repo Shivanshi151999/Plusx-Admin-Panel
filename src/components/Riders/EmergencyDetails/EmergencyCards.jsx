@@ -13,7 +13,7 @@ const EmergencyCards = ({details}) => {
                             <img src={Person} alt="Person" />
                         </div>
                         <div className={styles.infoBlock}>
-                            <span className={styles.infoHeading}>Rider Name</span>
+                            <span className={styles.infoHeading}>Driver Name</span>
                             <span className={styles.infoText}> {details?.rsa_name}</span>
                         </div>
                     </div>

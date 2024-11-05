@@ -47,8 +47,9 @@
   color: #ffffff;
   text-transform: capitalize; 
 }
-.infoHeading{
-  font-size: 12px;
+.sectionsTitle{
+  font-size: 18px;
+  font-weight: 600;
   color: #ffffff;
 }
 /* end the details header section */

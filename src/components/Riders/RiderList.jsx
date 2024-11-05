@@ -23,7 +23,7 @@ const RiderList = () => {
     const [refresh, setRefresh] = useState(false)
 
     const addButtonProps = {
-        heading: "Add Emergency Team", 
+        heading: "Add Driver", 
         link: "/add-emergency-team"
     };
 
@@ -90,7 +90,7 @@ const RiderList = () => {
          dynamicFilters={dynamicFilters} filterValues={filters}
          />
         <List 
-        tableHeaders={["ID", "RSA Name", "RSA Email", "Service Type", "Status", "Action"]}
+        tableHeaders={["ID", "Driver Name", "Driver Email", "Service Type", "Status", "Action"]}
           listData = {rsaList}
           keyMapping={[
             { key: 'rsa_id', label: 'ID' }, 

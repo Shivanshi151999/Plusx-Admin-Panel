@@ -48,7 +48,7 @@ const InvoiceList = () => {
         <>
          <SubHeader heading = "Pick & Drop Invoice List"/>
         <List 
-        tableHeaders={["Invoice ID", "Rider Data", "Amount", "Invoice Date", "Status", "Action"]}
+        tableHeaders={["Invoice Date", "Invoice ID", "Customer Name", "Amount", "Status", "Action"]}
           listData = {invoiceList}
           keyMapping={[
             { key: 'invoice_id', label: 'ID' }, 

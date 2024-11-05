@@ -1,16 +1,16 @@
-import React, { useEffect, useState }  from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './addcharger.module.css';
-import { AiOutlineClose, AiOutlineDown, AiOutlineUp } from 'react-icons/ai'; 
-import UploadIcon from '../../../assets/images/uploadicon.svg'; 
+import { AiOutlineClose, AiOutlineDown, AiOutlineUp } from 'react-icons/ai';
+import UploadIcon from '../../../assets/images/uploadicon.svg';
 import { postRequestWithToken, postRequestWithTokenAndFile } from '../../../api/Requests';
 import { toast } from 'react-toastify';
 import { useNavigate, useParams } from 'react-router-dom';
-
+import Select from 'react-select';
 
 const EditPortableCharger = () => {
-    const userDetails = JSON.parse(sessionStorage.getItem('userDetails')); 
+    const userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
     const navigate = useNavigate()
-    const {chargerId} = useParams()
+    const { chargerId } = useParams()
     const [details, setDetails] = useState()
     const [file, setFile] = useState();
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -34,7 +34,7 @@ const EditPortableCharger = () => {
     const handleRemoveImage = () => {
         setFile(null);
     };
-   
+
     const toggleDropdown = () => {
         setIsDropdownOpen(!isDropdownOpen);
     };
@@ -75,7 +75,7 @@ const EditPortableCharger = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (validateForm()) {
-    
+
             const formData = new FormData();
             formData.append("userId", userDetails?.user_id);
             formData.append("email", userDetails?.email);
@@ -85,13 +85,13 @@ const EditPortableCharger = () => {
             formData.append("charger_feature", chargerFeature);
             formData.append("charger_type", chargerType);
             formData.append("status", "1");
-    
+
             // Append new image file if a new file is selected, skip if it's the existing image URL
             if (file instanceof File) {
                 formData.append("charger_image", file);
             }
-    
-            postRequestWithTokenAndFile('edit-charger', formData, async(response) => {
+
+            postRequestWithTokenAndFile('edit-charger', formData, async (response) => {
                 if (response.code === 200) {
                     toast(response.message[0], { type: "success" });
                     navigate('/portable-charger/charger-list');
@@ -103,18 +103,18 @@ const EditPortableCharger = () => {
             console.log("Form validation failed.");
         }
     };
-    
+
     const fetchDetails = () => {
         const obj = {
-            userId : userDetails?.user_id,
-            email : userDetails?.email,
-            charger_id : chargerId
+            userId: userDetails?.user_id,
+            email: userDetails?.email,
+            charger_id: chargerId
         };
-    
+
         postRequestWithToken('charger-details', obj, (response) => {
             if (response.code === 200) {
                 const data = response.data || {};
-                setDetails(data);  
+                setDetails(data);
 
                 // Pre-fill the form fields with fetched details
                 setChargerName(data.charger_name || "");
@@ -122,132 +122,134 @@ const EditPortableCharger = () => {
                 setChargerType(data.charger_type || "");
                 setChargerFeature(data.charger_feature || "");
                 setFile(data.image || "")
-                   
+
             } else {
                 console.log('error in charger-slot-details API', response);
             }
         });
     };
-    
-      useEffect(() => {
+
+    useEffect(() => {
         if (!userDetails || !userDetails.access_token) {
-            navigate('/login'); 
-            return; 
+            navigate('/login');
+            return;
         }
         fetchDetails();
-      }, []);
+    }, []);
 
     return (
         <div className={styles.containerCharger}>
-        <h2 className={styles.title}>Edit Charger</h2>
-        <div className={styles.chargerSection}>
-            <form className={styles.form} onSubmit={handleSubmit}>
-                <div className={styles.row}>
-                    <div className={styles.inputGroup}>
-                        <label className={styles.label}>Charger Name</label>
-                        <input
-                            className={styles.inputCharger}
-                            type="text"
-                            placeholder="Super Charger"
-                            value={chargerName}
-                            onChange={(e) => setChargerName(e.target.value.slice(0, 50))}
-                        />
-                        {errors.chargerName && <p className={styles.error} style={{color: 'red'}}>{errors.chargerName}</p>}
-                    </div>
-                    <div className={styles.inputGroup}>
-                        <label className={styles.label}>Charger Price</label>
-                        <input
-                            className={styles.inputCharger}
-                            type="text"
-                            placeholder="AED 150"
-                            value={chargerPrice}
-                            onChange={(e) => {
-                                const priceValue = e.target.value.replace(/\D/g, "");
-                                setChargerPrice(priceValue.slice(0, 5));
-                            }}
-                        />
-                        {errors.chargerPrice && <p className={styles.error} style={{color: 'red'}}>{errors.chargerPrice}</p>}
-                    </div>
-                    <div className={styles.inputGroup}>
-                        <label className={styles.label}>Charger Type</label>
-                        <div className={styles.selectContainer}>
-                            <select
-                                className={styles.select}
-                                value={chargerType}
-                                onChange={(e) => setChargerType(e.target.value)}
-                                onClick={toggleDropdown}
-                            >
-                                <option value="">Select</option>
-                                <option value="On Demand Service">On Demand Service</option>
-                                <option value="Scheduled Service">Scheduled Service</option>
-                            </select>
-                            <div className={styles.iconContainer}>
-                                {isDropdownOpen ? <AiOutlineUp /> : <AiOutlineDown />}
-                            </div>
+            <h2 className={styles.title}>Edit Charger</h2>
+            <div className={styles.chargerSection}>
+                <form className={styles.form} onSubmit={handleSubmit}>
+                    <div className={styles.row}>
+                        <div className={styles.inputGroup}>
+                            <label className={styles.label}>Charger Name</label>
+                            <input
+                                className={styles.inputCharger}
+                                type="text"
+                                placeholder="Super Charger"
+                                value={chargerName}
+                                onChange={(e) => setChargerName(e.target.value.slice(0, 50))}
+                            />
+                            {errors.chargerName && <p className={styles.error} style={{ color: 'red' }}>{errors.chargerName}</p>}
                         </div>
-                        {errors.chargerType && <p className={styles.error} style={{color: 'red'}}>{errors.chargerType}</p>}
-                    </div>
-                </div>
-                <div className={styles.row}>
-                    <div className={styles.inputGroup}>
-                        <label className={styles.label}>Charger Feature</label>
-                        <input
-                            className={styles.inputCharger}
-                            type="text"
-                            placeholder="For AED 150 Per Charger"
-                            value={chargerFeature}
-                            onChange={(e) => setChargerFeature(e.target.value)}
-                        />
-                        {errors.chargerFeature && <p className={styles.error} style={{color: 'red'}}>{errors.chargerFeature}</p>}
-                    </div>
-                </div>
-
-                <div className={styles.fileUpload}>
-                    <label className={styles.fileLabel}>Image</label>
-                    <div className={styles.fileDropZone}>
-                        <input
-                            type="file"
-                            id="fileUpload"
-                            accept="image/*"
-                            onChange={handleFileChange}
-                            style={{ display: 'none' }}
-                        />
-                        {!file ? (
-                            <label htmlFor="fileUpload" className={styles.fileUploadLabel}>
-                                <img src={UploadIcon} alt="Upload Icon" className={styles.uploadIcon} />
-                                <p>Select File to Upload <br /> or Drag & Drop, Copy & Paste Files</p>
-                            </label>
-                        ) : (
-                            <div className={styles.imageContainer}>
-                                <img
-                                    // src={URL.createObjectURL(file)}
-                                    src={
-                                        typeof file === 'string' 
-                                            ? `${process.env.REACT_APP_SERVER_URL}uploads/charger-images/${file}` 
-                                            : URL.createObjectURL(file)
-                                    } 
-                                    alt="Preview"
-                                    className={styles.previewImage}
+                        <div className={styles.inputGroup}>
+                            <label className={styles.label}>Charger Price</label>
+                            <input
+                                className={styles.inputCharger}
+                                type="text"
+                                placeholder="AED 150"
+                                value={chargerPrice}
+                                onChange={(e) => {
+                                    const priceValue = e.target.value.replace(/\D/g, "");
+                                    setChargerPrice(priceValue.slice(0, 5));
+                                }}
+                            />
+                            {errors.chargerPrice && <p className={styles.error} style={{ color: 'red' }}>{errors.chargerPrice}</p>}
+                        </div>
+                        <div className={styles.inputGroup}>
+                            <label className={styles.label}>Charger Type</label>
+                            <div className={styles.selectContainer}>
+                                <Select
+                                    value={{ label: chargerType, value: chargerType }}
+                                    onChange={(option) => setChargerType(option.value)}
+                                    options={[
+                                        { value: 'On Demand Service', label: 'On Demand Service' },
+                                        { value: 'Scheduled Service', label: 'Scheduled Service' }
+                                    ]}
+                                    onMenuOpen={toggleDropdown}
+                                    onMenuClose={toggleDropdown}
+                                    placeholder="Select"
                                 />
-                                <button
-                                    type="button"
-                                    className={styles.removeButton}
-                                    onClick={handleRemoveImage}
-                                >
-                                    <AiOutlineClose size={20} style={{ padding: '2px' }} />
-                                </button>
                             </div>
-                        )}
+                            {errors.chargerType && (
+                                <p className={styles.error} style={{ color: 'red' }}>
+                                    {errors.chargerType}
+                                </p>
+                            )}
+                        </div>
                     </div>
-                    {errors.file && <p className={styles.error} style={{color: 'red'}}>{errors.file}</p>}
-                </div>
-                <div className={styles.actions}>
-                    <button className={styles.cancelBtn} type="button">Cancel</button>
-                    <button className={styles.submitBtn} type="submit">Submit</button>
-                </div>
-            </form>
+                    <div className={styles.row}>
+                        <div className={styles.inputGroup}>
+                            <label className={styles.label}>Charger Feature</label>
+                            <input
+                                className={styles.inputCharger}
+                                type="text"
+                                placeholder="For AED 150 Per Charger"
+                                value={chargerFeature}
+                                onChange={(e) => setChargerFeature(e.target.value)}
+                            />
+                            {errors.chargerFeature && <p className={styles.error} style={{ color: 'red' }}>{errors.chargerFeature}</p>}
+                        </div>
+                    </div>
+
+                    <div className={styles.fileUpload}>
+                        <label className={styles.fileLabel}>Image</label>
+                        <div className={styles.fileDropZone}>
+                            <input
+                                type="file"
+                                id="fileUpload"
+                                accept="image/*"
+                                onChange={handleFileChange}
+                                style={{ display: 'none' }}
+                            />
+                            {!file ? (
+                                <label htmlFor="fileUpload" className={styles.fileUploadLabel}>
+                                    <img src={UploadIcon} alt="Upload Icon" className={styles.uploadIcon} />
+                                    <p>Select File to Upload <br /> or Drag & Drop, Copy & Paste Files</p>
+                                </label>
+                            ) : (
+                                <div className={styles.imageContainer}>
+                                    <img
+                                        // src={URL.createObjectURL(file)}
+                                        src={
+                                            typeof file === 'string'
+                                                ? `${process.env.REACT_APP_SERVER_URL}uploads/charger-images/${file}`
+                                                : URL.createObjectURL(file)
+                                        }
+                                        alt="Preview"
+                                        className={styles.previewImage}
+                                    />
+                                    <button
+                                        type="button"
+                                        className={styles.removeButton}
+                                        onClick={handleRemoveImage}
+                                    >
+                                        <AiOutlineClose size={20} style={{ padding: '2px' }} />
+                                    </button>
+                                </div>
+                            )}
+                        </div>
+                        {errors.file && <p className={styles.error} style={{ color: 'red' }}>{errors.file}</p>}
+                    </div>
+                    <div className={styles.actions}>
+                        <button className={styles.cancelBtn} type="button">Cancel</button>
+                        <button className={styles.submitBtn} type="submit">Submit</button>
+                    </div>
+                </form>
+            </div>
         </div>
-    </div>
     );
 };
 

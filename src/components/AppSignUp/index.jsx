@@ -32,11 +32,11 @@ const RiderDetails = () => {
   const [valetRsaList, setValetRsaList] = useState([])
 
   const portableChargerHeaders = [
-    'Date','ID', 'Service Name', 'Price', , 'Status', 'Driver Assign', 'Action' 
+    'Date','Booking ID', 'Price',  'Status', 'Assigned Driver', 'Vehicle Type', 'Action' 
   ];
 
   const pickAndDropHeaders = [
-    'Date','ID',  'Price',  'Status', 'Driver Assign',  'Action'
+    'Date','Booking ID',  'Price',  'Status', 'Assigned Driver','Vehicle Type',  'Action'
   ];
 
   const fetchDetails = () => {

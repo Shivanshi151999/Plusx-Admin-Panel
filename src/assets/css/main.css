@@ -71,21 +71,38 @@ display: none !important;
 
 /* Designed the clock range wise calendar */
 .css-10o2lyd-MuiStack-root {
-  border: 1px solid red !important;
   padding-top: 0px !important;
+}
+.css-113d811-MuiFormLabel-root-MuiInputLabel-root {
+  color: #242424 !important;
+  font-size: 0rem !important;
+  line-height: 0px !important;
+  letter-spacing: 0px !important;
+}
+.css-1b1fjlj-MuiFormControl-root-MuiTextField-root {
+background-color: #242424 !important;
+font-size: 16px !important;
+border-radius: 6px !important;
+outline: none !important;
+color: #ffffff !important;
+width: 100% !important;
 }
 .css-19qnlrw-MuiFormLabel-root-MuiInputLabel-root {
   display: none !important;
 }
+.css-1dune0f-MuiInputBase-input-MuiOutlinedInput-input {
+  color: #ffffff !important;
+  outline: none !important;
+}
 .css-jupps9-MuiInputBase-root-MuiOutlinedInput-root {
   color:#ffffff !important;
   border-radius: 0px !important;
-  width: 25.6vw !important;
   outline: none !important;
   border: none !important;
+  outline: none !important;
 }
 .css-113d811-MuiFormLabel-root-MuiInputLabel-root.Mui-focused {
-  color: initial !important ;
+  color: #242424 !important ;
 }
 .rmsc .dropdown-content .panel-content {
   overflow: hidden;
@@ -180,4 +197,23 @@ display: none !important;
 .css-tr4s17-option {
   background-color:  #00ffc3 !important;
   color:#000000 !important;
+}
+/* start the time slot conatiner */
+.css-oeq6yz-MuiButtonBase-root-MuiIconButton-root {
+  background-color: #000000 !important;
+  font-size: 1.2rem !important;
+  color: #ffffff !important;
+  margin-right: 0px !important;
+}
+.css-1ll44ll-MuiOutlinedInput-notchedOutline {
+ outline: none !important;
+ border: none !important;
+}
+
+/* Style the invoice table  */
+table{
+  width: 100% !important;
+}
+.rs-stack-item{
+  width: 100% !important;
 }

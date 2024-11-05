@@ -81,7 +81,7 @@
           </li>
           <li className={styles.menuItem}>
             <NavLink to="/rider-list" className={({ isActive }) => (isActive ? styles.active : '')}>
-            Riders
+            Drivers
             </NavLink>
           </li>
 

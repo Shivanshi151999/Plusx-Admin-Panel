@@ -21,16 +21,18 @@
 }
 .filterForm {
     display: flex;
-    justify-content: space-between;
-    gap: 20px;
+    justify-content: start;
+    flex-wrap: wrap;
     color: #ffffff;
+    row-gap: 20px;
 }
 
 .filterItem {
     display: flex;
     flex-direction: column;
+    flex-wrap: wrap;
     row-gap: 8px;
-    width: 25%;
+    padding: 0px 10px;
 }
 .filterLabel{
 font-size: 16px;

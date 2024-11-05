@@ -79,7 +79,7 @@ const AccordionFilter = ({ type, isOpen, fetchFilteredData, dynamicFilters, filt
                                     <Card.Body>
                                         <form className={styles.filterForm}>
                                             {dynamicFilters?.map((filter) => (
-                                                <div key={filter.name} className={styles.filterItem}>
+                                                <div key={filter.name} className={`col-xxl-3 col-xl-4 col-lg-6 col-12 ${styles.filterItem}`}>
                                                     <label className={styles.filterLabel} htmlFor={filter.name}>{filter.label}</label>
                                                     {filter.type === 'select' ? (
                                                         <select 
@@ -110,7 +110,7 @@ const AccordionFilter = ({ type, isOpen, fetchFilteredData, dynamicFilters, filt
                                                 </div>
                                             ))}
                                            { (type === "Portable Charger Booking List" || type === "Pick & Drop Booking List") && (
-                                                <div className={styles.filterItem}>
+                                                <div className={`col-xxl-3 col-xl-4 col-lg-6 col-12 ${styles.filterItem}`}>
                                                     <label className={styles.filterLabel} htmlFor="date_filter">Date Picker</label>
                                                     <Calendar handleDateChange={handleDateChange}/>
                                                 </div>

@@ -11,6 +11,10 @@ import Custommodal from '../CustomModal/CustomModal';
 const DeatilsBookingHistory = ({ title, headers, bookingData, bookingType, chargerRsaList, valetRsaList }) => {
   const navigate = useNavigate();
   const userDetails = JSON.parse(sessionStorage.getItem('userDetails')); 
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -103,7 +107,7 @@ const DeatilsBookingHistory = ({ title, headers, bookingData, bookingType, charg
 
   return (
     <div className={styles.addressListContainer}>
-      <span className={styles.sectionTitle}>{title}</span>
+      <span className={styles.sectionsTitle}>{title}</span>
       <table className={`table ${styles.customTable}`}>
         <thead>
           <tr>
@@ -117,14 +121,16 @@ const DeatilsBookingHistory = ({ title, headers, bookingData, bookingType, charg
             <tr key={index}>
               <td>{booking.datetime}</td>
               <td>{booking.id}</td>
-              {bookingType === 'portableCharger' ? (
+              {/* {bookingType === 'portableCharger' ? (
                 <>
                   <td>{booking.service_name}</td>
                 </>
-              ) : null}
+              ) : null} */}
               <td>{booking.price}</td>
               <td>{booking.status}</td>
-              <td>
+              <td>Ramesh</td>
+              <td>Porsche</td>
+              {/* <td>
                 <div className={styles.editContent}>
                   <img
                     src={AddAssign}
@@ -133,7 +139,7 @@ const DeatilsBookingHistory = ({ title, headers, bookingData, bookingType, charg
                     style={{ cursor: 'pointer' }}
                   />
                 </div>
-              </td>
+              </td> */}
               <td>
                 <div className={styles.editContent}>
                   <img

@@ -134,7 +134,11 @@ const validateForm = () => {
         console.log('error');
     }
 };
+const [isActive, setIsActive] = useState(false);
 
+const handleToggle = () => {
+  setIsActive(!isActive);
+};
     return (
         <div className={styles.containerCharger}>
             <h2 className={styles.title}>Edit Slot</h2>
@@ -143,10 +147,8 @@ const validateForm = () => {
                     <div className={styles.row}>
                         <div className={styles.inputGroup}>
                             <label className={styles.label}>Start Time</label>
-                            {/* <input className={styles.inputCharger} type="text" placeholder="Start Time" /> */}
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <DemoContainer components={['TimePicker']}>
-                                <div className={styles.inputCharger}> 
+                                <DemoContainer components={['TimePicker']}> 
                                     <TimePicker
                                         label="With Time Clock"
                                         value={startTime}
@@ -158,17 +160,14 @@ const validateForm = () => {
                                         }}
                                         renderInput={(params) => <input {...params} />}
                                     />
-                                </div>
                                 </DemoContainer>
                                 {errors.startTime && <span className={styles.error} style={{color: 'red'}}>{errors.startTime}</span>}
                             </LocalizationProvider>
                         </div>
                         <div className={styles.inputGroup}>
                             <label className={styles.label}>End Time</label>
-                            {/* <input className={styles.inputCharger} type="text" placeholder="End Time" /> */}
                             <LocalizationProvider dateAdapter={AdapterDayjs} >
                                  <DemoContainer components={['TimePicker']} className={styles.label}>
-                                 <div className={styles.inputCharger}>
                                     <TimePicker
                                      label="With Time Clock"
                                      value={endTime}
@@ -179,7 +178,6 @@ const validateForm = () => {
                                         seconds: renderTimeViewClock,
                                      }}
                                     />
-                                    </div>
                                </DemoContainer>
                            </LocalizationProvider>
                            {errors.endTime && <span className={styles.error} style={{color: 'red'}}>{errors.endTime}</span>}
@@ -193,6 +191,20 @@ const validateForm = () => {
                              {errors.bookingLimit && <span className={styles.error} style={{color: 'red'}}>{errors.bookingLimit}</span>}
                         </div>
                     </div>
+                    <div className={styles.toggleContainer}>
+              <label className={styles.statusLabel}>Status</label>
+              <div className={styles.toggleSwitch} onClick={handleToggle}>
+                <span className={`${styles.toggleLabel} ${!isActive ? styles.inactive : ''}`}>
+                  Un-active
+                </span>
+                <div className={`${styles.toggleButton} ${isActive ? styles.active : ''}`}>
+                  <div className={styles.slider}></div>
+                </div>
+                <span className={`${styles.toggleLabel} ${isActive ? styles.active : ''}`}>
+                  Active
+                </span>
+              </div>
+            </div>
                     <div className={styles.actions}>
                         <button className={styles.cancelBtn} type="button">Cancel</button>
                         <button className={styles.submitBtn} type="submit">Submit</button>

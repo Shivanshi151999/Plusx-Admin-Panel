@@ -48,11 +48,17 @@ const List = ({tableHeaders, listData, keyMapping, pageHeading, onDeleteSlot}) =
     const handlePublicChargerStationDetails = (id) => {
         navigate(`/public-charger-station-details/${id}`)
     }
+<<<<<<< Updated upstream
 
     const handleEditChargerDetails = (id) => {
         navigate(`/edit-charger-station/${id}`)
     }
 
+=======
+    const handlePortableInvoice = (id) => {
+        navigate(`/invoice`)
+    }
+>>>>>>> Stashed changes
     return (
         <div className={styles.containerCharger}>
             
@@ -102,7 +108,7 @@ const List = ({tableHeaders, listData, keyMapping, pageHeading, onDeleteSlot}) =
                                         </>
                                     )}
                                     {pageHeading === 'Portable Charger Invoice List' && (
-                                        <img src={View} alt="view" />
+                                        <img src={View} alt="view" onClick={() => handlePortableInvoice()} />
                                     )}
                                     {pageHeading === 'Portable Charger Slot List' && (
                                         <>
