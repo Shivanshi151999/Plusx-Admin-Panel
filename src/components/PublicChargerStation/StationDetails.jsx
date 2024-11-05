@@ -67,6 +67,8 @@ const StationDetails = () => {
   const navigate = useNavigate()
   const {stationId} = useParams()
   const [bookingDetails, setBookingDetails] = useState()
+  const [imageGallery, setImageGallery] = useState()
+  const [baseUrl, setBaseUrl] = useState()
   
 
   const fetchDetails = () => {
@@ -79,6 +81,8 @@ const StationDetails = () => {
     postRequestWithToken('public-charger-station-details', obj, (response) => {
         if (response.code === 200) {
             setBookingDetails(response?.data || {});  
+            setImageGallery(response.gallery_data)
+            setBaseUrl(response.base_url)
         } else {
             console.log('error in public-charger-station-details API', response);
         }
@@ -102,7 +106,10 @@ const StationDetails = () => {
   const sectionTitles = {
     address: "Address",
     description: "Description",
-    openingDetails: "Opening Details"
+    openingDetails: "Opening Details",
+    coverImage: "Cover Gallery",
+    galleryImages: "Station Gallery",
+    // baseUrl: "Base Url"
   }
 
   const content = {
@@ -120,7 +127,9 @@ const StationDetails = () => {
     openingDetails: getFormattedOpeningHours(bookingDetails),
     address: bookingDetails?.address,
     description: bookingDetails?.description,
-    
+    coverImage: bookingDetails?.station_image,
+    galleryImages: imageGallery,
+    baseUrl: baseUrl,
     slotDate: moment(bookingDetails?.slot_date_time).format('DD MMM YYYY h:mm A'),
   }
 
