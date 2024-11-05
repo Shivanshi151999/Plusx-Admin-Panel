@@ -4,12 +4,14 @@ import UploadIcon from '../../assets/images/uploadicon.svg';
 import { AiOutlineClose } from 'react-icons/ai';
 import styles from './addcharger.module.css';
 import { MultiSelect } from "react-multi-select-component";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { postRequestWithTokenAndFile, postRequestWithToken } from '../../api/Requests';
 
-const AddChargerStation = () => {
+const EditPublicChargerStation = () => {
+    const {stationId} = useParams()
     const userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
     const navigate = useNavigate();
+    const [details, setDetails] = useState()
     const [file, setFile] = useState(null);
     const [galleryFiles, setGalleryFiles] = useState([]); 
     const [errors, setErrors] = useState({});
@@ -283,38 +285,75 @@ const AddChargerStation = () => {
         const obj = {
             userId : userDetails?.user_id,
             email : userDetails?.email,
+            station_id: stationId
         };
-    
-        postRequestWithToken('public-charger-station-data', obj, (response) => {
-            if (response.code === 200) {
-                
-                const transformedChargingFor = (response?.data?.chargingFor || []).map(item => ({
-                    label: item,
-                    value: item
-                }));
-                const transformedChargingType = (response?.data?.chargerType || []).map(item => ({
-                    value: item,
-                    label: item
-                }));
+        let data
 
-                setChargingFor(transformedChargingFor);
-                setChargingType(transformedChargingType)
+        postRequestWithToken('public-charger-station-details', obj, (response) => {
+            if (response.code === 200) {
+                 data = response?.data || {};
+                setDetails(data);  
+                setStationName(data?.station_name || "");
+                setChargingFor(data?.charging_for || []);
+                setChargingType(data?.charger_type || []);
+                setChargingPoint(data?.charging_point || "");
+                setDescription(data?.description || "");
+                setAddress(data?.address || "");
+                setLatitude(data?.latitude || "");
+                setLongitude(data?.longitude || "");
+                setFile(data?.station_image || "")
+                setGalleryFiles(data?.gallery_data[0] || "")
+                   
             } else {
-                console.log('error in rider-details API', response);
+                console.log('error in public-charger-station-detailsAPI', response);
             }
         });
     };
     
+    
+    const fetchChargingData = () => {
+         const obj = {
+            userId : userDetails?.user_id,
+            email : userDetails?.email,
+            station_id: stationId
+        };
+        postRequestWithToken('public-charger-station-data', obj, (response) => {
+         
+            let data = response?.data || {};
+            if (response.code === 200) {
+                const transformedChargingFor = (response?.data?.chargerType || []).map(item => ({
+                    label: item,
+                    value: item
+                }));
+                const transformedChargingType = (response?.data?.chargingFor || []).map(item => ({
+                    value: item,
+                    label: item
+                }));
+    
+                setChargingFor(transformedChargingFor);
+                setChargingType(transformedChargingType);
+    console.log('chargingFor',chargingFor);
+    
+                const initialSelectedBrands = chargingFor ? [{ label: chargingFor, value: chargingFor }] : [];
+                setSelectedBrands(initialSelectedBrands);
+            } else {
+                console.error('Error in public-charger-station-data API:', response);
+            }
+        });
+    };
+    
+
       useEffect(() => {
         if (!userDetails || !userDetails.access_token) {
           navigate('/login'); 
           return; 
         }
         fetchDetails();
+        fetchChargingData()
       }, []);
     return (
         <div className={styles.addShopContainer}>
-            <div className={styles.addHeading}>Add Public Chargers</div>
+            <div className={styles.addHeading}>Edit Public Chargers</div>
             <div className={styles.addShopFormSection}>
                 <form className={styles.formSection} onSubmit={handleSubmit}>
                     <div className={styles.row}>
@@ -451,9 +490,7 @@ const AddChargerStation = () => {
                             <label htmlFor="alwaysOpen">Always Open</label>
                         </div>
                         {!isAlwaysOpen && (
-
-
-                        <div className={styles.timeSlotContainer}>
+                            <div className={styles.timeSlotContainer}>
                                 {["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].map(day => (
                                     <div className={styles.dayRow} key={day}>
                                         <span className={styles.dayLabel}>{day}</span>
@@ -509,7 +546,16 @@ const AddChargerStation = () => {
                         </label>
                     ) : (
                         <div className={styles.imageContainer}>
-                            <img src={URL.createObjectURL(file)} alt="Preview" className={styles.previewImage} />
+                            {/* <img src={URL.createObjectURL(file)} alt="Preview" className={styles.previewImage} /> */}
+                            <img
+                                        src={
+                                            typeof file === 'string' 
+                                                ? `${process.env.REACT_APP_SERVER_URL}uploads/charging-station-images/${file}` 
+                                                : URL.createObjectURL(file)
+                                        } 
+                                        alt="Preview"
+                                        className={styles.previewImage}
+                                    />
                             <button type="button" className={styles.removeButton} onClick={handleRemoveImage}>
                                 <AiOutlineClose size={20} style={{ padding: '2px' }} />
                             </button>
@@ -540,7 +586,17 @@ const AddChargerStation = () => {
                         <div className={styles.galleryContainer}>
                             {galleryFiles.map((image, index) => (
                                 <div className={styles.imageContainer} key={index}>
-                                    <img src={URL.createObjectURL(image)} alt={`Preview ${index}`} className={styles.previewImage} />
+                                    {/* <img src={URL.createObjectURL(image)} alt={`Preview ${index}`} className={styles.previewImage} /> */}
+
+                                    <img
+                                        src={
+                                            typeof galleryFiles === 'string' 
+                                                ? `${process.env.REACT_APP_SERVER_URL}uploads/charging-station-images/${galleryFiles}` 
+                                                : URL.createObjectURL(galleryFiles)
+                                        } 
+                                        alt="Preview"
+                                        className={styles.previewImage}
+                                    />
                                     <button type="button" className={styles.removeButton} onClick={() => handleRemoveGalleryImage(index)}>
                                         <AiOutlineClose size={20} style={{ padding: '2px' }} />
                                     </button>
@@ -560,4 +616,4 @@ const AddChargerStation = () => {
     );
 };
 
-export default AddChargerStation;
+export default EditPublicChargerStation;

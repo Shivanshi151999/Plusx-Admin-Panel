@@ -40,6 +40,7 @@ import CarList from '../components/ElectricCarLeasing/CarList.jsx';
 import BikeList from '../components/ElectricBikeLeasing/BikeList.jsx';
 // import GuideList from '../components/EVGuide/GuideList.jsx';
 import AddChargerStation from '../components/PublicChargerStation/AddChargerStation.jsx';
+import EditPublicChargerStation from '../components/PublicChargerStation/EditPublicChargerStation.jsx';
 const router = createBrowserRouter([
   {
       path: "/login",
@@ -113,10 +114,15 @@ const router = createBrowserRouter([
         ],
       },
 
-      // app signup list
+     
       {
         path: "/add-charger-station",
         element: <AddChargerStation/>,
+        
+      },
+      {
+        path: "/edit-charger-station/:stationId",
+        element: <EditPublicChargerStation/>,
         
       },
 
