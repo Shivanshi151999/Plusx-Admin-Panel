@@ -38,7 +38,7 @@ import BrandList from '../components/EVSpecializedShops/ShopList/BrandList/Brand
 import ClubList from '../components/EvRiderClub/ClubList.jsx';
 import CarList from '../components/ElectricCarLeasing/CarList.jsx';
 import BikeList from '../components/ElectricBikeLeasing/BikeList.jsx';
-import GuideList from '../components/EVGuide/GuideList.jsx';
+// import GuideList from '../components/EVGuide/GuideList.jsx';
 import AddChargerStation from '../components/PublicChargerStation/AddChargerStation.jsx';
 const router = createBrowserRouter([
   {
@@ -202,10 +202,10 @@ const router = createBrowserRouter([
       },
 
       //Ev Guide
-      {
-        path: "/ev-guide-list",
-        element: <GuideList />,
-      },
+      // {
+      //   path: "/ev-guide-list",
+      //   element: <GuideList />,
+      // },
 
       //Ev Rider Club
       {
