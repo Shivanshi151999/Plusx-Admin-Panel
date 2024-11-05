@@ -258,7 +258,6 @@ background-color: #242424;
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  border: 1px solid #cccccc;
   padding: 10px;
   overflow-y: auto;
   max-height: 200px;
@@ -266,12 +265,10 @@ background-color: #242424;
 
 .imageContainer {
   position: relative;
-  width: 100px;
-  height: 100px;
+  width: 150px;
+  height: 150px;
   overflow: hidden;
   border-radius: 8px;
-  border: 1px solid #ddd;
-  background: #f8f8f8;
 }
 
 .previewImage {
