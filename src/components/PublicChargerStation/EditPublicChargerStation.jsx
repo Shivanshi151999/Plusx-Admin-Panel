@@ -42,9 +42,39 @@ const EditPublicChargerStation = () => {
     });
     
 
+    // const handleTimeChange = (day, timeType) => (event) => {
+    //     const value = event.target.value;
+    
+    //     setTimeSlots((prev) => {
+    //         const updatedTimeSlots = {
+    //             ...prev,
+    //             [day]: {
+    //                 ...prev[day],
+    //                 [timeType]: value,
+    //             },
+    //         };
+
+    //         if (timeType === 'open') {
+    //             if (value) {
+    //                 updatedTimeSlots[day].closeMandatory = true; 
+    //                 updatedTimeSlots[day].closeMandatory = false; 
+    //             }
+    //         } else if (timeType === 'close') {
+    //             if (value) {
+    //                 updatedTimeSlots[day].openMandatory = true; 
+    //             } else if (!updatedTimeSlots[day].open) {
+    //                 updatedTimeSlots[day].openMandatory = false; 
+    //             }
+    //         }
+    
+    //         return updatedTimeSlots;
+    //     });
+    // };
+
+
     const handleTimeChange = (day, timeType) => (event) => {
         const value = event.target.value;
-    
+
         setTimeSlots((prev) => {
             const updatedTimeSlots = {
                 ...prev,
@@ -55,18 +85,11 @@ const EditPublicChargerStation = () => {
             };
 
             if (timeType === 'open') {
-                if (value) {
-                    updatedTimeSlots[day].closeMandatory = true; 
-                    updatedTimeSlots[day].closeMandatory = false; 
-                }
+                updatedTimeSlots[day].closeMandatory = !!value; 
             } else if (timeType === 'close') {
-                if (value) {
-                    updatedTimeSlots[day].openMandatory = true; 
-                } else if (!updatedTimeSlots[day].open) {
-                    updatedTimeSlots[day].openMandatory = false; 
-                }
+                updatedTimeSlots[day].openMandatory = !!value;
             }
-    
+
             return updatedTimeSlots;
         });
     };
@@ -269,7 +292,7 @@ const EditPublicChargerStation = () => {
             });
         }
     
-        postRequestWithTokenAndFile('public-charger-add-station', formData, async (response) => {
+        postRequestWithTokenAndFile('public-charger-edit-station', formData, async (response) => {
             if (response.status === 1) {
                 navigate('/public-charger-station-list');
             } else {
@@ -282,17 +305,49 @@ const EditPublicChargerStation = () => {
     };
 
     const fetchDetails = () => {
-        const obj = {
-            userId : userDetails?.user_id,
-            email : userDetails?.email,
-            station_id: stationId
-        };
-        let data
+    const obj = {
+        userId: userDetails?.user_id,
+        email: userDetails?.email,
+        station_id: stationId
+    };
 
+    // return new Promise((resolve, reject) => {
         postRequestWithToken('public-charger-station-details', obj, (response) => {
             if (response.code === 200) {
-                 data = response?.data || {};
-                setDetails(data);  
+                const data = response?.data || {};
+                
+                // const openDays = data.open_days.split(',').map(day => day.trim());
+                const openDays = data.open_days.split('_')
+    .map(day => {
+        const trimmedDay = day.trim();
+        return trimmedDay.charAt(0).toUpperCase() + trimmedDay.slice(1).toLowerCase();
+    });
+
+// Split open_timing by underscores to get an array of open/close timing pairs
+const openTimings = data.open_timing.split('_'); // Split for each day's timings
+
+// Assuming openTimings will have the same length as openDays
+console.log('openDays', openDays);
+console.log('openTimings', openTimings);
+
+// Update time slots based on open days and timings
+const updatedTimeSlots = { ...timeSlots };
+
+openDays.forEach((day, index) => {
+    if (updatedTimeSlots[day] && openTimings[index]) {
+        const [openTime, closeTime] = openTimings[index].split('-'); // Get the specific open/close times for each day
+        updatedTimeSlots[day].open = openTime;
+        updatedTimeSlots[day].close = closeTime;
+        updatedTimeSlots[day].openMandatory = true; 
+        updatedTimeSlots[day].closeMandatory = true; 
+    }
+});
+                console.log('updatedTimeSlots',updatedTimeSlots);
+                setIsAlwaysOpen(data.always_open === 0);
+                const selectedPrice = priceOptions.find(option => option.value === data.price);
+                setPrice(selectedPrice);
+                setTimeSlots(updatedTimeSlots);
+                setDetails(data);
                 setStationName(data?.station_name || "");
                 setChargingFor(data?.charging_for || []);
                 setChargingType(data?.charger_type || []);
@@ -301,47 +356,42 @@ const EditPublicChargerStation = () => {
                 setAddress(data?.address || "");
                 setLatitude(data?.latitude || "");
                 setLongitude(data?.longitude || "");
-                setFile(data?.station_image || "")
-                setGalleryFiles(data?.gallery_data[0] || "")
-                   
+                setFile(data?.station_image || "");
+                setGalleryFiles(response?.gallery_data || []);
+                
+
+                                const transformedChargingFor = (response?.result?.chargingFor || []).map(item => ({
+                        label: item,
+                        value: item
+                    }));
+                    console.log('transformedChargingFor',transformedChargingFor);
+                    
+    
+                    const transformedChargingType = (response?.result?.chargerType || []).map(item => ({
+                        label: item,
+                        value: item
+                    }));
+    
+                    setChargingFor(transformedChargingFor);
+                    setChargingType(transformedChargingType);
+    
+                    const initialSelectedBrands = transformedChargingFor.length ? 
+                        [{ label: transformedChargingFor[0].label, value: transformedChargingFor[0].value }] : [];
+                    setSelectedBrands(initialSelectedBrands);
+
+                    const initialChargerType = transformedChargingType.length ? 
+                        [{ label: transformedChargingType[0].label, value: transformedChargingType[0].value }] : [];
+                        setSelectedType(initialChargerType);
+
+
+                    
             } else {
-                console.log('error in public-charger-station-detailsAPI', response);
+                console.error('Error in public-charger-station-details API', response);
+                // reject(response);
             }
         });
+    // });
     };
-    
-    
-    const fetchChargingData = () => {
-         const obj = {
-            userId : userDetails?.user_id,
-            email : userDetails?.email,
-            station_id: stationId
-        };
-        postRequestWithToken('public-charger-station-data', obj, (response) => {
-         
-            let data = response?.data || {};
-            if (response.code === 200) {
-                const transformedChargingFor = (response?.data?.chargerType || []).map(item => ({
-                    label: item,
-                    value: item
-                }));
-                const transformedChargingType = (response?.data?.chargingFor || []).map(item => ({
-                    value: item,
-                    label: item
-                }));
-    
-                setChargingFor(transformedChargingFor);
-                setChargingType(transformedChargingType);
-    console.log('chargingFor',chargingFor);
-    
-                const initialSelectedBrands = chargingFor ? [{ label: chargingFor, value: chargingFor }] : [];
-                setSelectedBrands(initialSelectedBrands);
-            } else {
-                console.error('Error in public-charger-station-data API:', response);
-            }
-        });
-    };
-    
 
       useEffect(() => {
         if (!userDetails || !userDetails.access_token) {
@@ -349,8 +399,9 @@ const EditPublicChargerStation = () => {
           return; 
         }
         fetchDetails();
-        fetchChargingData()
       }, []);
+   
+    
     return (
         <div className={styles.addShopContainer}>
             <div className={styles.addHeading}>Edit Public Chargers</div>
@@ -489,7 +540,7 @@ const EditPublicChargerStation = () => {
                         />
                             <label htmlFor="alwaysOpen">Always Open</label>
                         </div>
-                        {!isAlwaysOpen && (
+                        {/* {!isAlwaysOpen && (
                             <div className={styles.timeSlotContainer}>
                                 {["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].map(day => (
                                     <div className={styles.dayRow} key={day}>
@@ -526,7 +577,44 @@ const EditPublicChargerStation = () => {
                                 ))}
                             </div>
 
-                         )}
+                         )} */}
+
+
+{!isAlwaysOpen && (
+                <div className={styles.timeSlotContainer}>
+                    {Object.keys(timeSlots).map(day => (
+                        <div className={styles.dayRow} key={day}>
+                            <span className={styles.dayLabel}>{day}</span>
+
+                            <label htmlFor={`${day}OpenTime`} className={styles.inputLabel}>
+                                Open Time
+                                <input
+                                    type="text"
+                                    id={`${day}OpenTime`}
+                                    placeholder="Enter time"
+                                    className={styles.timeField}
+                                    value={timeSlots[day].open}
+                                    onChange={handleTimeChange(day, 'open')}
+                                />
+                                {errors[`${day}OpenTime`] && <p className={styles.error}>{errors[`${day}OpenTime`]}</p>}
+                            </label>
+
+                            <label htmlFor={`${day}CloseTime`} className={styles.inputLabel}>
+                                Close Time
+                                <input
+                                    type="text"
+                                    id={`${day}CloseTime`}
+                                    placeholder="Enter time"
+                                    className={styles.timeField}
+                                    value={timeSlots[day].close}
+                                    onChange={handleTimeChange(day, 'close')}
+                                />
+                                {errors[`${day}CloseTime`] && <p className={styles.error}>{errors[`${day}CloseTime`]}</p>}
+                            </label>
+                        </div>
+                    ))}
+                </div>
+            )}
                     </div>
                     
                     <div className={styles.fileUpload}>
@@ -584,9 +672,9 @@ const EditPublicChargerStation = () => {
                         </label>
                     ) : (
                         <div className={styles.galleryContainer}>
-                            {galleryFiles.map((image, index) => (
+                            {/* {galleryFiles.map((image, index) => (
                                 <div className={styles.imageContainer} key={index}>
-                                    {/* <img src={URL.createObjectURL(image)} alt={`Preview ${index}`} className={styles.previewImage} /> */}
+                                    
 
                                     <img
                                         src={
@@ -601,7 +689,24 @@ const EditPublicChargerStation = () => {
                                         <AiOutlineClose size={20} style={{ padding: '2px' }} />
                                     </button>
                                 </div>
-                            ))}
+                            ))} */}
+
+{Array.isArray(galleryFiles) && galleryFiles.length > 0 ? (
+        galleryFiles.map((file, index) => (
+            <img
+                key={index}
+                src={
+                    typeof file === 'string'
+                        ? `${process.env.REACT_APP_SERVER_URL}uploads/charging-station-images/${file}` 
+                        : URL.createObjectURL(file) // Assuming 'file' is a Blob or File object
+                }
+                alt={`Preview ${index + 1}`}
+                className={styles.previewImage}
+            />
+        ))
+    ) : (
+        <p>No images available</p> // Optional: fallback if no images are present
+    )}
                         </div>
                     )}
                 </div>
