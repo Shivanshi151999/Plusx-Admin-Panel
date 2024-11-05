@@ -42,7 +42,7 @@ const DeatilsBookingHistory = ({ title, headers, bookingData, bookingType, charg
     if (bookingType === 'portableCharger') {
       navigate(`/portable-charger/charger-booking-details/${id}`);
     } else if (bookingType === 'pickAndDrop') {
-      navigate(`/pick-and-drop/${id}`);
+      navigate(`/pick-and-drop/booking-details/${id}`);
     }
   };
 
