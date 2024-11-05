@@ -33,7 +33,7 @@ const RiderDetails = () => {
   ];
 
   const pickAndDropHeaders = [
-    'Date','ID',  'Price',  'Status', 'Action'
+    'Date','ID',  'Price',  'Status', 'Driver Assign',  'Action'
   ];
 
   const fetchDetails = () => {

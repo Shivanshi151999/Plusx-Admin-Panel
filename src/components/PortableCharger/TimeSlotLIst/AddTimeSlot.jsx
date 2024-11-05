@@ -133,7 +133,7 @@ const AddPortableChargerTimeSlot = () => {
                             <label className={styles.label}>Start Time</label>
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
                                 <DemoContainer components={['TimePicker']}>
-                                <div className={styles.inputCharger}> 
+                                <div className={styles.inputTimeCharger}> 
                                     <TimePicker
                                         label="With Time Clock"
                                         value={startTime}
@@ -155,7 +155,7 @@ const AddPortableChargerTimeSlot = () => {
                             
                             <LocalizationProvider dateAdapter={AdapterDayjs} >
                                  <DemoContainer components={['TimePicker']} className={styles.label}>
-                                 <div className={styles.inputCharger}>
+                                 <div className={styles.inputTimeCharger}>
                                     <TimePicker
                                      label="With Time Clock"
                                      value={endTime}

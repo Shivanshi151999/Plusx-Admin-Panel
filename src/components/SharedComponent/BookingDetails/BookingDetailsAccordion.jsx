@@ -67,7 +67,7 @@ const BookingDetailsAccordion = ({history, rsa }) => {
     <img src={rsa.invoice} alt="Invoice" style={{ maxWidth: '100%', height: 'auto' }} />
   </div>
 )}
-              {section.time && <p> {section.time}</p>}
+              {section.time && <p className={styles.accodionPTag}> {section.time}</p>}
               
             </Accordion.Body>
           </Accordion.Item>

@@ -18,14 +18,11 @@ import PickAndDropBookingList from '../components/PickAndDrop/Booking/BookingLis
 import PickAndDropBookingDetails from "../components/PickAndDrop/Booking/BookingDetails.jsx";
 import PickAndDropInvoiceList from '../components/PickAndDrop/Invoice/InvoiceList.jsx'
 import PickAndDropTimeSlotList from '../components/PickAndDrop/TimeSlot/TimeSlotList.jsx'
-
 import PublicChargerStationList from '../components/PublicChargerStation/StationList.jsx'
 import PublicChargerStationDetails from '../components/PublicChargerStation/StationDetails.jsx'
-
 import ChargerInstallationList from '../components/ChargerInstallationList/ChargerInstallationList.jsx'
 import EVBuySell from "../components/EVBuySell/index.jsx"
 import ChargerInstallationDetails from "../components/ChargerInstallationList/ChargerInstallationDetails.jsx";
-
 import AddCharger from "../components/PortableCharger/ChargerList/AddCharger.jsx"
 import AddShopListForm from "../components/EVSpecializedShops/ShopList/ShopList/AddShopListForm.jsx"
 import EditPortableChargerTimeSlot from '../components/PortableCharger/TimeSlotLIst/EditTimeSlot.jsx';
@@ -41,8 +38,8 @@ import BrandList from '../components/EVSpecializedShops/ShopList/BrandList/Brand
 import ClubList from '../components/EvRiderClub/ClubList.jsx';
 import CarList from '../components/ElectricCarLeasing/CarList.jsx';
 import BikeList from '../components/ElectricBikeLeasing/BikeList.jsx';
-import GuideList from '../components/EvGuide/GuideList.jsx';
-
+import GuideList from '../components/EVGuide/GuideList.jsx';
+import AddChargerStation from '../components/PublicChargerStation/AddChargerStation.jsx';
 const router = createBrowserRouter([
   {
       path: "/login",
@@ -117,6 +114,11 @@ const router = createBrowserRouter([
       },
 
       // app signup list
+      {
+        path: "/add-charger-station",
+        element: <AddChargerStation/>,
+        
+      },
 
       {
         path: "/add-shop-list",

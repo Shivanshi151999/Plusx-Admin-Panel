@@ -27,6 +27,16 @@
   word-break: break-all;
   max-width: 100%;
 }
+.infoHeadText{
+  display: block;
+  white-space: normal;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  font-size: 15px;
+  line-height: 16px;
+  color: #64FFC5;  
+  text-transform: capitalize;
+}
 .infoText{
   display: block;
   white-space: normal;
@@ -34,7 +44,8 @@
   overflow: hidden;
   font-size: 15px;
   line-height: 16px;
-  color: #ffffff; 
+  color: #ffffff;
+  text-transform: capitalize; 
 }
 .infoHeading{
   font-size: 12px;
@@ -120,5 +131,5 @@ background-color: #242424;
   cursor: pointer;
 }
 .editContent img{
-  width: 30px;
+  width: 26px;
 }

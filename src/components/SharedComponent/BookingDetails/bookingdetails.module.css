@@ -1,5 +1,5 @@
 .bookingStatusContainer {
-    border: 2px solid #64FFC5;
+    /* border: 2px solid #64FFC5; */
     padding: 18px 16px;
     border-radius: 14px;
     background-color: #000000;
@@ -21,30 +21,33 @@
     display: flex;
     flex-direction: column;
     padding: 10px 0;
-    border-bottom: 1px solid #333;
+    /* border-bottom: 1px solid #333; */
 }
 
 .label {
-    font-weight: 600;
-    font-size: 16px;
+ 
+    font-size: 14px;
     color: #ffffff;
 }
 
 .value {
-    font-weight: 400;
-    color: #fff;
-    font-size: 14px;
+  font-weight: 600;
+    color:  #64FFC5;
+    font-size: 16px;
 }
 /* start the accordion section */
 .accordionContainer {
-    border: 2px solid #64FFC5;
+    /* border: 2px solid #64FFC5; */
     padding: 18px 16px;
     border-radius: 14px;
     background-color: #000000;
     color: #ffffff;
     width: 100%;
-    height: 66vh;
-    overflow: scroll;
+    height: auto;
+    /* overflow: scroll; */
+  }
+  .accodionPTag{
+    margin-bottom: 0px !important;
   }
   .accordionContainer::-webkit-scrollbar{
     display: none;
@@ -57,7 +60,8 @@
   }
   
   .status {
-    font-size: 1.2rem;
+    color:  #64FFC5;
+    font-size: 22px;
     font-weight: bold;
   }
   
