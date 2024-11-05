@@ -4,9 +4,16 @@ import SubHeader from '../../SharedComponent/SubHeader/SubHeader';
 import Pagination from '../../SharedComponent/Pagination/Pagination';
 import { getRequestWithToken, postRequestWithToken } from '../../../api/Requests';
 import moment from 'moment';
+<<<<<<< Updated upstream
 import AddDriver from '../../../assets/images/AddDriver.svg';
 import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from 'react-router-dom';
+=======
+import { AiOutlinePlus } from 'react-icons/ai';  
+import { toast, ToastContainer } from "react-toastify";
+import { useNavigate } from 'react-router-dom';
+import AddDriver from '../../../assets/images/AddDriver.svg';
+>>>>>>> Stashed changes
 import Custommodal from '../../SharedComponent/CustomModal/CustomModal.jsx';
 
 const statusMapping = {
@@ -99,8 +106,12 @@ const ChargerBookingList = () => {
         setCurrentPage(1);
     };
 
+<<<<<<< Updated upstream
     const openModal = (bookingId) => {
         setSelectedBookingId(bookingId);
+=======
+    const openModal = () => {
+>>>>>>> Stashed changes
         setIsModalOpen(true);
     };
 

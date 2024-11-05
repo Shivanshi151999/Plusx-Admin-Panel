@@ -3,13 +3,21 @@ import { useNavigate } from 'react-router-dom';
 import styles from './details.module.css';
 import Eye from '../../../assets/images/ViewEye.svg';
 import Pagination from '../Pagination/Pagination';
+<<<<<<< Updated upstream
 import { postRequestWithToken } from '../../../api/Requests';
+=======
+
+>>>>>>> Stashed changes
 import AddAssign from '../../../assets/images/AddDriver.svg';
 import Custommodal from '../CustomModal/CustomModal';
 
 const DeatilsBookingHistory = ({ title, headers, bookingData, bookingType, chargerRsaList, valetRsaList }) => {
   const navigate = useNavigate();
+<<<<<<< Updated upstream
   const userDetails = JSON.parse(sessionStorage.getItem('userDetails')); 
+=======
+
+>>>>>>> Stashed changes
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);

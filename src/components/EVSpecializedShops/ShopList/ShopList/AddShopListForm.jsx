@@ -3,6 +3,11 @@ import styles from './addshoplist.module.css';
 import { MultiSelect } from "react-multi-select-component";
 import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from 'react-router-dom';
+<<<<<<< Updated upstream
+=======
+import Add from "../../../../assets/images/Add.svg"
+import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
+>>>>>>> Stashed changes
 
 const AddShopListForm = () => {
   const userDetails = JSON.parse(sessionStorage.getItem('userDetails')); 

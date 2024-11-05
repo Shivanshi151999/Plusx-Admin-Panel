@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import Select from "react-select";
-import UploadIcon from '../../assets/images/uploadicon.svg'; 
-import { AiOutlineClose} from 'react-icons/ai'; 
+import UploadIcon from '../../assets/images/uploadicon.svg';
+import { AiOutlineClose } from 'react-icons/ai';
 import styles from './addcharger.module.css';
 import { MultiSelect } from "react-multi-select-component";
 import { useNavigate } from 'react-router-dom';
@@ -56,7 +56,7 @@ const AddChargerStation = () => {
     const handleRemoveImage = () => {
         setFile(null);
     };
-   
+
     return (
         <div className={styles.addShopContainer}>
             <div className={styles.addHeading}>Add Shop</div>
@@ -151,22 +151,32 @@ const AddChargerStation = () => {
                             <label htmlFor="alwaysOpen">Always Open</label>
                         </div>
                         <div className={styles.timeSlotContainer}>
-                            {["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].map(day => (
-                                <div className={styles.dayRow} key={day}>
-                                    <span className={styles.classTimeslot}>{day} </span>
+                        {["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].map(day => (
+                            <div className={styles.dayRow} key={day}>
+                                <span className={styles.dayLabel}>{day}</span>
 
-                                    <label htmlFor={`${day}OpenTime`} className={styles.inputLabel}>
-                                        Open Time
-                                        <input type="time" id={`${day}OpenTime`} className={styles.timeField} />
-                                    </label>
+                                <label htmlFor={`${day}OpenTime`} className={styles.inputLabel}>
+                                    Open Time
+                                    <input
+                                        type="text"
+                                        id={`${day}Time`}
+                                        placeholder="Enter times"
+                                        className={styles.timeField}
+                                    />
+                                </label>
 
-                                    <label htmlFor={`${day}CloseTime`} className={styles.inputLabel}>
-                                        Close Time
-                                        <input type="time" id={`${day}CloseTime`} className={styles.timeField} />
-                                    </label>
-                                </div>
-                            ))}
-                        </div>
+                                <label htmlFor={`${day}CloseTime`} className={styles.inputLabel}>
+                                    Close Time
+                                    <input
+                                        type="text"
+                                        id={`${day}Time`}
+                                        placeholder="Enter times"
+                                        className={styles.timeField}
+                                    />
+                                </label>
+                            </div>
+                        ))}
+                    </div>
                     </div>
                     <div className={styles.fileUpload}>
                         <label className={styles.fileLabel}>Cover Image</label>
@@ -200,7 +210,7 @@ const AddChargerStation = () => {
                                 </div>
                             )}
                         </div>
-                        {errors.file && <p className={styles.error} style={{color: 'red'}}>{errors.file}</p>}
+                        {errors.file && <p className={styles.error} style={{ color: 'red' }}>{errors.file}</p>}
                     </div>
 
                     {/* Multiple Image code */}
@@ -236,7 +246,7 @@ const AddChargerStation = () => {
                                 </div>
                             )}
                         </div>
-                        {errors.file && <p className={styles.error} style={{color: 'red'}}>{errors.file}</p>}
+                        {errors.file && <p className={styles.error} style={{ color: 'red' }}>{errors.file}</p>}
                     </div>
                 </form>
             </div>

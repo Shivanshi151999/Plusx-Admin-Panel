@@ -135,7 +135,9 @@
     justify-content: space-between;
     margin-bottom: 10px;
   }
-  
+  .dayLabel{
+    width: 100px;
+  }
   .timeField {
     outline: none;
     width: 80%;
@@ -179,7 +181,7 @@
   .inputLabel{
     width: 40%;
     display: flex;
-    gap: 20px;
+    gap: 30px;
   }
 
   .fileUpload {
@@ -249,4 +251,53 @@ background-color: #242424;
     cursor: pointer;
     border-radius: 4px;
     font-size: 4px;
+}
+
+
+.galleryContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  border: 1px solid #cccccc;
+  padding: 10px;
+  overflow-y: auto;
+  max-height: 200px;
+}
+
+.imageContainer {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  overflow: hidden;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  background: #f8f8f8;
+}
+
+.previewImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.removesButton {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: #fff;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  padding: 2px;
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.2);
+}
+
+.galleryContainer::-webkit-scrollbar {
+  width: 6px;
+}
+
+.galleryContainer::-webkit-scrollbar-thumb {
+  background-color: #cccccc;
+  border-radius: 3px;
 }
