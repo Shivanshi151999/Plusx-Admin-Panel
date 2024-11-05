@@ -72,7 +72,7 @@ const App = ({handleDateChange}) => (
     placement="bottomEnd"
     onChange={handleDateChange} 
     renderValue={(value) => {
-      if (!value) return ''; // If no value is selected, show placeholder
+      if (!value || value.length === 0) return ''; // If no value is selected, show placeholder
       const [start, end] = value;
       const formattedStart = format(start, 'dd-MM-yyyy');
       const formattedEnd = format(end, 'dd-MM-yyyy');

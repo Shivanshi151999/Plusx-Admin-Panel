@@ -28,7 +28,28 @@ const AccordionFilter = ({ type, isOpen, fetchFilteredData, dynamicFilters, filt
         fetchFilteredData(filterValues);
     };
 
+    // const handleDateChange = (range) => {
+    //     const [start, end] = range;
+    //     const formattedStart = format(start, 'yyyy-MM-dd');
+    //     const formattedEnd = format(end, 'yyyy-MM-dd');
+    //     fetchFilteredData({
+    //         ...filterValues,
+    //         start_date: formattedStart,
+    //         end_date: formattedEnd
+    //     });
+    // };
+
     const handleDateChange = (range) => {
+        if (!range || range.length < 2) {
+            // Handle the case when the date range picker is cleared
+            fetchFilteredData({
+                ...filterValues,
+                start_date: null,
+                end_date: null
+            });
+            return;
+        }
+    
         const [start, end] = range;
         const formattedStart = format(start, 'yyyy-MM-dd');
         const formattedEnd = format(end, 'yyyy-MM-dd');
@@ -38,6 +59,7 @@ const AccordionFilter = ({ type, isOpen, fetchFilteredData, dynamicFilters, filt
             end_date: formattedEnd
         });
     };
+    
 
     return (
         <div data-aos="fade-left">
