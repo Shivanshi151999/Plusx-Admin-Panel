@@ -5,7 +5,7 @@ import DetailsSection from '../SharedComponent/Details/DetailsSection'
 import DetailsList from '../SharedComponent/Details/DetailsList'
 import DetailsBookingHistory from '../SharedComponent/Details/DeatilsBookingHistory'
 import DetailsVehicleList from '../SharedComponent/Details/DetailsVehicleList'
-import { getRequestWithToken } from '../../api/Requests';
+import { getRequestWithToken, postRequestWithToken } from '../../api/Requests';
 import { useParams } from 'react-router-dom';
 import moment from 'moment';
 
@@ -27,6 +27,9 @@ const RiderDetails = () => {
   const [vehicleList, setVehicleList] = useState([])
   const [portableChargerBookings, setPortableChargerBookings] = useState([])
   const [pickAndDropBookings, setPickAndDropBookings] = useState([])
+
+  const [chargerRsaList, setChargerRsaList] = useState([])
+  const [valetRsaList, setValetRsaList] = useState([])
 
   const portableChargerHeaders = [
     'Date','ID', 'Service Name', 'Price', , 'Status', 'Driver Assign', 'Action' 
@@ -54,6 +57,27 @@ const RiderDetails = () => {
             console.log('error in rider-details API', response);
         }
     });
+obj.service_type = 'Portable Charger'
+    postRequestWithToken('rsa-list', obj, async(response) => {
+      if (response.code === 200) {
+        setChargerRsaList(response?.data)
+          // setTotalPages(response?.total_page || 1); 
+      } else {
+          // toast(response.message, {type:'error'})
+          console.log('error in rsa-listt api', response);
+      }
+  })
+
+  obj.service_type = 'Valet Charging'
+    postRequestWithToken('rsa-list', obj, async(response) => {
+      if (response.code === 200) {
+        setValetRsaList(response?.data)
+          // setTotalPages(response?.total_page || 1); 
+      } else {
+          // toast(response.message, {type:'error'})
+          console.log('error in rsa-listt api', response);
+      }
+  })
 };
 
   useEffect(() => {
@@ -78,6 +102,7 @@ const RiderDetails = () => {
           status: statusMapping[booking.order_status] || '',
         }))}
         bookingType="portableCharger"
+        chargerRsaList = {chargerRsaList}
       />
 
        <DetailsBookingHistory
@@ -90,6 +115,7 @@ const RiderDetails = () => {
           status: statusMapping[booking.status] || '',
         }))}
         bookingType="pickAndDrop"
+        valetRsaList = {valetRsaList}
       />
     </div>
   )
