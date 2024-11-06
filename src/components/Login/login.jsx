@@ -4,6 +4,8 @@ import PanelLogo from '../SharedComponent/CompanyLogo';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { postRequest } from '../../api/Requests';
 import { useNavigate } from 'react-router-dom';
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
     const navigate = useNavigate()
@@ -42,6 +44,7 @@ const Login = () => {
             }
             postRequest('login', obj, async(response) => {
                 if (response.code === 200) {
+                    toast(response.message || response.message[0], {type:'success'})
                     const userDetails = {
                         user_id: response.userDetails.id,
                         name: response.userDetails.name,
@@ -52,9 +55,12 @@ const Login = () => {
                     };
             
                     sessionStorage.setItem('userDetails', JSON.stringify(userDetails));
-                    navigate('/')
+                    
+                    setTimeout(() => {
+                        navigate('/')
+                    }, 2000);
                 } else {
-                    // toast(response.message, {type:'error'})
+                    toast(response.message || response.message[0], {type:'error'})
                     console.log('error in login api', response);
                 }
             })
@@ -72,6 +78,8 @@ const Login = () => {
     }, [navigate]);
 
     return (
+        <>
+        <ToastContainer />
         <div className="container">
             <div className={styles.formMainContainer}>
                 <div className={styles.formSection}>
@@ -119,6 +127,7 @@ const Login = () => {
                 </div>
             </div>
         </div>
+        </>
     );
 };
 

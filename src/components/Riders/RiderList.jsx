@@ -95,17 +95,18 @@ const RiderList = () => {
           keyMapping={[
             { key: 'rsa_id', label: 'ID' }, 
             
-            { 
-                key: 'rsa_name', 
-                label: 'RSA Name',
-                relatedKeys: ['country_code', 'mobile'], 
-                format: (data, key, relatedKeys) => (
-                    <>
-                        {data[key]}<br />
-                        {relatedKeys.map((relatedKey) => data[relatedKey]).join(" ")}
-                    </>
-                )
-            }, 
+            // { 
+            //     key: 'rsa_name', 
+            //     label: 'RSA Name',
+            //     relatedKeys: ['country_code', 'mobile'], 
+            //     format: (data, key, relatedKeys) => (
+            //         <>
+            //             {data[key]}<br />
+            //             {relatedKeys.map((relatedKey) => data[relatedKey]).join(" ")}
+            //         </>
+            //     )
+            // }, 
+            { key: 'rsa_name', label: 'RSA Name' },
             { key: 'email', label: '"RSA Email' },
             { 
                 key: 'booking_type', 

@@ -156,7 +156,7 @@ const ChargerBookingList = () => {
                 tableHeaders={["Date","Booking ID", "Customer Name", "Service Name", "Price",  "Status", "Driver Assign", "Action"]}
                 listData={chargerBookingList}
                 keyMapping={[
-                    { key: 'created_at', label: 'Date & Time', format: (date) => moment(date).format('DD MMM YYYY h:mm A') },
+                    { key: 'created_at', label: 'Date & Time', format: (date) => moment(date).format('DD MMM YYYY') },
                     { key: 'booking_id', label: 'ID' },
                     // {
                     //     key: 'user_name',

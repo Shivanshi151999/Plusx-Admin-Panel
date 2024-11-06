@@ -64,7 +64,6 @@ const SignupList = () => {
     };
 
     const fetchFilteredData = (newFilters = {}) => {
-        console.log('asdasd')
         setFilters(newFilters);  
         setCurrentPage(1); 
     };
