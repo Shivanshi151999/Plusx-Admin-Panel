@@ -51,18 +51,27 @@ const InvoiceList = () => {
         tableHeaders={["Invoice Date", "Invoice ID", "Customer Name", "Amount", "Status", "Action"]}
           listData = {invoiceList}
           keyMapping={[
-            { key: 'invoice_id', label: 'ID' }, 
-            { key: 'riderDetails', label: 'Rider Data' }, 
+            { 
+                key: 'invoice_date', 
+                label: 'Invoice Date', 
+                format: (date) => moment(date).format('DD MMM YYYY') 
+            } ,
+            { key: 'invoice_id', label: 'Invoice ID' }, 
+            // { key: 'riderDetails', label: 'Customer Name' }, 
+            { 
+                key: 'riderDetails', 
+                label: 'Customer Name',
+                format: (riderDetails) => {
+                    // Extract the name part before the comma
+                    return riderDetails ? riderDetails.split(',')[0] : '';
+                }
+            },
             { 
                 key: 'amount', 
                 label: 'Amount', 
                 format: (price) => (price ? `AED ${price}` : 'AED 0') 
             },
-            { 
-                key: 'invoice_date', 
-                label: 'Invoice Date', 
-                format: (date) => moment(date).format('DD MMM YYYY h:mm A') 
-            } ,
+            
             { 
                 key: 'payment_status', 
                 label: 'Status',

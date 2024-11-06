@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import moment from 'moment';
 import styles from './invoice.module.css';
 import logo from '../../../assets/images/Logo.svg';
 import html2pdf from 'html2pdf.js';
 import Download from '../../../assets/images/Download.svg'
-const Invoice = ({ result }) => {
+
+const Invoice = ({ details }) => {
     const handleDownload = () => {
         const invoiceElement = document.getElementById('invoiceToDownload');
         const options = {
@@ -15,7 +18,6 @@ const Invoice = ({ result }) => {
         };
         html2pdf().set(options).from(invoiceElement).save();
     };
-
     return (
         <div className={styles.invoiceMainContainer}>
             <div className={styles.invoiceSection} >
@@ -34,15 +36,27 @@ const Invoice = ({ result }) => {
                                         <tr>
                                             <td className={styles.logoSection}>
                                                 <img src={logo} alt="company logo" className={styles.logoImage} />
-                                                <p>D55-PBU</p>
+                                                {/* <p>D55-PBU</p>
                                                 <p>DUBAI PRODUCTION CITY</p>
-                                                <p>Dubai-United Arab Emirates</p>
-                                                <p>+971 54279 6424</p>
+                                                <p>Dubai-United Arab Emirates</p> */}
+
+                                                {/* <p>{details?.address}</p> */}
+                                                <p>
+                                                {details?.address
+                                                    ? details.address.split(',').map((line, index) => (
+                                                        <span key={index}>
+                                                        {line.trim()}
+                                                        <br />
+                                                        </span>
+                                                    ))
+                                                    : ''}
+                                                </p>
+                                                                                                <p>{details?.country_code} {details?.contact_no}</p>
                                             </td>
                                             <td className={styles.invoiceTitle}>
                                                 <p>INVOICE</p>
                                                 <div className={styles.bookingId}>
-                                                    <p>Booking ID: Booki147852 </p>
+                                                    <p>Booking ID: {details?.booking_id} </p>
                                                 </div>
                                             </td>
                                         </tr>
@@ -55,14 +69,14 @@ const Invoice = ({ result }) => {
                                         <tr>
                                             <td className={styles.billTo}>
                                                 <p>Bill To:</p>
-                                                <p className={styles.billToName}>Shivanshi Tripathi</p>
+                                                <p className={styles.billToName}>{details?.user_name}</p>
                                             </td>
                                             <td className={styles.invoiceDetails}>
                                                 <p>
-                                                    Invoice Date: {'12/12/2024 '}
+                                                    Invoice Date: {details?.invoice_date}
                                                 </p>
                                                 <p>
-                                                    Invoice No.: INVOICE258963
+                                                    Invoice No.: {details?.invoice_id}
                                                 </p>
                                             </td>
                                         </tr>

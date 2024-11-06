@@ -92,7 +92,7 @@ const PortableChargerTimeSlotList = () => {
                 label: 'Booking Limit',  
                 
             } ,
-            { key: 'status', label: 'Status', format: (status) => (status === 1 ? "Active" : "Un-active") } 
+            { key: 'status', label: 'Status', format: (status) => (status === 1 ? "Active" : "In-Active") } 
         ]}
         pageHeading="Portable Charger Slot List"
         onDeleteSlot={handleDeleteSlot}

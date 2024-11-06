@@ -148,28 +148,34 @@ const BookingList = () => {
         tableHeaders={["Date", "Booking ID", "Customer Name", "Price", "Status", "Driver Assign", "Action"]}
           listData = {chargerBookingList}
           keyMapping={[
-            { key: 'request_id', label: 'ID' }, 
             { 
-                key: 'name', 
-                label: 'Name',
-                relatedKeys: ['country_code', 'contact_no'], 
-                format: (data, key, relatedKeys) => (
-                    <>
-                        {data[key]}<br />
-                        {relatedKeys.map((relatedKey) => data[relatedKey]).join(" ")}
-                    </>
-                )
-            }, 
+                key: 'created_at', 
+                label: 'Invoice Date', 
+                format: (date) => moment(date).format('DD MMM YYYY ') 
+            } ,
+            { key: 'request_id', label: 'ID' }, 
+            // { 
+            //     key: 'name', 
+            //     label: 'Name',
+            //     relatedKeys: ['country_code', 'contact_no'], 
+            //     format: (data, key, relatedKeys) => (
+            //         <>
+            //             {data[key]}<br />
+            //             {relatedKeys.map((relatedKey) => data[relatedKey]).join(" ")}
+            //         </>
+            //     )
+            // }, 
+            { key: 'name', label: 'Customer Name' }, 
             { 
                 key: 'price', 
                 label: 'Price', 
                 format: (price) => (price ? `AED ${price}` : 'AED 0') 
             },
-            { 
-                key: 'created_at', 
-                label: 'Date & Time', 
-                format: (date) => moment(date).format('DD MMM YYYY h:mm A') 
-            } ,
+            // { 
+            //     key: 'created_at', 
+            //     label: 'Date & Time', 
+            //     format: (date) => moment(date).format('DD MMM YYYY h:mm A') 
+            // } ,
             {   key: 'order_status',
                 label: 'Status',
                 format: (status) => statusMapping[status] || status 

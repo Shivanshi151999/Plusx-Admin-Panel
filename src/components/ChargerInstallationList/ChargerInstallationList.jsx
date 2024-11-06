@@ -61,15 +61,16 @@ const ChargerInstallationList = () => {
         tableHeaders={["Date","Request ID", "Customer Name", "Service Type", "Vehicle Model",  "Status", "Action"]}
           listData = {chargerInstallationList}
           keyMapping={[
-            { key: 'request_id', label: 'Station Name' }, 
-            { key: 'name', label: 'Name' }, 
-            { key: 'service_type', label: 'Charging Type' },
-            { key: 'vehicle_model', label: 'Vehicle Model' },
             { 
                 key: 'created_at', 
                 label: 'Date & Time', 
-                format: (date) => moment(date).format('DD MMM YYYY h:mm A') 
+                format: (date) => moment(date).format('DD MMM YYYY') 
             } ,
+            { key: 'request_id', label: 'Station Name' }, 
+            { key: 'name', label: 'Customer Name' }, 
+            { key: 'service_type', label: 'Charging Type' },
+            { key: 'vehicle_model', label: 'Vehicle Model' },
+            
             { 
                 key: 'order_status', 
                 label: 'Status', 

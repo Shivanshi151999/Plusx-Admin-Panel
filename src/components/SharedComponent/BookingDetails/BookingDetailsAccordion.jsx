@@ -33,9 +33,9 @@ const BookingDetailsAccordion = ({history, rsa }) => {
         // showInvoice : item?.order_status === 'PU',
 
         showImage    : item?.order_status === 'PU',
-        imageUrl     : rsa.imageUrl + ''+item?.image,
+        imageUrl     : rsa?.imageUrl + ''+item?.image,
         order_status : item?.order_status,
-        cancel_by    : item?.cancel_by == 'Admin' ?  'Admin' : rsa.customerName,
+        cancel_by    : item?.cancel_by == 'Admin' ?  'Admin' : rsa?.customerName,
         reason       : item?.reason,
     }));
     const [activeKey, setActiveKey] = useState("0");
@@ -59,18 +59,18 @@ const BookingDetailsAccordion = ({history, rsa }) => {
                         </Accordion.Header>
                         <Accordion.Body className={styles.accordionBody}>
                             {section.showRSA && section.rsa_name && (
-                                <p><strong>RSA:</strong> {section.rsa_name}</p>
+                                <p><strong>RSA:</strong> {section?.rsa_name}</p>
                             )}
                             {section.order_status == 'C' && (
                                 <>
-                                    <p>Cancelled By : { section.cancel_by } <br /></p>
-                                    <p>Reason : { section.reason } <br /> </p> 
+                                    <p>Cancelled By : { section?.cancel_by } <br /></p>
+                                    <p>Reason : { section?.reason } <br /> </p> 
                                 </>
                             )}
                             {section.showImage && rsa?.imageUrl && (
                                 <div>
                                     <p><strong>Image:</strong></p>
-                                    <img src={section.imageUrl} alt="Image" style={{ maxWidth: '100%', height: 'auto' }} />
+                                    <img src={section?.imageUrl} alt="Image" style={{ maxWidth: '100%', height: 'auto' }} />
                                 </div>
                             )}
                             {section.time && <p className={styles.accodionPTag}> {section.time}</p>}

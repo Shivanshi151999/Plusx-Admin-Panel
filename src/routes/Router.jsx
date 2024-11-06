@@ -41,6 +41,8 @@ import BikeList from '../components/ElectricBikeLeasing/BikeList.jsx';
 import AddChargerStation from '../components/PublicChargerStation/AddChargerStation.jsx';
 import EditPublicChargerStation from '../components/PublicChargerStation/EditPublicChargerStation.jsx';
 import Invoice from '../components/SharedComponent/Invoice/Invoice.jsx';
+import InvoiceDetails from '../components/PortableCharger/InvoiceList/InvoiceDetails.jsx';
+import PickAndDropInvoiceDetails from '../components/PickAndDrop/Invoice/InvoiceDetails.jsx'
 
 const router = createBrowserRouter([
   {
@@ -120,7 +122,7 @@ const router = createBrowserRouter([
 
       {
         path: "/invoice/:invoiceId",
-        element:<Invoice/>
+        element:<InvoiceDetails/>
       },
       {
         path: "/add-charger-station",
@@ -165,6 +167,10 @@ const router = createBrowserRouter([
           {
             path: "invoice-list", 
             element: <PickAndDropInvoiceList />,
+          },
+          {
+            path: "invoice-details/:invoiceId", 
+            element: <PickAndDropInvoiceDetails />,
           },
           {
             path: "time-slot-list", 

@@ -111,7 +111,7 @@ const ChargerInstallationDetails = () => {
       titles = {sectionTitles} content = {sectionContent}
       type = 'chargerInstallation'
       />
-      {/* <BookingDetailsAccordion history = {history} /> */}
+      <BookingDetailsAccordion history = {history} />
     </div>
   )
 }

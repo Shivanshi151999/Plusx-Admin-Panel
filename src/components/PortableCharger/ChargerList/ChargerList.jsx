@@ -78,10 +78,10 @@ const ChargerList = () => {
             <ToastContainer />
             <List
                 // heading="Charger List"
-                tableHeaders={["ID", "Charger Name", "Charger Price", "Status", "Action"]}
+                tableHeaders={["Booking ID", "Charger Name", "Charger Price", "Status", "Action"]}
                 listData={chargerList}
                 keyMapping={[
-                    { key: 'charger_id', label: 'ID' }, 
+                    { key: 'charger_id', label: 'Booking ID' }, 
                     { key: 'charger_name', label: 'Charger Name' }, 
                     { 
                         key: 'charger_price', 

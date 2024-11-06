@@ -155,35 +155,23 @@ const ChargerBookingList = () => {
                 keyMapping={[
                     { key: 'created_at', label: 'Date & Time', format: (date) => moment(date).format('DD MMM YYYY h:mm A') },
                     { key: 'booking_id', label: 'ID' },
-                    {
-                        key: 'user_name',
-                        label: 'Name',
-                        relatedKeys: ['country_code', 'contact_no'],
-                        format: (data, key, relatedKeys) => (
-                            <>
-                                {data[key]}<br />
-                                {relatedKeys.map((relatedKey) => data[relatedKey]).join(" ")}
-                            </>
-                        )
-                    },
+                    // {
+                    //     key: 'user_name',
+                    //     label: 'Name',
+                    //     relatedKeys: ['country_code', 'contact_no'],
+                    //     format: (data, key, relatedKeys) => (
+                    //         <>
+                    //             {data[key]}<br />
+                    //             {relatedKeys.map((relatedKey) => data[relatedKey]).join(" ")}
+                    //         </>
+                    //     )
+                    // },
+                    { key: 'user_name', label: 'Customer Name' },
                     { key: 'service_name', label: 'Service Name' },
                     { key: 'service_price', label: 'Price', format: (price) => (price ? `AED ${price}` : '') },
                     
                     { key: 'status', label: 'Status', format: (status) => statusMapping[status] || status },
-                    // {
-                    //     key: 'booking_id',
-                    //     label: 'Driver Assign',
-                    //     format: (data) => {
-                    //         return (
-                    //             <img 
-                    //                 src={AddDriver} 
-                    //                 className={"logo"} 
-                    //                 onClick={() => openModal(data)} 
-                    //                 alt="Assign Driver" 
-                    //             /> 
-                    //         );
-                    //     }
-                    // }
+                    
 
                     {
                         key: 'driver_assign',

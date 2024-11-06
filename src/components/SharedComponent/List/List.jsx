@@ -56,6 +56,10 @@ const List = ({tableHeaders, listData, keyMapping, pageHeading, onDeleteSlot}) =
     const handlePortableInvoice = (id) => {
         navigate(`/invoice/${id}`)
     }
+
+    const handlePickAndDropInvoiceDetails = (id) => {
+        navigate(`/pick-and-drop/invoice-details/${id}`)
+    }
     return (
         <div className={styles.containerCharger}>
             
@@ -105,7 +109,7 @@ const List = ({tableHeaders, listData, keyMapping, pageHeading, onDeleteSlot}) =
                                         </>
                                     )}
                                     {pageHeading === 'Portable Charger Invoice List' && (
-                                        <img src={View} alt="view" onClick={() => handlePortableInvoice()} />
+                                        <img src={View} alt="view" onClick={() => handlePortableInvoice(data.invoice_id)} />
                                     )}
                                     {pageHeading === 'Portable Charger Slot List' && (
                                         <>
@@ -132,7 +136,7 @@ const List = ({tableHeaders, listData, keyMapping, pageHeading, onDeleteSlot}) =
                                     )}
                                    {pageHeading === 'Pick & Drop Invoice List' && (
                                         <>
-                                            <img src={View} alt="view" />
+                                            <img src={View} alt="view"  onClick={() => handlePickAndDropInvoiceDetails(data.invoice_id)}/>
                                         </>
                                     )}
                                     {pageHeading === 'Pick & Drop Time Slot List' && (
