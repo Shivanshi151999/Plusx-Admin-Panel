@@ -40,8 +40,38 @@ const AddChargerStation = () => {
     });
     
 
+    // const handleTimeChange = (day, timeType) => (event) => {
+    //     const value = event.target.value;
+    
+    //     setTimeSlots((prev) => {
+    //         const updatedTimeSlots = {
+    //             ...prev,
+    //             [day]: {
+    //                 ...prev[day],
+    //                 [timeType]: value,
+    //             },
+    //         };
+
+    //         if (timeType === 'open') {
+    //             if (value) {
+    //                 updatedTimeSlots[day].closeMandatory = true; 
+    //                 updatedTimeSlots[day].closeMandatory = false; 
+    //             }
+    //         } else if (timeType === 'close') {
+    //             if (value) {
+    //                 updatedTimeSlots[day].openMandatory = true; 
+    //             } else if (!updatedTimeSlots[day].open) {
+    //                 updatedTimeSlots[day].openMandatory = false; 
+    //             }
+    //         }
+    
+    //         return updatedTimeSlots;
+    //     });
+    // };
+
+
     const handleTimeChange = (day, timeType) => (event) => {
-        const value = event.target.value;
+        const value = event.target.value.replace(/[^0-9:-]/g, '');
     
         setTimeSlots((prev) => {
             const updatedTimeSlots = {
@@ -51,10 +81,11 @@ const AddChargerStation = () => {
                     [timeType]: value,
                 },
             };
-
+    
             if (timeType === 'open') {
                 if (value) {
                     updatedTimeSlots[day].closeMandatory = true; 
+                } else {
                     updatedTimeSlots[day].closeMandatory = false; 
                 }
             } else if (timeType === 'close') {
@@ -68,6 +99,8 @@ const AddChargerStation = () => {
             return updatedTimeSlots;
         });
     };
+    
+
 
     const brandDropdownRef = useRef(null);
     const serviceDropdownRef = useRef(null);
@@ -328,7 +361,7 @@ const AddChargerStation = () => {
                                 value={stationName}
                                 onChange={(e) => setStationName(e.target.value)} 
                             />
-                             {errors.stationName && <p className={styles.error}>{errors.stationName}</p>}
+                             {errors.stationName && <p className={styles.error} style={{ color: 'red' }}>{errors.stationName}</p>}
                         </div>
                         <div className={styles.addShopInputContainer}>
                             <label className={styles.addShopLabel} htmlFor="availableBrands">Charging For</label>
@@ -342,7 +375,7 @@ const AddChargerStation = () => {
                                     closeOnChangedValue={false}
                                     closeOnSelect={false}
                                 />
-                                {errors.chargingFor && <p className={styles.error}>{errors.chargingFor}</p>}
+                                {errors.chargingFor && <p className={styles.error} style={{ color: 'red' }}>{errors.chargingFor}</p>}
                             </div>
                         </div>
                     </div>
@@ -360,7 +393,7 @@ const AddChargerStation = () => {
                                     placeholder="Select Service"
                                     isClearable={true}
                                 />
-                                {errors.chargerType && <p className={styles.error}>{errors.chargerType}</p>}
+                                {errors.chargerType && <p className={styles.error} style={{ color: 'red' }}>{errors.chargerType}</p>}
                             </div>
                         </div>
                         <div className={styles.addShopInputContainer}>
@@ -372,9 +405,15 @@ const AddChargerStation = () => {
                                 placeholder="Charging Point" 
                                 className={styles.inputField}
                                 value={chargingPoint}
-                                onChange={(e) => setChargingPoint(e.target.value)} 
+                                // onChange={(e) => setChargingPoint(e.target.value)} 
+                                onChange={(e) => {
+                                    const value = e.target.value;
+                                    if (/^\d{0,4}$/.test(value)) { 
+                                        setChargingPoint(value);
+                                    }
+                                }} 
                             />
-                            {errors.chargingPoint && <p className={styles.error}>{errors.chargingPoint}</p>}
+                            {errors.chargingPoint && <p className={styles.error} style={{ color: 'red' }}>{errors.chargingPoint}</p>}
                         </div>
                     </div>
                     <div className={styles.row}>
@@ -388,7 +427,7 @@ const AddChargerStation = () => {
                                 value={description}
                                 onChange={(e) => setDescription(e.target.value)} 
                             />
-                            {errors.description && <p className={styles.error}>{errors.description}</p>}
+                            {errors.description && <p className={styles.error} style={{ color: 'red' }}>{errors.description}</p>}
                         </div>
                         <div className={styles.addShopInputContainer}>
                             <label className={styles.addShopLabel} htmlFor="fullAddress">Full Address</label>
@@ -400,7 +439,7 @@ const AddChargerStation = () => {
                                 value={address}
                                 onChange={(e) => setAddress(e.target.value)} 
                             />
-                            {errors.address && <p className={styles.error}>{errors.address}</p>}
+                            {errors.address && <p className={styles.error} style={{ color: 'red' }}>{errors.address}</p>}
                         </div>
                     </div>
                     <div className={styles.locationRow}>
@@ -414,7 +453,7 @@ const AddChargerStation = () => {
                              value={latitude}
                                 onChange={(e) => setLatitude(e.target.value)} 
                              />
-                             {errors.latitude && <p className={styles.error}>{errors.latitude}</p>}
+                             {errors.latitude && <p className={styles.error} style={{ color: 'red' }}>{errors.latitude}</p>}
                         </div>
                         <div className={styles.addShopInputContainer}>
                             <label className={styles.addShopLabel} htmlFor="longitude">Longitude</label>
@@ -425,7 +464,7 @@ const AddChargerStation = () => {
                               value={longitude}
                                 onChange={(e) => setLongitude(e.target.value)} 
                               />
-                              {errors.longitude && <p className={styles.error}>{errors.longitude}</p>}
+                              {errors.longitude && <p className={styles.error} style={{ color: 'red' }}>{errors.longitude}</p>}
                         </div>
                         <div className={styles.addShopInputContainer}>
                             <label className={styles.addShopLabel} htmlFor="location">Price</label>
@@ -437,7 +476,7 @@ const AddChargerStation = () => {
                                 isClearable
                                 className={styles.addShopSelect}
                             />
-                             {errors.price && <p className={styles.error}>{errors.price}</p>}
+                             {errors.price && <p className={styles.error} style={{ color: 'red' }}>{errors.price}</p>}
                         </div>
                     </div>
                     <div className={styles.scheduleSection}>
@@ -468,7 +507,7 @@ const AddChargerStation = () => {
                                                 value={timeSlots[day].open}
                                                 onChange={handleTimeChange(day, 'open')}
                                             />
-                                            {errors[`${day}OpenTime`] && <p className={styles.error}>{errors[`${day}OpenTime`]}</p>}
+                                            {errors[`${day}OpenTime`] && <p className={styles.error} style={{ color: 'red' }}>{errors[`${day}OpenTime`]}</p>}
                                         </label>
                                         
 
@@ -482,7 +521,7 @@ const AddChargerStation = () => {
                                                 value={timeSlots[day].close}
                                                 onChange={handleTimeChange(day, 'close')}
                                             />
-                                            {errors[`${day}CloseTime`] && <p className={styles.error}>{errors[`${day}CloseTime`]}</p>}
+                                            {errors[`${day}CloseTime`] && <p className={styles.error} style={{ color: 'red' }}>{errors[`${day}CloseTime`]}</p>}
                                         </label>
                                         
                                     </div>
@@ -498,7 +537,8 @@ const AddChargerStation = () => {
                     <input
                         type="file"
                         id="coverFileUpload"
-                        accept="image/*"
+                        // accept="image/*"
+                        accept=".jpeg,.jpg"
                         onChange={handleFileChange}
                         style={{ display: 'none' }}
                     />
@@ -526,7 +566,8 @@ const AddChargerStation = () => {
                     <input
                         type="file"
                         id="galleryFileUpload"
-                        accept="image/*"
+                        // accept="image/*"
+                        accept=".jpeg,.jpg"
                         multiple
                         onChange={handleGalleryChange}
                         style={{ display: 'none' }}

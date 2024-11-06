@@ -40,11 +40,11 @@ const EditPublicChargerStation = () => {
         Saturday: { open: '', close: '', openMandatory: false, closeMandatory: false },
         Sunday: { open: '', close: '', openMandatory: false, closeMandatory: false },
     });
-    
+
 
     // const handleTimeChange = (day, timeType) => (event) => {
     //     const value = event.target.value;
-    
+
     //     setTimeSlots((prev) => {
     //         const updatedTimeSlots = {
     //             ...prev,
@@ -55,26 +55,20 @@ const EditPublicChargerStation = () => {
     //         };
 
     //         if (timeType === 'open') {
-    //             if (value) {
-    //                 updatedTimeSlots[day].closeMandatory = true; 
-    //                 updatedTimeSlots[day].closeMandatory = false; 
-    //             }
+    //             updatedTimeSlots[day].closeMandatory = !!value; 
     //         } else if (timeType === 'close') {
-    //             if (value) {
-    //                 updatedTimeSlots[day].openMandatory = true; 
-    //             } else if (!updatedTimeSlots[day].open) {
-    //                 updatedTimeSlots[day].openMandatory = false; 
-    //             }
+    //             updatedTimeSlots[day].openMandatory = !!value;
     //         }
-    
+
     //         return updatedTimeSlots;
     //     });
     // };
 
 
     const handleTimeChange = (day, timeType) => (event) => {
-        const value = event.target.value;
-
+       
+        const value = event.target.value.replace(/[^0-9:-]/g, '');
+    
         setTimeSlots((prev) => {
             const updatedTimeSlots = {
                 ...prev,
@@ -83,16 +77,17 @@ const EditPublicChargerStation = () => {
                     [timeType]: value,
                 },
             };
-
             if (timeType === 'open') {
                 updatedTimeSlots[day].closeMandatory = !!value; 
             } else if (timeType === 'close') {
                 updatedTimeSlots[day].openMandatory = !!value;
             }
-
+    
             return updatedTimeSlots;
         });
     };
+    
+
 
     const brandDropdownRef = useRef(null);
     const serviceDropdownRef = useRef(null);
@@ -245,6 +240,7 @@ const EditPublicChargerStation = () => {
         const formData = new FormData();
         formData.append("userId", userDetails?.user_id);
         formData.append("email", userDetails?.email);
+        formData.append("station_id", stationId);
         formData.append("station_name", stationName);
     
         if (selectedBrands && selectedBrands.length > 0) {
@@ -310,39 +306,28 @@ const EditPublicChargerStation = () => {
         email: userDetails?.email,
         station_id: stationId
     };
-
-    // return new Promise((resolve, reject) => {
         postRequestWithToken('public-charger-station-details', obj, (response) => {
             if (response.code === 200) {
                 const data = response?.data || {};
                 
-                // const openDays = data.open_days.split(',').map(day => day.trim());
                 const openDays = data.open_days.split('_')
-    .map(day => {
-        const trimmedDay = day.trim();
-        return trimmedDay.charAt(0).toUpperCase() + trimmedDay.slice(1).toLowerCase();
-    });
+                .map(day => {
+                    const trimmedDay = day.trim();
+                    return trimmedDay.charAt(0).toUpperCase() + trimmedDay.slice(1).toLowerCase();
+                });
 
-// Split open_timing by underscores to get an array of open/close timing pairs
-const openTimings = data.open_timing.split('_'); // Split for each day's timings
+                const openTimings = data.open_timing.split('_');
+                const updatedTimeSlots = { ...timeSlots };
 
-// Assuming openTimings will have the same length as openDays
-console.log('openDays', openDays);
-console.log('openTimings', openTimings);
-
-// Update time slots based on open days and timings
-const updatedTimeSlots = { ...timeSlots };
-
-openDays.forEach((day, index) => {
-    if (updatedTimeSlots[day] && openTimings[index]) {
-        const [openTime, closeTime] = openTimings[index].split('-'); // Get the specific open/close times for each day
-        updatedTimeSlots[day].open = openTime;
-        updatedTimeSlots[day].close = closeTime;
-        updatedTimeSlots[day].openMandatory = true; 
-        updatedTimeSlots[day].closeMandatory = true; 
-    }
-});
-                console.log('updatedTimeSlots',updatedTimeSlots);
+                openDays.forEach((day, index) => {
+                    if (updatedTimeSlots[day] && openTimings[index]) {
+                        const [openTime, closeTime] = openTimings[index].split('-'); 
+                        updatedTimeSlots[day].open = openTime;
+                        updatedTimeSlots[day].close = closeTime;
+                        updatedTimeSlots[day].openMandatory = true; 
+                        updatedTimeSlots[day].closeMandatory = true; 
+                    }
+                });
                 setIsAlwaysOpen(data.always_open === 0);
                 const selectedPrice = priceOptions.find(option => option.value === data.price);
                 setPrice(selectedPrice);
@@ -360,13 +345,11 @@ openDays.forEach((day, index) => {
                 setGalleryFiles(response?.gallery_data || []);
                 
 
-                                const transformedChargingFor = (response?.result?.chargingFor || []).map(item => ({
+                    const transformedChargingFor = (response?.result?.chargingFor || []).map(item => ({
                         label: item,
                         value: item
                     }));
-                    console.log('transformedChargingFor',transformedChargingFor);
                     
-    
                     const transformedChargingType = (response?.result?.chargerType || []).map(item => ({
                         label: item,
                         value: item
@@ -382,12 +365,9 @@ openDays.forEach((day, index) => {
                     const initialChargerType = transformedChargingType.length ? 
                         [{ label: transformedChargingType[0].label, value: transformedChargingType[0].value }] : [];
                         setSelectedType(initialChargerType);
-
-
-                    
+   
             } else {
                 console.error('Error in public-charger-station-details API', response);
-                // reject(response);
             }
         });
     // });
@@ -418,7 +398,7 @@ openDays.forEach((day, index) => {
                                 value={stationName}
                                 onChange={(e) => setStationName(e.target.value)} 
                             />
-                             {errors.stationName && <p className={styles.error}>{errors.stationName}</p>}
+                             {errors.stationName && <p className={styles.error} style={{ color: 'red' }}>{errors.stationName}</p>}
                         </div>
                         <div className={styles.addShopInputContainer}>
                             <label className={styles.addShopLabel} htmlFor="availableBrands">Charging For</label>
@@ -432,7 +412,7 @@ openDays.forEach((day, index) => {
                                     closeOnChangedValue={false}
                                     closeOnSelect={false}
                                 />
-                                {errors.chargingFor && <p className={styles.error}>{errors.chargingFor}</p>}
+                                {errors.chargingFor && <p className={styles.error} style={{ color: 'red' }}>{errors.chargingFor}</p>}
                             </div>
                         </div>
                     </div>
@@ -450,7 +430,7 @@ openDays.forEach((day, index) => {
                                     placeholder="Select Service"
                                     isClearable={true}
                                 />
-                                {errors.chargerType && <p className={styles.error}>{errors.chargerType}</p>}
+                                {errors.chargerType && <p className={styles.error} style={{ color: 'red' }}>{errors.chargerType}</p>}
                             </div>
                         </div>
                         <div className={styles.addShopInputContainer}>
@@ -462,9 +442,15 @@ openDays.forEach((day, index) => {
                                 placeholder="Charging Point" 
                                 className={styles.inputField}
                                 value={chargingPoint}
-                                onChange={(e) => setChargingPoint(e.target.value)} 
+                                // onChange={(e) => setChargingPoint(e.target.value)} 
+                                onChange={(e) => {
+                                    const value = e.target.value;
+                                    if (/^\d{0,4}$/.test(value)) { 
+                                        setChargingPoint(value);
+                                    }
+                                }} 
                             />
-                            {errors.chargingPoint && <p className={styles.error}>{errors.chargingPoint}</p>}
+                            {errors.chargingPoint && <p className={styles.error} style={{ color: 'red' }}>{errors.chargingPoint}</p>}
                         </div>
                     </div>
                     <div className={styles.row}>
@@ -478,7 +464,7 @@ openDays.forEach((day, index) => {
                                 value={description}
                                 onChange={(e) => setDescription(e.target.value)} 
                             />
-                            {errors.description && <p className={styles.error}>{errors.description}</p>}
+                            {errors.description && <p className={styles.error} style={{ color: 'red' }}>{errors.description}</p>}
                         </div>
                         <div className={styles.addShopInputContainer}>
                             <label className={styles.addShopLabel} htmlFor="fullAddress">Full Address</label>
@@ -490,7 +476,7 @@ openDays.forEach((day, index) => {
                                 value={address}
                                 onChange={(e) => setAddress(e.target.value)} 
                             />
-                            {errors.address && <p className={styles.error}>{errors.address}</p>}
+                            {errors.address && <p className={styles.error} style={{ color: 'red' }}>{errors.address}</p>}
                         </div>
                     </div>
                     <div className={styles.locationRow}>
@@ -504,7 +490,7 @@ openDays.forEach((day, index) => {
                              value={latitude}
                                 onChange={(e) => setLatitude(e.target.value)} 
                              />
-                             {errors.latitude && <p className={styles.error}>{errors.latitude}</p>}
+                             {errors.latitude && <p className={styles.error} style={{ color: 'red' }}>{errors.latitude}</p>}
                         </div>
                         <div className={styles.addShopInputContainer}>
                             <label className={styles.addShopLabel} htmlFor="longitude">Longitude</label>
@@ -515,7 +501,7 @@ openDays.forEach((day, index) => {
                               value={longitude}
                                 onChange={(e) => setLongitude(e.target.value)} 
                               />
-                              {errors.longitude && <p className={styles.error}>{errors.longitude}</p>}
+                              {errors.longitude && <p className={styles.error} style={{ color: 'red' }}>{errors.longitude}</p>}
                         </div>
                         <div className={styles.addShopInputContainer}>
                             <label className={styles.addShopLabel} htmlFor="location">Price</label>
@@ -527,7 +513,7 @@ openDays.forEach((day, index) => {
                                 isClearable
                                 className={styles.addShopSelect}
                             />
-                             {errors.price && <p className={styles.error}>{errors.price}</p>}
+                             {errors.price && <p className={styles.error} style={{ color: 'red' }}>{errors.price}</p>}
                         </div>
                     </div>
                     <div className={styles.scheduleSection}>
@@ -540,47 +526,9 @@ openDays.forEach((day, index) => {
                         />
                             <label htmlFor="alwaysOpen">Always Open</label>
                         </div>
-                        {/* {!isAlwaysOpen && (
-                            <div className={styles.timeSlotContainer}>
-                                {["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].map(day => (
-                                    <div className={styles.dayRow} key={day}>
-                                        <span className={styles.dayLabel}>{day}</span>
+                       
 
-                                        <label htmlFor={`${day}OpenTime`} className={styles.inputLabel}>
-                                            Open Time
-                                            <input
-                                                type="text"
-                                                id={`${day}OpenTime`}
-                                                placeholder="Enter time"
-                                                className={styles.timeField}
-                                                value={timeSlots[day].open}
-                                                onChange={handleTimeChange(day, 'open')}
-                                            />
-                                            {errors[`${day}OpenTime`] && <p className={styles.error}>{errors[`${day}OpenTime`]}</p>}
-                                        </label>
-                                        
-
-                                        <label htmlFor={`${day}CloseTime`} className={styles.inputLabel}>
-                                            Close Time
-                                            <input
-                                                type="text"
-                                                id={`${day}CloseTime`}
-                                                placeholder="Enter time"
-                                                className={styles.timeField}
-                                                value={timeSlots[day].close}
-                                                onChange={handleTimeChange(day, 'close')}
-                                            />
-                                            {errors[`${day}CloseTime`] && <p className={styles.error}>{errors[`${day}CloseTime`]}</p>}
-                                        </label>
-                                        
-                                    </div>
-                                ))}
-                            </div>
-
-                         )} */}
-
-
-{!isAlwaysOpen && (
+              {!isAlwaysOpen && (
                 <div className={styles.timeSlotContainer}>
                     {Object.keys(timeSlots).map(day => (
                         <div className={styles.dayRow} key={day}>
@@ -596,7 +544,7 @@ openDays.forEach((day, index) => {
                                     value={timeSlots[day].open}
                                     onChange={handleTimeChange(day, 'open')}
                                 />
-                                {errors[`${day}OpenTime`] && <p className={styles.error}>{errors[`${day}OpenTime`]}</p>}
+                                {errors[`${day}OpenTime`] && <p className={styles.error} style={{ color: 'red' }}>{errors[`${day}OpenTime`]}</p>}
                             </label>
 
                             <label htmlFor={`${day}CloseTime`} className={styles.inputLabel}>
@@ -609,7 +557,7 @@ openDays.forEach((day, index) => {
                                     value={timeSlots[day].close}
                                     onChange={handleTimeChange(day, 'close')}
                                 />
-                                {errors[`${day}CloseTime`] && <p className={styles.error}>{errors[`${day}CloseTime`]}</p>}
+                                {errors[`${day}CloseTime`] && <p className={styles.error} style={{ color: 'red' }}>{errors[`${day}CloseTime`]}</p>}
                             </label>
                         </div>
                     ))}
