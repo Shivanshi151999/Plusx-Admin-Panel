@@ -8,7 +8,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from 'react-router-dom';
 
 const dynamicFilters = [
-    { label: 'Name', name: 'search_text', type: 'text' },
+    { label: 'Name', name: 'search', type: 'text' },
 ]
 
 const StationList = () => {
@@ -66,6 +66,9 @@ const StationList = () => {
                 fetchFilteredData={fetchFilteredData}
                 dynamicFilters={dynamicFilters} filterValues={filters}
             />
+            {stationList.length === 0 ? (
+                <div className={styles.stationContainer} style={{color: 'red'}}>No data available</div>
+            ) : (
             <List
                 tableHeaders={["Station Name", "Charging For", "Charging Type", "Price", "Address", "Action"]}
                 listData={stationList}
@@ -85,7 +88,7 @@ const StationList = () => {
                 ]}
                 pageHeading="Public Chargers List"
             />
-
+        )}
             <Pagination
                 currentPage={currentPage}
                 totalPages={totalPages}

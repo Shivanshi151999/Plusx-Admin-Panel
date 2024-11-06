@@ -144,6 +144,9 @@ const BookingList = () => {
          fetchFilteredData={fetchFilteredData} 
          dynamicFilters={dynamicFilters} filterValues={filters}
          />
+         {chargerBookingList.length === 0 ? (
+                <div  style={{color: 'red'}}>No data available</div>
+            ) : (
         <List 
         tableHeaders={["Date", "Booking ID", "Customer Name", "Price", "Status", "Driver Assign", "Action"]}
           listData = {chargerBookingList}
@@ -171,22 +174,13 @@ const BookingList = () => {
                 label: 'Price', 
                 format: (price) => (price ? `AED ${price}` : 'AED 0') 
             },
-            // { 
-            //     key: 'created_at', 
-            //     label: 'Date & Time', 
-            //     format: (date) => moment(date).format('DD MMM YYYY h:mm A') 
-            // } ,
+            
             {   key: 'order_status',
                 label: 'Status',
                 format: (status) => statusMapping[status] || status 
 
             },
-            // {
-            //     key: 'driver_assign', 
-            //     label: 'Driver Assign',
-            //     format: () => <img src="/path/to/logo.png" alt="Drive Assign Logo" className={"logo"} /> 
-            // },
-
+           
             {
                 key: 'driver_assign',
                 label: 'Driver Assign',
@@ -207,7 +201,7 @@ const BookingList = () => {
         ]}
         pageHeading="Pick & Drop Booking List"
           />
-           
+        )}
         <Pagination 
           currentPage={currentPage} 
           totalPages={totalPages} 

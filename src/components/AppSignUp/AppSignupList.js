@@ -94,35 +94,27 @@ const SignupList = () => {
             <SubHeader heading = "App Signup List" 
             fetchFilteredData={fetchFilteredData} 
             dynamicFilters={dynamicFilters} filterValues={filters}/>
-            <List
-                tableHeaders={["Date","Customer ID", "Customer Name", "Email", "Emirate", "Action"]}
-                listData={signupList}
-                keyMapping={[
-                    { 
-                        key: 'created_at', 
-                        label: 'Date', 
-                        format: (date) => moment(date).format('DD MMM YYYY') 
-                    } ,
-                    { key: 'rider_id', label: 'Customer ID' },
-                    // { 
-                    //     key: 'rider_name', 
-                    //     label: 'Customer Name',
-                    //     relatedKeys: ['country_code', 'rider_mobile'], 
-                    //     format: (data, key, relatedKeys) => (
-                    //         <>
-                    //             {data[key]}<br />
-                    //             {relatedKeys.map((relatedKey) => data[relatedKey]).join(" ")}
-                    //         </>
-                    //     )
-                    // }, 
-                    { key: 'rider_name', label: 'Customer Name' },
-                    { key: 'rider_email', label: 'Email' },
-                    { key: 'emirates', label: 'Emirate' },
-                   
-                ]}
-                pageHeading="App Signup List"
-                onDeleteSlot={handleDeleteSlot}
-            />
+            {signupList.length === 0 ? (
+                <div className={styles.appSignupContainer} style={{color: 'red'}}>No data available</div>
+            ) : (
+                <List
+                    tableHeaders={["Date", "Customer ID", "Customer Name", "Email", "Emirate", "Action"]}
+                    listData={signupList}
+                    keyMapping={[
+                        { 
+                            key: 'created_at', 
+                            label: 'Date', 
+                            format: (date) => moment(date).format('DD MMM YYYY') 
+                        },
+                        { key: 'rider_id', label: 'Customer ID' },
+                        { key: 'rider_name', label: 'Customer Name' },
+                        { key: 'rider_email', label: 'Email' },
+                        { key: 'emirates', label: 'Emirate' },
+                    ]}
+                    pageHeading="App Signup List"
+                    onDeleteSlot={handleDeleteSlot}
+                />
+            )}
             <Pagination 
                 currentPage={currentPage} 
                 totalPages={totalPages} 

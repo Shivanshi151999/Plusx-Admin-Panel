@@ -149,6 +149,9 @@ const ChargerBookingList = () => {
                 filterValues={filters}
             />
             <ToastContainer />
+            {chargerBookingList.length === 0 ? (
+                <div  style={{color: 'red'}}>No data available</div>
+            ) : (
             <List
                 tableHeaders={["Date","Booking ID", "Customer Name", "Service Name", "Price",  "Status", "Driver Assign", "Action"]}
                 listData={chargerBookingList}
@@ -195,7 +198,7 @@ const ChargerBookingList = () => {
                 ]}
                 pageHeading="Charger Booking List"
             />
-
+        )}
             <Pagination
                 currentPage={currentPage}
                 totalPages={totalPages}
