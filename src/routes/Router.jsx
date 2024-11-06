@@ -39,12 +39,9 @@ import ClubList from '../components/EvRiderClub/ClubList.jsx';
 import CarList from '../components/ElectricCarLeasing/CarList.jsx';
 import BikeList from '../components/ElectricBikeLeasing/BikeList.jsx';
 import AddChargerStation from '../components/PublicChargerStation/AddChargerStation.jsx';
-<<<<<<< Updated upstream
 import EditPublicChargerStation from '../components/PublicChargerStation/EditPublicChargerStation.jsx';
-=======
 import Invoice from '../components/SharedComponent/Invoice/Invoice.jsx';
 
->>>>>>> Stashed changes
 const router = createBrowserRouter([
   {
       path: "/login",
@@ -118,16 +115,13 @@ const router = createBrowserRouter([
         ],
       },
 
-<<<<<<< Updated upstream
      
-=======
       // app signup list
 
       {
-        path: "/invoice",
+        path: "/invoice/:invoiceId",
         element:<Invoice/>
       },
->>>>>>> Stashed changes
       {
         path: "/add-charger-station",
         element: <AddChargerStation/>,

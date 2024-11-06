@@ -48,17 +48,14 @@ const List = ({tableHeaders, listData, keyMapping, pageHeading, onDeleteSlot}) =
     const handlePublicChargerStationDetails = (id) => {
         navigate(`/public-charger-station-details/${id}`)
     }
-<<<<<<< Updated upstream
 
     const handleEditChargerDetails = (id) => {
         navigate(`/edit-charger-station/${id}`)
     }
 
-=======
     const handlePortableInvoice = (id) => {
-        navigate(`/invoice`)
+        navigate(`/invoice/${id}`)
     }
->>>>>>> Stashed changes
     return (
         <div className={styles.containerCharger}>
             

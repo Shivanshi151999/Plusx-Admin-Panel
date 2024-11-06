@@ -42,29 +42,6 @@ const EditPublicChargerStation = () => {
     });
 
 
-    // const handleTimeChange = (day, timeType) => (event) => {
-    //     const value = event.target.value;
-
-    //     setTimeSlots((prev) => {
-    //         const updatedTimeSlots = {
-    //             ...prev,
-    //             [day]: {
-    //                 ...prev[day],
-    //                 [timeType]: value,
-    //             },
-    //         };
-
-    //         if (timeType === 'open') {
-    //             updatedTimeSlots[day].closeMandatory = !!value; 
-    //         } else if (timeType === 'close') {
-    //             updatedTimeSlots[day].openMandatory = !!value;
-    //         }
-
-    //         return updatedTimeSlots;
-    //     });
-    // };
-
-
     const handleTimeChange = (day, timeType) => (event) => {
        
         const value = event.target.value.replace(/[^0-9:-]/g, '');
@@ -87,7 +64,6 @@ const EditPublicChargerStation = () => {
         });
     };
     
-
 
     const brandDropdownRef = useRef(null);
     const serviceDropdownRef = useRef(null);
@@ -203,6 +179,21 @@ const EditPublicChargerStation = () => {
         }
 
         if (!isAlwaysOpen) {
+            const firstDay = Object.keys(timeSlots)[0]; 
+            const firstDayTimes = timeSlots[firstDay];
+    
+            if (!firstDayTimes.open) {
+                newErrors[`${firstDay}OpenTime`] = "Open time is required.";
+                formIsValid = false;
+            }
+            if (!firstDayTimes.close) {
+                newErrors[`${firstDay}CloseTime`] = "Close time is required."; 
+                formIsValid = false;
+            }
+        }
+    
+
+        if (!isAlwaysOpen) {
             Object.entries(timeSlots).forEach(([day, times]) => {
                 if (times.open && !times.close) {
                     newErrors[`${day}CloseTime`] = ` Close Time is required `;
@@ -210,7 +201,7 @@ const EditPublicChargerStation = () => {
                 }
                 if (times.close && !times.open) {
                     newErrors[`${day}OpenTime`] = ` Open Time is required `;
-                    formIsValid = false;
+                    
                 }
             });
         }
@@ -235,8 +226,7 @@ const EditPublicChargerStation = () => {
                 return acc;
             }, { days: [] });
     
-        console.log(formattedData);
-    
+        
         const formData = new FormData();
         formData.append("userId", userDetails?.user_id);
         formData.append("email", userDetails?.email);
@@ -247,9 +237,15 @@ const EditPublicChargerStation = () => {
             const selectedBrandsString = selectedBrands.map(brand => brand.value).join(', ');
             formData.append("charging_for", selectedBrandsString);
         }
-    
         if (selectedType) {
-            formData.append("charger_type", selectedType.value);
+            let selected = '';
+        
+            if (Array.isArray(selectedType)) {
+                selected = selectedType.map(type => type.value).join('');  
+            } else {
+                selected = selectedType.value;  
+            }
+            formData.append("charger_type", selected);
         }
         
         formData.append("charging_point", chargingPoint);
@@ -261,6 +257,8 @@ const EditPublicChargerStation = () => {
         if (price) {
             formData.append("price", price.value);
         }
+    console.log('formattedData',formattedData);
+    console.log('isAlwaysOpen',isAlwaysOpen);
     
         formData.append("always_open", formattedData.always_open || 0);
     
@@ -343,28 +341,39 @@ const EditPublicChargerStation = () => {
                 setLongitude(data?.longitude || "");
                 setFile(data?.station_image || "");
                 setGalleryFiles(response?.gallery_data || []);
-                
+                setIsAlwaysOpen(data?.always_open === 1 ? true : false)
 
                     const transformedChargingFor = (response?.result?.chargingFor || []).map(item => ({
                         label: item,
                         value: item
                     }));
-                    
-                    const transformedChargingType = (response?.result?.chargerType || []).map(item => ({
-                        label: item,
-                        value: item
-                    }));
-    
                     setChargingFor(transformedChargingFor);
-                    setChargingType(transformedChargingType);
     
                     const initialSelectedBrands = transformedChargingFor.length ? 
                         [{ label: transformedChargingFor[0].label, value: transformedChargingFor[0].value }] : [];
                     setSelectedBrands(initialSelectedBrands);
+                    
+                    // const transformedChargingType = (response?.result?.chargerType || []).map(item => ({
+                    //     label: item,
+                    //     value: item
+                    // }));
+        
+                    // setChargingType(transformedChargingType); 
+                    
+                    // const initialChargerType = transformedChargingType.length ? 
+                    //     [{ label: transformedChargingType[0].label, value: transformedChargingType[0].value }] : [];
+                    //     setSelectedType(initialChargerType);
 
-                    const initialChargerType = transformedChargingType.length ? 
-                        [{ label: transformedChargingType[0].label, value: transformedChargingType[0].value }] : [];
-                        setSelectedType(initialChargerType);
+                    const transformedChargingType = (response?.result?.chargerType || []).map(item => ({
+                        label: item,
+                        value: item
+                    }));
+            
+                    // Find the matching charger type for initial selection
+                    const initialChargerType = transformedChargingType.find(item => item.value === data.charger_type) || {};
+                    
+                    setChargingType(transformedChargingType);
+                    setSelectedType(initialChargerType); 
    
             } else {
                 console.error('Error in public-charger-station-details API', response);
@@ -620,24 +629,7 @@ const EditPublicChargerStation = () => {
                         </label>
                     ) : (
                         <div className={styles.galleryContainer}>
-                            {/* {galleryFiles.map((image, index) => (
-                                <div className={styles.imageContainer} key={index}>
-                                    
-
-                                    <img
-                                        src={
-                                            typeof galleryFiles === 'string' 
-                                                ? `${process.env.REACT_APP_SERVER_URL}uploads/charging-station-images/${galleryFiles}` 
-                                                : URL.createObjectURL(galleryFiles)
-                                        } 
-                                        alt="Preview"
-                                        className={styles.previewImage}
-                                    />
-                                    <button type="button" className={styles.removeButton} onClick={() => handleRemoveGalleryImage(index)}>
-                                        <AiOutlineClose size={20} style={{ padding: '2px' }} />
-                                    </button>
-                                </div>
-                            ))} */}
+                           
 
 {Array.isArray(galleryFiles) && galleryFiles.length > 0 ? (
         galleryFiles.map((file, index) => (
@@ -646,14 +638,14 @@ const EditPublicChargerStation = () => {
                 src={
                     typeof file === 'string'
                         ? `${process.env.REACT_APP_SERVER_URL}uploads/charging-station-images/${file}` 
-                        : URL.createObjectURL(file) // Assuming 'file' is a Blob or File object
+                        : URL.createObjectURL(file) 
                 }
                 alt={`Preview ${index + 1}`}
                 className={styles.previewImage}
             />
         ))
     ) : (
-        <p>No images available</p> // Optional: fallback if no images are present
+        <p>No images available</p> 
     )}
                         </div>
                     )}
