@@ -5,7 +5,7 @@ import Pagination from '../../SharedComponent/Pagination/Pagination'
 import { getRequestWithToken, postRequestWithToken } from '../../../api/Requests';
 import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from 'react-router-dom';
-
+import moment from 'moment';
 
 const TimeSlotList = () => {
     const userDetails = JSON.parse(sessionStorage.getItem('userDetails')); 
@@ -79,9 +79,17 @@ const TimeSlotList = () => {
         keyMapping={[
           { key: 'slot_id', label: 'Slot ID' }, 
           { 
-              key: 'timing',
-              label: 'Timing',  
-          }, 
+            key: 'timing',
+            label: 'Timing',
+            format: (timing) => {
+                const [startTime, endTime] = timing.split(' - ');
+    
+                const formattedStart = moment(startTime, 'HH:mm:ss').format('HH:mm');
+                const formattedEnd = moment(endTime, 'HH:mm:ss').format('HH:mm');
+    
+                return `${formattedStart} - ${formattedEnd}`;
+            }
+        },
           { key: 'total_booking', 
               label: 'Total Booking',
               format: (limit) => (limit ? ` ${limit}` : '0') 
