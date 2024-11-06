@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from './addtimeslot.module.css';
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { TimePicker } from '@mui/x-date-pickers/TimePicker';
-import { renderTimeViewClock } from '@mui/x-date-pickers/timeViewRenderers';
+import TimePicker from 'react-time-picker';
 import dayjs from 'dayjs';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import { postRequestWithToken } from '../../../api/Requests';
@@ -129,10 +125,10 @@ const AddPortableChargerTimeSlot = () => {
     return (
         <div className={styles.containerCharger}>
             <h2 className={styles.title}>Add Slot</h2>
-           
+
             <div className={styles.chargerSection}>
                 <form className={styles.form} onSubmit={handleSubmit}>
-                <div className={styles.addSection}>
+                    <div className={styles.addSection}>
                         <button type="button" className={styles.buttonSec} onClick={addTimeSlot}>
                             <img src={Add} alt="Add" className={styles.addImg} />
                             <span className={styles.addContent}>Add</span>
@@ -146,39 +142,26 @@ const AddPortableChargerTimeSlot = () => {
                             </div>
                             <div className={styles.inputGroup}>
                                 <label className={styles.label}>Start Time</label>
-                                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                    <DemoContainer components={['TimePicker']}>
-                                        <TimePicker
-                                            className={styles.timePickers}
-                                            value={slot.startTime}
-                                            onChange={(newTime) => handleStartTimeChange(index, newTime)}
-                                            viewRenderers={{
-                                                hours: renderTimeViewClock,
-                                                minutes: renderTimeViewClock,
-                                                seconds: renderTimeViewClock,
-                                            }}
-                                        />
-                                    </DemoContainer>
-                                </LocalizationProvider>
+                                <input
+                                    type="text"
+                                    className={styles.inputCharger}
+                                    value={slot.startTime}
+                                    onChange={(e) => handleStartTimeChange(index, e.target.value)}
+                                    placeholder="HH:MM" // Placeholder to show time format
+                                />
                                 {errors[index]?.startTime && <span className={styles.error} style={{ color: 'red' }}>{errors[index].startTime}</span>}
                             </div>
 
+                            {/* End Time Input with Placeholder */}
                             <div className={styles.inputGroup}>
                                 <label className={styles.label}>End Time</label>
-                                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                    <DemoContainer components={['TimePicker']}>
-                                        <TimePicker
-                                            className={styles.timePickers}
-                                            value={slot.endTime}
-                                            onChange={(newTime) => handleEndTimeChange(index, newTime)}
-                                            viewRenderers={{
-                                                hours: renderTimeViewClock,
-                                                minutes: renderTimeViewClock,
-                                                seconds: renderTimeViewClock,
-                                            }}
-                                        />
-                                    </DemoContainer>
-                                </LocalizationProvider>
+                                <input
+                                    type="text"
+                                    className={styles.inputCharger}
+                                    value={slot.endTime}
+                                    onChange={(e) => handleEndTimeChange(index, e.target.value)}
+                                    placeholder="HH:MM" // Placeholder to show time format
+                                />
                                 {errors[index]?.endTime && <span className={styles.error} style={{ color: 'red' }}>{errors[index].endTime}</span>}
                             </div>
 
@@ -198,7 +181,7 @@ const AddPortableChargerTimeSlot = () => {
 
                             {timeSlots.length > 1 && (
                                 <button type="button" className={styles.buttonContainer} onClick={() => removeTimeSlot(index)}>
-                                    <FaTimes className={styles.removeContent} /> 
+                                    <FaTimes className={styles.removeContent} />
                                 </button>
                             )}
                         </div>

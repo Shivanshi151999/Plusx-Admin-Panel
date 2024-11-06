@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styles from './subheader.module.css';
 import Plus from '../../../assets/images/Plus.svg';
 import Filter from '../../../assets/images/Filter.svg';
+import Search from '../../../assets/images/Search.svg'
 import AccordionFilter from '../Accordion/Accordions';
 import { Link } from 'react-router-dom';
 
@@ -41,6 +42,12 @@ const SubHeader = ({ heading, fetchFilteredData, dynamicFilters, filterValues, a
                             </div>
                         </Link>
                     )}
+                     <div className={styles.addButtonSection} onClick={toggleAccordion}>
+                            <div className={styles.addButtonImg}>
+                                <img src={Search} alt='Search' />
+                            </div>
+                            <div className={styles.addButtonText}>Search</div>
+                        </div>
 
                    {shouldShowFilterButton && (
                         <div className={styles.addButtonSection} onClick={toggleAccordion}>

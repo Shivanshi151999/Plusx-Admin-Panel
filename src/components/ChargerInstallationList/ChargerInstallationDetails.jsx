@@ -107,11 +107,18 @@ const ChargerInstallationDetails = () => {
         titles = {sectionTitles} content = {sectionContent}
         type = 'chargerInstallation'
       /> */}
+      <div className={styles.bookingLeftContainer}>
       <BookingLeftDetails  
       titles = {sectionTitles} content = {sectionContent}
       type = 'chargerInstallation'
       />
+<<<<<<< Updated upstream
       <BookingDetailsAccordion history = {history} />
+=======
+       <BookingDetailsAccordion history = {history} />
+      </div>
+     
+>>>>>>> Stashed changes
     </div>
   )
 }

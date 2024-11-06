@@ -9,9 +9,19 @@ import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from 'react-router-dom';
 
 const dynamicFilters = [
-    { label: 'Name', name: 'riderName', type: 'text' },
-    { label: 'Email', name: 'riderEmail', type: 'email' },
-    { label: 'Mobile', name: 'riderMobile', type: 'text' },
+    // { label: 'Name', name: 'riderName', type: 'text' },
+    // { label: 'Email', name: 'riderEmail', type: 'email' },
+    // { label: 'Mobile', name: 'riderMobile', type: 'text' },
+    {
+        label: 'Location', 
+        name: 'addedFrom', 
+        type: 'select', 
+        options: [
+            { value: 'Select Device', label: 'Select Device' },
+            { value: 'Android', label: 'Android' },
+            { value: 'IOS', label: 'IOS' }
+        ]
+    },
     {
         label: 'Device By', 
         name: 'addedFrom', 
@@ -22,6 +32,7 @@ const dynamicFilters = [
             { value: 'IOS', label: 'IOS' }
         ]
     },
+    
 ]
 
 const SignupList = () => {

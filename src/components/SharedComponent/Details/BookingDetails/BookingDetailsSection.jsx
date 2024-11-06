@@ -52,25 +52,11 @@ const BookingDetailsSection = ({ titles, content, type }) => {
               }
 
               // Display the gallery images if key is 'galleryImages'
-              if (key === 'galleryImages' && content.baseUrl && Array.isArray(content[key])) {
-                return (
-                  <div className="col-xl-3 col-lg-6 col-12" key={key}>
-                    <div className={styles.infoBlock}>
-                      <span className={styles.infoHeading}>{titles[key]}</span>
-                      <div className={styles.galleryImages}>
-                        {content[key].map((image, index) => (
-                          <img
-                            key={index}
-                            src={`${content.baseUrl}${image}`}
-                            alt={`Gallery image ${index + 1}`}
-                            className={styles.galleryImage}
-                          />
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                );
-              }
+              // if (key === 'galleryImages' && content.baseUrl && Array.isArray(content[key])) {
+              //   return (
+                  
+              //   );
+              // }
 
               // Default content display for other items
               return (

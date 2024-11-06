@@ -5,6 +5,7 @@ import Pagination from '../SharedComponent/Pagination/Pagination'
 import { postRequestWithToken } from '../../api/Requests';
 import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from 'react-router-dom';
+import styles from './addemergency.module.css'
 
 const dynamicFilters = [
     { label: 'RSA ID', name: 'rsa_id', type: 'text' },
@@ -83,7 +84,7 @@ const RiderList = () => {
     };
 
     return (
-        <>
+        <div className={styles.ridersContainer}>
          <SubHeader heading = "Emergency Team List" 
          addButtonProps={addButtonProps}
          fetchFilteredData={fetchFilteredData} 
@@ -133,7 +134,7 @@ const RiderList = () => {
           totalPages={totalPages} 
           onPageChange={handlePageChange} 
         />
-        </>
+        </div>
     );
 };
 

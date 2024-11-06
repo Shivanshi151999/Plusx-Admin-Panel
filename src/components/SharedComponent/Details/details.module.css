@@ -134,3 +134,27 @@ background-color: #242424;
 .editContent img{
   width: 26px;
 }
+/* Start the image section */
+.galleryImages{
+  width: 300px;
+  height: auto;
+  margin-top: 10px;
+  display: flex;
+  gap: 24px;
+}
+.galleryImage{
+  width: 100%;
+  height: auto;
+}
+.ImageMainSection{
+  display: flex;
+  flex-direction: column;
+}
+.infoContainer{
+  margin-top: 40px;
+  padding: 20px;
+    border-radius: 14px;
+    background-color: #000000;
+    color: white;
+    font-family: "Inter", sans-serif !important;
+}

@@ -298,3 +298,34 @@ background-color: #242424;
   background-color: #cccccc;
   border-radius: 3px;
 }
+
+
+.editButton {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 30px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.editCancelBtn {
+  background-color: #ffffff;
+  padding: 10px 26px;
+  border-radius: 10px;
+  border: none;
+  font-size: 18px;
+  font-weight: 600;
+  color: #000000;
+}
+
+.editSubmitBtn {
+  color: #000000;
+  background-color: #64FFC5;
+  padding: 10px 26px;
+  border-radius: 10px;
+  border: none;
+  font-size: 18px;
+  font-weight: 600;
+}

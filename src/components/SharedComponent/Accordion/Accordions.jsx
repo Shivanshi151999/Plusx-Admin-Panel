@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Accordion, Card } from 'react-bootstrap';
 import styles from './accordion.module.css';
 import { motion, AnimatePresence } from 'framer-motion';
-import Calendar from "../Calendar/Calendar"
+import Calendar from "../Calendar/Calendar";
 import { format } from 'date-fns';
 
 const AccordionFilter = ({ type, isOpen, fetchFilteredData, dynamicFilters, filterValues }) => {
@@ -17,31 +17,17 @@ const AccordionFilter = ({ type, isOpen, fetchFilteredData, dynamicFilters, filt
         }
     }, [isOpen]);
 
-
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         fetchFilteredData({ ...filterValues, [name]: value }); 
     };
     
-
     const handleBlur = () => {
         fetchFilteredData(filterValues);
     };
 
-    // const handleDateChange = (range) => {
-    //     const [start, end] = range;
-    //     const formattedStart = format(start, 'yyyy-MM-dd');
-    //     const formattedEnd = format(end, 'yyyy-MM-dd');
-    //     fetchFilteredData({
-    //         ...filterValues,
-    //         start_date: formattedStart,
-    //         end_date: formattedEnd
-    //     });
-    // };
-
     const handleDateChange = (range) => {
         if (!range || range.length < 2) {
-            // Handle the case when the date range picker is cleared
             fetchFilteredData({
                 ...filterValues,
                 start_date: null,
@@ -59,7 +45,6 @@ const AccordionFilter = ({ type, isOpen, fetchFilteredData, dynamicFilters, filt
             end_date: formattedEnd
         });
     };
-    
 
     return (
         <div data-aos="fade-left">
@@ -74,12 +59,16 @@ const AccordionFilter = ({ type, isOpen, fetchFilteredData, dynamicFilters, filt
                                     exit={{ height: 0, opacity: 0 }}
                                     transition={{ duration: 0.3 }}
                                 >
-                                   
-
                                     <Card.Body>
                                         <form className={styles.filterForm}>
+                                             {/* { (type === "Portable Charger Booking List" || type === "Pick & Drop Booking List") && ( */}
+                                             <div className={`col-xl-4 ol-lg-6 col-12 ${styles.filterItem}`}>
+                                                    <label className={styles.filterLabel} htmlFor="date_filter">Selec</label>
+                                                    <Calendar handleDateChange={handleDateChange}/>
+                                                </div>
+                                            {/* )} */}
                                             {dynamicFilters?.map((filter) => (
-                                                <div key={filter.name} className={`col-xxl-3 col-xl-4 col-lg-6 col-12 ${styles.filterItem}`}>
+                                                <div key={filter.name} className={`col-xl-4 col-lg-6 col-12 ${styles.filterItem}`}>
                                                     <label className={styles.filterLabel} htmlFor={filter.name}>{filter.label}</label>
                                                     {filter.type === 'select' ? (
                                                         <select 
@@ -106,18 +95,11 @@ const AccordionFilter = ({ type, isOpen, fetchFilteredData, dynamicFilters, filt
                                                             autoComplete='off'
                                                         />
                                                     )}
-                                                    
                                                 </div>
                                             ))}
-                                           { (type === "Portable Charger Booking List" || type === "Pick & Drop Booking List") && (
-                                                <div className={`col-xxl-3 col-xl-4 col-lg-6 col-12 ${styles.filterItem}`}>
-                                                    <label className={styles.filterLabel} htmlFor="date_filter">Date Picker</label>
-                                                    <Calendar handleDateChange={handleDateChange}/>
-                                                </div>
-                                            )}
+                                          
                                         </form>
                                     </Card.Body>
- 
                                 </motion.div>
                             )}
                         </AnimatePresence>
@@ -127,7 +109,5 @@ const AccordionFilter = ({ type, isOpen, fetchFilteredData, dynamicFilters, filt
         </div>
     );
 };
-
-
 
 export default AccordionFilter;

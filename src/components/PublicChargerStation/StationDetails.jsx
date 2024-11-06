@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styles from './publiccharger.module.css'
 import BookingDetailsHeader from '../SharedComponent/Details/BookingDetails/BookingDetailsHeader'
 import BookingDetailsSection from '../SharedComponent/Details/BookingDetails/BookingDetailsSection'
+import BookingImageSection from '../SharedComponent/Details/BookingDetails/BookingImageSection'
 import { postRequestWithToken } from '../../api/Requests';
 import { useParams } from 'react-router-dom';
 import moment from 'moment';
@@ -107,6 +108,12 @@ const StationDetails = () => {
     address: "Address",
     description: "Description",
     openingDetails: "Opening Details",
+    // coverImage: "Cover Gallery",
+    // galleryImages: "Station Gallery",
+    // baseUrl: "Base Url"
+  }
+
+  const imageTitles = {
     coverImage: "Cover Gallery",
     galleryImages: "Station Gallery",
     // baseUrl: "Base Url"
@@ -127,7 +134,14 @@ const StationDetails = () => {
     openingDetails: getFormattedOpeningHours(bookingDetails),
     address: bookingDetails?.address,
     description: bookingDetails?.description,
-    coverImage: bookingDetails?.station_image,
+    // coverImage: bookingDetails?.station_image,
+    // galleryImages: imageGallery,
+    // baseUrl: baseUrl,
+    slotDate: moment(bookingDetails?.slot_date_time).format('DD MMM YYYY h:mm A'),
+  }
+
+  const imageContent = {
+   
     galleryImages: imageGallery,
     baseUrl: baseUrl,
     slotDate: moment(bookingDetails?.slot_date_time).format('DD MMM YYYY h:mm A'),
@@ -141,6 +155,11 @@ const StationDetails = () => {
       />
       <BookingDetailsSection 
         titles = {sectionTitles} content = {sectionContent}
+        type = 'publicChargingStation'
+      />
+
+<BookingImageSection 
+        titles = {imageTitles} content = {imageContent}
         type = 'publicChargingStation'
       />
     </div>

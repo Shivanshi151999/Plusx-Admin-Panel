@@ -92,15 +92,13 @@ const PickAndDropBookingDetails = () => {
        sectionContent = {sectionContent}
        type = 'pickAndDropBooking'
       />
-      {/* <BookingDetailsSection 
-        titles = {sectionTitles} content = {sectionContent}
-        type = 'pickAndDropBooking'
-      /> */}
+      <div className={styles.pickBookingContainer}>
       <BookingLeftDetails  
       titles = {sectionTitles} content = {sectionContent}
       type = 'pickAndDropBooking'
       />
       <BookingDetailsAccordion history = {history} rsa = {content}/>
+      </div>
     </div>
   )
 }

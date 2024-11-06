@@ -11,7 +11,7 @@ const AddChargerStation = () => {
     const userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
     const navigate = useNavigate();
     const [file, setFile] = useState(null);
-    const [galleryFiles, setGalleryFiles] = useState([]); 
+    const [galleryFiles, setGalleryFiles] = useState([]);
     const [errors, setErrors] = useState({});
     const [selectedBrands, setSelectedBrands] = useState([]);
     const [selectedType, setSelectedType] = useState([])
@@ -38,7 +38,7 @@ const AddChargerStation = () => {
         Saturday: { open: '', close: '', openMandatory: false, closeMandatory: false },
         Sunday: { open: '', close: '', openMandatory: false, closeMandatory: false },
     });
-    
+
 
     // const handleTimeChange = (day, timeType) => (event) => {
     //     const value = event.target.value;
@@ -71,8 +71,13 @@ const AddChargerStation = () => {
 
 
     const handleTimeChange = (day, timeType) => (event) => {
+<<<<<<< Updated upstream
         const value = event.target.value.replace(/[^0-9:-]/g, '');
     
+=======
+        const value = event.target.value;
+
+>>>>>>> Stashed changes
         setTimeSlots((prev) => {
             const updatedTimeSlots = {
                 ...prev,
@@ -84,18 +89,23 @@ const AddChargerStation = () => {
     
             if (timeType === 'open') {
                 if (value) {
+<<<<<<< Updated upstream
                     updatedTimeSlots[day].closeMandatory = true; 
                 } else {
                     updatedTimeSlots[day].closeMandatory = false; 
+=======
+                    updatedTimeSlots[day].closeMandatory = true;
+                    updatedTimeSlots[day].closeMandatory = false;
+>>>>>>> Stashed changes
                 }
             } else if (timeType === 'close') {
                 if (value) {
-                    updatedTimeSlots[day].openMandatory = true; 
+                    updatedTimeSlots[day].openMandatory = true;
                 } else if (!updatedTimeSlots[day].open) {
-                    updatedTimeSlots[day].openMandatory = false; 
+                    updatedTimeSlots[day].openMandatory = false;
                 }
             }
-    
+
             return updatedTimeSlots;
         });
     };
@@ -104,21 +114,21 @@ const AddChargerStation = () => {
 
     const brandDropdownRef = useRef(null);
     const serviceDropdownRef = useRef(null);
-  
+
     const handleAlwaysOpenChange = (event) => {
         setIsAlwaysOpen(event.target.checked);
     };
 
     const [selectedService, setSelectedService] = useState(null);
-    
+
     const handleChargingFor = (selectedOptions) => {
-        setSelectedBrands(selectedOptions); 
+        setSelectedBrands(selectedOptions);
     };
     const handleServiceChange = (selectedOption) => setSelectedService(selectedOption);
-    
+
     const handleChargingType = (selectedOption) => {
         setSelectedType(selectedOption);
-    };    
+    };
 
     const [price, setPrice] = useState(null);
     const priceOptions = [
@@ -156,7 +166,7 @@ const AddChargerStation = () => {
         setGalleryFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
     };
 
-   
+
     useEffect(() => {
         return () => {
             galleryFiles.forEach((image) => URL.revokeObjectURL(image));
@@ -171,7 +181,7 @@ const AddChargerStation = () => {
             newErrors.stationName = "Station Name is required.";
             formIsValid = false;
         }
-        
+
         if (!selectedType || selectedType.length === 0) {
             newErrors.chargerType = "Charging Type is required.";
             formIsValid = false;
@@ -227,7 +237,7 @@ const AddChargerStation = () => {
                 }
             });
         }
-       
+
 
         setErrors(newErrors);
         return formIsValid;
@@ -235,78 +245,78 @@ const AddChargerStation = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-    
+
         if (validateForm()) {
             const formattedData = isAlwaysOpen
-            ? { always_open: 1, days: [] } 
-            : Object.entries(timeSlots).reduce((acc, [day, times]) => {
-                if (times.open && times.close) {
-                    acc.days.push(day.toLowerCase());
-                    acc[`${day.toLowerCase()}_open_time`] = times.open;
-                    acc[`${day.toLowerCase()}_close_time`] = times.close;
-                }
-                return acc;
-            }, { days: [] });
-    
-        console.log(formattedData);
-    
-        const formData = new FormData();
-        formData.append("userId", userDetails?.user_id);
-        formData.append("email", userDetails?.email);
-        formData.append("station_name", stationName);
-    
-        if (selectedBrands && selectedBrands.length > 0) {
-            const selectedBrandsString = selectedBrands.map(brand => brand.value).join(', ');
-            formData.append("charging_for", selectedBrandsString);
-        }
-    
-        if (selectedType) {
-            formData.append("charger_type", selectedType.value);
-        }
-        
-        formData.append("charging_point", chargingPoint);
-        formData.append("description", description);
-        formData.append("address", address);
-        formData.append("latitude", latitude);
-        formData.append("longitude", longitude);
-    
-        if (price) {
-            formData.append("price", price.value);
-        }
-    
-        formData.append("always_open", formattedData.always_open || 0);
-    
-        if (isAlwaysOpen) {
-            formData.append("days[]", formattedData.days); 
-        } else {
-            formattedData.days.forEach(day => formData.append("days[]", day));
-        }
-    
-        if (!isAlwaysOpen) {
-            Object.keys(formattedData).forEach(key => {
-                if (key !== 'days' && key !== 'always_open') {
-                    formData.append(key, formattedData[key]);
-                }
-            });
-        }
-    
-        if (file) {
-            formData.append("cover_image", file);
-        }
-    
-        if (galleryFiles.length > 0) {
-            galleryFiles.forEach((galleryFile) => {
-                formData.append("shop_gallery", galleryFile);
-            });
-        }
-    
-        postRequestWithTokenAndFile('public-charger-add-station', formData, async (response) => {
-            if (response.status === 1) {
-                navigate('/public-charger-station-list');
-            } else {
-                console.log('Error in public-charger-add-station API:', response);
+                ? { always_open: 1, days: [] }
+                : Object.entries(timeSlots).reduce((acc, [day, times]) => {
+                    if (times.open && times.close) {
+                        acc.days.push(day.toLowerCase());
+                        acc[`${day.toLowerCase()}_open_time`] = times.open;
+                        acc[`${day.toLowerCase()}_close_time`] = times.close;
+                    }
+                    return acc;
+                }, { days: [] });
+
+            console.log(formattedData);
+
+            const formData = new FormData();
+            formData.append("userId", userDetails?.user_id);
+            formData.append("email", userDetails?.email);
+            formData.append("station_name", stationName);
+
+            if (selectedBrands && selectedBrands.length > 0) {
+                const selectedBrandsString = selectedBrands.map(brand => brand.value).join(', ');
+                formData.append("charging_for", selectedBrandsString);
             }
-        });
+
+            if (selectedType) {
+                formData.append("charger_type", selectedType.value);
+            }
+
+            formData.append("charging_point", chargingPoint);
+            formData.append("description", description);
+            formData.append("address", address);
+            formData.append("latitude", latitude);
+            formData.append("longitude", longitude);
+
+            if (price) {
+                formData.append("price", price.value);
+            }
+
+            formData.append("always_open", formattedData.always_open || 0);
+
+            if (isAlwaysOpen) {
+                formData.append("days[]", formattedData.days);
+            } else {
+                formattedData.days.forEach(day => formData.append("days[]", day));
+            }
+
+            if (!isAlwaysOpen) {
+                Object.keys(formattedData).forEach(key => {
+                    if (key !== 'days' && key !== 'always_open') {
+                        formData.append(key, formattedData[key]);
+                    }
+                });
+            }
+
+            if (file) {
+                formData.append("cover_image", file);
+            }
+
+            if (galleryFiles.length > 0) {
+                galleryFiles.forEach((galleryFile) => {
+                    formData.append("shop_gallery", galleryFile);
+                });
+            }
+
+            postRequestWithTokenAndFile('public-charger-add-station', formData, async (response) => {
+                if (response.status === 1) {
+                    navigate('/public-charger-station-list');
+                } else {
+                    console.log('Error in public-charger-add-station API:', response);
+                }
+            });
         } else {
 
         }
@@ -314,13 +324,13 @@ const AddChargerStation = () => {
 
     const fetchDetails = () => {
         const obj = {
-            userId : userDetails?.user_id,
-            email : userDetails?.email,
+            userId: userDetails?.user_id,
+            email: userDetails?.email,
         };
-    
+
         postRequestWithToken('public-charger-station-data', obj, (response) => {
             if (response.code === 200) {
-                
+
                 const transformedChargingFor = (response?.data?.chargingFor || []).map(item => ({
                     label: item,
                     value: item
@@ -337,14 +347,14 @@ const AddChargerStation = () => {
             }
         });
     };
-    
-      useEffect(() => {
+
+    useEffect(() => {
         if (!userDetails || !userDetails.access_token) {
-          navigate('/login'); 
-          return; 
+            navigate('/login');
+            return;
         }
         fetchDetails();
-      }, []);
+    }, []);
     return (
         <div className={styles.addShopContainer}>
             <div className={styles.addHeading}>Add Public Chargers</div>
@@ -353,24 +363,28 @@ const AddChargerStation = () => {
                     <div className={styles.row}>
                         <div className={styles.addShopInputContainer}>
                             <label className={styles.addShopLabel} htmlFor="shopName">Station Name</label>
-                            <input 
-                                type="text" 
-                                id="shopName" 
-                                placeholder="Shop Name" 
+                            <input
+                                type="text"
+                                id="shopName"
+                                placeholder="Shop Name"
                                 className={styles.inputField}
                                 value={stationName}
-                                onChange={(e) => setStationName(e.target.value)} 
+                                onChange={(e) => setStationName(e.target.value)}
                             />
+<<<<<<< Updated upstream
                              {errors.stationName && <p className={styles.error} style={{ color: 'red' }}>{errors.stationName}</p>}
+=======
+                            {errors.stationName && <p className={styles.error}>{errors.stationName}</p>}
+>>>>>>> Stashed changes
                         </div>
                         <div className={styles.addShopInputContainer}>
                             <label className={styles.addShopLabel} htmlFor="availableBrands">Charging For</label>
                             <div ref={brandDropdownRef}>
-                              <MultiSelect
+                                <MultiSelect
                                     className={styles.addShopSelect}
-                                    options={chargingFor} 
+                                    options={chargingFor}
                                     value={selectedBrands}
-                                    onChange={handleChargingFor} 
+                                    onChange={handleChargingFor}
                                     labelledBy="Charging For"
                                     closeOnChangedValue={false}
                                     closeOnSelect={false}
@@ -398,13 +412,14 @@ const AddChargerStation = () => {
                         </div>
                         <div className={styles.addShopInputContainer}>
                             <label className={styles.addShopLabel} htmlFor="email">Charging Point</label>
-                            
-                            <input 
-                                type="text" 
-                                id="chargingPoint" 
-                                placeholder="Charging Point" 
+
+                            <input
+                                type="text"
+                                id="chargingPoint"
+                                placeholder="Charging Point"
                                 className={styles.inputField}
                                 value={chargingPoint}
+<<<<<<< Updated upstream
                                 // onChange={(e) => setChargingPoint(e.target.value)} 
                                 onChange={(e) => {
                                     const value = e.target.value;
@@ -412,6 +427,9 @@ const AddChargerStation = () => {
                                         setChargingPoint(value);
                                     }
                                 }} 
+=======
+                                onChange={(e) => setChargingPoint(e.target.value)}
+>>>>>>> Stashed changes
                             />
                             {errors.chargingPoint && <p className={styles.error} style={{ color: 'red' }}>{errors.chargingPoint}</p>}
                         </div>
@@ -425,7 +443,7 @@ const AddChargerStation = () => {
                                 className={styles.inputField}
                                 rows="4"
                                 value={description}
-                                onChange={(e) => setDescription(e.target.value)} 
+                                onChange={(e) => setDescription(e.target.value)}
                             />
                             {errors.description && <p className={styles.error} style={{ color: 'red' }}>{errors.description}</p>}
                         </div>
@@ -437,7 +455,7 @@ const AddChargerStation = () => {
                                 className={styles.inputField}
                                 rows="4"
                                 value={address}
-                                onChange={(e) => setAddress(e.target.value)} 
+                                onChange={(e) => setAddress(e.target.value)}
                             />
                             {errors.address && <p className={styles.error} style={{ color: 'red' }}>{errors.address}</p>}
                         </div>
@@ -447,6 +465,7 @@ const AddChargerStation = () => {
                         <div className={styles.addShopInputContainer}>
                             <label className={styles.addShopLabel} htmlFor="latitude">Latitude</label>
                             <input type="text"
+<<<<<<< Updated upstream
                              id="latitude" 
                              placeholder="Latitude" 
                              className={styles.inputField} 
@@ -465,6 +484,26 @@ const AddChargerStation = () => {
                                 onChange={(e) => setLongitude(e.target.value)} 
                               />
                               {errors.longitude && <p className={styles.error} style={{ color: 'red' }}>{errors.longitude}</p>}
+=======
+                                id="latitude"
+                                placeholder="Latitude"
+                                className={styles.inputField}
+                                value={latitude}
+                                onChange={(e) => setLatitude(e.target.value)}
+                            />
+                            {errors.latitude && <p className={styles.error}>{errors.latitude}</p>}
+                        </div>
+                        <div className={styles.addShopInputContainer}>
+                            <label className={styles.addShopLabel} htmlFor="longitude">Longitude</label>
+                            <input type="text"
+                                id="longitude"
+                                placeholder="Longitude"
+                                className={styles.inputField}
+                                value={longitude}
+                                onChange={(e) => setLongitude(e.target.value)}
+                            />
+                            {errors.longitude && <p className={styles.error}>{errors.longitude}</p>}
+>>>>>>> Stashed changes
                         </div>
                         <div className={styles.addShopInputContainer}>
                             <label className={styles.addShopLabel} htmlFor="location">Price</label>
@@ -476,23 +515,27 @@ const AddChargerStation = () => {
                                 isClearable
                                 className={styles.addShopSelect}
                             />
+<<<<<<< Updated upstream
                              {errors.price && <p className={styles.error} style={{ color: 'red' }}>{errors.price}</p>}
+=======
+                            {errors.price && <p className={styles.error}>{errors.price}</p>}
+>>>>>>> Stashed changes
                         </div>
                     </div>
                     <div className={styles.scheduleSection}>
                         <div className={styles.alwaysOpen}>
-                        <input
-                            type="checkbox"
-                            id="alwaysOpen"
-                            checked={isAlwaysOpen}
-                            onChange={handleAlwaysOpenChange}
-                        />
+                            <input
+                                type="checkbox"
+                                id="alwaysOpen"
+                                checked={isAlwaysOpen}
+                                onChange={handleAlwaysOpenChange}
+                            />
                             <label htmlFor="alwaysOpen">Always Open</label>
                         </div>
                         {!isAlwaysOpen && (
 
 
-                        <div className={styles.timeSlotContainer}>
+                            <div className={styles.timeSlotContainer}>
                                 {["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].map(day => (
                                     <div className={styles.dayRow} key={day}>
                                         <span className={styles.dayLabel}>{day}</span>
@@ -509,7 +552,7 @@ const AddChargerStation = () => {
                                             />
                                             {errors[`${day}OpenTime`] && <p className={styles.error} style={{ color: 'red' }}>{errors[`${day}OpenTime`]}</p>}
                                         </label>
-                                        
+
 
                                         <label htmlFor={`${day}CloseTime`} className={styles.inputLabel}>
                                             Close Time
@@ -523,13 +566,14 @@ const AddChargerStation = () => {
                                             />
                                             {errors[`${day}CloseTime`] && <p className={styles.error} style={{ color: 'red' }}>{errors[`${day}CloseTime`]}</p>}
                                         </label>
-                                        
+
                                     </div>
                                 ))}
                             </div>
 
-                         )}
+                        )}
                     </div>
+<<<<<<< Updated upstream
                     
                     <div className={styles.fileUpload}>
                 <label className={styles.fileLabel}>Cover Image</label>
@@ -583,18 +627,74 @@ const AddChargerStation = () => {
                                 <div className={styles.imageContainer} key={index}>
                                     <img src={URL.createObjectURL(image)} alt={`Preview ${index}`} className={styles.previewImage} />
                                     <button type="button" className={styles.removeButton} onClick={() => handleRemoveGalleryImage(index)}>
+=======
+
+                    <div className={styles.fileUpload}>
+                        <label className={styles.fileLabel}>Cover Image</label>
+                        <div className={styles.fileDropZone}>
+                            <input
+                                type="file"
+                                id="coverFileUpload"
+                                accept="image/*"
+                                onChange={handleFileChange}
+                                style={{ display: 'none' }}
+                            />
+                            {!file ? (
+                                <label htmlFor="coverFileUpload" className={styles.fileUploadLabel}>
+                                    <img src={UploadIcon} alt="Upload Icon" className={styles.uploadIcon} />
+                                    <p>Select File to Upload <br /> or Drag & Drop, Copy & Paste Files</p>
+                                </label>
+                            ) : (
+                                <div className={styles.imageContainer}>
+                                    <img src={URL.createObjectURL(file)} alt="Preview" className={styles.previewImage} />
+                                    <button type="button" className={styles.removeButton} onClick={handleRemoveImage}>
+>>>>>>> Stashed changes
                                         <AiOutlineClose size={20} style={{ padding: '2px' }} />
                                     </button>
                                 </div>
-                            ))}
+                            )}
                         </div>
-                    )}
-                </div>
-                {errors.gallery && <p className={styles.error} style={{ color: 'red' }}>{errors.gallery}</p>}
-            </div>
-<div className={styles.actions}>
-                        <button className={styles.submitBtn} type="submit">Submit</button>
+                        {errors.file && <p className={styles.error} style={{ color: 'red' }}>{errors.file}</p>}
                     </div>
+
+                    {/* Station Gallery Multiple Image Upload */}
+                    <div className={styles.fileUpload}>
+                        <label className={styles.fileLabel}>Station Gallery</label>
+                        <div className={styles.fileDropZone}>
+                            <input
+                                type="file"
+                                id="galleryFileUpload"
+                                accept="image/*"
+                                multiple
+                                onChange={handleGalleryChange}
+                                style={{ display: 'none' }}
+                            />
+                            {galleryFiles.length === 0 ? (
+                                <label htmlFor="galleryFileUpload" className={styles.fileUploadLabel}>
+                                    <img src={UploadIcon} alt="Upload Icon" className={styles.uploadIcon} />
+                                    <p>Select Files to Upload <br /> or Drag & Drop, Copy & Paste Files</p>
+                                </label>
+                            ) : (
+                                <div className={styles.galleryContainer}>
+                                    {galleryFiles.map((image, index) => (
+                                        <div className={styles.imageContainer} key={index}>
+                                            <img src={URL.createObjectURL(image)} alt={`Preview ${index}`} className={styles.previewImage} />
+                                            <button type="button" className={styles.removeButton} onClick={() => handleRemoveGalleryImage(index)}>
+                                                <AiOutlineClose size={20} style={{ padding: '2px' }} />
+                                            </button>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                        {errors.gallery && <p className={styles.error} style={{ color: 'red' }}>{errors.gallery}</p>}
+                    </div>
+                    {/* start the button section */}
+                    <div className={styles.editButton}>
+                        <button className={styles.editCancelBtn}>Cancel</button>
+                        <button type="submit" className={styles.editSubmitBtn}>Submit</button>
+                    </div>
+                    {/* end the button section */}
                 </form>
             </div>
         </div>

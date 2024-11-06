@@ -5,6 +5,7 @@ import Pagination from '../SharedComponent/Pagination/Pagination'
 import { getRequestWithToken, postRequestWithToken } from '../../api/Requests';
 import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
+import styles from './chargerinstallation.module.css'
 
 const statusMapping = {
     'P': 'Open',
@@ -55,7 +56,7 @@ const ChargerInstallationList = () => {
     };
 
     return (
-        <>
+        <div className={styles.chargerInstallationSection}>
          <SubHeader heading = "Charger Installation List"/>
         <List 
         tableHeaders={["Date","Request ID", "Customer Name", "Service Type", "Vehicle Model",  "Status", "Action"]}
@@ -85,7 +86,7 @@ const ChargerInstallationList = () => {
           totalPages={totalPages} 
           onPageChange={handlePageChange} 
         />
-        </>
+        </div>
     );
 };
 

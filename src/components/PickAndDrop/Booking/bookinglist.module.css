@@ -7,3 +7,9 @@
 .pdBookingListContainer::-webkit-scrollbar{
     display: none;
 }
+.pickBookingContainer{
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 40px;
+}
