@@ -55,22 +55,18 @@ const ChargerInstallationDetails = () => {
   const headerTitles = {
     bookingIdTitle: "Service ID",
     customerDetailsTitle: "Customer Details",
-    // driverDetailsTitle: "Driver Details",
   };
 
   const sectionTitles = {
     address: "Address",
     description: "Description",
-    status: "Satus",
+    bookingStatus: "Satus",
     companyName: "Company Name",
     chargerFor: "Charger For",
     serviceType: "Service Type",
+    residentType: "Resident Type",
     noOfCharger: "No of Charger",
-    coverImage: "Cover Gallery",
-    galleryImages: "Station Gallery",
-    baseUrl: "Base Url"
-    // address: "Address",
-    // slotDate: "Slot Date",
+    slotDate: "Slot Date",
   }
 
   const content = {
@@ -91,10 +87,7 @@ const ChargerInstallationDetails = () => {
     serviceType: bookingDetails?.service_type,
     residentType: bookingDetails?.resident_type,
     noOfCharger: bookingDetails?.no_of_charger,
-    coverImage: bookingDetails?.station_image,
-    galleryImages: bookingDetails?.gallery_data,
-    baseUrl: bookingDetails?.base_url,
-    slotDate: moment(bookingDetails?.slot_date_time).format('DD MMM YYYY h:mm A'),
+    slotDate: moment(bookingDetails?.slot_date_time).format('DD MMM YYYY'),
   }
 
   return (
@@ -103,10 +96,6 @@ const ChargerInstallationDetails = () => {
         content={content} titles={headerTitles}
         type='chargerInstallation'
       />
-      {/* <BookingDetailsSection 
-        titles = {sectionTitles} content = {sectionContent}
-        type = 'chargerInstallation'
-      /> */}
       <div className={styles.bookingLeftContainer}>
         <BookingLeftDetails
           titles={sectionTitles} content={sectionContent}

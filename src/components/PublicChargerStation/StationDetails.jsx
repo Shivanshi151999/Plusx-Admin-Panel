@@ -141,7 +141,7 @@ const StationDetails = () => {
   }
 
   const imageContent = {
-   
+    coverImage: bookingDetails?.station_image,
     galleryImages: imageGallery,
     baseUrl: baseUrl,
     slotDate: moment(bookingDetails?.slot_date_time).format('DD MMM YYYY h:mm A'),
