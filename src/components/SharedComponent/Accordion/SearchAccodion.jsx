@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Calendar from "../Calendar/Calendar";
 import { format } from 'date-fns';
 
-const SearchAccodion = ({ type, isOpen, fetchFilteredData, dynamicFilters, filterValues }) => {
+const SearchAccodion = ({ type, isOpen, fetchFilteredData, dynamicFilters, filterValues, searchTerm }) => {
     const [showContent, setShowContent] = useState(isOpen);
     const [isOpenDropdown, setIsOpenDropdown] = useState(false);
 
@@ -25,7 +25,7 @@ const SearchAccodion = ({ type, isOpen, fetchFilteredData, dynamicFilters, filte
 
     const handleBlur = () => {
         fetchFilteredData(filterValues);
-        setIsOpenDropdown(false); // Close dropdown on blur
+        setIsOpenDropdown(false); 
     };
 
     const handleDateChange = (range) => {
@@ -67,7 +67,7 @@ const SearchAccodion = ({ type, isOpen, fetchFilteredData, dynamicFilters, filte
                                 >
                                     <Card.Body>
                                         <form className={styles.filterForm}>
-                                            {dynamicFilters?.map((filter) => (
+                                            {searchTerm?.map((filter) => (
                                                 <div key={filter.name} className={`col-xl-8 col-12 ${styles.filterItem}`}>
                                                     <label className={styles.filterLabel} htmlFor={filter.name}>Search</label>
                                                     {filter.type === 'select' ? (
@@ -82,7 +82,16 @@ const SearchAccodion = ({ type, isOpen, fetchFilteredData, dynamicFilters, filte
                                                         autoComplete='off'
                                                     />
                                                     ) : (
-                                                        null
+                                                        <input 
+                                                        className={styles.filterInput} 
+                                                        type={filter.type} 
+                                                        id={filter.name} 
+                                                        name={filter.name} 
+                                                        value={filterValues[filter.name] || ''}
+                                                        onChange={handleInputChange}
+                                                        onBlur={handleBlur}
+                                                        autoComplete='off'
+                                                    />
                                                     )}
                                                 </div>
                                             ))}

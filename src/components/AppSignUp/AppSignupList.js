@@ -8,32 +8,7 @@ import moment from 'moment';
 import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from 'react-router-dom';
 
-const dynamicFilters = [
-    // { label: 'Name', name: 'riderName', type: 'text' },
-    // { label: 'Email', name: 'riderEmail', type: 'email' },
-    // { label: 'Mobile', name: 'riderMobile', type: 'text' },
-    {
-        label: 'Location', 
-        name: 'addedFrom', 
-        type: 'select', 
-        options: [
-            { value: 'Select Device', label: 'Select Device' },
-            { value: 'Android', label: 'Android' },
-            { value: 'IOS', label: 'IOS' }
-        ]
-    },
-    {
-        label: 'Device By', 
-        name: 'addedFrom', 
-        type: 'select', 
-        options: [
-            { value: 'Select Device', label: 'Select Device' },
-            { value: 'Android', label: 'Android' },
-            { value: 'IOS', label: 'IOS' }
-        ]
-    },
-    
-]
+
 
 const SignupList = () => {
     const userDetails = JSON.parse(sessionStorage.getItem('userDetails')); 
@@ -43,6 +18,7 @@ const SignupList = () => {
     const [totalPages, setTotalPages] = useState(1);
     const [filters, setFilters] = useState({});
     const [refresh, setRefresh] = useState(false)
+    const [emiratesList, setEmiratesList] = useState([]);
 
     const fetchChargers = (page, appliedFilters = {}) => {
         const obj = {
@@ -55,6 +31,7 @@ const SignupList = () => {
         postRequestWithToken('rider-list', obj, (response) => {
             if (response.code === 200) {
                 setSignupList(response?.data || []);  
+                setEmiratesList(response.emirates || []);
                 setTotalPages(response?.total_page || 1);  
             } else {
                 console.log('error in charger-list API', response);
@@ -99,11 +76,52 @@ const SignupList = () => {
         }
     };
 
+    const dynamicFilters = [
+        {
+            label: 'Location', 
+            name: 'emirates', 
+            type: 'select', 
+            // options: [
+            //     { value: 'Select Location', label: 'Select Location' },
+            //     { value: 'Dubai', label: 'Dubai' },
+            //     { value: 'Abu Dhabi', label: 'Abu Dhabi' }
+            // ]
+
+            options: [
+                { value: 'Select Location', label: 'Select Location' },
+                ...emiratesList.map(emirate => ({
+                    value: emirate.emirates,
+                    label: emirate.emirates || 'Select Emirate'
+                }))
+            ]
+        },
+        {
+            label: 'Device By', 
+            name: 'addedFrom', 
+            type: 'select', 
+            options: [
+                { value: 'Select Device', label: 'Select Device' },
+                { value: 'Android', label: 'Android' },
+                { value: 'IOS', label: 'IOS' }
+            ]
+        },
+        
+    ]
+    
+    const searchTerm = [
+        {
+            label: 'search', 
+            name: 'search_text', 
+        }
+    ]
+
     return (
         <div className={styles.appSignupContainer}>
             <SubHeader heading = "App Signup List" 
             fetchFilteredData={fetchFilteredData} 
-            dynamicFilters={dynamicFilters} filterValues={filters}/>
+            dynamicFilters={dynamicFilters} filterValues={filters}
+            searchTerm = {searchTerm}
+            />
             {signupList.length === 0 ? (
                 <div className={styles.appSignupContainer} style={{color: 'red'}}>No data available</div>
             ) : (

@@ -7,7 +7,7 @@ import SearchAccordion from '../Accordion/SearchAccodion';
 import AccordionFilter from '../Accordion/Accordions'; 
 import { Link } from 'react-router-dom';
 
-const SubHeader = ({ heading, fetchFilteredData, dynamicFilters, filterValues, addButtonProps }) => {
+const SubHeader = ({ heading, fetchFilteredData, dynamicFilters, filterValues, addButtonProps, searchTerm }) => {
     const [isSearchAccordionOpen, setIsSearchAccordionOpen] = useState(false);
     const [isFilterAccordionOpen, setIsFilterAccordionOpen] = useState(false);
 
@@ -78,7 +78,8 @@ const SubHeader = ({ heading, fetchFilteredData, dynamicFilters, filterValues, a
                     type={heading}
                     isOpen={isSearchAccordionOpen} 
                     fetchFilteredData={fetchFilteredData} 
-                    dynamicFilters={dynamicFilters} 
+                    // dynamicFilters={dynamicFilters} 
+                    searchTerm = {searchTerm}
                     filterValues={filterValues} 
                 />
             )}
