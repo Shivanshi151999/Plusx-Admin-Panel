@@ -4,8 +4,9 @@ import TimePicker from 'react-time-picker';
 import dayjs from 'dayjs';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import { postRequestWithToken } from '../../../api/Requests';
-import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Add from '../../../assets/images/Add.svg';
@@ -16,7 +17,9 @@ dayjs.extend(isSameOrAfter);
 const AddPortableChargerTimeSlot = () => {
     const userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
     const navigate = useNavigate();
-    const [timeSlots, setTimeSlots] = useState([{ startTime: null, endTime: null, bookingLimit: "" }]);
+    const [timeSlots, setTimeSlots] = useState([
+        { date: new Date(), startTime: null, endTime: null, bookingLimit: "" }
+    ]);;
     const [startDate, setStartDate] = useState(new Date());
     const [errors, setErrors] = useState([]);
 
@@ -24,17 +27,33 @@ const AddPortableChargerTimeSlot = () => {
         navigate('/portable-charger/charger-booking-time-slot-list');
     };
 
-    const handleStartTimeChange = (index, newTime) => {
+    const handleDateChange = (index, date) => {
         const newTimeSlots = [...timeSlots];
-        newTimeSlots[index].startTime = newTime;
+        newTimeSlots[index].date = date;
         setTimeSlots(newTimeSlots);
     };
 
-    const handleEndTimeChange = (index, newTime) => {
+    const handleTimeInput = (e) => {
+        const value = e.target.value;
+        const isValidTime = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/.test(value);
+        return isValidTime || value === '' ? value : null; 
+    };
+    
+
+    const handleStartTimeChange = (index, newTime) => {
+        const validatedTime = handleTimeInput({ target: { value: newTime } });
         const newTimeSlots = [...timeSlots];
-        newTimeSlots[index].endTime = newTime;
+        newTimeSlots[index].startTime = validatedTime === '' ? null : validatedTime; 
         setTimeSlots(newTimeSlots);
     };
+    
+    const handleEndTimeChange = (index, newTime) => {
+        const validatedTime = handleTimeInput({ target: { value: newTime } });
+        const newTimeSlots = [...timeSlots];
+        newTimeSlots[index].endTime = validatedTime === '' ? null : validatedTime; 
+        setTimeSlots(newTimeSlots);
+    };
+    
 
     const handleBookingLimitChange = (index, e) => {
         const value = e.target.value;
@@ -52,7 +71,7 @@ const AddPortableChargerTimeSlot = () => {
     };
 
     const addTimeSlot = () => {
-        setTimeSlots([...timeSlots, { startTime: null, endTime: null, bookingLimit: "" }]);
+        setTimeSlots([...timeSlots, { date: null, startTime: null, endTime: null, bookingLimit: "" }]);
     };
 
     const removeTimeSlot = (index) => {
@@ -61,55 +80,55 @@ const AddPortableChargerTimeSlot = () => {
     };
 
     const validateForm = () => {
-        const newErrors = timeSlots.map((slot, index) => {
+        const newErrors = timeSlots.map((slot) => {
             const errors = {};
-            const now = dayjs();
-
+    
+            if (!slot.date) {
+                errors.date = "Date is required";
+            }
+            
             if (!slot.startTime) {
                 errors.startTime = "Start time is required";
-            } else if (!dayjs(slot.startTime).isSameOrAfter(now)) {
-                errors.startTime = "Start time must be in the future";
             }
-
+            
             if (!slot.endTime) {
                 errors.endTime = "End time is required";
-            } else if (!dayjs(slot.endTime).isAfter(slot.startTime)) {
-                errors.endTime = "End time must be after start time";
             }
-
+            
             if (!slot.bookingLimit) {
                 errors.bookingLimit = "Booking limit is required";
             } else if (isNaN(slot.bookingLimit) || slot.bookingLimit <= 0) {
                 errors.bookingLimit = "Booking limit must be a positive number";
             }
-
+    
             return errors;
         });
-
+    
         setErrors(newErrors);
         return newErrors.every((error) => Object.keys(error).length === 0);
     };
+    
 
     const handleSubmit = (e) => {
         e.preventDefault();
         if (validateForm()) {
-            timeSlots.forEach((slot) => {
-                const obj = {
-                    userId: userDetails?.user_id,
-                    email: userDetails?.email,
-                    start_time: slot.startTime ? dayjs(slot.startTime).format("hh:mm A") : '',
-                    end_time: slot.endTime ? dayjs(slot.endTime).format("hh:mm A") : '',
-                    booking_limit: slot.bookingLimit
-                };
+            const obj = {
+                userId: userDetails?.user_id,
+                email: userDetails?.email,
+                date: timeSlots.map(slot => slot.date ? dayjs(slot.date).format("DD-MM-YYYY") : ''),
+                start_time: timeSlots.map(slot => slot.startTime),
+                end_time: timeSlots.map(slot => slot.endTime),
+                booking_limit: timeSlots.map(slot => slot.bookingLimit),
+            };
 
-                postRequestWithToken('charger-add-time-slot', obj, (response) => {
-                    if (response.code === 200) {
-                        toast(response.message[0], { type: "success" });
-                        navigate('/portable-charger/charger-booking-time-slot-list');
-                    } else {
-                        console.log('error in charger-slot-list api', response);
-                    }
-                });
+            postRequestWithToken('charger-add-time-slot', obj, (response) => {
+                if (response.code === 200) {
+                    toast(response.message[0], { type: "success" });
+                    navigate('/portable-charger/charger-booking-time-slot-list');
+                } else {
+                    // toast(response.message[0] || response.message, { type: "error" });
+                    console.log('error in charger-slot-list api', response);
+                }
             });
         } else {
             console.log('Validation error');
@@ -121,11 +140,10 @@ const AddPortableChargerTimeSlot = () => {
             navigate('/login');
         }
     }, [userDetails, navigate]);
-
     return (
         <div className={styles.containerCharger}>
             <h2 className={styles.title}>Add Slot</h2>
-
+            <ToastContainer />
             <div className={styles.chargerSection}>
                 <form className={styles.form} onSubmit={handleSubmit}>
                     <div className={styles.addSection}>
@@ -138,7 +156,14 @@ const AddPortableChargerTimeSlot = () => {
                         <div key={index} className={styles.row}>
                             <div className={styles.inputGroup}>
                                 <label className={styles.label}>Date Picker</label>
-                                <DatePicker className={styles.inputCharger} selected={startDate} onChange={(date) => setStartDate(date)} />
+                                <DatePicker 
+                                className={styles.inputCharger} 
+                                selected={slot.date} 
+                                onChange={(date) => handleDateChange(index, date)}
+                                minDate={new Date()}
+                                maxDate={new Date().setDate(new Date().getDate() + 14)}
+                                />
+                                {errors[index]?.date && <span className={styles.error} style={{ color: 'red' }}>{errors[index].date}</span>}
                             </div>
                             <div className={styles.inputGroup}>
                                 <label className={styles.label}>Start Time</label>
@@ -147,12 +172,11 @@ const AddPortableChargerTimeSlot = () => {
                                     className={styles.inputCharger}
                                     value={slot.startTime}
                                     onChange={(e) => handleStartTimeChange(index, e.target.value)}
-                                    placeholder="HH:MM" // Placeholder to show time format
+                                    placeholder="HH:MM"
                                 />
                                 {errors[index]?.startTime && <span className={styles.error} style={{ color: 'red' }}>{errors[index].startTime}</span>}
                             </div>
 
-                            {/* End Time Input with Placeholder */}
                             <div className={styles.inputGroup}>
                                 <label className={styles.label}>End Time</label>
                                 <input
@@ -160,7 +184,7 @@ const AddPortableChargerTimeSlot = () => {
                                     className={styles.inputCharger}
                                     value={slot.endTime}
                                     onChange={(e) => handleEndTimeChange(index, e.target.value)}
-                                    placeholder="HH:MM" // Placeholder to show time format
+                                    placeholder="HH:MM" 
                                 />
                                 {errors[index]?.endTime && <span className={styles.error} style={{ color: 'red' }}>{errors[index].endTime}</span>}
                             </div>
@@ -196,5 +220,6 @@ const AddPortableChargerTimeSlot = () => {
         </div >
     );
 };
+
 
 export default AddPortableChargerTimeSlot;

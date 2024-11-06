@@ -8,98 +8,120 @@ import { renderTimeViewClock } from '@mui/x-date-pickers/timeViewRenderers';
 import dayjs from 'dayjs';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import { postRequestWithToken } from '../../../api/Requests';
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import { useNavigate } from 'react-router-dom';
+import Add from '../../../assets/images/Add.svg';
+import { FaTimes } from 'react-icons/fa';
 
 dayjs.extend(isSameOrAfter);
 
 const AddPickAndDropTimeSlot = () => {
-    const userDetails = JSON.parse(sessionStorage.getItem('userDetails')); 
-    const navigate = useNavigate()
-    const [startTime, setStartTime] = useState(null);
-    const [endTime, setEndTime] = useState(null);
-    const [bookingLimit, setBookingLimit] = useState("");
-    const [errors, setErrors] = useState({});
+    const userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
+    const navigate = useNavigate();
+    const [timeSlots, setTimeSlots] = useState([
+        { date: new Date(), startTime: null, endTime: null, bookingLimit: "" }
+    ]);;
+    const [startDate, setStartDate] = useState(new Date());
+    const [errors, setErrors] = useState([]);
 
     const handleCancel = () => {
         navigate('/pick-and-drop/time-slot-list')
     }
-
-    const handleStartTimeChange = (newTime) => {
-        setStartTime(newTime);
-        setErrors((prev) => ({ ...prev, startTime: "" })); 
+    const handleDateChange = (index, date) => {
+        const newTimeSlots = [...timeSlots];
+        newTimeSlots[index].date = date;
+        setTimeSlots(newTimeSlots);
     };
 
-    const handleEndTimeChange = (newTime) => {
-        setEndTime(newTime);
-        setErrors((prev) => ({ ...prev, endTime: "" })); 
-    };
-
-    const handleBookingLimitChange = (e) => {
+    const handleTimeInput = (e) => {
         const value = e.target.value;
+        const isValidTime = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/.test(value);
+        return isValidTime || value === '' ? value : null; 
+    };
+    
 
+    const handleStartTimeChange = (index, newTime) => {
+        const validatedTime = handleTimeInput({ target: { value: newTime } });
+        const newTimeSlots = [...timeSlots];
+        newTimeSlots[index].startTime = validatedTime === '' ? null : validatedTime; 
+        setTimeSlots(newTimeSlots);
+    };
+    
+    const handleEndTimeChange = (index, newTime) => {
+        const validatedTime = handleTimeInput({ target: { value: newTime } });
+        const newTimeSlots = [...timeSlots];
+        newTimeSlots[index].endTime = validatedTime === '' ? null : validatedTime; 
+        setTimeSlots(newTimeSlots);
+    };
+    
+
+    const handleBookingLimitChange = (index, e) => {
+        const value = e.target.value;
         if (/^\d{0,4}$/.test(value)) {
-            setBookingLimit(value);
-            setErrors((prev) => ({ ...prev, bookingLimit: "" })); 
+            const newTimeSlots = [...timeSlots];
+            newTimeSlots[index].bookingLimit = value;
+            setTimeSlots(newTimeSlots);
         }
     };
 
     const handleBookingLimitKeyPress = (e) => {
-        // Prevent non-numeric input
         if (!/[0-9]/.test(e.key)) {
             e.preventDefault();
         }
     };
 
+    const addTimeSlot = () => {
+        setTimeSlots([...timeSlots, { date: null, startTime: null, endTime: null, bookingLimit: "" }]);
+    };
+
+    const removeTimeSlot = (index) => {
+        const newTimeSlots = timeSlots.filter((_, i) => i !== index);
+        setTimeSlots(newTimeSlots);
+    };
 
     const validateForm = () => {
-        let formIsValid = true;
-        const newErrors = {};
-
-        const now = dayjs();
-
-        if (!startTime) {
-            newErrors.startTime = "Start time is required";
-            formIsValid = false;
-        } else if (startTime && !dayjs(startTime).isSameOrAfter(now)) {
-            newErrors.startTime = "Start time must be in the future";
-            formIsValid = false;
-        }
-
-        if (!endTime) {
-            newErrors.endTime = "End time is required";
-            formIsValid = false;
-        } else if (startTime && endTime && !dayjs(endTime).isAfter(startTime)) {
-            newErrors.endTime = "End time must be after start time";
-            formIsValid = false;
-        }
-
-        if (!bookingLimit) {
-            newErrors.bookingLimit = "Booking limit is required";
-            formIsValid = false;
-        } else if (isNaN(bookingLimit) || bookingLimit <= 0) {
-            newErrors.bookingLimit = "Booking limit must be a positive number";
-            formIsValid = false;
-        }
-
+        const newErrors = timeSlots.map((slot) => {
+            const errors = {};
+    
+            if (!slot.date) {
+                errors.date = "Date is required";
+            }
+            
+            if (!slot.startTime) {
+                errors.startTime = "Start time is required";
+            }
+            
+            if (!slot.endTime) {
+                errors.endTime = "End time is required";
+            }
+            
+            if (!slot.bookingLimit) {
+                errors.bookingLimit = "Booking limit is required";
+            } else if (isNaN(slot.bookingLimit) || slot.bookingLimit <= 0) {
+                errors.bookingLimit = "Booking limit must be a positive number";
+            }
+    
+            return errors;
+        });
+    
         setErrors(newErrors);
-        return formIsValid;
+        return newErrors.every((error) => Object.keys(error).length === 0);
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
         if (validateForm()) {
-            console.log("Start Time:", startTime ? dayjs(startTime).format("hh:mm A") : "Not set");
-            console.log("End Time:", endTime ? dayjs(endTime).format("hh:mm A") : "Not set");
-            console.log("Booking Limit:", bookingLimit);
-
             const obj = {
-                userId : userDetails?.user_id,
-                email : userDetails?.email,
-                start_time : startTime ? dayjs(startTime).format("hh:mm A") : '',
-                end_time : endTime ? dayjs(endTime).format("hh:mm A") : '',
-                booking_limit : bookingLimit
-            }
+                userId: userDetails?.user_id,
+                email: userDetails?.email,
+                date: timeSlots.map(slot => slot.date ? dayjs(slot.date).format("DD-MM-YYYY") : ''),
+                start_time: timeSlots.map(slot => slot.startTime),
+                end_time: timeSlots.map(slot => slot.endTime),
+                booking_limit: timeSlots.map(slot => slot.bookingLimit),
+            };
     
             postRequestWithToken('pick-and-drop-add-slot', obj, async(response) => {
                 if (response.code === 200) {
@@ -123,71 +145,150 @@ const AddPickAndDropTimeSlot = () => {
     }, []);
 
     return (
+        // <div className={styles.containerCharger}>
+        //     <h2 className={styles.title}>Add Slot</h2>
+        //     <div className={styles.chargerSection}>
+        //         <form className={styles.form} onSubmit={handleSubmit}>
+        //             <div className={styles.row}>
+        //                 <div className={styles.inputGroup}>
+        //                     <label className={styles.label}>Start Time</label>
+        //                     <LocalizationProvider dateAdapter={AdapterDayjs}>
+        //                         <DemoContainer components={['TimePicker']}>
+        //                         <div className={styles.inputCharger}> 
+        //                             <TimePicker
+        //                                 label="With Time Clock"
+        //                                 value={startTime}
+        //                                 onChange={handleStartTimeChange}
+        //                                 viewRenderers={{
+        //                                     hours: renderTimeViewClock,
+        //                                     minutes: renderTimeViewClock,
+        //                                     seconds: renderTimeViewClock,
+        //                                 }}
+        //                                 renderInput={(params) => <input {...params} />}
+        //                             />
+        //                         </div>
+        //                         </DemoContainer>
+        //                     </LocalizationProvider>
+        //                     {errors.startTime && <span className={styles.error} style={{color: 'red'}}>{errors.startTime}</span>}
+        //                 </div>
+        //                 <div className={styles.inputGroup}>
+        //                     <label className={styles.label}>End Time</label>
+                            
+        //                     <LocalizationProvider dateAdapter={AdapterDayjs} >
+        //                          <DemoContainer components={['TimePicker']} className={styles.label}>
+        //                          <div className={styles.inputCharger}>
+        //                             <TimePicker
+        //                              label="With Time Clock"
+        //                              value={endTime}
+        //                              onChange={handleEndTimeChange}
+        //                             viewRenderers={{
+        //                                  hours: renderTimeViewClock,
+        //                                 minutes: renderTimeViewClock,                                      
+        //                                 seconds: renderTimeViewClock,
+        //                              }}
+        //                             />
+        //                             </div>
+        //                        </DemoContainer>
+        //                    </LocalizationProvider>
+        //                    {errors.endTime && <span className={styles.error} style={{color: 'red'}}>{errors.endTime}</span>}
+        //                 </div>
+        //                 <div className={styles.inputGroup}>
+        //                     <label className={styles.label}>Booking Limit</label>
+        //                     <input className={styles.inputCharger} type="text" 
+        //                     placeholder="Enter Booking Limit" 
+        //                     maxLength="4"
+        //                     onChange={handleBookingLimitChange}
+        //                     onKeyPress={handleBookingLimitKeyPress}
+        //                     />
+        //                     {errors.bookingLimit && <span className={styles.error} style={{color: 'red'}}>{errors.bookingLimit}</span>}
+        //                 </div>
+        //             </div>
+        //             <div className={styles.actions}>
+        //                 <button className={styles.cancelBtn} type="button" onClick={handleCancel}>Cancel</button>
+        //                 <button className={styles.submitBtn} type="submit">Submit</button>
+        //             </div>
+        //         </form>
+        //     </div>
+        // </div>
+
+
         <div className={styles.containerCharger}>
             <h2 className={styles.title}>Add Slot</h2>
+            <ToastContainer />
             <div className={styles.chargerSection}>
                 <form className={styles.form} onSubmit={handleSubmit}>
-                    <div className={styles.row}>
-                        <div className={styles.inputGroup}>
-                            <label className={styles.label}>Start Time</label>
-                            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <DemoContainer components={['TimePicker']}>
-                                <div className={styles.inputCharger}> 
-                                    <TimePicker
-                                        label="With Time Clock"
-                                        value={startTime}
-                                        onChange={handleStartTimeChange}
-                                        viewRenderers={{
-                                            hours: renderTimeViewClock,
-                                            minutes: renderTimeViewClock,
-                                            seconds: renderTimeViewClock,
-                                        }}
-                                        renderInput={(params) => <input {...params} />}
-                                    />
-                                </div>
-                                </DemoContainer>
-                            </LocalizationProvider>
-                            {errors.startTime && <span className={styles.error} style={{color: 'red'}}>{errors.startTime}</span>}
-                        </div>
-                        <div className={styles.inputGroup}>
-                            <label className={styles.label}>End Time</label>
-                            
-                            <LocalizationProvider dateAdapter={AdapterDayjs} >
-                                 <DemoContainer components={['TimePicker']} className={styles.label}>
-                                 <div className={styles.inputCharger}>
-                                    <TimePicker
-                                     label="With Time Clock"
-                                     value={endTime}
-                                     onChange={handleEndTimeChange}
-                                    viewRenderers={{
-                                         hours: renderTimeViewClock,
-                                        minutes: renderTimeViewClock,                                      
-                                        seconds: renderTimeViewClock,
-                                     }}
-                                    />
-                                    </div>
-                               </DemoContainer>
-                           </LocalizationProvider>
-                           {errors.endTime && <span className={styles.error} style={{color: 'red'}}>{errors.endTime}</span>}
-                        </div>
-                        <div className={styles.inputGroup}>
-                            <label className={styles.label}>Booking Limit</label>
-                            <input className={styles.inputCharger} type="text" 
-                            placeholder="Enter Booking Limit" 
-                            maxLength="4"
-                            onChange={handleBookingLimitChange}
-                            onKeyPress={handleBookingLimitKeyPress}
-                            />
-                            {errors.bookingLimit && <span className={styles.error} style={{color: 'red'}}>{errors.bookingLimit}</span>}
-                        </div>
+                    <div className={styles.addSection}>
+                        <button type="button" className={styles.buttonSec} onClick={addTimeSlot}>
+                            <img src={Add} alt="Add" className={styles.addImg} />
+                            <span className={styles.addContent}>Add</span>
+                        </button>
                     </div>
+                    {timeSlots.map((slot, index) => (
+                        <div key={index} className={styles.row}>
+                            <div className={styles.inputGroup}>
+                                <label className={styles.label}>Date Picker</label>
+                                <DatePicker 
+                                className={styles.inputCharger} 
+                                selected={slot.date} 
+                                onChange={(date) => handleDateChange(index, date)}
+                                minDate={new Date()}
+                                maxDate={new Date().setDate(new Date().getDate() + 14)}
+                                />
+                                {errors[index]?.date && <span className={styles.error} style={{ color: 'red' }}>{errors[index].date}</span>}
+                            </div>
+                            <div className={styles.inputGroup}>
+                                <label className={styles.label}>Start Time</label>
+                                <input
+                                    type="text"
+                                    className={styles.inputCharger}
+                                    value={slot.startTime}
+                                    onChange={(e) => handleStartTimeChange(index, e.target.value)}
+                                    placeholder="HH:MM"
+                                />
+                                {errors[index]?.startTime && <span className={styles.error} style={{ color: 'red' }}>{errors[index].startTime}</span>}
+                            </div>
+
+                            <div className={styles.inputGroup}>
+                                <label className={styles.label}>End Time</label>
+                                <input
+                                    type="text"
+                                    className={styles.inputCharger}
+                                    value={slot.endTime}
+                                    onChange={(e) => handleEndTimeChange(index, e.target.value)}
+                                    placeholder="HH:MM" 
+                                />
+                                {errors[index]?.endTime && <span className={styles.error} style={{ color: 'red' }}>{errors[index].endTime}</span>}
+                            </div>
+
+                            <div className={styles.inputGroup}>
+                                <label className={styles.label}>Booking Limit</label>
+                                <input
+                                    className={styles.inputCharger}
+                                    type="text"
+                                    placeholder="Enter Booking Limit"
+                                    maxLength="4"
+                                    value={slot.bookingLimit}
+                                    onChange={(e) => handleBookingLimitChange(index, e)}
+                                    onKeyPress={handleBookingLimitKeyPress}
+                                />
+                                {errors[index]?.bookingLimit && <span className={styles.error} style={{ color: 'red' }}>{errors[index].bookingLimit}</span>}
+                            </div>
+
+                            {timeSlots.length > 1 && (
+                                <button type="button" className={styles.buttonContainer} onClick={() => removeTimeSlot(index)}>
+                                    <FaTimes className={styles.removeContent} />
+                                </button>
+                            )}
+                        </div>
+                    ))}
+
                     <div className={styles.actions}>
                         <button className={styles.cancelBtn} type="button" onClick={handleCancel}>Cancel</button>
                         <button className={styles.submitBtn} type="submit">Submit</button>
                     </div>
-                </form>
+                </form >
             </div>
-        </div>
+        </div >
     );
 };
 

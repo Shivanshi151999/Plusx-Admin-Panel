@@ -108,17 +108,6 @@ const ChargerInstallationDetails = () => {
         type = 'chargerInstallation'
       /> */}
       <div className={styles.bookingLeftContainer}>
-<<<<<<< Updated upstream
-      <BookingLeftDetails  
-      titles = {sectionTitles} content = {sectionContent}
-      type = 'chargerInstallation'
-      />
-       <BookingDetailsAccordion history = {history} />
-      </div>
-     
-    </div>
-  )
-=======
         <BookingLeftDetails
           titles={sectionTitles} content={sectionContent}
           type='chargerInstallation'
@@ -127,7 +116,6 @@ const ChargerInstallationDetails = () => {
         </div>
       </div>
       )
->>>>>>> Stashed changes
 }
 
       export default ChargerInstallationDetails

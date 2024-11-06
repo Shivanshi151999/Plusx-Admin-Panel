@@ -28,7 +28,7 @@ const EditPublicChargerStation = () => {
     const [longitude, setLongitude] = useState()
     const [open, setOpen] = useState(false)
     const [isAlwaysOpen, setIsAlwaysOpen] = useState(false);
-
+    const [status, setStatus] = useState(true)
     const [openDays, setOpenDays] = useState()
 
     const [timeSlots, setTimeSlots] = useState({
@@ -253,6 +253,7 @@ const EditPublicChargerStation = () => {
         formData.append("address", address);
         formData.append("latitude", latitude);
         formData.append("longitude", longitude);
+        formData.append("status", status === true ? 1 : 0);
     
         if (price) {
             formData.append("price", price.value);
@@ -286,7 +287,7 @@ const EditPublicChargerStation = () => {
             });
         }
     
-        postRequestWithTokenAndFile('public-charger-edit-station', formData, async (response) => {
+        postRequestWithTokenAndFile('public-charger-edit-statio', formData, async (response) => {
             if (response.status === 1) {
                 navigate('/public-charger-station-list');
             } else {
@@ -390,6 +391,9 @@ const EditPublicChargerStation = () => {
         fetchDetails();
       }, []);
    
+      const handleCancel = () => {
+        navigate('/public-charger-station-list')
+    }
     
     return (
         <div className={styles.addShopContainer}>
@@ -652,8 +656,13 @@ const EditPublicChargerStation = () => {
                 </div>
                 {errors.gallery && <p className={styles.error} style={{ color: 'red' }}>{errors.gallery}</p>}
             </div>
-<div className={styles.actions}>
+{/* <div className={styles.actions}>
                         <button className={styles.submitBtn} type="submit">Submit</button>
+                    </div> */}
+
+<div className={styles.editButton}>
+                        <button className={styles.editCancelBtn} onClick={() => handleCancel()}>Cancel</button>
+                        <button type="submit" className={styles.editSubmitBtn}>Submit</button>
                     </div>
                 </form>
             </div>
