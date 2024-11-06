@@ -3,8 +3,10 @@ import styles from './addcharger.module.css';
 import { AiOutlineClose, AiOutlineDown, AiOutlineUp } from 'react-icons/ai';
 import UploadIcon from '../../../assets/images/uploadicon.svg';
 import { postRequestWithToken, postRequestWithTokenAndFile } from '../../../api/Requests';
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate, useParams } from 'react-router-dom';
+<<<<<<< Updated upstream
 import Select from 'react-select';
 
 const EditPortableCharger = () => {
@@ -13,13 +15,21 @@ const EditPortableCharger = () => {
     const { chargerId } = useParams()
     const [details, setDetails] = useState()
     const [file, setFile] = useState();
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const [chargerName, setChargerName] = useState("");
-    const [chargerPrice, setChargerPrice] = useState("");
-    const [chargerType, setChargerType] = useState("");
-    const [chargerFeature, setChargerFeature] = useState("");
-    const [errors, setErrors] = useState({});
+=======
 
+const EditPortableCharger = () => {
+    const userDetails                         = JSON.parse(sessionStorage.getItem('userDetails')); 
+    const navigate                            = useNavigate()
+    const {chargerId}                         = useParams()
+    const [details, setDetails]               = useState()
+    const [file, setFile]                     = useState();
+>>>>>>> Stashed changes
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [chargerName, setChargerName]       = useState("");
+    const [chargerPrice, setChargerPrice]     = useState("");
+    const [chargerType, setChargerType]       = useState("");
+    const [chargerFeature, setChargerFeature] = useState("");
+    const [errors, setErrors]                 = useState({});
 
     const handleFileChange = (event) => {
         const selectedFile = event.target.files[0];
@@ -27,7 +37,7 @@ const EditPortableCharger = () => {
             setFile(selectedFile);
             setErrors((prev) => ({ ...prev, file: "" }));
         } else {
-            alert('Please upload a valid image file.');
+            toast('Please upload a valid image file.', {type:'error'})
         }
     };
 
@@ -38,7 +48,9 @@ const EditPortableCharger = () => {
     const toggleDropdown = () => {
         setIsDropdownOpen(!isDropdownOpen);
     };
-
+    const backButtonClick = () => {
+        navigate('/portable-charger/charger-list')
+    };
     const validateForm = () => {
         const newErrors = {};
         let formIsValid = true;
@@ -47,27 +59,22 @@ const EditPortableCharger = () => {
             newErrors.chargerName = "Charger Name is required.";
             formIsValid = false;
         }
-
         if (!chargerPrice || isNaN(chargerPrice) || chargerPrice <= 0) {
             newErrors.chargerPrice = "Please enter a valid Charger Price.";
             formIsValid = false;
         }
-
         if (!chargerType) {
             newErrors.chargerType = "Charger Type is required.";
             formIsValid = false;
         }
-
         if (!chargerFeature) {
             newErrors.chargerFeature = "Charger Feature is required.";
             formIsValid = false;
         }
-
         if (!file) {
             newErrors.file = "Image is required.";
             formIsValid = false;
         }
-
         setErrors(newErrors);
         return formIsValid;
     };
@@ -94,8 +101,12 @@ const EditPortableCharger = () => {
             postRequestWithTokenAndFile('edit-charger', formData, async (response) => {
                 if (response.code === 200) {
                     toast(response.message[0], { type: "success" });
-                    navigate('/portable-charger/charger-list');
+                    
+                    setTimeout(() => {
+                        navigate('/portable-charger/charger-list')
+                    }, 2000);
                 } else {
+                    toast(response.message[0], {type:'error'})
                     console.log('error in edit-charger api', response);
                 }
             });
@@ -103,14 +114,20 @@ const EditPortableCharger = () => {
             console.log("Form validation failed.");
         }
     };
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
     const fetchDetails = () => {
         const obj = {
             userId: userDetails?.user_id,
             email: userDetails?.email,
             charger_id: chargerId
         };
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
         postRequestWithToken('charger-details', obj, (response) => {
             if (response.code === 200) {
                 const data = response.data || {};
@@ -139,6 +156,7 @@ const EditPortableCharger = () => {
 
     return (
         <div className={styles.containerCharger}>
+<<<<<<< Updated upstream
             <h2 className={styles.title}>Edit Charger</h2>
             <div className={styles.chargerSection}>
                 <form className={styles.form} onSubmit={handleSubmit}>
@@ -182,6 +200,53 @@ const EditPortableCharger = () => {
                                     onMenuClose={toggleDropdown}
                                     placeholder="Select"
                                 />
+=======
+        <h2 className={styles.title}>Edit Charger</h2>
+        <div className={styles.chargerSection}>
+            <form className={styles.form} onSubmit={handleSubmit}>
+                <div className={styles.row}>
+                    <ToastContainer />
+                    <div className={styles.inputGroup}>
+                        <label className={styles.label}>Charger Name</label>
+                        <input
+                            className={styles.inputCharger}
+                            type="text"
+                            placeholder="Super Charger"
+                            value={chargerName}
+                            onChange={(e) => setChargerName(e.target.value.slice(0, 50))}
+                        />
+                        {errors.chargerName && <p className={styles.error} style={{color: 'red'}}>{errors.chargerName}</p>}
+                    </div>
+                    <div className={styles.inputGroup}>
+                        <label className={styles.label}>Charger Price</label>
+                        <input
+                            className={styles.inputCharger}
+                            type="text"
+                            placeholder="AED 150"
+                            value={chargerPrice}
+                            onChange={(e) => {
+                                const priceValue = e.target.value.replace(/\D/g, "");
+                                setChargerPrice(priceValue.slice(0, 5));
+                            }}
+                        />
+                        {errors.chargerPrice && <p className={styles.error} style={{color: 'red'}}>{errors.chargerPrice}</p>}
+                    </div>
+                    <div className={styles.inputGroup}>
+                        <label className={styles.label}>Charger Type</label>
+                        <div className={styles.selectContainer}>
+                            <select
+                                className={styles.select}
+                                value={chargerType}
+                                onChange={(e) => setChargerType(e.target.value)}
+                                onClick={toggleDropdown}
+                            >
+                                <option value="">Select</option>
+                                <option value="On Demand Service">On Demand Service</option>
+                                <option value="Scheduled Service">Scheduled Service</option>
+                            </select>
+                            <div className={styles.iconContainer}>
+                                {isDropdownOpen ? <AiOutlineUp /> : <AiOutlineDown />}
+>>>>>>> Stashed changes
                             </div>
                             {errors.chargerType && (
                                 <p className={styles.error} style={{ color: 'red' }}>
@@ -247,8 +312,18 @@ const EditPortableCharger = () => {
                         <button className={styles.cancelBtn} type="button">Cancel</button>
                         <button className={styles.submitBtn} type="submit">Submit</button>
                     </div>
+<<<<<<< Updated upstream
                 </form>
             </div>
+=======
+                    {errors.file && <p className={styles.error} style={{color: 'red'}}>{errors.file}</p>}
+                </div>
+                <div className={styles.actions}>
+                    <button onClick={backButtonClick} className={styles.cancelBtn} type="button">Cancel</button>
+                    <button className={styles.submitBtn} type="submit">Submit</button>
+                </div>
+            </form>
+>>>>>>> Stashed changes
         </div>
     );
 };

@@ -37,10 +37,9 @@ const Login = () => {
             console.log('Form submitted successfully:', { username, password });
             
             const obj = {
-                email: username,
-                password :password
+                email    : username,
+                password : password
             }
-    
             postRequest('login', obj, async(response) => {
                 if (response.code === 200) {
                     const userDetails = {

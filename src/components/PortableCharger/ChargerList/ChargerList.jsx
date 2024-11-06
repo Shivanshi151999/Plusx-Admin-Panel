@@ -3,6 +3,7 @@ import List from '../../SharedComponent/List/List'
 import SubHeader from '../../SharedComponent/SubHeader/SubHeader'
 import Pagination from '../../SharedComponent/Pagination/Pagination'
 import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 import { getRequestWithToken, postRequestWithToken } from '../../../api/Requests';
 
@@ -51,14 +52,18 @@ const ChargerList = () => {
         const confirmDelete = window.confirm("Are you sure you want to delete this?");
         if (confirmDelete) {
             const obj = { 
-                userId : userDetails?.user_id,
-                email : userDetails?.email,
-                charger_id: chargerId 
+                userId     : userDetails?.user_id,
+                email      : userDetails?.email,
+                charger_id : chargerId 
             };
             postRequestWithToken('delete-charger', obj, async (response) => {
                 if (response.code === 200) {
                     setRefresh(prev => !prev);
                     toast(response.message[0], { type: "success" });
+
+                    setTimeout(() => {
+                        fetchChargers(currentPage);
+                    }, 1000);
                 } else {
                     toast(response.message, { type: 'error' });
                     console.log('error in delete-charger-slot api', response);
@@ -70,6 +75,7 @@ const ChargerList = () => {
     return (
         <>
             <SubHeader heading = "Portable Charger List" addButtonProps={addButtonProps}/>
+            <ToastContainer />
             <List
                 // heading="Charger List"
                 tableHeaders={["ID", "Charger Name", "Charger Price", "Status", "Action"]}

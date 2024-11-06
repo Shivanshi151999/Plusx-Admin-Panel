@@ -4,57 +4,57 @@ import SubHeader from '../../SharedComponent/SubHeader/SubHeader';
 import Pagination from '../../SharedComponent/Pagination/Pagination';
 import { getRequestWithToken, postRequestWithToken } from '../../../api/Requests';
 import moment from 'moment';
-<<<<<<< Updated upstream
-=======
 import { AiOutlinePlus } from 'react-icons/ai';  
->>>>>>> Stashed changes
 import AddDriver from '../../../assets/images/AddDriver.svg';
 import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 import Custommodal from '../../SharedComponent/CustomModal/CustomModal.jsx';
 
 const statusMapping = {
-    'CNF': 'Booking Confirmed',
-    'A': 'Assigned',
-    'RL': 'POD Reached at Location',
-    'CS': 'Charging Started',
-    'CC': 'Charging Completed',
-    'PU': 'POD Picked Up',
-    'C': 'Cancel'
+    'CNF' : 'Booking Confirmed',
+    'A'  : 'Assigned',
+    'ER' : 'Enroute',
+    'RL' : 'POD Reached at Location',
+    'CS' : 'Charging Started',
+    'CC' : 'Charging Completed',
+    'PU' : 'POD Picked Up',
+    'C'  : 'Cancel'
 };
 
 const dynamicFilters = [
-    { label: 'Booking ID', name: 'booking_id', type: 'text' },
-    { label: 'Name', name: 'name', type: 'text' },
-    { label: 'Mobile', name: 'contact_no', type: 'text' },
+    { label : 'Booking ID', name: 'booking_id', type: 'text' },
+    { label : 'Name', name: 'name', type: 'text' },
+    { label : 'Mobile', name: 'contact_no', type: 'text' },
     {
-        label: 'Status', 
-        name: 'status', 
-        type: 'select', 
-        options: [
-            { value: '', label: 'Select Status' },
-            { value: 'CNF', label: 'Booking Confirmed' },
-            { value: 'A', label: 'Assigned' },
-            { value: 'RL', label: 'POD Reached at Location' },
-            { value: 'CS', label: 'Charging Started' },
-            { value: 'CC', label: 'Charging Completed' },
-            { value: 'PU', label: 'POD Picked Up' },
-            { value: 'C', label: 'Cancel' },
+        label : 'Status', 
+        name  : 'status', 
+        type  : 'select', 
+        options : [
+            { value : '',    label : 'Select Status' },
+            { value : 'CNF', label : 'Booking Confirmed' },
+            { value : 'A',   label : 'Assigned' },
+            { value : 'ER',  label : 'Enroute' },
+            { value : 'RL',  label : 'POD Reached at Location' },
+            { value : 'CS',  label : 'Charging Started' },
+            { value : 'CC',  label : 'Charging Completed' },
+            { value : 'PU',  label : 'POD Picked Up' },
+            { value : 'C',   label : 'Cancel' },
         ]
     },
 ];
 
 const ChargerBookingList = () => {
-    const userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
-    const navigate = useNavigate();
+    const userDetails                                 = JSON.parse(sessionStorage.getItem('userDetails'));
+    const navigate                                    = useNavigate();
     const [chargerBookingList, setChargerBookingList] = useState([]);
-    const [rsaList, setRsaList] = useState([])
-    const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(1);
-    const [filters, setFilters] = useState({});
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [selectedBookingId, setSelectedBookingId] = useState(null);
-    const [selectedDriverId, setSelectedDriverId] = useState(null);
+    const [rsaList, setRsaList]                       = useState([])
+    const [currentPage, setCurrentPage]               = useState(1);
+    const [totalPages, setTotalPages]                 = useState(1);
+    const [filters, setFilters]                       = useState({});
+    const [isModalOpen, setIsModalOpen]               = useState(false);
+    const [selectedBookingId, setSelectedBookingId]   = useState(null);
+    const [selectedDriverId, setSelectedDriverId]     = useState(null);
 
     const fetchList = (page, appliedFilters = {}) => {
         const obj = {
@@ -129,18 +129,17 @@ const ChargerBookingList = () => {
             if (response.code === 200) {
                 
                 setIsModalOpen(false);
-                alert(response.message || response.message[0])
-                fetchList(currentPage, filters);
+                toast(response.message || response.message[0], {type:'success'})
+                setTimeout(() => {
+                    fetchList(currentPage, filters);
+                }, 2000);
             } else {
-                // toast(response.message, {type:'error'})
-                alert(response.message || response.message[0])
+                toast(response.message[0], {type:'error'})
+                // alert(response.message || response.message[0])
                 console.log('error in/charger-booking-assign api', response);
             }
         })
-
     }
-
-
     return (
         <>
             <SubHeader
@@ -149,6 +148,7 @@ const ChargerBookingList = () => {
                 dynamicFilters={dynamicFilters}
                 filterValues={filters}
             />
+            <ToastContainer />
             <List
                 tableHeaders={["Date","Booking ID", "Customer Name", "Service Name", "Price",  "Status", "Driver Assign", "Action"]}
                 listData={chargerBookingList}

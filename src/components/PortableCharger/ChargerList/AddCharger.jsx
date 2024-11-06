@@ -3,7 +3,8 @@ import styles from './addcharger.module.css';
 import { AiOutlineClose, AiOutlineDown, AiOutlineUp } from 'react-icons/ai';
 import UploadIcon from '../../../assets/images/uploadicon.svg';
 import { postRequestWithTokenAndFile } from '../../../api/Requests';
-import { toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 import Select from 'react-select';
 
@@ -28,10 +29,12 @@ const AddPortableCharger = () => {
             setFile(selectedFile);
             setErrors((prev) => ({ ...prev, file: "" }));
         } else {
-            alert('Please upload a valid image file.');
+            toast('Please upload a valid image file.', {type:'error'})
         }
     };
-
+    const backButtonClick = () => {
+        navigate('/portable-charger/charger-list')
+    };
     const handleRemoveImage = () => {
         setFile(null);
     };
@@ -92,9 +95,11 @@ const AddPortableCharger = () => {
             postRequestWithTokenAndFile('add-charger', formData, async (response) => {
                 if (response.code === 200) {
                     toast(response.message[0], { type: "success" });
-                    navigate('/portable-charger/charger-list')
+                    setTimeout(() => {
+                        navigate('/portable-charger/charger-list')
+                    }, 2000);
                 } else {
-                    // toast(response.message, {type:'error'})
+                    toast(response.message, {type:'error'})
                     console.log('error in add-charger api', response);
                 }
             })
@@ -103,7 +108,6 @@ const AddPortableCharger = () => {
             console.log("Form validation failed.");
         }
     };
-
     useEffect(() => {
         if (!userDetails || !userDetails.access_token) {
             navigate('/login');
@@ -117,6 +121,7 @@ const AddPortableCharger = () => {
             <div className={styles.chargerSection}>
                 <form className={styles.form} onSubmit={handleSubmit}>
                     <div className={styles.row}>
+                        <ToastContainer />
                         <div className={styles.inputGroup}>
                             <label className={styles.label}>Charger Name</label>
                             <input
@@ -212,7 +217,7 @@ const AddPortableCharger = () => {
                         {errors.file && <p className={styles.error} style={{ color: 'red' }}>{errors.file}</p>}
                     </div>
                     <div className={styles.actions}>
-                        <button className={styles.cancelBtn} type="button">Cancel</button>
+                        <button onClick={backButtonClick} className={styles.cancelBtn} type="button">Cancel</button>
                         <button className={styles.submitBtn} type="submit">Submit</button>
                     </div>
                 </form>
