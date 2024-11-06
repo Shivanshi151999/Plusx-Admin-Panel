@@ -71,8 +71,13 @@ const AddChargerStation = () => {
 
 
     const handleTimeChange = (day, timeType) => (event) => {
+<<<<<<< Updated upstream
         const value = event.target.value.replace(/[^0-9:-]/g, '');
     
+=======
+        const value = event.target.value;
+
+>>>>>>> Stashed changes
         setTimeSlots((prev) => {
             const updatedTimeSlots = {
                 ...prev,
@@ -84,9 +89,14 @@ const AddChargerStation = () => {
     
             if (timeType === 'open') {
                 if (value) {
+<<<<<<< Updated upstream
                     updatedTimeSlots[day].closeMandatory = true; 
                 } else {
                     updatedTimeSlots[day].closeMandatory = false; 
+=======
+                    updatedTimeSlots[day].closeMandatory = true;
+                    updatedTimeSlots[day].closeMandatory = false;
+>>>>>>> Stashed changes
                 }
             } else if (timeType === 'close') {
                 if (value) {
@@ -364,6 +374,10 @@ const handleCancel = () => {
                                 onChange={(e) => setStationName(e.target.value)} 
                             />
                              {errors.stationName && <p className={styles.error} style={{ color: 'red' }}>{errors.stationName}</p>}
+<<<<<<< Updated upstream
+=======
+                            
+>>>>>>> Stashed changes
                         </div>
                         <div className={styles.addShopInputContainer}>
                             <label className={styles.addShopLabel} htmlFor="availableBrands">Charging For</label>
@@ -407,6 +421,7 @@ const handleCancel = () => {
                                 placeholder="Charging Point" 
                                 className={styles.inputField}
                                 value={chargingPoint}
+<<<<<<< Updated upstream
                                 // onChange={(e) => setChargingPoint(e.target.value)} 
                                 onChange={(e) => {
                                     const value = e.target.value;
@@ -414,6 +429,9 @@ const handleCancel = () => {
                                         setChargingPoint(value);
                                     }
                                 }} 
+=======
+                                onChange={(e) => setChargingPoint(e.target.value)}
+>>>>>>> Stashed changes
                             />
                             {errors.chargingPoint && <p className={styles.error} style={{ color: 'red' }}>{errors.chargingPoint}</p>}
                         </div>
@@ -532,6 +550,7 @@ const handleCancel = () => {
 
                          )}
                     </div>
+<<<<<<< Updated upstream
                     
                     <div className={styles.fileUpload}>
                 <label className={styles.fileLabel}>Cover Image</label>
@@ -585,6 +604,28 @@ const handleCancel = () => {
                                 <div className={styles.imageContainer} key={index}>
                                     <img src={URL.createObjectURL(image)} alt={`Preview ${index}`} className={styles.previewImage} />
                                     <button type="button" className={styles.removeButton} onClick={() => handleRemoveGalleryImage(index)}>
+=======
+
+                    <div className={styles.fileUpload}>
+                        <label className={styles.fileLabel}>Cover Image</label>
+                        <div className={styles.fileDropZone}>
+                            <input
+                                type="file"
+                                id="coverFileUpload"
+                                accept="image/*"
+                                onChange={handleFileChange}
+                                style={{ display: 'none' }}
+                            />
+                            {!file ? (
+                                <label htmlFor="coverFileUpload" className={styles.fileUploadLabel}>
+                                    <img src={UploadIcon} alt="Upload Icon" className={styles.uploadIcon} />
+                                    <p>Select File to Upload <br /> or Drag & Drop, Copy & Paste Files</p>
+                                </label>
+                            ) : (
+                                <div className={styles.imageContainer}>
+                                    <img src={URL.createObjectURL(file)} alt="Preview" className={styles.previewImage} />
+                                    <button type="button" className={styles.removeButton} onClick={handleRemoveImage}>
+>>>>>>> Stashed changes
                                         <AiOutlineClose size={20} style={{ padding: '2px' }} />
                                     </button>
                                 </div>

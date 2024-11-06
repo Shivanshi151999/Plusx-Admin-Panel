@@ -19,6 +19,7 @@
 }
 
 .rs-input {
+    width: 24vw !important;
     background-color: #000000 !important;
     border: none !important;
     border-radius: 0px !important;
@@ -53,4 +54,9 @@
 .rs-btn:hover, .rs-btn:focus {
   color: #00ffcc !important;
   background-color: #242424 !important;
+}
+@media(max-width:1500px){
+.rs-input {
+    width: 20vw !important;
+}
 }

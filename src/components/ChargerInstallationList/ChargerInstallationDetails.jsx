@@ -10,18 +10,18 @@ import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
 
 const statusMapping = {
-    'CNF': 'Booking Confirmed',
-    'A': 'Assigned',
-    'RL': 'POD Reached at Location',
-    'CS': 'Charging Started',
-    'CC': 'Charging Completed',
-    'PU': 'POD Picked Up',
-    'WC': 'Work Completed',
-    'C': 'Cancel'
-  };
-  
+  'CNF': 'Booking Confirmed',
+  'A': 'Assigned',
+  'RL': 'POD Reached at Location',
+  'CS': 'Charging Started',
+  'CC': 'Charging Completed',
+  'PU': 'POD Picked Up',
+  'WC': 'Work Completed',
+  'C': 'Cancel'
+};
+
 const ChargerInstallationDetails = () => {
-  const {requestId} = useParams()
+  const { requestId } = useParams()
   const navigate = useNavigate()
   const [bookingDetails, setBookingDetails] = useState()
   const [history, setHistory] = useState([])
@@ -29,25 +29,25 @@ const ChargerInstallationDetails = () => {
 
   const fetchDetails = () => {
     const obj = {
-        userId : userDetails?.user_id,
-        email : userDetails?.email,
-        request_id : requestId
+      userId: userDetails?.user_id,
+      email: userDetails?.email,
+      request_id: requestId
     };
 
     postRequestWithToken('charger-installation-details', obj, (response) => {
-        if (response.code === 200) {
-            setBookingDetails(response?.service_data || {});  
-            setHistory(response?.order_history)
-        } else {
-            console.log('error in charger-installation-details API', response);
-        }
+      if (response.code === 200) {
+        setBookingDetails(response?.service_data || {});
+        setHistory(response?.order_history)
+      } else {
+        console.log('error in charger-installation-details API', response);
+      }
     });
-};
+  };
 
   useEffect(() => {
     if (!userDetails || !userDetails.access_token) {
-      navigate('/login'); 
-      return; 
+      navigate('/login');
+      return;
     }
     fetchDetails();
   }, []);
@@ -61,7 +61,7 @@ const ChargerInstallationDetails = () => {
   const sectionTitles = {
     address: "Address",
     description: "Description",
-    status : "Satus",
+    status: "Satus",
     companyName: "Company Name",
     chargerFor: "Charger For",
     serviceType: "Service Type",
@@ -99,15 +99,16 @@ const ChargerInstallationDetails = () => {
 
   return (
     <div className={styles.appSignupSection}>
-      <BookingDetailsHeader 
-       content={content} titles={headerTitles}
-       type = 'chargerInstallation'
+      <BookingDetailsHeader
+        content={content} titles={headerTitles}
+        type='chargerInstallation'
       />
       {/* <BookingDetailsSection 
         titles = {sectionTitles} content = {sectionContent}
         type = 'chargerInstallation'
       /> */}
       <div className={styles.bookingLeftContainer}>
+<<<<<<< Updated upstream
       <BookingLeftDetails  
       titles = {sectionTitles} content = {sectionContent}
       type = 'chargerInstallation'
@@ -117,6 +118,16 @@ const ChargerInstallationDetails = () => {
      
     </div>
   )
+=======
+        <BookingLeftDetails
+          titles={sectionTitles} content={sectionContent}
+          type='chargerInstallation'
+        />
+        <BookingDetailsAccordion history={history} />
+        </div>
+      </div>
+      )
+>>>>>>> Stashed changes
 }
 
-export default ChargerInstallationDetails
+      export default ChargerInstallationDetails

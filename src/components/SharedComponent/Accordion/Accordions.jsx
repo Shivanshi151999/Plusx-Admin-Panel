@@ -7,23 +7,25 @@ import { format } from 'date-fns';
 
 const AccordionFilter = ({ type, isOpen, fetchFilteredData, dynamicFilters, filterValues }) => {
     const [showContent, setShowContent] = useState(isOpen);
+    const [isOpenDropdown, setIsOpenDropdown] = useState(false);
 
     useEffect(() => {
         if (isOpen) {
             setShowContent(true);
         } else {
-            const timer = setTimeout(() => setShowContent(false), 300);
+            const timer = setTimeout(() => setShowContent(false), 300); // delay before hiding
             return () => clearTimeout(timer);
         }
     }, [isOpen]);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        fetchFilteredData({ ...filterValues, [name]: value }); 
+        fetchFilteredData({ ...filterValues, [name]: value });
     };
-    
+
     const handleBlur = () => {
         fetchFilteredData(filterValues);
+        setIsOpenDropdown(false); // Close dropdown on blur
     };
 
     const handleDateChange = (range) => {
@@ -35,7 +37,7 @@ const AccordionFilter = ({ type, isOpen, fetchFilteredData, dynamicFilters, filt
             });
             return;
         }
-    
+
         const [start, end] = range;
         const formattedStart = format(start, 'yyyy-MM-dd');
         const formattedEnd = format(end, 'yyyy-MM-dd');
@@ -44,6 +46,10 @@ const AccordionFilter = ({ type, isOpen, fetchFilteredData, dynamicFilters, filt
             start_date: formattedStart,
             end_date: formattedEnd
         });
+    };
+
+    const toggleDropdown = () => {
+        setIsOpenDropdown(!isOpenDropdown);
     };
 
     return (
@@ -57,32 +63,36 @@ const AccordionFilter = ({ type, isOpen, fetchFilteredData, dynamicFilters, filt
                                     initial={{ height: 0, opacity: 0 }}
                                     animate={{ height: "auto", opacity: 1 }}
                                     exit={{ height: 0, opacity: 0 }}
-                                    transition={{ duration: 0.3 }}
+                                    transition={{ height: { duration: 0.3 }, opacity: { duration: 0.3 } }}
                                 >
                                     <Card.Body>
                                         <form className={styles.filterForm}>
-                                             {/* { (type === "Portable Charger Booking List" || type === "Pick & Drop Booking List") && ( */}
-                                             <div className={`col-xl-4 ol-lg-6 col-12 ${styles.filterItem}`}>
-                                                    <label className={styles.filterLabel} htmlFor="date_filter">Selec</label>
-                                                    <Calendar handleDateChange={handleDateChange}/>
-                                                </div>
-                                            {/* )} */}
+                                            <div className={`col-xl-4 col-lg-6 col-12 ${styles.filterItem}`}>
+                                                <label className={styles.filterLabel} htmlFor="date_filter">Select Date Range</label>
+                                                <Calendar handleDateChange={handleDateChange} />
+                                            </div>
                                             {dynamicFilters?.map((filter) => (
                                                 <div key={filter.name} className={`col-xl-4 col-lg-6 col-12 ${styles.filterItem}`}>
                                                     <label className={styles.filterLabel} htmlFor={filter.name}>{filter.label}</label>
                                                     {filter.type === 'select' ? (
-                                                        <select 
-                                                            className={styles.filterSelect} 
-                                                            id={filter.name}
-                                                            name={filter.name}
-                                                            value={filterValues[filter.name] || ''}
-                                                            onChange={handleInputChange}
-                                                            onBlur={handleBlur}
+                                                        <div
+                                                            className={`${styles.customSelectWrapper} ${isOpenDropdown ? styles.open : ''}`}
+                                                            onClick={toggleDropdown}
                                                         >
-                                                            {filter.options.map((option) => (
-                                                                <option key={option.value} value={option.value}>{option.label}</option>
-                                                            ))}
-                                                        </select>
+                                                            <select
+                                                                className={`${styles.filterSelect} ${styles.customSelect}`}
+                                                                id={filter.name}
+                                                                name={filter.name}
+                                                                value={filterValues[filter.name] || ''}
+                                                                onChange={handleInputChange}
+                                                                onBlur={handleBlur}
+                                                            >
+                                                                {filter.options.map((option) => (
+                                                                    <option key={option.value} value={option.value}>{option.label}</option>
+                                                                ))}
+                                                            </select>
+                                                            <span className={styles.customSelectIcon}>▼</span>
+                                                        </div>
                                                     ) : (
                                                         <input 
                                                             className={styles.filterInput} 
@@ -97,7 +107,6 @@ const AccordionFilter = ({ type, isOpen, fetchFilteredData, dynamicFilters, filt
                                                     )}
                                                 </div>
                                             ))}
-                                          
                                         </form>
                                     </Card.Body>
                                 </motion.div>

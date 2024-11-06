@@ -11,6 +11,10 @@ import Custommodal from '../CustomModal/CustomModal';
 const DeatilsBookingHistory = ({ title, headers, bookingData, bookingType, chargerRsaList, valetRsaList }) => {
   const navigate = useNavigate();
   const userDetails = JSON.parse(sessionStorage.getItem('userDetails')); 
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
