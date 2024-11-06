@@ -6,7 +6,7 @@ import logo from '../../../assets/images/Logo.svg';
 import html2pdf from 'html2pdf.js';
 import Download from '../../../assets/images/Download.svg'
 
-const Invoice = ({ details }) => {
+const Invoice = ({ title, service, details }) => {
     const handleDownload = () => {
         const invoiceElement = document.getElementById('invoiceToDownload');
         const options = {
@@ -22,7 +22,7 @@ const Invoice = ({ details }) => {
         <div className={styles.invoiceMainContainer}>
             <div className={styles.invoiceSection} >
                 <div className={styles.invoiceDownloadSection}>
-                    <div className={styles.invoiceHeading}>Portable Charger Invoice Details</div>
+                    <div className={styles.invoiceHeading}>{title}</div>
                     <div className={styles.downloadButton} onClick={handleDownload}>
                         <img src={Download} alt="Download" />
                         <span>Download</span></div>
@@ -36,27 +36,16 @@ const Invoice = ({ details }) => {
                                         <tr>
                                             <td className={styles.logoSection}>
                                                 <img src={logo} alt="company logo" className={styles.logoImage} />
-                                                {/* <p>D55-PBU</p>
+                                                <p>D55-PBU</p>
                                                 <p>DUBAI PRODUCTION CITY</p>
-                                                <p>Dubai-United Arab Emirates</p> */}
-
-                                                {/* <p>{details?.address}</p> */}
-                                                <p>
-                                                {details?.address
-                                                    ? details.address.split(',').map((line, index) => (
-                                                        <span key={index}>
-                                                        {line.trim()}
-                                                        <br />
-                                                        </span>
-                                                    ))
-                                                    : ''}
-                                                </p>
-                                                                                                <p>{details?.country_code} {details?.contact_no}</p>
+                                                <p>Dubai-United Arab Emirates</p>
+                                                <p>+971 54279 6424</p>
+                                               
                                             </td>
                                             <td className={styles.invoiceTitle}>
                                                 <p>INVOICE</p>
                                                 <div className={styles.bookingId}>
-                                                    <p>Booking ID: {details?.booking_id} </p>
+                                                    <p>Booking ID: {details?.booking_id || details?.request_id} </p>
                                                 </div>
                                             </td>
                                         </tr>
@@ -73,7 +62,7 @@ const Invoice = ({ details }) => {
                                             </td>
                                             <td className={styles.invoiceDetails}>
                                                 <p>
-                                                    Invoice Date: {details?.invoice_date}
+                                                    Invoice Date: {moment(details?.created_at).format('DD MMM YYYY')}
                                                 </p>
                                                 <p>
                                                     Invoice No.: {details?.invoice_id}
@@ -95,6 +84,11 @@ const Invoice = ({ details }) => {
                                         </thead>
                                         <tbody>
                                             <tr className={styles.serviceItem}>
+                                                <td>{service}</td>
+                                                <td>5 Unit</td>
+                                                <td className={styles.amountRightAlign}>{details?.currency?.toUpperCase() || 'AED'} {details?.price}</td>
+                                            </tr>
+                                            {/* <tr className={styles.serviceItem}>
                                                 <td>Portable Charger Service</td>
                                                 <td>5 Unit</td>
                                                 <td className={styles.amountRightAlign}>250</td>
@@ -103,12 +97,7 @@ const Invoice = ({ details }) => {
                                                 <td>Portable Charger Service</td>
                                                 <td>5 Unit</td>
                                                 <td className={styles.amountRightAlign}>250</td>
-                                            </tr>
-                                            <tr className={styles.serviceItem}>
-                                                <td>Portable Charger Service</td>
-                                                <td>5 Unit</td>
-                                                <td className={styles.amountRightAlign}>250</td>
-                                            </tr>
+                                            </tr> */}
                                         </tbody>
                                     </table>
                                 </td>
@@ -119,7 +108,7 @@ const Invoice = ({ details }) => {
                                 </td>
                                 <td className={styles.amountRightAlign}>
                                     <p className={styles.totalAmountValue}>
-                                        125222 USD
+                                        AED 0.00
                                     </p>
                                 </td>
                             </tr>
@@ -129,7 +118,7 @@ const Invoice = ({ details }) => {
                                 </td>
                                 <td className={styles.amountRightAlign}>
                                     <p className={styles.totalAmountValue}>
-                                        255555 USD
+                                        AED 255555
                                     </p>
                                 </td>
                             </tr>

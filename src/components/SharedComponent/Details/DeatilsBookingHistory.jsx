@@ -125,7 +125,7 @@ const DeatilsBookingHistory = ({ title, headers, bookingData, bookingType, charg
               <td>{booking.price}</td>
               <td>{booking.status}</td>
               <td>{booking?.rsa_name}</td>
-              <td>Porsche</td>
+              <td>{booking?.vehicle_type}</td>
               {/* <td>
                 <div className={styles.editContent}>
                   <img

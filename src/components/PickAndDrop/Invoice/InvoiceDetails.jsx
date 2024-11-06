@@ -36,7 +36,7 @@ const InvoiceDetails = () => {
 
   return (
     <div>
-        <Invoice details = {bookingDetails}/>
+        <Invoice title = 'Pick And Drop Invoice Details' service = 'Pick And Drop Service' details = {bookingDetails}/>
     </div>
   )
 }

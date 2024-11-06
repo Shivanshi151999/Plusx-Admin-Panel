@@ -72,7 +72,6 @@ obj.service_type = 'Portable Charger'
     postRequestWithToken('rsa-list', obj, async(response) => {
       if (response.code === 200) {
         setValetRsaList(response?.data)
-          // setTotalPages(response?.total_page || 1); 
       } else {
           // toast(response.message, {type:'error'})
           console.log('error in rsa-listt api', response);
@@ -93,14 +92,28 @@ obj.service_type = 'Portable Charger'
       <DetailsBookingHistory
         title="Portable Charger"
         headers={portableChargerHeaders}
-        bookingData={portableChargerBookings.map((booking) => ({
-          id: booking.booking_id,
-          service_name: booking.service_name,
-          service_type: booking.service_type,
-          price: `AED ${booking.service_price || 'AED 0'}`,
-          datetime:  moment(booking.created_at).format('DD MMM YYYY h:mm A'),
-          status: statusMapping[booking.order_status] || '',
-        }))}
+        // bookingData={portableChargerBookings.map((booking) => ({
+        //   id: booking.booking_id,
+        //   rsa_name: booking.rsa_name,
+        //   service_name: booking.service_name,
+        //   service_type: booking.service_type,
+        //   price: `AED ${booking.service_price || 'AED 0'}`,
+        //   datetime:  moment(booking.created_at).format('DD MMM YYYY'),
+        //   status: statusMapping[booking.order_status] || '',
+        // }))}
+        bookingData={portableChargerBookings.map((booking) => {
+          const vehicle = vehicleList.find(v => v.vehicle_id === booking.vehicle_id);
+          return {
+              id: booking.booking_id,
+              rsa_name: booking.rsa_name,
+              service_name: booking.service_name,
+              service_type: booking.service_type,
+              price: `AED ${booking.service_price || 'AED 0'}`,
+              datetime: moment(booking.created_at).format('DD MMM YYYY'),
+              status: statusMapping[booking.order_status] || '',
+              vehicle_type: vehicle ? vehicle.vehicle_type : '', 
+          };
+      })}
         bookingType="portableCharger"
         chargerRsaList = {chargerRsaList}
       />
@@ -108,12 +121,17 @@ obj.service_type = 'Portable Charger'
        <DetailsBookingHistory
         title="Pick and Drop"
         headers={pickAndDropHeaders}
-        bookingData={pickAndDropBookings.map((booking) => ({
-          id: booking.request_id,
-          price: `AED ${booking.price || 'AED 0'}`,
-          datetime: moment(booking.created_at).format('DD MMM YYYY h:mm A') ,
-          status: statusMapping[booking.status] || '',
-        }))}
+        bookingData={pickAndDropBookings.map((booking) => {
+          const vehicle = vehicleList.find(v => v.vehicle_id === booking.vehicle_id);
+          return {
+              id: booking.request_id,
+              rsa_name: booking.rsa_name,
+              price: `AED ${booking.price || 'AED 0'}`,
+              datetime: moment(booking.created_at).format('DD MMM YYYY'),
+              status: statusMapping[booking.order_status] || '',
+              vehicle_type: vehicle ? vehicle.vehicle_type : '', 
+          };
+      })}
         bookingType="pickAndDrop"
         valetRsaList = {valetRsaList}
       />
