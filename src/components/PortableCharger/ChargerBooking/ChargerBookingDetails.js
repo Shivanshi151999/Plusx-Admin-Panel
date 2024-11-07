@@ -42,7 +42,7 @@ const ChargerBookingDetails = () => {
             // console.log(response?.data?.bookingHistory)
             if (response.code === 200) {
                 setBookingDetails(response?.data?.booking || {});
-                setHistory(response?.data?.bookingHistory)
+                setHistory(response?.data?.history)
             } else {
                 console.log('error in rider-details API', response);
             }

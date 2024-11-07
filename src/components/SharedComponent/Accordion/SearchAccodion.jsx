@@ -18,6 +18,13 @@ const SearchAccodion = ({ type, isOpen, fetchFilteredData, dynamicFilters, filte
         }
     }, [isOpen]);
 
+    useEffect(() => {
+        if (!isOpen) {
+            // setSearchText('');
+            fetchFilteredData({ ...filterValues, search_text: '' }); 
+        }
+    }, [isOpen, fetchFilteredData, filterValues]);
+
     const handleInputChange = (e) => {        
         const { name, value } = e.target;
         fetchFilteredData({ ...filterValues, [name]: value });
