@@ -32,7 +32,7 @@ const BookingDetailsHeader = ({ content, titles, sectionContent, type }) => {
                 </div>
                 )}
 
-                {type === 'portableChargerBooking' && sectionContent?.bookingStatus !== 'Booking Confirmed' && (
+                { (type === 'portableChargerBooking' || type === 'pickAndDropBooking') && sectionContent?.bookingStatus !== 'Booking Confirmed' && (
                 <div className="col-xl-3 col-lg-6 col-12">
                     <div className={styles.detailsHeaderSection}>
                     <div className={styles.detailsImageSection}>

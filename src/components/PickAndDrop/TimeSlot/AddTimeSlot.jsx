@@ -20,12 +20,17 @@ dayjs.extend(isSameOrAfter);
 
 const AddPickAndDropTimeSlot = () => {
     const userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
-    const navigate = useNavigate();
+    const navigate    = useNavigate();
     const [timeSlots, setTimeSlots] = useState([
-        { date: new Date(), startTime: null, endTime: null, bookingLimit: "" }
-    ]);;
+        { 
+            date         : new Date(), 
+            startTime    : null, 
+            endTime      : null, 
+            bookingLimit : "" 
+        }
+    ]);
     const [startDate, setStartDate] = useState(new Date());
-    const [errors, setErrors] = useState([]);
+    const [errors, setErrors]       = useState([]);
 
     const handleCancel = () => {
         navigate('/pick-and-drop/time-slot-list')

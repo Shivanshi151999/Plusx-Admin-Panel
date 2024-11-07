@@ -144,6 +144,7 @@ const EditPortableCharger = () => {
             <div className={styles.chargerSection}>
                 <form className={styles.form} onSubmit={handleSubmit}>
                     <div className={styles.row}>
+                        <ToastContainer />
                         <div className={styles.inputGroup}>
                             <label className={styles.label}>Charger Name</label>
                             <input

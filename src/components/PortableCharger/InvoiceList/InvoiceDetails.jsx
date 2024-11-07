@@ -10,7 +10,6 @@ const InvoiceDetails = () => {
     const {invoiceId}                         = useParams()
     const [bookingDetails, setBookingDetails] = useState()
     
-
     const fetchDetails = () => {
         const obj = {
             userId     : userDetails?.user_id,

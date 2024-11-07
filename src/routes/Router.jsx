@@ -39,230 +39,187 @@ import ClubList from '../components/EvRiderClub/ClubList.jsx';
 import CarList from '../components/ElectricCarLeasing/CarList.jsx';
 import BikeList from '../components/ElectricBikeLeasing/BikeList.jsx';
 import AddChargerStation from '../components/PublicChargerStation/AddChargerStation.jsx';
+
 import EditPublicChargerStation from '../components/PublicChargerStation/EditPublicChargerStation.jsx';
 import Invoice from '../components/SharedComponent/Invoice/Invoice.jsx';
 import InvoiceDetails from '../components/PortableCharger/InvoiceList/InvoiceDetails.jsx';
 import PickAndDropInvoiceDetails from '../components/PickAndDrop/Invoice/InvoiceDetails.jsx'
 
 const router = createBrowserRouter([
-  {
-      path: "/login",
-      element: <Login />,
-  },
-  {
-    path: "/",
-    element: <Layout />,
-    children: [
-      {
-        index: true,
-        element: <Dashboard />,
-      },
-      {
-        path: "/app-signup-list",
-        element: <AppSignupList />,
-      },
-      {
-        path: "/rider-details/:riderId",
-        element: <AppSignup />,
-      },
-      {
-        path: "/rider-list",
-        element: <RiderList />,
-      },
-      {
-        path: "/emergency-team-details/:rsaId",
-        element: <EmergencyTeam />,
-      },
-      {
-        path: "/add-emergency-team",
-        element: <AddEmergencyTeam />,
-      },
-      {
-        path: "/edit-emergency-team/:rsaId",
-        element: <EditEmergencyTeam />,
-      },
 
-      {
-        path: "/portable-charger",
-        element: <PortableCharger />,
+    {
+        path: "/login",
+        element: <Login />,
+    }, {
+        path: "/",
+        element: <Layout />,
         children: [ 
-          {
-            path: "charger-list", 
-            element: <ChargerList />,
-          },
-          {
-            path: "charger-booking-list",
-            element: <ChargerBookingList />,
-          },
-          {
-            path: "charger-booking-details/:bookingId",
-            element: <ChargerBookingDetails />,
-          },
-          {
-            path: "charger-booking-invoice-list", 
-            element: <ChargerBookingInvoiceList />,
-          },
-          {
-            path: "charger-booking-time-slot-list", 
-            element: <PortableChargerTimeSlotList />,
-          },
-          {
-            path: "add-time-slot", 
-            element: <AddPortableChargerTimeSlot />,
-          },
-          {
-            path: "edit-time-slot/:slotId", 
-            element: <EditPortableChargerTimeSlot />,
-          },
+            {
+                index: true,
+                element: <Dashboard />,
+            }, {
+                path: "/app-signup-list",
+                element: <AppSignupList />,
+            }, {
+                path: "/rider-details/:riderId",
+                element: <AppSignup />,
+            }, {
+                path: "/rider-list",
+                element: <RiderList />,
+            }, {
+                path: "/emergency-team-details/:rsaId",
+                element: <EmergencyTeam />,
+            }, {
+                path: "/add-emergency-team",
+                element: <AddEmergencyTeam />,
+            },  {
+                path: "/edit-emergency-team/:rsaId",
+                element: <EditEmergencyTeam />,
+            }, {
+                path: "/portable-charger",
+                element: <PortableCharger />,
+                children: [ 
+                    {
+                        path: "charger-list", 
+                        element: <ChargerList />,
+                    }, {
+                        path: "charger-booking-list",
+                        element: <ChargerBookingList />,
+                    }, {
+                        path: "charger-booking-details/:bookingId",
+                        element: <ChargerBookingDetails />,
+                    },  {
+                        path: "charger-booking-invoice-list", 
+                        element: <ChargerBookingInvoiceList />,
+                    }, {
+                        path: "charger-booking-time-slot-list", 
+                        element: <PortableChargerTimeSlotList />,
+                    }, {
+                        path: "add-time-slot", 
+                        element: <AddPortableChargerTimeSlot />,
+                    }, {
+                        path: "edit-time-slot/:slotId", 
+                        element: <EditPortableChargerTimeSlot />,
+                    },
+                ],
+            },
+            // app signup list
+            {
+                path: "/invoice",
+                element:<Invoice/>
+            }, {
+                path: "/invoice/:invoiceId",
+                element:<InvoiceDetails/>
+            },{
+                path: "/add-charger-station",
+                element: <AddChargerStation/>,
+                
+            }, {
+                path: "/edit-charger-station/:stationId",
+                element: <EditPublicChargerStation/>,
+                
+            }, {
+                path: "/add-shop-list",
+                element: <AddShopListForm />,
+
+            }, {
+                path: "/add-charger",
+                element: <AddCharger />,
+
+            }, {
+                path: "/edit-charger/:chargerId",
+                element: <EditPortableCharger />,
+
+            }, {
+                path: "/pick-and-drop",
+                element: <PickAndDrop />,
+                children: [ 
+                    {
+                        path: "booking-list", 
+                        element: <PickAndDropBookingList />,
+                    }, {
+                        path: "booking-details/:requestId", 
+                        element: <PickAndDropBookingDetails />,
+                    }, {
+                        path: "invoice-list", 
+                        element: <PickAndDropInvoiceList />,
+                    }, {
+                        path: "invoice-details/:invoiceId", 
+                        element: <PickAndDropInvoiceDetails />,
+                    }, {
+                        path: "time-slot-list", 
+                        element: <PickAndDropTimeSlotList />,
+                    }, {
+                        path: "add-time-slot", 
+                        element: <AddPickAndDropTimeSlot />,
+                    }, {
+                        path: "edit-time-slot/:slotId", 
+                        element: <EditPickAndDropTimeSlot />,
+                    },
+                ],
+            },
+            //public charger station
+            {
+                path: "/public-charger-station-list",
+                element: <PublicChargerStationList />,
+            }, {
+                path: "/public-charger-station-details/:stationId",
+                element: <PublicChargerStationDetails />,
+            },
+            //charger installation
+            {
+                path: "/charger-installation-list",
+                element: <ChargerInstallationList />,
+            }, {
+                path: "/charger-installation-details/:requestId",
+                element: <ChargerInstallationDetails />,
+            },
+            //Electric Car Leasing
+            {
+                path: "/electric-car-list",
+                element: <CarList />,
+            },
+            //Electric Bilke Leasing
+            {
+                path: "/electric-bike-list",
+                element: <BikeList />,
+            },
+            //Ev Guide
+            // {
+            //   path: "/ev-guide-list",
+            //   element: <GuideList />,
+            // },
+
+            //Ev Rider Club
+            {
+                path: "/club-list",
+                element: <ClubList />,
+            },
+            //ev-specialized
+            {
+                path: "/ev-specialized",
+                // element: <ShopList />,
+                children: [ 
+                    {
+                        path: "shop-list", 
+                        element: <ShopList />,
+                    }, {
+                        path: "service-list", 
+                        element: <ServiceList />,
+                    }, {
+                        path: "brand-list", 
+                        element: <BrandList />,
+                    },
+                ],
+            },
         ],
-      },
-
-     
-      // app signup list
-
-      {
-        path: "/invoice/:invoiceId",
-        element:<InvoiceDetails/>
-      },
-      {
-        path: "/add-charger-station",
-        element: <AddChargerStation/>,
-        
-      },
-      {
-        path: "/edit-charger-station/:stationId",
-        element: <EditPublicChargerStation/>,
-        
-      },
-
-      {
-        path: "/add-shop-list",
-        element: <AddShopListForm />,
-
-      },
-      {
-        path: "/add-charger",
-        element: <AddCharger />,
-
-      },
-      {
-        path: "/edit-charger/:chargerId",
-        element: <EditPortableCharger />,
-
-      },
-
-
-      {
-        path: "/pick-and-drop",
-        element: <PickAndDrop />,
-        children: [ 
-          {
-            path: "booking-list", 
-            element: <PickAndDropBookingList />,
-          },
-          {
-            path: "booking-details/:requestId", 
-            element: <PickAndDropBookingDetails />,
-          },
-          {
-            path: "invoice-list", 
-            element: <PickAndDropInvoiceList />,
-          },
-          {
-            path: "invoice-details/:invoiceId", 
-            element: <PickAndDropInvoiceDetails />,
-          },
-          {
-            path: "time-slot-list", 
-            element: <PickAndDropTimeSlotList />,
-          },
-          {
-            path: "add-time-slot", 
-            element: <AddPickAndDropTimeSlot />,
-          },
-
-          {
-            path: "edit-time-slot/:slotId", 
-            element: <EditPickAndDropTimeSlot />,
-          },
-        ],
-      },
-
-      //public charger station
-      {
-        path: "/public-charger-station-list",
-        element: <PublicChargerStationList />,
-      },
-      {
-        path: "/public-charger-station-details/:stationId",
-        element: <PublicChargerStationDetails />,
-      },
-
-      //charger installation
-      {
-        path: "/charger-installation-list",
-        element: <ChargerInstallationList />,
-      },
-      {
-        path: "/charger-installation-details/:requestId",
-        element: <ChargerInstallationDetails />,
-      },
-
-      //Electric Car Leasing
-      {
-        path: "/electric-car-list",
-        element: <CarList />,
-      },
-
-      //Electric Bilke Leasing
-      {
-        path: "/electric-bike-list",
-        element: <BikeList />,
-      },
-
-      //Ev Guide
-      // {
-      //   path: "/ev-guide-list",
-      //   element: <GuideList />,
-      // },
-
-      //Ev Rider Club
-      {
-        path: "/club-list",
-        element: <ClubList />,
-      },
-
-      //ev-specialized
-      {
-        path: "/ev-specialized",
-        // element: <ShopList />,
-        children: [ 
-          {
-            path: "shop-list", 
-            element: <ShopList />,
-          },
-          {
-            path: "service-list", 
-            element: <ServiceList />,
-          },
-          {
-            path: "brand-list", 
-            element: <BrandList />,
-          },
-          
-        ],
-      },
-    ],
-  },
+    },
 ]);
-
 function Router() {
-  return (
-    <>
-
-      <RouterProvider router={router} />
-
-    </>
-  );
+    return (
+        <>
+            <RouterProvider router={router} />
+        </>
+    );
 }
 export default Router;

@@ -7,6 +7,7 @@ import html2pdf from 'html2pdf.js';
 import Download from '../../../assets/images/Download.svg'
 
 const Invoice = ({ title, service, details }) => {
+    console.log(details)
     const handleDownload = () => {
         const invoiceElement = document.getElementById('invoiceToDownload');
         const options = {
@@ -84,20 +85,15 @@ const Invoice = ({ title, service, details }) => {
                                         </thead>
                                         <tbody>
                                             <tr className={styles.serviceItem}>
-                                                <td>{service}</td>
-                                                <td>5 Unit</td>
-                                                <td className={styles.amountRightAlign}>{details?.currency?.toUpperCase() || 'AED'} {details?.price}</td>
-                                            </tr>
-                                            {/* <tr className={styles.serviceItem}>
-                                                <td>Portable Charger Service</td>
-                                                <td>5 Unit</td>
-                                                <td className={styles.amountRightAlign}>250</td>
+                                                <td>Dewa Chargers (KW consumed)</td>
+                                                <td>--</td>
+                                                <td className={styles.amountRightAlign}>Unit X 0.48</td>
                                             </tr>
                                             <tr className={styles.serviceItem}>
-                                                <td>Portable Charger Service</td>
-                                                <td>5 Unit</td>
-                                                <td className={styles.amountRightAlign}>250</td>
-                                            </tr> */}
+                                                <td>{service}</td>
+                                                <td></td>
+                                                <td className={styles.amountRightAlign}>{details?.currency?.toUpperCase() || 'AED'} 40</td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </td>
@@ -118,7 +114,7 @@ const Invoice = ({ title, service, details }) => {
                                 </td>
                                 <td className={styles.amountRightAlign}>
                                     <p className={styles.totalAmountValue}>
-                                    {details?.currency?.toUpperCase() || 'AED'} {details?.price}
+                                        {details?.currency?.toUpperCase() || 'AED'} 40
                                     </p>
                                 </td>
                             </tr>

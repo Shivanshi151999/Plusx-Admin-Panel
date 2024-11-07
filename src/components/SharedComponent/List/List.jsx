@@ -14,27 +14,21 @@ const List = ({tableHeaders, listData, keyMapping, pageHeading, onDeleteSlot}) =
     const handleSignupDetails = (id) => {
         navigate(`/rider-details/${id}`)
     }
-
     const handleBookingDetails = (id) => {
         navigate(`/portable-charger/charger-booking-details/${id}`)
     }
-
     const handlePDBookingDetails = (id) => {
         navigate(`/pick-and-drop/booking-details/${id}`)
     }
-    
     const handleChargerInstallationDetails = (id) => {
         navigate(`/charger-installation-details/${id}`)
     }
-
     const handleChargerEditTimeSlot = (id) => {
         navigate(`/portable-charger/edit-time-slot/${id}`)
     }
-
     const handleChargerDetails = (id) => {
         navigate(`/edit-charger/${id}`)
     }
-
     const handlePickDropEditTimeSlot = (id) => {
         navigate(`/pick-and-drop/edit-time-slot/${id}`)
     }
@@ -52,7 +46,6 @@ const List = ({tableHeaders, listData, keyMapping, pageHeading, onDeleteSlot}) =
     const handleEditChargerDetails = (id) => {
         navigate(`/edit-charger-station/${id}`)
     }
-
     const handlePortableInvoice = (id) => {
         navigate(`/invoice/${id}`)
     }

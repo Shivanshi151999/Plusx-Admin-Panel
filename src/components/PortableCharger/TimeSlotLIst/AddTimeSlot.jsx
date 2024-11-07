@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from './addtimeslot.module.css';
-import TimePicker from 'react-time-picker';
+// import TimePicker from 'react-time-picker';
 import dayjs from 'dayjs';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import { postRequestWithToken } from '../../../api/Requests';

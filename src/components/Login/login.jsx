@@ -53,14 +53,14 @@ const Login = () => {
                         image: response.userDetails.image,
                         access_token: response.Token 
                     };
-            
                     sessionStorage.setItem('userDetails', JSON.stringify(userDetails));
+                    toast(response.message, { type: "success" });
                     
                     setTimeout(() => {
                         navigate('/')
-                    }, 2000);
+                    }, 1000);
                 } else {
-                    toast(response.message || response.message[0], {type:'error'})
+                    toast(response.message, {type:'error'})
                     console.log('error in login api', response);
                 }
             })
@@ -86,6 +86,7 @@ const Login = () => {
                     <div className={styles.formImgSection}>
                         <PanelLogo />
                     </div>
+                    <ToastContainer />
                     <form className={styles.formContainer} onSubmit={handleSubmit}>
                         <div className={styles.formFiled}>
                             <label className={styles.formLabel}>Username</label>

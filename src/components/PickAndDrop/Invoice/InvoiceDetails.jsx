@@ -9,7 +9,6 @@ const InvoiceDetails = () => {
     const navigate                            = useNavigate()
     const {invoiceId}                         = useParams()
     const [bookingDetails, setBookingDetails] = useState()
-    
 
     const fetchDetails = () => {
         const obj = {
@@ -36,7 +35,7 @@ const InvoiceDetails = () => {
 
   return (
     <div>
-        <Invoice title = 'Pick And Drop Invoice Details' service = 'Pick And Drop Service' details = {bookingDetails}/>
+        <Invoice title = 'Pick And Drop Invoice Details' service = 'Valet Charging Service' details = {bookingDetails}/>
     </div>
   )
 }

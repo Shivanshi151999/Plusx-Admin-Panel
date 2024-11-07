@@ -5,7 +5,7 @@ import styles from './bookingdetails.module.css';
 import moment from 'moment';
 
 
-const BookingDetailsAccordion = ({history, rsa }) => {
+const BookingDetailsAccordion = ({history, rsa, imageUrl }) => {
 
     const statusTitles = {
         P   : 'Open',
@@ -20,7 +20,6 @@ const BookingDetailsAccordion = ({history, rsa }) => {
         RS  : 'Reached Charging Spot',
         WC  : 'Work Completed',
         DO  : 'Drop Off',
-        S   : "S",
         C   : "Cancelled",
     };
 
@@ -32,8 +31,8 @@ const BookingDetailsAccordion = ({history, rsa }) => {
         showRSA     : item?.order_status !== 'CNF',
         // showInvoice : item?.order_status === 'PU',
 
-        showImage    : item?.order_status === 'PU',
-        imageUrl     : rsa?.imageUrl + ''+item?.image,
+        showImage    : item?.order_status === 'PU' || item?.order_status === 'WC',
+        imageUrl     : imageUrl + ''+item?.image,
         order_status : item?.order_status,
         cancel_by    : item?.cancel_by == 'Admin' ?  'Admin' : rsa?.customerName,
         reason       : item?.reason,
@@ -42,6 +41,7 @@ const BookingDetailsAccordion = ({history, rsa }) => {
     const handleAccordionToggle = (key) => {
         setActiveKey(activeKey === key ? null : key);
     };
+    console.log(sections)
     return (
         <div className={styles.accordionContainer}>
             <div className={styles.header}>
@@ -67,7 +67,7 @@ const BookingDetailsAccordion = ({history, rsa }) => {
                                     <p>Reason : { section?.reason } <br /> </p> 
                                 </>
                             )}
-                            {section.showImage && rsa?.imageUrl && (
+                            {section.showImage && (
                                 <div>
                                     <p><strong>Image:</strong></p>
                                     <img src={section?.imageUrl} alt="Image" style={{ maxWidth: '100%', height: 'auto' }} />
