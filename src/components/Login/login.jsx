@@ -54,7 +54,6 @@ const Login = () => {
                         access_token: response.Token 
                     };
                     sessionStorage.setItem('userDetails', JSON.stringify(userDetails));
-                    toast(response.message, { type: "success" });
                     
                     setTimeout(() => {
                         navigate('/')

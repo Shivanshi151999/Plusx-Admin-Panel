@@ -6,6 +6,8 @@ import styles from './addcharger.module.css';
 import { MultiSelect } from "react-multi-select-component";
 import { useNavigate } from 'react-router-dom';
 import { postRequestWithTokenAndFile, postRequestWithToken } from '../../api/Requests';
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const AddChargerStation = () => {
     const userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
@@ -229,8 +231,6 @@ const AddChargerStation = () => {
                 }
             });
         }
-
-
         setErrors(newErrors);
         return formIsValid;
     };
@@ -239,51 +239,47 @@ const AddChargerStation = () => {
         e.preventDefault();
 
         if (validateForm()) {
-            const formattedData = isAlwaysOpen
-                ? { always_open: 1, days: [] }
-                : Object.entries(timeSlots).reduce((acc, [day, times]) => {
-                    if (times.open && times.close) {
-                        acc.days.push(day.toLowerCase());
-                        acc[`${day.toLowerCase()}_open_time`] = times.open;
-                        acc[`${day.toLowerCase()}_close_time`] = times.close;
-                    }
-                    return acc;
-                }, { days: [] });
-
-            console.log(formattedData);
-
+            const formattedData = isAlwaysOpen ? { always_open: 1, days: [] } 
+            : Object.entries(timeSlots).reduce((acc, [day, times]) => {
+                if (times.open && times.close) {
+                    acc.days.push(day.toLowerCase());
+                    acc[`${day.toLowerCase()}_open_time`] = times.open;
+                    acc[`${day.toLowerCase()}_close_time`] = times.close;
+                }
+                return acc;
+            }, { days: [] });
+        
             const formData = new FormData();
             formData.append("userId", userDetails?.user_id);
             formData.append("email", userDetails?.email);
             formData.append("station_name", stationName);
-
+        
             if (selectedBrands && selectedBrands.length > 0) {
                 const selectedBrandsString = selectedBrands.map(brand => brand.value).join(', ');
                 formData.append("charging_for", selectedBrandsString);
             }
-
+    
             if (selectedType) {
                 formData.append("charger_type", selectedType.value);
             }
-
+        
             formData.append("charging_point", chargingPoint);
             formData.append("description", description);
             formData.append("address", address);
             formData.append("latitude", latitude);
             formData.append("longitude", longitude);
-
+        
             if (price) {
                 formData.append("price", price.value);
             }
-
             formData.append("always_open", formattedData.always_open || 0);
-
+        
             if (isAlwaysOpen) {
-                formData.append("days[]", formattedData.days);
+                formData.append("days[]", formattedData.days); 
             } else {
                 formattedData.days.forEach(day => formData.append("days[]", day));
             }
-
+        
             if (!isAlwaysOpen) {
                 Object.keys(formattedData).forEach(key => {
                     if (key !== 'days' && key !== 'always_open') {
@@ -291,26 +287,27 @@ const AddChargerStation = () => {
                     }
                 });
             }
-
+        
             if (file) {
                 formData.append("cover_image", file);
             }
-
+        
             if (galleryFiles.length > 0) {
                 galleryFiles.forEach((galleryFile) => {
                     formData.append("shop_gallery", galleryFile);
                 });
             }
-
             postRequestWithTokenAndFile('public-charger-add-station', formData, async (response) => {
                 if (response.status === 1) {
-                    navigate('/public-charger-station-list');
+                    toast(response.message || response.message[0], {type:'success'})
+                    setTimeout(() => {
+                        navigate('/public-charger-station-list');
+                    }, 1000);
                 } else {
+                    toast(response.message || response.message[0], {type:'error'})
                     console.log('Error in public-charger-add-station API:', response);
                 }
-            });
-        } else {
-
+            } )
         }
     };
 
@@ -339,7 +336,7 @@ const AddChargerStation = () => {
             }
         });
     };
-
+    
     useEffect(() => {
         if (!userDetails || !userDetails.access_token) {
             navigate('/login');
@@ -351,6 +348,7 @@ const AddChargerStation = () => {
         <div className={styles.addShopContainer}>
             <div className={styles.addHeading}>Add Public Chargers</div>
             <div className={styles.addShopFormSection}>
+                <ToastContainer />
                 <form className={styles.formSection} onSubmit={handleSubmit}>
                     <div className={styles.row}>
                         <div className={styles.addShopInputContainer}>
