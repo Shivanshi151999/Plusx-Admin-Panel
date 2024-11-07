@@ -37,49 +37,31 @@ const predefinedRanges = [
     }, appearance: 'default' }
 ];
 
-const App = ({handleDateChange}) => (
+const App = ({ handleDateChange }) => (
   <Stack direction="column" spacing={8} alignItems="flex-start">
-
-    {/* <DateRangePicker
+    <DateRangePicker
       ranges={predefinedRanges}
-      defaultValue={[new Date(), new Date()]} 
-      placeholder="Select Date Range"  
+      defaultValue={[new Date(), new Date()]} // Default to today
+      placeholder="Select Date Range"
       placement="bottomEnd"
-      
+      onChange={handleDateChange}
       renderValue={(value) => {
-        if (!value) {
-          return ''; 
-        }
-
+        if (!value || value.length === 0) return ''; // If no value is selected, show placeholder
         const [start, end] = value;
+        
+        // Check if the selected range is today
+        const today = format(new Date(), 'dd-MM-yyyy');
         const formattedStart = format(start, 'dd-MM-yyyy');
         const formattedEnd = format(end, 'dd-MM-yyyy');
-        if (formattedStart === formattedEnd) {
-          return formattedStart;
-        }
-        return `${formattedStart} - ${formattedEnd}`;
+        
+        // Display "Today" if the range is today, otherwise show the formatted date range
+        return (formattedStart === today && formattedEnd === today) 
+          ? 'Today' 
+          : `${formattedStart} - ${formattedEnd}`;
       }}
-      
-      onShortcutClick={(shortcut, event) => {
-        console.log(shortcut);
-      }}
-    /> */}
-
-<DateRangePicker
-    ranges={predefinedRanges}
-    defaultValue={[new Date(), new Date()]} // Default to today
-    placeholder="Select Date Range"
-    placement="bottomEnd"
-    onChange={handleDateChange} 
-    renderValue={(value) => {
-      if (!value || value.length === 0) return ''; // If no value is selected, show placeholder
-      const [start, end] = value;
-      const formattedStart = format(start, 'dd-MM-yyyy');
-      const formattedEnd = format(end, 'dd-MM-yyyy');
-      return formattedStart === formattedEnd ? formattedStart : `${formattedStart} - ${formattedEnd}`;
-    }}
-  />
+    />
   </Stack>
 );
 
 export default App;
+
