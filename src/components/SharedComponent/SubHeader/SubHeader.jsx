@@ -11,16 +11,15 @@ const SubHeader = ({ heading, fetchFilteredData, dynamicFilters, filterValues, a
     const [isSearchAccordionOpen, setIsSearchAccordionOpen] = useState(false);
     const [isFilterAccordionOpen, setIsFilterAccordionOpen] = useState(false);
 
-    // Toggle function for SearchAccordion
+
     const toggleSearchAccordion = () => {
         setIsSearchAccordionOpen(!isSearchAccordionOpen);
-        setIsFilterAccordionOpen(false); // Close filter accordion when search accordion is opened
+        setIsFilterAccordionOpen(false); 
     };
 
-    // Toggle function for AccordionFilter
     const toggleFilterAccordion = () => {
         setIsFilterAccordionOpen(!isFilterAccordionOpen);
-        setIsSearchAccordionOpen(false); // Close search accordion when filter accordion is opened
+        setIsSearchAccordionOpen(false); 
     };
 
     const shouldShowAddButton = 

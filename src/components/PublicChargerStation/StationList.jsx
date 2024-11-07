@@ -8,7 +8,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from 'react-router-dom';
 
 const dynamicFilters = [
-    { label: 'Name', name: 'search', type: 'text' },
+    // { label: 'Name', name: 'search', type: 'text' },
 ]
 
 const StationList = () => {

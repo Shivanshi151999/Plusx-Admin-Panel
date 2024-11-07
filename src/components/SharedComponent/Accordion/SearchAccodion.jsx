@@ -18,7 +18,7 @@ const SearchAccodion = ({ type, isOpen, fetchFilteredData, dynamicFilters, filte
         }
     }, [isOpen]);
 
-    const handleInputChange = (e) => {
+    const handleInputChange = (e) => {        
         const { name, value } = e.target;
         fetchFilteredData({ ...filterValues, [name]: value });
     };

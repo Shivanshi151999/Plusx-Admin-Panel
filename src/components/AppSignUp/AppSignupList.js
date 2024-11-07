@@ -9,7 +9,6 @@ import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from 'react-router-dom';
 
 
-
 const SignupList = () => {
     const userDetails = JSON.parse(sessionStorage.getItem('userDetails')); 
     const navigate = useNavigate()
@@ -81,12 +80,6 @@ const SignupList = () => {
             label: 'Location', 
             name: 'emirates', 
             type: 'select', 
-            // options: [
-            //     { value: 'Select Location', label: 'Select Location' },
-            //     { value: 'Dubai', label: 'Dubai' },
-            //     { value: 'Abu Dhabi', label: 'Abu Dhabi' }
-            // ]
-
             options: [
                 { value: 'Select Location', label: 'Select Location' },
                 ...emiratesList.map(emirate => ({
@@ -112,6 +105,7 @@ const SignupList = () => {
         {
             label: 'search', 
             name: 'search_text', 
+            type: 'text'
         }
     ]
 
