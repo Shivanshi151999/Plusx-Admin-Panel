@@ -81,7 +81,7 @@ const SignupList = () => {
             name: 'emirates', 
             type: 'select', 
             options: [
-                { value: 'Select Location', label: 'Select Location' },
+                { value: '', label: 'Select Location' },
                 ...emiratesList.map(emirate => ({
                     value: emirate.emirates,
                     label: emirate.emirates || 'Select Emirate'
@@ -93,7 +93,7 @@ const SignupList = () => {
             name: 'addedFrom', 
             type: 'select', 
             options: [
-                { value: 'Select Device', label: 'Select Device' },
+                { value: '', label: 'Select Device' },
                 { value: 'Android', label: 'Android' },
                 { value: 'IOS', label: 'IOS' }
             ]
