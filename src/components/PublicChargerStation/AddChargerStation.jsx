@@ -6,6 +6,8 @@ import styles from './addcharger.module.css';
 import { MultiSelect } from "react-multi-select-component";
 import { useNavigate } from 'react-router-dom';
 import { postRequestWithTokenAndFile, postRequestWithToken } from '../../api/Requests';
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const AddChargerStation = () => {
     const userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
@@ -229,8 +231,6 @@ const AddChargerStation = () => {
                 }
             });
         }
-
-
         setErrors(newErrors);
         return formIsValid;
     };
@@ -239,51 +239,47 @@ const AddChargerStation = () => {
         e.preventDefault();
 
         if (validateForm()) {
-            const formattedData = isAlwaysOpen
-                ? { always_open: 1, days: [] }
-                : Object.entries(timeSlots).reduce((acc, [day, times]) => {
-                    if (times.open && times.close) {
-                        acc.days.push(day.toLowerCase());
-                        acc[`${day.toLowerCase()}_open_time`] = times.open;
-                        acc[`${day.toLowerCase()}_close_time`] = times.close;
-                    }
-                    return acc;
-                }, { days: [] });
-
-            console.log(formattedData);
-
+            const formattedData = isAlwaysOpen ? { always_open: 1, days: [] } 
+            : Object.entries(timeSlots).reduce((acc, [day, times]) => {
+                if (times.open && times.close) {
+                    acc.days.push(day.toLowerCase());
+                    acc[`${day.toLowerCase()}_open_time`] = times.open;
+                    acc[`${day.toLowerCase()}_close_time`] = times.close;
+                }
+                return acc;
+            }, { days: [] });
+        
             const formData = new FormData();
             formData.append("userId", userDetails?.user_id);
             formData.append("email", userDetails?.email);
             formData.append("station_name", stationName);
-
+        
             if (selectedBrands && selectedBrands.length > 0) {
                 const selectedBrandsString = selectedBrands.map(brand => brand.value).join(', ');
                 formData.append("charging_for", selectedBrandsString);
             }
-
+    
             if (selectedType) {
                 formData.append("charger_type", selectedType.value);
             }
-
+        
             formData.append("charging_point", chargingPoint);
             formData.append("description", description);
             formData.append("address", address);
             formData.append("latitude", latitude);
             formData.append("longitude", longitude);
-
+        
             if (price) {
                 formData.append("price", price.value);
             }
-
             formData.append("always_open", formattedData.always_open || 0);
-
+        
             if (isAlwaysOpen) {
-                formData.append("days[]", formattedData.days);
+                formData.append("days[]", formattedData.days); 
             } else {
                 formattedData.days.forEach(day => formData.append("days[]", day));
             }
-
+        
             if (!isAlwaysOpen) {
                 Object.keys(formattedData).forEach(key => {
                     if (key !== 'days' && key !== 'always_open') {
@@ -291,26 +287,27 @@ const AddChargerStation = () => {
                     }
                 });
             }
-
+        
             if (file) {
                 formData.append("cover_image", file);
             }
-
+        
             if (galleryFiles.length > 0) {
                 galleryFiles.forEach((galleryFile) => {
                     formData.append("shop_gallery", galleryFile);
                 });
             }
-
             postRequestWithTokenAndFile('public-charger-add-station', formData, async (response) => {
                 if (response.status === 1) {
-                    navigate('/public-charger-station-list');
+                    toast(response.message || response.message[0], {type:'success'})
+                    setTimeout(() => {
+                        navigate('/public-charger-station-list');
+                    }, 1000);
                 } else {
+                    toast(response.message || response.message[0], {type:'error'})
                     console.log('Error in public-charger-add-station API:', response);
                 }
-            });
-        } else {
-
+            } )
         }
     };
 
@@ -339,7 +336,7 @@ const AddChargerStation = () => {
             }
         });
     };
-
+    
     useEffect(() => {
         if (!userDetails || !userDetails.access_token) {
             navigate('/login');
@@ -351,6 +348,7 @@ const AddChargerStation = () => {
         <div className={styles.addShopContainer}>
             <div className={styles.addHeading}>Add Public Chargers</div>
             <div className={styles.addShopFormSection}>
+                <ToastContainer />
                 <form className={styles.formSection} onSubmit={handleSubmit}>
                     <div className={styles.row}>
                         <div className={styles.addShopInputContainer}>
@@ -536,68 +534,69 @@ const AddChargerStation = () => {
 
                         )}
                     </div>
-
-                    <div className={styles.fileUpload}>
-                        <label className={styles.fileLabel}>Cover Image</label>
-                        <div className={styles.fileDropZone}>
-                            <input
-                                type="file"
-                                id="coverFileUpload"
-                                // accept="image/*"
-                                accept=".jpeg,.jpg"
-                                onChange={handleFileChange}
-                                style={{ display: 'none' }}
-                            />
-                            {!file ? (
-                                <label htmlFor="coverFileUpload" className={styles.fileUploadLabel}>
-                                    <img src={UploadIcon} alt="Upload Icon" className={styles.uploadIcon} />
-                                    <p>Select File to Upload <br /> or Drag & Drop, Copy & Paste Files</p>
-                                </label>
-                            ) : (
-                                <div className={styles.imageContainer}>
-                                    <img src={URL.createObjectURL(file)} alt="Preview" className={styles.previewImage} />
-                                    <button type="button" className={styles.removeButton} onClick={handleRemoveImage}>
-                                        <AiOutlineClose size={20} style={{ padding: '2px' }} />
-                                    </button>
-                                </div>
-                            )}
+                    {/* <div className={styles.row}> */}
+                        <div className={styles.fileUpload}>
+                            <label className={styles.fileLabel}>Cover Image</label>
+                            <div className={styles.fileDropZone}>
+                                <input
+                                    type="file"
+                                    id="coverFileUpload"
+                                    // accept="image/*"
+                                    accept=".jpeg,.jpg"
+                                    onChange={handleFileChange}
+                                    style={{ display: 'none' }}
+                                />
+                                {!file ? (
+                                    <label htmlFor="coverFileUpload" className={styles.fileUploadLabel}>
+                                        <img src={UploadIcon} alt="Upload Icon" className={styles.uploadIcon} />
+                                        <p>Select File to Upload <br /> or Drag & Drop, Copy & Paste Files</p>
+                                    </label>
+                                ) : (
+                                    <div className={styles.imageContainer}>
+                                        <img src={URL.createObjectURL(file)} alt="Preview" className={styles.previewImage} />
+                                        <button type="button" className={styles.removeButton} onClick={handleRemoveImage}>
+                                            <AiOutlineClose size={20} style={{ padding: '2px' }} />
+                                        </button>
+                                    </div>
+                                )}
+                            </div>
+                            {errors.file && <p className={styles.error} style={{ color: 'red' }}>{errors.file}</p>}
                         </div>
-                        {errors.file && <p className={styles.error} style={{ color: 'red' }}>{errors.file}</p>}
-                    </div>
 
-                    {/* Station Gallery Multiple Image Upload */}
-                    <div className={styles.fileUpload}>
-                        <label className={styles.fileLabel}>Station Gallery</label>
-                        <div className={styles.fileDropZone}>
-                            <input
-                                type="file"
-                                id="galleryFileUpload"
-                                // accept="image/*"
-                                accept=".jpeg,.jpg"
-                                multiple
-                                onChange={handleGalleryChange}
-                                style={{ display: 'none' }}
-                            />
-                            {galleryFiles.length === 0 ? (
-                                <label htmlFor="galleryFileUpload" className={styles.fileUploadLabel}>
-                                    <img src={UploadIcon} alt="Upload Icon" className={styles.uploadIcon} />
-                                    <p>Select Files to Upload <br /> or Drag & Drop, Copy & Paste Files</p>
-                                </label>
-                            ) : (
-                                <div className={styles.galleryContainer}>
-                                    {galleryFiles.map((image, index) => (
-                                        <div className={styles.imageContainer} key={index}>
-                                            <img src={URL.createObjectURL(image)} alt={`Preview ${index}`} className={styles.previewImage} />
-                                            <button type="button" className={styles.removeButton} onClick={() => handleRemoveGalleryImage(index)}>
-                                                <AiOutlineClose size={20} style={{ padding: '2px' }} />
-                                            </button>
-                                        </div>
-                                    ))}
-                                </div>
-                            )}
+                        {/* Station Gallery Multiple Image Upload */}
+                        <div className={styles.fileUpload}>
+                            <label className={styles.fileLabel}>Station Gallery</label>
+                            <div className={styles.fileDropZone}>
+                                <input
+                                    type="file"
+                                    id="galleryFileUpload"
+                                    // accept="image/*"
+                                    accept=".jpeg,.jpg"
+                                    multiple
+                                    onChange={handleGalleryChange}
+                                    style={{ display: 'none' }}
+                                />
+                                {galleryFiles.length === 0 ? (
+                                    <label htmlFor="galleryFileUpload" className={styles.fileUploadLabel}>
+                                        <img src={UploadIcon} alt="Upload Icon" className={styles.uploadIcon} />
+                                        <p>Select Files to Upload <br /> or Drag & Drop, Copy & Paste Files</p>
+                                    </label>
+                                ) : (
+                                    <div className={styles.galleryContainer}>
+                                        {galleryFiles.map((image, index) => (
+                                            <div className={styles.imageContainer} key={index}>
+                                                <img src={URL.createObjectURL(image)} alt={`Preview ${index}`} className={styles.previewImage} />
+                                                <button type="button" className={styles.removeButton} onClick={() => handleRemoveGalleryImage(index)}>
+                                                    <AiOutlineClose size={20} style={{ padding: '2px' }} />
+                                                </button>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                            {errors.gallery && <p className={styles.error} style={{ color: 'red' }}>{errors.gallery}</p>}
                         </div>
-                        {errors.gallery && <p className={styles.error} style={{ color: 'red' }}>{errors.gallery}</p>}
-                    </div>
+                    {/* </div> */}
                     {/* <div className={styles.actions}>
                         <button className={styles.submitBtn} type="submit">Submit</button>
                     </div> */}

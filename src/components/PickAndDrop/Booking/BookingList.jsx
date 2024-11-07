@@ -53,6 +53,13 @@ const BookingList = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedBookingId, setSelectedBookingId] = useState(null);
     const [selectedDriverId, setSelectedDriverId] = useState(null);
+    const searchTerm = [
+        {
+            label: 'search', 
+            name: 'search_text', 
+            type: 'text'
+        }
+    ]
 
     const fetchList = (page, appliedFilters = {}) => {
         const obj = {
@@ -143,6 +150,7 @@ const BookingList = () => {
          <SubHeader heading = "Pick & Drop Booking List"
          fetchFilteredData={fetchFilteredData} 
          dynamicFilters={dynamicFilters} filterValues={filters}
+         searchTerm = {searchTerm}
          />
          {chargerBookingList.length === 0 ? (
                 <div  style={{color: 'red'}}>No data available</div>

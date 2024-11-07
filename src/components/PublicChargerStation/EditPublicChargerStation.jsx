@@ -6,42 +6,42 @@ import styles from './addcharger.module.css';
 import { MultiSelect } from "react-multi-select-component";
 import { useNavigate, useParams } from 'react-router-dom';
 import { postRequestWithTokenAndFile, postRequestWithToken } from '../../api/Requests';
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const EditPublicChargerStation = () => {
-    const { stationId } = useParams()
-    const userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
-    const navigate = useNavigate();
-    const [details, setDetails] = useState()
-    const [file, setFile] = useState(null);
-    const [galleryFiles, setGalleryFiles] = useState([]);
-    const [errors, setErrors] = useState({});
+    const {stationId} = useParams()
+    const userDetails                         = JSON.parse(sessionStorage.getItem('userDetails'));
+    const navigate                            = useNavigate();
+    const [details, setDetails]               = useState()
+    const [file, setFile]                     = useState(null);
+    const [galleryFiles, setGalleryFiles]     = useState([]); 
+    const [errors, setErrors]                 = useState({});
     const [selectedBrands, setSelectedBrands] = useState([]);
-    const [selectedType, setSelectedType] = useState([])
+    const [selectedType, setSelectedType]     = useState([])
 
-    const [stationName, setStationName] = useState()
-    const [chargingFor, setChargingFor] = useState([])
-    const [chargingType, setChargingType] = useState()
+    const [stationName, setStationName]     = useState()
+    const [chargingFor, setChargingFor]     = useState([])
+    const [chargingType, setChargingType]   = useState()
     const [chargingPoint, setChargingPoint] = useState()
-    const [description, setDescription] = useState()
-    const [address, setAddress] = useState()
-    const [latitude, setLatitude] = useState()
-    const [longitude, setLongitude] = useState()
-    const [open, setOpen] = useState(false)
-    const [isAlwaysOpen, setIsAlwaysOpen] = useState(false);
-    const [status, setStatus] = useState(true)
-    const [openDays, setOpenDays] = useState()
+    const [description, setDescription]     = useState()
+    const [address, setAddress]             = useState()
+    const [latitude, setLatitude]           = useState()
+    const [longitude, setLongitude]         = useState()
+    const [open, setOpen]                   = useState(false)
+    const [isAlwaysOpen, setIsAlwaysOpen]   = useState(false);
+    const [status, setStatus]               = useState(true)
+    const [openDays, setOpenDays]           = useState()
 
     const [timeSlots, setTimeSlots] = useState({
-        Monday: { open: '', close: '', openMandatory: false, closeMandatory: false },
-        Tuesday: { open: '', close: '', openMandatory: false, closeMandatory: false },
-        Wednesday: { open: '', close: '', openMandatory: false, closeMandatory: false },
-        Thursday: { open: '', close: '', openMandatory: false, closeMandatory: false },
-        Friday: { open: '', close: '', openMandatory: false, closeMandatory: false },
-        Saturday: { open: '', close: '', openMandatory: false, closeMandatory: false },
-        Sunday: { open: '', close: '', openMandatory: false, closeMandatory: false },
+        Monday    : { open: '', close: '', openMandatory: false, closeMandatory: false },
+        Tuesday   : { open: '', close: '', openMandatory: false, closeMandatory: false },
+        Wednesday : { open: '', close: '', openMandatory: false, closeMandatory: false },
+        Thursday  : { open: '', close: '', openMandatory: false, closeMandatory: false },
+        Friday    : { open: '', close: '', openMandatory: false, closeMandatory: false },
+        Saturday  : { open: '', close: '', openMandatory: false, closeMandatory: false },
+        Sunday    : { open: '', close: '', openMandatory: false, closeMandatory: false },
     });
-
-
     const handleTimeChange = (day, timeType) => (event) => {
 
         const value = event.target.value.replace(/[^0-9:-]/g, '');
@@ -63,15 +63,12 @@ const EditPublicChargerStation = () => {
             return updatedTimeSlots;
         });
     };
-
-
     const brandDropdownRef = useRef(null);
     const serviceDropdownRef = useRef(null);
 
     const handleAlwaysOpenChange = (event) => {
         setIsAlwaysOpen(event.target.checked);
     };
-
     const [selectedService, setSelectedService] = useState(null);
 
     const handleChargingFor = (selectedOptions) => {
@@ -118,8 +115,6 @@ const EditPublicChargerStation = () => {
     const handleRemoveGalleryImage = (index) => {
         setGalleryFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
     };
-
-
     useEffect(() => {
         return () => {
             galleryFiles.forEach((image) => URL.revokeObjectURL(image));
@@ -178,19 +173,19 @@ const EditPublicChargerStation = () => {
             formIsValid = false;
         }
 
-        if (!isAlwaysOpen) {
-            const firstDay = Object.keys(timeSlots)[0];
-            const firstDayTimes = timeSlots[firstDay];
+        // if (!isAlwaysOpen) {
+        //     const firstDay = Object.keys(timeSlots)[0];
+        //     const firstDayTimes = timeSlots[firstDay];
 
-            if (!firstDayTimes.open) {
-                newErrors[`${firstDay}OpenTime`] = "Open time is required.";
-                formIsValid = false;
-            }
-            if (!firstDayTimes.close) {
-                newErrors[`${firstDay}CloseTime`] = "Close time is required.";
-                formIsValid = false;
-            }
-        }
+        //     if (!firstDayTimes.open) {
+        //         newErrors[`${firstDay}OpenTime`] = "Open time is required.";
+        //         formIsValid = false;
+        //     }
+        //     if (!firstDayTimes.close) {
+        //         newErrors[`${firstDay}CloseTime`] = "Close time is required.";
+        //         formIsValid = false;
+        //     }
+        // }
 
 
         if (!isAlwaysOpen) {
@@ -215,8 +210,7 @@ const EditPublicChargerStation = () => {
         e.preventDefault();
 
         if (validateForm()) {
-            const formattedData = isAlwaysOpen
-                ? { always_open: 1, days: [] }
+            const formattedData = isAlwaysOpen ? { always_open: 1, days: [] }
                 : Object.entries(timeSlots).reduce((acc, [day, times]) => {
                     if (times.open && times.close) {
                         acc.days.push(day.toLowerCase());
@@ -225,7 +219,6 @@ const EditPublicChargerStation = () => {
                     }
                     return acc;
                 }, { days: [] });
-
 
             const formData = new FormData();
             formData.append("userId", userDetails?.user_id);
@@ -247,20 +240,16 @@ const EditPublicChargerStation = () => {
                 }
                 formData.append("charger_type", selected);
             }
-
             formData.append("charging_point", chargingPoint);
             formData.append("description", description);
             formData.append("address", address);
             formData.append("latitude", latitude);
             formData.append("longitude", longitude);
-            formData.append("status", status === true ? 1 : 0);
+            formData.append("status", isActive === true ? 1 : 0);
 
             if (price) {
                 formData.append("price", price.value);
             }
-            console.log('formattedData', formattedData);
-            console.log('isAlwaysOpen', isAlwaysOpen);
-
             formData.append("always_open", formattedData.always_open || 0);
 
             if (isAlwaysOpen) {
@@ -268,7 +257,6 @@ const EditPublicChargerStation = () => {
             } else {
                 formattedData.days.forEach(day => formData.append("days[]", day));
             }
-
             if (!isAlwaysOpen) {
                 Object.keys(formattedData).forEach(key => {
                     if (key !== 'days' && key !== 'always_open') {
@@ -276,44 +264,44 @@ const EditPublicChargerStation = () => {
                     }
                 });
             }
-
             if (file) {
                 formData.append("cover_image", file);
             }
-
             if (galleryFiles.length > 0) {
                 galleryFiles.forEach((galleryFile) => {
                     formData.append("shop_gallery", galleryFile);
                 });
             }
-
-            postRequestWithTokenAndFile('public-charger-edit-statio', formData, async (response) => {
+            postRequestWithTokenAndFile('public-charger-edit-station', formData, async (response) => {
                 if (response.status === 1) {
-                    navigate('/public-charger-station-list');
+            
+                    toast(response.message || response.message[0], {type:'success'})
+                    setTimeout(() => {
+                        navigate('/public-charger-station-list');
+                    }, 1000);
                 } else {
+                    toast(response.message || response.message[0], {type:'error'})
                     console.log('Error in public-charger-add-station API:', response);
                 }
             });
-        } else {
-
-        }
+        } 
     };
 
     const fetchDetails = () => {
         const obj = {
-            userId: userDetails?.user_id,
-            email: userDetails?.email,
-            station_id: stationId
+            userId     : userDetails?.user_id,
+            email      : userDetails?.email,
+            station_id : stationId
         };
         postRequestWithToken('public-charger-station-details', obj, (response) => {
+            
             if (response.code === 200) {
                 const data = response?.data || {};
-
-                const openDays = data.open_days.split('_')
-                    .map(day => {
-                        const trimmedDay = day.trim();
-                        return trimmedDay.charAt(0).toUpperCase() + trimmedDay.slice(1).toLowerCase();
-                    });
+                
+                const openDays = data.open_days.split('_') .map(day => {
+                    const trimmedDay = day.trim();
+                    return trimmedDay.charAt(0).toUpperCase() + trimmedDay.slice(1).toLowerCase();
+                });
 
                 const openTimings = data.open_timing.split('_');
                 const updatedTimeSlots = { ...timeSlots };
@@ -343,34 +331,26 @@ const EditPublicChargerStation = () => {
                 setFile(data?.station_image || "");
                 setGalleryFiles(response?.gallery_data || []);
                 setIsAlwaysOpen(data?.always_open === 1 ? true : false)
-
+                setIsActive(data?.status)
                 const transformedChargingFor = (response?.result?.chargingFor || []).map(item => ({
                     label: item,
                     value: item
                 }));
                 setChargingFor(transformedChargingFor);
 
-                const initialSelectedBrands = transformedChargingFor.length ?
-                    [{ label: transformedChargingFor[0].label, value: transformedChargingFor[0].value }] : [];
+                // const initialSelectedBrands = transformedChargingFor.length ?
+                //     [{ label: transformedChargingFor[0].label, value: transformedChargingFor[0].value }] : [];
+
+                const initialSelectedBrands = ( data?.charging_for.split(", ") || []).map(item => ({ 
+                    label: item,
+                    value: item
+                }));
                 setSelectedBrands(initialSelectedBrands);
-
-                // const transformedChargingType = (response?.result?.chargerType || []).map(item => ({
-                //     label: item,
-                //     value: item
-                // }));
-
-                // setChargingType(transformedChargingType); 
-
-                // const initialChargerType = transformedChargingType.length ? 
-                //     [{ label: transformedChargingType[0].label, value: transformedChargingType[0].value }] : [];
-                //     setSelectedType(initialChargerType);
 
                 const transformedChargingType = (response?.result?.chargerType || []).map(item => ({
                     label: item,
                     value: item
                 }));
-
-                // Find the matching charger type for initial selection
                 const initialChargerType = transformedChargingType.find(item => item.value === data.charger_type) || {};
 
                 setChargingType(transformedChargingType);
@@ -380,7 +360,6 @@ const EditPublicChargerStation = () => {
                 console.error('Error in public-charger-station-details API', response);
             }
         });
-        // });
     };
 
     useEffect(() => {
@@ -406,6 +385,7 @@ const EditPublicChargerStation = () => {
         <div className={styles.addShopContainer}>
             <div className={styles.addHeading}>Edit Public Chargers</div>
             <div className={styles.addShopFormSection}>
+                <ToastContainer />
                 <form className={styles.formSection} onSubmit={handleSubmit}>
                     <div className={styles.row}>
                         <div className={styles.addShopInputContainer}>

@@ -14,16 +14,25 @@ const ChargerList = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [refresh, setRefresh] = useState(false)
-
+    const [filters, setFilters] = useState({});
+    
+    const searchTerm = [
+        {
+            label: 'search', 
+            name: 'search_text', 
+            type: 'text'
+        }
+    ]
     const addButtonProps = {
         heading: "Add Charger", 
         link: "/add-charger"
     };
-    const fetchChargers = (page) => {
+    const fetchChargers = (page, appliedFilters = {}) => {
         const obj = {
             userId : userDetails?.user_id,
             email : userDetails?.email,
-            page_no: page
+            page_no: page,
+            ...appliedFilters,
         };
 
         getRequestWithToken('charger-list', obj, (response) => {
@@ -41,8 +50,13 @@ const ChargerList = () => {
             navigate('/login'); 
             return; 
         }
-        fetchChargers(currentPage);
-    }, [currentPage, refresh]);
+        fetchChargers(currentPage, filters);
+    }, [currentPage, filters, refresh]);
+
+    const fetchFilteredData = (newFilters = {}) => {
+        setFilters(newFilters);  
+        setCurrentPage(1); 
+    };
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -74,11 +88,16 @@ const ChargerList = () => {
 
     return (
         <>
-            <SubHeader heading = "Portable Charger List" addButtonProps={addButtonProps}/>
+            <SubHeader heading = "Portable Charger List" 
+            addButtonProps={addButtonProps}
+            filterValues={filters}
+            fetchFilteredData={fetchFilteredData} 
+            searchTerm = {searchTerm}
+            />
             <ToastContainer />
             <List
                 // heading="Charger List"
-                tableHeaders={["Booking ID", "Charger Name", "Charger Price", "Status", "Action"]}
+                tableHeaders={["Charger ID", "Charger Name", "Charger Price", "Status", "Action"]}
                 listData={chargerList}
                 keyMapping={[
                     { key: 'charger_id', label: 'Booking ID' }, 
@@ -88,7 +107,7 @@ const ChargerList = () => {
                         label: 'Charger Price', 
                         format: (price) => (price ? `AED ${price}` : '') 
                     },
-                    { key: 'status', label: 'Status', format: (status) => (status === 1 ? "Active" : "In-active") } 
+                    { key: 'status', label: 'Status', format: (status) => (status === 1 ? "Active" : "Inactive") } 
                 ]}
                 pageHeading="Portable Charger List"
                 onDeleteSlot={handleDeleteSlot}

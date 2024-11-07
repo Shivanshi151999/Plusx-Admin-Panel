@@ -43,6 +43,13 @@ const dynamicFilters = [
         ]
     },
 ];
+const searchTerm = [
+    {
+        label: 'search', 
+        name: 'search_text', 
+        type: 'text'
+    }
+]
 
 const ChargerBookingList = () => {
     const userDetails                                 = JSON.parse(sessionStorage.getItem('userDetails'));
@@ -147,6 +154,7 @@ const ChargerBookingList = () => {
                 fetchFilteredData={fetchFilteredData}
                 dynamicFilters={dynamicFilters}
                 filterValues={filters}
+                searchTerm = {searchTerm}
             />
             <ToastContainer />
             {chargerBookingList.length === 0 ? (

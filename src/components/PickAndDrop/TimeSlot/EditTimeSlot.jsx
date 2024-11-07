@@ -5,8 +5,9 @@ import "react-datepicker/dist/react-datepicker.css";
 import dayjs from 'dayjs';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import { postRequestWithToken } from '../../../api/Requests';
-import { toast } from 'react-toastify';
+import { toast,ToastContainer } from 'react-toastify';
 import { useNavigate, useParams } from 'react-router-dom';
+import moment from 'moment';
 
 dayjs.extend(isSameOrAfter);
 
@@ -33,9 +34,11 @@ const EditPickAndDropTimeSlot = () => {
             if (response.code === 200) {
                 const data = response.data || {};
                 setSlotDetails(data);
-                setStartTime(dayjs(data.start_time, "HH:mm:ss"));
-                setEndTime(dayjs(data.end_time, "HH:mm:ss"));
+                setStartDate(data.slot_date);
+                setStartTime(moment(data.start_time, 'HH:mm:ss').format('HH:mm'));
+                setEndTime(moment(data.end_time, 'HH:mm:ss').format('HH:mm'));
                 setBookingLimit(data.booking_limit || "");
+                setIsActive(data.status)
             } else {
                 console.log('error in pick-and-drop-slot-details API', response);
             }
@@ -54,41 +57,44 @@ const EditPickAndDropTimeSlot = () => {
         navigate('/pick-and-drop/time-slot-list');
     };
 
-    const handleStartTimeChange = (newTime) => {
-        setStartTime(newTime);
+    const handleStartTimeChange = (e) => {
+        const formattedTime = e.target.value; 
+        setStartTime(formattedTime);
         setErrors((prev) => ({ ...prev, startTime: "" }));
     };
 
-    const handleEndTimeChange = (newTime) => {
-        setEndTime(newTime);
+    const handleEndTimeChange = (e) => {
+        const formattedTime = e.target.value; 
+        setEndTime(formattedTime);
         setErrors((prev) => ({ ...prev, endTime: "" }));
     };
 
     const handleBookingLimitChange = (e) => {
-        setBookingLimit(e.target.value);
-        setErrors((prev) => ({ ...prev, bookingLimit: "" }));
+        const value = e.target.value;
+        if (/^\d{0,4}$/.test(value)) {
+            setBookingLimit(value);
+            setErrors((prev) => ({ ...prev, bookingLimit: "" }));
+        }
     };
+    
 
     const validateForm = () => {
         let formIsValid = true;
         const newErrors = {};
         const now = dayjs();
 
+        if (!startDate) {
+            newErrors.startDate = "Date is required";
+            formIsValid = false;
+        } 
         if (!startTime) {
             newErrors.startTime = "Start time is required";
             formIsValid = false;
-        } else if (startTime && !dayjs(startTime).isSameOrAfter(now)) {
-            newErrors.startTime = "Start time must be in the future";
-            formIsValid = false;
-        }
-
+        } 
         if (!endTime) {
             newErrors.endTime = "End time is required";
             formIsValid = false;
-        } else if (startTime && endTime && !dayjs(endTime).isAfter(startTime)) {
-            newErrors.endTime = "End time must be after start time";
-            formIsValid = false;
-        }
+        } 
 
         if (!bookingLimit) {
             newErrors.bookingLimit = "Booking limit is required";
@@ -110,15 +116,20 @@ const EditPickAndDropTimeSlot = () => {
                 email: userDetails?.email,
                 slot_id: slotId,
                 status: isActive ? "1" : "0",
-                start_time: startTime ? dayjs(startTime).format("HH:mm") : '',
-                end_time: endTime ? dayjs(endTime).format("HH:mm") : '',
+                slot_date: moment(startDate).format('DD-MM-YYYY'),
+                // slot_date: startDate,
+                start_time: startTime ,
+                end_time: endTime ,
                 booking_limit: bookingLimit
             };
 
-            postRequestWithToken('charger-edit-time-slot', obj, (response) => {
+            postRequestWithToken('pick-and-drop-edit-slot', obj, (response) => {
                 if (response.code === 200) {
-                    toast(response.message, { type: "success" });
-                    navigate('/pick-and-drop/time-slot-list');
+                    toast(response.message[0] || response.message, { type: "success" });
+                   
+                    setTimeout(() => {
+                        navigate('/pick-and-drop/time-slot-list');
+                    },2000)
                 } else {
                     console.log('error in charger-edit-time-slot API', response);
                 }
@@ -134,6 +145,7 @@ const EditPickAndDropTimeSlot = () => {
 
     return (
         <div className={styles.containerCharger}>
+             <ToastContainer/>
             <h2 className={styles.title}>Edit Slot</h2>
             <div className={styles.chargerSection}>
                 <form className={styles.form} onSubmit={handleSubmit}>
@@ -145,14 +157,15 @@ const EditPickAndDropTimeSlot = () => {
                                 selected={startDate}
                                 onChange={(date) => setStartDate(date)}
                             />
+                            {errors.startDate && <span className={styles.error} style={{ color: 'red' }}>{errors.startDate}</span>}
                         </div>
                         <div className={styles.inputGroup}>
                             <label className={styles.label}>Start Time</label>
                             <input
                                 type="text"
                                 className={styles.inputCharger}
-                                value={startTime ? dayjs(startTime).format("HH:mm") : ""}
-                                onChange={(e) => handleStartTimeChange(dayjs(e.target.value, "HH:mm"))}
+                                value={startTime}
+                                onChange={handleStartTimeChange}
                                 placeholder="HH:MM"
                             />
                             {errors.startTime && <span className={styles.error} style={{ color: 'red' }}>{errors.startTime}</span>}
@@ -162,8 +175,8 @@ const EditPickAndDropTimeSlot = () => {
                             <input
                                 type="text"
                                 className={styles.inputCharger}
-                                value={endTime ? dayjs(endTime).format("HH:mm") : ""}
-                                onChange={(e) => handleEndTimeChange(dayjs(e.target.value, "HH:mm"))}
+                                value={endTime}
+                                onChange={handleEndTimeChange}
                                 placeholder="HH:MM"
                             />
                             {errors.endTime && <span className={styles.error} style={{ color: 'red' }}>{errors.endTime}</span>}

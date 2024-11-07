@@ -7,7 +7,7 @@ import { format } from 'date-fns';
 
 const AccordionFilter = ({ type, isOpen, fetchFilteredData, dynamicFilters, filterValues }) => {
     const [showContent, setShowContent] = useState(isOpen);
-    const [isOpenDropdown, setIsOpenDropdown] = useState(false);
+    const [openDropdowns, setOpenDropdowns] = useState({}); // Separate state for each dropdown
 
     useEffect(() => {
         if (isOpen) {
@@ -23,9 +23,9 @@ const AccordionFilter = ({ type, isOpen, fetchFilteredData, dynamicFilters, filt
         fetchFilteredData({ ...filterValues, [name]: value });
     };
 
-    const handleBlur = () => {
+    const handleBlur = (name) => {
         fetchFilteredData(filterValues);
-        setIsOpenDropdown(false); 
+        setOpenDropdowns((prev) => ({ ...prev, [name]: false }));
     };
 
     const handleDateChange = (range) => {
@@ -48,8 +48,8 @@ const AccordionFilter = ({ type, isOpen, fetchFilteredData, dynamicFilters, filt
         });
     };
 
-    const toggleDropdown = () => {
-        setIsOpenDropdown(!isOpenDropdown);
+    const toggleDropdown = (name) => {
+        setOpenDropdowns((prev) => ({ ...prev, [name]: !prev[name] }));
     };
 
     return (
@@ -76,8 +76,8 @@ const AccordionFilter = ({ type, isOpen, fetchFilteredData, dynamicFilters, filt
                                                     <label className={styles.filterLabel} htmlFor={filter.name}>{filter.label}</label>
                                                     {filter.type === 'select' ? (
                                                         <div
-                                                            className={`${styles.customSelectWrapper} ${isOpenDropdown ? styles.open : ''}`}
-                                                            onClick={toggleDropdown}
+                                                            className={`${styles.customSelectWrapper} ${openDropdowns[filter.name] ? styles.open : ''}`}
+                                                            onClick={() => toggleDropdown(filter.name)}
                                                         >
                                                             <select
                                                                 className={`${styles.filterSelect} ${styles.customSelect}`}
@@ -85,7 +85,7 @@ const AccordionFilter = ({ type, isOpen, fetchFilteredData, dynamicFilters, filt
                                                                 name={filter.name}
                                                                 value={filterValues[filter.name] || ''}
                                                                 onChange={handleInputChange}
-                                                                onBlur={handleBlur}
+                                                                onBlur={() => handleBlur(filter.name)}
                                                             >
                                                                 {filter.options.map((option) => (
                                                                     <option key={option.value} value={option.value}>{option.label}</option>
@@ -101,7 +101,7 @@ const AccordionFilter = ({ type, isOpen, fetchFilteredData, dynamicFilters, filt
                                                             name={filter.name} 
                                                             value={filterValues[filter.name] || ''}
                                                             onChange={handleInputChange}
-                                                            onBlur={handleBlur}
+                                                            onBlur={() => handleBlur(filter.name)}
                                                             autoComplete='off'
                                                         />
                                                     )}

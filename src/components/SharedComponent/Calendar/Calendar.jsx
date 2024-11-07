@@ -9,7 +9,6 @@ import startOfMonth from 'date-fns/startOfMonth';
 import endOfMonth from 'date-fns/endOfMonth';
 import addMonths from 'date-fns/addMonths';
 import format from 'date-fns/format';
-
 const predefinedRanges = [
   { label: 'Today', value: [new Date(), new Date()], placement: 'left' },
   { label: 'Yesterday', value: [addDays(new Date(), -1), addDays(new Date(), -1)], placement: 'left' },
@@ -37,49 +36,27 @@ const predefinedRanges = [
     }, appearance: 'default' }
 ];
 
-const App = ({handleDateChange}) => (
+const App = ({ handleDateChange }) => (
   <Stack direction="column" spacing={8} alignItems="flex-start">
-
-    {/* <DateRangePicker
+    <DateRangePicker
       ranges={predefinedRanges}
       defaultValue={[new Date(), new Date()]} 
-      placeholder="Select Date Range"  
+      placeholder="Select Date Range"
       placement="bottomEnd"
-      
+      onChange={handleDateChange}
       renderValue={(value) => {
-        if (!value) {
-          return ''; 
-        }
-
+        if (!value || value.length === 0) return '';
         const [start, end] = value;
+        const today = format(new Date(), 'dd-MM-yyyy');
         const formattedStart = format(start, 'dd-MM-yyyy');
         const formattedEnd = format(end, 'dd-MM-yyyy');
-        if (formattedStart === formattedEnd) {
-          return formattedStart;
-        }
-        return `${formattedStart} - ${formattedEnd}`;
+        return (formattedStart === today && formattedEnd === today) 
+          ? 'Today' 
+          : `${formattedStart} - ${formattedEnd}`;
       }}
-      
-      onShortcutClick={(shortcut, event) => {
-        console.log(shortcut);
-      }}
-    /> */}
-
-<DateRangePicker
-    ranges={predefinedRanges}
-    defaultValue={[new Date(), new Date()]} // Default to today
-    placeholder="Select Date Range"
-    placement="bottomEnd"
-    onChange={handleDateChange} 
-    renderValue={(value) => {
-      if (!value || value.length === 0) return ''; // If no value is selected, show placeholder
-      const [start, end] = value;
-      const formattedStart = format(start, 'dd-MM-yyyy');
-      const formattedEnd = format(end, 'dd-MM-yyyy');
-      return formattedStart === formattedEnd ? formattedStart : `${formattedStart} - ${formattedEnd}`;
-    }}
-  />
+    />
   </Stack>
 );
 
 export default App;
+
