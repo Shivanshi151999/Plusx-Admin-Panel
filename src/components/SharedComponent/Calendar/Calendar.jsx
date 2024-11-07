@@ -9,7 +9,6 @@ import startOfMonth from 'date-fns/startOfMonth';
 import endOfMonth from 'date-fns/endOfMonth';
 import addMonths from 'date-fns/addMonths';
 import format from 'date-fns/format';
-
 const predefinedRanges = [
   { label: 'Today', value: [new Date(), new Date()], placement: 'left' },
   { label: 'Yesterday', value: [addDays(new Date(), -1), addDays(new Date(), -1)], placement: 'left' },
@@ -41,20 +40,16 @@ const App = ({ handleDateChange }) => (
   <Stack direction="column" spacing={8} alignItems="flex-start">
     <DateRangePicker
       ranges={predefinedRanges}
-      defaultValue={[new Date(), new Date()]} // Default to today
+      defaultValue={[new Date(), new Date()]} 
       placeholder="Select Date Range"
       placement="bottomEnd"
       onChange={handleDateChange}
       renderValue={(value) => {
-        if (!value || value.length === 0) return ''; // If no value is selected, show placeholder
+        if (!value || value.length === 0) return '';
         const [start, end] = value;
-        
-        // Check if the selected range is today
         const today = format(new Date(), 'dd-MM-yyyy');
         const formattedStart = format(start, 'dd-MM-yyyy');
         const formattedEnd = format(end, 'dd-MM-yyyy');
-        
-        // Display "Today" if the range is today, otherwise show the formatted date range
         return (formattedStart === today && formattedEnd === today) 
           ? 'Today' 
           : `${formattedStart} - ${formattedEnd}`;
