@@ -4,97 +4,98 @@ import BookingDetailsHeader from '../SharedComponent/Details/BookingDetails/Book
 import BookingDetailsSection from '../SharedComponent/Details/BookingDetails/BookingDetailsSection'
 import BookingImageSection from '../SharedComponent/Details/BookingDetails/BookingImageSection'
 import { postRequestWithToken } from '../../api/Requests';
+import BookingLeftDetails from '../SharedComponent/BookingDetails/BookingLeftDetails.jsx'
 import { useParams } from 'react-router-dom';
 import moment from 'moment';
 import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from 'react-router-dom';
 
 const statusMapping = {
-    'CNF': 'Booking Confirmed',
-    'A': 'Assigned',
-    'RL': 'POD Reached at Location',
-    'CS': 'Charging Started',
-    'CC': 'Charging Completed',
-    'PU': 'POD Picked Up',
-    'WC': 'Work Completed',
-    'C': 'Cancel'
-  };
+  'CNF': 'Booking Confirmed',
+  'A': 'Assigned',
+  'RL': 'POD Reached at Location',
+  'CS': 'Charging Started',
+  'CC': 'Charging Completed',
+  'PU': 'POD Picked Up',
+  'WC': 'Work Completed',
+  'C': 'Cancel'
+};
 
-  const formatTime = (timeStr) => {
-    if (timeStr === "Closed") return "Closed";
-    const [start, end] = timeStr?.split('-');
-    const format12Hour = (time) => {
-        const [hour, minute] = time?.split(':');
-        const date = new Date();
-        date.setHours(hour);
-        date.setMinutes(minute);
-        return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    };
-    return `${format12Hour(start)} - ${format12Hour(end)}`;
+const formatTime = (timeStr) => {
+  if (timeStr === "Closed") return "Closed";
+  const [start, end] = timeStr?.split('-');
+  const format12Hour = (time) => {
+    const [hour, minute] = time?.split(':');
+    const date = new Date();
+    date.setHours(hour);
+    date.setMinutes(minute);
+    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  };
+  return `${format12Hour(start)} - ${format12Hour(end)}`;
 };
 
 const getFormattedOpeningHours = (details) => {
-    if (details?.always_open === 1) {
-        return "Always Open";
-    }
-    
-    if (!details?.open_days || !details?.open_timing) {
-        return "No opening hours available";
-    }
+  if (details?.always_open === 1) {
+    return "Always Open";
+  }
 
-    const days = details?.open_days.split(', ');
-    const timings = details?.open_timing.split(', ').map(formatTime);
-    let formattedHours = [];
+  if (!details?.open_days || !details?.open_timing) {
+    return "No opening hours available";
+  }
 
-    for (let i = 0; i < days?.length; i++) {
-        let startDay = days[i];
-        let currentTiming = timings[i];
-        let j = i;
+  const days = details?.open_days.split(', ');
+  const timings = details?.open_timing.split(', ').map(formatTime);
+  let formattedHours = [];
 
-        while (j < days?.length - 1 && timings[j + 1] === currentTiming) {
-            j++;
-        }
+  for (let i = 0; i < days?.length; i++) {
+    let startDay = days[i];
+    let currentTiming = timings[i];
+    let j = i;
 
-        const dayRange = startDay + (i === j ? "" : `-${days[j]}`);
-        formattedHours.push(`${dayRange}: ${currentTiming}`);
-        i = j;
+    while (j < days?.length - 1 && timings[j + 1] === currentTiming) {
+      j++;
     }
 
-    return formattedHours.join("\n");
+    const dayRange = startDay + (i === j ? "" : `-${days[j]}`);
+    formattedHours.push(`${dayRange}: ${currentTiming}`);
+    i = j;
+  }
+
+  return formattedHours.join("\n");
 };
-  
+
 const StationDetails = () => {
-  const userDetails = JSON.parse(sessionStorage.getItem('userDetails')); 
+  const userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
   const navigate = useNavigate()
-  const {stationId} = useParams()
+  const { stationId } = useParams()
   const [bookingDetails, setBookingDetails] = useState()
   const [imageGallery, setImageGallery] = useState()
   const [baseUrl, setBaseUrl] = useState()
-  
+
 
   const fetchDetails = () => {
     const obj = {
-        userId : userDetails?.user_id,
-        email : userDetails?.email,
-        station_id : stationId
+      userId: userDetails?.user_id,
+      email: userDetails?.email,
+      station_id: stationId
     };
 
     postRequestWithToken('public-charger-station-details', obj, (response) => {
-        if (response.code === 200) {
-            setBookingDetails(response?.data || {});  
-            setImageGallery(response.gallery_data)
-            setBaseUrl(response.base_url)
-        } else {
-            console.log('error in public-charger-station-details API', response);
-        }
+      if (response.code === 200) {
+        setBookingDetails(response?.data || {});
+        setImageGallery(response.gallery_data)
+        setBaseUrl(response.base_url)
+      } else {
+        console.log('error in public-charger-station-details API', response);
+      }
     });
-};
+  };
 
   useEffect(() => {
     if (!userDetails || !userDetails.access_token) {
-      navigate('/login'); 
-      return; 
-  }
+      navigate('/login');
+      return;
+    }
     fetchDetails();
   }, []);
 
@@ -104,14 +105,22 @@ const StationDetails = () => {
     feeDetailsTitle: "Fee Details",
   };
 
-  const sectionTitles = {
+  const sectionTitles1 = {
     address: "Address",
-    description: "Description",
     openingDetails: "Opening Details",
     chargerType: "Charger Type",
-    chargingFor : "Charger For"
+
+    // chargingFor: "Charger For",
+    // description: "Description",
   }
 
+  const sectionTitles2 = {
+    chargingFor: "Charger For",
+    slotDate: "Slot Date",
+  }
+  const sectionTitles4 = {
+    description: "Description"
+  }
   const imageTitles = {
     coverImage: "Cover Gallery",
     galleryImages: "Station Gallery",
@@ -127,18 +136,20 @@ const StationDetails = () => {
     status: bookingDetails?.status === 1 ? "Active" : "Un-Active",
   };
 
-  const sectionContent = {
-    openingDetails: getFormattedOpeningHours(bookingDetails),
+  const sectionContent1 = {
     address: bookingDetails?.address,
-    description: bookingDetails?.description,
-    chargerType: bookingDetails?.charger_type ,
-    chargingFor: bookingDetails?.charging_for,
-    // coverImage: bookingDetails?.station_image,
-    // galleryImages: imageGallery,
-    // baseUrl: baseUrl,
-    slotDate: moment(bookingDetails?.slot_date_time).format('DD MMM YYYY h:mm A'),
+    openingDetails: getFormattedOpeningHours(bookingDetails),
+    chargerType: bookingDetails?.charger_type,
+
   }
 
+  const sectionContent2 = {
+    chargingFor: bookingDetails?.charging_for,
+    slotDate: moment(bookingDetails?.slot_date_time).format('DD MMM YYYY h:mm A'),
+  }
+  const sectionContent4 = {
+    description: bookingDetails?.description,
+  }
   const imageContent = {
     coverImage: bookingDetails?.station_image,
     galleryImages: imageGallery,
@@ -148,19 +159,21 @@ const StationDetails = () => {
 
   return (
     <div className={styles.appSignupSection}>
-      <BookingDetailsHeader 
-       content={content} titles={headerTitles}
-       type = 'publicChargingStation'
+      <BookingDetailsHeader
+        content={content} titles={headerTitles}
+        type='publicChargingStation'
       />
-      <BookingDetailsSection 
-        titles = {sectionTitles} content = {sectionContent}
-        type = 'publicChargingStation'
-      />
+      <div className={styles.ChargerDetailsSection}>
+        <BookingLeftDetails titles={sectionTitles1} content={sectionContent1}
+          sectionTitles2={sectionTitles2} sectionContent2={sectionContent2}
+          sectionTitles4={sectionTitles4} sectionContent4={sectionContent4}
+          type='portableChargerBooking' />
 
-<BookingImageSection 
-        titles = {imageTitles} content = {imageContent}
-        type = 'publicChargingStation'
-      />
+        <BookingImageSection
+          titles={imageTitles} content={imageContent}
+          type='publicChargingStation'
+        />
+      </div>
     </div>
   )
 }

@@ -95,7 +95,7 @@ const SignupList = () => {
             options: [
                 { value: '', label: 'Select Device' },
                 { value: 'Android', label: 'Android' },
-                { value: 'IOS', label: 'IOS' }
+                { value: 'iOS', label: 'iOS' }
             ]
         },
         

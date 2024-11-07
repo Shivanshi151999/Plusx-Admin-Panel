@@ -6,7 +6,7 @@ const BookingImageSection = ({ titles, content, type }) => {
     const baseUrl = content.baseUrl;
     return (
         <div className={styles.ImageMainSection}>
-            <div className="container-fluid">
+            <div className={styles.imageMainContainer}>
                 <div className={styles.infoSection}>
                     <div className="col-xl-3 col-lg-6 col-12">
                         <div className={styles.infoBlock}>

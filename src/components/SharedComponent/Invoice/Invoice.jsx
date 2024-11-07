@@ -98,7 +98,7 @@ const Invoice = ({ title, service, details }) => {
                                     </table>
                                 </td>
                             </tr>
-                            <tr className={styles.serviceItem}>
+                            {/* <tr className={styles.serviceItem}>
                                 <td style={{ width: '60%', textAlign: 'left' }}>
                                     <p className={styles.totalAmountLabel}>VAT:</p>
                                 </td>
@@ -107,7 +107,7 @@ const Invoice = ({ title, service, details }) => {
                                         AED 0.00
                                     </p>
                                 </td>
-                            </tr>
+                            </tr> */}
                             <tr className={styles.serviceItem}>
                                 <td style={{ width: '60%', textAlign: 'left' }}>
                                     <p className={styles.totalAmountLabel}>Total Amount:</p>
