@@ -1,143 +1,137 @@
 /* Sidebar styles */
 .sidebar {
-    width: 260px;
-    background-color: #000000;
-    color: white;
-    height: 100vh;
-    overflow: scroll;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-    font-family: "Inter", sans-serif !important;    
-  }
-  .sidebar::-webkit-scrollbar {
-    display: none; /* For Chrome, Safari, and Opera */
-  }
-  .subMenu{
-    text-decoration: none !important;
-    padding-left: 0rem !important;
-    list-style-type: none !important;
-    padding: 8px 0px;
-    display: flex;
-    flex-direction: column;
-    row-gap: 6px;
-  }
-  .subMenu li{
-    display: flex;
-    column-gap: 10px;
-    justify-content: start;
-    align-items: center;
-  }
-  .logo{
-    display: flex;
-    justify-content: center;
-    padding: 22px 0px 10px;
-  }
-  /* Logo */
-  .logo img {
-    display: block;
-    max-width: 100%;
-  }
-  
-  /* Menu list styles */
-  .menuList {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  .menuItem {
-    padding: 10px 0;
-    font-size: 14px;
-    border-bottom: 2px dashed #ffffff;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    cursor: pointer;
-  }
-  .menuItem a {
-    text-decoration: none;
-    color: #ffffff !important; 
-    transition: color 0.3s ease;
-  }
-  
-  .menuItem a:hover {
-    color: #00ffc3 !important; 
-  }
-  
-  .menuItem a.active {
-    color: #00ffc3 !important;
-  }
-  
-  .menuItemdropdown {
-    cursor: pointer;
-  }
-  
-  .menuItemdropdown.active {
-    color: #00ffc3 !important;
-  }
-  
-  .menuItemdropdown{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    cursor: pointer;
-  }
-  .menuItemDiv{
-    display: flex;
-    flex-direction: column;
-    padding: 10px 0;
-    font-size: 14px;
-    border-bottom: 2px dashed #ffffff;
+  width: 260px;
+  background-color: #000000;
+  color: white;
+  height: 100vh;
+  overflow: scroll;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  font-family: "Inter", sans-serif !important;
+}
+.sidebar::-webkit-scrollbar {
+  display: none; /* For Chrome, Safari, and Opera */
+}
+.subMenu {
+  text-decoration: none !important;
+  padding-left: 0rem !important;
+  list-style-type: none !important;
+  padding: 8px 0px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 6px;
+}
+.subMenu li {
+  display: flex;
+  column-gap: 10px;
+  justify-content: start;
+  align-items: center;
+}
+.logo {
+  display: flex;
+  justify-content: center;
+  padding: 22px 0px 10px;
+}
+/* Logo */
+.logo img {
+  display: block;
+  max-width: 100%;
+}
 
-  }
-  .checkboxInput {
-    margin-right: 10px;
-  } 
-  .arrow {
-    font-size: 12px;
-    font-weight: 800;
-  }
-  .checkboxInput {
-    display: none;
-  }
-  
-  .checkmark {
-    position: relative;
-    display: inline-block;
-    width: 16px;
-    height: 16px;
-    border: 1px solid #00ffc3;
-    border-radius: 2px; 
-    cursor: pointer; 
-    background-color: #000000;
-    transition: background-color 0.3s, border-color 0.3s; 
-  }
-a{
+/* Menu list styles */
+.menuList {
+  list-style-type: none;
+  padding: 0;
+}
+
+.menuItem {
+  padding: 10px 0;
+  font-size: 14px;
+  border-bottom: 2px dashed #ffffff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  text-decoration: none;
+  color: #ffffff;
+  transition: color 0.3s ease;
+}
+
+.menuItem:hover,
+.menuItem:focus,
+.menuItem.active {
+  color: #00ffc3 !important;
+}
+
+.menuItemdropdown {
+  cursor: pointer;
+}
+
+.menuItemdropdown.active {
+  color: #00ffc3 !important;
+}
+
+.menuItemdropdown {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+.menuItemDiv {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 0;
+  font-size: 14px;
+  border-bottom: 2px dashed #ffffff;
+}
+.checkboxInput {
+  margin-right: 10px;
+}
+.arrow {
+  font-size: 12px;
+  font-weight: 800;
+}
+.checkboxInput {
+  display: none;
+}
+
+.checkmark {
+  position: relative;
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 1px solid #00ffc3;
+  border-radius: 2px;
+  cursor: pointer;
+  background-color: #000000;
+  transition: background-color 0.3s, border-color 0.3s;
+}
+a {
   color: #ffffff !important;
 }
-  /* Style when checkbox is checked */
-  .checkboxInput:checked + .checkmark {
-    background-color: #00ffc3; /* Background color when checked */
-    border-color:#00ffc3   ; /* Darker border when checked */
+/* Style when checkbox is checked */
+.checkboxInput:checked + .checkmark {
+  background-color: #00ffc3; /* Background color when checked */
+  border-color: #00ffc3; /* Darker border when checked */
+}
+
+/* Checkmark */
+.checkmark::after {
+  content: "";
+  position: absolute;
+  display: none; /* Hide by default */
+}
+
+/* Show checkmark when checked */
+.checkboxInput:checked + .checkmark::after {
+  display: block; /* Show the checkmark */
+}
+
+/* Optional: Add responsive styles if needed */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%;
   }
-  
-  /* Checkmark */
-  .checkmark::after {
-    content: "";
-    position: absolute;
-    display: none; /* Hide by default */
-  }
-  
-  /* Show checkmark when checked */
-  .checkboxInput:checked + .checkmark::after {
-    display: block; /* Show the checkmark */
-  }
-  
-  /* Optional: Add responsive styles if needed */
-  @media (max-width: 768px) {
-    .sidebar {
-      width: 100%;
-    }
-  }
-  
+}
