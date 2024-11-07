@@ -5,7 +5,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import dayjs from 'dayjs';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import { postRequestWithToken } from '../../../api/Requests';
-import { toast } from 'react-toastify';
+import { toast,ToastContainer } from 'react-toastify';
 import { useNavigate, useParams } from 'react-router-dom';
 import moment from 'moment';
 
@@ -71,7 +71,7 @@ const EditPickAndDropTimeSlot = () => {
 
     const handleBookingLimitChange = (e) => {
         const value = e.target.value;
-        if (/^\d{0,5}$/.test(value)) {
+        if (/^\d{0,4}$/.test(value)) {
             setBookingLimit(value);
             setErrors((prev) => ({ ...prev, bookingLimit: "" }));
         }
@@ -116,15 +116,20 @@ const EditPickAndDropTimeSlot = () => {
                 email: userDetails?.email,
                 slot_id: slotId,
                 status: isActive ? "1" : "0",
-                start_time: startTime ? dayjs(startTime).format("HH:mm") : '',
-                end_time: endTime ? dayjs(endTime).format("HH:mm") : '',
+                slot_date: moment(startDate).format('DD-MM-YYYY'),
+                // slot_date: startDate,
+                start_time: startTime ,
+                end_time: endTime ,
                 booking_limit: bookingLimit
             };
 
-            postRequestWithToken('charger-edit-time-slot', obj, (response) => {
+            postRequestWithToken('pick-and-drop-edit-slot', obj, (response) => {
                 if (response.code === 200) {
-                    toast(response.message, { type: "success" });
-                    navigate('/pick-and-drop/time-slot-list');
+                    toast(response.message[0] || response.message, { type: "success" });
+                   
+                    setTimeout(() => {
+                        navigate('/pick-and-drop/time-slot-list');
+                    },2000)
                 } else {
                     console.log('error in charger-edit-time-slot API', response);
                 }
@@ -140,6 +145,7 @@ const EditPickAndDropTimeSlot = () => {
 
     return (
         <div className={styles.containerCharger}>
+             <ToastContainer/>
             <h2 className={styles.title}>Edit Slot</h2>
             <div className={styles.chargerSection}>
                 <form className={styles.form} onSubmit={handleSubmit}>

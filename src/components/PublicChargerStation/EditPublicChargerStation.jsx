@@ -178,19 +178,19 @@ const EditPublicChargerStation = () => {
             formIsValid = false;
         }
 
-        if (!isAlwaysOpen) {
-            const firstDay = Object.keys(timeSlots)[0];
-            const firstDayTimes = timeSlots[firstDay];
+        // if (!isAlwaysOpen) {
+        //     const firstDay = Object.keys(timeSlots)[0];
+        //     const firstDayTimes = timeSlots[firstDay];
 
-            if (!firstDayTimes.open) {
-                newErrors[`${firstDay}OpenTime`] = "Open time is required.";
-                formIsValid = false;
-            }
-            if (!firstDayTimes.close) {
-                newErrors[`${firstDay}CloseTime`] = "Close time is required.";
-                formIsValid = false;
-            }
-        }
+        //     if (!firstDayTimes.open) {
+        //         newErrors[`${firstDay}OpenTime`] = "Open time is required.";
+        //         formIsValid = false;
+        //     }
+        //     if (!firstDayTimes.close) {
+        //         newErrors[`${firstDay}CloseTime`] = "Close time is required.";
+        //         formIsValid = false;
+        //     }
+        // }
 
 
         if (!isAlwaysOpen) {
@@ -253,7 +253,7 @@ const EditPublicChargerStation = () => {
             formData.append("address", address);
             formData.append("latitude", latitude);
             formData.append("longitude", longitude);
-            formData.append("status", status === true ? 1 : 0);
+            formData.append("status", isActive === true ? 1 : 0);
 
             if (price) {
                 formData.append("price", price.value);
@@ -343,7 +343,7 @@ const EditPublicChargerStation = () => {
                 setFile(data?.station_image || "");
                 setGalleryFiles(response?.gallery_data || []);
                 setIsAlwaysOpen(data?.always_open === 1 ? true : false)
-
+                setIsActive(data?.status)
                 const transformedChargingFor = (response?.result?.chargingFor || []).map(item => ({
                     label: item,
                     value: item
@@ -354,23 +354,10 @@ const EditPublicChargerStation = () => {
                     [{ label: transformedChargingFor[0].label, value: transformedChargingFor[0].value }] : [];
                 setSelectedBrands(initialSelectedBrands);
 
-                // const transformedChargingType = (response?.result?.chargerType || []).map(item => ({
-                //     label: item,
-                //     value: item
-                // }));
-
-                // setChargingType(transformedChargingType); 
-
-                // const initialChargerType = transformedChargingType.length ? 
-                //     [{ label: transformedChargingType[0].label, value: transformedChargingType[0].value }] : [];
-                //     setSelectedType(initialChargerType);
-
                 const transformedChargingType = (response?.result?.chargerType || []).map(item => ({
                     label: item,
                     value: item
                 }));
-
-                // Find the matching charger type for initial selection
                 const initialChargerType = transformedChargingType.find(item => item.value === data.charger_type) || {};
 
                 setChargingType(transformedChargingType);

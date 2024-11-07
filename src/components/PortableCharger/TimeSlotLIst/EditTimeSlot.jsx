@@ -5,7 +5,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import dayjs from 'dayjs';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import { postRequestWithToken } from '../../../api/Requests';
-import { toast } from 'react-toastify';
+import { toast,ToastContainer } from 'react-toastify';
 import { useNavigate, useParams } from 'react-router-dom';
 import moment from 'moment';
 
@@ -71,8 +71,11 @@ const EditPortableChargerTimeSlot = () => {
     };
 
     const handleBookingLimitChange = (e) => {
-        setBookingLimit(e.target.value);
-        setErrors((prev) => ({ ...prev, bookingLimit: "" }));
+        const value = e.target.value;
+        if (/^\d{0,4}$/.test(value)) {
+            setBookingLimit(value);
+            setErrors((prev) => ({ ...prev, bookingLimit: "" }));
+        }
     };
 
     const validateForm = () => {
@@ -113,15 +116,20 @@ const EditPortableChargerTimeSlot = () => {
                 email: userDetails?.email,
                 slot_id: slotId,
                 status: isActive ? "1" : "0",
+                // slot_date: moment(startDate, 'DD-MM-YYYY').format('DD-MM-YYYY'),
+                slot_date: moment(startDate).format('DD-MM-YYYY'),
                 start_time: startTime ,
                 end_time: endTime ,
                 booking_limit: bookingLimit
             };
 
-            postRequestWithToken('charger-edit-time-slo', obj, (response) => {
+            postRequestWithToken('charger-edit-time-slot', obj, (response) => {
                 if (response.code === 200) {
-                    toast(response.message, { type: "success" });
-                    navigate('/portable-charger/charger-booking-time-slot-list');
+                    toast(response.message[0] || response.message, { type: "success" });
+                    setTimeout(() => {
+                        navigate('/portable-charger/charger-booking-time-slot-list');
+                    },2000)
+
                 } else {
                     console.log('error in charger-edit-time-slot API', response);
                 }
@@ -137,6 +145,7 @@ const EditPortableChargerTimeSlot = () => {
 
     return (
         <div className={styles.containerCharger}>
+            <ToastContainer/>
             <h2 className={styles.title}>Edit Slot</h2>
             <div className={styles.chargerSection}>
                 <form className={styles.form} onSubmit={handleSubmit}>
