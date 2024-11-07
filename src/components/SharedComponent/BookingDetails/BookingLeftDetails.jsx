@@ -55,7 +55,7 @@ const BookingLeftDetails = ({ titles, content, sectionTitles2, sectionContent2, 
             {shouldRenderFourthSection && (
             <div className={styles.bookingDescriptionContainer}>
                 
-                    <div className={`row ${styles.customRow}`}>
+                    <div className="row">
                         {Object.keys(sectionContent4).map((key) => (
                             <div className={`${styles.detailItem} col-12`} key={key}>
                                 <span className={styles.label}>{sectionTitles4[key] || key}</span>
