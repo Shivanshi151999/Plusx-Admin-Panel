@@ -13,7 +13,7 @@ const AccordionFilter = ({ type, isOpen, fetchFilteredData, dynamicFilters, filt
         if (isOpen) {
             setShowContent(true);
         } else {
-            const timer = setTimeout(() => setShowContent(false), 300); // delay before hiding
+            const timer = setTimeout(() => setShowContent(false), 300); 
             return () => clearTimeout(timer);
         }
     }, [isOpen]);
@@ -25,7 +25,7 @@ const AccordionFilter = ({ type, isOpen, fetchFilteredData, dynamicFilters, filt
 
     const handleBlur = () => {
         fetchFilteredData(filterValues);
-        setIsOpenDropdown(false); // Close dropdown on blur
+        setIsOpenDropdown(false); 
     };
 
     const handleDateChange = (range) => {

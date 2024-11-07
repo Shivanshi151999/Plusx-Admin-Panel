@@ -127,7 +127,12 @@
   }
   
   .alwaysOpen label {
-   font-size: 18px;
+    font-size: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    column-gap: 12px;
+    cursor: pointer;
   }
   
   .dayRow {
@@ -440,23 +445,19 @@ background-color: #242424;
   background-color: #000000;
   transition: background-color 0.3s, border-color 0.3s; 
 }
-a{
-color: #ffffff !important;
-}
 /* Style when checkbox is checked */
 .checkboxInput:checked + .checkmark {
-  background-color: #00ffc3; /* Background color when checked */
-  border-color:#00ffc3   ; /* Darker border when checked */
+  background-color: #00ffc3; 
+  border-color:#00ffc3 ; 
 }
 
 /* Checkmark */
 .checkmark::after {
   content: "";
   position: absolute;
-  display: none; /* Hide by default */
+  display: none; 
 }
 
-/* Show checkmark when checked */
 .checkboxInput:checked + .checkmark::after {
-  display: block; /* Show the checkmark */
+  display: block; 
 }

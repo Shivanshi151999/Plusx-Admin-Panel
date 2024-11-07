@@ -538,13 +538,17 @@ const EditPublicChargerStation = () => {
                     </div>
                     <div className={styles.scheduleSection}>
                         <div className={styles.alwaysOpen}>
-                            <input
-                                type="checkbox"
-                                id="alwaysOpen"
-                                checked={isAlwaysOpen}
-                                onChange={handleAlwaysOpenChange}
-                            />
-                            <label htmlFor="alwaysOpen">Always Open</label>
+                            <label className={styles.checkboxLabel}>
+                                <input
+                                    className={styles.checkboxInput}
+                                    type="checkbox"
+                                    id="alwaysOpen"
+                                    checked={isAlwaysOpen}
+                                    onChange={handleAlwaysOpenChange}
+                                />
+                                <span className={styles.checkmark}></span>
+                                <div className={styles.checkboxText}>Always Open</div>
+                            </label>
                         </div>
 
 
