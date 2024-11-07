@@ -84,7 +84,7 @@ const SignupList = () => {
                 { value: '', label: 'Select Location' },
                 ...emiratesList.map(emirate => ({
                     value: emirate.emirates,
-                    label: emirate.emirates || 'Select Emirate'
+                    label: emirate.emirates
                 }))
             ]
         },

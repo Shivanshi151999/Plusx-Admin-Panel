@@ -24,12 +24,22 @@ const ChargerInstallationList = () => {
     const [chargerInstallationList, setChargerInstallationList] = useState([])
     const [currentPage, setCurrentPage]                         = useState(1);
     const [totalPages, setTotalPages]                           = useState(1);
+    const [filters, setFilters]                                 = useState({});
+    
+    const searchTerm = [
+        {
+            label: 'search', 
+            name: 'search_text', 
+            type: 'text'
+        }
+    ]
 
-    const fetchList = (page) => {
+    const fetchList = (page, appliedFilters = {}) => {
         const obj = {
             userId  : userDetails?.user_id,
             email   : userDetails?.email,
-            page_no : page
+            page_no : page,
+            ...appliedFilters,
         }
         postRequestWithToken('charger-installation-list', obj, async(response) => {
             if (response.code === 200) {
@@ -47,8 +57,13 @@ const ChargerInstallationList = () => {
             navigate('/login'); 
             return; 
         }
-        fetchList(currentPage);
-    }, [currentPage]);
+        fetchList(currentPage, filters);
+    }, [currentPage, filters]);
+
+    const fetchFilteredData = (newFilters = {}) => {
+        setFilters(newFilters);  
+        setCurrentPage(1); 
+    };
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -56,7 +71,11 @@ const ChargerInstallationList = () => {
 
     return (
         <div className={styles.chargerInstallationSection}>
-            <SubHeader heading = "Charger Installation List"/>
+            <SubHeader heading = "Charger Installation List"
+            filterValues={filters}
+            fetchFilteredData={fetchFilteredData} 
+            searchTerm = {searchTerm}
+            />
             <List 
                 tableHeaders={["Date","Request ID", "Customer Name", "Service Type", "Vehicle Model",  "Status", "Action"]}
                 listData = {chargerInstallationList}

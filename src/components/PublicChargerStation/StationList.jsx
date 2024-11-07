@@ -18,7 +18,13 @@ const StationList = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [filters, setFilters] = useState({});
-
+    const searchTerm = [
+        {
+            label: 'search', 
+            name: 'search_text', 
+            type: 'text'
+        }
+    ]
     const addButtonProps = {
         heading: "Add Public Charger",
         link: "/add-charger-station"
@@ -65,6 +71,7 @@ const StationList = () => {
                 addButtonProps={addButtonProps}
                 fetchFilteredData={fetchFilteredData}
                 dynamicFilters={dynamicFilters} filterValues={filters}
+                searchTerm = {searchTerm}
             />
             {stationList.length === 0 ? (
                 <div className={styles.stationContainer} style={{color: 'red'}}>No data available</div>

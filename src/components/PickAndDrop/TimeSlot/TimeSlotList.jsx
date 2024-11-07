@@ -14,17 +14,27 @@ const TimeSlotList = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [refresh, setRefresh] = useState(false)
+    const [filters, setFilters] = useState({});
+    
+    const searchTerm = [
+        {
+            label: 'search', 
+            name: 'search_text', 
+            type: 'text'
+        }
+    ]
 
     const addButtonProps = {
         heading: "Add Slot", 
         link: "/pick-and-drop/add-time-slot"
     };
 
-    const fetchList = (page) => {
+    const fetchList = (page, appliedFilters = {}) => {
         const obj = {
             userId : userDetails?.user_id,
             email : userDetails?.email,
-            page_no : page
+            page_no : page,
+            ...appliedFilters,
         }
 
         postRequestWithToken('pick-and-drop-slot-list', obj, async(response) => {
@@ -43,8 +53,13 @@ const TimeSlotList = () => {
             navigate('/login'); 
             return; 
         }
-        fetchList(currentPage);
-    }, [currentPage, refresh]);
+        fetchList(currentPage, filters);
+    }, [currentPage, filters, refresh]);
+
+    const fetchFilteredData = (newFilters = {}) => {
+        setFilters(newFilters);  
+        setCurrentPage(1); 
+    };
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -72,7 +87,12 @@ const TimeSlotList = () => {
 
     return (
         <>
-         <SubHeader heading = "Pick & Drop Time Slot List" addButtonProps={addButtonProps}/>
+         <SubHeader heading = "Pick & Drop Time Slot List" 
+         addButtonProps={addButtonProps}
+         filterValues={filters}
+         fetchFilteredData={fetchFilteredData} 
+         searchTerm = {searchTerm}
+         />
         <List 
         tableHeaders={["Slot ID", "Timing", "Total Booking", "Booking Limit", "Status", "Action"]}
         listData = {timeSlotList}
@@ -99,7 +119,7 @@ const TimeSlotList = () => {
               label: 'Booking Limit',  
               
           } ,
-          { key: 'status', label: 'Status', format: (status) => (status === 1 ? "Active" : "Un-active") } 
+          { key: 'status', label: 'Status', format: (status) => (status === 1 ? "Active" : "Inactive") } 
       ]}
         pageHeading="Pick & Drop Time Slot List"
         onDeleteSlot={handleDeleteSlot}

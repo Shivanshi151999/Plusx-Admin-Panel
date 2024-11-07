@@ -107,7 +107,7 @@ const ChargerList = () => {
                         label: 'Charger Price', 
                         format: (price) => (price ? `AED ${price}` : '') 
                     },
-                    { key: 'status', label: 'Status', format: (status) => (status === 1 ? "Active" : "In-active") } 
+                    { key: 'status', label: 'Status', format: (status) => (status === 1 ? "Active" : "Inactive") } 
                 ]}
                 pageHeading="Portable Charger List"
                 onDeleteSlot={handleDeleteSlot}

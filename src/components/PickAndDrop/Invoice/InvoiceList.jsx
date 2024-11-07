@@ -13,12 +13,22 @@ const InvoiceList = () => {
     const [invoiceList, setInvoiceList] = useState([])
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const [filters, setFilters] = useState({});
+    
+    const searchTerm = [
+        {
+            label: 'search', 
+            name: 'search_text', 
+            type: 'text'
+        }
+    ]
 
-    const fetchList = (page) => {
+    const fetchList = (page, appliedFilters = {}) => {
         const obj = {
             userId : userDetails?.user_id,
             email : userDetails?.email,
-            page_no : page
+            page_no : page,
+            ...appliedFilters
         }
 
         postRequestWithToken('pick-and-drop-invoice-list', obj, async(response) => {
@@ -37,8 +47,14 @@ const InvoiceList = () => {
             navigate('/login'); 
             return; 
         }
-        fetchList(currentPage);
-    }, [currentPage]);
+        fetchList(currentPage, filters);
+    }, [currentPage, filters]);
+
+    const fetchFilteredData = (newFilters = {}) => {
+        setFilters(newFilters);  
+        setCurrentPage(1); 
+    };
+
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -46,7 +62,11 @@ const InvoiceList = () => {
 
     return (
         <>
-         <SubHeader heading = "Pick & Drop Invoice List"/>
+         <SubHeader heading = "Pick & Drop Invoice List"
+         filterValues={filters}
+         fetchFilteredData={fetchFilteredData} 
+         searchTerm = {searchTerm}
+         />
         <List 
         tableHeaders={["Invoice Date", "Invoice ID", "Customer Name", "Amount", "Status", "Action"]}
           listData = {invoiceList}

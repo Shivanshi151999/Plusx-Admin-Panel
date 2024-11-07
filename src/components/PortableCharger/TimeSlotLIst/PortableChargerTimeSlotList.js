@@ -15,16 +15,26 @@ const PortableChargerTimeSlotList = () => {
     const [currentPage, setCurrentPage]   = useState(1);
     const [totalPages, setTotalPages]     = useState(1);
     const [refresh, setRefresh]           = useState(false)
+    const [filters, setFilters] = useState({});
+    
+    const searchTerm = [
+        {
+            label: 'search', 
+            name: 'search_text', 
+            type: 'text'
+        }
+    ]
 
     const addButtonProps = {
         heading : "Add Slot", 
         link    : '/portable-charger/add-time-slot'
     };
-    const fetchList = (page) => {
+    const fetchList = (page, appliedFilters = {}) => {
         const obj = {
             userId  : userDetails?.user_id,
             email   : userDetails?.email,
-            page_no : page
+            page_no : page,
+            ...appliedFilters,
         }
         postRequestWithToken('charger-slot-list', obj, async(response) => {
             if (response.code === 200) {
@@ -42,12 +52,18 @@ const PortableChargerTimeSlotList = () => {
             navigate('/login'); 
             return; 
         }
-        fetchList(currentPage);
-    }, [currentPage, refresh]);
+        fetchList(currentPage, filters);
+    }, [currentPage, filters, refresh]);
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
+
+    const fetchFilteredData = (newFilters = {}) => {
+        setFilters(newFilters);  
+        setCurrentPage(1); 
+    };
+    
     const handleDeleteSlot = (slotId) => {
         const confirmDelete = window.confirm("Are you sure you want to delete this slot?");
         if (confirmDelete) {
@@ -70,7 +86,13 @@ const PortableChargerTimeSlotList = () => {
     return (
         <>
         <ToastContainer />
-        <SubHeader heading = "Portable Charger Slot List" addButtonProps={addButtonProps}/>
+        <SubHeader 
+        heading = "Portable Charger Slot List" 
+        addButtonProps={addButtonProps}
+        filterValues={filters}
+        fetchFilteredData={fetchFilteredData} 
+        searchTerm = {searchTerm}
+        />
         <List 
          list = 'time slot'
         tableHeaders={["Slot ID", "Timing", "Booking Limit", "Total Booking", "Remaining Booking", "Status", "Action"]}
