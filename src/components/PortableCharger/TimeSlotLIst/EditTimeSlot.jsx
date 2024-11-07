@@ -59,13 +59,13 @@ const EditPortableChargerTimeSlot = () => {
     };
 
     const handleStartTimeChange = (e) => {
-        const formattedTime = e.target.value; // Get the value as HH:mm
+        const formattedTime = e.target.value; 
         setStartTime(formattedTime);
         setErrors((prev) => ({ ...prev, startTime: "" }));
     };
 
     const handleEndTimeChange = (e) => {
-        const formattedTime = e.target.value; // Get the value as HH:mm
+        const formattedTime = e.target.value; 
         setEndTime(formattedTime);
         setErrors((prev) => ({ ...prev, endTime: "" }));
     };
