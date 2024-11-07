@@ -72,6 +72,7 @@ const PortableChargerTimeSlotList = () => {
         <ToastContainer />
         <SubHeader heading = "Portable Charger Slot List" addButtonProps={addButtonProps}/>
         <List 
+         list = 'time slot'
         tableHeaders={["Slot ID", "Timing", "Booking Limit", "Total Booking", "Remaining Booking", "Status", "Action"]}
           listData = {timeSlotList}
           keyMapping={[
@@ -92,7 +93,14 @@ const PortableChargerTimeSlotList = () => {
                     return `${formattedStart} - ${formattedEnd}`;
                 }
             },
+<<<<<<< Updated upstream
             
+=======
+            // { key: 'total_booking', 
+            //     label: 'Total Booking',
+            //     format: (limit) => (limit ? ` ${limit}` : '0') 
+            // },
+>>>>>>> Stashed changes
             { 
                 key: 'booking_limit', 
                 label: 'Booking Limit',  

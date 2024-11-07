@@ -7,7 +7,7 @@ import View from '../../../assets/images/ViewEye.svg'
 import { useNavigate } from 'react-router-dom';
 
 
-const List = ({tableHeaders, listData, keyMapping, pageHeading, onDeleteSlot}) => {
+const List = ({list, tableHeaders, listData, keyMapping, pageHeading, onDeleteSlot}) => {
 
     const navigate = useNavigate()
 
@@ -66,6 +66,13 @@ const List = ({tableHeaders, listData, keyMapping, pageHeading, onDeleteSlot}) =
                     
                 </thead>
                 <tbody>
+                     {
+                        list === 'time slot' ? 
+                        <tr>
+                        <span className={styles.listSpan}>Date:12-12-2024</span>
+                        </tr> : ''
+                       }
+                   
                     {listData.map((data, index) => (
                         <tr key={index}>
                            {keyMapping.map((keyObj, keyIndex) => (

@@ -60,3 +60,13 @@
 }
 
 
+.listSpan{
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 14px;
+    position: relative;
+    top: 12px;
+    font-weight: 500;
+    color: #00ffcc;
+    background-color: #000000;
+}

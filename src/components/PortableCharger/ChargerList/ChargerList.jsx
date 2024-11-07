@@ -97,7 +97,7 @@ const ChargerList = () => {
             <ToastContainer />
             <List
                 // heading="Charger List"
-                tableHeaders={["Booking ID", "Charger Name", "Charger Price", "Status", "Action"]}
+                tableHeaders={["Charger ID", "Charger Name", "Charger Price", "Status", "Action"]}
                 listData={chargerList}
                 keyMapping={[
                     { key: 'charger_id', label: 'Booking ID' }, 
