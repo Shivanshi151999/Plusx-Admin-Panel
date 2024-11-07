@@ -1,25 +1,27 @@
-import React, { useEffect, useState } from 'react';
-import Graph from './Graph/Graph'
-import Cards from './Cards/Cards'
-import { toast, ToastContainer } from "react-toastify";
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
+import Graph from "./Graph/Graph";
+import DashboardCardItem from "./DashboardCard/DashboardCard";
+
+import style from "./index.module.css";
 
 function Index() {
-  const userDetails = JSON.parse(sessionStorage.getItem('userDetails')); 
-  const navigate = useNavigate()
+  const userDetails = JSON.parse(sessionStorage.getItem("userDetails"));
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!userDetails || !userDetails.access_token) {
-        navigate('/login'); 
-        return; 
+      navigate("/login");
+      return;
     }
-}, []);
+  }, []);
 
   return (
-    <>
-    <Graph />
-    <Cards/>
-    </>
+    <div className={style.dashboard}>
+      <Graph />
+      <DashboardCardItem />
+    </div>
   );
 }
 

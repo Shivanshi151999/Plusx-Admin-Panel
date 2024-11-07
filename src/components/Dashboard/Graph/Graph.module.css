@@ -1,0 +1,36 @@
+.graph {
+  padding: 20px;
+}
+
+.graphContainer {
+  border: 1.5px solid #00ffc3;
+  background-color: #000000;
+  border-radius: 20px;
+}
+
+.graphHeadingGroup {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.graphHeading {
+  color: #00ffc3;
+  padding-top: 20px;
+  padding-left: 20px;
+  font-size: 25px;
+}
+
+.menu {
+  color: #fff !important;
+  padding-right: 20px;
+}
+
+.chartTime {
+  color: #fff;
+  padding-left: 23px;
+}
+
+.chart {
+  padding: 20px;
+}

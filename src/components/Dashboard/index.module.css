@@ -1,0 +1,8 @@
+.dashboard {
+  background-color: #242424;
+  height: 94.2vh;
+  overflow: scroll;
+}
+.dashboard::-webkit-scrollbar {
+  display: none;
+}
