@@ -93,19 +93,19 @@ const PortableChargerTimeSlotList = () => {
                 }
             },
             
-            // { 
-            //     key: 'booking_limit', 
-            //     label: 'Booking Limit',  
+            { 
+                key: 'booking_limit', 
+                label: 'Booking Limit',  
                 
-            // },
+            },
             { key: 'total_booking', 
                 label: 'Total Booking',
                 format: (limit) => (limit ? ` ${limit}` : '0') 
             },
-             { key   : 'total_booking', 
-                label  : 'Total Booking',
-                format : (limit) => (limit ? ` ${limit}` : '0') 
-            }, 
+            //  { key   : 'total_booking', 
+            //     label  : 'Total Booking',
+            //     format : (limit) => (limit ? ` ${limit}` : '0') 
+            // }, 
             { 
                 key   : 'slot_booking_count', 
                 label : 'Remaining Booking',  

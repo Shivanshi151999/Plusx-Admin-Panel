@@ -117,7 +117,7 @@ const AddPickAndDropTimeSlot = () => {
             const obj = {
                 userId: userDetails?.user_id,
                 email: userDetails?.email,
-                date: timeSlots.map(slot => slot.date ? dayjs(slot.date).format("DD-MM-YYYY") : ''),
+                slot_date: timeSlots.map(slot => slot.date ? dayjs(slot.date).format("DD-MM-YYYY") : ''),
                 start_time: timeSlots.map(slot => slot.startTime),
                 end_time: timeSlots.map(slot => slot.endTime),
                 booking_limit: timeSlots.map(slot => slot.bookingLimit),

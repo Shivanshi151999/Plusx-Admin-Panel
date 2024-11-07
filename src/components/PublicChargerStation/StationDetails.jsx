@@ -101,16 +101,15 @@ const StationDetails = () => {
   const headerTitles = {
     bookingIdTitle: "Service ID",
     stationDetailsTitle: "Station Details",
-    feeDetailsTitle: "Fee Details Details",
+    feeDetailsTitle: "Fee Details",
   };
 
   const sectionTitles = {
     address: "Address",
     description: "Description",
     openingDetails: "Opening Details",
-    // coverImage: "Cover Gallery",
-    // galleryImages: "Station Gallery",
-    // baseUrl: "Base Url"
+    chargerType: "Charger Type",
+    chargingFor : "Charger For"
   }
 
   const imageTitles = {
@@ -123,8 +122,6 @@ const StationDetails = () => {
     bookingId: bookingDetails?.station_id,
     createdAt: moment(bookingDetails?.created_at).format('DD MMM YYYY'),
     stationName: bookingDetails?.station_name,
-    chargerType: bookingDetails?.charger_type ,
-    chargingFor: bookingDetails?.charging_for,
     price: bookingDetails?.price,
     chargingPoint: bookingDetails?.charging_point,
     status: bookingDetails?.status === 1 ? "Active" : "Un-Active",
@@ -134,6 +131,8 @@ const StationDetails = () => {
     openingDetails: getFormattedOpeningHours(bookingDetails),
     address: bookingDetails?.address,
     description: bookingDetails?.description,
+    chargerType: bookingDetails?.charger_type ,
+    chargingFor: bookingDetails?.charging_for,
     // coverImage: bookingDetails?.station_image,
     // galleryImages: imageGallery,
     // baseUrl: baseUrl,
