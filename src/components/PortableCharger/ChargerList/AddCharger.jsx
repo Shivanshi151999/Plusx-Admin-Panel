@@ -120,8 +120,9 @@ const AddPortableCharger = () => {
             <h2 className={styles.title}>Add Charger</h2>
             <div className={styles.chargerSection}>
                 <form className={styles.form} onSubmit={handleSubmit}>
+                <ToastContainer />
                     <div className={styles.row}>
-                        <ToastContainer />
+                        
                         <div className={styles.inputGroup}>
                             <label className={styles.label}>Charger Name</label>
                             <input

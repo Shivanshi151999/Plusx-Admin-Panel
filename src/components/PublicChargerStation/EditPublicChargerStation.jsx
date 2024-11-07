@@ -8,12 +8,12 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { postRequestWithTokenAndFile, postRequestWithToken } from '../../api/Requests';
 
 const EditPublicChargerStation = () => {
-    const {stationId} = useParams()
+    const { stationId } = useParams()
     const userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
     const navigate = useNavigate();
     const [details, setDetails] = useState()
     const [file, setFile] = useState(null);
-    const [galleryFiles, setGalleryFiles] = useState([]); 
+    const [galleryFiles, setGalleryFiles] = useState([]);
     const [errors, setErrors] = useState({});
     const [selectedBrands, setSelectedBrands] = useState([]);
     const [selectedType, setSelectedType] = useState([])
@@ -43,9 +43,9 @@ const EditPublicChargerStation = () => {
 
 
     const handleTimeChange = (day, timeType) => (event) => {
-       
+
         const value = event.target.value.replace(/[^0-9:-]/g, '');
-    
+
         setTimeSlots((prev) => {
             const updatedTimeSlots = {
                 ...prev,
@@ -55,33 +55,33 @@ const EditPublicChargerStation = () => {
                 },
             };
             if (timeType === 'open') {
-                updatedTimeSlots[day].closeMandatory = !!value; 
+                updatedTimeSlots[day].closeMandatory = !!value;
             } else if (timeType === 'close') {
                 updatedTimeSlots[day].openMandatory = !!value;
             }
-    
+
             return updatedTimeSlots;
         });
     };
-    
+
 
     const brandDropdownRef = useRef(null);
     const serviceDropdownRef = useRef(null);
-  
+
     const handleAlwaysOpenChange = (event) => {
         setIsAlwaysOpen(event.target.checked);
     };
 
     const [selectedService, setSelectedService] = useState(null);
-    
+
     const handleChargingFor = (selectedOptions) => {
-        setSelectedBrands(selectedOptions); 
+        setSelectedBrands(selectedOptions);
     };
     const handleServiceChange = (selectedOption) => setSelectedService(selectedOption);
-    
+
     const handleChargingType = (selectedOption) => {
         setSelectedType(selectedOption);
-    };    
+    };
 
     const [price, setPrice] = useState(null);
     const priceOptions = [
@@ -119,7 +119,7 @@ const EditPublicChargerStation = () => {
         setGalleryFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
     };
 
-   
+
     useEffect(() => {
         return () => {
             galleryFiles.forEach((image) => URL.revokeObjectURL(image));
@@ -134,7 +134,7 @@ const EditPublicChargerStation = () => {
             newErrors.stationName = "Station Name is required.";
             formIsValid = false;
         }
-        
+
         if (!selectedType || selectedType.length === 0) {
             newErrors.chargerType = "Charging Type is required.";
             formIsValid = false;
@@ -179,19 +179,19 @@ const EditPublicChargerStation = () => {
         }
 
         if (!isAlwaysOpen) {
-            const firstDay = Object.keys(timeSlots)[0]; 
+            const firstDay = Object.keys(timeSlots)[0];
             const firstDayTimes = timeSlots[firstDay];
-    
+
             if (!firstDayTimes.open) {
                 newErrors[`${firstDay}OpenTime`] = "Open time is required.";
                 formIsValid = false;
             }
             if (!firstDayTimes.close) {
-                newErrors[`${firstDay}CloseTime`] = "Close time is required."; 
+                newErrors[`${firstDay}CloseTime`] = "Close time is required.";
                 formIsValid = false;
             }
         }
-    
+
 
         if (!isAlwaysOpen) {
             Object.entries(timeSlots).forEach(([day, times]) => {
@@ -201,11 +201,11 @@ const EditPublicChargerStation = () => {
                 }
                 if (times.close && !times.open) {
                     newErrors[`${day}OpenTime`] = ` Open Time is required `;
-                    
+
                 }
             });
         }
-       
+
 
         setErrors(newErrors);
         return formIsValid;
@@ -213,118 +213,118 @@ const EditPublicChargerStation = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-    
+
         if (validateForm()) {
             const formattedData = isAlwaysOpen
-            ? { always_open: 1, days: [] } 
-            : Object.entries(timeSlots).reduce((acc, [day, times]) => {
-                if (times.open && times.close) {
-                    acc.days.push(day.toLowerCase());
-                    acc[`${day.toLowerCase()}_open_time`] = times.open;
-                    acc[`${day.toLowerCase()}_close_time`] = times.close;
-                }
-                return acc;
-            }, { days: [] });
-    
-        
-        const formData = new FormData();
-        formData.append("userId", userDetails?.user_id);
-        formData.append("email", userDetails?.email);
-        formData.append("station_id", stationId);
-        formData.append("station_name", stationName);
-    
-        if (selectedBrands && selectedBrands.length > 0) {
-            const selectedBrandsString = selectedBrands.map(brand => brand.value).join(', ');
-            formData.append("charging_for", selectedBrandsString);
-        }
-        if (selectedType) {
-            let selected = '';
-        
-            if (Array.isArray(selectedType)) {
-                selected = selectedType.map(type => type.value).join('');  
-            } else {
-                selected = selectedType.value;  
+                ? { always_open: 1, days: [] }
+                : Object.entries(timeSlots).reduce((acc, [day, times]) => {
+                    if (times.open && times.close) {
+                        acc.days.push(day.toLowerCase());
+                        acc[`${day.toLowerCase()}_open_time`] = times.open;
+                        acc[`${day.toLowerCase()}_close_time`] = times.close;
+                    }
+                    return acc;
+                }, { days: [] });
+
+
+            const formData = new FormData();
+            formData.append("userId", userDetails?.user_id);
+            formData.append("email", userDetails?.email);
+            formData.append("station_id", stationId);
+            formData.append("station_name", stationName);
+
+            if (selectedBrands && selectedBrands.length > 0) {
+                const selectedBrandsString = selectedBrands.map(brand => brand.value).join(', ');
+                formData.append("charging_for", selectedBrandsString);
             }
-            formData.append("charger_type", selected);
-        }
-        
-        formData.append("charging_point", chargingPoint);
-        formData.append("description", description);
-        formData.append("address", address);
-        formData.append("latitude", latitude);
-        formData.append("longitude", longitude);
-        formData.append("status", status === true ? 1 : 0);
-    
-        if (price) {
-            formData.append("price", price.value);
-        }
-    console.log('formattedData',formattedData);
-    console.log('isAlwaysOpen',isAlwaysOpen);
-    
-        formData.append("always_open", formattedData.always_open || 0);
-    
-        if (isAlwaysOpen) {
-            formData.append("days[]", formattedData.days); 
-        } else {
-            formattedData.days.forEach(day => formData.append("days[]", day));
-        }
-    
-        if (!isAlwaysOpen) {
-            Object.keys(formattedData).forEach(key => {
-                if (key !== 'days' && key !== 'always_open') {
-                    formData.append(key, formattedData[key]);
+            if (selectedType) {
+                let selected = '';
+
+                if (Array.isArray(selectedType)) {
+                    selected = selectedType.map(type => type.value).join('');
+                } else {
+                    selected = selectedType.value;
+                }
+                formData.append("charger_type", selected);
+            }
+
+            formData.append("charging_point", chargingPoint);
+            formData.append("description", description);
+            formData.append("address", address);
+            formData.append("latitude", latitude);
+            formData.append("longitude", longitude);
+            formData.append("status", status === true ? 1 : 0);
+
+            if (price) {
+                formData.append("price", price.value);
+            }
+            console.log('formattedData', formattedData);
+            console.log('isAlwaysOpen', isAlwaysOpen);
+
+            formData.append("always_open", formattedData.always_open || 0);
+
+            if (isAlwaysOpen) {
+                formData.append("days[]", formattedData.days);
+            } else {
+                formattedData.days.forEach(day => formData.append("days[]", day));
+            }
+
+            if (!isAlwaysOpen) {
+                Object.keys(formattedData).forEach(key => {
+                    if (key !== 'days' && key !== 'always_open') {
+                        formData.append(key, formattedData[key]);
+                    }
+                });
+            }
+
+            if (file) {
+                formData.append("cover_image", file);
+            }
+
+            if (galleryFiles.length > 0) {
+                galleryFiles.forEach((galleryFile) => {
+                    formData.append("shop_gallery", galleryFile);
+                });
+            }
+
+            postRequestWithTokenAndFile('public-charger-edit-statio', formData, async (response) => {
+                if (response.status === 1) {
+                    navigate('/public-charger-station-list');
+                } else {
+                    console.log('Error in public-charger-add-station API:', response);
                 }
             });
-        }
-    
-        if (file) {
-            formData.append("cover_image", file);
-        }
-    
-        if (galleryFiles.length > 0) {
-            galleryFiles.forEach((galleryFile) => {
-                formData.append("shop_gallery", galleryFile);
-            });
-        }
-    
-        postRequestWithTokenAndFile('public-charger-edit-statio', formData, async (response) => {
-            if (response.status === 1) {
-                navigate('/public-charger-station-list');
-            } else {
-                console.log('Error in public-charger-add-station API:', response);
-            }
-        });
         } else {
 
         }
     };
 
     const fetchDetails = () => {
-    const obj = {
-        userId: userDetails?.user_id,
-        email: userDetails?.email,
-        station_id: stationId
-    };
+        const obj = {
+            userId: userDetails?.user_id,
+            email: userDetails?.email,
+            station_id: stationId
+        };
         postRequestWithToken('public-charger-station-details', obj, (response) => {
             if (response.code === 200) {
                 const data = response?.data || {};
-                
+
                 const openDays = data.open_days.split('_')
-                .map(day => {
-                    const trimmedDay = day.trim();
-                    return trimmedDay.charAt(0).toUpperCase() + trimmedDay.slice(1).toLowerCase();
-                });
+                    .map(day => {
+                        const trimmedDay = day.trim();
+                        return trimmedDay.charAt(0).toUpperCase() + trimmedDay.slice(1).toLowerCase();
+                    });
 
                 const openTimings = data.open_timing.split('_');
                 const updatedTimeSlots = { ...timeSlots };
 
                 openDays.forEach((day, index) => {
                     if (updatedTimeSlots[day] && openTimings[index]) {
-                        const [openTime, closeTime] = openTimings[index].split('-'); 
+                        const [openTime, closeTime] = openTimings[index].split('-');
                         updatedTimeSlots[day].open = openTime;
                         updatedTimeSlots[day].close = closeTime;
-                        updatedTimeSlots[day].openMandatory = true; 
-                        updatedTimeSlots[day].closeMandatory = true; 
+                        updatedTimeSlots[day].openMandatory = true;
+                        updatedTimeSlots[day].closeMandatory = true;
                     }
                 });
                 setIsAlwaysOpen(data.always_open === 0);
@@ -344,57 +344,64 @@ const EditPublicChargerStation = () => {
                 setGalleryFiles(response?.gallery_data || []);
                 setIsAlwaysOpen(data?.always_open === 1 ? true : false)
 
-                    const transformedChargingFor = (response?.result?.chargingFor || []).map(item => ({
-                        label: item,
-                        value: item
-                    }));
-                    setChargingFor(transformedChargingFor);
-    
-                    const initialSelectedBrands = transformedChargingFor.length ? 
-                        [{ label: transformedChargingFor[0].label, value: transformedChargingFor[0].value }] : [];
-                    setSelectedBrands(initialSelectedBrands);
-                    
-                    // const transformedChargingType = (response?.result?.chargerType || []).map(item => ({
-                    //     label: item,
-                    //     value: item
-                    // }));
-        
-                    // setChargingType(transformedChargingType); 
-                    
-                    // const initialChargerType = transformedChargingType.length ? 
-                    //     [{ label: transformedChargingType[0].label, value: transformedChargingType[0].value }] : [];
-                    //     setSelectedType(initialChargerType);
+                const transformedChargingFor = (response?.result?.chargingFor || []).map(item => ({
+                    label: item,
+                    value: item
+                }));
+                setChargingFor(transformedChargingFor);
 
-                    const transformedChargingType = (response?.result?.chargerType || []).map(item => ({
-                        label: item,
-                        value: item
-                    }));
-            
-                    // Find the matching charger type for initial selection
-                    const initialChargerType = transformedChargingType.find(item => item.value === data.charger_type) || {};
-                    
-                    setChargingType(transformedChargingType);
-                    setSelectedType(initialChargerType); 
-   
+                const initialSelectedBrands = transformedChargingFor.length ?
+                    [{ label: transformedChargingFor[0].label, value: transformedChargingFor[0].value }] : [];
+                setSelectedBrands(initialSelectedBrands);
+
+                // const transformedChargingType = (response?.result?.chargerType || []).map(item => ({
+                //     label: item,
+                //     value: item
+                // }));
+
+                // setChargingType(transformedChargingType); 
+
+                // const initialChargerType = transformedChargingType.length ? 
+                //     [{ label: transformedChargingType[0].label, value: transformedChargingType[0].value }] : [];
+                //     setSelectedType(initialChargerType);
+
+                const transformedChargingType = (response?.result?.chargerType || []).map(item => ({
+                    label: item,
+                    value: item
+                }));
+
+                // Find the matching charger type for initial selection
+                const initialChargerType = transformedChargingType.find(item => item.value === data.charger_type) || {};
+
+                setChargingType(transformedChargingType);
+                setSelectedType(initialChargerType);
+
             } else {
                 console.error('Error in public-charger-station-details API', response);
             }
         });
-    // });
+        // });
     };
 
-      useEffect(() => {
+    useEffect(() => {
         if (!userDetails || !userDetails.access_token) {
-          navigate('/login'); 
-          return; 
+            navigate('/login');
+            return;
         }
         fetchDetails();
-      }, []);
-   
-      const handleCancel = () => {
+    }, []);
+
+    const handleCancel = () => {
         navigate('/public-charger-station-list')
     }
-    
+
+    // Start the toogle button function
+    const [isActive, setIsActive] = useState(false);
+
+    const handleToggle = () => {
+        setIsActive(!isActive);
+    };
+
     return (
         <div className={styles.addShopContainer}>
             <div className={styles.addHeading}>Edit Public Chargers</div>
@@ -403,24 +410,24 @@ const EditPublicChargerStation = () => {
                     <div className={styles.row}>
                         <div className={styles.addShopInputContainer}>
                             <label className={styles.addShopLabel} htmlFor="shopName">Station Name</label>
-                            <input 
-                                type="text" 
-                                id="shopName" 
-                                placeholder="Shop Name" 
+                            <input
+                                type="text"
+                                id="shopName"
+                                placeholder="Shop Name"
                                 className={styles.inputField}
                                 value={stationName}
-                                onChange={(e) => setStationName(e.target.value)} 
+                                onChange={(e) => setStationName(e.target.value)}
                             />
-                             {errors.stationName && <p className={styles.error} style={{ color: 'red' }}>{errors.stationName}</p>}
+                            {errors.stationName && <p className={styles.error} style={{ color: 'red' }}>{errors.stationName}</p>}
                         </div>
                         <div className={styles.addShopInputContainer}>
                             <label className={styles.addShopLabel} htmlFor="availableBrands">Charging For</label>
                             <div ref={brandDropdownRef}>
-                              <MultiSelect
+                                <MultiSelect
                                     className={styles.addShopSelect}
-                                    options={chargingFor} 
+                                    options={chargingFor}
                                     value={selectedBrands}
-                                    onChange={handleChargingFor} 
+                                    onChange={handleChargingFor}
                                     labelledBy="Charging For"
                                     closeOnChangedValue={false}
                                     closeOnSelect={false}
@@ -448,20 +455,20 @@ const EditPublicChargerStation = () => {
                         </div>
                         <div className={styles.addShopInputContainer}>
                             <label className={styles.addShopLabel} htmlFor="email">Charging Point</label>
-                            
-                            <input 
-                                type="text" 
-                                id="chargingPoint" 
-                                placeholder="Charging Point" 
+
+                            <input
+                                type="text"
+                                id="chargingPoint"
+                                placeholder="Charging Point"
                                 className={styles.inputField}
                                 value={chargingPoint}
                                 // onChange={(e) => setChargingPoint(e.target.value)} 
                                 onChange={(e) => {
                                     const value = e.target.value;
-                                    if (/^\d{0,4}$/.test(value)) { 
+                                    if (/^\d{0,4}$/.test(value)) {
                                         setChargingPoint(value);
                                     }
-                                }} 
+                                }}
                             />
                             {errors.chargingPoint && <p className={styles.error} style={{ color: 'red' }}>{errors.chargingPoint}</p>}
                         </div>
@@ -475,7 +482,7 @@ const EditPublicChargerStation = () => {
                                 className={styles.inputField}
                                 rows="4"
                                 value={description}
-                                onChange={(e) => setDescription(e.target.value)} 
+                                onChange={(e) => setDescription(e.target.value)}
                             />
                             {errors.description && <p className={styles.error} style={{ color: 'red' }}>{errors.description}</p>}
                         </div>
@@ -487,7 +494,7 @@ const EditPublicChargerStation = () => {
                                 className={styles.inputField}
                                 rows="4"
                                 value={address}
-                                onChange={(e) => setAddress(e.target.value)} 
+                                onChange={(e) => setAddress(e.target.value)}
                             />
                             {errors.address && <p className={styles.error} style={{ color: 'red' }}>{errors.address}</p>}
                         </div>
@@ -497,24 +504,24 @@ const EditPublicChargerStation = () => {
                         <div className={styles.addShopInputContainer}>
                             <label className={styles.addShopLabel} htmlFor="latitude">Latitude</label>
                             <input type="text"
-                             id="latitude" 
-                             placeholder="Latitude" 
-                             className={styles.inputField} 
-                             value={latitude}
-                                onChange={(e) => setLatitude(e.target.value)} 
-                             />
-                             {errors.latitude && <p className={styles.error} style={{ color: 'red' }}>{errors.latitude}</p>}
+                                id="latitude"
+                                placeholder="Latitude"
+                                className={styles.inputField}
+                                value={latitude}
+                                onChange={(e) => setLatitude(e.target.value)}
+                            />
+                            {errors.latitude && <p className={styles.error} style={{ color: 'red' }}>{errors.latitude}</p>}
                         </div>
                         <div className={styles.addShopInputContainer}>
                             <label className={styles.addShopLabel} htmlFor="longitude">Longitude</label>
-                            <input type="text" 
-                            id="longitude"
-                             placeholder="Longitude"
-                              className={styles.inputField} 
-                              value={longitude}
-                                onChange={(e) => setLongitude(e.target.value)} 
-                              />
-                              {errors.longitude && <p className={styles.error} style={{ color: 'red' }}>{errors.longitude}</p>}
+                            <input type="text"
+                                id="longitude"
+                                placeholder="Longitude"
+                                className={styles.inputField}
+                                value={longitude}
+                                onChange={(e) => setLongitude(e.target.value)}
+                            />
+                            {errors.longitude && <p className={styles.error} style={{ color: 'red' }}>{errors.longitude}</p>}
                         </div>
                         <div className={styles.addShopInputContainer}>
                             <label className={styles.addShopLabel} htmlFor="location">Price</label>
@@ -526,141 +533,154 @@ const EditPublicChargerStation = () => {
                                 isClearable
                                 className={styles.addShopSelect}
                             />
-                             {errors.price && <p className={styles.error} style={{ color: 'red' }}>{errors.price}</p>}
+                            {errors.price && <p className={styles.error} style={{ color: 'red' }}>{errors.price}</p>}
                         </div>
                     </div>
                     <div className={styles.scheduleSection}>
                         <div className={styles.alwaysOpen}>
-                        <input
-                            type="checkbox"
-                            id="alwaysOpen"
-                            checked={isAlwaysOpen}
-                            onChange={handleAlwaysOpenChange}
-                        />
+                            <input
+                                type="checkbox"
+                                id="alwaysOpen"
+                                checked={isAlwaysOpen}
+                                onChange={handleAlwaysOpenChange}
+                            />
                             <label htmlFor="alwaysOpen">Always Open</label>
                         </div>
-                       
 
-              {!isAlwaysOpen && (
-                <div className={styles.timeSlotContainer}>
-                    {Object.keys(timeSlots).map(day => (
-                        <div className={styles.dayRow} key={day}>
-                            <span className={styles.dayLabel}>{day}</span>
 
-                            <label htmlFor={`${day}OpenTime`} className={styles.inputLabel}>
-                                Open Time
-                                <input
-                                    type="text"
-                                    id={`${day}OpenTime`}
-                                    placeholder="Enter time"
-                                    className={styles.timeField}
-                                    value={timeSlots[day].open}
-                                    onChange={handleTimeChange(day, 'open')}
-                                />
-                                {errors[`${day}OpenTime`] && <p className={styles.error} style={{ color: 'red' }}>{errors[`${day}OpenTime`]}</p>}
-                            </label>
+                        {!isAlwaysOpen && (
+                            <div className={styles.timeSlotContainer}>
+                                {Object.keys(timeSlots).map(day => (
+                                    <div className={styles.dayRow} key={day}>
+                                        <span className={styles.dayLabel}>{day}</span>
 
-                            <label htmlFor={`${day}CloseTime`} className={styles.inputLabel}>
-                                Close Time
-                                <input
-                                    type="text"
-                                    id={`${day}CloseTime`}
-                                    placeholder="Enter time"
-                                    className={styles.timeField}
-                                    value={timeSlots[day].close}
-                                    onChange={handleTimeChange(day, 'close')}
-                                />
-                                {errors[`${day}CloseTime`] && <p className={styles.error} style={{ color: 'red' }}>{errors[`${day}CloseTime`]}</p>}
-                            </label>
-                        </div>
-                    ))}
-                </div>
-            )}
+                                        <label htmlFor={`${day}OpenTime`} className={styles.inputLabel}>
+                                            Open Time
+                                            <input
+                                                type="text"
+                                                id={`${day}OpenTime`}
+                                                placeholder="Enter time"
+                                                className={styles.timeField}
+                                                value={timeSlots[day].open}
+                                                onChange={handleTimeChange(day, 'open')}
+                                            />
+                                            {errors[`${day}OpenTime`] && <p className={styles.error} style={{ color: 'red' }}>{errors[`${day}OpenTime`]}</p>}
+                                        </label>
+
+                                        <label htmlFor={`${day}CloseTime`} className={styles.inputLabel}>
+                                            Close Time
+                                            <input
+                                                type="text"
+                                                id={`${day}CloseTime`}
+                                                placeholder="Enter time"
+                                                className={styles.timeField}
+                                                value={timeSlots[day].close}
+                                                onChange={handleTimeChange(day, 'close')}
+                                            />
+                                            {errors[`${day}CloseTime`] && <p className={styles.error} style={{ color: 'red' }}>{errors[`${day}CloseTime`]}</p>}
+                                        </label>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
                     </div>
-                    
+                    <div className={styles.toggleContainer}>
+                        <label className={styles.statusLabel}>Status</label>
+                        <div className={styles.toggleSwitch} onClick={handleToggle}>
+                            <span className={`${styles.toggleLabel} ${!isActive ? styles.inactive : ''}`}>
+                                Occupied
+                            </span>
+                            <div className={`${styles.toggleButton} ${isActive ? styles.active : ''}`}>
+                                <div className={styles.slider}></div>
+                            </div>
+                            <span className={`${styles.toggleLabel} ${isActive ? styles.active : ''}`}>
+                                Available
+                            </span>
+                        </div>
+                    </div>
                     <div className={styles.fileUpload}>
-                <label className={styles.fileLabel}>Cover Image</label>
-                <div className={styles.fileDropZone}>
-                    <input
-                        type="file"
-                        id="coverFileUpload"
-                        accept="image/*"
-                        onChange={handleFileChange}
-                        style={{ display: 'none' }}
-                    />
-                    {!file ? (
-                        <label htmlFor="coverFileUpload" className={styles.fileUploadLabel}>
-                            <img src={UploadIcon} alt="Upload Icon" className={styles.uploadIcon} />
-                            <p>Select File to Upload <br /> or Drag & Drop, Copy & Paste Files</p>
-                        </label>
-                    ) : (
-                        <div className={styles.imageContainer}>
-                            {/* <img src={URL.createObjectURL(file)} alt="Preview" className={styles.previewImage} /> */}
-                            <img
+                        <label className={styles.fileLabel}>Cover Image</label>
+                        <div className={styles.fileDropZone}>
+                            <input
+                                type="file"
+                                id="coverFileUpload"
+                                accept="image/*"
+                                onChange={handleFileChange}
+                                style={{ display: 'none' }}
+                            />
+                            {!file ? (
+                                <label htmlFor="coverFileUpload" className={styles.fileUploadLabel}>
+                                    <img src={UploadIcon} alt="Upload Icon" className={styles.uploadIcon} />
+                                    <p>Select File to Upload <br /> or Drag & Drop, Copy & Paste Files</p>
+                                </label>
+                            ) : (
+                                <div className={styles.imageContainer}>
+                                    {/* <img src={URL.createObjectURL(file)} alt="Preview" className={styles.previewImage} /> */}
+                                    <img
                                         src={
-                                            typeof file === 'string' 
-                                                ? `${process.env.REACT_APP_SERVER_URL}uploads/charging-station-images/${file}` 
+                                            typeof file === 'string'
+                                                ? `${process.env.REACT_APP_SERVER_URL}uploads/charging-station-images/${file}`
                                                 : URL.createObjectURL(file)
-                                        } 
+                                        }
                                         alt="Preview"
                                         className={styles.previewImage}
                                     />
-                            <button type="button" className={styles.removeButton} onClick={handleRemoveImage}>
-                                <AiOutlineClose size={20} style={{ padding: '2px' }} />
-                            </button>
+                                    <button type="button" className={styles.removeButton} onClick={handleRemoveImage}>
+                                        <AiOutlineClose size={20} style={{ padding: '2px' }} />
+                                    </button>
+                                </div>
+                            )}
                         </div>
-                    )}
-                </div>
-                {errors.file && <p className={styles.error} style={{ color: 'red' }}>{errors.file}</p>}
-            </div>
+                        {errors.file && <p className={styles.error} style={{ color: 'red' }}>{errors.file}</p>}
+                    </div>
 
-            {/* Station Gallery Multiple Image Upload */}
-            <div className={styles.fileUpload}>
-                <label className={styles.fileLabel}>Station Gallery</label>
-                <div className={styles.fileDropZone}>
-                    <input
-                        type="file"
-                        id="galleryFileUpload"
-                        accept="image/*"
-                        multiple
-                        onChange={handleGalleryChange}
-                        style={{ display: 'none' }}
-                    />
-                    {galleryFiles.length === 0 ? (
-                        <label htmlFor="galleryFileUpload" className={styles.fileUploadLabel}>
-                            <img src={UploadIcon} alt="Upload Icon" className={styles.uploadIcon} />
-                            <p>Select Files to Upload <br /> or Drag & Drop, Copy & Paste Files</p>
-                        </label>
-                    ) : (
-                        <div className={styles.galleryContainer}>
-                           
+                    {/* Station Gallery Multiple Image Upload */}
+                    <div className={styles.fileUpload}>
+                        <label className={styles.fileLabel}>Station Gallery</label>
+                        <div className={styles.fileDropZone}>
+                            <input
+                                type="file"
+                                id="galleryFileUpload"
+                                accept="image/*"
+                                multiple
+                                onChange={handleGalleryChange}
+                                style={{ display: 'none' }}
+                            />
+                            {galleryFiles.length === 0 ? (
+                                <label htmlFor="galleryFileUpload" className={styles.fileUploadLabel}>
+                                    <img src={UploadIcon} alt="Upload Icon" className={styles.uploadIcon} />
+                                    <p>Select Files to Upload <br /> or Drag & Drop, Copy & Paste Files</p>
+                                </label>
+                            ) : (
+                                <div className={styles.galleryContainer}>
 
-{Array.isArray(galleryFiles) && galleryFiles.length > 0 ? (
-        galleryFiles.map((file, index) => (
-            <img
-                key={index}
-                src={
-                    typeof file === 'string'
-                        ? `${process.env.REACT_APP_SERVER_URL}uploads/charging-station-images/${file}` 
-                        : URL.createObjectURL(file) 
-                }
-                alt={`Preview ${index + 1}`}
-                className={styles.previewImage}
-            />
-        ))
-    ) : (
-        <p>No images available</p> 
-    )}
+
+                                    {Array.isArray(galleryFiles) && galleryFiles.length > 0 ? (
+                                        galleryFiles.map((file, index) => (
+                                            <img
+                                                key={index}
+                                                src={
+                                                    typeof file === 'string'
+                                                        ? `${process.env.REACT_APP_SERVER_URL}uploads/charging-station-images/${file}`
+                                                        : URL.createObjectURL(file)
+                                                }
+                                                alt={`Preview ${index + 1}`}
+                                                className={styles.previewImage}
+                                            />
+                                        ))
+                                    ) : (
+                                        <p>No images available</p>
+                                    )}
+                                </div>
+                            )}
                         </div>
-                    )}
-                </div>
-                {errors.gallery && <p className={styles.error} style={{ color: 'red' }}>{errors.gallery}</p>}
-            </div>
-{/* <div className={styles.actions}>
+                        {errors.gallery && <p className={styles.error} style={{ color: 'red' }}>{errors.gallery}</p>}
+                    </div>
+                    {/* <div className={styles.actions}>
                         <button className={styles.submitBtn} type="submit">Submit</button>
                     </div> */}
 
-<div className={styles.editButton}>
+                    <div className={styles.editButton}>
                         <button className={styles.editCancelBtn} onClick={() => handleCancel()}>Cancel</button>
                         <button type="submit" className={styles.editSubmitBtn}>Submit</button>
                     </div>

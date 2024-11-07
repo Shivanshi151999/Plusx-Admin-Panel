@@ -193,3 +193,81 @@ background-color: #242424;
     border-radius: 4px;
     font-size: 4px;
 }
+
+/* Container for toggle switch */
+.toggleContainer {
+  width: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #242424;
+  padding: 18px 10px;
+  border-radius: 14px;
+  border: 1px solid #64FFC5;
+}
+
+/* Label for status */
+.statusLabel {
+  color: #ffffff;
+  font-size: 18px;
+}
+
+/* Toggle switch area */
+.toggleSwitch {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  border-radius: 20px;
+  padding: 5px;
+}
+
+/* Toggle labels for Un-active and Active */
+.toggleLabel {
+  color: #64FFC5;
+  font-size: 12px;
+  padding: 0 6px;
+}
+
+.toggleLabel.active {
+  color: #64FFC5;
+}
+
+.toggleLabel.inactive {
+  color: #828282;
+}
+
+/* Toggle button container */
+.toggleButton {
+  position: relative;
+  border: 2px solid #64FFC5;
+  background-color: #242424;
+  border-radius: 6px;
+  width: 60px;
+  height: 28px;
+  margin: 0 6px;
+  transition: background-color 0.3s ease;
+}
+
+/* Active state background */
+.toggleButton.active {
+  border: 2px solid #64FFC5;
+}
+
+/* Slider inside the button */
+.slider {
+  position: absolute;
+  top: 50%;
+  left: 0px;
+  width: 26px;
+  height: 26px;
+  background-color: #64FFC5;
+  border-radius: 4px;
+  transform: translateY(-50%);
+  transition: all 0.3s ease;
+}
+
+.toggleButton.active .slider {
+  left: 30px;
+}
+
+/* End the feature section */

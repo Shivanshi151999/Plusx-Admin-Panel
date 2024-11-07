@@ -138,6 +138,12 @@ const EditPortableCharger = () => {
         fetchDetails();
     }, []);
 
+    const [isActive, setIsActive] = useState(false);
+
+    const handleToggle = () => {
+        setIsActive(!isActive);
+    };
+
     return (
         <div className={styles.containerCharger}>
             <h2 className={styles.title}>Edit Charger</h2>
@@ -205,7 +211,20 @@ const EditPortableCharger = () => {
                             {errors.chargerFeature && <p className={styles.error} style={{ color: 'red' }}>{errors.chargerFeature}</p>}
                         </div>
                     </div>
-
+                    <div className={styles.toggleContainer}>
+                        <label className={styles.statusLabel}>Status</label>
+                        <div className={styles.toggleSwitch} onClick={handleToggle}>
+                            <span className={`${styles.toggleLabel} ${!isActive ? styles.inactive : ''}`}>
+                            In-Active
+                            </span>
+                            <div className={`${styles.toggleButton} ${isActive ? styles.active : ''}`}>
+                                <div className={styles.slider}></div>
+                            </div>
+                            <span className={`${styles.toggleLabel} ${isActive ? styles.active : ''}`}>
+                                Active
+                            </span>
+                        </div>
+                    </div>
                     <div className={styles.fileUpload}>
                         <label className={styles.fileLabel}>Image</label>
                         <div className={styles.fileDropZone}>
