@@ -45,14 +45,14 @@ const AddPickAndDropTimeSlot = () => {
 
     const handleStartTimeChange = (index, newTime) => {
         const validatedTime = handleTimeInput({ target: { value: newTime } });
-        const newTimeSlots = [...timeSlots];
+        const newTimeSlots  = [...timeSlots];
         newTimeSlots[index].startTime = validatedTime === '' ? null : validatedTime; 
         setTimeSlots(newTimeSlots);
     };
     
     const handleEndTimeChange = (index, newTime) => {
         const validatedTime = handleTimeInput({ target: { value: newTime } });
-        const newTimeSlots = [...timeSlots];
+        const newTimeSlots  = [...timeSlots];
         newTimeSlots[index].endTime = validatedTime === '' ? null : validatedTime; 
         setTimeSlots(newTimeSlots);
     };
@@ -115,21 +115,23 @@ const AddPickAndDropTimeSlot = () => {
         e.preventDefault();
         if (validateForm()) {
             const obj = {
-                userId: userDetails?.user_id,
-                email: userDetails?.email,
-                slot_date: timeSlots.map(slot => slot.date ? dayjs(slot.date).format("DD-MM-YYYY") : ''),
-                start_time: timeSlots.map(slot => slot.startTime),
-                end_time: timeSlots.map(slot => slot.endTime),
-                booking_limit: timeSlots.map(slot => slot.bookingLimit),
+                userId        : userDetails?.user_id,
+                email         : userDetails?.email,
+                slot_date     : timeSlots.map(slot => slot.date ? dayjs(slot.date).format("DD-MM-YYYY") : ''),
+                start_time    : timeSlots.map(slot => slot.startTime),
+                end_time      : timeSlots.map(slot => slot.endTime),
+                booking_limit : timeSlots.map(slot => slot.bookingLimit),
             };
     
             postRequestWithToken('pick-and-drop-add-slot', obj, async(response) => {
                 if (response.code === 200) {
                     toast(response.message[0], { type: "success" });
-                    navigate('/pick-and-drop/time-slot-list')
+                    setTimeout(() => {
+                        navigate('/pick-and-drop/time-slot-list')
+                    }, 2000)
                 } else {
-                    // toast(response.message, {type:'error'})
-                    console.log('error in charger-slot-list api', response);
+                    toast(response.message || response.message[0], { type: "error" });
+                    console.log('error in pick-and-drop-add-slot api', response);
                 }
             })
         } else {
@@ -145,73 +147,6 @@ const AddPickAndDropTimeSlot = () => {
     }, []);
 
     return (
-        // <div className={styles.containerCharger}>
-        //     <h2 className={styles.title}>Add Slot</h2>
-        //     <div className={styles.chargerSection}>
-        //         <form className={styles.form} onSubmit={handleSubmit}>
-        //             <div className={styles.row}>
-        //                 <div className={styles.inputGroup}>
-        //                     <label className={styles.label}>Start Time</label>
-        //                     <LocalizationProvider dateAdapter={AdapterDayjs}>
-        //                         <DemoContainer components={['TimePicker']}>
-        //                         <div className={styles.inputCharger}> 
-        //                             <TimePicker
-        //                                 label="With Time Clock"
-        //                                 value={startTime}
-        //                                 onChange={handleStartTimeChange}
-        //                                 viewRenderers={{
-        //                                     hours: renderTimeViewClock,
-        //                                     minutes: renderTimeViewClock,
-        //                                     seconds: renderTimeViewClock,
-        //                                 }}
-        //                                 renderInput={(params) => <input {...params} />}
-        //                             />
-        //                         </div>
-        //                         </DemoContainer>
-        //                     </LocalizationProvider>
-        //                     {errors.startTime && <span className={styles.error} style={{color: 'red'}}>{errors.startTime}</span>}
-        //                 </div>
-        //                 <div className={styles.inputGroup}>
-        //                     <label className={styles.label}>End Time</label>
-                            
-        //                     <LocalizationProvider dateAdapter={AdapterDayjs} >
-        //                          <DemoContainer components={['TimePicker']} className={styles.label}>
-        //                          <div className={styles.inputCharger}>
-        //                             <TimePicker
-        //                              label="With Time Clock"
-        //                              value={endTime}
-        //                              onChange={handleEndTimeChange}
-        //                             viewRenderers={{
-        //                                  hours: renderTimeViewClock,
-        //                                 minutes: renderTimeViewClock,                                      
-        //                                 seconds: renderTimeViewClock,
-        //                              }}
-        //                             />
-        //                             </div>
-        //                        </DemoContainer>
-        //                    </LocalizationProvider>
-        //                    {errors.endTime && <span className={styles.error} style={{color: 'red'}}>{errors.endTime}</span>}
-        //                 </div>
-        //                 <div className={styles.inputGroup}>
-        //                     <label className={styles.label}>Booking Limit</label>
-        //                     <input className={styles.inputCharger} type="text" 
-        //                     placeholder="Enter Booking Limit" 
-        //                     maxLength="4"
-        //                     onChange={handleBookingLimitChange}
-        //                     onKeyPress={handleBookingLimitKeyPress}
-        //                     />
-        //                     {errors.bookingLimit && <span className={styles.error} style={{color: 'red'}}>{errors.bookingLimit}</span>}
-        //                 </div>
-        //             </div>
-        //             <div className={styles.actions}>
-        //                 <button className={styles.cancelBtn} type="button" onClick={handleCancel}>Cancel</button>
-        //                 <button className={styles.submitBtn} type="submit">Submit</button>
-        //             </div>
-        //         </form>
-        //     </div>
-        // </div>
-
-
         <div className={styles.containerCharger}>
             <h2 className={styles.title}>Add Slot</h2>
             <ToastContainer />

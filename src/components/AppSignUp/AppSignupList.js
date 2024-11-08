@@ -6,24 +6,25 @@ import Pagination from '../SharedComponent/Pagination/Pagination'
 import { postRequestWithToken } from '../../api/Requests';
 import moment from 'moment';
 import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 
 
 const SignupList = () => {
-    const userDetails = JSON.parse(sessionStorage.getItem('userDetails')); 
-    const navigate = useNavigate()
-    const [signupList, setSignupList] = useState([]);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(1);
-    const [filters, setFilters] = useState({});
-    const [refresh, setRefresh] = useState(false)
+    const userDetails                     = JSON.parse(sessionStorage.getItem('userDetails')); 
+    const navigate                        = useNavigate()
+    const [signupList, setSignupList]     = useState([]);
+    const [currentPage, setCurrentPage]   = useState(1);
+    const [totalPages, setTotalPages]     = useState(1);
+    const [filters, setFilters]           = useState({});
+    const [refresh, setRefresh]           = useState(false)
     const [emiratesList, setEmiratesList] = useState([]);
-
+    
     const fetchChargers = (page, appliedFilters = {}) => {
         const obj = {
-            userId : userDetails?.user_id,
-            email : userDetails?.email,
-            page_no: page,
+            userId  : userDetails?.user_id,
+            email   : userDetails?.email,
+            page_no : page,
             ...appliedFilters,
         };
 
@@ -33,7 +34,8 @@ const SignupList = () => {
                 setEmiratesList(response.emirates || []);
                 setTotalPages(response?.total_page || 1);  
             } else {
-                console.log('error in charger-list API', response);
+                toast(response.message || response.message[0], { type: 'error' });
+                console.log('error in rider-list API', response);
             }
         });
     };
@@ -111,6 +113,7 @@ const SignupList = () => {
 
     return (
         <div className={styles.appSignupContainer}>
+            <ToastContainer/>
             <SubHeader heading = "App Signup List" 
             fetchFilteredData={fetchFilteredData} 
             dynamicFilters={dynamicFilters} filterValues={filters}

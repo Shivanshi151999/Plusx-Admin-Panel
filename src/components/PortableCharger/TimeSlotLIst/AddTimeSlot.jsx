@@ -113,21 +113,22 @@ const AddPortableChargerTimeSlot = () => {
         e.preventDefault();
         if (validateForm()) {
             const obj = {
-                userId: userDetails?.user_id,
-                email: userDetails?.email,
-                slot_date: timeSlots.map(slot => slot.date ? dayjs(slot.date).format("DD-MM-YYYY") : ''),
-                start_time: timeSlots.map(slot => slot.startTime),
-                end_time: timeSlots.map(slot => slot.endTime),
-                booking_limit: timeSlots.map(slot => slot.bookingLimit),
+                userId        : userDetails?.user_id,
+                email         : userDetails?.email,
+                slot_date     : timeSlots.map(slot => slot.date ? dayjs(slot.date).format("DD-MM-YYYY") : ''),
+                start_time    : timeSlots.map(slot => slot.startTime),
+                end_time      : timeSlots.map(slot => slot.endTime),
+                booking_limit : timeSlots.map(slot => slot.bookingLimit),
             };
 
-            postRequestWithToken('charger-add-time-slot', obj, (response) => {
+            postRequestWithToken('charger-add-time-slo', obj, (response) => {
                 if (response.code === 200) {
                     toast(response.message[0], { type: "success" });
-                    
-                    navigate('/portable-charger/charger-booking-time-slot-list');
+                    setTimeout(() => {
+                        navigate('/portable-charger/charger-booking-time-slot-list');
+                    }, 2000)
                 } else {
-                    // toast(response.message[0] || response.message, { type: "error" });
+                    toast(response.message || response.message[0], { type: "error" });
                     console.log('error in charger-slot-list api', response);
                 }
             });

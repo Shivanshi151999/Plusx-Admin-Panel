@@ -11,19 +11,13 @@ const SearchAccodion = ({ type, isOpen, fetchFilteredData, dynamicFilters, filte
 
     useEffect(() => {
         if (isOpen) {
+            fetchFilteredData({}); //remove existing search or filter data when opening the other accordion
             setShowContent(true);
         } else {
             const timer = setTimeout(() => setShowContent(false), 300);
             return () => clearTimeout(timer);
         }
     }, [isOpen]);
-
-    useEffect(() => {
-        if (!isOpen) {
-            // setSearchText('');
-            fetchFilteredData({ ...filterValues, search_text: '' }); 
-        }
-    }, [isOpen, fetchFilteredData, filterValues]);
 
     const handleInputChange = (e) => {        
         const { name, value } = e.target;

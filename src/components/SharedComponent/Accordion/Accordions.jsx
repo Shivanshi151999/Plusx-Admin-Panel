@@ -11,12 +11,19 @@ const AccordionFilter = ({ type, isOpen, fetchFilteredData, dynamicFilters, filt
 
     useEffect(() => {
         if (isOpen) {
+            fetchFilteredData({ }); 
             setShowContent(true);
         } else {
             const timer = setTimeout(() => setShowContent(false), 300); 
             return () => clearTimeout(timer);
         }
     }, [isOpen]);
+
+    // useEffect(() => {
+    //     if (!isOpen) {
+    //         fetchFilteredData({ }); 
+    //     }
+    // }, [isOpen, fetchFilteredData, filterValues]);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -29,6 +36,8 @@ const AccordionFilter = ({ type, isOpen, fetchFilteredData, dynamicFilters, filt
     };
 
     const handleDateChange = (range) => {
+        console.log('range',range);
+        
         if (!range || range.length < 2) {
             fetchFilteredData({
                 ...filterValues,
