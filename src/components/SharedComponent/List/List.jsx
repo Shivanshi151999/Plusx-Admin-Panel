@@ -11,48 +11,33 @@ const List = ({list, tableHeaders, listData, keyMapping, pageHeading, onDeleteSl
 
     const navigate = useNavigate()
 
-    const handleSignupDetails = (id) => {
-        navigate(`/rider-details/${id}`)
-    }
-    const handleBookingDetails = (id) => {
-        navigate(`/portable-charger/charger-booking-details/${id}`)
-    }
-    const handlePDBookingDetails = (id) => {
-        navigate(`/pick-and-drop/booking-details/${id}`)
-    }
-    const handleChargerInstallationDetails = (id) => {
-        navigate(`/charger-installation-details/${id}`)
-    }
-    const handleChargerEditTimeSlot = (id) => {
-        navigate(`/portable-charger/edit-time-slot/${id}`)
-    }
-    const handleChargerDetails = (id) => {
-        navigate(`/edit-charger/${id}`)
-    }
-    const handlePickDropEditTimeSlot = (id) => {
-        navigate(`/pick-and-drop/edit-time-slot/${id}`)
-    }
-    const handleRsaDetails = (id) => {
-        navigate(`/edit-emergency-team/${id}`)
-    }
-    const viewRsaDetails = (id) => {
-        navigate(`/emergency-team-details/${id}`)
-    }
+    const handleSignupDetails = (id) =>  navigate(`/rider-details/${id}`)
     
-    const handlePublicChargerStationDetails = (id) => {
-        navigate(`/public-charger-station-details/${id}`)
-    }
+    const handleBookingDetails = (id) => navigate(`/portable-charger/charger-booking-details/${id}`)
+    
+    const handlePDBookingDetails = (id) =>  navigate(`/pick-and-drop/booking-details/${id}`)
+    
+    const handleChargerInstallationDetails = (id) =>  navigate(`/charger-installation-details/${id}`)
+    
+    const handleChargerEditTimeSlot = (id) =>  navigate(`/portable-charger/edit-time-slot/${id}`)
+    
+    const handleChargerDetails = (id) => navigate(`/edit-charger/${id}`)
+    
+    const handlePickDropEditTimeSlot = (id) => navigate(`/pick-and-drop/edit-time-slot/${id}`)
 
-    const handleEditChargerDetails = (id) => {
-        navigate(`/edit-charger-station/${id}`)
-    }
-    const handlePortableInvoice = (id) => {
-        navigate(`/invoice/${id}`)
-    }
+    const handleRsaDetails = (id) => navigate(`/edit-emergency-team/${id}`)
+    
+    const viewRsaDetails = (id) =>  navigate(`/emergency-team-details/${id}`)
+    
 
-    const handlePickAndDropInvoiceDetails = (id) => {
-        navigate(`/pick-and-drop/invoice-details/${id}`)
-    }
+    const handlePublicChargerStationDetails = (id) => navigate(`/public-charger-station-details/${id}`)
+    
+    const handleEditChargerDetails = (id) => navigate(`/edit-charger-station/${id}`)
+
+    const handlePortableInvoice = (id) => navigate(`/invoice/${id}`)
+    
+    const handlePickAndDropInvoiceDetails = (id) =>  navigate(`/pick-and-drop/invoice-details/${id}`)
+    
     return (
         <div className={styles.containerCharger}>
             

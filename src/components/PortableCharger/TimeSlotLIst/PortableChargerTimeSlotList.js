@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import List from '../../SharedComponent/List/List'
+import Delete from '../../../assets/images/Delete.svg';
+import Edit from '../../../assets/images/Pen.svg';
+import styles from '../../SharedComponent/List/list.module.css';
 import SubHeader from '../../SharedComponent/SubHeader/SubHeader'
 import Pagination from '../../SharedComponent/Pagination/Pagination'
-import { getRequestWithToken, postRequestWithToken } from '../../../api/Requests';
+import {postRequestWithToken } from '../../../api/Requests';
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
@@ -15,7 +18,24 @@ const PortableChargerTimeSlotList = () => {
     const [currentPage, setCurrentPage]   = useState(1);
     const [totalPages, setTotalPages]     = useState(1);
     const [refresh, setRefresh]           = useState(false)
-    const [filters, setFilters] = useState({});
+    const [filters, setFilters]           = useState({});
+
+    const groupBySlotDate = (slots) => {
+        const grouped = slots.reduce((acc, slot) => {
+            const date = slot.slot_date;
+            if (!acc[date]) {
+                acc[date] = [];
+            }
+            acc[date].push(slot);
+            return acc;
+        }, {});
+    
+        return Object.entries(grouped)
+            .sort(([dateA], [dateB]) => new Date(dateB) - new Date(dateA))
+            .map(([slot_date, slots]) => ({ slot_date, slots }));
+    };
+
+    const groupedData = groupBySlotDate(timeSlotList);
     
     const searchTerm = [
         {
@@ -38,7 +58,12 @@ const PortableChargerTimeSlotList = () => {
         }
         postRequestWithToken('charger-slot-list', obj, async(response) => {
             if (response.code === 200) {
-                setTimeSlotList(response?.data)
+                // setTimeSlotList(response?.data)
+                const updatedData = response.data.map((item) => ({
+                    ...item,
+                    remaining_booking: (item.booking_limit || 0) - (item.slot_booking_count || 0),
+                }));
+                setTimeSlotList(updatedData)
                 setTotalPages(response?.total_page || 1); 
                 // toast(response.message[0], { type: "success" });
             } else {
@@ -83,6 +108,8 @@ const PortableChargerTimeSlotList = () => {
             });
         }
     };
+    const handleChargerEditTimeSlot = (id) =>  navigate(`/portable-charger/edit-time-slot/${id}`)
+    
     return (
         <>
         <ToastContainer />
@@ -93,16 +120,14 @@ const PortableChargerTimeSlotList = () => {
         fetchFilteredData={fetchFilteredData} 
         searchTerm = {searchTerm}
         />
-        <List 
+
+        {/* <List 
          list = 'time slot'
-        tableHeaders={["Slot ID", "Timing", "Booking Limit", "Total Booking", "Remaining Booking", "Status", "Action"]}
-          listData = {timeSlotList}
+         tableHeaders={["Slot ID", "Timing", "Booking Limit", "Total Booking", "Remaining Booking", "Status", "Action"]}
+        //   listData = {groupedData}
+        listData={timeSlotList}
           keyMapping={[
             { key: 'slot_id', label: 'Slot ID' }, 
-            // { 
-            //     key: 'timing',
-            //     label: 'Timing',  
-            // }, 
             { 
                 key: 'timing',
                 label: 'Timing',
@@ -122,16 +147,71 @@ const PortableChargerTimeSlotList = () => {
                 key: 'slot_booking_count', 
                 label: 'Total Booking',
                 format: (limit) => (limit ? ` ${limit}` : '0') 
-            }, { 
-                key   : 'slot_booking_count', 
-                label : 'Remaining Booking',  
-                format: (limit) => (limit ? ` ${limit}` : '0') 
+            }, 
+            { 
+                key: 'remaining_booking', 
+                label: 'Remaining Booking',
             },
             { key: 'status', label: 'Status', format: (status) => (status === 1 ? "Active" : "Inactive") } 
         ]}
         pageHeading="Portable Charger Slot List"
-        onDeleteSlot={handleDeleteSlot}
-          />
+          onDeleteSlot={handleDeleteSlot}
+          /> */}
+
+        <div className={styles.containerCharger}>
+                    
+            <table className={styles.table}>
+                <thead>
+                    <tr>
+                        <th>Slot ID</th>
+                        <th>Timing</th>
+                        <th>Booking Limit</th>
+                        <th>Total Booking</th>
+                        <th>Remaining Booking</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                {groupedData.map((group, index) => (
+                <React.Fragment key={index}>
+                    <tr>
+                        <td  className={styles.listSpan}>Date: {group.slot_date}</td>
+                    </tr>
+
+                    {group.slots.map((slot, slotIndex) => (
+                        <tr key={slotIndex}>
+                            <td>{slot.slot_id}</td>
+                            <td>
+                                {slot.timing ? (() => {
+                                    const [startTime, endTime] = slot.timing.split(' - ');
+                                    const formattedStart = moment(startTime, 'HH:mm:ss').format('HH:mm');
+                                    const formattedEnd = moment(endTime, 'HH:mm:ss').format('HH:mm');
+                                    return `${formattedStart} - ${formattedEnd}`;
+                                })() : 'N/A'}
+                            </td>
+                            <td>{slot.booking_limit || '0'}</td>
+                            <td>{slot.slot_booking_count || '0'}</td>
+                            <td>{slot.remaining_booking || '0'}</td>
+                            <td>{slot.status === 1 ? "Active" : "Inactive"}</td>
+                            <td>
+                                <div className={styles.editContent}>
+                                <img src={Edit} alt='edit' 
+                                    onClick={() => handleChargerEditTimeSlot(slot.slot_id)}
+                                />
+                                <img src={Delete} alt='delete' onClick={() => handleDeleteSlot(slot.slot_id)}/>
+                                </div>
+                            </td>
+                        </tr>
+                    ))}
+                </React.Fragment>
+            ))}
+
+                </tbody>
+            </table>
+
+        </div>
            
            <Pagination 
             currentPage={currentPage} 

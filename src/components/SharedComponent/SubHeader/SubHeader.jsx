@@ -30,8 +30,8 @@ const SubHeader = ({ heading, fetchFilteredData, dynamicFilters, filterValues, a
         heading !== "Portable Charger List" && 
         heading !== "Portable Charger Invoice List" && 
         heading !== "Pick & Drop Invoice List" &&
-        heading !== "Portable Charger Slot List" &&
-        heading !== "Pick & Drop Time Slot List" &&
+        // heading !== "Portable Charger Slot List" &&
+        // heading !== "Pick & Drop Time Slot List" &&
         heading !== "Charger Installation List";
 
     return (
