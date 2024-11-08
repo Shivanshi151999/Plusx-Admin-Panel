@@ -8,10 +8,10 @@ import { useNavigate } from 'react-router-dom';
 import styles from './addemergency.module.css'
 
 const dynamicFilters = [
-    { label: 'RSA ID', name: 'rsa_id', type: 'text' },
-    { label: 'Emergency Team Name', name: 'rsa_name', type: 'text' },
-    { label: 'Emergency Team Email', name: 'rsa_email', type: 'text' },
-    { label: 'Emergency Team Mobile', name: 'rsa_mobile', type: 'text' },
+    // { label: 'RSA ID', name: 'rsa_id', type: 'text' },
+    // { label: 'Emergency Team Name', name: 'rsa_name', type: 'text' },
+    // { label: 'Emergency Team Email', name: 'rsa_email', type: 'text' },
+    // { label: 'Emergency Team Mobile', name: 'rsa_mobile', type: 'text' },
 ]
 
 const RiderList = () => {
@@ -22,6 +22,13 @@ const RiderList = () => {
     const [totalPages, setTotalPages] = useState(1);
     const [filters, setFilters] = useState({});
     const [refresh, setRefresh] = useState(false)
+    const searchTerm = [
+        {
+            label: 'search', 
+            name: 'search_text', 
+            type: 'text'
+        }
+    ]
 
     const addButtonProps = {
         heading: "Add Driver", 
@@ -89,6 +96,7 @@ const RiderList = () => {
          addButtonProps={addButtonProps}
          fetchFilteredData={fetchFilteredData} 
          dynamicFilters={dynamicFilters} filterValues={filters}
+         searchTerm = {searchTerm}
          />
         <List 
         tableHeaders={["ID", "Driver Name", "Driver Email", "Service Type", "Status", "Action"]}
