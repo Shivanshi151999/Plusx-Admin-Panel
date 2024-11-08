@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./sidenavbar.module.css";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import CompanyLogo from "../CompanyLogo";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
@@ -20,6 +20,25 @@ const SideNavbar = () => {
   });
 
   const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (!location.pathname.includes("/portable-charger")) {
+      setCheckedItems({
+        chargerList: false,
+        chargerBooking: false,
+        invoiceList: false,
+        timeSlot: false,
+      });
+    }
+    if (!location.pathname.includes("/pick-and-drop")) {
+      setpickAndDropCheckedItems({
+        bookingList: false,
+        invoiceList: false,
+        timeSlot: false,
+      });
+    }
+  }, [location]);
 
   const toggleDropdown = (menu) => {
     setOpenDropdown(openDropdown === menu ? null : menu);
