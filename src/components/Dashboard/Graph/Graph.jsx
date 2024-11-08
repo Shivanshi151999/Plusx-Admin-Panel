@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   LineChart,
   Line,
@@ -10,6 +10,9 @@ import {
 
 import style from "./Graph.module.css";
 import { BsThreeDotsVertical } from "react-icons/bs";
+import { MdAccessTimeFilled } from "react-icons/md";
+import { FaBusinessTime } from "react-icons/fa";
+import { MdOutlineTimeline } from "react-icons/md";
 
 const data = [
   { name: "2024-11-1", value: 0.3 },
@@ -22,16 +25,67 @@ const data = [
 ];
 
 const Graph = () => {
+  const [isDialogMenuOpen, setIsDialogMenuOpen] = useState(false);
+  const [timeRange, settimeRange] = useState("Weekly");
+
+  const toggleMenu = () => {
+    setIsDialogMenuOpen((prevState) => !prevState);
+  };
+
   return (
     <div className={style.graph}>
       <div className={`${style.graphContainer}`}>
         <div className={style.graphHeadingGroup}>
+          {/* Heading Section*/}
           <div className={style.graphHeading}>Total Request</div>
-          <div className={style.menu}>
+          <div className={style.menu} onClick={toggleMenu}>
             <BsThreeDotsVertical />
+
+            {/* Menu Dialog Section*/}
+            {isDialogMenuOpen && (
+              <div className={style.menuDialog}>
+                <div
+                  className={`${style.menuOption} ${
+                    timeRange === "Weekly" ? style.menuOptionActive : ""
+                  }`}
+                  onClick={() => {
+                    settimeRange("Weekly");
+                  }}
+                >
+                  <MdAccessTimeFilled />
+                  <p>Weekly</p>
+                </div>
+                <div
+                  className={`${style.menuOption} ${
+                    timeRange === "Monthly" ? style.menuOptionActive : ""
+                  }`}
+                  onClick={() => {
+                    settimeRange("Monthly");
+                  }}
+                >
+                  <FaBusinessTime />
+                  <p>Monthly</p>
+                </div>
+                <div
+                  className={`${style.menuOption} ${
+                    timeRange === "Yearly" ? style.menuOptionActive : ""
+                  }`}
+                  onClick={() => {
+                    settimeRange("Yearly");
+                  }}
+                >
+                  <MdOutlineTimeline />
+                  <p>Yearly</p>
+                </div>
+              </div>
+            )}
           </div>
         </div>
-        <div className={style.chartTime}>Weekly Count</div>
+
+        {/* Time Range Section*/}
+        <div className={style.chartTimeRange}>{timeRange} Count</div>
+
+        {/* Line Chart Section*/}
         <div className={style.chart}>
           <ResponsiveContainer width="100%" height={200}>
             <LineChart data={data}>

@@ -37,3 +37,12 @@
 .cardTitle {
   font-size: 16px;
 }
+
+.cardActive {
+  background-color: #00ffc3;
+  color: #000000;
+}
+
+.cardActive .cardIcon {
+  border-color: #000;
+}

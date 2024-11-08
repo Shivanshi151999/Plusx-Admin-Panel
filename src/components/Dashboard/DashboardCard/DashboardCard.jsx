@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import style from "./DashboardCard.module.css";
 import DashboardCardItem from "../../SharedComponent/DashboardCardItem/DashboardCardItem";
 import { CiAirportSign1 } from "react-icons/ci";
 
 const DashboardCard = () => {
+  const [isActiveCard, setIsActiveCard] = useState(0);
   const cardData = [
     {
       icon: <CiAirportSign1 />,
@@ -105,6 +106,8 @@ const DashboardCard = () => {
           icon={data.icon}
           count={data.count}
           title={data.title}
+          isActive={isActiveCard === index}
+          onClick={() => setIsActiveCard(index)}
         />
       ))}
     </div>
