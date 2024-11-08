@@ -114,16 +114,7 @@ const PortableChargerTimeSlotList = () => {
         
                     return `${formattedStart} - ${formattedEnd}`;
                 }
-<<<<<<< Updated upstream
             }, { 
-=======
-            },
-            // { key: 'total_booking', 
-            //     label: 'Total Booking',
-            //     format: (limit) => (limit ? ` ${limit}` : '0') 
-            // },
-            { 
->>>>>>> Stashed changes
                 key: 'booking_limit', 
                 label: 'Booking Limit',  
                 

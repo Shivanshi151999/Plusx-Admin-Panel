@@ -21,16 +21,66 @@ const statusMapping = {
   'C': 'Cancel'
 };
 
+// const formatTime = (timeStr) => {
+//   if (timeStr === "Closed") return "Closed";
+//   const [start, end] = timeStr?.split('-');
+//   const format12Hour = (time) => {
+//     const [hour, minute] = time?.split(':');
+//     const date = new Date();
+//     date.setHours(hour);
+//     date.setMinutes(minute);
+//     return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+//   };
+//   return `${format12Hour(start)} - ${format12Hour(end)}`;
+// };
+
+// const getFormattedOpeningHours = (details) => {
+//   if (details?.always_open === 1) {
+//     return "Always Open";
+//   }
+
+//   if (!details?.open_days || !details?.open_timing) {
+//     return "No opening hours available";
+//   }
+
+//   const days = details?.open_days.split(', ');
+//   const timings = details?.open_timing.split(', ').map(formatTime);
+//   let formattedHours = [];
+
+//   for (let i = 0; i < days?.length; i++) {
+//     let startDay = days[i];
+//     let currentTiming = timings[i];
+//     let j = i;
+
+//     while (j < days?.length - 1 && timings[j + 1] === currentTiming) {
+//       j++;
+//     }
+
+//     const dayRange = startDay + (i === j ? "" : `-${days[j]}`);
+//     formattedHours.push(`${dayRange}: ${currentTiming}`);
+//     i = j;
+//   }
+
+//   return formattedHours.join("\n");
+// };
+
+
+
+
 const formatTime = (timeStr) => {
   if (timeStr === "Closed") return "Closed";
   const [start, end] = timeStr?.split('-');
+
   const format12Hour = (time) => {
     const [hour, minute] = time?.split(':');
     const date = new Date();
     date.setHours(hour);
     date.setMinutes(minute);
-    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    
+    // Format the time to always show two digits for minute and ensure AM/PM
+    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }).replace(':', ':'); 
   };
+
   return `${format12Hour(start)} - ${format12Hour(end)}`;
 };
 
@@ -43,26 +93,45 @@ const getFormattedOpeningHours = (details) => {
     return "No opening hours available";
   }
 
-  const days = details?.open_days.split(', ');
-  const timings = details?.open_timing.split(', ').map(formatTime);
-  let formattedHours = [];
+  const days = details?.open_days.split('_').map((day) => {
+    // Capitalize the first letter of each day
+    return day.charAt(0).toUpperCase() + day.slice(1).toLowerCase();
+  });
 
-  for (let i = 0; i < days?.length; i++) {
+  const timings = details?.open_timing.split('_').map(formatTime);
+
+  // Check if all the timings are the same
+  const allSameTimings = timings.every(time => time === timings[0]);
+
+  if (allSameTimings) {
+    // If all days have the same timings, return a consolidated range for the whole week
+    return `${days[0]}-${days[days.length - 1]}: ${timings[0]}`;
+  }
+
+  // Otherwise, show each day with its corresponding timings
+  const formattedOpeningHours = [];
+  let i = 0;
+  while (i < days.length) {
     let startDay = days[i];
     let currentTiming = timings[i];
     let j = i;
 
-    while (j < days?.length - 1 && timings[j + 1] === currentTiming) {
+    while (j < days.length - 1 && timings[j + 1] === currentTiming) {
       j++;
     }
 
     const dayRange = startDay + (i === j ? "" : `-${days[j]}`);
-    formattedHours.push(`${dayRange}: ${currentTiming}`);
-    i = j;
+    formattedOpeningHours.push(`${dayRange}: ${currentTiming}`);
+    i = j + 1;
   }
 
-  return formattedHours.join("\n");
+  return formattedOpeningHours.join(', ');
 };
+
+
+
+
+
 
 const StationDetails = () => {
   const userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
@@ -106,8 +175,8 @@ const StationDetails = () => {
   };
 
   const sectionTitles1 = {
-    address: "Address",
     openingDetails: "Opening Details",
+    address: "Address",
     chargerType: "Charger Type",
 
     // chargingFor: "Charger For",
@@ -137,8 +206,9 @@ const StationDetails = () => {
   };
 
   const sectionContent1 = {
-    address: bookingDetails?.address,
     openingDetails: getFormattedOpeningHours(bookingDetails),
+    address: bookingDetails?.address,
+    
     chargerType: bookingDetails?.charger_type,
 
   }
