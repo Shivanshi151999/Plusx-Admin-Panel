@@ -118,7 +118,7 @@ const RiderList = () => {
                 key: 'status', 
                 label: 'Status',
                 format: (status) => {
-                    if (status === 0) return "De-Active";
+                    if (status === 0) return "Inactive";
                     if (status === 1 || status === 3) return "Un-Available";
                     if (status === 2) return "Available";
                     return "Unknown";
