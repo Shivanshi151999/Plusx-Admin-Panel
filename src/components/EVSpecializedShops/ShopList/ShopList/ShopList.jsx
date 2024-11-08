@@ -13,7 +13,7 @@ const dynamicFilters = [
 
 const addButtonProps = {
     heading: "Add Shop", 
-    link: "/add-shop"
+    link: "/ev-specialized/add-shop"
 };
 
 const ShopList = () => {

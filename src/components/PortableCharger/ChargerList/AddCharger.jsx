@@ -43,38 +43,59 @@ const AddPortableCharger = () => {
         setIsDropdownOpen(!isDropdownOpen);
     };
 
+    // const validateForm = () => {
+    //     const newErrors = {};
+    //     let formIsValid = true;
+
+    //     if (!chargerName) {
+    //         newErrors.chargerName = "Charger Name is required.";
+    //         formIsValid = false;
+    //     }
+
+    //     if (!chargerPrice || isNaN(chargerPrice) || chargerPrice <= 0) {
+    //         newErrors.chargerPrice = "Please enter a valid Charger Price.";
+    //         formIsValid = false;
+    //     }
+
+    //     if (!chargerType) {
+    //         newErrors.chargerType = "Charger Type is required.";
+    //         formIsValid = false;
+    //     }
+
+    //     if (!chargerFeature) {
+    //         newErrors.chargerFeature = "Charger Feature is required.";
+    //         formIsValid = false;
+    //     }
+
+    //     if (!file) {
+    //         newErrors.file = "Image is required.";
+    //         formIsValid = false;
+    //     }
+
+    //     setErrors(newErrors);
+    //     return formIsValid;
+    // };
+
     const validateForm = () => {
-        const newErrors = {};
-        let formIsValid = true;
-
-        if (!chargerName) {
-            newErrors.chargerName = "Charger Name is required.";
-            formIsValid = false;
-        }
-
-        if (!chargerPrice || isNaN(chargerPrice) || chargerPrice <= 0) {
-            newErrors.chargerPrice = "Please enter a valid Charger Price.";
-            formIsValid = false;
-        }
-
-        if (!chargerType) {
-            newErrors.chargerType = "Charger Type is required.";
-            formIsValid = false;
-        }
-
-        if (!chargerFeature) {
-            newErrors.chargerFeature = "Charger Feature is required.";
-            formIsValid = false;
-        }
-
-        if (!file) {
-            newErrors.file = "Image is required.";
-            formIsValid = false;
-        }
-
+        const fields = [
+            { name: "chargerName", value: chargerName, errorMessage: "Charger Name is required.", isValid: val => val.trim() !== "" },
+            { name: "chargerPrice", value: chargerPrice, errorMessage: "Please enter a valid Charger Price.", isValid: val => val && !isNaN(val) && val > 0 },
+            { name: "chargerType", value: chargerType, errorMessage: "Charger Type is required.", isValid: val => val.trim() !== "" },
+            { name: "chargerFeature", value: chargerFeature, errorMessage: "Charger Feature is required.", isValid: val => val.trim() !== "" },
+            { name: "file", value: file, errorMessage: "Image is required.", isValid: val => !!val }
+        ];
+    
+        const newErrors = fields.reduce((errors, { name, value, errorMessage, isValid }) => {
+            if (!isValid(value)) {
+                errors[name] = errorMessage;
+            }
+            return errors;
+        }, {});
+    
         setErrors(newErrors);
-        return formIsValid;
+        return Object.keys(newErrors).length === 0;
     };
+    
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -189,7 +210,7 @@ const AddPortableCharger = () => {
                             <input
                                 type="file"
                                 id="fileUpload"
-                                accept="image/*"
+                                 accept=".jpeg,.jpg"
                                 onChange={handleFileChange}
                                 style={{ display: 'none' }}
                             />

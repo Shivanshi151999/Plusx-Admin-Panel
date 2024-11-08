@@ -488,7 +488,13 @@ const EditPublicChargerStation = () => {
                                 placeholder="Latitude"
                                 className={styles.inputField}
                                 value={latitude}
-                                onChange={(e) => setLatitude(e.target.value)}
+                                // onChange={(e) => setLatitude(e.target.value)}
+                                onChange={(e) => {
+                                    const value = e.target.value;
+                                    if (/^-?\d*\.?\d{0,8}$/.test(value)) {
+                                        setLatitude(value);
+                                    }
+                                }}
                             />
                             {errors.latitude && <p className={styles.error} style={{ color: 'red' }}>{errors.latitude}</p>}
                         </div>
@@ -499,7 +505,13 @@ const EditPublicChargerStation = () => {
                                 placeholder="Longitude"
                                 className={styles.inputField}
                                 value={longitude}
-                                onChange={(e) => setLongitude(e.target.value)}
+                                // onChange={(e) => setLongitude(e.target.value)}
+                                onChange={(e) => {
+                                    const value = e.target.value;
+                                    if (/^-?\d*\.?\d{0,8}$/.test(value)) {
+                                        setLongitude(value);
+                                    }
+                                }}
                             />
                             {errors.longitude && <p className={styles.error} style={{ color: 'red' }}>{errors.longitude}</p>}
                         </div>

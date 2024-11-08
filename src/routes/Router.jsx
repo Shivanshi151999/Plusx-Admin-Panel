@@ -118,11 +118,9 @@ const router = createBrowserRouter([
                 path: "/edit-charger-station/:stationId",
                 element: <EditPublicChargerStation/>,
                 
-            }, {
-                path: "/add-shop-list",
-                element: <AddShopListForm />,
-
-            }, {
+            }, 
+           
+            {
                 path: "/add-charger",
                 element: <AddCharger />,
 
@@ -203,6 +201,10 @@ const router = createBrowserRouter([
                     {
                         path: "shop-list", 
                         element: <ShopList />,
+                    }, {
+                        path: "add-shop",
+                        element: <AddShopListForm />,
+        
                     }, {
                         path: "service-list", 
                         element: <ServiceList />,

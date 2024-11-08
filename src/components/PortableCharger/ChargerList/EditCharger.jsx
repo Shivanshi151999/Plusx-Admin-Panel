@@ -232,7 +232,8 @@ const EditPortableCharger = () => {
                             <input
                                 type="file"
                                 id="fileUpload"
-                                accept="image/*"
+                                // accept="image/*"
+                                accept=".jpeg,.jpg"
                                 onChange={handleFileChange}
                                 style={{ display: 'none' }}
                             />

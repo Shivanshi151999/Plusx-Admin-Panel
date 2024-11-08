@@ -167,74 +167,112 @@ const AddChargerStation = () => {
         };
     }, [galleryFiles]);
 
+    // const validateForm = () => {
+    //     const newErrors = {};
+    //     let formIsValid = true;
+
+    //     if (!stationName) {
+    //         newErrors.stationName = "Station Name is required.";
+    //         formIsValid = false;
+    //     }
+
+    //     if (!selectedType || selectedType.length === 0) {
+    //         newErrors.chargerType = "Charging Type is required.";
+    //         formIsValid = false;
+    //     }
+
+    //     if (!selectedBrands || selectedBrands.length === 0) {
+    //         newErrors.chargingFor = "Charging For is required.";
+    //         formIsValid = false;
+    //     }
+    //     if (!chargingPoint) {
+    //         newErrors.chargingPoint = "Charging Point is required.";
+    //         formIsValid = false;
+    //     }
+    //     if (!description) {
+    //         newErrors.description = "Description is required.";
+    //         formIsValid = false;
+    //     }
+    //     if (!address) {
+    //         newErrors.address = "Address is required.";
+    //         formIsValid = false;
+    //     }
+    //     if (!latitude) {
+    //         newErrors.latitude = "Latitude is required.";
+    //         formIsValid = false;
+    //     }
+    //     if (!longitude) {
+    //         newErrors.longitude = "Longitude is required.";
+    //         formIsValid = false;
+    //     }
+
+    //     if (!file) {
+    //         newErrors.file = "Image is required.";
+    //         formIsValid = false;
+    //     }
+    //     if (!galleryFiles || galleryFiles.length === 0) {
+    //         newErrors.gallery = "Station Gallery is required.";
+    //         formIsValid = false;
+    //     }
+    //     if (!price) {
+    //         newErrors.price = "Price selection is required.";
+    //         formIsValid = false;
+    //     }
+
+    //     if (!isAlwaysOpen) {
+    //         Object.entries(timeSlots).forEach(([day, times]) => {
+    //             if (times.open && !times.close) {
+    //                 newErrors[`${day}CloseTime`] = ` Close Time is required `;
+    //                 formIsValid = false;
+    //             }
+    //             if (times.close && !times.open) {
+    //                 newErrors[`${day}OpenTime`] = ` Open Time is required `;
+    //                 formIsValid = false;
+    //             }
+    //         });
+    //     }
+    //     setErrors(newErrors);
+    //     return formIsValid;
+    // };
+
     const validateForm = () => {
-        const newErrors = {};
-        let formIsValid = true;
-
-        if (!stationName) {
-            newErrors.stationName = "Station Name is required.";
-            formIsValid = false;
-        }
-
-        if (!selectedType || selectedType.length === 0) {
-            newErrors.chargerType = "Charging Type is required.";
-            formIsValid = false;
-        }
-
-        if (!selectedBrands || selectedBrands.length === 0) {
-            newErrors.chargingFor = "Charging For is required.";
-            formIsValid = false;
-        }
-        if (!chargingPoint) {
-            newErrors.chargingPoint = "Charging Point is required.";
-            formIsValid = false;
-        }
-        if (!description) {
-            newErrors.description = "Description is required.";
-            formIsValid = false;
-        }
-        if (!address) {
-            newErrors.address = "Address is required.";
-            formIsValid = false;
-        }
-        if (!latitude) {
-            newErrors.latitude = "Latitude is required.";
-            formIsValid = false;
-        }
-        if (!longitude) {
-            newErrors.longitude = "Longitude is required.";
-            formIsValid = false;
-        }
-
-        if (!file) {
-            newErrors.file = "Image is required.";
-            formIsValid = false;
-        }
-        if (!galleryFiles || galleryFiles.length === 0) {
-            newErrors.gallery = "Station Gallery is required.";
-            formIsValid = false;
-        }
-        if (!price) {
-            newErrors.price = "Price selection is required.";
-            formIsValid = false;
-        }
-
+        const fields = [
+            { name: "stationName", value: stationName, errorMessage: "Station Name is required." },
+            { name: "chargerType", value: selectedType, errorMessage: "Charging Type is required.", isArray: true },
+            { name: "chargingFor", value: selectedBrands, errorMessage: "Charging For is required.", isArray: true },
+            { name: "chargingPoint", value: chargingPoint, errorMessage: "Charging Point is required." },
+            { name: "description", value: description, errorMessage: "Description is required." },
+            { name: "address", value: address, errorMessage: "Address is required." },
+            { name: "latitude", value: latitude, errorMessage: "Latitude is required." },
+            { name: "longitude", value: longitude, errorMessage: "Longitude is required." },
+            { name: "file", value: file, errorMessage: "Image is required." },
+            { name: "gallery", value: galleryFiles, errorMessage: "Station Gallery is required.", isArray: true },
+            { name: "price", value: price, errorMessage: "Price selection is required." }
+        ];
+    
+        const newErrors = fields.reduce((errors, { name, value, errorMessage, isArray }) => {
+            if ((isArray && (!value || value.length === 0)) || (!isArray && !value)) {
+                errors[name] = errorMessage;
+            }
+            return errors;
+        }, {});
+    
+        // Validate time slots only if not always open
         if (!isAlwaysOpen) {
             Object.entries(timeSlots).forEach(([day, times]) => {
                 if (times.open && !times.close) {
-                    newErrors[`${day}CloseTime`] = ` Close Time is required `;
-                    formIsValid = false;
+                    newErrors[`${day}CloseTime`] = `${day} Close Time is required`;
                 }
                 if (times.close && !times.open) {
-                    newErrors[`${day}OpenTime`] = ` Open Time is required `;
-                    formIsValid = false;
+                    newErrors[`${day}OpenTime`] = `${day} Open Time is required`;
                 }
             });
         }
+    
         setErrors(newErrors);
-        return formIsValid;
+        return Object.keys(newErrors).length === 0;
     };
-
+    
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -451,7 +489,14 @@ const AddChargerStation = () => {
                                 placeholder="Latitude"
                                 className={styles.inputField}
                                 value={latitude}
-                                onChange={(e) => setLatitude(e.target.value)}
+                                // onChange={(e) => setLatitude(e.target.value)}
+                                onChange={(e) => {
+                                    const value = e.target.value;
+                                    if (/^-?\d*\.?\d{0,8}$/.test(value)) {
+                                        setLatitude(value);
+                                    }
+                                }}
+                                
                             />
                             {errors.latitude && <p className={styles.error} style={{ color: 'red' }}>{errors.latitude}</p>}
                         </div>
@@ -462,7 +507,13 @@ const AddChargerStation = () => {
                                 placeholder="Longitude"
                                 className={styles.inputField}
                                 value={longitude}
-                                onChange={(e) => setLongitude(e.target.value)}
+                                // onChange={(e) => setLongitude(e.target.value)}
+                                onChange={(e) => {
+                                    const value = e.target.value;
+                                    if (/^-?\d*\.?\d{0,8}$/.test(value)) {
+                                        setLongitude(value);
+                                    }
+                                }}
                             />
                             {errors.longitude && <p className={styles.error} style={{ color: 'red' }}>{errors.longitude}</p>}
                         </div>
