@@ -28,6 +28,7 @@
   column-gap: 10px;
   justify-content: start;
   align-items: center;
+  cursor: pointer;
 }
 .logo {
   display: flex;

@@ -7,24 +7,31 @@ import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
 
 const SideNavbar = () => {
   const [openDropdown, setOpenDropdown] = useState(null);
-  const [checkedItems, setCheckedItems] = useState({
-    chargerList: false,
-    chargerBooking: false,
-    invoiceList: false,
-    timeSlot: false,
-  });
+  const [portableChargerCheckedItems, setPortableChargerCheckedItems] =
+    useState({
+      chargerList: false,
+      chargerBooking: false,
+      invoiceList: false,
+      timeSlot: false,
+    });
   const [pickAndDropCheckedItems, setpickAndDropCheckedItems] = useState({
     bookingList: false,
     invoiceList: false,
     timeSlot: false,
   });
+  const [evSpecializedShopsCheckedItems, setEVSpecializedShopsCheckedItems] =
+    useState({
+      shopList: false,
+      shopServices: false,
+      shopBrands: false,
+    });
 
   const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
     if (!location.pathname.includes("/portable-charger")) {
-      setCheckedItems({
+      setPortableChargerCheckedItems({
         chargerList: false,
         chargerBooking: false,
         invoiceList: false,
@@ -38,39 +45,34 @@ const SideNavbar = () => {
         timeSlot: false,
       });
     }
+    if (!location.pathname.includes("/ev-specialized")) {
+      setEVSpecializedShopsCheckedItems({
+        shopList: false,
+        shopServices: false,
+        shopBrands: false,
+      });
+    }
   }, [location]);
 
   const toggleDropdown = (menu) => {
     setOpenDropdown(openDropdown === menu ? null : menu);
   };
 
-  // const handleItemClick = (id, path) => {
-  //   setCheckedItems((prevState) => ({
-  //     ...prevState,
-  //     [id]: !prevState[id],
-  //   }));
-  //   navigate(path);
-  // };
-
-  const handleItemClick = (id, e) => {
-    // Prevent default action
+  const handlePortableChargerItemClicked = (id, e) => {
     e.stopPropagation();
 
-    // Reset all checkboxes to false, then set the clicked one to true
-    setCheckedItems((prevState) => {
-      // Create a new state object
+    setPortableChargerCheckedItems((prevState) => {
       const newState = {
         chargerList: false,
         chargerBooking: false,
         invoiceList: false,
         timeSlot: false,
-        [id]: true, // Set the clicked item to true
+        [id]: true,
       };
 
       return newState;
     });
 
-    // Map of paths based on item IDs
     const pathMapping = {
       chargerList: "/portable-charger/charger-list",
       chargerBooking: "/portable-charger/charger-booking-list",
@@ -78,14 +80,13 @@ const SideNavbar = () => {
       timeSlot: "/portable-charger/charger-booking-time-slot-list",
     };
 
-    // Navigate to the path associated with the item
     const path = pathMapping[id];
     if (path) {
       navigate(path);
     }
   };
 
-  const handlePickAndDropItemClick = (id, e) => {
+  const handlePickAndDropItemClicked = (id, e) => {
     e.stopPropagation();
 
     setpickAndDropCheckedItems((prevState) => {
@@ -103,6 +104,32 @@ const SideNavbar = () => {
       bookingList: "/pick-and-drop/booking-list",
       invoiceList: "/pick-and-drop/invoice-list",
       timeSlot: "/pick-and-drop/time-slot-list",
+    };
+
+    const path = pathMapping[id];
+    if (path) {
+      navigate(path);
+    }
+  };
+
+  const handleEvSpecializedShopsItemClicked = (id, e) => {
+    e.stopPropagation();
+
+    setEVSpecializedShopsCheckedItems((prevState) => {
+      const newState = {
+        shopList: false,
+        shopServices: false,
+        shopBrands: false,
+        [id]: true,
+      };
+
+      return newState;
+    });
+
+    const pathMapping = {
+      shopList: "/ev-specialized/shop-list",
+      shopServices: "/ev-specialized/service-list",
+      shopBrands: "/ev-specialized/brand-list",
     };
 
     const path = pathMapping[id];
@@ -155,19 +182,23 @@ const SideNavbar = () => {
             <ul className={styles.subMenu}>
               {/* Charger List */}
               <li
-                className={`${styles.menuItemContainer} ${
-                  checkedItems.chargerList
+                className={`${
+                  portableChargerCheckedItems.chargerList
                     ? styles.activeItem
                     : styles.inactiveItem
                 }`}
-                onClick={(e) => handleItemClick("chargerList", e)}
+                onClick={(e) =>
+                  handlePortableChargerItemClicked("chargerList", e)
+                }
               >
                 <input
                   className={styles.checkboxInput}
                   type="checkbox"
                   id="chargerList"
-                  checked={checkedItems.chargerList}
-                  onChange={(e) => handleItemClick("chargerList", e)}
+                  checked={portableChargerCheckedItems.chargerList}
+                  onChange={(e) =>
+                    handlePortableChargerItemClicked("chargerList", e)
+                  }
                 />
                 <label
                   htmlFor="chargerList"
@@ -186,19 +217,23 @@ const SideNavbar = () => {
 
               {/* Charger Booking */}
               <li
-                className={`${styles.menuItemContainer} ${
-                  checkedItems.chargerBooking
+                className={`${
+                  portableChargerCheckedItems.chargerBooking
                     ? styles.activeItem
                     : styles.inactiveItem
                 }`}
-                onClick={(e) => handleItemClick("chargerBooking", e)}
+                onClick={(e) =>
+                  handlePortableChargerItemClicked("chargerBooking", e)
+                }
               >
                 <input
                   className={styles.checkboxInput}
                   type="checkbox"
                   id="chargerBooking"
-                  checked={checkedItems.chargerBooking}
-                  onChange={(e) => handleItemClick("chargerBooking", e)}
+                  checked={portableChargerCheckedItems.chargerBooking}
+                  onChange={(e) =>
+                    handlePortableChargerItemClicked("chargerBooking", e)
+                  }
                 />
                 <label
                   htmlFor="chargerBooking"
@@ -217,19 +252,23 @@ const SideNavbar = () => {
 
               {/* Invoice List */}
               <li
-                className={`${styles.menuItemContainer} ${
-                  checkedItems.invoiceList
+                className={`${
+                  portableChargerCheckedItems.invoiceList
                     ? styles.activeItem
                     : styles.inactiveItem
                 }`}
-                onClick={(e) => handleItemClick("invoiceList", e)}
+                onClick={(e) =>
+                  handlePortableChargerItemClicked("invoiceList", e)
+                }
               >
                 <input
                   className={styles.checkboxInput}
                   type="checkbox"
                   id="invoiceList"
-                  checked={checkedItems.invoiceList}
-                  onChange={(e) => handleItemClick("invoiceList", e)}
+                  checked={portableChargerCheckedItems.invoiceList}
+                  onChange={(e) =>
+                    handlePortableChargerItemClicked("invoiceList", e)
+                  }
                 />
                 <label
                   htmlFor="invoiceList"
@@ -248,19 +287,21 @@ const SideNavbar = () => {
 
               {/* Time Slot */}
               <li
-                className={`${styles.menuItemContainer} ${
-                  checkedItems.timeSlot
+                className={`${
+                  portableChargerCheckedItems.timeSlot
                     ? styles.activeItem
                     : styles.inactiveItem
                 }`}
-                onClick={(e) => handleItemClick("timeSlot", e)}
+                onClick={(e) => handlePortableChargerItemClicked("timeSlot", e)}
               >
                 <input
                   className={styles.checkboxInput}
                   type="checkbox"
                   id="timeSlot"
-                  checked={checkedItems.timeSlot}
-                  onChange={(e) => handleItemClick("timeSlot", e)}
+                  checked={portableChargerCheckedItems.timeSlot}
+                  onChange={(e) =>
+                    handlePortableChargerItemClicked("timeSlot", e)
+                  }
                 />
                 <label htmlFor="timeSlot" className={styles.checkmark}></label>
                 <NavLink
@@ -288,19 +329,21 @@ const SideNavbar = () => {
           {openDropdown === "pickDrop" && (
             <ul className={styles.subMenu}>
               <li
-                className={`${styles.menuItemContainer} ${
+                className={`${
                   pickAndDropCheckedItems.bookingList
                     ? styles.activeItem
                     : styles.inactiveItem
                 }`}
-                onClick={(e) => handlePickAndDropItemClick("bookingList", e)}
+                onClick={(e) => handlePickAndDropItemClicked("bookingList", e)}
               >
                 <input
                   className={styles.checkboxInput}
                   type="checkbox"
                   id="bookingList"
                   checked={pickAndDropCheckedItems.bookingList}
-                  onChange={(e) => handlePickAndDropItemClick("bookingList", e)}
+                  onChange={(e) =>
+                    handlePickAndDropItemClicked("bookingList", e)
+                  }
                 />
                 <label
                   htmlFor="bookingList"
@@ -314,19 +357,21 @@ const SideNavbar = () => {
                 </NavLink>
               </li>
               <li
-                className={`${styles.menuItemContainer} ${
+                className={`${
                   pickAndDropCheckedItems.invoiceList
                     ? styles.activeItem
                     : styles.inactiveItem
                 }`}
-                onClick={(e) => handlePickAndDropItemClick("invoiceList", e)}
+                onClick={(e) => handlePickAndDropItemClicked("invoiceList", e)}
               >
                 <input
                   className={styles.checkboxInput}
                   type="checkbox"
                   id="invoiceList"
                   checked={pickAndDropCheckedItems.invoiceList}
-                  onChange={(e) => handlePickAndDropItemClick("invoiceList", e)}
+                  onChange={(e) =>
+                    handlePickAndDropItemClicked("invoiceList", e)
+                  }
                 />
                 <label
                   htmlFor="invoiceList"
@@ -340,19 +385,19 @@ const SideNavbar = () => {
                 </NavLink>
               </li>
               <li
-                className={`${styles.menuItemContainer} ${
+                className={`${
                   pickAndDropCheckedItems.timeSlot
                     ? styles.activeItem
                     : styles.inactiveItem
                 }`}
-                onClick={(e) => handlePickAndDropItemClick("timeSlot", e)}
+                onClick={(e) => handlePickAndDropItemClicked("timeSlot", e)}
               >
                 <input
                   className={styles.checkboxInput}
                   type="checkbox"
                   id="timeSlot"
                   checked={pickAndDropCheckedItems.timeSlot}
-                  onChange={(e) => handlePickAndDropItemClick("timeSlot", e)}
+                  onChange={(e) => handlePickAndDropItemClicked("timeSlot", e)}
                 />
                 <label htmlFor="timeSlot" className={styles.checkmark}></label>
                 <NavLink
@@ -538,11 +583,24 @@ const SideNavbar = () => {
           </li>
           {openDropdown === "evShops" && (
             <ul className={styles.subMenu}>
-              <li>
+              <li
+                className={`${
+                  evSpecializedShopsCheckedItems.shopList
+                    ? styles.activeItem
+                    : styles.inactiveItem
+                }`}
+                onClick={(e) =>
+                  handleEvSpecializedShopsItemClicked("shopList", e)
+                }
+              >
                 <input
                   className={styles.checkboxInput}
                   type="checkbox"
                   id="shopList"
+                  checked={evSpecializedShopsCheckedItems.shopList}
+                  onChange={(e) =>
+                    handleEvSpecializedShopsItemClicked("shopList", e)
+                  }
                 />
                 <label htmlFor="shopList" className={styles.checkmark}></label>
                 <NavLink
@@ -552,11 +610,24 @@ const SideNavbar = () => {
                   Shop List
                 </NavLink>
               </li>
-              <li>
+              <li
+                className={`${
+                  evSpecializedShopsCheckedItems.shopServices
+                    ? styles.activeItem
+                    : styles.inactiveItem
+                }`}
+                onClick={(e) =>
+                  handleEvSpecializedShopsItemClicked("shopServices", e)
+                }
+              >
                 <input
                   className={styles.checkboxInput}
                   type="checkbox"
                   id="shopServices"
+                  checked={evSpecializedShopsCheckedItems.shopServices}
+                  onChange={(e) =>
+                    handleEvSpecializedShopsItemClicked("shopServices", e)
+                  }
                 />
                 <label
                   htmlFor="shopServices"
@@ -569,11 +640,24 @@ const SideNavbar = () => {
                   Shop Services
                 </NavLink>
               </li>
-              <li>
+              <li
+                className={`${
+                  evSpecializedShopsCheckedItems.shopBrands
+                    ? styles.activeItem
+                    : styles.inactiveItem
+                }`}
+                onClick={(e) =>
+                  handleEvSpecializedShopsItemClicked("shopBrands", e)
+                }
+              >
                 <input
                   className={styles.checkboxInput}
                   type="checkbox"
                   id="shopBrands"
+                  checked={evSpecializedShopsCheckedItems.shopBrands}
+                  onChange={(e) =>
+                    handleEvSpecializedShopsItemClicked("shopBrands", e)
+                  }
                 />
                 <label
                   htmlFor="shopBrands"
