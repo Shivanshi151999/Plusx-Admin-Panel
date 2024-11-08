@@ -19,6 +19,19 @@ const PortableChargerTimeSlotList = () => {
     const [totalPages, setTotalPages]     = useState(1);
     const [refresh, setRefresh]           = useState(false)
     const [filters, setFilters]           = useState({});
+    
+    const searchTerm = [
+        {
+            label: 'search', 
+            name: 'search_text', 
+            type: 'text'
+        }
+    ]
+
+    const addButtonProps = {
+        heading : "Add Slot", 
+        link    : '/portable-charger/add-time-slot'
+    };
 
     const groupBySlotDate = (slots) => {
         const grouped = slots.reduce((acc, slot) => {
@@ -36,19 +49,7 @@ const PortableChargerTimeSlotList = () => {
     };
 
     const groupedData = groupBySlotDate(timeSlotList);
-    
-    const searchTerm = [
-        {
-            label: 'search', 
-            name: 'search_text', 
-            type: 'text'
-        }
-    ]
 
-    const addButtonProps = {
-        heading : "Add Slot", 
-        link    : '/portable-charger/add-time-slot'
-    };
     const fetchList = (page, appliedFilters = {}) => {
         const obj = {
             userId  : userDetails?.user_id,

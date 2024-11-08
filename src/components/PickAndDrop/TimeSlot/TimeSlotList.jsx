@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import List from '../../SharedComponent/List/List'
+import Delete from '../../../assets/images/Delete.svg';
+import Edit from '../../../assets/images/Pen.svg';
+import styles from '../../SharedComponent/List/list.module.css';
 import SubHeader from '../../SharedComponent/SubHeader/SubHeader'
 import Pagination from '../../SharedComponent/Pagination/Pagination'
 import { getRequestWithToken, postRequestWithToken } from '../../../api/Requests';
@@ -29,6 +32,24 @@ const TimeSlotList = () => {
         link: "/pick-and-drop/add-time-slot"
     };
 
+    const groupBySlotDate = (slots) => {
+        const grouped = slots.reduce((acc, slot) => {
+            const date = slot.slot_date;
+            if (!acc[date]) {
+                acc[date] = [];
+            }
+            acc[date].push(slot);
+            return acc;
+        }, {});
+    
+        return Object.entries(grouped)
+            .sort(([dateA], [dateB]) => new Date(dateB) - new Date(dateA))
+            .map(([slot_date, slots]) => ({ slot_date, slots }));
+    };
+
+    const groupedData = groupBySlotDate(timeSlotList);
+console.log(groupedData);
+
     const fetchList = (page, appliedFilters = {}) => {
         const obj = {
             userId : userDetails?.user_id,
@@ -39,7 +60,12 @@ const TimeSlotList = () => {
 
         postRequestWithToken('pick-and-drop-slot-list', obj, async(response) => {
             if (response.code === 200) {
-                setTimeSlotList(response?.data)
+                // setTimeSlotList(response?.data)
+                const updatedData = response.data.map((item) => ({
+                    ...item,
+                    remaining_booking: (item.booking_limit || 0) - (item.slot_booking_count || 0),
+                }));
+                setTimeSlotList(updatedData)
                 setTotalPages(response?.total_page || 1); 
             } else {
                 // toast(response.message, {type:'error'})
@@ -85,6 +111,8 @@ const TimeSlotList = () => {
         }
     };
 
+    const handlePickDropEditTimeSlot = (id) => navigate(`/pick-and-drop/edit-time-slot/${id}`)
+
     return (
         <>
          <SubHeader heading = "Pick & Drop Time Slot List" 
@@ -93,7 +121,8 @@ const TimeSlotList = () => {
          fetchFilteredData={fetchFilteredData} 
          searchTerm = {searchTerm}
          />
-        <List 
+
+        {/* <List 
         tableHeaders={["Slot ID", "Timing", "Total Booking", "Booking Limit", "Status", "Action"]}
         listData = {timeSlotList}
         keyMapping={[
@@ -123,7 +152,66 @@ const TimeSlotList = () => {
       ]}
         pageHeading="Pick & Drop Time Slot List"
         onDeleteSlot={handleDeleteSlot}
-          />
+          /> */}
+
+            <div className={styles.containerCharger}>
+                    
+                <table className={styles.table}>
+                        <thead>
+                            <tr>
+                                <th>Slot ID</th>
+                                <th>Timing</th>
+                                <th>Booking Limit</th>
+                                <th>Total Booking</th>
+                                <th>Remaining Booking</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                        {groupedData.map((group, index) => (
+                        <React.Fragment key={index}>
+                            <tr>
+                                <td  className={styles.listSpan}>
+                                    {/* Date: {group.slot_date} */}
+                                    Date: 2024-11-08
+                                    </td>
+                                
+                            </tr>
+        
+                            {group.slots.map((slot, slotIndex) => (
+                                <tr key={slotIndex}>
+                                    <td>{slot.slot_id}</td>
+                                    <td>
+                                        {slot.timing ? (() => {
+                                            const [startTime, endTime] = slot.timing.split(' - ');
+                                            const formattedStart = moment(startTime, 'HH:mm:ss').format('HH:mm');
+                                            const formattedEnd = moment(endTime, 'HH:mm:ss').format('HH:mm');
+                                            return `${formattedStart} - ${formattedEnd}`;
+                                        })() : 'N/A'}
+                                    </td>
+                                    <td>{slot.booking_limit || '0'}</td>
+                                    <td>{slot.slot_booking_count || '0'}</td>
+                                    <td>{slot.remaining_booking || '0'}</td>
+                                    <td>{slot.status === 1 ? "Active" : "Inactive"}</td>
+                                    <td>
+                                        <div className={styles.editContent}>
+                                        <img src={Edit} alt='edit' 
+                                            onClick={() => handlePickDropEditTimeSlot(slot.slot_id)}
+                                        />
+                                        <img src={Delete} alt='delete' onClick={() => handleDeleteSlot(slot.slot_id)}/>
+                                        </div>
+                                    </td>
+                                </tr>
+                            ))}
+                        </React.Fragment>
+                    ))}
+        
+                        </tbody>
+                </table>
+        
+            </div>
            
         <Pagination 
           currentPage={currentPage} 
