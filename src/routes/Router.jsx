@@ -47,6 +47,7 @@ import GuideList from '../components/EvGuide/GuideList.jsx'
 import GuideDetails from '../components/EvGuide/GuideDetails.jsx'
 import AddEvGuide from '../components/EvGuide/AddEvGuide.jsx';
 import EditEvGuide from '../components/EvGuide/EditEvGuide.jsx';
+import AddElectricCar from '../components/ElectricCarLeasing/AddElectricCar.jsx';
 
 const router = createBrowserRouter([
 
@@ -179,6 +180,10 @@ const router = createBrowserRouter([
             {
                 path: "/electric-car-list",
                 element: <CarList />,
+            },
+            {
+                path: "/add-electric-car",
+                element: <AddElectricCar />,
             },
             //Electric Bilke Leasing
             {

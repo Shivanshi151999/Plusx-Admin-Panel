@@ -42,36 +42,6 @@ const AddChargerStation = () => {
     });
 
 
-    // const handleTimeChange = (day, timeType) => (event) => {
-    //     const value = event.target.value;
-
-    //     setTimeSlots((prev) => {
-    //         const updatedTimeSlots = {
-    //             ...prev,
-    //             [day]: {
-    //                 ...prev[day],
-    //                 [timeType]: value,
-    //             },
-    //         };
-
-    //         if (timeType === 'open') {
-    //             if (value) {
-    //                 updatedTimeSlots[day].closeMandatory = true; 
-    //                 updatedTimeSlots[day].closeMandatory = false; 
-    //             }
-    //         } else if (timeType === 'close') {
-    //             if (value) {
-    //                 updatedTimeSlots[day].openMandatory = true; 
-    //             } else if (!updatedTimeSlots[day].open) {
-    //                 updatedTimeSlots[day].openMandatory = false; 
-    //             }
-    //         }
-
-    //         return updatedTimeSlots;
-    //     });
-    // };
-
-
     const handleTimeChange = (day, timeType) => (event) => {
         const value = event.target.value.replace(/[^0-9:-]/g, '');
 
