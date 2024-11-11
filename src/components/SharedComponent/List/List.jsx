@@ -40,7 +40,7 @@ const List = ({list, tableHeaders, listData, keyMapping, pageHeading, onDeleteSl
 
     //EvGuide
     const handleEvGuideDetails = (id) => navigate(`/ev-guide-details/${id}`)
-    const handleEvGuideEdit = (id) => navigate(`/edit-ev-guide/${id}`)
+    const handleEvGuideEdit    = (id) => navigate(`/edit-ev-guide/${id}`)
     
     return (
         <div className={styles.containerCharger}>
@@ -202,7 +202,7 @@ const List = ({list, tableHeaders, listData, keyMapping, pageHeading, onDeleteSl
                                         <>
                                          <img src={View} alt="view" onClick={() => handleEvGuideDetails(data.vehicle_id)}/>
                                             <img src={Edit} alt='edit' onClick={() => handleEvGuideEdit(data.vehicle_id)}/>
-                                            <img src={Delete} alt='delete' />
+                                            <img src={Delete} alt='delete'  onClick={() => onDeleteSlot(data.vehicle_id)}/>
                                         </>
                                     )}
                                     

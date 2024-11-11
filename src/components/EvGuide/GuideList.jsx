@@ -10,19 +10,19 @@ import { useNavigate } from 'react-router-dom';
 const dynamicFilters = [
     // { label: 'Club Name', name: 'search', type: 'text' },
 ]
-
 const addButtonProps = {
     heading: "Add", 
     link: "/add-ev-guide"
 };
 
 const GuideList = () => {
-    const userDetails = JSON.parse(sessionStorage.getItem('userDetails')); 
-    const navigate = useNavigate()
+    const userDetails                   = JSON.parse(sessionStorage.getItem('userDetails')); 
+    const navigate                      = useNavigate()
     const [vehicleList, setVehicleList] = useState([])
     const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(1);
-    const [filters, setFilters] = useState({});
+    const [totalPages, setTotalPages]   = useState(1);
+    const [refresh, setRefresh]         = useState(false)
+    const [filters, setFilters]         = useState({});
     const searchTerm = [
         {
             label: 'search', 
@@ -56,7 +56,7 @@ const GuideList = () => {
             return; 
         }
         fetchList(currentPage, filters);
-    }, [currentPage, filters]);
+    }, [currentPage, filters, refresh]);
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -65,6 +65,26 @@ const GuideList = () => {
     const fetchFilteredData = (newFilters = {}) => {
         setFilters(newFilters);  
         setCurrentPage(1); 
+    };
+
+    const handleDeleteSlot = (vehicleId) => {
+        const confirmDelete = window.confirm("Are you sure you want to delete this?");
+        if (confirmDelete) {
+            const obj = { 
+                userId     : userDetails?.user_id,
+                email      : userDetails?.email,
+                vehicle_id : vehicleId 
+            };
+            postRequestWithToken('ev-guide-delete', obj, async (response) => {
+                if (response.code === 200) {
+                    setRefresh(prev => !prev);
+                    toast(response.message[0], { type: "success" });
+                } else {
+                    toast(response.message, { type: 'error' });
+                    console.log('error in delete-rider api', response);
+                }
+            });
+        }
     };
 
     return (
@@ -84,7 +104,7 @@ const GuideList = () => {
              { 
                 key: 'vehicle_name', 
                 label: 'Vehicle / Model Name',
-                relatedKeys: ['vehicle_name', 'vehicle_model'], 
+                relatedKeys: [ 'vehicle_model'], 
                 format: (data, key, relatedKeys) => (
                     <>
                         {data[key]}<br />
@@ -97,6 +117,7 @@ const GuideList = () => {
             { key: 'price', label: 'Price' }, 
         ]}
         pageHeading="EV Guide List"
+        onDeleteSlot={handleDeleteSlot}
           />
         <Pagination 
           currentPage={currentPage} 
