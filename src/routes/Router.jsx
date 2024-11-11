@@ -39,11 +39,14 @@ import ClubList from '../components/EvRiderClub/ClubList.jsx';
 import CarList from '../components/ElectricCarLeasing/CarList.jsx';
 import BikeList from '../components/ElectricBikeLeasing/BikeList.jsx';
 import AddChargerStation from '../components/PublicChargerStation/AddChargerStation.jsx';
-
 import EditPublicChargerStation from '../components/PublicChargerStation/EditPublicChargerStation.jsx';
 import Invoice from '../components/SharedComponent/Invoice/Invoice.jsx';
 import InvoiceDetails from '../components/PortableCharger/InvoiceList/InvoiceDetails.jsx';
 import PickAndDropInvoiceDetails from '../components/PickAndDrop/Invoice/InvoiceDetails.jsx'
+import GuideList from '../components/EvGuide/GuideList.jsx'
+import GuideDetails from '../components/EvGuide/GuideDetails.jsx'
+import AddEvGuide from '../components/EvGuide/AddEvGuide.jsx';
+import EditEvGuide from '../components/EvGuide/EditEvGuide.jsx';
 
 const router = createBrowserRouter([
 
@@ -183,10 +186,22 @@ const router = createBrowserRouter([
                 element: <BikeList />,
             },
             //Ev Guide
-            // {
-            //   path: "/ev-guide-list",
-            //   element: <GuideList />,
-            // },
+            {
+              path: "/ev-guide-list",
+              element: <GuideList />,
+            },
+            {
+                path: "/ev-guide-details/:vehicleId",
+                element: <GuideDetails />,
+            },
+            {
+                path: "/add-ev-guide",
+                element: <AddEvGuide />,
+            },
+            {
+                path: "/edit-ev-guide/:vehicleId",
+                element: <EditEvGuide />,
+            },
 
             //Ev Rider Club
             {

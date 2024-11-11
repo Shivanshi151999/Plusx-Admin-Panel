@@ -436,7 +436,7 @@ const SideNavbar = () => {
           <li>Electric Bike Leasing</li>
         </NavLink>
         <NavLink
-          to="/sii"
+          to="/ev-guide-list"
           className={({ isActive }) =>
             isActive ? `${styles.menuItem} ${styles.active}` : styles.menuItem
           }

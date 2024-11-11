@@ -2,7 +2,7 @@ import React from 'react';
 import styles from '../details.module.css';
 import moment from 'moment';
 const BookingDetailsHeader = ({ content, titles, sectionContent, type }) => {
-    // console.log(content)
+    console.log(content, titles)
     return (
         <div className={styles.infoCard}>
             <div className="row">
@@ -19,7 +19,7 @@ const BookingDetailsHeader = ({ content, titles, sectionContent, type }) => {
                     </div>
                 </div>
                 
-                {type !== 'publicChargingStation' && (
+                {type !== 'publicChargingStation' && type !== 'evGuide' &&(
                 <div className="col-xl-3 col-lg-6 col-12">
                     <div className={styles.detailsHeaderSection}>
                     <div className={styles.detailsImageSection}></div>
@@ -78,6 +78,20 @@ const BookingDetailsHeader = ({ content, titles, sectionContent, type }) => {
                     </div>
                 </div>
                 )}
+
+              {type === 'evGuide' && (
+                <div className="col-xl-3 col-lg-6 col-12">
+                    <div className={styles.detailsHeaderSection}>
+                    <div className={styles.detailsImageSection}>
+                    </div>
+                    <div className={styles.infoBlock}>
+                        <span className={styles.infoHeading}>{titles.stationDetailsTitle}</span>
+                        <span className={styles.infoHeadText}>{content.stationName}</span>
+                    </div>
+                    </div>
+                </div>
+                )}
+
             </div>
         </div>
     );

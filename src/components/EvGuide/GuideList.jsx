@@ -8,12 +8,12 @@ import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from 'react-router-dom';
 
 const dynamicFilters = [
-    { label: 'Club Name', name: 'search', type: 'text' },
+    // { label: 'Club Name', name: 'search', type: 'text' },
 ]
 
 const addButtonProps = {
     heading: "Add", 
-    link: "/add-vehicle"
+    link: "/add-ev-guide"
 };
 
 const GuideList = () => {
@@ -23,22 +23,29 @@ const GuideList = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [filters, setFilters] = useState({});
+    const searchTerm = [
+        {
+            label: 'search', 
+            name: 'search_text', 
+            type: 'text'
+        }
+    ]
 
     const fetchList = (page, appliedFilters = {}) => {
         const obj = {
-            userId : userDetails?.user_id,
-            email : userDetails?.email,
+            userId  : userDetails?.user_id,
+            email   : userDetails?.email,
             page_no : page,
             ...appliedFilters,
         }
 
-        postRequestWithToken('vehicle-list', obj, async(response) => {
+        postRequestWithToken('ev-guide-list', obj, async(response) => {
             if (response.code === 200) {
                 setVehicleList(response?.data)
                 setTotalPages(response?.total_page || 1); 
             } else {
                 // toast(response.message, {type:'error'})
-                console.log('error in vehicle-list api', response);
+                console.log('error in ev-guide-list api', response);
             }
         })
     }
@@ -66,13 +73,25 @@ const GuideList = () => {
          fetchFilteredData={fetchFilteredData} 
          dynamicFilters={dynamicFilters} filterValues={filters}
          addButtonProps={addButtonProps}
+         searchTerm = {searchTerm}
          />
         <List 
         tableHeaders={["Vehicle ID", "Vehicle / Model Name", "Vehicle Type", "Horse Power", "Price", "Action"]}
           listData = {vehicleList}
           keyMapping={[
             { key: 'vehicle_id', label: 'Vehicle ID' }, 
-            { key: 'vehicle_name', label: 'Vehicle / Model Name' }, 
+            // { key: 'vehicle_name', label: 'Vehicle / Model Name' }, 
+             { 
+                key: 'vehicle_name', 
+                label: 'Vehicle / Model Name',
+                relatedKeys: ['vehicle_name', 'vehicle_model'], 
+                format: (data, key, relatedKeys) => (
+                    <>
+                        {data[key]}<br />
+                        {relatedKeys.map((relatedKey) => data[relatedKey]).join(" ")}
+                    </>
+                )
+            }, 
             { key: 'vehicle_type', label: 'Vehicle Type' }, 
             { key: 'horse_power', label: 'Horse Power' }, 
             { key: 'price', label: 'Price' }, 

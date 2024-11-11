@@ -37,6 +37,10 @@ const List = ({list, tableHeaders, listData, keyMapping, pageHeading, onDeleteSl
     const handlePortableInvoice = (id) => navigate(`/invoice/${id}`)
     
     const handlePickAndDropInvoiceDetails = (id) =>  navigate(`/pick-and-drop/invoice-details/${id}`)
+
+    //EvGuide
+    const handleEvGuideDetails = (id) => navigate(`/ev-guide-details/${id}`)
+    const handleEvGuideEdit = (id) => navigate(`/edit-ev-guide/${id}`)
     
     return (
         <div className={styles.containerCharger}>
@@ -189,6 +193,15 @@ const List = ({list, tableHeaders, listData, keyMapping, pageHeading, onDeleteSl
                                         <>
                                          <img src={View} alt="view"/>
                                             <img src={Edit} alt='edit' />
+                                            <img src={Delete} alt='delete' />
+                                        </>
+                                    )}
+
+                                  {/* EV Guide */}
+                                   {pageHeading === 'EV Guide List' && (
+                                        <>
+                                         <img src={View} alt="view" onClick={() => handleEvGuideDetails(data.vehicle_id)}/>
+                                            <img src={Edit} alt='edit' onClick={() => handleEvGuideEdit(data.vehicle_id)}/>
                                             <img src={Delete} alt='delete' />
                                         </>
                                     )}
