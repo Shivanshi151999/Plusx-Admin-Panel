@@ -1,9 +1,10 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 import style from "./DashboardCardItem.module.css";
 
-const DashboardCardItem = ({ title, icon, count, isActive, onClick }) => {
+const DashboardCardItem = ({ title, icon, count, route, isActive, onClick }) => {
   return (
-    <div
+    <NavLink to={route}
       className={`${style.card} ${isActive ? style.cardActive : ""}`}
       onClick={onClick}
     >
@@ -12,7 +13,7 @@ const DashboardCardItem = ({ title, icon, count, isActive, onClick }) => {
         <div className={style.cardCount}>{count}</div>
       </div>
       <div className={style.cardTitle}>{title}</div>
-    </div>
+    </NavLink>
   );
 };
 

@@ -7,7 +7,7 @@
 
 .card:hover {
   background-color: #00ffc3;
-  color: #000000;
+  color: #000000 !important;
   cursor: pointer;
 }
 
@@ -40,7 +40,7 @@
 
 .cardActive {
   background-color: #00ffc3;
-  color: #000000;
+  color: #000000 !important;
 }
 
 .cardActive .cardIcon {
