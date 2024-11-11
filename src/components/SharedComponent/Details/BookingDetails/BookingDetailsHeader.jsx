@@ -19,7 +19,7 @@ const BookingDetailsHeader = ({ content, titles, sectionContent, type }) => {
                     </div>
                 </div>
                 
-                {type !== 'publicChargingStation' && type !== 'evGuide' &&(
+                {type !== 'publicChargingStation' && type !== 'evGuide' && type !== 'electricCarLeasing' &&(
                 <div className="col-xl-3 col-lg-6 col-12">
                     <div className={styles.detailsHeaderSection}>
                     <div className={styles.detailsImageSection}></div>
@@ -80,6 +80,19 @@ const BookingDetailsHeader = ({ content, titles, sectionContent, type }) => {
                 )}
 
               {type === 'evGuide' && (
+                <div className="col-xl-3 col-lg-6 col-12">
+                    <div className={styles.detailsHeaderSection}>
+                    <div className={styles.detailsImageSection}>
+                    </div>
+                    <div className={styles.infoBlock}>
+                        <span className={styles.infoHeading}>{titles.stationDetailsTitle}</span>
+                        <span className={styles.infoHeadText}>{content.stationName}</span>
+                    </div>
+                    </div>
+                </div>
+                )}
+
+               {type === 'electricCarLeasing' && (
                 <div className="col-xl-3 col-lg-6 col-12">
                     <div className={styles.detailsHeaderSection}>
                     <div className={styles.detailsImageSection}>

@@ -41,6 +41,10 @@ const List = ({list, tableHeaders, listData, keyMapping, pageHeading, onDeleteSl
     //EvGuide
     const handleEvGuideDetails = (id) => navigate(`/ev-guide-details/${id}`)
     const handleEvGuideEdit    = (id) => navigate(`/edit-ev-guide/${id}`)
+
+    //ElectricCar
+    const handleEditElectricCar = (id) => navigate(`/edit-electric-car/${id}`)
+    const handleElectricCarDetails = (id) => navigate(`/electric-car-details/${id}`)
     
     return (
         <div className={styles.containerCharger}>
@@ -183,9 +187,9 @@ const List = ({list, tableHeaders, listData, keyMapping, pageHeading, onDeleteSl
 
                                     {pageHeading === 'Electric Cars Leasing List' && (
                                         <>
-                                         <img src={View} alt="view"/>
-                                            <img src={Edit} alt='edit' />
-                                            <img src={Delete} alt='delete' />
+                                         <img src={View} alt="view" onClick={() => handleElectricCarDetails(data.rental_id)}/>
+                                            <img src={Edit} alt='edit' onClick={() => handleEditElectricCar(data.rental_id)}/>
+                                            <img src={Delete} alt='delete' onClick={() => onDeleteSlot(data.rental_id)}/>
                                         </>
                                     )}
 

@@ -1,42 +1,61 @@
 import React, { useState, useRef, useEffect } from "react";
 import Select from "react-select";
-import styles from './addevguide.module.css';
+import { MultiSelect } from "react-multi-select-component";
+import styles from './addcar.module.css';
 import UploadIcon from '../../assets/images/uploadicon.svg';
 import { AiOutlineClose } from 'react-icons/ai';
-import { MultiSelect } from "react-multi-select-component";
 import { useNavigate, useParams } from 'react-router-dom';
-import Add from "../../assets/images/Add.svg"
-import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import { postRequestWithTokenAndFile, postRequestWithToken } from '../../api/Requests';
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
-const EditEvGuide = () => {
+const EditElectricCar = () => {
   const userDetails                     = JSON.parse(sessionStorage.getItem('userDetails')); 
   const navigate                        = useNavigate()
-  const {vehicleId}                     = useParams()
+  const {rentalId}                      = useParams()
   const [details, setDetails]           = useState()
   const [file, setFile]                 = useState(null);
   const [galleryFiles, setGalleryFiles] = useState([]);
   const [errors, setErrors]             = useState({});
-  const [modelName, setModelName]       = useState()
-  const [vehicleName, setVehicleName]   = useState()
-  const [engine, setEngine]             = useState()
-  const [horsePower, setHorsePower]     = useState()
-  const [maxSpeed, setMaxSpeed]         = useState()
-  const [price, setPrice]               = useState()
+  const [carName, setCarName]           = useState()
+  const [availableOn, setAvailableOn]   = useState()
   const [description, setDescription]   = useState()
-  const [feature, setFeature]           = useState()
-  const [vehicleType, setVehicleType]   = useState(null);
+  const [url, setUrl]                   = useState()
+  const [price, setPrice]               = useState()
+  const [carType, setCarType]           = useState(null);
+  const [contract, setContract]         = useState([])
+  const [feature, setFeature]           = useState([])
+
+  const contractDropdownRef = useRef(null);
+  const featureDropdownRef = useRef(null);
 
     const typeOpetions = [
         // { value: "", label: "Select Vehicle Type" },
-        { value: "Car", label: "Car" },
-        { value: "Bike", label: "Bike" },
+        { value: "Lease", label: "Lease" },
+        { value: "Rent", label: "Rent" },
+    ];
+
+    const contractOptions = [
+        { value: "1 Month", label: "1 Month" },
+        { value: "6 Months", label: "6 Months" },
+        { value: "1 Year", label: "1 Year" },
+    ];
+    const featureOptions = [
+        { value: "5 Seater", label: "5 Seater" },
+        { value: "Electric", label: "Electric" },
+        { value: "Fully Automatic", label: "Fully Automatic" },
     ];
 
     const handleVehicleType = (selectedOption) => {
-        setVehicleType(selectedOption)
+        setCarType(selectedOption)
+    }
+
+    const handleContract = (selectedOption) => {
+        setContract(selectedOption)
+    }
+
+    const handleFeature = (selectedOption) => {
+        setFeature(selectedOption)
     }
 
   const handleFileChange = (event) => {
@@ -70,17 +89,17 @@ const handleRemoveGalleryImage = (index) => {
 
 const validateForm = () => {
     const fields = [
-        { name: "modelName", value: modelName, errorMessage: "Model Name is required." },
-        { name: "vehicleName", value: vehicleName, errorMessage: "Vehicle Name is required." },
-        { name: "vehicleType", value: vehicleType, errorMessage: "Vehicle Type is required." },
-        { name: "engine", value: engine, errorMessage: "Engine is required." },
-        { name: "horsePower", value: horsePower, errorMessage: "Horse Power is required." },
-        { name: "maxSpeed", value: maxSpeed, errorMessage: "Max Speed is required." },
+        { name: "carName", value: carName, errorMessage: "Car Name is required." },
+        { name: "availableOn", value: availableOn, errorMessage: "Available On is required." },
+        { name: "carType", value: carType, errorMessage: "Car Type is required." },
+        { name: "price", value: price, errorMessage: "Price is required." },
+        { name: "contract", value: contract, errorMessage: "Contract is required.", isArray: true},
+        { name: "feature", value: feature, errorMessage: "Feature is required.", isArray: true },
         { name: "price", value: price, errorMessage: "Price is required." },
         { name: "description", value: description, errorMessage: "Description is required." },
-        { name: "feature", value: feature, errorMessage: "Best Feature is required." },
-        // { name: "file", value: file, errorMessage: "Image is required." },
-        // { name: "gallery", value: galleryFiles, errorMessage: "Vehicle Gallery is required.", isArray: true },
+        { name: "url", value: url, errorMessage: "Lease URL is required." },
+        { name: "file", value: file, errorMessage: "Image is required." },
+        { name: "gallery", value: galleryFiles, errorMessage: "Vehicle Gallery is required.", isArray: true },
     ];
 
     const newErrors = fields.reduce((errors, { name, value, errorMessage, isArray }) => {
@@ -100,36 +119,41 @@ const handleSubmit = (e) => {
         const formData = new FormData();
         formData.append("userId", userDetails?.user_id);
         formData.append("email", userDetails?.email);
-        formData.append("vehicle_id", vehicleId);
-        formData.append("vehicle_name", vehicleName);
-        formData.append("vehicle_model", modelName);
+        formData.append("rental_id", rentalId);
+        formData.append("car_name", carName);
+        formData.append("available_on", availableOn);
         formData.append("description", description);
-        formData.append("engine", engine);
-        formData.append("horse_power", horsePower);
-        formData.append("max_speed", maxSpeed);
         formData.append("price", price);
-        formData.append("best_feature", feature);
+        formData.append("lease_url", url);
         formData.append("status", isActive === true ? 1 : 0);
-        if (vehicleType) {
-            formData.append("vehicle_type", vehicleType.value);
+        if (carType) {
+            formData.append("car_type", carType.value);
+        }
+        if (contract && contract.length > 0) {
+            const selectedContracts = contract.map(item => item.value).join(', ');
+            formData.append("contract", selectedContracts);
+        }
+        if (feature && feature.length > 0) {
+            const selectedFeatures = feature.map(item => item.value).join(', ');
+            formData.append("feature", selectedFeatures);
         }
         if (file) {
             formData.append("cover_image", file);
         }
         if (galleryFiles.length > 0) {
             galleryFiles.forEach((galleryFile) => {
-                formData.append("vehicle_gallery", galleryFile);
+                formData.append("rental_gallery", galleryFile);
             });
         }
-        postRequestWithTokenAndFile('ev-guide-update', formData, async (response) => {
+        postRequestWithTokenAndFile('electric-car-edit', formData, async (response) => {
             if (response.status === 1) {
                 toast(response.message || response.message[0], {type:'success'})
                 setTimeout(() => {
-                    navigate('/ev-guide-list');
+                    navigate('/electric-car-list');
                 }, 1000);
             } else {
                 toast(response.message || response.message[0], {type:'error'})
-                console.log('Error in ev-guide-update API:', response);
+                console.log('Error in electric-car-edit API:', response);
             }
         } )
     }
@@ -139,34 +163,34 @@ const fetchDetails = () => {
     const obj = {
         userId     : userDetails?.user_id,
         email      : userDetails?.email,
-        vehicle_id : vehicleId
+        rental_id  : rentalId
     };
-    postRequestWithToken('ev-guide-details', obj, (response) => {
+    postRequestWithToken('electric-car-detail', obj, (response) => {
         
-        if (response.code === 200) {
-            const data = response?.data || {};
-            
-            
+        if (response.status === 1) {
+            const data = response?.car || {};
             setDetails(data);
-            setModelName(data?.vehicle_model || "");
-            // setChargingFor(data?.charging_for || []);
-            setVehicleType(data?.vehicle_type || []);
-            setVehicleName(data?.vehicle_name || "");
+            setCarName(data?.car_name || "");
+            setAvailableOn(data?.available_on || "");
+            // setCarType(data?.car_type || []);
+            setContract(data?.contract || "");
             setDescription(data?.description || "");
-            setFeature(data?.best_feature || "");
-            setEngine(data?.engine || "");
-            setHorsePower(data?.horse_power || "");
-            setMaxSpeed(data?.max_speed || "");
+            // setFeature(data?.feature || []);
+            setUrl(data?.lease_url || "");
             setFile(data?.image || "");
-            setGalleryFiles(response?.gallery_data || []);
+            setGalleryFiles(response?.galleryData || []);
             setPrice(data?.price)
             setIsActive(data?.status)
 
-            const initialVehicleType = data.vehicle_type ? { label: data.vehicle_type, value: data.vehicle_type } : null;
-            setVehicleType(initialVehicleType);
+            setContract(data?.contract ? data.contract.split(',').map(item => ({ label: item.trim(), value: item.trim() })) : []);
+            setFeature(data?.feature ? data.feature.split(',').map(item => ({ label: item.trim(), value: item.trim() })) : []);
+
+            // Convert `car_type` to a selectable object if it exists
+            const initialCarType = data.car_type ? { label: data.car_type, value: data.car_type } : null;
+            setCarType(initialCarType);
 
         } else {
-            console.error('Error in ev-guide-details API', response);
+            console.error('Error in electric-car-detail API', response);
         }
     });
 };
@@ -179,9 +203,8 @@ useEffect(() => {
     fetchDetails();
 }, []);
 
-
 const handleCancel = () => {
-    navigate('/ev-guide-list')
+    navigate('/electric-car-list')
 }
 
 const [isActive, setIsActive] = useState(false);
@@ -193,94 +216,91 @@ const handleToggle = () => {
   return (
     <div className={styles.addShopContainer}>
          <ToastContainer />
-      <div className={styles.addHeading}>Edit EV Guide</div>
+      <div className={styles.addHeading}>Edit Electric Car</div>
       <div className={styles.addShopFormSection}>
         <form className={styles.formSection} onSubmit={handleSubmit}>
           <div className={styles.row}>
             <div className={styles.addShopInputContainer}>
-              <label className={styles.addShopLabel} htmlFor="modelName">Model Name</label>
-              <input type="text" id="modelName" 
-                placeholder="Model Name" 
+              <label className={styles.addShopLabel} htmlFor="modelName">Car Name</label>
+              <input type="text" id="carName" 
+                placeholder="Car Name" 
                 className={styles.inputField} 
-                value={modelName}
-                onChange={(e) => setModelName(e.target.value)}
+                value={carName}
+                onChange={(e) => setCarName(e.target.value)}
                 />
-                {errors.modelName && <p className={styles.error} style={{ color: 'red' }}>{errors.modelName}</p>}
+                {errors.carName && <p className={styles.error} style={{ color: 'red' }}>{errors.carName}</p>}
             </div>
             <div className={styles.addShopInputContainer}>
-              <label className={styles.addShopLabel} htmlFor="contactNo">Vehicle Name</label>
+              <label className={styles.addShopLabel} htmlFor="contactNo">Available On</label>
               <input type="text" 
-              id="vehicleName" 
-              placeholder="Vehicle Name" 
+              id="availableOn" 
+              placeholder="Available On" 
               className={styles.inputField} 
-              value={vehicleName}
-                onChange={(e) => setVehicleName(e.target.value)}
+              value={availableOn}
+                onChange={(e) => setAvailableOn(e.target.value)}
               />
-              {errors.vehicleName && <p className={styles.error} style={{ color: 'red' }}>{errors.vehicleName}</p>}
+              {errors.availableOn && <p className={styles.error} style={{ color: 'red' }}>{errors.availableOn}</p>}
             </div>
           </div>
+         
           <div className={styles.row}>
             <div className={styles.addShopInputContainer}>
-                <label className={styles.addShopLabel} htmlFor="vehicleType">Vehicle Type</label>
+                <label className={styles.addShopLabel} htmlFor="vehicleType">Car Type</label>
                 <Select
                     options={typeOpetions}
-                    value={vehicleType}
+                    value={carType}
                     onChange={handleVehicleType}
                     placeholder="Select"
                     isClearable
                     className={styles.addShopSelect}
                 />
-                {errors.vehicleType && <p className={styles.error} style={{ color: 'red' }}>{errors.vehicleType}</p>}
-            </div>
-            <div className={styles.addShopInputContainer}>
-              <label className={styles.addShopLabel} htmlFor="email">Engine</label>
-              <input type="text"
-               id="engine" 
-               placeholder="Engine" 
-               className={styles.inputField} 
-               value={engine}
-                onChange={(e) => setEngine(e.target.value)}
-               />
-               {errors.engine && <p className={styles.error} style={{ color: 'red' }}>{errors.engine}</p>}
-            </div>
-          </div>
-          <div className={styles.locationRow}>
-            <div className={styles.addShopInputContainer}>
-              <label className={styles.addShopLabel} htmlFor="email">Horse Power</label>
-              <input 
-              type="text"
-               id="horsePower" 
-               placeholder="Horse Power" 
-               className={styles.inputField} 
-               value={horsePower}
-                onChange={(e) => setHorsePower(e.target.value)}
-               />
-               {errors.horsePower && <p className={styles.error} style={{ color: 'red' }}>{errors.horsePower}</p>}
-            </div>
-            <div className={styles.addShopInputContainer}>
-              <label className={styles.addShopLabel} htmlFor="email">Max Speed</label>
-              <input 
-              type="text" 
-              id="maxSpeed" 
-              placeholder="Max Speed" 
-              className={styles.inputField}
-              value={maxSpeed}
-                onChange={(e) => setMaxSpeed(e.target.value)}
-               />
-               {errors.maxSpeed && <p className={styles.error} style={{ color: 'red' }}>{errors.maxSpeed}</p>}
+                {errors.carType && <p className={styles.error} style={{ color: 'red' }}>{errors.carType}</p>}
             </div>
             <div className={styles.addShopInputContainer}>
               <label className={styles.addShopLabel} htmlFor="email">Price</label>
-              <input 
-              type="text" 
-              id="price" 
-              placeholder="Price" 
-              className={styles.inputField}
-              value={price}
+              <input type="text"
+               id="engine" 
+               placeholder="Price" 
+               className={styles.inputField} 
+               value={price}
                 onChange={(e) => setPrice(e.target.value)}
                />
                {errors.price && <p className={styles.error} style={{ color: 'red' }}>{errors.price}</p>}
             </div>
+          </div>
+          <div className={styles.locationRow}>
+               <div className={styles.addShopInputContainer}>
+                    <label className={styles.addShopLabel} htmlFor="availableBrands">Contract</label>
+                    <div ref={contractDropdownRef}>
+                        <MultiSelect
+                            className={styles.addShopSelect}
+                            options={contractOptions}
+                            value={contract}
+                            onChange={handleContract}
+                            labelledBy="Charging For"
+                            closeOnChangedValue={false}
+                            closeOnSelect={false}
+                        />
+                        {errors.contract && <p className={styles.error} style={{ color: 'red' }}>{errors.contract}</p>}
+                    </div>
+                </div>
+
+                <div className={styles.addShopInputContainer}>
+                    <label className={styles.addShopLabel} htmlFor="availableBrands">Feature</label>
+                    <div ref={featureDropdownRef}>
+                        <MultiSelect
+                            className={styles.addShopSelect}
+                            options={featureOptions}
+                            value={feature}
+                            onChange={handleFeature}
+                            labelledBy="Feature"
+                            closeOnChangedValue={false}
+                            closeOnSelect={false}
+                        />
+                        {errors.feature && <p className={styles.error} style={{ color: 'red' }}>{errors.feature}</p>}
+                    </div>
+                </div>
+            
           </div>
           <div className={styles.row}>
             <div className={styles.addShopInputContainer}>
@@ -299,16 +319,16 @@ const handleToggle = () => {
           </div>
           <div className={styles.row}>
             <div className={styles.addShopInputContainer}>
-              <label className={styles.addShopLabel} htmlFor="modelName">Best Feature</label>
+              <label className={styles.addShopLabel} htmlFor="modelName">Lease URL</label>
               <input 
               type="text" 
               id="feature" 
-              placeholder="Best Feature" 
+              placeholder="Lease URL" 
               className={styles.inputField} 
-              value={feature}
-                onChange={(e) => setFeature(e.target.value)}
+              value={url}
+                onChange={(e) => setUrl(e.target.value)}
               />
-              {errors.feature && <p className={styles.error} style={{ color: 'red' }}>{errors.feature}</p>}
+              {errors.url && <p className={styles.error} style={{ color: 'red' }}>{errors.url}</p>}
             </div>
             
           </div>
@@ -347,7 +367,7 @@ const handleToggle = () => {
                                     <img
                                         src={
                                             typeof file === 'string'
-                                                ? `${process.env.REACT_APP_SERVER_URL}uploads/vehicle-image/${file}`
+                                                ? `${process.env.REACT_APP_SERVER_URL}uploads/car-rental-images/${file}`
                                                 : URL.createObjectURL(file)
                                         }
                                         alt="Preview"
@@ -388,7 +408,7 @@ const handleToggle = () => {
                                                 key={index}
                                                 src={
                                                     typeof file === 'string'
-                                                        ? `${process.env.REACT_APP_SERVER_URL}uploads/vehicle-image/${file}`
+                                                        ? `${process.env.REACT_APP_SERVER_URL}uploads/car-rental-images/${file}`
                                                         : URL.createObjectURL(file)
                                                 }
                                                 alt={`Preview ${index + 1}`}
@@ -417,4 +437,4 @@ const handleToggle = () => {
   );
 };
 
-export default EditEvGuide;
+export default EditElectricCar;

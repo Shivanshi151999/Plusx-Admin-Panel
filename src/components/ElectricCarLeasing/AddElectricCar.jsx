@@ -110,7 +110,7 @@ const validateForm = () => {
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
 };
-console.log('contract',contract);
+
 
 const handleSubmit = (e) => {
     e.preventDefault();
@@ -122,24 +122,16 @@ const handleSubmit = (e) => {
         formData.append("available_on", availableOn);
         formData.append("description", description);
         formData.append("price", price);
-        formData.append("contract", contract);
-        formData.append("feature", feature);
         formData.append("lease_url", url);
         if (carType) {
             formData.append("car_type", carType.value);
         }
-        // if (contract) {
-        //     formData.append("contract", contract.value);
-        // }
         if (contract && contract.length > 0) {
             const selectedContracts = contract.map(item => item.value).join(', ');
             formData.append("contract", selectedContracts);
         }
-        // if (feature) {
-        //     formData.append("feature", feature.value);
-        // }
         if (feature && feature.length > 0) {
-            const selectedFeatures = contract.map(item => item.value).join(', ');
+            const selectedFeatures = feature.map(item => item.value).join(', ');
             formData.append("feature", selectedFeatures);
         }
         if (file) {
@@ -147,25 +139,25 @@ const handleSubmit = (e) => {
         }
         if (galleryFiles.length > 0) {
             galleryFiles.forEach((galleryFile) => {
-                formData.append("vehicle_gallery", galleryFile);
+                formData.append("rental_gallery", galleryFile);
             });
         }
-        postRequestWithTokenAndFile('ev-guide-a', formData, async (response) => {
+        postRequestWithTokenAndFile('electric-car-add', formData, async (response) => {
             if (response.status === 1) {
                 toast(response.message || response.message[0], {type:'success'})
                 setTimeout(() => {
-                    navigate('/ev-guide-list');
+                    navigate('/electric-car-list');
                 }, 1000);
             } else {
                 toast(response.message || response.message[0], {type:'error'})
-                console.log('Error in ev-guide-add API:', response);
+                console.log('Error in electric-car-add API:', response);
             }
         } )
     }
 };
 
 const handleCancel = () => {
-    navigate('/ev-guide-list')
+    navigate('/electric-car-list')
 }
 
   return (
