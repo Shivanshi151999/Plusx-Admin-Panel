@@ -64,7 +64,7 @@ const DashboardCard = ({ details }) => {
       count:
         details?.find((item) => item.module === "Total EV Guide")?.count || 0,
       title: "Total EV Guide",
-      route: "/",
+      route: "/ev-guide-list",
     },
     {
       icon: <CiAirportSign1 />,

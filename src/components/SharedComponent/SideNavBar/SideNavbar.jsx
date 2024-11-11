@@ -25,6 +25,16 @@ const SideNavbar = () => {
       shopServices: false,
       shopBrands: false,
     });
+  const [evRoadAssistanceCheckedItems, setEVRoadAssistanceCheckedItems] =
+    useState({
+      bookingList: false,
+      invoiceList: false,
+    });
+  const [evPreSalesTestingCheckedItems, setEVPreSalesTestingCheckedItems] =
+    useState({
+      testingBooking: false,
+      timeSlot: false,
+    });
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -50,6 +60,18 @@ const SideNavbar = () => {
         shopList: false,
         shopServices: false,
         shopBrands: false,
+      });
+    }
+    if (!location.pathname.includes("/ev-road-assistance")) {
+      setEVRoadAssistanceCheckedItems({
+        bookingList: false,
+        invoiceList: false,
+      });
+    }
+    if (!location.pathname.includes("/ev-pre-sales-testing")) {
+      setEVPreSalesTestingCheckedItems({
+        testingBooking: false,
+        timeSlot: false,
       });
     }
   }, [location]);
@@ -130,6 +152,54 @@ const SideNavbar = () => {
       shopList: "/ev-specialized/shop-list",
       shopServices: "/ev-specialized/service-list",
       shopBrands: "/ev-specialized/brand-list",
+    };
+
+    const path = pathMapping[id];
+    if (path) {
+      navigate(path);
+    }
+  };
+
+  const handleEvRoadAssistanceItemClicked = (id, e) => {
+    e.stopPropagation();
+
+    setEVRoadAssistanceCheckedItems((prevState) => {
+      const newState = {
+        bookingList: false,
+        invoiceList: false,
+        [id]: true,
+      };
+
+      return newState;
+    });
+
+    const pathMapping = {
+      bookingList: "/ev-road-assistance/booking-list",
+      invoiceList: "/ev-road-assistance/invoice-list",
+    };
+
+    const path = pathMapping[id];
+    if (path) {
+      navigate(path);
+    }
+  };
+
+  const handleEvPreSalesTestingItemClicked = (id, e) => {
+    e.stopPropagation();
+
+    setEVPreSalesTestingCheckedItems((prevState) => {
+      const newState = {
+        testingBooking: false,
+        timeSlot: false,
+        [id]: true,
+      };
+
+      return newState;
+    });
+
+    const pathMapping = {
+      testingBooking: "/ev-pre-sales-testing/pre-sales-list",
+      timeSlot: "/ev-pre-sales-testing/time-slot-list",
     };
 
     const path = pathMapping[id];
@@ -455,35 +525,61 @@ const SideNavbar = () => {
           </li>
           {openDropdown === "evRoadAssistance" && (
             <ul className={styles.subMenu}>
-              <li>
+              <li
+                className={`${
+                  evRoadAssistanceCheckedItems.bookingList
+                    ? styles.activeItem
+                    : styles.inactiveItem
+                }`}
+                onClick={(e) =>
+                  handleEvRoadAssistanceItemClicked("bookingList", e)
+                }
+              >
                 <input
                   className={styles.checkboxInput}
                   type="checkbox"
                   id="bookingList"
+                  checked={evRoadAssistanceCheckedItems.bookingList}
+                  onChange={(e) =>
+                    handleEvRoadAssistanceItemClicked("bookingList", e)
+                  }
                 />
                 <label
                   htmlFor="bookingList"
                   className={styles.checkmark}
                 ></label>
                 <NavLink
-                  to="/sii"
+                  to="/ev-road-assistance/booking-list"
                   className={({ isActive }) => (isActive ? styles.active : "")}
                 >
                   Booking List
                 </NavLink>
               </li>
-              <li>
+              <li
+                className={`${
+                  evRoadAssistanceCheckedItems.invoiceList
+                    ? styles.activeItem
+                    : styles.inactiveItem
+                }`}
+                onClick={(e) =>
+                  handleEvRoadAssistanceItemClicked("invoiceList", e)
+                }
+              >
                 <input
                   className={styles.checkboxInput}
                   type="checkbox"
                   id="invoiceList"
+                  checked={evRoadAssistanceCheckedItems.invoiceList}
+                  onChange={(e) =>
+                    handleEvRoadAssistanceItemClicked("invoiceList", e)
+                  }
                 />
                 <label
                   htmlFor="invoiceList"
                   className={styles.checkmark}
                 ></label>
                 <NavLink
-                  to="/sii"
+                  to="/ev-road-assistance/invoice-list"
                   className={({ isActive }) => (isActive ? styles.active : "")}
                 >
                   Invoice List
@@ -537,32 +633,58 @@ const SideNavbar = () => {
           </li>
           {openDropdown === "evPreSales" && (
             <ul className={styles.subMenu}>
-              <li>
+              <li
+                className={`${
+                  evPreSalesTestingCheckedItems.testingBooking
+                    ? styles.activeItem
+                    : styles.inactiveItem
+                }`}
+                onClick={(e) =>
+                  handleEvPreSalesTestingItemClicked("testingBooking", e)
+                }
+              >
                 <input
                   className={styles.checkboxInput}
                   type="checkbox"
                   id="testingBooking"
+                  checked={evPreSalesTestingCheckedItems.testingBooking}
+                  onChange={(e) =>
+                    handleEvPreSalesTestingItemClicked("testingBooking", e)
+                  }
                 />
                 <label
                   htmlFor="testingBooking"
                   className={styles.checkmark}
                 ></label>
                 <NavLink
-                  to="/sii"
+                  to="/ev-pre-sales-testing/pre-sales-list"
                   className={({ isActive }) => (isActive ? styles.active : "")}
                 >
                   Testing Booking
                 </NavLink>
               </li>
-              <li>
+              <li
+                className={`${
+                  evPreSalesTestingCheckedItems.timeSlot
+                    ? styles.activeItem
+                    : styles.inactiveItem
+                }`}
+                onClick={(e) =>
+                  handleEvPreSalesTestingItemClicked("timeSlot", e)
+                }
+              >
                 <input
                   className={styles.checkboxInput}
                   type="checkbox"
                   id="timeSlot"
+                  checked={evPreSalesTestingCheckedItems.timeSlot}
+                  onChange={(e) =>
+                    handleEvPreSalesTestingItemClicked("timeSlot", e)
+                  }
                 />
                 <label htmlFor="timeSlot" className={styles.checkmark}></label>
                 <NavLink
-                  to="/sii"
+                  to="/ev-pre-sales-testing/time-slot-list"
                   className={({ isActive }) => (isActive ? styles.active : "")}
                 >
                   Time Slot
