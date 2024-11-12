@@ -4,13 +4,11 @@ import SubHeader from '../SharedComponent/SubHeader/SubHeader'
 import Pagination from '../SharedComponent/Pagination/Pagination'
 import { postRequestWithToken } from '../../api/Requests';
 import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 
 const dynamicFilters = [
-    { label: 'Bike Name', name: 'search_text', type: 'text' },
-    // { label: 'Emergency Team Name', name: 'rsa_name', type: 'text' },
-    // { label: 'Emergency Team Email', name: 'rsa_email', type: 'text' },
-    // { label: 'Emergency Team Mobile', name: 'rsa_mobile', type: 'text' },
+    // { label: 'Bike Name', name: 'search_text', type: 'text' }
 ]
 
 const BikeList = () => {
@@ -21,6 +19,13 @@ const BikeList = () => {
     const [totalPages, setTotalPages] = useState(1);
     const [filters, setFilters] = useState({});
     const [refresh, setRefresh] = useState(false)
+    const searchTerm = [
+        {
+            label: 'search', 
+            name: 'search_text', 
+            type: 'text'
+        }
+    ]
 
     const addButtonProps = {
         heading: "Add Electric Bike", 
@@ -62,21 +67,23 @@ const BikeList = () => {
         setCurrentPage(1); 
     };
 
-    const handleDeleteSlot = (rsaId) => {
+    const handleDeleteSlot = (rentalId) => {
         const confirmDelete = window.confirm("Are you sure you want to delete this?");
         if (confirmDelete) {
             const obj = { 
                 userId : userDetails?.user_id,
                 email : userDetails?.email,
-                rsa_id: rsaId 
+                rental_id: rentalId 
             };
-            postRequestWithToken('rsa-delete', obj, async (response) => {
+            postRequestWithToken('electric-bike-delete', obj, async (response) => {
                 if (response.code === 200) {
-                    setRefresh(prev => !prev);
-                    toast(response.message[0], { type: "success" });
+                    toast(response.message, { type: "success" });
+                    setTimeout(() => {
+                        setRefresh(prev => !prev);
+                    },1000)
                 } else {
                     toast(response.message, { type: 'error' });
-                    console.log('error in rsa-delete api', response);
+                    console.log('error in electric-bike-delete api', response);
                 }
             });
         }
@@ -84,10 +91,12 @@ const BikeList = () => {
 
     return (
         <>
+        <ToastContainer />
          <SubHeader heading = "Electric Bikes Leasing List" 
          addButtonProps={addButtonProps}
          fetchFilteredData={fetchFilteredData} 
          dynamicFilters={dynamicFilters} filterValues={filters}
+         searchTerm = {searchTerm}
          />
         <List 
         tableHeaders={["ID", "Bike Name", "Available On", "Bike Type", "Price", "Contract", "Action"]}

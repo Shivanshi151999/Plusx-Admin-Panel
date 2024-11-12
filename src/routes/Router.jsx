@@ -50,6 +50,9 @@ import EditEvGuide from '../components/EvGuide/EditEvGuide.jsx';
 import AddElectricCar from '../components/ElectricCarLeasing/AddElectricCar.jsx';
 import EditElectricCar from '../components/ElectricCarLeasing/EditElectricCar.jsx';
 import ElectricCarDetails from '../components/ElectricCarLeasing/ElectricCarDetails.jsx';
+import AddElectricBike from '../components/ElectricBikeLeasing/AddElectricBike.jsx';
+import EditElectricBike from '../components/ElectricBikeLeasing/EditElectricBike.jsx';
+import ElectricBikeDetails from '../components/ElectricBikeLeasing/BikeDetails.jsx';
 
 const router = createBrowserRouter([
 
@@ -199,6 +202,18 @@ const router = createBrowserRouter([
             {
                 path: "/electric-bike-list",
                 element: <BikeList />,
+            },
+            {
+                path: "/add-electric-bike",
+                element: <AddElectricBike />,
+            },
+            {
+                path: "/edit-electric-bike/:rentalId",
+                element: <EditElectricBike />,
+            },
+            {
+                path: "/electric-bike-details/:rentalId",
+                element: <ElectricBikeDetails />,
             },
             //Ev Guide
             {

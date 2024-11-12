@@ -83,7 +83,7 @@ const CarList = () => {
                     toast(response.message, { type: "success" });
                     setTimeout(() => {
                         setRefresh(prev => !prev);
-                    },2000)
+                    },1000)
                 } else {
                     toast(response.message, { type: 'error' });
                     console.log('error in delete-rider api', response);
