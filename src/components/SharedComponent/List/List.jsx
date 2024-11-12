@@ -49,6 +49,10 @@ const List = ({list, tableHeaders, listData, keyMapping, pageHeading, onDeleteSl
     //ElectricBike
     const handleEditElectricBike = (id) => navigate(`/edit-electric-bike/${id}`)
     const handleElectricBikeDetails = (id) => navigate(`/electric-bike-details/${id}`)
+
+    //EvRoadAssistance
+    const handleRoadAssistanceBookingDetails = (id) => navigate(`/ev-road-assistance/booking-details/${id}`)
+    // const handleEvGuideEdit    = (id) => navigate(`/edit-ev-guide/${id}`)
     
     return (
         <div className={styles.containerCharger}>
@@ -211,6 +215,14 @@ const List = ({list, tableHeaders, listData, keyMapping, pageHeading, onDeleteSl
                                          <img src={View} alt="view" onClick={() => handleEvGuideDetails(data.vehicle_id)}/>
                                             <img src={Edit} alt='edit' onClick={() => handleEvGuideEdit(data.vehicle_id)}/>
                                             <img src={Delete} alt='delete'  onClick={() => onDeleteSlot(data.vehicle_id)}/>
+                                        </>
+                                    )}
+                                    
+                                     {/* Ev Road Assitance */}
+                                    {pageHeading === 'Ev Road Assitance Booking List' && (
+                                        <>
+                                            <img src={View} alt="view" onClick={() => handleRoadAssistanceBookingDetails(data.request_id)}/>
+                                            {/* <img src={Cancel} alt='cancel' /> */}
                                         </>
                                     )}
                                     

@@ -99,7 +99,7 @@ const BikeList = () => {
          searchTerm = {searchTerm}
          />
         <List 
-        tableHeaders={["ID", "Bike Name", "Available On", "Bike Type", "Price", "Contract", "Action"]}
+          tableHeaders={["ID", "Bike Name", "Available On", "Bike Type", "Price", "Contract", "Action"]}
           listData = {carList}
           keyMapping={[
             { key: 'rental_id', label: 'ID' }, 

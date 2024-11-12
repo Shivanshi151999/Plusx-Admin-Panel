@@ -54,6 +54,10 @@ import AddElectricBike from '../components/ElectricBikeLeasing/AddElectricBike.j
 import EditElectricBike from '../components/ElectricBikeLeasing/EditElectricBike.jsx';
 import ElectricBikeDetails from '../components/ElectricBikeLeasing/BikeDetails.jsx';
 
+import EvRoadAssistance from '../components/EvRoadAssistance/index.jsx'
+import RoadAssistanceBookingList from '../components/EvRoadAssistance/Booking/BookingList.jsx';
+import RoadAssistanceBookingDetails from '../components/EvRoadAssistance/Booking/BookingDetails.jsx'
+
 const router = createBrowserRouter([
 
     {
@@ -231,6 +235,33 @@ const router = createBrowserRouter([
             {
                 path: "/edit-ev-guide/:vehicleId",
                 element: <EditEvGuide />,
+            },
+
+            //road assistance
+            {
+                path: "/ev-road-assistance",
+                element: < EvRoadAssistance/>,
+                children: [ 
+                     {
+                        path: "booking-list",
+                        element: < RoadAssistanceBookingList/>,
+                    }, {
+                        path: "booking-details/:requestId",
+                        element: <RoadAssistanceBookingDetails />,
+                    },  {
+                        path: "charger-booking-invoice-list", 
+                        element: <ChargerBookingInvoiceList />,
+                    }, {
+                        path: "charger-booking-time-slot-list", 
+                        element: <PortableChargerTimeSlotList />,
+                    }, {
+                        path: "add-time-slot", 
+                        element: <AddPortableChargerTimeSlot />,
+                    }, {
+                        path: "edit-time-slot/:slotId", 
+                        element: <EditPortableChargerTimeSlot />,
+                    },
+                ],
             },
 
             //Ev Rider Club
