@@ -4,6 +4,7 @@ import SubHeader from '../SharedComponent/SubHeader/SubHeader'
 import Pagination from '../SharedComponent/Pagination/Pagination'
 import { postRequestWithToken } from '../../api/Requests';
 import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 
 const dynamicFilters = [
@@ -69,8 +70,6 @@ const CarList = () => {
         setCurrentPage(1); 
     };
 
-   
-
     const handleDeleteSlot = (rentalId) => {
         const confirmDelete = window.confirm("Are you sure you want to delete this?");
         if (confirmDelete) {
@@ -81,8 +80,10 @@ const CarList = () => {
             };
             postRequestWithToken('electric-car-delete', obj, async (response) => {
                 if (response.code === 200) {
-                    setRefresh(prev => !prev);
-                    toast(response.message[0], { type: "success" });
+                    toast(response.message, { type: "success" });
+                    setTimeout(() => {
+                        setRefresh(prev => !prev);
+                    },2000)
                 } else {
                     toast(response.message, { type: 'error' });
                     console.log('error in delete-rider api', response);
@@ -93,6 +94,7 @@ const CarList = () => {
 
     return (
         <>
+        <ToastContainer />
          <SubHeader heading = "Electric Cars Leasing List" 
          addButtonProps={addButtonProps}
          fetchFilteredData={fetchFilteredData} 

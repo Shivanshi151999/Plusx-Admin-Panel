@@ -145,6 +145,8 @@ const handleSubmit = (e) => {
                 formData.append("rental_gallery", galleryFile);
             });
         }
+        console.log('isActive',isActive);
+        
         postRequestWithTokenAndFile('electric-car-edit', formData, async (response) => {
             if (response.status === 1) {
                 toast(response.message || response.message[0], {type:'success'})
@@ -180,12 +182,11 @@ const fetchDetails = () => {
             setFile(data?.image || "");
             setGalleryFiles(response?.galleryData || []);
             setPrice(data?.price)
-            setIsActive(data?.status)
+            setIsActive(data?.status === 1 ? true : false)
 
             setContract(data?.contract ? data.contract.split(',').map(item => ({ label: item.trim(), value: item.trim() })) : []);
             setFeature(data?.feature ? data.feature.split(',').map(item => ({ label: item.trim(), value: item.trim() })) : []);
 
-            // Convert `car_type` to a selectable object if it exists
             const initialCarType = data.car_type ? { label: data.car_type, value: data.car_type } : null;
             setCarType(initialCarType);
 
@@ -336,13 +337,13 @@ const handleToggle = () => {
                         <label className={styles.statusLabel}>Status</label>
                         <div className={styles.toggleSwitch} onClick={handleToggle}>
                             <span className={`${styles.toggleLabel} ${!isActive ? styles.inactive : ''}`}>
-                                Occupied
+                                Active
                             </span>
                             <div className={`${styles.toggleButton} ${isActive ? styles.active : ''}`}>
                                 <div className={styles.slider}></div>
                             </div>
                             <span className={`${styles.toggleLabel} ${isActive ? styles.active : ''}`}>
-                                Available
+                                Inactive
                             </span>
                         </div>
                     </div>

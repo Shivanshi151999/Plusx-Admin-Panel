@@ -145,8 +145,7 @@ const fetchDetails = () => {
         
         if (response.code === 200) {
             const data = response?.data || {};
-            
-            
+
             setDetails(data);
             setModelName(data?.vehicle_model || "");
             // setChargingFor(data?.charging_for || []);
@@ -160,7 +159,7 @@ const fetchDetails = () => {
             setFile(data?.image || "");
             setGalleryFiles(response?.gallery_data || []);
             setPrice(data?.price)
-            setIsActive(data?.status)
+            setIsActive(data?.status === 1 ? true : false)
 
             const initialVehicleType = data.vehicle_type ? { label: data.vehicle_type, value: data.vehicle_type } : null;
             setVehicleType(initialVehicleType);
