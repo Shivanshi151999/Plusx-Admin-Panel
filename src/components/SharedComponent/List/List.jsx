@@ -68,6 +68,9 @@ const List = ({list, tableHeaders, listData, keyMapping, pageHeading, onDeleteSl
 
     //EvBuySell
     const handleBuySellDetails  = (id) => navigate(`/ev-buy-sell-details/${id}`)
+
+    //Subscription
+    const handleSubscriptionDetails  = (id) => navigate(`/subscription-details/${id}`)
     
     return (
         <div className={styles.containerCharger}>
@@ -269,6 +272,13 @@ const List = ({list, tableHeaders, listData, keyMapping, pageHeading, onDeleteSl
                                     {pageHeading === 'Buy Sell List' && (
                                         <>
                                          <img src={View} alt="view" onClick={() => handleBuySellDetails(data.sell_id)}/>
+                                            {/* <img src={Delete} alt='delete' onClick={() => onDeleteSlot(data.board_id)} /> */}
+                                        </>
+                                    )}
+
+                                    {pageHeading === 'Subscription List' && (
+                                        <>
+                                         <img src={View} alt="view" onClick={() => handleSubscriptionDetails(data.subscription_id)}/>
                                             {/* <img src={Delete} alt='delete' onClick={() => onDeleteSlot(data.board_id)} /> */}
                                         </>
                                     )}

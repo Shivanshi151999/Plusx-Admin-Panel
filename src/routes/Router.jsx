@@ -70,6 +70,8 @@ import InsuranceDetails from '../components/EvInsurance/InsuranceDetails.jsx';
 import BuySellList from '../components/EVBuySell/BuySellList.jsx';
 import BuySellDetails from '../components/EVBuySell/BuySellDetails.jsx';
 import InterestList from '../components/RegisterInterest/InterestList.jsx';
+import SubscriptionList from '../components/Subscription/SubscriptionList.jsx';
+import SubscriptionDetails from '../components/Subscription/SubscriptionDetails.jsx';
 
 const router = createBrowserRouter([
 
@@ -354,6 +356,16 @@ const router = createBrowserRouter([
             {
                 path: "/interest-list",
                 element: <InterestList />,
+            },
+
+            //Subscription
+            {
+                path: "/subscription-list",
+                element: <SubscriptionList />,
+            },
+            {
+                path: "/subscription-details/:subId",
+                element: <SubscriptionDetails />,
             },
         ],
     },
