@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import Select from "react-select";
 import { MultiSelect } from "react-multi-select-component";
-import styles from './addcar.module.css';
+import styles from './addclub.module.css';
 import UploadIcon from '../../assets/images/uploadicon.svg';
 import { AiOutlineClose } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
@@ -9,51 +9,37 @@ import { postRequestWithTokenAndFile, postRequestWithToken } from '../../api/Req
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
-const AddElectricCar = () => {
+const AddClub = () => {
   const userDetails                     = JSON.parse(sessionStorage.getItem('userDetails')); 
   const navigate                        = useNavigate()
   const [file, setFile]                 = useState(null);
   const [galleryFiles, setGalleryFiles] = useState([]);
   const [errors, setErrors]             = useState({});
-  const [carName, setCarName]       = useState()
-  const [availableOn, setAvailableOn]   = useState()
+  const [clubName, setClubName]         = useState()
+  const [noOfMembers, setNoOfMembers]   = useState('')
   const [description, setDescription]   = useState()
-  const [url, setUrl]         = useState()
-  const [price, setPrice]               = useState()
-  const [carType, setCarType]   = useState(null);
-  const [contract, setContract]         = useState([])
-  const [feature, setFeature]         = useState([])
+  const [preference, setPreference]     = useState('')
+  const [url, setUrl]                   = useState('')
+  const [locationOptions, setLocationOptions] = useState([])
+  const [categoryOptions, setCategoryOptions] = useState([])
+  const [ageOptions, setAgeOptions]           = useState([])
+  const [location, setLocation]         = useState([])
+  const [category, setCategory]         = useState([])
+  const [ageGroup, setAgeGroup]         = useState([])
 
   const contractDropdownRef = useRef(null);
-  const featureDropdownRef = useRef(null);
-
-    const typeOpetions = [
-        // { value: "", label: "Select Vehicle Type" },
-        { value: "Lease", label: "Lease" },
-        { value: "Rent", label: "Rent" },
-    ];
-
-    const contractOptions = [
-        { value: "1 Month", label: "1 Month" },
-        { value: "6 Months", label: "6 Months" },
-        { value: "1 Year", label: "1 Year" },
-    ];
-    const featureOptions = [
-        { value: "5 Seater", label: "5 Seater" },
-        { value: "Electric", label: "Electric" },
-        { value: "Fully Automatic", label: "Fully Automatic" },
-    ];
-
-    const handleVehicleType = (selectedOption) => {
-        setCarType(selectedOption)
+  const featureDropdownRef = useRef(null)
+    
+    const handleLocation = (selectedOption) => {
+        setLocation(selectedOption)
     }
-
-    const handleContract = (selectedOption) => {
-        setContract(selectedOption)
+    
+    const handleAgeGroup = (selectedOption) => {
+        setAgeGroup(selectedOption)
     }
-
-    const handleFeature = (selectedOption) => {
-        setFeature(selectedOption)
+    
+    const handleCategory = (selectedOption) => {
+        setCategory(selectedOption)
     }
 
   const handleFileChange = (event) => {
@@ -87,15 +73,13 @@ const handleRemoveGalleryImage = (index) => {
 
 const validateForm = () => {
     const fields = [
-        { name: "carName", value: carName, errorMessage: "Car Name is required." },
-        { name: "availableOn", value: availableOn, errorMessage: "Available On is required." },
-        { name: "carType", value: carType, errorMessage: "Car Type is required." },
-        { name: "price", value: price, errorMessage: "Price is required." },
-        { name: "contract", value: contract, errorMessage: "Contract is required.", isArray: true},
-        { name: "feature", value: feature, errorMessage: "Feature is required.", isArray: true },
-        { name: "price", value: price, errorMessage: "Price is required." },
+        { name: "clubName", value: clubName, errorMessage: "Club Name is required." },
+        // { name: "availableOn", value: noOfMembers, errorMessage: "Available On is required." },
+        { name: "location", value: location, errorMessage: "Location is required.", isArray: true},
+        { name: "category", value: category, errorMessage: "Category is required.", isArray: true },
+        { name: "ageGroup", value: ageGroup, errorMessage: "Age Group is required.", isArray: true },
         { name: "description", value: description, errorMessage: "Description is required." },
-        { name: "url", value: url, errorMessage: "Lease URL is required." },
+        { name: "url", value: url, errorMessage: "Club URL is required." },
         { name: "file", value: file, errorMessage: "Image is required." },
         { name: "gallery", value: galleryFiles, errorMessage: "Vehicle Gallery is required.", isArray: true },
     ];
@@ -118,136 +102,134 @@ const handleSubmit = (e) => {
         const formData = new FormData();
         formData.append("userId", userDetails?.user_id);
         formData.append("email", userDetails?.email);
-        formData.append("car_name", carName);
-        formData.append("available_on", availableOn);
+        formData.append("club_name", clubName);
+        formData.append("no_of_members", noOfMembers);
         formData.append("description", description);
-        formData.append("price", price);
-        formData.append("lease_url", url);
-        if (carType) {
-            formData.append("car_type", carType.value);
+        formData.append("url_link", url);
+        formData.append("preference", preference);
+        if (location) {
+            formData.append("location", location.value);
         }
-        if (contract && contract.length > 0) {
-            const selectedContracts = contract.map(item => item.value).join(', ');
-            formData.append("contract", selectedContracts);
+        if (category && category.length > 0) {
+            const selectedCategory = category.map(item => item.value).join(', ');
+            formData.append("category", selectedCategory);
         }
-        if (feature && feature.length > 0) {
-            const selectedFeatures = feature.map(item => item.value).join(', ');
-            formData.append("feature", selectedFeatures);
+        if (ageGroup && ageGroup.length > 0) {
+            const selectedAgeGroups = ageGroup.map(item => item.value).join(', ');
+            formData.append("age_group", selectedAgeGroups);
         }
         if (file) {
             formData.append("cover_image", file);
         }
         if (galleryFiles.length > 0) {
             galleryFiles.forEach((galleryFile) => {
-                formData.append("rental_gallery", galleryFile);
+                formData.append("club_gallery", galleryFile);
             });
         }
-        postRequestWithTokenAndFile('electric-car-add', formData, async (response) => {
+        postRequestWithTokenAndFile('add-club', formData, async (response) => {
             if (response.status === 1) {
                 toast(response.message || response.message[0], {type:'success'})
                 setTimeout(() => {
-                    navigate('/electric-car-list');
+                    navigate('/club-list');
                 }, 1000);
             } else {
                 toast(response.message || response.message[0], {type:'error'})
-                console.log('Error in electric-car-add API:', response);
+                console.log('Error in add-club API:', response);
             }
         } )
     }
 };
 
 const handleCancel = () => {
-    navigate('/electric-car-list')
+    navigate('/club-list')
 }
+
+const fetchDetails = () => {
+    const obj = {
+        userId: userDetails?.user_id,
+        email: userDetails?.email,
+        club_id : ''
+    };
+
+    postRequestWithToken('club-data', obj, (response) => {
+        if (response.code === 200) {
+            const locations = response.location[0];
+            const formattedLocations = locations.map(loc => ({
+                value: loc.location_name,
+                label: loc.location_name
+            }));
+            setLocationOptions(formattedLocations);
+
+            const ageGroups = response.ageGroup || [];
+            const formattedAgeGroups = ageGroups.map(age => ({
+                value: age,
+                label: age
+            }));
+            setAgeOptions(formattedAgeGroups);
+            
+            const clubCategories = response.clubCategory || []; 
+            const formattedClubCategories = clubCategories.map(category => ({
+                value: category,
+                label: category
+            }));
+            setCategoryOptions(formattedClubCategories);
+            
+        } else {
+            console.log('error in club-data API', response);
+        }
+    });
+};
+
+useEffect(() => {
+    if (!userDetails || !userDetails.access_token) {
+        navigate('/login');
+        return;
+    }
+    fetchDetails();
+}, []);
 
   return (
     <div className={styles.addShopContainer}>
          <ToastContainer />
-      <div className={styles.addHeading}>Add Electric Car</div>
+      <div className={styles.addHeading}>Add Club</div>
       <div className={styles.addShopFormSection}>
         <form className={styles.formSection} onSubmit={handleSubmit}>
           <div className={styles.row}>
             <div className={styles.addShopInputContainer}>
-              <label className={styles.addShopLabel} htmlFor="modelName">Car Name</label>
-              <input type="text" id="carName" 
-                placeholder="Car Name" 
+              <label className={styles.addShopLabel} htmlFor="modelName">Club Name</label>
+              <input type="text" id="clubName" 
+                placeholder="Club Name" 
                 className={styles.inputField} 
-                value={carName}
-                onChange={(e) => setCarName(e.target.value)}
+                value={clubName}
+                onChange={(e) => setClubName(e.target.value)}
                 />
-                {errors.carName && <p className={styles.error} style={{ color: 'red' }}>{errors.carName}</p>}
+                {errors.clubName && <p className={styles.error} style={{ color: 'red' }}>{errors.clubName}</p>}
             </div>
+            
             <div className={styles.addShopInputContainer}>
-              <label className={styles.addShopLabel} htmlFor="contactNo">Available On</label>
-              <input type="text" 
-              id="availableOn" 
-              placeholder="Available On" 
-              className={styles.inputField} 
-              value={availableOn}
-                onChange={(e) => setAvailableOn(e.target.value)}
-              />
-              {errors.availableOn && <p className={styles.error} style={{ color: 'red' }}>{errors.availableOn}</p>}
-            </div>
-          </div>
-         
-          <div className={styles.row}>
-            <div className={styles.addShopInputContainer}>
-                <label className={styles.addShopLabel} htmlFor="vehicleType">Car Type</label>
+                <label className={styles.addShopLabel} htmlFor="location">Location</label>
                 <Select
-                    options={typeOpetions}
-                    value={carType}
-                    onChange={handleVehicleType}
+                    options={locationOptions}
+                    value={location}
+                    onChange={handleLocation}
                     placeholder="Select"
                     isClearable
                     className={styles.addShopSelect}
                 />
-                {errors.carType && <p className={styles.error} style={{ color: 'red' }}>{errors.carType}</p>}
+                {errors.location && <p className={styles.error} style={{ color: 'red' }}>{errors.location}</p>}
             </div>
-            <div className={styles.addShopInputContainer}>
-              <label className={styles.addShopLabel} htmlFor="email">Price</label>
-              <input type="text"
-               id="engine" 
-               placeholder="Price" 
-               className={styles.inputField} 
-               value={price}
-                onChange={(e) => setPrice(e.target.value)}
-               />
-               {errors.price && <p className={styles.error} style={{ color: 'red' }}>{errors.price}</p>}
-            </div>
-          </div>
-          <div className={styles.locationRow}>
-               <div className={styles.addShopInputContainer}>
-                    <label className={styles.addShopLabel} htmlFor="availableBrands">Contract</label>
-                    <div ref={contractDropdownRef}>
-                        <MultiSelect
-                            className={styles.addShopSelect}
-                            options={contractOptions}
-                            value={contract}
-                            onChange={handleContract}
-                            labelledBy="Charging For"
-                            closeOnChangedValue={false}
-                            closeOnSelect={false}
-                        />
-                        {errors.contract && <p className={styles.error} style={{ color: 'red' }}>{errors.contract}</p>}
-                    </div>
-                </div>
 
-                <div className={styles.addShopInputContainer}>
-                    <label className={styles.addShopLabel} htmlFor="availableBrands">Feature</label>
-                    <div ref={featureDropdownRef}>
-                        <MultiSelect
-                            className={styles.addShopSelect}
-                            options={featureOptions}
-                            value={feature}
-                            onChange={handleFeature}
-                            labelledBy="Feature"
-                            closeOnChangedValue={false}
-                            closeOnSelect={false}
-                        />
-                        {errors.feature && <p className={styles.error} style={{ color: 'red' }}>{errors.feature}</p>}
-                    </div>
-                </div>
-            
+            <div className={styles.addShopInputContainer}>
+              <label className={styles.addShopLabel} htmlFor="noOfMembers">No of Members</label>
+              <input type="text" 
+              id="noOfMembers" 
+              placeholder="No of Members" 
+              className={styles.inputField} 
+              value={noOfMembers}
+                onChange={(e) => setNoOfMembers(e.target.value)}
+              />
+              {errors.noOfMembers && <p className={styles.error} style={{ color: 'red' }}>{errors.noOfMembers}</p>}
+            </div>
           </div>
           <div className={styles.row}>
             <div className={styles.addShopInputContainer}>
@@ -265,20 +247,66 @@ const handleCancel = () => {
             
           </div>
           <div className={styles.row}>
-            <div className={styles.addShopInputContainer}>
-              <label className={styles.addShopLabel} htmlFor="modelName">Lease URL</label>
-              <input 
-              type="text" 
-              id="feature" 
-              placeholder="Lease URL" 
-              className={styles.inputField} 
-              value={url}
+          <div className={styles.addShopInputContainer}>
+              <label className={styles.addShopLabel} htmlFor="url">Club URL</label>
+              <input type="text"
+               id="url" 
+               placeholder="Club URL" 
+               className={styles.inputField} 
+               value={url}
                 onChange={(e) => setUrl(e.target.value)}
-              />
-              {errors.url && <p className={styles.error} style={{ color: 'red' }}>{errors.url}</p>}
+               />
+               {errors.url && <p className={styles.error} style={{ color: 'red' }}>{errors.url}</p>}
             </div>
-            
+            <div className={styles.addShopInputContainer}>
+                <label className={styles.addShopLabel} htmlFor="vehicleType">Category</label>
+               
+                <div ref={contractDropdownRef}>
+                        <MultiSelect
+                            className={styles.addShopSelect}
+                            options={categoryOptions}
+                            value={category}
+                            onChange={handleCategory}
+                            labelledBy="Category"
+                            closeOnChangedValue={false}
+                            closeOnSelect={false}
+                        />
+                        {errors.category && <p className={styles.error} style={{ color: 'red' }}>{errors.category}</p>}
+                    </div>
+            </div>
+           
           </div>
+          <div className={styles.locationRow}>
+               <div className={styles.addShopInputContainer}>
+                    <label className={styles.addShopLabel} htmlFor="availableBrands">Age Group</label>
+                    <div ref={contractDropdownRef}>
+                        <MultiSelect
+                            className={styles.addShopSelect}
+                            options={ageOptions}
+                            value={ageGroup}
+                            onChange={handleAgeGroup}
+                            labelledBy="Age Group"
+                            closeOnChangedValue={false}
+                            closeOnSelect={false}
+                        />
+                        {errors.ageGroup && <p className={styles.error} style={{ color: 'red' }}>{errors.ageGroup}</p>}
+                    </div>
+                   
+                </div>
+                <div className={styles.addShopInputContainer}>
+                        <label className={styles.addShopLabel} htmlFor="preference">Preference</label>
+                        <input 
+                        type="text" 
+                        id="preference" 
+                        placeholder="Preference" 
+                        className={styles.inputField} 
+                        value={preference}
+                        onChange={(e) => setPreference(e.target.value)}
+                        />
+                        {errors.preference && <p className={styles.error} style={{ color: 'red' }}>{errors.preference}</p>}
+                    </div>
+             </div>
+        
           <div className={styles.fileUpload}>
                 <label className={styles.fileLabel}>Cover Image</label>
                 <div className={styles.fileDropZone}>
@@ -347,4 +375,4 @@ const handleCancel = () => {
   );
 };
 
-export default AddElectricCar;
+export default AddClub;

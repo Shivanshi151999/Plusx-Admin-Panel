@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import Select from "react-select";
 import { MultiSelect } from "react-multi-select-component";
-import styles from './addcar.module.css';
+import styles from './addbike.module.css';
 import UploadIcon from '../../assets/images/uploadicon.svg';
 import { AiOutlineClose } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
@@ -9,7 +9,7 @@ import { postRequestWithTokenAndFile, postRequestWithToken } from '../../api/Req
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
-const AddElectricCar = () => {
+const AddElectricBike = () => {
   const userDetails                     = JSON.parse(sessionStorage.getItem('userDetails')); 
   const navigate                        = useNavigate()
   const [file, setFile]                 = useState(null);
@@ -87,9 +87,9 @@ const handleRemoveGalleryImage = (index) => {
 
 const validateForm = () => {
     const fields = [
-        { name: "carName", value: carName, errorMessage: "Car Name is required." },
+        { name: "carName", value: carName, errorMessage: "Bike Name is required." },
         { name: "availableOn", value: availableOn, errorMessage: "Available On is required." },
-        { name: "carType", value: carType, errorMessage: "Car Type is required." },
+        { name: "carType", value: carType, errorMessage: "Bike Type is required." },
         { name: "price", value: price, errorMessage: "Price is required." },
         { name: "contract", value: contract, errorMessage: "Contract is required.", isArray: true},
         { name: "feature", value: feature, errorMessage: "Feature is required.", isArray: true },
@@ -118,13 +118,13 @@ const handleSubmit = (e) => {
         const formData = new FormData();
         formData.append("userId", userDetails?.user_id);
         formData.append("email", userDetails?.email);
-        formData.append("car_name", carName);
+        formData.append("bike_name", carName);
         formData.append("available_on", availableOn);
         formData.append("description", description);
         formData.append("price", price);
         formData.append("lease_url", url);
         if (carType) {
-            formData.append("car_type", carType.value);
+            formData.append("bike_type", carType.value);
         }
         if (contract && contract.length > 0) {
             const selectedContracts = contract.map(item => item.value).join(', ');
@@ -142,33 +142,33 @@ const handleSubmit = (e) => {
                 formData.append("rental_gallery", galleryFile);
             });
         }
-        postRequestWithTokenAndFile('electric-car-add', formData, async (response) => {
+        postRequestWithTokenAndFile('electric-bike-add', formData, async (response) => {
             if (response.status === 1) {
                 toast(response.message || response.message[0], {type:'success'})
                 setTimeout(() => {
-                    navigate('/electric-car-list');
+                    navigate('/electric-bike-list');
                 }, 1000);
             } else {
                 toast(response.message || response.message[0], {type:'error'})
-                console.log('Error in electric-car-add API:', response);
+                console.log('Error in electric-bike-add API:', response);
             }
         } )
     }
 };
 
 const handleCancel = () => {
-    navigate('/electric-car-list')
+    navigate('/electric-bike-list')
 }
 
   return (
     <div className={styles.addShopContainer}>
          <ToastContainer />
-      <div className={styles.addHeading}>Add Electric Car</div>
+      <div className={styles.addHeading}>Add Electric Bike</div>
       <div className={styles.addShopFormSection}>
         <form className={styles.formSection} onSubmit={handleSubmit}>
           <div className={styles.row}>
             <div className={styles.addShopInputContainer}>
-              <label className={styles.addShopLabel} htmlFor="modelName">Car Name</label>
+              <label className={styles.addShopLabel} htmlFor="modelName">Bike Name</label>
               <input type="text" id="carName" 
                 placeholder="Car Name" 
                 className={styles.inputField} 
@@ -192,7 +192,7 @@ const handleCancel = () => {
          
           <div className={styles.row}>
             <div className={styles.addShopInputContainer}>
-                <label className={styles.addShopLabel} htmlFor="vehicleType">Car Type</label>
+                <label className={styles.addShopLabel} htmlFor="vehicleType">Bike Type</label>
                 <Select
                     options={typeOpetions}
                     value={carType}
@@ -306,7 +306,7 @@ const handleCancel = () => {
                 {errors.file && <p className={styles.error} style={{ color: 'red' }}>{errors.file}</p>}
             </div>
             <div className={styles.fileUpload}>
-                <label className={styles.fileLabel}>Car Rental Gallery</label>
+                <label className={styles.fileLabel}>Bike Rental Gallery</label>
                 <div className={styles.fileDropZone}>
                     <input
                         type="file"
@@ -347,4 +347,4 @@ const handleCancel = () => {
   );
 };
 
-export default AddElectricCar;
+export default AddElectricBike;

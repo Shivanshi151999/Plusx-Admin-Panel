@@ -48,6 +48,18 @@ import GuideDetails from '../components/EvGuide/GuideDetails.jsx'
 import AddEvGuide from '../components/EvGuide/AddEvGuide.jsx';
 import EditEvGuide from '../components/EvGuide/EditEvGuide.jsx';
 import AddElectricCar from '../components/ElectricCarLeasing/AddElectricCar.jsx';
+import EditElectricCar from '../components/ElectricCarLeasing/EditElectricCar.jsx';
+import ElectricCarDetails from '../components/ElectricCarLeasing/ElectricCarDetails.jsx';
+import AddElectricBike from '../components/ElectricBikeLeasing/AddElectricBike.jsx';
+import EditElectricBike from '../components/ElectricBikeLeasing/EditElectricBike.jsx';
+import ElectricBikeDetails from '../components/ElectricBikeLeasing/BikeDetails.jsx';
+
+import EvRoadAssistance from '../components/EvRoadAssistance/index.jsx'
+import RoadAssistanceBookingList from '../components/EvRoadAssistance/Booking/BookingList.jsx';
+import RoadAssistanceBookingDetails from '../components/EvRoadAssistance/Booking/BookingDetails.jsx'
+import RoadAssistanceInvoiceList from '../components/EvRoadAssistance/Invoice/InvoiceList.jsx';
+import RoadAssistanceInvoiceDetails from '../components/EvRoadAssistance/Invoice/InvoiceDetails.jsx';
+import AddClub from '../components/EvRiderClub/AddClub.jsx';
 
 const router = createBrowserRouter([
 
@@ -185,10 +197,30 @@ const router = createBrowserRouter([
                 path: "/add-electric-car",
                 element: <AddElectricCar />,
             },
+            {
+                path: "/edit-electric-car/:rentalId",
+                element: <EditElectricCar />,
+            },
+            {
+                path: "/electric-car-details/:rentalId",
+                element: <ElectricCarDetails />,
+            },
             //Electric Bilke Leasing
             {
                 path: "/electric-bike-list",
                 element: <BikeList />,
+            },
+            {
+                path: "/add-electric-bike",
+                element: <AddElectricBike />,
+            },
+            {
+                path: "/edit-electric-bike/:rentalId",
+                element: <EditElectricBike />,
+            },
+            {
+                path: "/electric-bike-details/:rentalId",
+                element: <ElectricBikeDetails />,
             },
             //Ev Guide
             {
@@ -208,10 +240,45 @@ const router = createBrowserRouter([
                 element: <EditEvGuide />,
             },
 
+            //road assistance
+            {
+                path: "/ev-road-assistance",
+                element: < EvRoadAssistance/>,
+                children: [ 
+                     {
+                        path: "booking-list",
+                        element: < RoadAssistanceBookingList/>,
+                    }, {
+                        path: "booking-details/:requestId",
+                        element: <RoadAssistanceBookingDetails />,
+                    },  {
+                        path: "invoice-list", 
+                        element: <RoadAssistanceInvoiceList />,
+                    }, {
+                        path: "invoice-details/:invoiceId", 
+                        element: <RoadAssistanceInvoiceDetails />,
+                    },
+                    {
+                        path: "charger-booking-time-slot-list", 
+                        element: <PortableChargerTimeSlotList />,
+                    }, {
+                        path: "add-time-slot", 
+                        element: <AddPortableChargerTimeSlot />,
+                    }, {
+                        path: "edit-time-slot/:slotId", 
+                        element: <EditPortableChargerTimeSlot />,
+                    },
+                ],
+            },
+
             //Ev Rider Club
             {
                 path: "/club-list",
                 element: <ClubList />,
+            },
+            {
+                path: "/add-club",
+                element: <AddClub />,
             },
             //ev-specialized
             {

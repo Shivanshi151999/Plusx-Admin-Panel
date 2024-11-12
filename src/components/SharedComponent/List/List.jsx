@@ -4,10 +4,11 @@ import Edit from '../../../assets/images/Pen.svg';
 import Cancel from '../../../assets/images/Cancel.svg';
 import Delete from '../../../assets/images/Delete.svg';
 import View from '../../../assets/images/ViewEye.svg'
+import AddDriver from '../../../assets/images/AddDriver.svg';
 import { useNavigate } from 'react-router-dom';
 
 
-const List = ({list, tableHeaders, listData, keyMapping, pageHeading, onDeleteSlot}) => {
+const List = ({list, tableHeaders, listData, keyMapping, pageHeading, onDeleteSlot, onBookingConfirm}) => {
 
     const navigate = useNavigate()
 
@@ -41,6 +42,19 @@ const List = ({list, tableHeaders, listData, keyMapping, pageHeading, onDeleteSl
     //EvGuide
     const handleEvGuideDetails = (id) => navigate(`/ev-guide-details/${id}`)
     const handleEvGuideEdit    = (id) => navigate(`/edit-ev-guide/${id}`)
+
+    //ElectricCar
+    const handleEditElectricCar = (id) => navigate(`/edit-electric-car/${id}`)
+    const handleElectricCarDetails = (id) => navigate(`/electric-car-details/${id}`)
+
+    //ElectricBike
+    const handleEditElectricBike = (id) => navigate(`/edit-electric-bike/${id}`)
+    const handleElectricBikeDetails = (id) => navigate(`/electric-bike-details/${id}`)
+
+    //EvRoadAssistance
+    const handleRoadAssistanceBookingDetails = (id) => navigate(`/ev-road-assistance/booking-details/${id}`)
+    const handleRoadAssistanceInvoiceDetails = (id) => navigate(`/ev-road-assistance/invoice-details/${id}`)
+    // const handleEvGuideEdit    = (id) => navigate(`/edit-ev-guide/${id}`)
     
     return (
         <div className={styles.containerCharger}>
@@ -183,17 +197,17 @@ const List = ({list, tableHeaders, listData, keyMapping, pageHeading, onDeleteSl
 
                                     {pageHeading === 'Electric Cars Leasing List' && (
                                         <>
-                                         <img src={View} alt="view"/>
-                                            <img src={Edit} alt='edit' />
-                                            <img src={Delete} alt='delete' />
+                                         <img src={View} alt="view" onClick={() => handleElectricCarDetails(data.rental_id)}/>
+                                            <img src={Edit} alt='edit' onClick={() => handleEditElectricCar(data.rental_id)}/>
+                                            <img src={Delete} alt='delete' onClick={() => onDeleteSlot(data.rental_id)}/>
                                         </>
                                     )}
 
                                     {pageHeading === 'Electric Bikes Leasing List' && (
                                         <>
-                                         <img src={View} alt="view"/>
-                                            <img src={Edit} alt='edit' />
-                                            <img src={Delete} alt='delete' />
+                                         <img src={View} alt="view" onClick={() => handleElectricBikeDetails(data.rental_id)}/>
+                                            <img src={Edit} alt='edit' onClick={() => handleEditElectricBike(data.rental_id)}/>
+                                            <img src={Delete} alt='delete' onClick={() => onDeleteSlot(data.rental_id)}/>
                                         </>
                                     )}
 
@@ -203,6 +217,25 @@ const List = ({list, tableHeaders, listData, keyMapping, pageHeading, onDeleteSl
                                          <img src={View} alt="view" onClick={() => handleEvGuideDetails(data.vehicle_id)}/>
                                             <img src={Edit} alt='edit' onClick={() => handleEvGuideEdit(data.vehicle_id)}/>
                                             <img src={Delete} alt='delete'  onClick={() => onDeleteSlot(data.vehicle_id)}/>
+                                        </>
+                                    )}
+                                    
+                                     {/* Ev Road Assitance */}
+                                    {pageHeading === 'Ev Road Assitance Booking List' && (
+                                        <>
+                                            <img src={View} alt="view" onClick={() => handleRoadAssistanceBookingDetails(data.request_id)}/>
+                                            {/* <img src={AddDriver} alt='confirm' /> */}
+                                            {data.order_status !== 'C' && (
+                                                <img src={AddDriver} alt='confirm' onClick={() => onBookingConfirm(data.request_id)}/>
+                                            )}
+                                            {data.order_status !== 'C' && (
+                                                <img src={Cancel} alt='cancel' /> 
+                                            )}
+                                        </>
+                                    )}
+                                    {pageHeading === 'Road Assistance Invoice List' && (
+                                        <>
+                                            <img src={View} alt="view"  onClick={() => handleRoadAssistanceInvoiceDetails(data.invoice_id)}/>
                                         </>
                                     )}
                                     

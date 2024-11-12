@@ -92,7 +92,7 @@ const Invoice = ({ title, service, details }) => {
                                             <tr className={styles.serviceItem}>
                                                 <td>{service}</td>
                                                 <td></td>
-                                                <td className={styles.amountRightAlign}>{details?.currency?.toUpperCase() || 'AED'} 40</td>
+                                                <td className={styles.amountRightAlign}>{details?.currency?.toUpperCase() || 'AED'} {details?.amount || 40}</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -114,7 +114,7 @@ const Invoice = ({ title, service, details }) => {
                                 </td>
                                 <td className={styles.amountRightAlign}>
                                     <p className={styles.totalAmountValue}>
-                                        {details?.currency?.toUpperCase() || 'AED'} 40
+                                        {details?.currency?.toUpperCase() || 'AED'} {details?.amount || 40}
                                     </p>
                                 </td>
                             </tr>

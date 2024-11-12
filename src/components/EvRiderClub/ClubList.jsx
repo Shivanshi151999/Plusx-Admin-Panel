@@ -68,17 +68,21 @@ const ClubList = () => {
          dynamicFilters={dynamicFilters} filterValues={filters}
          addButtonProps={addButtonProps}
          />
-        <List 
-        tableHeaders={["Club ID", "Club Name", "Location", "No of Members", "Action"]}
-          listData = {clubList}
-          keyMapping={[
-            { key: 'club_id', label: 'Club ID' }, 
-            { key: 'club_name', label: 'Club Name' }, 
-            { key: 'location', label: 'Location' }, 
-            { key: 'no_of_members', label: 'No of Members' }, 
-        ]}
-        pageHeading="Club List"
-          />
+        {clubList?.length === 0 ? (
+                <div style={{color: 'red'}}>No data available</div>
+            ) : (
+                <List 
+                    tableHeaders={["Club ID", "Club Name", "Location", "No of Members", "Action"]}
+                    listData={clubList}
+                    keyMapping={[
+                        { key: 'club_id', label: 'Club ID' }, 
+                        { key: 'club_name', label: 'Club Name' }, 
+                        { key: 'location', label: 'Location' }, 
+                        { key: 'no_of_members', label: 'No of Members' }, 
+                    ]}
+                    pageHeading="Club List"
+                />
+            )}
         <Pagination 
           currentPage={currentPage} 
           totalPages={totalPages} 

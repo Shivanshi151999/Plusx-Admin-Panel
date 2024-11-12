@@ -4,25 +4,27 @@ import { MultiSelect } from "react-multi-select-component";
 import styles from './addcar.module.css';
 import UploadIcon from '../../assets/images/uploadicon.svg';
 import { AiOutlineClose } from 'react-icons/ai';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { postRequestWithTokenAndFile, postRequestWithToken } from '../../api/Requests';
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
-const AddElectricCar = () => {
+const EditElectricCar = () => {
   const userDetails                     = JSON.parse(sessionStorage.getItem('userDetails')); 
   const navigate                        = useNavigate()
+  const {rentalId}                      = useParams()
+  const [details, setDetails]           = useState()
   const [file, setFile]                 = useState(null);
   const [galleryFiles, setGalleryFiles] = useState([]);
   const [errors, setErrors]             = useState({});
-  const [carName, setCarName]       = useState()
+  const [carName, setCarName]           = useState()
   const [availableOn, setAvailableOn]   = useState()
   const [description, setDescription]   = useState()
-  const [url, setUrl]         = useState()
+  const [url, setUrl]                   = useState()
   const [price, setPrice]               = useState()
-  const [carType, setCarType]   = useState(null);
+  const [carType, setCarType]           = useState(null);
   const [contract, setContract]         = useState([])
-  const [feature, setFeature]         = useState([])
+  const [feature, setFeature]           = useState([])
 
   const contractDropdownRef = useRef(null);
   const featureDropdownRef = useRef(null);
@@ -111,18 +113,19 @@ const validateForm = () => {
     return Object.keys(newErrors).length === 0;
 };
 
-
 const handleSubmit = (e) => {
     e.preventDefault();
     if (validateForm()) {
         const formData = new FormData();
         formData.append("userId", userDetails?.user_id);
         formData.append("email", userDetails?.email);
+        formData.append("rental_id", rentalId);
         formData.append("car_name", carName);
         formData.append("available_on", availableOn);
         formData.append("description", description);
         formData.append("price", price);
         formData.append("lease_url", url);
+        formData.append("status", isActive === true ? 1 : 0);
         if (carType) {
             formData.append("car_type", carType.value);
         }
@@ -142,7 +145,9 @@ const handleSubmit = (e) => {
                 formData.append("rental_gallery", galleryFile);
             });
         }
-        postRequestWithTokenAndFile('electric-car-add', formData, async (response) => {
+        console.log('isActive',isActive);
+        
+        postRequestWithTokenAndFile('electric-car-edit', formData, async (response) => {
             if (response.status === 1) {
                 toast(response.message || response.message[0], {type:'success'})
                 setTimeout(() => {
@@ -150,20 +155,69 @@ const handleSubmit = (e) => {
                 }, 1000);
             } else {
                 toast(response.message || response.message[0], {type:'error'})
-                console.log('Error in electric-car-add API:', response);
+                console.log('Error in electric-car-edit API:', response);
             }
         } )
     }
 };
 
+const fetchDetails = () => {
+    const obj = {
+        userId     : userDetails?.user_id,
+        email      : userDetails?.email,
+        rental_id  : rentalId
+    };
+    postRequestWithToken('electric-car-detail', obj, (response) => {
+        
+        if (response.status === 1) {
+            const data = response?.car || {};
+            setDetails(data);
+            setCarName(data?.car_name || "");
+            setAvailableOn(data?.available_on || "");
+            // setCarType(data?.car_type || []);
+            setContract(data?.contract || "");
+            setDescription(data?.description || "");
+            // setFeature(data?.feature || []);
+            setUrl(data?.lease_url || "");
+            setFile(data?.image || "");
+            setGalleryFiles(response?.galleryData || []);
+            setPrice(data?.price)
+            setIsActive(data?.status === 1 ? true : false)
+
+            setContract(data?.contract ? data.contract.split(',').map(item => ({ label: item.trim(), value: item.trim() })) : []);
+            setFeature(data?.feature ? data.feature.split(',').map(item => ({ label: item.trim(), value: item.trim() })) : []);
+
+            const initialCarType = data.car_type ? { label: data.car_type, value: data.car_type } : null;
+            setCarType(initialCarType);
+
+        } else {
+            console.error('Error in electric-car-detail API', response);
+        }
+    });
+};
+
+useEffect(() => {
+    if (!userDetails || !userDetails.access_token) {
+        navigate('/login');
+        return;
+    }
+    fetchDetails();
+}, []);
+
 const handleCancel = () => {
     navigate('/electric-car-list')
 }
 
+const [isActive, setIsActive] = useState(false);
+
+const handleToggle = () => {
+    setIsActive(!isActive);
+};
+
   return (
     <div className={styles.addShopContainer}>
          <ToastContainer />
-      <div className={styles.addHeading}>Add Electric Car</div>
+      <div className={styles.addHeading}>Edit Electric Car</div>
       <div className={styles.addShopFormSection}>
         <form className={styles.formSection} onSubmit={handleSubmit}>
           <div className={styles.row}>
@@ -279,64 +333,101 @@ const handleCancel = () => {
             </div>
             
           </div>
-          <div className={styles.fileUpload}>
-                <label className={styles.fileLabel}>Cover Image</label>
-                <div className={styles.fileDropZone}>
-                    <input
-                        type="file"
-                        id="coverFileUpload"
-                        accept=".jpeg,.jpg"
-                        onChange={handleFileChange}
-                        style={{ display: 'none' }}
-                    />
-                    {!file ? (
-                        <label htmlFor="coverFileUpload" className={styles.fileUploadLabel}>
-                            <img src={UploadIcon} alt="Upload Icon" className={styles.uploadIcon} />
-                            <p>Select File to Upload <br /> or Drag & Drop, Copy & Paste Files</p>
-                        </label>
-                    ) : (
-                        <div className={styles.imageContainer}>
-                            <img src={URL.createObjectURL(file)} alt="Preview" className={styles.previewImage} />
-                            <button type="button" className={styles.removeButton} onClick={handleRemoveImage}>
-                                <AiOutlineClose size={20} style={{ padding: '2px' }} />
-                            </button>
+          <div className={styles.toggleContainer}>
+                        <label className={styles.statusLabel}>Status</label>
+                        <div className={styles.toggleSwitch} onClick={handleToggle}>
+                            <span className={`${styles.toggleLabel} ${!isActive ? styles.inactive : ''}`}>
+                                Active
+                            </span>
+                            <div className={`${styles.toggleButton} ${isActive ? styles.active : ''}`}>
+                                <div className={styles.slider}></div>
+                            </div>
+                            <span className={`${styles.toggleLabel} ${isActive ? styles.active : ''}`}>
+                                Inactive
+                            </span>
                         </div>
-                    )}
-                </div>
-                {errors.file && <p className={styles.error} style={{ color: 'red' }}>{errors.file}</p>}
-            </div>
-            <div className={styles.fileUpload}>
-                <label className={styles.fileLabel}>Car Rental Gallery</label>
-                <div className={styles.fileDropZone}>
-                    <input
-                        type="file"
-                        id="galleryFileUpload"
-                        // accept="image/*"
-                        accept=".jpeg,.jpg"
-                        multiple
-                        onChange={handleGalleryChange}
-                        style={{ display: 'none' }}
-                    />
-                    {galleryFiles.length === 0 ? (
-                        <label htmlFor="galleryFileUpload" className={styles.fileUploadLabel}>
-                            <img src={UploadIcon} alt="Upload Icon" className={styles.uploadIcon} />
-                            <p>Select Files to Upload <br /> or Drag & Drop, Copy & Paste Files</p>
-                        </label>
-                    ) : (
-                        <div className={styles.galleryContainer}>
-                            {galleryFiles.map((image, index) => (
-                                <div className={styles.imageContainer} key={index}>
-                                    <img src={URL.createObjectURL(image)} alt={`Preview ${index}`} className={styles.previewImage} />
-                                    <button type="button" className={styles.removeButton} onClick={() => handleRemoveGalleryImage(index)}>
+                    </div>
+                    <div className={styles.fileUpload}>
+                        <label className={styles.fileLabel}>Cover Image</label>
+                        <div className={styles.fileDropZone}>
+                            <input
+                                type="file"
+                                id="coverFileUpload"
+                                accept="image/*"
+                                onChange={handleFileChange}
+                                style={{ display: 'none' }}
+                            />
+                            {!file ? (
+                                <label htmlFor="coverFileUpload" className={styles.fileUploadLabel}>
+                                    <img src={UploadIcon} alt="Upload Icon" className={styles.uploadIcon} />
+                                    <p>Select File to Upload <br /> or Drag & Drop, Copy & Paste Files</p>
+                                </label>
+                            ) : (
+                                <div className={styles.imageContainer}>
+                                    {/* <img src={URL.createObjectURL(file)} alt="Preview" className={styles.previewImage} /> */}
+                                    <img
+                                        src={
+                                            typeof file === 'string'
+                                                ? `${process.env.REACT_APP_SERVER_URL}uploads/car-rental-images/${file}`
+                                                : URL.createObjectURL(file)
+                                        }
+                                        alt="Preview"
+                                        className={styles.previewImage}
+                                    />
+                                    <button type="button" className={styles.removeButton} onClick={handleRemoveImage}>
                                         <AiOutlineClose size={20} style={{ padding: '2px' }} />
                                     </button>
                                 </div>
-                            ))}
+                            )}
                         </div>
-                    )}
+                        {errors.file && <p className={styles.error} style={{ color: 'red' }}>{errors.file}</p>}
                     </div>
-                {errors.gallery && <p className={styles.error} style={{ color: 'red' }}>{errors.gallery}</p>}
-            </div>
+                    <div className={styles.fileUpload}>
+                        <label className={styles.fileLabel}>Station Gallery</label>
+                        <div className={styles.fileDropZone}>
+                            <input
+                                type="file"
+                                id="galleryFileUpload"
+                                accept="image/*"
+                                multiple
+                                onChange={handleGalleryChange}
+                                style={{ display: 'none' }}
+                            />
+                            {galleryFiles.length === 0 ? (
+                                <label htmlFor="galleryFileUpload" className={styles.fileUploadLabel}>
+                                    <img src={UploadIcon} alt="Upload Icon" className={styles.uploadIcon} />
+                                    <p>Select Files to Upload <br /> or Drag & Drop, Copy & Paste Files</p>
+                                </label>
+                            ) : (
+                                <div className={styles.galleryContainer}>
+
+
+                                    {Array.isArray(galleryFiles) && galleryFiles.length > 0 ? (
+                                        galleryFiles.map((file, index) => (
+                                            <div className={styles.imageContainer} key={index}>
+                                            <img
+                                                key={index}
+                                                src={
+                                                    typeof file === 'string'
+                                                        ? `${process.env.REACT_APP_SERVER_URL}uploads/car-rental-images/${file}`
+                                                        : URL.createObjectURL(file)
+                                                }
+                                                alt={`Preview ${index + 1}`}
+                                                className={styles.previewImage}
+                                            />
+                                            <button type="button" className={styles.removeButton} onClick={() => handleRemoveGalleryImage(index)}>
+                                            <AiOutlineClose size={20} style={{ padding: '2px' }} />
+                                        </button>
+                                        </div>
+                                        ))
+                                    ) : (
+                                        <p>No images available</p>
+                                    )}
+                                </div>
+                            )}
+                        </div>
+                        {errors.gallery && <p className={styles.error} style={{ color: 'red' }}>{errors.gallery}</p>}
+                    </div>
             <div className={styles.editButton}>
                 <button className={styles.editCancelBtn} onClick={() => handleCancel()}>Cancel</button>
                 <button type="submit" className={styles.editSubmitBtn}>Submit</button>
@@ -347,4 +438,4 @@ const handleCancel = () => {
   );
 };
 
-export default AddElectricCar;
+export default EditElectricCar;
