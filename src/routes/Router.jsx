@@ -62,6 +62,7 @@ import RoadAssistanceInvoiceDetails from '../components/EvRoadAssistance/Invoice
 import AddClub from '../components/EvRiderClub/AddClub.jsx';
 import EditClub from '../components/EvRiderClub/EditClub.jsx';
 import ClubDetails from '../components/EvRiderClub/ClubDetails.jsx'
+import Error from '../components/SharedComponent/Error/Error.jsx';
 
 const router = createBrowserRouter([
 
@@ -312,6 +313,10 @@ const router = createBrowserRouter([
                 ],
             },
         ],
+    },
+    {
+        path: "*",
+        element: <Error />,
     },
 ]);
 function Router() {
