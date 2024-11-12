@@ -91,12 +91,8 @@ const BikeList = () => {
     };
 
     return (
-<<<<<<< HEAD
         <div className={styles.electricBikeSection}>
-=======
-        <>
-        <ToastContainer />
->>>>>>> bf86bd7e2786eed2b46556f443d2a5534690ad10
+            <ToastContainer />
          <SubHeader heading = "Electric Bikes Leasing List" 
          addButtonProps={addButtonProps}
          fetchFilteredData={fetchFilteredData} 

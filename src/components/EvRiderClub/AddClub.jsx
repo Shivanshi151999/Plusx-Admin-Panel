@@ -74,7 +74,6 @@ const handleRemoveGalleryImage = (index) => {
 const validateForm = () => {
     const fields = [
         { name: "clubName", value: clubName, errorMessage: "Club Name is required." },
-        // { name: "availableOn", value: noOfMembers, errorMessage: "Available On is required." },
         { name: "location", value: location, errorMessage: "Location is required.", isArray: true},
         { name: "category", value: category, errorMessage: "Category is required.", isArray: true },
         { name: "ageGroup", value: ageGroup, errorMessage: "Age Group is required.", isArray: true },

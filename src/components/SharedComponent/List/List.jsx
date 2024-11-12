@@ -54,7 +54,10 @@ const List = ({list, tableHeaders, listData, keyMapping, pageHeading, onDeleteSl
     //EvRoadAssistance
     const handleRoadAssistanceBookingDetails = (id) => navigate(`/ev-road-assistance/booking-details/${id}`)
     const handleRoadAssistanceInvoiceDetails = (id) => navigate(`/ev-road-assistance/invoice-details/${id}`)
-    // const handleEvGuideEdit    = (id) => navigate(`/edit-ev-guide/${id}`)
+    // 
+
+    //EvRoadAssistance
+    const handleRiderClubEdit  = (id) => navigate(`/edit-club/${id}`)
     
     return (
         <div className={styles.containerCharger}>
@@ -190,7 +193,7 @@ const List = ({list, tableHeaders, listData, keyMapping, pageHeading, onDeleteSl
                                      {pageHeading === 'Club List' && (
                                         <>
                                          <img src={View} alt="view" />
-                                            <img src={Edit} alt='edit' />
+                                            <img src={Edit} alt='edit' onClick={() => handleRiderClubEdit(data.club_id)}/>
                                             <img src={Delete} alt='delete' />
                                         </>
                                     )}
