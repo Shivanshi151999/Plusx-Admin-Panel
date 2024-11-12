@@ -13,6 +13,7 @@ import Custommodal from '../../SharedComponent/CustomModal/CustomModal.jsx';
 
 const statusMapping = {
     'CNF' : 'Booking Confirmed',
+    'BD' : 'Booking Done',
     'A'  : 'Assigned',
     'ER' : 'Enroute',
     'RL' : 'POD Reached at Location',
@@ -62,6 +63,7 @@ const RoadAssistanceBookingList = () => {
     const [isModalOpen, setIsModalOpen]               = useState(false);
     const [selectedBookingId, setSelectedBookingId]   = useState(null);
     const [selectedDriverId, setSelectedDriverId]     = useState(null);
+    const [refresh, setRefresh]           = useState(false)
 
     const fetchList = (page, appliedFilters = {}) => {
         const obj = {
@@ -99,7 +101,7 @@ const RoadAssistanceBookingList = () => {
             return;
         }
         fetchList(currentPage, filters);
-    }, [currentPage, filters]);
+    }, [currentPage, filters, refresh]);
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -147,6 +149,26 @@ const RoadAssistanceBookingList = () => {
             }
         })
     }
+
+    const handleConfirm = (requestId) => {
+        const confirmBooking = window.confirm("Are you sure to confirm order ?");
+        if (confirmBooking) {
+            const obj = { 
+                userId : userDetails?.user_id,
+                email : userDetails?.email,
+                reuest_id: requestId 
+            };
+            postRequestWithToken('ev-road-assistance-confirm-booking', obj, async (response) => {
+                if (response.code === 200) {
+                    setRefresh(prev => !prev);
+                    toast(response.message[0], { type: "success" });
+                } else {
+                    toast(response.message, { type: 'error' });
+                    console.log('error in ev-road-assistance-confirm-booking api', response);
+                }
+            });
+        }
+    };
     return (
         <>
             <SubHeader
@@ -175,7 +197,7 @@ const RoadAssistanceBookingList = () => {
                     //     label: 'Driver Assign',
                     //     relatedKeys: ['status'], 
                     //     format: (data, key, relatedKeys) => {
-                    //         const isBookingConfirmed = data[relatedKeys[0]] === 'CNF'; 
+                    //         const isBookingConfirmed = data[relatedKeys[0]] === 'BD'; 
                             
                     //         return isBookingConfirmed ? (
                     //             <img 
@@ -191,6 +213,7 @@ const RoadAssistanceBookingList = () => {
                     
                 ]}
                 pageHeading="Ev Road Assitance Booking List"
+                onBookingConfirm={handleConfirm}
             />
         )}
             <Pagination

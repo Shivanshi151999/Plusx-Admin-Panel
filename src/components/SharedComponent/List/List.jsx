@@ -4,10 +4,11 @@ import Edit from '../../../assets/images/Pen.svg';
 import Cancel from '../../../assets/images/Cancel.svg';
 import Delete from '../../../assets/images/Delete.svg';
 import View from '../../../assets/images/ViewEye.svg'
+import AddDriver from '../../../assets/images/AddDriver.svg';
 import { useNavigate } from 'react-router-dom';
 
 
-const List = ({list, tableHeaders, listData, keyMapping, pageHeading, onDeleteSlot}) => {
+const List = ({list, tableHeaders, listData, keyMapping, pageHeading, onDeleteSlot, onBookingConfirm}) => {
 
     const navigate = useNavigate()
 
@@ -52,6 +53,7 @@ const List = ({list, tableHeaders, listData, keyMapping, pageHeading, onDeleteSl
 
     //EvRoadAssistance
     const handleRoadAssistanceBookingDetails = (id) => navigate(`/ev-road-assistance/booking-details/${id}`)
+    const handleRoadAssistanceInvoiceDetails = (id) => navigate(`/ev-road-assistance/invoice-details/${id}`)
     // const handleEvGuideEdit    = (id) => navigate(`/edit-ev-guide/${id}`)
     
     return (
@@ -222,7 +224,18 @@ const List = ({list, tableHeaders, listData, keyMapping, pageHeading, onDeleteSl
                                     {pageHeading === 'Ev Road Assitance Booking List' && (
                                         <>
                                             <img src={View} alt="view" onClick={() => handleRoadAssistanceBookingDetails(data.request_id)}/>
-                                            {/* <img src={Cancel} alt='cancel' /> */}
+                                            {/* <img src={AddDriver} alt='confirm' /> */}
+                                            {data.order_status !== 'C' && (
+                                                <img src={AddDriver} alt='confirm' onClick={() => onBookingConfirm(data.request_id)}/>
+                                            )}
+                                            {data.order_status !== 'C' && (
+                                                <img src={Cancel} alt='cancel' /> 
+                                            )}
+                                        </>
+                                    )}
+                                    {pageHeading === 'Road Assistance Invoice List' && (
+                                        <>
+                                            <img src={View} alt="view"  onClick={() => handleRoadAssistanceInvoiceDetails(data.invoice_id)}/>
                                         </>
                                     )}
                                     

@@ -57,6 +57,8 @@ import ElectricBikeDetails from '../components/ElectricBikeLeasing/BikeDetails.j
 import EvRoadAssistance from '../components/EvRoadAssistance/index.jsx'
 import RoadAssistanceBookingList from '../components/EvRoadAssistance/Booking/BookingList.jsx';
 import RoadAssistanceBookingDetails from '../components/EvRoadAssistance/Booking/BookingDetails.jsx'
+import RoadAssistanceInvoiceList from '../components/EvRoadAssistance/Invoice/InvoiceList.jsx';
+import RoadAssistanceInvoiceDetails from '../components/EvRoadAssistance/Invoice/InvoiceDetails.jsx';
 
 const router = createBrowserRouter([
 
@@ -249,9 +251,13 @@ const router = createBrowserRouter([
                         path: "booking-details/:requestId",
                         element: <RoadAssistanceBookingDetails />,
                     },  {
-                        path: "charger-booking-invoice-list", 
-                        element: <ChargerBookingInvoiceList />,
+                        path: "invoice-list", 
+                        element: <RoadAssistanceInvoiceList />,
                     }, {
+                        path: "invoice-details/:invoiceId", 
+                        element: <RoadAssistanceInvoiceDetails />,
+                    },
+                    {
                         path: "charger-booking-time-slot-list", 
                         element: <PortableChargerTimeSlotList />,
                     }, {
