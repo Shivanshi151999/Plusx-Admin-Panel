@@ -63,6 +63,13 @@ import AddClub from '../components/EvRiderClub/AddClub.jsx';
 import EditClub from '../components/EvRiderClub/EditClub.jsx';
 import ClubDetails from '../components/EvRiderClub/ClubDetails.jsx'
 import Error from '../components/SharedComponent/Error/Error.jsx';
+import DiscussionBoardList from '../components/DiscussionBoard/DiscussionBoardList.jsx';
+import DiscussionBoardDetails from '../components/DiscussionBoard/DiscussionBoardDetails.jsx';
+import InsuranceList from '../components/EvInsurance/InsuranceList.jsx';
+import InsuranceDetails from '../components/EvInsurance/InsuranceDetails.jsx';
+import BuySellList from '../components/EVBuySell/BuySellList.jsx';
+import BuySellDetails from '../components/EVBuySell/BuySellDetails.jsx';
+import InterestList from '../components/RegisterInterest/InterestList.jsx';
 
 const router = createBrowserRouter([
 
@@ -291,6 +298,26 @@ const router = createBrowserRouter([
                 path: "/club-details/:clubId",
                 element: <ClubDetails />,
             },
+
+            //DiscussionBoard
+            {
+                path: "/discussion-board-list",
+                element: <DiscussionBoardList />,
+            },
+            {
+                path: "/discussion-board-details/:boardId",
+                element: <DiscussionBoardDetails />,
+            },
+
+             //EvInsurance
+             {
+                path: "/ev-insurance-list",
+                element: <InsuranceList />,
+            },
+            {
+                path: "/ev-insurance-details/:insuranceId",
+                element: <InsuranceDetails />,
+            },
             //ev-specialized
             {
                 path: "/ev-specialized",
@@ -311,6 +338,22 @@ const router = createBrowserRouter([
                         element: <BrandList />,
                     },
                 ],
+            },
+
+            //EvBuySell
+            {
+                path: "/ev-buy-sell",
+                element: <BuySellList />,
+            },
+            {
+                path: "/ev-buy-sell-details/:sellId",
+                element: <BuySellDetails />,
+            },
+
+            //Register Interest
+            {
+                path: "/interest-list",
+                element: <InterestList />,
             },
         ],
     },

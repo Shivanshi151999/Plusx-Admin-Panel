@@ -608,7 +608,7 @@ const SideNavbar = () => {
           <li>EV Rider Clubs</li>
         </NavLink>
         <NavLink
-          to="/sii"
+          to="/discussion-board-list"
           className={({ isActive }) =>
             isActive ? `${styles.menuItem} ${styles.active}` : styles.menuItem
           }
@@ -616,7 +616,7 @@ const SideNavbar = () => {
           <li>EV Discussion Board</li>
         </NavLink>
         <NavLink
-          to="/sii"
+          to="/ev-insurance-list"
           className={({ isActive }) =>
             isActive ? `${styles.menuItem} ${styles.active}` : styles.menuItem
           }
@@ -815,7 +815,7 @@ const SideNavbar = () => {
           <li>Offer</li>
         </NavLink>
         <NavLink
-          to="/sii"
+          to="/interest-list"
           className={({ isActive }) =>
             isActive ? `${styles.menuItem} ${styles.active}` : styles.menuItem
           }

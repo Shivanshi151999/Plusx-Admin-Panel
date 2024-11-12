@@ -59,6 +59,15 @@ const List = ({list, tableHeaders, listData, keyMapping, pageHeading, onDeleteSl
     //EvRoadAssistance
     const handleRiderClubEdit  = (id) => navigate(`/edit-club/${id}`)
     const handleRiderClubDetails = (id) => navigate(`/club-details/${id}`)
+
+    //DiscussionBoard
+    const handleBoardDetails  = (id) => navigate(`/discussion-board-details/${id}`)
+
+    //EvInsurance
+    const handleInsuranceDetails  = (id) => navigate(`/ev-insurance-details/${id}`)
+
+    //EvBuySell
+    const handleBuySellDetails  = (id) => navigate(`/ev-buy-sell-details/${id}`)
     
     return (
         <div className={styles.containerCharger}>
@@ -240,6 +249,27 @@ const List = ({list, tableHeaders, listData, keyMapping, pageHeading, onDeleteSl
                                     {pageHeading === 'Road Assistance Invoice List' && (
                                         <>
                                             <img src={View} alt="view"  onClick={() => handleRoadAssistanceInvoiceDetails(data.invoice_id)}/>
+                                        </>
+                                    )}
+
+                                   {pageHeading === 'Board List' && (
+                                        <>
+                                         <img src={View} alt="view" onClick={() => handleBoardDetails(data.board_id)}/>
+                                            <img src={Delete} alt='delete' onClick={() => onDeleteSlot(data.board_id)} />
+                                        </>
+                                    )}
+
+                                    {pageHeading === 'Insurance List' && (
+                                        <>
+                                         <img src={View} alt="view" onClick={() => handleInsuranceDetails(data.insurance_id)}/>
+                                            {/* <img src={Delete} alt='delete' onClick={() => onDeleteSlot(data.board_id)} /> */}
+                                        </>
+                                    )}
+
+                                    {pageHeading === 'Buy Sell List' && (
+                                        <>
+                                         <img src={View} alt="view" onClick={() => handleBuySellDetails(data.sell_id)}/>
+                                            {/* <img src={Delete} alt='delete' onClick={() => onDeleteSlot(data.board_id)} /> */}
                                         </>
                                     )}
                                     
