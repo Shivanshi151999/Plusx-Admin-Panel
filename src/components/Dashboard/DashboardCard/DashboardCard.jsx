@@ -1,19 +1,38 @@
 import React, { useState } from "react";
 import style from "./DashboardCard.module.css";
 import DashboardCardItem from "../../SharedComponent/DashboardCardItem/DashboardCardItem";
-import { CiAirportSign1 } from "react-icons/ci";
+
+// Card Images
+import AppSignUpImage from "../../../assets/images/DashboardCardIcons/Total App Sign Up.svg";
+import ChargerInstallationImage from "../../../assets/images/DashboardCardIcons/Charger Installation.svg";
+import EVRiderClubImage from "../../../assets/images/DashboardCardIcons/EV Rider Club.svg";
+import EVSpecializedShopsImage from "../../../assets/images/DashboardCardIcons/EV Specialized Shops.svg";
+import ActiveOfferImage from "../../../assets/images/DashboardCardIcons/Total Active Offer.svg";
+import EVBuyAndSellImage from "../../../assets/images/DashboardCardIcons/Total EV Buy & Sell.svg";
+import EVDiscussionBoardImage from "../../../assets/images/DashboardCardIcons/Total EV Discussion Board.svg";
+import EVGuideImage from "../../../assets/images/DashboardCardIcons/Total EV Guide.svg";
+import EVInsuranceImage from "../../../assets/images/DashboardCardIcons/Total EV Insurance.svg";
+import EVPreSalesImage from "../../../assets/images/DashboardCardIcons/Total EV Pre-Sales Testing.svg";
+import EVRoadAssitanceImage from "../../../assets/images/DashboardCardIcons/Total EV Road Assitance.svg";
+import ElectricBikeLeasingImage from "../../../assets/images/DashboardCardIcons/Total Electric Bike Leasing.svg";
+import ElectricCarLeasingImage from "../../../assets/images/DashboardCardIcons/Total Electric Car Leasing.svg";
+import NoOfRegsDriverImage from "../../../assets/images/DashboardCardIcons/No of Regs Driver.svg";
+import PickAndDropImage from "../../../assets/images/DashboardCardIcons/Total Pick & Drop.svg";
+import PODBooking from "../../../assets/images/DashboardCardIcons/POD Booking.svg";
+import PublicChargersImage from "../../../assets/images/DashboardCardIcons/Total Public Chargers.svg";
+import TotalRegisterYourInterestImage from "../../../assets/images/DashboardCardIcons/Total Register Your Intrest.svg";
 
 const DashboardCard = ({ details }) => {
   const [isActiveCard, setIsActiveCard] = useState(0);
   const cardData = [
     {
-      icon: <CiAirportSign1 />,
+      icon: AppSignUpImage,
       count: details?.find((item) => item.module === "App Sign Up")?.count || 0,
       title: "App Sign Up",
       route: "/app-signup-list",
     },
     {
-      icon: <CiAirportSign1 />,
+      icon: NoOfRegsDriverImage,
       count:
         details?.find((item) => item.module === "No. of Regs. Drivers")
           ?.count || 0,
@@ -21,14 +40,14 @@ const DashboardCard = ({ details }) => {
       route: "/rider-list",
     },
     {
-      icon: <CiAirportSign1 />,
+      icon: PODBooking,
       count:
         details?.find((item) => item.module === "POD Bookings")?.count || 0,
       title: "POD Booking",
       route: "/portable-charger/charger-booking-list",
     },
     {
-      icon: <CiAirportSign1 />,
+      icon: PickAndDropImage,
       count:
         details?.find((item) => item.module === "Pickup & Dropoff Bookings")
           ?.count || 0,
@@ -36,7 +55,7 @@ const DashboardCard = ({ details }) => {
       route: "/pick-and-drop/booking-list",
     },
     {
-      icon: <CiAirportSign1 />,
+      icon: PublicChargersImage,
       count:
         details?.find((item) => item.module === "Total Public Chargers")
           ?.count || 0,
@@ -44,7 +63,7 @@ const DashboardCard = ({ details }) => {
       route: "/public-charger-station-list",
     },
     {
-      icon: <CiAirportSign1 />,
+      icon: ElectricBikeLeasingImage,
       count:
         details?.find((item) => item.module === "Total Electric Bikes Leasing")
           ?.count || 0,
@@ -52,7 +71,7 @@ const DashboardCard = ({ details }) => {
       route: "/electric-bike-list",
     },
     {
-      icon: <CiAirportSign1 />,
+      icon: ElectricCarLeasingImage,
       count:
         details?.find((item) => item.module === "Total Electric Cars Leasing")
           ?.count || 0,
@@ -60,14 +79,14 @@ const DashboardCard = ({ details }) => {
       route: "/electric-car-list",
     },
     {
-      icon: <CiAirportSign1 />,
+      icon: EVGuideImage,
       count:
         details?.find((item) => item.module === "Total EV Guide")?.count || 0,
       title: "Total EV Guide",
       route: "/ev-guide-list",
     },
     {
-      icon: <CiAirportSign1 />,
+      icon: EVRoadAssitanceImage,
       count:
         details?.find((item) => item.module === "EV Road Assistance")?.count ||
         0,
@@ -75,7 +94,7 @@ const DashboardCard = ({ details }) => {
       route: "/charger-installation-list",
     },
     {
-      icon: <CiAirportSign1 />,
+      icon: ChargerInstallationImage,
       count:
         details?.find((item) => item.module === "Charger Installation Bookings")
           ?.count || 0,
@@ -83,7 +102,7 @@ const DashboardCard = ({ details }) => {
       route: "/",
     },
     {
-      icon: <CiAirportSign1 />,
+      icon: EVRiderClubImage,
       count:
         details?.find((item) => item.module === "Total EV Rider Clubs")
           ?.count || 0,
@@ -91,7 +110,7 @@ const DashboardCard = ({ details }) => {
       route: "/club-list",
     },
     {
-      icon: <CiAirportSign1 />,
+      icon: EVDiscussionBoardImage,
       count:
         details?.find((item) => item.module === "Total EV Discussion Board")
           ?.count || 0,
@@ -99,7 +118,7 @@ const DashboardCard = ({ details }) => {
       route: "/",
     },
     {
-      icon: <CiAirportSign1 />,
+      icon: EVInsuranceImage,
       count:
         details?.find((item) => item.module === "Total EV Insurance")?.count ||
         0,
@@ -107,7 +126,7 @@ const DashboardCard = ({ details }) => {
       route: "/",
     },
     {
-      icon: <CiAirportSign1 />,
+      icon: EVPreSalesImage,
       count:
         details?.find((item) => item.module === "Pre-Sale Testing Bookings")
           ?.count || 0,
@@ -115,7 +134,7 @@ const DashboardCard = ({ details }) => {
       route: "/",
     },
     {
-      icon: <CiAirportSign1 />,
+      icon: EVSpecializedShopsImage,
       count:
         details?.find((item) => item.module === "Total EV Specialized Shop")
           ?.count || 0,
@@ -123,14 +142,14 @@ const DashboardCard = ({ details }) => {
       route: "/ev-specialized/shop-list",
     },
     {
-      icon: <CiAirportSign1 />,
+      icon: EVBuyAndSellImage,
       count:
         details?.find((item) => item.module === "EV Buy & Sell")?.count || 0,
       title: "EV Buy & Sell",
       route: "/",
     },
     {
-      icon: <CiAirportSign1 />,
+      icon: ActiveOfferImage,
       count:
         details?.find((item) => item.module === "Total Active Offer")?.count ||
         0,
@@ -138,7 +157,7 @@ const DashboardCard = ({ details }) => {
       route: "/",
     },
     {
-      icon: <CiAirportSign1 />,
+      icon: TotalRegisterYourInterestImage,
       count:
         details?.find((item) => item.module === "Total Register your Interest")
           ?.count || 0,

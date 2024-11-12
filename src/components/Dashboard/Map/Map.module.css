@@ -1,0 +1,9 @@
+.map {
+  /* padding: 20px; */
+}
+
+.mapContainer {
+  border: 1.5px solid #00ffc3;
+  background-color: #000000;
+  border-radius: 20px;
+}

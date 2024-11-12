@@ -7,6 +7,7 @@ import style from "./index.module.css";
 import {postRequestWithToken } from '../../api/Requests';
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import MapComponent from './Map/Map';
 
 
 function Index() {
@@ -38,7 +39,14 @@ useEffect(() => {
 
   return (
     <div className={style.dashboard}>
-      <Graph />
+      <div className={`row ${style.row}`}>
+        <div className={`col-xl-6 col-lg-12`}>
+          <Graph />
+        </div>
+        <div className={`col-xl-6 col-lg-12`}>
+          <MapComponent />
+        </div>
+      </div>
       <DashboardCardItem details = {details}/>
     </div>
   );

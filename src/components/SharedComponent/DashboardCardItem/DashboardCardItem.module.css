@@ -12,19 +12,19 @@
 }
 
 .card:hover .cardIcon {
-  border-color: #000;
+  filter: brightness(0) saturate(100%);
 }
 
 .cardWrapper {
   display: flex;
   column-gap: 10px;
   align-items: center;
+  margin-bottom: 5px;
 }
 
 .cardIcon {
-  width: 25px;
-  height: 25px;
-  border: 1px solid #fff;
+  width: 35px;
+  height: 35px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -36,6 +36,7 @@
 
 .cardTitle {
   font-size: 16px;
+  line-height: 20px;
 }
 
 .cardActive {
@@ -44,5 +45,5 @@
 }
 
 .cardActive .cardIcon {
-  border-color: #000;
+  filter: brightness(0) saturate(100%);
 }

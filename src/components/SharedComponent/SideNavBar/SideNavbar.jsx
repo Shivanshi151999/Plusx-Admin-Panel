@@ -211,7 +211,9 @@ const SideNavbar = () => {
   return (
     <div className={styles.sidebar}>
       <div className={styles.logo}>
-        <CompanyLogo />
+        <NavLink to="/">
+          <CompanyLogo />
+        </NavLink>
       </div>
       <ul className={styles.menuList}>
         <NavLink

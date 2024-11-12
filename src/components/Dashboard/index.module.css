@@ -6,3 +6,6 @@
 .dashboard::-webkit-scrollbar {
   display: none;
 }
+.row {
+  padding: 20px;
+}
