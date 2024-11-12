@@ -1,0 +1,9 @@
+.electricBikeSection{
+    background-color: #242424;
+    height: 94.3vh;
+    overflow: scroll;
+    padding: 20px 0px;
+}
+.electricBikeSection::-webkit-scrollbar{
+    display: none;
+}

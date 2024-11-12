@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import Select from "react-select";
 import styles from './addemergency.module.css';
-import { AiOutlineClose, AiOutlineDown, AiOutlineUp } from 'react-icons/ai'; 
-import UploadIcon from '../../assets/images/uploadicon.svg'; 
+import { AiOutlineClose, AiOutlineDown, AiOutlineUp } from 'react-icons/ai';
+import UploadIcon from '../../assets/images/uploadicon.svg';
 import { postRequestWithTokenAndFile } from '../../api/Requests';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 
 const AddEmergencyTeam = () => {
-    const userDetails = JSON.parse(sessionStorage.getItem('userDetails')); 
+    const userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
     const navigate = useNavigate();
     const [file, setFile] = useState();
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [rsaName, setRsaName] = useState("");
     const [email, setEmail] = useState("");
     const [mobileNo, setMobileNo] = useState("");
@@ -18,7 +18,8 @@ const AddEmergencyTeam = () => {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [errors, setErrors] = useState({});
-
+    const [chargingType, setChargingType] = useState()
+    const [selectedType, setSelectedType] = useState([])
     const handleFileChange = (event) => {
         const selectedFile = event.target.files[0];
         if (selectedFile && selectedFile.type.startsWith('image/')) {
@@ -32,9 +33,9 @@ const AddEmergencyTeam = () => {
     const handleRemoveImage = () => {
         setFile(null);
     };
-
-    const toggleDropdown = () => {
-        setIsDropdownOpen(!isDropdownOpen);
+    const serviceDropdownRef = useRef(null);
+    const handleChargingType = (selectedOption) => {
+        setSelectedType(selectedOption);
     };
 
     const validateForm = () => {
@@ -93,12 +94,12 @@ const AddEmergencyTeam = () => {
             formData.append("service_type", serviceType);
             formData.append("password", password);
             formData.append("confirm_password", confirmPassword);
-            
+
             if (file) {
                 formData.append("profile_image", file);
             }
 
-            postRequestWithTokenAndFile('rsa-add', formData, async(response) => {
+            postRequestWithTokenAndFile('rsa-add', formData, async (response) => {
                 if (response.code === 200) {
                     toast(response.message[0], { type: "success" });
                     navigate('/rider-list')
@@ -106,7 +107,7 @@ const AddEmergencyTeam = () => {
                     console.log('error in rider-list api', response);
                 }
             });
-            
+
         } else {
             console.log("Form validation failed.");
         }
@@ -114,21 +115,21 @@ const AddEmergencyTeam = () => {
 
     useEffect(() => {
         if (!userDetails || !userDetails.access_token) {
-            navigate('/login'); 
-            return; 
+            navigate('/login');
+            return;
         }
     }, []);
 
     return (
-        <div className={styles.container}>
-            <h2 className={styles.title}>Add Emergency Team</h2>
-            <div className={styles.section}>
-                <form className={styles.form} onSubmit={handleSubmit}>
+        <div className={styles.addShopContainer}>
+            <div className={styles.addHeading}>Add Driver</div>
+            <div className={styles.addShopFormSection}>
+                <form className={styles.formSection} onSubmit={handleSubmit}>
                     <div className={styles.row}>
-                        <div className={styles.inputGroup}>
-                            <label className={styles.label}>RSA Name</label>
+                        <div className={styles.addShopInputContainer}>
+                            <label className={styles.addShopLabel} htmlFor="shopName">Station Name</label>
                             <input
-                                className={styles.input}
+                                className={styles.inputField}
                                 type="text"
                                 placeholder="RSA Name"
                                 value={rsaName}
@@ -136,10 +137,10 @@ const AddEmergencyTeam = () => {
                             />
                             {errors.rsaName && <p className={styles.error}>{errors.rsaName}</p>}
                         </div>
-                        <div className={styles.inputGroup}>
-                            <label className={styles.label}>Email ID</label>
+                        <div className={styles.addShopInputContainer}>
+                            <label className={styles.addShopLabel}>Email ID</label>
                             <input
-                                className={styles.input}
+                                className={styles.inputField}
                                 type="email"
                                 placeholder="Email ID"
                                 value={email}
@@ -147,10 +148,12 @@ const AddEmergencyTeam = () => {
                             />
                             {errors.email && <p className={styles.error}>{errors.email}</p>}
                         </div>
-                        <div className={styles.inputGroup}>
-                            <label className={styles.label}>Mobile No</label>
+                    </div>
+                    <div className={styles.row}>
+                        <div className={styles.addShopInputContainer}>
+                            <label className={styles.addShopLabel}>Mobile No</label>
                             <input
-                                className={styles.input}
+                                className={styles.inputField}
                                 type="text"
                                 placeholder="Mobile No"
                                 value={mobileNo}
@@ -158,46 +161,39 @@ const AddEmergencyTeam = () => {
                             />
                             {errors.mobileNo && <p className={styles.error}>{errors.mobileNo}</p>}
                         </div>
-                        <div className={styles.inputGroup}>
-                            <label className={styles.label}>Service Type</label>
-                            <div className={styles.selectContainer}>
-                                <select
-                                    className={styles.select}
+                        <div className={styles.addShopInputContainer}>
+                            <label className={styles.addShopLabel}>Service Type</label>
+                            <div ref={serviceDropdownRef}>
+                                <Select
+                                    className={styles.addShopSelect}
+                                    options={chargingType}
                                     value={serviceType}
-                                    onChange={(e) => setServiceType(e.target.value)}
-                                    onClick={toggleDropdown}
-                                >
-                                    <option value="">Select</option>
-                                    <option value="Charger Installation">Charger Installation</option>
-                                    <option value="EV Pre-Sale">EV Pre-Sale</option>
-                                    <option value="Portable Charger">Portable Charger</option>
-                                    <option value="Roadside Assistance">Roadside Assistance</option>
-                                    <option value="Valet Charging">Valet Charging</option>
-                                </select>
-                                <div className={styles.iconContainer}>
-                                    {isDropdownOpen ? <AiOutlineUp /> : <AiOutlineDown />}
-                                </div>
+                                    onChange={handleChargingType}
+                                    placeholder="Select Service"
+                                    isClearable={true}
+                                />
+
                             </div>
                             {errors.serviceType && <p className={styles.error}>{errors.serviceType}</p>}
                         </div>
                     </div>
                     <div className={styles.row}>
-                        <div className={styles.inputGroup}>
-                            <label className={styles.label}>Password</label>
+                        <div className={styles.addShopInputContainer}>
+                            <label className={styles.addShopLabel}>Password</label>
                             <input
-                                className={styles.input}
-                                type="password"
+                                className={styles.inputField}
+                                type="text"
                                 placeholder="Password"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                             />
                             {errors.password && <p className={styles.error}>{errors.password}</p>}
                         </div>
-                        <div className={styles.inputGroup}>
-                            <label className={styles.label}>Confirm Password</label>
+                        <div className={styles.addShopInputContainer}>
+                            <label className={styles.addShopLabel}>Confirm Password</label>
                             <input
-                                className={styles.input}
-                                type="password"
+                                className={styles.inputField}
+                                type="text"
                                 placeholder="Confirm Password"
                                 value={confirmPassword}
                                 onChange={(e) => setConfirmPassword(e.target.value)}
@@ -240,12 +236,12 @@ const AddEmergencyTeam = () => {
                         </div>
                         {errors.file && <p className={styles.error}>{errors.file}</p>}
                     </div>
-                    <div className={styles.actions}>
-                        <button className={styles.submitBtn} type="submit">Add</button>
+                    <div className={styles.editButton}>
+                        <button className={styles.editSubmitBtn} type="submit">Add</button>
                     </div>
                 </form>
-            </div>
-        </div>
+            </div >
+        </div >
     );
 };
 

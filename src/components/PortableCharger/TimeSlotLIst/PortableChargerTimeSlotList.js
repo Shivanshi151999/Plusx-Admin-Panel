@@ -114,7 +114,6 @@ const PortableChargerTimeSlotList = () => {
     return (
         <>
         <ToastContainer />
-<<<<<<< Updated upstream
         <SubHeader 
         heading = "Portable Charger Slot List" 
         addButtonProps={addButtonProps}
@@ -122,59 +121,6 @@ const PortableChargerTimeSlotList = () => {
         fetchFilteredData={fetchFilteredData} 
         searchTerm = {searchTerm}
         />
-
-        {/* <List 
-         list = 'time slot'
-         tableHeaders={["Slot ID", "Timing", "Booking Limit", "Total Booking", "Remaining Booking", "Status", "Action"]}
-        //   listData = {groupedData}
-        listData={timeSlotList}
-=======
-        <SubHeader heading = "Portable Charger Slot List" addButtonProps={addButtonProps}/>
-        <List 
-         list = 'time slot'
-        tableHeaders={["Slot ID", "Timing", "Booking Limit", "Total Booking", "Remaining Booking", "Status", "Action"]}
-          listData = {timeSlotList}
->>>>>>> Stashed changes
-          keyMapping={[
-            { key: 'slot_id', label: 'Slot ID' }, 
-            { 
-                key: 'timing',
-                label: 'Timing',
-                format: (timing) => {
-                    const [startTime, endTime] = timing.split(' - ');
-        
-                    const formattedStart = moment(startTime, 'HH:mm:ss').format('HH:mm');
-                    const formattedEnd = moment(endTime, 'HH:mm:ss').format('HH:mm');
-        
-                    return `${formattedStart} - ${formattedEnd}`;
-                }
-<<<<<<< Updated upstream
-            }, { 
-=======
-            },
-            // { key: 'total_booking', 
-            //     label: 'Total Booking',
-            //     format: (limit) => (limit ? ` ${limit}` : '0') 
-            // },
-            { 
->>>>>>> Stashed changes
-                key: 'booking_limit', 
-                label: 'Booking Limit',  
-                
-            }, { 
-                key: 'slot_booking_count', 
-                label: 'Total Booking',
-                format: (limit) => (limit ? ` ${limit}` : '0') 
-            }, 
-            { 
-                key: 'remaining_booking', 
-                label: 'Remaining Booking',
-            },
-            { key: 'status', label: 'Status', format: (status) => (status === 1 ? "Active" : "Inactive") } 
-        ]}
-        pageHeading="Portable Charger Slot List"
-          onDeleteSlot={handleDeleteSlot}
-          /> */}
 
         <div className={styles.containerCharger}>
                     

@@ -92,7 +92,7 @@ const RiderList = () => {
 
     return (
         <div className={styles.ridersContainer}>
-         <SubHeader heading = "Emergency Team List" 
+         <SubHeader heading = "Drivers List" 
          addButtonProps={addButtonProps}
          fetchFilteredData={fetchFilteredData} 
          dynamicFilters={dynamicFilters} filterValues={filters}

@@ -1,3 +1,14 @@
+.guideListContainer{
+    background-color: #242424;
+    height: 94.3vh;
+    overflow: scroll;
+    padding: 20px 0px;
+}
+.guideListContainer::-webkit-scrollbar{
+    display: none;
+}
+
+
 .stationContainer{
     background-color: #242424;
     height: 94.2vh;

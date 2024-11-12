@@ -1,15 +1,16 @@
-import React, { useEffect, useState  } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styles from './addemergency.module.css';
-import { AiOutlineClose, AiOutlineDown, AiOutlineUp } from 'react-icons/ai'; 
-import UploadIcon from '../../assets/images/uploadicon.svg'; 
+import Select from "react-select";
+import { AiOutlineClose, AiOutlineDown, AiOutlineUp } from 'react-icons/ai';
+import UploadIcon from '../../assets/images/uploadicon.svg';
 import { postRequestWithToken, postRequestWithTokenAndFile } from '../../api/Requests';
 import { toast } from 'react-toastify';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const EditEmergencyTeam = () => {
-    const userDetails = JSON.parse(sessionStorage.getItem('userDetails')); 
+    const userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
     const navigate = useNavigate();
-    const {rsaId} = useParams()
+    const { rsaId } = useParams()
     const [file, setFile] = useState();
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [details, setDetails] = useState()
@@ -20,7 +21,8 @@ const EditEmergencyTeam = () => {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [errors, setErrors] = useState({});
-
+    const [chargingType, setChargingType] = useState()
+    const [selectedType, setSelectedType] = useState([])
     const handleFileChange = (event) => {
         const selectedFile = event.target.files[0];
         if (selectedFile && selectedFile.type.startsWith('image/')) {
@@ -35,8 +37,9 @@ const EditEmergencyTeam = () => {
         setFile(null);
     };
 
-    const toggleDropdown = () => {
-        setIsDropdownOpen(!isDropdownOpen);
+    const serviceDropdownRef = useRef(null);
+    const handleChargingType = (selectedOption) => {
+        setSelectedType(selectedOption);
     };
 
     const validateForm = () => {
@@ -95,12 +98,12 @@ const EditEmergencyTeam = () => {
             formData.append("mobile", mobileNo);
             formData.append("service_type", serviceType);
             formData.append("password", password);
-            
+
             if (file) {
                 formData.append("profile_image", file);
             }
 
-            postRequestWithTokenAndFile('rsa-update', formData, async(response) => {
+            postRequestWithTokenAndFile('rsa-update', formData, async (response) => {
                 if (response.status === 1) {
                     toast(response.message[0], { type: "success" });
                     navigate('/rider-list')
@@ -108,7 +111,7 @@ const EditEmergencyTeam = () => {
                     console.log('error in add-emergency-team api', response);
                 }
             });
-            
+
         } else {
             console.log("Form validation failed.");
         }
@@ -116,15 +119,15 @@ const EditEmergencyTeam = () => {
 
     const fetchDetails = () => {
         const obj = {
-            userId : userDetails?.user_id,
-            email : userDetails?.email,
-            rsa_id : rsaId
+            userId: userDetails?.user_id,
+            email: userDetails?.email,
+            rsa_id: rsaId
         };
-    
+
         postRequestWithToken('rsa-data', obj, (response) => {
             if (response.code === 200) {
                 const data = response?.rsaData || {};
-                setDetails(data);  
+                setDetails(data);
                 setRsaName(data?.rsa_name || "");
                 setEmail(data?.email || "");
                 setMobileNo(data?.mobile || "");
@@ -132,31 +135,31 @@ const EditEmergencyTeam = () => {
                 // setPassword(data?.password || "");
                 // setConfirmPassword(data?.confirm_passwprd || "");
                 setFile(data?.profile_img || "")
-                   
+
             } else {
                 console.log('error in rsa-details API', response);
             }
         });
     };
-    
-      useEffect(() => {
+
+    useEffect(() => {
         if (!userDetails || !userDetails.access_token) {
-            navigate('/login'); 
-            return; 
+            navigate('/login');
+            return;
         }
         fetchDetails();
-      }, []);
+    }, []);
 
     return (
-        <div className={styles.container}>
-            <h2 className={styles.title}>Edit Emergency Team</h2>
-            <div className={styles.section}>
-                <form className={styles.form} onSubmit={handleSubmit}>
+        <div className={styles.addShopContainer}>
+            <div className={styles.addHeading}>Edit Driver</div>
+            <div className={styles.addShopFormSection}>
+                <form className={styles.formSection} onSubmit={handleSubmit}>
                     <div className={styles.row}>
-                        <div className={styles.inputGroup}>
-                            <label className={styles.label}>RSA Name</label>
+                        <div className={styles.addShopInputContainer}>
+                            <label className={styles.addShopLabel}>RSA Name</label>
                             <input
-                                className={styles.input}
+                                className={styles.inputField}
                                 type="text"
                                 placeholder="RSA Name"
                                 value={rsaName}
@@ -164,10 +167,10 @@ const EditEmergencyTeam = () => {
                             />
                             {errors.rsaName && <p className={styles.error}>{errors.rsaName}</p>}
                         </div>
-                        <div className={styles.inputGroup}>
-                            <label className={styles.label}>Email ID</label>
+                        <div className={styles.addShopInputContainer}>
+                            <label className={styles.addShopLabel}>Email ID</label>
                             <input
-                                className={styles.input}
+                                className={styles.inputField}
                                 type="email"
                                 placeholder="Email ID"
                                 value={email}
@@ -175,10 +178,12 @@ const EditEmergencyTeam = () => {
                             />
                             {errors.email && <p className={styles.error}>{errors.email}</p>}
                         </div>
-                        <div className={styles.inputGroup}>
-                            <label className={styles.label}>Mobile No</label>
+                    </div>
+                    <div className={styles.row}>
+                        <div className={styles.addShopInputContainer}>
+                            <label className={styles.addShopLabel}>Mobile No</label>
                             <input
-                                className={styles.input}
+                                className={styles.inputField}
                                 type="text"
                                 placeholder="Mobile No"
                                 value={mobileNo}
@@ -186,34 +191,27 @@ const EditEmergencyTeam = () => {
                             />
                             {errors.mobileNo && <p className={styles.error}>{errors.mobileNo}</p>}
                         </div>
-                        <div className={styles.inputGroup}>
-                            <label className={styles.label}>Service Type</label>
-                            <div className={styles.selectContainer}>
-                                <select
-                                    className={styles.select}
+                        <div className={styles.addShopInputContainer}>
+                            <label className={styles.addShopLabel}>Service Type</label>
+                            <div ref={serviceDropdownRef}>
+                                <Select
+                                    className={styles.addShopSelect}
+                                    options={chargingType}
                                     value={serviceType}
-                                    onChange={(e) => setServiceType(e.target.value)}
-                                    onClick={toggleDropdown}
-                                >
-                                    <option value="">Select</option>
-                                    <option value="Charger Installation">Charger Installation</option>
-                                    <option value="EV Pre-Sale">EV Pre-Sale</option>
-                                    <option value="Portable Charger">Portable Charger</option>
-                                    <option value="Roadside Assistance">Roadside Assistance</option>
-                                    <option value="Valet Charging">Valet Charging</option>
-                                </select>
-                                <div className={styles.iconContainer}>
-                                    {isDropdownOpen ? <AiOutlineUp /> : <AiOutlineDown />}
-                                </div>
+                                    onChange={handleChargingType}
+                                    placeholder="Select Service"
+                                    isClearable={true}
+                    
+                                />
                             </div>
                             {errors.serviceType && <p className={styles.error}>{errors.serviceType}</p>}
                         </div>
                     </div>
                     <div className={styles.row}>
-                        <div className={styles.inputGroup}>
-                            <label className={styles.label}>Password</label>
+                        <div className={styles.addShopInputContainer}>
+                            <label className={styles.addShopLabel}>Password</label>
                             <input
-                                className={styles.input}
+                                className={styles.inputField}
                                 type="password"
                                 placeholder="Password"
                                 value={password}
@@ -221,10 +219,10 @@ const EditEmergencyTeam = () => {
                             />
                             {errors.password && <p className={styles.error}>{errors.password}</p>}
                         </div>
-                        <div className={styles.inputGroup}>
-                            <label className={styles.label}>Confirm Password</label>
+                        <div className={styles.addShopInputContainer}>
+                            <label className={styles.addShopLabel}>Confirm Password</label>
                             <input
-                                className={styles.input}
+                                className={styles.inputField}
                                 type="password"
                                 placeholder="Confirm Password"
                                 value={confirmPassword}
@@ -258,10 +256,10 @@ const EditEmergencyTeam = () => {
                                     /> */}
                                     <img
                                         src={
-                                            typeof file === 'string' 
-                                                ? `${process.env.REACT_APP_SERVER_URL}uploads/rsa_images/${file}` 
+                                            typeof file === 'string'
+                                                ? `${process.env.REACT_APP_SERVER_URL}uploads/rsa_images/${file}`
                                                 : URL.createObjectURL(file)
-                                        } 
+                                        }
                                         alt="Preview"
                                         className={styles.previewImage}
                                     />
@@ -277,8 +275,8 @@ const EditEmergencyTeam = () => {
                         </div>
                         {errors.file && <p className={styles.error}>{errors.file}</p>}
                     </div>
-                    <div className={styles.actions}>
-                        <button className={styles.submitBtn} type="submit">Submit</button>
+                    <div className={styles.editButton}>
+                        <button className={styles.editSubmitBtn} type="submit">Submit</button>
                     </div>
                 </form>
             </div>

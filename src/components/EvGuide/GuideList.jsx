@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import List from '../SharedComponent/List/List'
+import List from '../SharedComponent/List/List';
+import styles from './evguide.module.css'
 import SubHeader from '../SharedComponent/SubHeader/SubHeader'
 import Pagination from '../SharedComponent/Pagination/Pagination'
 import { postRequestWithToken } from '../../api/Requests';
@@ -88,7 +89,7 @@ const GuideList = () => {
     };
 
     return (
-        <>
+        <div className={styles.guideListContainer}>
          <SubHeader heading = "EV Guide List"
          fetchFilteredData={fetchFilteredData} 
          dynamicFilters={dynamicFilters} filterValues={filters}
@@ -124,7 +125,7 @@ const GuideList = () => {
           totalPages={totalPages} 
           onPageChange={handlePageChange} 
         />
-        </>
+        </div>
     );
 };
 

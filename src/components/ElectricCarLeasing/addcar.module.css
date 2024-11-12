@@ -5,6 +5,15 @@
     padding: 20px;
     color: #ffffff;
   }
+  .electricCarContainer{
+    background-color: #242424;
+    height: 94.3vh;
+    overflow: scroll;
+    padding: 20px 0px;
+  }
+  .electricCarContainer::-webkit-scrollbar{
+    display: none;
+  }
   .addShopContainer::-webkit-scrollbar{
     display: none;
   }

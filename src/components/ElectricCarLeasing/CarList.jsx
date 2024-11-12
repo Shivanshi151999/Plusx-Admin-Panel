@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import List from '../SharedComponent/List/List'
+import styles from './addcar.module.css'
 import SubHeader from '../SharedComponent/SubHeader/SubHeader'
 import Pagination from '../SharedComponent/Pagination/Pagination'
 import { postRequestWithToken } from '../../api/Requests';
@@ -83,7 +84,7 @@ const CarList = () => {
     };
 
     return (
-        <>
+        <div className={styles.electricCarContainer}>
          <SubHeader heading = "Electric Cars Leasing List" 
          addButtonProps={addButtonProps}
          fetchFilteredData={fetchFilteredData} 
@@ -112,7 +113,7 @@ const CarList = () => {
           totalPages={totalPages} 
           onPageChange={handlePageChange} 
         />
-        </>
+        </div>
     );
 };
 
