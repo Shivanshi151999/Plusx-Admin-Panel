@@ -4,6 +4,7 @@ import styles from '../details.module.css'
 
 const BookingImageSection = ({ titles, content, type }) => {
     const baseUrl = content.baseUrl;
+    
     return (
         <div className={styles.ImageMainSection}>
             <div className={styles.imageMainContainer}>

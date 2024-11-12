@@ -61,6 +61,7 @@ import RoadAssistanceInvoiceList from '../components/EvRoadAssistance/Invoice/In
 import RoadAssistanceInvoiceDetails from '../components/EvRoadAssistance/Invoice/InvoiceDetails.jsx';
 import AddClub from '../components/EvRiderClub/AddClub.jsx';
 import EditClub from '../components/EvRiderClub/EditClub.jsx';
+import ClubDetails from '../components/EvRiderClub/ClubDetails.jsx'
 
 const router = createBrowserRouter([
 
@@ -284,6 +285,10 @@ const router = createBrowserRouter([
             {
                 path: "/edit-club/:clubId",
                 element: <EditClub />,
+            },
+            {
+                path: "/club-details/:clubId",
+                element: <ClubDetails />,
             },
             //ev-specialized
             {

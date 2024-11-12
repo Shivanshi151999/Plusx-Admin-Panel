@@ -10,23 +10,23 @@ import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
 const EditClub = () => {
-  const {clubId} = useParams()
-  const userDetails                     = JSON.parse(sessionStorage.getItem('userDetails')); 
-  const navigate                        = useNavigate()
-  const [file, setFile]                 = useState(null);
-  const [galleryFiles, setGalleryFiles] = useState([]);
-  const [errors, setErrors]             = useState({});
-  const [clubName, setClubName]         = useState()
-  const [noOfMembers, setNoOfMembers]   = useState('')
-  const [description, setDescription]   = useState()
-  const [preference, setPreference]     = useState('')
-  const [url, setUrl]                   = useState('')
+  const {clubId}                              = useParams()
+  const userDetails                           = JSON.parse(sessionStorage.getItem('userDetails')); 
+  const navigate                              = useNavigate()
+  const [file, setFile]                       = useState(null);
+  const [galleryFiles, setGalleryFiles]       = useState([]);
+  const [errors, setErrors]                   = useState({});
+  const [clubName, setClubName]               = useState()
+  const [noOfMembers, setNoOfMembers]         = useState('')
+  const [description, setDescription]         = useState()
+  const [preference, setPreference]           = useState('')
+  const [url, setUrl]                         = useState('')
   const [locationOptions, setLocationOptions] = useState([])
   const [categoryOptions, setCategoryOptions] = useState([])
   const [ageOptions, setAgeOptions]           = useState([])
-  const [location, setLocation]         = useState([])
-  const [category, setCategory]         = useState([])
-  const [ageGroup, setAgeGroup]         = useState([])
+  const [location, setLocation]               = useState([])
+  const [category, setCategory]               = useState([])
+  const [ageGroup, setAgeGroup]               = useState([])
 
   const contractDropdownRef = useRef(null);
   const featureDropdownRef = useRef(null)

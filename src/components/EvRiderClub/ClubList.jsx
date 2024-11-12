@@ -24,6 +24,7 @@ const ClubList = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [filters, setFilters] = useState({});
+    const [refresh, setRefresh]           = useState(false)
 
     const fetchList = (page, appliedFilters = {}) => {
         const obj = {
@@ -50,7 +51,7 @@ const ClubList = () => {
             return; 
         }
         fetchList(currentPage, filters);
-    }, [currentPage, filters]);
+    }, [currentPage, filters, refresh]);
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -59,6 +60,29 @@ const ClubList = () => {
     const fetchFilteredData = (newFilters = {}) => {
         setFilters(newFilters);  
         setCurrentPage(1); 
+    };
+
+    const handleDeleteSlot = (clubId) => {
+        const confirmDelete = window.confirm("Are you sure you want to delete this?");
+        if (confirmDelete) {
+            const obj = { 
+                userId : userDetails?.user_id,
+                email : userDetails?.email,
+                club_id: clubId 
+            };
+            postRequestWithToken('club-delete', obj, async (response) => {
+                if (response.code === 200) {
+                    toast(response.message, { type: "success" });
+                    setTimeout(() => {
+                        setRefresh(prev => !prev);
+                    },1000)
+                    
+                } else {
+                    toast(response.message, { type: 'error' });
+                    console.log('error in club-delete api', response);
+                }
+            });
+        }
     };
 
     return (
@@ -81,6 +105,7 @@ const ClubList = () => {
                         { key: 'no_of_members', label: 'No of Members' }, 
                     ]}
                     pageHeading="Club List"
+                    onDeleteSlot={handleDeleteSlot}
                 />
             )}
         <Pagination 

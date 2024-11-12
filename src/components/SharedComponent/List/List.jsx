@@ -58,6 +58,7 @@ const List = ({list, tableHeaders, listData, keyMapping, pageHeading, onDeleteSl
 
     //EvRoadAssistance
     const handleRiderClubEdit  = (id) => navigate(`/edit-club/${id}`)
+    const handleRiderClubDetails = (id) => navigate(`/club-details/${id}`)
     
     return (
         <div className={styles.containerCharger}>
@@ -192,9 +193,9 @@ const List = ({list, tableHeaders, listData, keyMapping, pageHeading, onDeleteSl
 
                                      {pageHeading === 'Club List' && (
                                         <>
-                                         <img src={View} alt="view" />
+                                         <img src={View} alt="view" onClick={() => handleRiderClubDetails(data.club_id)}/>
                                             <img src={Edit} alt='edit' onClick={() => handleRiderClubEdit(data.club_id)}/>
-                                            <img src={Delete} alt='delete' />
+                                            <img src={Delete} alt='delete' onClick={() => onDeleteSlot(data.club_id)} />
                                         </>
                                     )}
 
