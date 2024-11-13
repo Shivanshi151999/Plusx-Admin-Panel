@@ -37,12 +37,12 @@ const AddCoupon = () => {
 
 const validateForm = () => {
     const fields = [
-        { name: "couponName", value: couponName, errorMessage: "Bike Name is required." },
-        { name: "couponCode", value: couponCode, errorMessage: "Available On is required." },
-        { name: "serviceType", value: serviceType, errorMessage: "Bike Type is required." },
-        { name: "perCustomer", value: perCustomer, errorMessage: "Price is required." },
-        { name: "couponPercentage", value: couponPercentage, errorMessage: "Contract is required."},
-        { name: "expiryDate", value: expiryDate, errorMessage: "Feature is required."},
+        { name: "couponName", value: couponName, errorMessage: "Coupon Name is required." },
+        { name: "couponCode", value: couponCode, errorMessage: "Coupon Code is required." },
+        { name: "serviceType", value: serviceType, errorMessage: "Service Type is required." },
+        { name: "perCustomer", value: perCustomer, errorMessage: "Usage Per Customer is required." },
+        { name: "couponPercentage", value: couponPercentage, errorMessage: "Percentagae is required."},
+        { name: "expiryDate", value: expiryDate, errorMessage: "Expiry Date is required."},
     ];
 
     const newErrors = fields.reduce((errors, { name, value, errorMessage, isArray }) => {
@@ -70,12 +70,9 @@ const handleSubmit = (e) => {
             const [day, month, year] = date.split('-');
             return `${year}-${month}-${day}`;
           };
+        const formattedExpiryDate = convertToDateFormat(expiryDate);
           
-          // Assuming expiryDate is in 'dd-mm-yyyy' format
-          const formattedExpiryDate = convertToDateFormat(expiryDate);
-          
-          formData.append("expiry_date", formattedExpiryDate);
-        // formData.append("expiry_date", expiryDate);
+        formData.append("expiry_date", formattedExpiryDate);
         formData.append("user_per_user", perCustomer);
         if (serviceType) {
             formData.append("service_type", serviceType.value);

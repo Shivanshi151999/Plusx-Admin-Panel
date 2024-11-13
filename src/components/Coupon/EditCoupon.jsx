@@ -41,12 +41,12 @@ const handleVehicleType = (selectedOption) => {
 }
 const validateForm = () => {
     const fields = [
-        { name: "couponName", value: couponName, errorMessage: "Bike Name is required." },
-        { name: "couponCode", value: couponCode, errorMessage: "Available On is required." },
-        { name: "serviceType", value: serviceType, errorMessage: "Bike Type is required." },
-        { name: "perCustomer", value: perCustomer, errorMessage: "Price is required." },
-        { name: "couponPercentage", value: couponPercentage, errorMessage: "Contract is required."},
-        { name: "expiryDate", value: expiryDate, errorMessage: "Feature is required."},
+        { name: "couponName", value: couponName, errorMessage: "Coupon Name is required." },
+        { name: "couponCode", value: couponCode, errorMessage: "Coupon Code is required." },
+        { name: "serviceType", value: serviceType, errorMessage: "Service Type is required." },
+        { name: "perCustomer", value: perCustomer, errorMessage: "Usage Per Customer is required." },
+        { name: "couponPercentage", value: couponPercentage, errorMessage: "Percentagae is required."},
+        { name: "expiryDate", value: expiryDate, errorMessage: "Expiry Date is required."},
     ];
 
     const newErrors = fields.reduce((errors, { name, value, errorMessage, isArray }) => {
@@ -74,18 +74,15 @@ const handleSubmit = (e) => {
             const [day, month, year] = date.split('-');
             return `${year}-${month}-${day}`;
           };
-          
-          // Assuming expiryDate is in 'dd-mm-yyyy' format
+
           const formattedExpiryDate = convertToDateFormat(expiryDate);
           
-          formData.append("expiry_date", formattedExpiryDate);
-        // formData.append("expiry_date", expiryDate);
+        formData.append("expiry_date", formattedExpiryDate);
         formData.append("user_per_user", perCustomer);
         if (serviceType) {
             formData.append("service_type", serviceType.value);
         }
       
-        
         postRequestWithToken('edit-coupan', formData, async (response) => {
             if (response.status === 1) {
                 toast(response.message || response.message[0], {type:'success'})
@@ -114,15 +111,10 @@ const fetchDetails = () => {
             setCouponName(data?.coupan_name || "");
             setCouponCode(data?.coupan_code || "");
             setCouponPercentage(data?.coupan_percentage || "");
-            // setFeature(data?.feature || []);
             const formattedDate = moment(data?.end_date).format('DD-MM-YYYY');
             setExpiry(formattedDate);
             setPerCustomer(data?.user_per_user || "");
             setIsActive(data?.status === '1' ? true : false)
-
-            // setContract(data?.contract ? data.contract.split(',').map(item => ({ label: item.trim(), value: item.trim() })) : []);
-            // setFeature(data?.feature ? data.feature.split(',').map(item => ({ label: item.trim(), value: item.trim() })) : []);
-
             const initialCarType = data.booking_for ? { label: data.booking_for, value: data.booking_for } : null;
             setServiceType(initialCarType);
 
@@ -132,171 +124,167 @@ const fetchDetails = () => {
     });
 };
 
-useEffect(() => {
-    if (!userDetails || !userDetails.access_token) {
-        navigate('/login');
-        return;
+    useEffect(() => {
+        if (!userDetails || !userDetails.access_token) {
+            navigate('/login');
+            return;
+        }
+        fetchDetails();
+    }, []);
+
+    const handleCancel = () => {
+        navigate('/coupon-list')
     }
-    fetchDetails();
-}, []);
 
-const handleCancel = () => {
-    navigate('/electric-car-list')
-}
+    const [isActive, setIsActive] = useState(false);
 
-const [isActive, setIsActive] = useState(false);
-
-const handleToggle = () => {
-    setIsActive(!isActive);
-};
+    const handleToggle = () => {
+        setIsActive(!isActive);
+    };
 
   return (
     <div className={styles.addShopContainer}>
-    <ToastContainer />
- <div className={styles.addHeading}>Edit Coupon</div>
- <div className={styles.addShopFormSection}>
-   <form className={styles.formSection} onSubmit={handleSubmit}>
-     <div className={styles.row}>
-       <div className={styles.addShopInputContainer}>
-         <label className={styles.addShopLabel} htmlFor="modelName">Coupon Name</label>
-         <input type="text" id="couponName" 
-           placeholder="Coupon Name" 
-           className={styles.inputField} 
-           value={couponName}
-           onChange={(e) => setCouponName(e.target.value)}
-           />
-           {errors.couponName && <p className={styles.error} style={{ color: 'red' }}>{errors.couponName}</p>}
-       </div>
-       <div className={styles.addShopInputContainer}>
-         <label className={styles.addShopLabel} htmlFor="couponCode">Coupon Code</label>
-         <input type="text" 
-         id="couponCode" 
-         placeholder="Coupon Code" 
-         className={styles.inputField} 
-         value={couponCode}
-           onChange={(e) => setCouponCode(e.target.value)}
-         />
-         {errors.couponCode && <p className={styles.error} style={{ color: 'red' }}>{errors.couponCode}</p>}
-       </div>
-     </div>
-    
-     <div className={styles.row}>
-       <div className={styles.addShopInputContainer}>
-           <label className={styles.addShopLabel} htmlFor="serviceType">Service Type</label>
-           <Select
-               options={typeOpetions}
-               value={serviceType}
-               onChange={handleVehicleType}
-               placeholder="Select"
-               isClearable
-               className={styles.addShopSelect}
-           />
-           {errors.serviceType && <p className={styles.error} style={{ color: 'red' }}>{errors.serviceType}</p>}
-       </div>
-       <div className={styles.addShopInputContainer}>
-         <label className={styles.addShopLabel} htmlFor="perCustomer">Usage Per Customer</label>
-         <input type="text"
-          id="perCustomer" 
-          placeholder="Usage Per Customer" 
-          className={styles.inputField} 
-          value={perCustomer}
-           onChange={(e) => setPerCustomer(e.target.value)}
-          />
-          {errors.perCustomer && <p className={styles.error} style={{ color: 'red' }}>{errors.perCustomer}</p>}
-       </div>
-     </div>
-    
-     <div className={styles.row}>
-       <div className={styles.addShopInputContainer}>
-         <label className={styles.addShopLabel} htmlFor="couponPercentage">Coupon Percentage</label>
-         <input 
-         type="text" 
-         id="couponPercentage" 
-         placeholder="Coupon Percentage" 
-         className={styles.inputField} 
-         value={couponPercentage}
-           // onChange={(e) => setCouponPercentage(e.target.value)}
-           onChange={(e) => {
-               const value = e.target.value;
-               // Regular expression to allow only numbers and one decimal point
-               const decimalPattern = /^\d*\.?\d*$/;
-         
-               // Allow value if it matches the pattern (only numbers and one decimal point)
-               if (decimalPattern.test(value)) {
-                 setCouponPercentage(value);
-                 // Clear error if the format is correct
-                 if (errors.couponPercentage) {
-                   setErrors((prevErrors) => ({ ...prevErrors, couponPercentage: "" }));
-                 }
-               } else {
-                 // Set error message if format is incorrect
-                 setErrors((prevErrors) => ({
-                   ...prevErrors,
-                   couponPercentage: "Only numbers and decimal point are allowed",
-                 }));
-               }
-             }}
-         />
-         {errors.couponPercentage && <p className={styles.error} style={{ color: 'red' }}>{errors.couponPercentage}</p>}
-       </div>
-       
+            <ToastContainer />
+        <div className={styles.addHeading}>Edit Coupon</div>
+        <div className={styles.addShopFormSection}>
+        <form className={styles.formSection} onSubmit={handleSubmit}>
+            <div className={styles.row}>
+            <div className={styles.addShopInputContainer}>
+                <label className={styles.addShopLabel} htmlFor="modelName">Coupon Name</label>
+                <input type="text" id="couponName" 
+                placeholder="Coupon Name" 
+                className={styles.inputField} 
+                value={couponName}
+                onChange={(e) => setCouponName(e.target.value)}
+                />
+                {errors.couponName && <p className={styles.error} style={{ color: 'red' }}>{errors.couponName}</p>}
+            </div>
+            <div className={styles.addShopInputContainer}>
+                <label className={styles.addShopLabel} htmlFor="couponCode">Coupon Code</label>
+                <input type="text" 
+                id="couponCode" 
+                placeholder="Coupon Code" 
+                className={styles.inputField} 
+                defaultValue={couponCode}
+                onChange={(e) => setCouponCode(e.target.value)}
+                />
+                {errors.couponCode && <p className={styles.error} style={{ color: 'red' }}>{errors.couponCode}</p>}
+            </div>
+            </div>
+            
+            <div className={styles.row}>
+            <div className={styles.addShopInputContainer}>
+                <label className={styles.addShopLabel} htmlFor="serviceType">Service Type</label>
+                <Select
+                    options={typeOpetions}
+                    value={serviceType}
+                    onChange={handleVehicleType}
+                    placeholder="Select"
+                    isClearable
+                    className={styles.addShopSelect}
+                />
+                {errors.serviceType && <p className={styles.error} style={{ color: 'red' }}>{errors.serviceType}</p>}
+            </div>
+            <div className={styles.addShopInputContainer}>
+                <label className={styles.addShopLabel} htmlFor="perCustomer">Usage Per Customer</label>
+                <input type="text"
+                id="perCustomer" 
+                placeholder="Usage Per Customer" 
+                className={styles.inputField} 
+                value={perCustomer}
+                onChange={(e) => setPerCustomer(e.target.value)}
+                />
+                {errors.perCustomer && <p className={styles.error} style={{ color: 'red' }}>{errors.perCustomer}</p>}
+            </div>
+            </div>
+            
+            <div className={styles.row}>
+            <div className={styles.addShopInputContainer}>
+                <label className={styles.addShopLabel} htmlFor="couponPercentage">Coupon Percentage</label>
+                <input 
+                type="text" 
+                id="couponPercentage" 
+                placeholder="Coupon Percentage" 
+                className={styles.inputField} 
+                value={couponPercentage}
+                // onChange={(e) => setCouponPercentage(e.target.value)}
+                onChange={(e) => {
+                    const value = e.target.value;
+                    const decimalPattern = /^\d*\.?\d*$/;
+            
+                    if (decimalPattern.test(value)) {
+                        setCouponPercentage(value);
+                        if (errors.couponPercentage) {
+                        setErrors((prevErrors) => ({ ...prevErrors, couponPercentage: "" }));
+                        }
+                    } else {
+                        setErrors((prevErrors) => ({
+                        ...prevErrors,
+                        couponPercentage: "Only numbers and decimal point are allowed",
+                        }));
+                    }
+                    }}
+                />
+                {errors.couponPercentage && <p className={styles.error} style={{ color: 'red' }}>{errors.couponPercentage}</p>}
+            </div>
+            
 
-<div className={styles.addShopInputContainer}>
-<label className={styles.addShopLabel} htmlFor="expiryDate">Expiry Date</label>
-<InputMask
-mask="99-99-9999"
-value={expiryDate}
-onChange={(e) => {
- setExpiry(e.target.value);
- // Clear error if the format is correct
- if (errors.expiryDate && e.target.value.length === 10) {
-   setErrors((prevErrors) => ({ ...prevErrors, expiryDate: "" }));
- }
-}}
-onBlur={() => {
- // Validate the date format when the user leaves the input
- if (expiryDate.length === 10) {
-   const [day, month, year] = expiryDate.split('-');
-   const isValidDate =
-     !isNaN(Date.parse(`${year}-${month}-${day}`)) &&
-     day <= 31 && month <= 12; // Basic day/month range check
-   if (!isValidDate) {
-     setErrors((prevErrors) => ({
-       ...prevErrors,
-       expiryDate: "Invalid date in DD-MM-YYYY format",
-     }));
-   }
- }
-}}
-placeholder="DD-MM-YYYY"
-className={styles.inputField}
-/>
-{errors.expiryDate && <p className={styles.error} style={{ color: 'red' }}>{errors.expiryDate}</p>}
-</div>
+        <div className={styles.addShopInputContainer}>
+        <label className={styles.addShopLabel} htmlFor="expiryDate">Expiry Date</label>
+        <InputMask
+        mask="99-99-9999"
+        value={expiryDate}
+        onChange={(e) => {
+        setExpiry(e.target.value);
+        // Clear error if the format is correct
+        if (errors.expiryDate && e.target.value.length === 10) {
+        setErrors((prevErrors) => ({ ...prevErrors, expiryDate: "" }));
+        }
+        }}
+        onBlur={() => {
+        // Validate the date format when the user leaves the input
+        if (expiryDate.length === 10) {
+        const [day, month, year] = expiryDate.split('-');
+        const isValidDate =
+            !isNaN(Date.parse(`${year}-${month}-${day}`)) &&
+            day <= 31 && month <= 12; // Basic day/month range check
+        if (!isValidDate) {
+            setErrors((prevErrors) => ({
+            ...prevErrors,
+            expiryDate: "Invalid date in DD-MM-YYYY format",
+            }));
+        }
+        }
+        }}
+        placeholder="DD-MM-YYYY"
+        className={styles.inputField}
+        />
+        {errors.expiryDate && <p className={styles.error} style={{ color: 'red' }}>{errors.expiryDate}</p>}
+        </div>
 
-     </div>
-     <div className={styles.toggleContainer}>
-                        <label className={styles.statusLabel}>Status</label>
-                        <div className={styles.toggleSwitch} onClick={handleToggle}>
-                            <span className={`${styles.toggleLabel} ${!isActive ? styles.inactive : ''}`}>
-                                Active
-                            </span>
-                            <div className={`${styles.toggleButton} ${isActive ? styles.active : ''}`}>
-                                <div className={styles.slider}></div>
+            </div>
+            <div className={styles.toggleContainer}>
+                                <label className={styles.statusLabel}>Status</label>
+                                <div className={styles.toggleSwitch} onClick={handleToggle}>
+                                    <span className={`${styles.toggleLabel} ${!isActive ? styles.inactive : ''}`}>
+                                        Active
+                                    </span>
+                                    <div className={`${styles.toggleButton} ${isActive ? styles.active : ''}`}>
+                                        <div className={styles.slider}></div>
+                                    </div>
+                                    <span className={`${styles.toggleLabel} ${isActive ? styles.active : ''}`}>
+                                        Inactive
+                                    </span>
+                                </div>
                             </div>
-                            <span className={`${styles.toggleLabel} ${isActive ? styles.active : ''}`}>
-                                Inactive
-                            </span>
-                        </div>
-                    </div>
-     
-       <div className={styles.editButton}>
-           <button className={styles.editCancelBtn} onClick={() => handleCancel()}>Cancel</button>
-           <button type="submit" className={styles.editSubmitBtn}>Submit</button>
-       </div>
-   </form>
- </div>
-</div>
+            
+            <div className={styles.editButton}>
+                <button className={styles.editCancelBtn} onClick={() => handleCancel()}>Cancel</button>
+                <button type="submit" className={styles.editSubmitBtn}>Submit</button>
+            </div>
+        </form>
+        </div>
+    </div>
   );
 };
 

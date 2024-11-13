@@ -807,7 +807,7 @@ const SideNavbar = () => {
           <li>EV Buy & Sell</li>
         </NavLink>
         <NavLink
-          to="/sii"
+          to="/offer-list"
           className={({ isActive }) =>
             isActive ? `${styles.menuItem} ${styles.active}` : styles.menuItem
           }
