@@ -17,7 +17,7 @@ const dynamicFilters = [
 const RiderList = () => {
     const userDetails = JSON.parse(sessionStorage.getItem('userDetails')); 
     const navigate = useNavigate()
-    const [rsaList, setRsaList] = useState([])
+    const [rsaList, setRsaList] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [filters, setFilters] = useState({});
@@ -98,23 +98,14 @@ const RiderList = () => {
          dynamicFilters={dynamicFilters} filterValues={filters}
          searchTerm = {searchTerm}
          />
+           {rsaList.length === 0 ? (
+                <div className={styles.errorContainer}>No data available</div>
+            ) : (
         <List 
         tableHeaders={["ID", "Driver Name", "Driver Email", "Service Type", "Status", "Action"]}
           listData = {rsaList}
           keyMapping={[
             { key: 'rsa_id', label: 'ID' }, 
-            
-            // { 
-            //     key: 'rsa_name', 
-            //     label: 'RSA Name',
-            //     relatedKeys: ['country_code', 'mobile'], 
-            //     format: (data, key, relatedKeys) => (
-            //         <>
-            //             {data[key]}<br />
-            //             {relatedKeys.map((relatedKey) => data[relatedKey]).join(" ")}
-            //         </>
-            //     )
-            // }, 
             { key: 'rsa_name', label: 'RSA Name' },
             { key: 'email', label: '"RSA Email' },
             { 
@@ -136,6 +127,7 @@ const RiderList = () => {
         pageHeading="Emergency Team List"
         onDeleteSlot={handleDeleteSlot}
           />
+    )}
            
         <Pagination 
           currentPage={currentPage} 

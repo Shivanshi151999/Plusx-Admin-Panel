@@ -91,15 +91,15 @@ const SubscriptionList = () => {
     };
 
     return (
-        <div className={styles.riderClubSection}>
+        <div className={styles.appSignupSection}>
             <ToastContainer />
          <SubHeader heading = "Subscription List"
          fetchFilteredData={fetchFilteredData} 
          dynamicFilters={dynamicFilters} filterValues={filters}
          addButtonProps={addButtonProps}
-         />
+         /> 
         {clubList?.length === 0 ? (
-                <div style={{color: 'red'}}>No data available</div>
+                <div className='errorContainer'>No data available</div>
             ) : (
                 <List 
                     tableHeaders={["Subscription ID", "Customer Name", "Amount", "Booking Limit", "Booking Remaining", "Expiry Date", "Action"]}

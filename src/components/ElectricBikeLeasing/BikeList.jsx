@@ -99,6 +99,9 @@ const BikeList = () => {
          dynamicFilters={dynamicFilters} filterValues={filters}
          searchTerm = {searchTerm}
          />
+          {carList.length === 0 ? (
+               <div className='errorContainer'>No data available</div>
+            ) : (
         <List 
           tableHeaders={["ID", "Bike Name", "Available On", "Bike Type", "Price", "Contract", "Action"]}
           listData = {carList}
@@ -116,7 +119,7 @@ const BikeList = () => {
         pageHeading="Electric Bikes Leasing List"
         onDeleteSlot={handleDeleteSlot}
           />
-           
+    )}
         <Pagination 
           currentPage={currentPage} 
           totalPages={totalPages} 

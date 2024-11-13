@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import List from '../../../SharedComponent/List/List'
+import styles from '../ShopList/addshoplist.module.css'
 import SubHeader from '../../../SharedComponent/SubHeader/SubHeader'
 import Pagination from '../../../SharedComponent/Pagination/Pagination'
 import { postRequestWithToken } from '../../../../api/Requests';
@@ -61,12 +62,15 @@ const ServiceList = () => {
     };
 
     return (
-        <>
-         <SubHeader heading = "Shop Service List"
+        <div className={styles.shoplistContainer}>
+         <SubHeader heading = "Ev Specialized Shop Service List"
          fetchFilteredData={fetchFilteredData} 
          dynamicFilters={dynamicFilters} filterValues={filters}
          addButtonProps={addButtonProps}
          />
+           {serviceList?.length === 0 ? (
+                <div className='errorContainer'>No data available</div>
+            ) : (
         <List 
         tableHeaders={["Service ID", "Service Name", "Created Time", "Action"]}
           listData = {serviceList}
@@ -82,13 +86,13 @@ const ServiceList = () => {
         ]}
         pageHeading="Shop Service List"
           />
-           
+    )}
         <Pagination 
           currentPage={currentPage} 
           totalPages={totalPages} 
           onPageChange={handlePageChange} 
         />
-        </>
+        </div>
     );
 };
 

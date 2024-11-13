@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import styles from './addshoplist.module.css'
 import List from '../../../SharedComponent/List/List'
 import SubHeader from '../../../SharedComponent/SubHeader/SubHeader'
 import Pagination from '../../../SharedComponent/Pagination/Pagination'
@@ -12,12 +13,12 @@ const dynamicFilters = [
 ]
 
 const addButtonProps = {
-    heading: "Add Shop", 
+    heading: "Add Shop",
     link: "/ev-specialized/add-shop"
 };
 
 const ShopList = () => {
-    const userDetails = JSON.parse(sessionStorage.getItem('userDetails')); 
+    const userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
     const navigate = useNavigate()
     const [shopList, setShopList] = useState([])
     const [currentPage, setCurrentPage] = useState(1);
@@ -26,16 +27,16 @@ const ShopList = () => {
 
     const fetchList = (page, appliedFilters = {}) => {
         const obj = {
-            userId : userDetails?.user_id,
-            email : userDetails?.email,
-            page_no : page,
+            userId: userDetails?.user_id,
+            email: userDetails?.email,
+            page_no: page,
             ...appliedFilters,
         }
 
-        postRequestWithToken('shop-list', obj, async(response) => {
+        postRequestWithToken('shop-list', obj, async (response) => {
             if (response.code === 200) {
                 setShopList(response?.data)
-                setTotalPages(response?.total_page || 1); 
+                setTotalPages(response?.total_page || 1);
             } else {
                 // toast(response.message, {type:'error'})
                 console.log('error in shop-list api', response);
@@ -45,8 +46,8 @@ const ShopList = () => {
 
     useEffect(() => {
         if (!userDetails || !userDetails.access_token) {
-            navigate('/login'); 
-            return; 
+            navigate('/login');
+            return;
         }
         fetchList(currentPage, filters);
     }, [currentPage, filters]);
@@ -56,35 +57,38 @@ const ShopList = () => {
     };
 
     const fetchFilteredData = (newFilters = {}) => {
-        setFilters(newFilters);  
-        setCurrentPage(1); 
+        setFilters(newFilters);
+        setCurrentPage(1);
     };
 
     return (
-        <>
-         <SubHeader heading = "Shop List"
-         fetchFilteredData={fetchFilteredData} 
-         dynamicFilters={dynamicFilters} filterValues={filters}
-         addButtonProps={addButtonProps}
-         />
-        <List 
-        tableHeaders={["ID", "Shop Name", "Location", "Action"]}
-          listData = {shopList}
-          keyMapping={[
-            { key: 'shop_id', label: 'ID' }, 
-            { key: 'shop_name', label: 'Shop Name' }, 
-            { key: 'location', label: 'Location' }, 
-            
-        ]}
-        pageHeading="Shop List"
-          />
-           
-        <Pagination 
-          currentPage={currentPage} 
-          totalPages={totalPages} 
-          onPageChange={handlePageChange} 
-        />
-        </>
+        <div className={styles.shoplistContainer}>
+            <SubHeader heading="Ev Specialized Shop List"
+                fetchFilteredData={fetchFilteredData}
+                dynamicFilters={dynamicFilters} filterValues={filters}
+                addButtonProps={addButtonProps}
+            />
+            {shopList?.length === 0 ? (
+                <div className='errorContainer'>No data available</div>
+            ) : (
+                <List
+                    tableHeaders={["ID", "Shop Name", "Location", "Action"]}
+                    listData={shopList}
+                    keyMapping={[
+                        { key: 'shop_id', label: 'ID' },
+                        { key: 'shop_name', label: 'Shop Name' },
+                        { key: 'location', label: 'Location' },
+
+                    ]}
+                    pageHeading="Shop List"
+                />
+            )}
+            <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+            />
+        </div>
     );
 };
 

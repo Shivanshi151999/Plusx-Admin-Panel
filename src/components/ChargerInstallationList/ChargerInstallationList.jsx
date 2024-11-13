@@ -76,6 +76,9 @@ const ChargerInstallationList = () => {
             fetchFilteredData={fetchFilteredData} 
             searchTerm = {searchTerm}
             />
+             {chargerInstallationList.length === 0 ? (
+               <div className='errorContainer'>No data available</div>
+            ) : (
             <List 
                 tableHeaders={["Date","Request ID", "Customer Name", "Service Type", "Vehicle Model",  "Status", "Action"]}
                 listData = {chargerInstallationList}
@@ -97,6 +100,7 @@ const ChargerInstallationList = () => {
                 ]}
                 pageHeading = "Charger Installation List"
             />
+            )}
             <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
         </div>
     );

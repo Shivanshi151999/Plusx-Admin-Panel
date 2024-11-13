@@ -67,6 +67,9 @@ const InvoiceList = () => {
          fetchFilteredData={fetchFilteredData} 
          searchTerm = {searchTerm}
          />
+          {invoiceList.length === 0 ? (
+                <div className='errorContainer'>No data available</div>
+            ) : (
         <List 
         tableHeaders={["Invoice Date", "Invoice ID", "Customer Name", "Amount", "Status", "Action"]}
           listData = {invoiceList}
@@ -99,7 +102,7 @@ const InvoiceList = () => {
         ]}
         pageHeading="Pick & Drop Invoice List"
           />
-           
+    )}
         <Pagination 
           currentPage={currentPage} 
           totalPages={totalPages} 

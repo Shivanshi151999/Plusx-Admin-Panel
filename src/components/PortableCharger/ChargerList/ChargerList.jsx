@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import List from '../../SharedComponent/List/List'
+import styles from './addcharger.module.css'
 import SubHeader from '../../SharedComponent/SubHeader/SubHeader'
 import Pagination from '../../SharedComponent/Pagination/Pagination'
 import { toast, ToastContainer } from "react-toastify";
@@ -95,8 +96,10 @@ const ChargerList = () => {
             searchTerm = {searchTerm}
             />
             <ToastContainer />
+            {chargerList.length === 0 ? (
+                <div className={styles.errorContainer}>No data available</div>
+            ) : (
             <List
-                // heading="Charger List"
                 tableHeaders={["Charger ID", "Charger Name", "Charger Price", "Status", "Action"]}
                 listData={chargerList}
                 keyMapping={[
@@ -112,6 +115,7 @@ const ChargerList = () => {
                 pageHeading="Portable Charger List"
                 onDeleteSlot={handleDeleteSlot}
             />
+            )}
             <Pagination 
                 currentPage={currentPage} 
                 totalPages={totalPages} 

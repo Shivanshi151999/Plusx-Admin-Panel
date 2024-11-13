@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import List from '../../SharedComponent/List/List';
+import styles from './chargerbooking.module.css'
 import SubHeader from '../../SharedComponent/SubHeader/SubHeader';
 import Pagination from '../../SharedComponent/Pagination/Pagination';
 import { getRequestWithToken, postRequestWithToken } from '../../../api/Requests';
-import moment from 'moment';
-import { AiOutlinePlus } from 'react-icons/ai';  
+import moment from 'moment'; 
 import AddDriver from '../../../assets/images/AddDriver.svg';
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
@@ -158,7 +158,7 @@ const ChargerBookingList = () => {
             />
             <ToastContainer />
             {chargerBookingList.length === 0 ? (
-                <div  style={{color: 'red'}}>No data available</div>
+                <div className={styles.errorContainer}>No data available</div>
             ) : (
             <List
                 tableHeaders={["Date","Booking ID", "Customer Name", "Service Name", "Price",  "Status", "Driver Assign", "Action"]}

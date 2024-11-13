@@ -120,61 +120,63 @@ const PortableChargerTimeSlotList = () => {
                 fetchFilteredData={fetchFilteredData}
                 searchTerm={searchTerm}
             />
+             {timeSlotList.length === 0 ? (
+                <div className='errorContainer'>No data available</div>
+            ) : (
+                <div className={styles.TimeslotcontainerCharger}>
 
-            <div className={styles.TimeslotcontainerCharger}>
-
-                <table className={styles.table}>
-                    <thead>
-                        <tr>
-                            <th>Slot ID</th>
-                            <th>Timing</th>
-                            <th>Booking Limit</th>
-                            <th>Total Booking</th>
-                            <th>Remaining Booking</th>
-                            <th>Status</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-
-
-                    {groupedData.map((group, index) => (
-                        <React.Fragment key={index} className={styles.groupContainer}>
-                            <tr >
-                                <td className={styles.listSpan}>Date: {group.slot_date}</td>
+                    <table className={styles.table}>
+                        <thead>
+                            <tr>
+                                <th>Slot ID</th>
+                                <th>Timing</th>
+                                <th>Booking Limit</th>
+                                <th>Total Booking</th>
+                                <th>Remaining Booking</th>
+                                <th>Status</th>
+                                <th>Action</th>
                             </tr>
-                            <tbody className={styles.timeSlotGroup} >
-                                {group.slots.map((slot, slotIndex) => (
-                                    <tr key={slotIndex} style={{padding:"10px"}} >
-                                        <td>{slot.slot_id}</td>
-                                        <td>
-                                            {slot.timing ? (() => {
-                                                const [startTime, endTime] = slot.timing.split(' - ');
-                                                const formattedStart = moment(startTime, 'HH:mm:ss').format('HH:mm');
-                                                const formattedEnd = moment(endTime, 'HH:mm:ss').format('HH:mm');
-                                                return `${formattedStart} - ${formattedEnd}`;
-                                            })() : 'N/A'}
-                                        </td>
-                                        <td>{slot.booking_limit || '0'}</td>
-                                        <td>{slot.slot_booking_count || '0'}</td>
-                                        <td>{slot.remaining_booking || '0'}</td>
-                                        <td>{slot.status === 1 ? "Active" : "Inactive"}</td>
-                                        <td>
-                                            <div className={styles.editContent}>
-                                                <img src={Edit} alt='edit' onClick={() => handleChargerEditTimeSlot(slot.slot_id)} />
-                                                <img src={Delete} alt='delete' onClick={() => handleDeleteSlot(slot.slot_id)} />
-                                            </div>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </React.Fragment>
-                    ))}
+                        </thead>
 
 
-                </table>
+                        {groupedData.map((group, index) => (
+                            <React.Fragment key={index} className={styles.groupContainer}>
+                                <tr >
+                                    <td className={styles.listSpan}>Date: {group.slot_date}</td>
+                                </tr>
+                                <tbody className={styles.timeSlotGroup} >
+                                    {group.slots.map((slot, slotIndex) => (
+                                        <tr key={slotIndex} style={{ padding: "10px" }} >
+                                            <td>{slot.slot_id}</td>
+                                            <td>
+                                                {slot.timing ? (() => {
+                                                    const [startTime, endTime] = slot.timing.split(' - ');
+                                                    const formattedStart = moment(startTime, 'HH:mm:ss').format('HH:mm');
+                                                    const formattedEnd = moment(endTime, 'HH:mm:ss').format('HH:mm');
+                                                    return `${formattedStart} - ${formattedEnd}`;
+                                                })() : 'N/A'}
+                                            </td>
+                                            <td>{slot.booking_limit || '0'}</td>
+                                            <td>{slot.slot_booking_count || '0'}</td>
+                                            <td>{slot.remaining_booking || '0'}</td>
+                                            <td>{slot.status === 1 ? "Active" : "Inactive"}</td>
+                                            <td>
+                                                <div className={styles.editContent}>
+                                                    <img src={Edit} alt='edit' onClick={() => handleChargerEditTimeSlot(slot.slot_id)} />
+                                                    <img src={Delete} alt='delete' onClick={() => handleDeleteSlot(slot.slot_id)} />
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </React.Fragment>
+                        ))}
 
-            </div>
 
+                    </table>
+
+                </div>
+            )}
             <Pagination
                 currentPage={currentPage}
                 totalPages={totalPages}

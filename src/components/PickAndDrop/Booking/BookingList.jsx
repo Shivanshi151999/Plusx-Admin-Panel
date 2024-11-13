@@ -153,7 +153,7 @@ const BookingList = () => {
          searchTerm = {searchTerm}
          />
          {chargerBookingList.length === 0 ? (
-                <div  style={{color: 'red'}}>No data available</div>
+                <div className='errorContainer'>No data available</div>
             ) : (
         <List 
         tableHeaders={["Date", "Booking ID", "Customer Name", "Price", "Status", "Driver Assign", "Action"]}

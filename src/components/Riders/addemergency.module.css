@@ -166,6 +166,14 @@ height: 180px;
   font-size: 4px;
 }
 /* End the style the image section */
+.errorContainer{
+  padding: 20px;
+  background-color: #000;
+  color: #64FFC5;
+  margin: 20px;
+  border-radius: 20px;
+  font-size: 18px;
+}
 
 /* Start the media query */
 @media only screen and (max-width: 991px) {

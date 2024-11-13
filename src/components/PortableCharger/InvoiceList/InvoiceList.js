@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import List from '../../SharedComponent/List/List'
+import List from '../../SharedComponent/List/List';
+import styles from './invoice.module.css'
 import SubHeader from '../../SharedComponent/SubHeader/SubHeader'
 import Pagination from '../../SharedComponent/Pagination/Pagination'
 import { getRequestWithToken, postRequestWithToken } from '../../../api/Requests';
@@ -64,6 +65,9 @@ const ChargerBookingInvoiceList = () => {
          fetchFilteredData={fetchFilteredData} 
          searchTerm = {searchTerm}
          />
+          {invoiceList.length === 0 ? (
+                <div className={styles.errorContainer}>No data available</div>
+            ) : (
         <List 
         tableHeaders={["Invoice Date", "Invoice ID", "Customer Name", "Amount", "Status", "Action"]}
           listData = {invoiceList}
@@ -93,6 +97,7 @@ const ChargerBookingInvoiceList = () => {
         ]}
         pageHeading="Portable Charger Invoice List"
           />
+    )}
            
            <Pagination 
             currentPage={currentPage} 

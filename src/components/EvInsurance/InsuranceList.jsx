@@ -17,7 +17,7 @@ const dynamicFilters = [
 ]
 
 const InsuranceList = () => {
-    const userDetails = JSON.parse(sessionStorage.getItem('userDetails')); 
+    const userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
     const navigate = useNavigate()
     const [carList, setCarList] = useState([])
     const [currentPage, setCurrentPage] = useState(1);
@@ -26,29 +26,29 @@ const InsuranceList = () => {
     const [refresh, setRefresh] = useState(false)
     const searchTerm = [
         {
-            label: 'search', 
-            name: 'search_text', 
+            label: 'search',
+            name: 'search_text',
             type: 'text'
         }
     ]
 
     const addButtonProps = {
-        heading: "Add Electric Car", 
+        heading: "Add Electric Car",
         link: "/add-electric-car"
     };
 
     const fetchList = (page, appliedFilters = {}) => {
         const obj = {
-            userId : userDetails?.user_id,
-            email : userDetails?.email,
-            page_no : page,
+            userId: userDetails?.user_id,
+            email: userDetails?.email,
+            page_no: page,
             ...appliedFilters,
         }
 
-        postRequestWithToken('ev-insurance-list', obj, async(response) => {
+        postRequestWithToken('ev-insurance-list', obj, async (response) => {
             if (response.code === 200) {
                 setCarList(response?.data)
-                setTotalPages(response?.total_page || 1); 
+                setTotalPages(response?.total_page || 1);
             } else {
                 // toast(response.message, {type:'error'})
                 console.log('error in ev-insurance-list api', response);
@@ -58,8 +58,8 @@ const InsuranceList = () => {
 
     useEffect(() => {
         if (!userDetails || !userDetails.access_token) {
-            navigate('/login'); 
-            return; 
+            navigate('/login');
+            return;
         }
         fetchList(currentPage, filters);
     }, [currentPage, filters, refresh]);
@@ -68,24 +68,24 @@ const InsuranceList = () => {
         setCurrentPage(pageNumber);
     };
     const fetchFilteredData = (newFilters = {}) => {
-        setFilters(newFilters);  
-        setCurrentPage(1); 
+        setFilters(newFilters);
+        setCurrentPage(1);
     };
 
     const handleDeleteSlot = (rentalId) => {
         const confirmDelete = window.confirm("Are you sure you want to delete this?");
         if (confirmDelete) {
-            const obj = { 
-                userId : userDetails?.user_id,
-                email : userDetails?.email,
-                rental_id: rentalId 
+            const obj = {
+                userId: userDetails?.user_id,
+                email: userDetails?.email,
+                rental_id: rentalId
             };
             postRequestWithToken('electric-car-delete', obj, async (response) => {
                 if (response.code === 200) {
                     toast(response.message, { type: "success" });
                     setTimeout(() => {
                         setRefresh(prev => !prev);
-                    },1000)
+                    }, 1000)
                 } else {
                     toast(response.message, { type: 'error' });
                     console.log('error in delete-rider api', response);
@@ -97,39 +97,42 @@ const InsuranceList = () => {
     return (
         <div className={styles.electricCarContainer}>
             <ToastContainer />
-         <SubHeader heading = "Insurance List" 
-         addButtonProps={addButtonProps}
-         fetchFilteredData={fetchFilteredData} 
-         dynamicFilters={dynamicFilters} filterValues={filters}
-         searchTerm = {searchTerm}
-         />
-        <List 
-        tableHeaders={["Date","Insurance ID", "Owner Name", "Vehicle", "Regs. Place", "Country", "Action"]}
-          listData = {carList}
-          keyMapping={[
-            { 
-                key: 'created_at', 
-                label: 'Date', 
-                format: (date) => moment(date).format('DD MMM YYYY') 
-            },
-            { key: 'insurance_id', label: 'Insurance ID' }, 
-            { key: 'owner_name', label: 'Owner Name' },
-            { 
-                key: 'vehicle', 
-                label: 'Vehicle',  
-            },
-            { key: 'registration_place', label: 'Regs. Place' },
-            { key: 'country', label: 'Country' },
-        ]}
-        pageHeading="Insurance List"
-        onDeleteSlot={handleDeleteSlot}
-          />
-           
-        <Pagination 
-          currentPage={currentPage} 
-          totalPages={totalPages} 
-          onPageChange={handlePageChange} 
-        />
+            <SubHeader heading="Ev Insurance List"
+                addButtonProps={addButtonProps}
+                fetchFilteredData={fetchFilteredData}
+                dynamicFilters={dynamicFilters} filterValues={filters}
+                searchTerm={searchTerm}
+            />
+             {carList?.length === 0 ? (
+                <div className='errorContainer'>No data available</div>
+            ) : (
+            <List
+                tableHeaders={["Date", "Insurance ID", "Owner Name", "Vehicle", "Regs. Place", "Country", "Action"]}
+                listData={carList}
+                keyMapping={[
+                    {
+                        key: 'created_at',
+                        label: 'Date',
+                        format: (date) => moment(date).format('DD MMM YYYY')
+                    },
+                    { key: 'insurance_id', label: 'Insurance ID' },
+                    { key: 'owner_name', label: 'Owner Name' },
+                    {
+                        key: 'vehicle',
+                        label: 'Vehicle',
+                    },
+                    { key: 'registration_place', label: 'Regs. Place' },
+                    { key: 'country', label: 'Country' },
+                ]}
+                pageHeading="Insurance List"
+                onDeleteSlot={handleDeleteSlot}
+            />
+            )}
+            <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+            />
         </div>
     );
 };

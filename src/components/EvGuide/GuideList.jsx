@@ -96,6 +96,9 @@ const GuideList = () => {
          addButtonProps={addButtonProps}
          searchTerm = {searchTerm}
          />
+           {vehicleList.length === 0 ? (
+               <div className='errorContainer'>No data available</div>
+            ) : (
         <List 
         tableHeaders={["Vehicle ID", "Vehicle / Model Name", "Vehicle Type", "Horse Power", "Price", "Action"]}
           listData = {vehicleList}
@@ -120,6 +123,7 @@ const GuideList = () => {
         pageHeading="EV Guide List"
         onDeleteSlot={handleDeleteSlot}
           />
+    )}
         <Pagination 
           currentPage={currentPage} 
           totalPages={totalPages} 

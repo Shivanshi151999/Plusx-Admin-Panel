@@ -248,3 +248,13 @@ table{
   background-color: #242424 !important;
   color:#fff !important;
 }
+/* style the error container */
+.errorContainer{
+  padding: 20px;
+  background-color: #000;
+  color: #64FFC5;
+  margin: 20px;
+  border-radius: 20px;
+  font-size: 18px;
+}
+/* end the error container */

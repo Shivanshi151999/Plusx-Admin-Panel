@@ -59,11 +59,14 @@ const RoadAssistanceInvoiceList = () => {
 
     return (
         <>
-         <SubHeader heading = "Road Assistance Invoice List"
+         <SubHeader heading = "Ev Road Assistance Invoice List"
          filterValues={filters}
          fetchFilteredData={fetchFilteredData} 
          searchTerm = {searchTerm}
          />
+           {invoiceList.length === 0 ? (
+               <div className='errorContainer'>No data available</div>
+            ) : (
         <List 
         tableHeaders={["Invoice Date", "Invoice ID", "Customer Name", "Amount", "Status", "Action"]}
           listData = {invoiceList}
@@ -93,7 +96,7 @@ const RoadAssistanceInvoiceList = () => {
         ]}
         pageHeading="Road Assistance Invoice List"
           />
-           
+    )}
            <Pagination 
             currentPage={currentPage} 
             totalPages={totalPages} 

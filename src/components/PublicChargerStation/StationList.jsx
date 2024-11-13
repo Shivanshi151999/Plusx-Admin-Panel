@@ -74,7 +74,7 @@ const StationList = () => {
                 searchTerm = {searchTerm}
             />
             {stationList.length === 0 ? (
-                <div className={styles.stationContainer} style={{color: 'red'}}>No data available</div>
+               <div className='errorContainer'>No data available</div>
             ) : (
             <List
                 tableHeaders={["Station Name", "Charging For", "Charging Type", "Price", "Address", "Action"]}

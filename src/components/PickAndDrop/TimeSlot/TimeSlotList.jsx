@@ -10,24 +10,24 @@ import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
 
 const TimeSlotList = () => {
-    const userDetails = JSON.parse(sessionStorage.getItem('userDetails')); 
+    const userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
     const navigate = useNavigate()
     const [timeSlotList, setTimeSlotList] = useState([])
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [refresh, setRefresh] = useState(false)
     const [filters, setFilters] = useState({});
-    
+
     const searchTerm = [
         {
-            label: 'search', 
-            name: 'search_text', 
+            label: 'search',
+            name: 'search_text',
             type: 'text'
         }
     ]
 
     const addButtonProps = {
-        heading: "Add Slot", 
+        heading: "Add Slot",
         link: "/pick-and-drop/add-time-slot"
     };
 
@@ -40,24 +40,24 @@ const TimeSlotList = () => {
             acc[date].push(slot);
             return acc;
         }, {});
-    
+
         return Object.entries(grouped)
             .sort(([dateA], [dateB]) => new Date(dateB) - new Date(dateA))
             .map(([slot_date, slots]) => ({ slot_date, slots }));
     };
 
     const groupedData = groupBySlotDate(timeSlotList);
-console.log(groupedData);
+    console.log(groupedData);
 
     const fetchList = (page, appliedFilters = {}) => {
         const obj = {
-            userId : userDetails?.user_id,
-            email : userDetails?.email,
-            page_no : page,
+            userId: userDetails?.user_id,
+            email: userDetails?.email,
+            page_no: page,
             ...appliedFilters,
         }
 
-        postRequestWithToken('pick-and-drop-slot-list', obj, async(response) => {
+        postRequestWithToken('pick-and-drop-slot-list', obj, async (response) => {
             if (response.code === 200) {
                 // setTimeSlotList(response?.data)
                 const updatedData = response.data.map((item) => ({
@@ -65,7 +65,7 @@ console.log(groupedData);
                     remaining_booking: (item.booking_limit || 0) - (item.slot_booking_count || 0),
                 }));
                 setTimeSlotList(updatedData)
-                setTotalPages(response?.total_page || 1); 
+                setTotalPages(response?.total_page || 1);
             } else {
                 // toast(response.message, {type:'error'})
                 console.log('error in pick-and-drop-slot-list api', response);
@@ -75,15 +75,15 @@ console.log(groupedData);
 
     useEffect(() => {
         if (!userDetails || !userDetails.access_token) {
-            navigate('/login'); 
-            return; 
+            navigate('/login');
+            return;
         }
         fetchList(currentPage, filters);
     }, [currentPage, filters, refresh]);
 
     const fetchFilteredData = (newFilters = {}) => {
-        setFilters(newFilters);  
-        setCurrentPage(1); 
+        setFilters(newFilters);
+        setCurrentPage(1);
     };
 
     const handlePageChange = (pageNumber) => {
@@ -93,10 +93,10 @@ console.log(groupedData);
     const handleDeleteSlot = (slotId) => {
         const confirmDelete = window.confirm("Are you sure you want to delete this slot?");
         if (confirmDelete) {
-            const obj = { 
-                userId : userDetails?.user_id,
-                email : userDetails?.email,
-                slot_id: slotId 
+            const obj = {
+                userId: userDetails?.user_id,
+                email: userDetails?.email,
+                slot_id: slotId
             };
             postRequestWithToken('pick-and-drop-delete-slot', obj, async (response) => {
                 if (response.code === 200) {
@@ -114,14 +114,14 @@ console.log(groupedData);
 
     return (
         <>
-         <SubHeader heading = "Pick & Drop Time Slot List" 
-         addButtonProps={addButtonProps}
-         filterValues={filters}
-         fetchFilteredData={fetchFilteredData} 
-         searchTerm = {searchTerm}
-         />
+            <SubHeader heading="Pick & Drop Time Slot List"
+                addButtonProps={addButtonProps}
+                filterValues={filters}
+                fetchFilteredData={fetchFilteredData}
+                searchTerm={searchTerm}
+            />
 
-        {/* <List 
+            {/* <List 
         tableHeaders={["Slot ID", "Timing", "Total Booking", "Booking Limit", "Status", "Action"]}
         listData = {timeSlotList}
         keyMapping={[
@@ -152,10 +152,12 @@ console.log(groupedData);
         pageHeading="Pick & Drop Time Slot List"
         onDeleteSlot={handleDeleteSlot}
           /> */}
+            {timeSlotList.length === 0 ? (
+                <div className='errorContainer'>No data available</div>
+            ) : (
+                <div className={styles.containerCharger}>
 
-            <div className={styles.containerCharger}>
-                    
-                <table className={styles.table}>
+                    <table className={styles.table}>
                         <thead>
                             <tr>
                                 <th>Slot ID</th>
@@ -168,55 +170,55 @@ console.log(groupedData);
                             </tr>
                         </thead>
                         <tbody>
-                            
-                        {groupedData.map((group, index) => (
-                        <React.Fragment key={index}>
-                            <tr>
-                                <td  className={styles.listSpan}>
-                                    {/* Date: {group.slot_date} */}
-                                    Date: 2024-11-08
-                                    </td>
-                                
-                            </tr>
-        
-                            {group.slots.map((slot, slotIndex) => (
-                                <tr key={slotIndex}>
-                                    <td>{slot.slot_id}</td>
-                                    <td>
-                                        {slot.timing ? (() => {
-                                            const [startTime, endTime] = slot.timing.split(' - ');
-                                            const formattedStart = moment(startTime, 'HH:mm:ss').format('HH:mm');
-                                            const formattedEnd = moment(endTime, 'HH:mm:ss').format('HH:mm');
-                                            return `${formattedStart} - ${formattedEnd}`;
-                                        })() : 'N/A'}
-                                    </td>
-                                    <td>{slot.booking_limit || '0'}</td>
-                                    <td>{slot.slot_booking_count || '0'}</td>
-                                    <td>{slot.remaining_booking || '0'}</td>
-                                    <td>{slot.status === 1 ? "Active" : "Inactive"}</td>
-                                    <td>
-                                        <div className={styles.editContent}>
-                                        <img src={Edit} alt='edit' 
-                                            onClick={() => handlePickDropEditTimeSlot(slot.slot_id)}
-                                        />
-                                        <img src={Delete} alt='delete' onClick={() => handleDeleteSlot(slot.slot_id)}/>
-                                        </div>
-                                    </td>
-                                </tr>
+
+                            {groupedData.map((group, index) => (
+                                <React.Fragment key={index}>
+                                    <tr>
+                                        <td className={styles.listSpan}>
+                                            {/* Date: {group.slot_date} */}
+                                            Date: 2024-11-08
+                                        </td>
+
+                                    </tr>
+
+                                    {group.slots.map((slot, slotIndex) => (
+                                        <tr key={slotIndex}>
+                                            <td>{slot.slot_id}</td>
+                                            <td>
+                                                {slot.timing ? (() => {
+                                                    const [startTime, endTime] = slot.timing.split(' - ');
+                                                    const formattedStart = moment(startTime, 'HH:mm:ss').format('HH:mm');
+                                                    const formattedEnd = moment(endTime, 'HH:mm:ss').format('HH:mm');
+                                                    return `${formattedStart} - ${formattedEnd}`;
+                                                })() : 'N/A'}
+                                            </td>
+                                            <td>{slot.booking_limit || '0'}</td>
+                                            <td>{slot.slot_booking_count || '0'}</td>
+                                            <td>{slot.remaining_booking || '0'}</td>
+                                            <td>{slot.status === 1 ? "Active" : "Inactive"}</td>
+                                            <td>
+                                                <div className={styles.editContent}>
+                                                    <img src={Edit} alt='edit'
+                                                        onClick={() => handlePickDropEditTimeSlot(slot.slot_id)}
+                                                    />
+                                                    <img src={Delete} alt='delete' onClick={() => handleDeleteSlot(slot.slot_id)} />
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </React.Fragment>
                             ))}
-                        </React.Fragment>
-                    ))}
-        
+
                         </tbody>
-                </table>
-        
-            </div>
-           
-        <Pagination 
-          currentPage={currentPage} 
-          totalPages={totalPages} 
-          onPageChange={handlePageChange} 
-        />
+                    </table>
+
+                </div>
+            )}
+            <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+            />
         </>
     );
 };

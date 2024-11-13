@@ -88,13 +88,13 @@ const BuySellList = () => {
     return (
         <div className={styles.riderClubSection}>
             <ToastContainer />
-         <SubHeader heading = "Buy Sell List"
+         <SubHeader heading = "Ev Buy Sell List"
          fetchFilteredData={fetchFilteredData} 
          dynamicFilters={dynamicFilters} filterValues={filters}
          addButtonProps={addButtonProps}
          />
         {clubList?.length === 0 ? (
-                <div style={{color: 'red'}}>No data available</div>
+                <div className='errorContainer'>No data available</div>
             ) : (
                 <List 
                     tableHeaders={["Date","Board ID", "Title", "Customer Name", "View", "Comments", "Likes", "Action"]}

@@ -87,13 +87,14 @@ const ClubList = () => {
 
     return (
         <div className={styles.riderClubSection}>
-         <SubHeader heading = "Club List"
+         <SubHeader heading = "Ev Rider Clubs List"
          fetchFilteredData={fetchFilteredData} 
          dynamicFilters={dynamicFilters} filterValues={filters}
          addButtonProps={addButtonProps}
          />
+          
         {clubList?.length === 0 ? (
-                <div style={{color: 'red'}}>No data available</div>
+            <div className='errorContainer'>No data available</div>
             ) : (
                 <List 
                     tableHeaders={["Club ID", "Club Name", "Location", "No of Members", "Action"]}

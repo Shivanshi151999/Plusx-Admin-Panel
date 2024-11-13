@@ -8,6 +8,16 @@
   .addShopContainer::-webkit-scrollbar{
     display: none;
   }
+  .shoplistContainer{
+    background-color: #242424;
+    height: 94.2vh;
+    overflow: scroll;
+    padding: 20px;
+    color: #ffffff;
+  }
+  .shoplistContainer::-webkit-scrollbar{
+display: none;
+  }
   .addShopFormSection{
     padding: 30px;
     border-radius: 14px;
