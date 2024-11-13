@@ -29,7 +29,20 @@ const InsuranceDetails = () => {
     postRequestWithToken('ev-insurance-detail', obj, (response) => {
       if (response.code === 200) {
         setBookingDetails(response?.data || {});
-        setImageGallery(response.galleryData)
+        // setImageGallery(response.galleryData)
+        const vehicleRegImages = response?.data?.vehicle_registration_img ? response.data?.vehicle_registration_img?.split('*') : [];
+        const carImages = response?.data?.car_images ? response.data?.car_images?.split('*') : [];
+        const carTyreImages = response?.data?.car_type_image ? response.data?.car_type_image?.split('*') : [];
+        const licenseImages = response?.data?.driving_licence ? response.data?.driving_licence?.split('*') : [];
+        const emiratesImages = response?.data?.emirates_id ? response.data?.emirates_id?.split('*') : [];
+
+        setImageGallery({
+          vehicleRegImages,  
+          carImages,         
+          tyreImages: carTyreImages,
+          licenseImages,     
+          emiratesImages,    
+        });
         setBaseUrl(response.base_url)
       } else {
         console.log('error in ev-insurance-detail API', response);
@@ -96,16 +109,34 @@ const InsuranceDetails = () => {
     description: bookingDetails?.description,
   }
 
+  // const imageTitles = {
+  //   coverImage    : "Vehicle Registration Images",
+  //   galleryImages : "Car Images",
+  // }
+
+  // const imageContent = {
+  //   coverImage: bookingDetails?.image,
+  //   galleryImages: imageGallery,
+  //   baseUrl: baseUrl,
+  // }
+
   const imageTitles = {
-    coverImage    : "Vehicle Registration Images",
-    galleryImages : "Car Images",
-  }
+    vehicleRegImages: "Vehicle Registration Images",
+    carImages: "Car Images",
+    typeImages: "Car Tyre Images",
+    licenseImages: "Vehicle Driving Licence",
+    emiratesImages: "Emirates Id",
+  };
 
   const imageContent = {
-    coverImage: bookingDetails?.image,
-    galleryImages: imageGallery,
-    baseUrl: baseUrl,
-  }
+    vehicleRegImages: imageGallery?.vehicleRegImages,
+    carImages: imageGallery?.carImages,
+    typeImages: imageGallery?.tyreImages, 
+    licenseImages: imageGallery?.licenseImages,
+    emiratesImages: imageGallery?.emiratesImages,
+    baseUrl,
+  };
+
 
   const imageTitles1 = {
     coverImage    : "Vehicle Driving Licence",
@@ -113,7 +144,7 @@ const InsuranceDetails = () => {
   }
 
   const imageContent1 = {
-    coverImage: bookingDetails?.image,
+    coverImages: bookingDetails?.image,
     galleryImages: imageGallery,
     baseUrl: baseUrl,
   }
@@ -136,10 +167,10 @@ const InsuranceDetails = () => {
           type='evGuide'
         />
 
-        <BookingImageSection
+        {/* <BookingImageSection
           titles={imageTitles1} content={imageContent1}
           type='evGuide'
-        />
+        /> */}
       </div>
     </div>
   )

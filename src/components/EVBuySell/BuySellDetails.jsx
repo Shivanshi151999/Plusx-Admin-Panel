@@ -36,12 +36,12 @@ const BuySellDetails = () => {
       const carTyreImages = response?.data?.car_tyre_image ? response.data.car_tyre_image.split('*') : [];
       const otherImages = response?.data?.other_images ? response.data.other_images.split('*') : [];
 
-      // Set image gallery data with all car images as cover images if multiple exist
+      
       setImageGallery({
-        coverImages: carImages,               // Set cover images as all car images
-        galleryImages: carImages,             // Set gallery images as car images array
-        tyreImages: carTyreImages,            // Array of tyre images
-        otherImages: otherImages              // Array of other images
+        coverImages: carImages,               
+        galleryImages: carImages,            
+        tyreImages: carTyreImages,            
+        otherImages: otherImages              
       });
         setBaseUrl(response.base_url)
       } else {
@@ -147,10 +147,10 @@ const BuySellDetails = () => {
   // }
 
   const imageContent = {
-    coverImages: imageGallery?.coverImages,         // Array of all cover images
-    galleryImages: imageGallery?.galleryImages,     // Array of gallery images (same as cover in this case)
-    tyreImages: imageGallery?.tyreImages,           // Array of tyre images
-    otherImages: imageGallery?.otherImages,         // Array of other images
+    coverImages: imageGallery?.coverImages,         
+    galleryImages: imageGallery?.galleryImages,     
+    tyreImages: imageGallery?.tyreImages,          
+    otherImages: imageGallery?.otherImages,         
     baseUrl: baseUrl,
   };
   
