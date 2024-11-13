@@ -99,7 +99,7 @@ const DashboardCard = ({ details }) => {
         details?.find((item) => item.module === "Charger Installation Bookings")
           ?.count || 0,
       title: "Charger Installation Bookings",
-      route: "/",
+      route: "/ev-road-assistance/booking-list",
     },
     {
       icon: EVRiderClubImage,
@@ -115,7 +115,7 @@ const DashboardCard = ({ details }) => {
         details?.find((item) => item.module === "Total EV Discussion Board")
           ?.count || 0,
       title: "Total EV Discussion Board",
-      route: "/",
+      route: "/discussion-board-list",
     },
     {
       icon: EVInsuranceImage,
@@ -123,7 +123,7 @@ const DashboardCard = ({ details }) => {
         details?.find((item) => item.module === "Total EV Insurance")?.count ||
         0,
       title: "Total EV Insurance",
-      route: "/",
+      route: "/ev-insurance-list",
     },
     {
       icon: EVPreSalesImage,
@@ -146,7 +146,7 @@ const DashboardCard = ({ details }) => {
       count:
         details?.find((item) => item.module === "EV Buy & Sell")?.count || 0,
       title: "EV Buy & Sell",
-      route: "/",
+      route: "/ev-buy-sell",
     },
     {
       icon: ActiveOfferImage,
@@ -162,7 +162,7 @@ const DashboardCard = ({ details }) => {
         details?.find((item) => item.module === "Total Register your Interest")
           ?.count || 0,
       title: "Total Register Your Interest",
-      route: "/",
+      route: "/interest-list",
     },
   ];
   return (
