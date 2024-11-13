@@ -72,6 +72,9 @@ import BuySellDetails from '../components/EVBuySell/BuySellDetails.jsx';
 import InterestList from '../components/RegisterInterest/InterestList.jsx';
 import SubscriptionList from '../components/Subscription/SubscriptionList.jsx';
 import SubscriptionDetails from '../components/Subscription/SubscriptionDetails.jsx';
+import CouponList from '../components/Coupon/CouponList.jsx';
+import EditCoupon from '../components/Coupon/EditCoupon.jsx';
+import AddCoupon from '../components/Coupon/AddCoupon.jsx';
 
 const router = createBrowserRouter([
 
@@ -350,6 +353,20 @@ const router = createBrowserRouter([
             {
                 path: "/ev-buy-sell-details/:sellId",
                 element: <BuySellDetails />,
+            },
+
+            //Coupon
+            {
+                path: "/coupon-list",
+                element: <CouponList />,
+            },
+            {
+                path: "/add-coupon",
+                element: <AddCoupon />,
+            },
+            {
+                path: "/edit-coupon/:couponId",
+                element: <EditCoupon />,
             },
 
             //Register Interest

@@ -71,6 +71,9 @@ const List = ({list, tableHeaders, listData, keyMapping, pageHeading, onDeleteSl
 
     //Subscription
     const handleSubscriptionDetails  = (id) => navigate(`/subscription-details/${id}`)
+
+     //Coupon
+     const handleCouponEdit  = (id) => navigate(`/edit-coupon/${id}`)
     
     return (
         <div className={styles.containerCharger}>
@@ -280,6 +283,13 @@ const List = ({list, tableHeaders, listData, keyMapping, pageHeading, onDeleteSl
                                         <>
                                          <img src={View} alt="view" onClick={() => handleSubscriptionDetails(data.subscription_id)}/>
                                             {/* <img src={Delete} alt='delete' onClick={() => onDeleteSlot(data.board_id)} /> */}
+                                        </>
+                                    )}
+
+                                  {pageHeading === 'Coupon List' && (
+                                        <>
+                                         <img src={Edit} alt='edit' onClick={() => handleCouponEdit(data.id)}/>
+                                            <img src={Delete} alt='delete' onClick={() => onDeleteSlot(data.id)} />
                                         </>
                                     )}
                                     
