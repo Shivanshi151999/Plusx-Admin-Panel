@@ -76,7 +76,7 @@ const CouponList = () => {
                 userId : userDetails?.user_id,
                 email : userDetails?.email,
                 coupon_id: couponId ,
-                coupon_code: couponCode
+                // coupon_code: couponCode
             };
             postRequestWithToken('delete-coupan', obj, async (response) => {
                 if (response.code === 200) {
