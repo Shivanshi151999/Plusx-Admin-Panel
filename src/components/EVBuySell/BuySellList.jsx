@@ -97,20 +97,26 @@ const BuySellList = () => {
                 <div className='errorContainer'>No data available</div>
             ) : (
                 <List 
-                    tableHeaders={["Date","Board ID", "Title", "Customer Name", "View", "Comments", "Likes", "Action"]}
+                    tableHeaders={["Seller Name","Vehicle", "Body Type", "Capacity", "Price", "Region", "Action"]}
                     listData={clubList}
                     keyMapping={[
+                        // { 
+                        //     key: 'created_at', 
+                        //     label: 'Date', 
+                        //     format: (date) => moment(date).format('DD MMM YYYY') 
+                        // },
+                        
+                        // { key: 'rider_data', label: 'Seller Name' }, 
                         { 
-                            key: 'created_at', 
-                            label: 'Date', 
-                            format: (date) => moment(date).format('DD MMM YYYY') 
-                        },
-                        { key: 'board_id', label: 'Board ID' }, 
-                        { key: 'blog_title', label: 'Title' }, 
-                        { key: 'rider_name', label: 'Customer Name' }, 
-                        { key: 'view_count', label: 'View' }, 
-                        { key: 'comment_count', label: 'Comments' }, 
-                        { key: 'likes_count', label: 'Likes' }, 
+                            key: 'rider_data', 
+                            label: 'Seller Name', 
+                            format: (data) => data.split(",")[0] // Extract only the name part
+                        }, 
+                        { key: 'vehicle_data', label: 'Vehicle' }, 
+                        { key: 'body_type', label: 'Body Type' }, 
+                        { key: 'engine_capacity', label: 'Capacity' }, 
+                        { key: 'price', label: 'Price' }, 
+                        { key: 'region', label: 'Region' }, 
                     ]}
                     pageHeading="Buy Sell List"
                     onDeleteSlot={handleDeleteSlot}

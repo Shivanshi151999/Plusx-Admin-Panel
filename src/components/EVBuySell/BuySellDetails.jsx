@@ -29,8 +29,20 @@ const BuySellDetails = () => {
 
     postRequestWithToken('buy-sell-detail', obj, (response) => {
       if (response.code === 200) {
-        setBookingDetails(response?.car || {});
-        setImageGallery(response.galleryData)
+        setBookingDetails(response?.data || {});
+        // setImageGallery(response.galleryData)
+
+        const carImages = response?.data?.car_images ? response.data.car_images.split('*') : [];
+      const carTyreImages = response?.data?.car_tyre_image ? response.data.car_tyre_image.split('*') : [];
+      const otherImages = response?.data?.other_images ? response.data.other_images.split('*') : [];
+
+      // Set image gallery data with all car images as cover images if multiple exist
+      setImageGallery({
+        coverImages: carImages,               // Set cover images as all car images
+        galleryImages: carImages,             // Set gallery images as car images array
+        tyreImages: carTyreImages,            // Array of tyre images
+        otherImages: otherImages              // Array of other images
+      });
         setBaseUrl(response.base_url)
       } else {
         console.log('error in buy-sell-detail API', response);
@@ -47,42 +59,73 @@ const BuySellDetails = () => {
   }, []);
 
   const headerTitles = {
-    bookingIdTitle      : "Rental ID",
-    stationDetailsTitle : "Car Name",
+    bookingIdTitle      : "Sell ID",
+    customerDetailsTitle : "Owner Details",
+    vehicleDetailsTitle : "Vehicle Details"
   };
   const content = {
-    bookingId   : bookingDetails?.rental_id,
-    stationName : bookingDetails?.car_name,
+    bookingId   : bookingDetails?.sell_id,
+    // stationName : bookingDetails?.rider_name,
+    customerName: bookingDetails?.rider_name,
+    customerContact: `${bookingDetails?.country_code} ${bookingDetails?.rider_mobile}`,
+    vehicleId : bookingDetails?.vehicle_id,
+    vehicleModel: bookingDetails?.vehicle_data
   };
 
   const sectionTitles1 = {
-    carType     : "Car Type",
-    availableOn : "Available On",
-    contract    : "Contract",
+    price     : "Price",
+    region : "Regiion",
+    engineCapacity    : "Engine Capacity",
   }
   const sectionContent1 = {
-    carType     : bookingDetails?.car_type,
-    availableOn : bookingDetails?.available_on,
-    contract    : bookingDetails?.contract,
+    price     : bookingDetails?.price,
+    region : bookingDetails?.region,
+    engineCapacity    : bookingDetails?.engine_capacity,
 
   }
 
   const sectionTitles2 = {
-    feature  : "Feature",
-    price    : "Price",
-    leaseUrl : "Lease URL"
+    horsePower  : "Horse Power",
+    bodyType    : "Body Type",
+    milage : "Milage"
   }
   const sectionContent2 = {
-    feature  : bookingDetails?.feature,
-    price    : bookingDetails?.price,
-    leaseUrl : bookingDetails?.lease_url
+    horsePower  : bookingDetails?.horse_power,
+    bodyType    : bookingDetails?.body_type,
+    milage : bookingDetails?.milage
   }
 
   const sectionTitles3 = {
-   status: 'Status'
+   year: 'Year',
+   interior    : "Interior Colour",
+   exterior : "Exterior Colour"
   }
   const sectionContent3 = {
-    status: bookingDetails?.status === 1 ? 'Active' : "Inactive"
+    year: bookingDetails?.year,
+    interior    : bookingDetails?.interior_color,
+    exterior : bookingDetails?.exterior_color
+  }
+
+  const sectionTitles5 = {
+    doors: 'Doors',
+    ownerType    : "Owner Type",
+    seatCapacity : "Seat Capacity"
+   }
+   const sectionContent5 = {
+    doors: bookingDetails?.doors,
+    ownerType    : bookingDetails?.owner_type,
+    seatCapacity : bookingDetails?.seat_capacity
+   }
+
+   const sectionTitles6 = {
+    fuelType  : "Feul Type",
+    warranty    : "Warranty",
+    features : "Technical Features"
+  }
+  const sectionContent6 = {
+    fuelType  : bookingDetails?.fuel_type,
+    warranty    : bookingDetails?.warrenty,
+    features : bookingDetails?.technical_features
   }
 
   const sectionTitles4 = {
@@ -97,22 +140,33 @@ const BuySellDetails = () => {
     galleryImages : "Vehicle Gallery",
   }
 
+  // const imageContent = {
+  //   coverImage: bookingDetails?.image,
+  //   galleryImages: imageGallery,
+  //   baseUrl: baseUrl,
+  // }
+
   const imageContent = {
-    coverImage: bookingDetails?.image,
-    galleryImages: imageGallery,
+    coverImages: imageGallery?.coverImages,         // Array of all cover images
+    galleryImages: imageGallery?.galleryImages,     // Array of gallery images (same as cover in this case)
+    tyreImages: imageGallery?.tyreImages,           // Array of tyre images
+    otherImages: imageGallery?.otherImages,         // Array of other images
     baseUrl: baseUrl,
-  }
+  };
+  
 
   return (
     <div className={styles.appSignupSection}>
       <BookingDetailsHeader
         content={content} titles={headerTitles}
-        type='electricCarLeasing'
+        type='buySell'
       />
       <div className={styles.ChargerDetailsSection}>
         <BookingLeftDetails titles={sectionTitles1} content={sectionContent1}
           sectionTitles2={sectionTitles2} sectionContent2={sectionContent2}
           sectionTitles3={sectionTitles3} sectionContent3={sectionContent3}
+          sectionTitles5={sectionTitles5} sectionContent5={sectionContent5}
+          sectionTitles6={sectionTitles6} sectionContent6={sectionContent6}
           sectionTitles4={sectionTitles4} sectionContent4={sectionContent4}
           type='evGuide' />
 

@@ -19,7 +19,7 @@ const BookingDetailsHeader = ({ content, titles, sectionContent, type }) => {
                     </div>
                 </div>
                 
-                {type !== 'publicChargingStation' && type !== 'evGuide' && type !== 'electricCarLeasing' && type !== 'electricBikeLeasing' &&(
+                {type !== 'publicChargingStation' && type !== 'evGuide' && type !== 'electricCarLeasing' && type !== 'electricBikeLeasing'  && type !== 'buySell' &&(
                 <div className="col-xl-3 col-lg-6 col-12">
                     <div className={styles.detailsHeaderSection}>
                     <div className={styles.detailsImageSection}></div>
@@ -100,6 +100,35 @@ const BookingDetailsHeader = ({ content, titles, sectionContent, type }) => {
                     <div className={styles.infoBlock}>
                         <span className={styles.infoHeading}>{titles.stationDetailsTitle}</span>
                         <span className={styles.infoHeadText}>{content.stationName}</span>
+                    </div>
+                    </div>
+                </div>
+                )}
+
+               {type == 'buySell'  &&(
+                <div className="col-xl-3 col-lg-6 col-12">
+                    <div className={styles.detailsHeaderSection}>
+                    <div className={styles.detailsImageSection}></div>
+                    <div className={styles.infoBlock}>
+                        <span className={styles.infoHeading}>{titles.customerDetailsTitle}</span>
+                        <span className={styles.infoHeadText}>{content.customerName}</span>
+                        <span className={styles.infoText}>{content.customerContact}</span>
+                    </div>
+                    </div>
+                </div>
+                )}
+
+{type === 'buySell' && (
+                <div className="col-xl-3 col-lg-6 col-12">
+                    <div className={styles.detailsHeaderSection}>
+                    <div className={styles.detailsImageSection}>
+                        {/* <img src={Email} alt="Email" /> */}
+                    </div>
+                    <div className={styles.infoBlock}>
+                        <span className={styles.infoHeading}>{titles.vehicleDetailsTitle}</span>
+                        <span className={styles.infoHeadText}>{content.vehicleId}</span>
+                        <span className={styles.infoText}>{content.vehicleModel}</span>
+                        {/* <span className={styles.infoText}>Status: {content.status}</span> */}
                     </div>
                     </div>
                 </div>

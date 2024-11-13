@@ -2,9 +2,13 @@ import React from 'react';
 import styles from './bookingdetails.module.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const BookingLeftDetails = ({ titles, content, sectionTitles2, sectionContent2, sectionTitles3, sectionContent3, sectionTitles4, sectionContent4 }) => {
+const BookingLeftDetails = ({ titles, content, sectionTitles2, sectionContent2, sectionTitles3, sectionContent3, 
+    sectionTitles4, sectionContent4, sectionTitles5, sectionContent5,sectionTitles6, sectionContent6 }) => {
+
     const shouldRenderThirdSection = Object.keys(content || {}).length > 0 && Object.keys(sectionContent2 || {}).length > 0 && Object.keys(sectionContent3 || {}).length > 0;
     const shouldRenderFourthSection = Object.keys(sectionContent4 || {}).length > 0; 
+    const shouldRenderFifthSection = Object.keys(sectionContent5 || {}).length > 0; 
+    const shouldRenderSixthSection = Object.keys(sectionContent6 || {}).length > 0; 
 
     return (
         <div className="col-xl-12">
@@ -42,6 +46,36 @@ const BookingLeftDetails = ({ titles, content, sectionTitles2, sectionContent2, 
                                 <div className={`${styles.detailItem} col-xl-4 col-md-6 col-12`} key={key}>
                                     <span className={styles.label}>{sectionTitles3[key] || key}</span>
                                     <span className={styles.value}>{sectionContent3[key] || 'N/A'}</span>
+                                </div>
+                            ))
+                        ) : (
+                            <div className="col-12"></div>
+                        )}
+                    </div>
+                )}
+
+                {shouldRenderFifthSection && (
+                    <div className={`row ${styles.customRow}`}>
+                        {Object.keys(sectionContent5 || {}).length > 0 ? (
+                            Object.keys(sectionContent5).map((key) => (
+                                <div className={`${styles.detailItem} col-xl-4 col-md-6 col-12`} key={key}>
+                                    <span className={styles.label}>{sectionTitles5[key] || key}</span>
+                                    <span className={styles.value}>{sectionContent5[key] || 'N/A'}</span>
+                                </div>
+                            ))
+                        ) : (
+                            <div className="col-12"></div>
+                        )}
+                    </div>
+                )}
+
+{shouldRenderSixthSection && (
+                    <div className={`row ${styles.customRow}`}>
+                        {Object.keys(sectionContent6 || {}).length > 0 ? (
+                            Object.keys(sectionContent6).map((key) => (
+                                <div className={`${styles.detailItem} col-xl-4 col-md-6 col-12`} key={key}>
+                                    <span className={styles.label}>{sectionTitles6[key] || key}</span>
+                                    <span className={styles.value}>{sectionContent6[key] || 'N/A'}</span>
                                 </div>
                             ))
                         ) : (
