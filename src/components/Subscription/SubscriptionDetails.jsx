@@ -27,13 +27,13 @@ const SubscriptionDetails = () => {
       subscription_id : subId
     };
 
-    postRequestWithToken('electric-bike-detail', obj, (response) => {
+    postRequestWithToken('subscription-detail', obj, (response) => {
       if (response.code === 200) {
-        setBookingDetails(response?.bike || {});
+        setBookingDetails(response?.data || {});
         setImageGallery(response.galleryData)
         setBaseUrl(response.base_url)
       } else {
-        console.log('error in electric-bike-detail API', response);
+        console.log('error in subscription-detail API', response);
       }
     });
   };
@@ -47,35 +47,37 @@ const SubscriptionDetails = () => {
   }, []);
 
   const headerTitles = {
-    bookingIdTitle      : "Rental ID",
-    stationDetailsTitle : "Bike Name",
+    bookingIdTitle      : "Subscription ID",
+    customerDetailsTitle : "Customer Details",
   };
   const content = {
-    bookingId   : bookingDetails?.rental_id,
-    stationName : bookingDetails?.bike_name,
+    bookingId   : bookingDetails?.subscription_id,
+    createdAt   : moment(bookingDetails?.created_at).format('DD MMM YYYY h:mm A'),
+    customerName : bookingDetails?.rider_name,
+    customerContact : `${bookingDetails?.country_code} ${bookingDetails?.rider_mobile}`,
   };
 
   const sectionTitles1 = {
-    bikeType     : "Bike Type",
-    availableOn : "Available On",
-    contract    : "Contract",
+    amount       : "Amount",
+    bookingLimit : "Booking Limit",
+    totalBooking : "Total Booking",
   }
   const sectionContent1 = {
-    bikeType     : bookingDetails?.bike_type,
-    availableOn : bookingDetails?.available_on,
-    contract    : bookingDetails?.contract,
+    amount       : bookingDetails?.amount,
+    bookingLimit : bookingDetails?.booking_limit,
+    totalBooking : bookingDetails?.total_booking,
 
   }
 
   const sectionTitles2 = {
-    feature  : "Feature",
-    price    : "Price",
-    leaseUrl : "Lease URL"
+    paymentDate : "Payment Date",
+    expiry      : "Expiry",
+    leaseUrl    : "Lease URL"
   }
   const sectionContent2 = {
-    feature  : bookingDetails?.feature,
-    price    : bookingDetails?.price,
-    leaseUrl : bookingDetails?.lease_url
+    paymentDate : bookingDetails?.payment_date,
+    expiry      : bookingDetails?.expiry_date,
+    leaseUrl    : bookingDetails?.lease_url
   }
 
   const sectionTitles3 = {
@@ -107,19 +109,19 @@ const SubscriptionDetails = () => {
     <div className={styles.appSignupSection}>
       <BookingDetailsHeader
         content={content} titles={headerTitles}
-        type='electricBikeLeasing'
+        type='subscription'
       />
       <div className={styles.ChargerDetailsSection}>
         <BookingLeftDetails titles={sectionTitles1} content={sectionContent1}
           sectionTitles2={sectionTitles2} sectionContent2={sectionContent2}
-          sectionTitles3={sectionTitles3} sectionContent3={sectionContent3}
-          sectionTitles4={sectionTitles4} sectionContent4={sectionContent4}
+          // sectionTitles3={sectionTitles3} sectionContent3={sectionContent3}
+          // sectionTitles4={sectionTitles4} sectionContent4={sectionContent4}
           type='electricBikeLeasing' />
 
-        <BookingImageSection
+        {/* <BookingImageSection
           titles={imageTitles} content={imageContent}
           type='electricBikeLeasing'
-        />
+        /> */}
       </div>
     </div>
   )

@@ -823,7 +823,7 @@ const SideNavbar = () => {
           <li>Register Interest</li>
         </NavLink>
         <NavLink
-          to="/sii"
+          to="/coupon-list"
           className={({ isActive }) =>
             isActive ? `${styles.menuItem} ${styles.active}` : styles.menuItem
           }
