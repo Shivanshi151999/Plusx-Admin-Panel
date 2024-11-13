@@ -167,6 +167,7 @@ const fetchDetails = () => {
                 className={styles.inputField} 
                 defaultValue={couponCode}
                 onChange={(e) => setCouponCode(e.target.value)}
+                disabled
                 />
                 {errors.couponCode && <p className={styles.error} style={{ color: 'red' }}>{errors.couponCode}</p>}
             </div>
