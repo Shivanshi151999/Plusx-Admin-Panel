@@ -120,7 +120,7 @@ const SignupList = () => {
             searchTerm = {searchTerm}
             />
             {signupList.length === 0 ? (
-                <div className={styles.appSignupContainer} style={{color: 'red'}}>No data available</div>
+                <div className={styles.errorContainer}>No data available</div>
             ) : (
                 <List
                     tableHeaders={["Date", "Customer ID", "Customer Name", "Email", "Emirate", "Action"]}

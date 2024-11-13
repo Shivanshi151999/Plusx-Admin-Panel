@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import List from '../../SharedComponent/List/List'
 import Delete from '../../../assets/images/Delete.svg';
 import Edit from '../../../assets/images/Pen.svg';
 import styles from '../../SharedComponent/List/list.module.css';

@@ -61,12 +61,11 @@
 
 
 .listSpan{
-    border-radius: 8px;
-    padding: 10px 20px;
-    font-size: 14px;
+    padding: 0px 20px !important;
+    font-size: 16px !important;
+    font-weight: 500 !important;
+    color: #00ffcc !important;
+    border-bottom: none !important;
     position: relative;
     top: 12px;
-    font-weight: 500;
-    color: #00ffcc;
-    background-color: #000000;
 }

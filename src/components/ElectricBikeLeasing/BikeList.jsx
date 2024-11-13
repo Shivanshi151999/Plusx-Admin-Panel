@@ -92,7 +92,10 @@ const BikeList = () => {
 
     return (
         <div className={styles.electricBikeSection}>
+<<<<<<< Updated upstream
             <ToastContainer />
+=======
+>>>>>>> Stashed changes
          <SubHeader heading = "Electric Bikes Leasing List" 
          addButtonProps={addButtonProps}
          fetchFilteredData={fetchFilteredData} 
