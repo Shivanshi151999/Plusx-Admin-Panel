@@ -24,7 +24,7 @@ function MapComponent() {
     <div className={style.map}>
       <div className={`${style.mapContainer}`}>
         <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={12}>
-          <Marker position={center} />
+          {/* <Marker position={center} /> */}
         </GoogleMap>
       </div>
     </div>

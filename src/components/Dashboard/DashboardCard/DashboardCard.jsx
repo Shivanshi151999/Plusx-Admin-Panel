@@ -162,7 +162,7 @@ const DashboardCard = ({ details }) => {
         details?.find((item) => item.module === "Total Active Offer")?.count ||
         0,
       title: "Total Active Offer",
-      route: "/",
+      route: "/offer-list",
     },
     {
       icon: TotalRegisterYourInterestImage,
