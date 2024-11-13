@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import style from "./DashboardCard.module.css";
 import DashboardCardItem from "../../SharedComponent/DashboardCardItem/DashboardCardItem";
+import { useSelector, useDispatch } from "react-redux";
+import { setActiveCardIndex } from "../../../store/dashboardSlice";
 
 // Card Images
 import AppSignUpImage from "../../../assets/images/DashboardCardIcons/Total App Sign Up.svg";
@@ -23,7 +25,13 @@ import PublicChargersImage from "../../../assets/images/DashboardCardIcons/Total
 import TotalRegisterYourInterestImage from "../../../assets/images/DashboardCardIcons/Total Register Your Intrest.svg";
 
 const DashboardCard = ({ details }) => {
-  const [isActiveCard, setIsActiveCard] = useState(0);
+  const dispatch = useDispatch();
+  const activeCardIndex = useSelector((state) => state.dashboard.activeCardIndex);
+
+  const handleCardClick = (index) => {
+    dispatch(setActiveCardIndex(index));
+  };
+
   const cardData = [
     {
       icon: AppSignUpImage,
@@ -174,8 +182,8 @@ const DashboardCard = ({ details }) => {
           count={data.count}
           title={data.title}
           route={data.route}
-          isActive={isActiveCard === index}
-          onClick={() => setIsActiveCard(index)}
+          isActive={activeCardIndex === index}
+          onClick={() => handleCardClick(index)}
         />
       ))}
     </div>

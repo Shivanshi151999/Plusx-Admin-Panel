@@ -7,6 +7,8 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
+import { useSelector, useDispatch } from "react-redux";
+import { setTimeRange } from "../../../store/dashboardSlice";
 
 import style from "./Graph.module.css";
 import { BsThreeDotsVertical } from "react-icons/bs";
@@ -26,10 +28,18 @@ const data = [
 
 const Graph = () => {
   const [isDialogMenuOpen, setIsDialogMenuOpen] = useState(false);
-  const [timeRange, settimeRange] = useState("Weekly");
+  const dispatch = useDispatch();
+  const timeRange = useSelector((state) => state.dashboard.timeRange);
 
   const toggleMenu = () => {
     setIsDialogMenuOpen((prevState) => !prevState);
+  };
+
+  const handleTimeRangeChange = (range) => {
+    dispatch(setTimeRange(range));
+    setTimeout(() => {
+      setIsDialogMenuOpen(false);
+    }, 100);
   };
 
   return (
@@ -49,7 +59,7 @@ const Graph = () => {
                     timeRange === "Weekly" ? style.menuOptionActive : ""
                   }`}
                   onClick={() => {
-                    settimeRange("Weekly");
+                    handleTimeRangeChange("Weekly");
                   }}
                 >
                   <MdAccessTimeFilled />
@@ -60,7 +70,7 @@ const Graph = () => {
                     timeRange === "Monthly" ? style.menuOptionActive : ""
                   }`}
                   onClick={() => {
-                    settimeRange("Monthly");
+                    handleTimeRangeChange("Monthly");
                   }}
                 >
                   <FaBusinessTime />
@@ -71,7 +81,7 @@ const Graph = () => {
                     timeRange === "Yearly" ? style.menuOptionActive : ""
                   }`}
                   onClick={() => {
-                    settimeRange("Yearly");
+                    handleTimeRangeChange("Yearly");
                   }}
                 >
                   <MdOutlineTimeline />
