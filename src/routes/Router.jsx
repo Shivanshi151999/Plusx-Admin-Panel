@@ -80,6 +80,11 @@ import AddCoupon from "../components/Coupon/AddCoupon.jsx";
 import EditOffer from "../components/Offer/EditOffer.jsx";
 import AddOffer from "../components/Offer/AddOffer.jsx";
 import OfferList from "../components/Offer/OfferList.jsx";
+import EvPreSaleBookingList from "../components/EvPreSale/Booking/BookingList.jsx";
+import EvPreSaleBookingDetails from "../components/EvPreSale/Booking/BookingDetails.jsx";
+import EvPreSaleSlotList from "../components/EvPreSale/TimeSlot/SlotList.jsx";
+import AddEvPreSaleTimeSlot from "../components/EvPreSale/TimeSlot/AddTimeSlot.jsx";
+import EditEvPreSaleTimeSlot from "../components/EvPreSale/TimeSlot/EditTimeSlot.jsx";
 
 const router = createBrowserRouter([
   {
@@ -375,6 +380,34 @@ const router = createBrowserRouter([
           {
             path: "brand-list",
             element: <BrandList />,
+          },
+        ],
+      },
+
+      //evPreSale
+      {
+        path: "/ev-pre-sales-testing",
+        // element: <ShopList />,
+        children: [
+          {
+            path: "pre-sales-list",
+            element: <EvPreSaleBookingList />,
+          },
+          {
+            path: "pre-sales-details/:bookingId",
+            element: <EvPreSaleBookingDetails />,
+          },
+          {
+            path: "time-slot-list",
+            element: <EvPreSaleSlotList />,
+          },
+          {
+            path: "add-time-slot",
+            element: <AddEvPreSaleTimeSlot />,
+          },
+          {
+            path: "edit-time-slot/:slotId",
+            element: <EditEvPreSaleTimeSlot />,
           },
         ],
       },

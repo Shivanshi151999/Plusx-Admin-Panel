@@ -26,7 +26,7 @@ const SubHeader = ({ heading, fetchFilteredData, dynamicFilters, filterValues, a
         !["App Signup List", "Portable Charger Booking List", "Pick & Drop Booking List", "Portable Charger Invoice List",
           "Pick & Drop Invoice List", "Charger Installation List", "Ev Road Assitance Booking List", 
           "Road Assistance Invoice List", "Board List", "Insurance List", "Buy Sell List", "Interest List",
-          "Subscription List"].includes(heading);
+          "Subscription List", "EV Pre-Sale Testing Booking List"].includes(heading);
 
     const shouldShowFilterButton = 
         heading !== "Portable Charger List" && 

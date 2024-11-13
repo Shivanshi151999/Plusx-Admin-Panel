@@ -66,6 +66,9 @@ const List = ({list, tableHeaders, listData, keyMapping, pageHeading, onDeleteSl
     //EvInsurance
     const handleInsuranceDetails  = (id) => navigate(`/ev-insurance-details/${id}`)
 
+     //EvPreSale
+     const handlePreSaleBookingDetails  = (id) => navigate(`/ev-pre-sales-testing/pre-sales-details/${id}`)
+
     //EvBuySell
     const handleBuySellDetails  = (id) => navigate(`/ev-buy-sell-details/${id}`)
 
@@ -191,6 +194,12 @@ const List = ({list, tableHeaders, listData, keyMapping, pageHeading, onDeleteSl
                                          <img src={View} alt="view" />
                                             <img src={Edit} alt='edit' />
                                             <img src={Delete} alt='delete' />
+                                        </>
+                                    )}
+
+                                    {pageHeading === 'EV Pre-Sale Testing Booking List' && (
+                                        <>
+                                         <img src={View} alt="view" onClick={() => handlePreSaleBookingDetails(data.booking_id)}/>
                                         </>
                                     )}
 

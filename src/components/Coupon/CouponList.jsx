@@ -72,19 +72,11 @@ const CouponList = () => {
     const handleDeleteSlot = (code) => {
         const confirmDelete = window.confirm("Are you sure you want to delete this?");
         if (confirmDelete) {
-<<<<<<< Updated upstream
             const obj = { 
                 userId : userDetails?.user_id,
                 email : userDetails?.email,
                 // coupon_id: couponId ,
                 coupan_code: code
-=======
-            const obj = {
-                userId: userDetails?.user_id,
-                email: userDetails?.email,
-                coupon_id: couponId,
-                // coupon_code: couponCode
->>>>>>> Stashed changes
             };
             postRequestWithToken('delete-coupan', obj, async (response) => {
                 if (response.code === 200) {
