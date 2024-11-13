@@ -95,10 +95,7 @@ const CarList = () => {
 
     return (
         <div className={styles.electricCarContainer}>
-<<<<<<< Updated upstream
             <ToastContainer />
-=======
->>>>>>> Stashed changes
          <SubHeader heading = "Electric Cars Leasing List" 
          addButtonProps={addButtonProps}
          fetchFilteredData={fetchFilteredData} 
