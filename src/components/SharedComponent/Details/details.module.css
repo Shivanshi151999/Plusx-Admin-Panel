@@ -17,12 +17,12 @@
   border-radius: 14px;
   cursor: pointer;
 }
-.detailsHeaderSection:hover{
- background-color: #00ffc3;
- color: #000000;
-
+.detailsHeaderSection:hover, 
+.detailsHeaderSection:hover .infoHeadText {
+    background-color: #00ffc3;
+    color: #000000;
 }
-.detailsHeaderSection:hover .detailsImageSection img {
+.detailsHeaderSection:hover .detailsImageSection img  {
   filter: brightness(0) saturate(100%);
 }
 .detailsImageSection img{

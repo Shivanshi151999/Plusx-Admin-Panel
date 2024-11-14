@@ -1,4 +1,9 @@
+<<<<<<< Updated upstream
 import React, { useState, useRef, useEffect } from "react";
+=======
+import React, { useState, useRef } from "react";
+import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
+>>>>>>> Stashed changes
 import styles from './addshoplist.module.css';
 import { MultiSelect } from "react-multi-select-component";
 import { useNavigate } from 'react-router-dom';
@@ -17,9 +22,8 @@ const AddShopListForm = () => {
   const [selectedBrands, setSelectedBrands] = useState([]);
   const [selectedServices, setSelectedServices] = useState([]);
   const [isAlwaysOpen, setIsAlwaysOpen] = useState(false);
-  const [mapLocation, setMapLocation] = useState("");
-  const [embedUrl, setEmbedUrl] = useState("");
   const [selectedLocation, setSelectedLocation] = useState(null);
+<<<<<<< Updated upstream
   const [locationOptions, setLocationOptions] = useState([])
   const [brandOptions, setBrandOptions] = useState([])
   const [serviceOptions, setServiceOptions]           = useState([])
@@ -33,28 +37,43 @@ const AddShopListForm = () => {
   //   { value: 'bangalore', label: 'Bangalore' },
   //   { value: 'chennai', label: 'Chennai' },
   // ];
+=======
+  const [mapLocation, setMapLocation] = useState("");
+  const [showMap, setShowMap] = useState(false);
+  const [center, setCenter] = useState({ lat: 20.5937, lng: 78.9629 }); // Default to India coordinates
+  const [loading, setLoading] = useState(false);
+
+  const locationOptions = [
+    { value: 'delhi', label: 'Delhi' },
+    { value: 'mumbai', label: 'Mumbai' },
+    { value: 'bangalore', label: 'Bangalore' },
+    { value: 'chennai', label: 'Chennai' },
+  ];
+>>>>>>> Stashed changes
   const handleLocationChange = (selectedOption) => {
     setSelectedLocation(selectedOption);
   };
+  const { isLoaded } = useJsApiLoader({
+    googleMapsApiKey: "", // Leave empty if you don't have an API key
+  });
+
   const handleInputChange = (e) => {
     setMapLocation(e.target.value);
   };
 
-  // Handle Add button click
   const handleAddClick = () => {
-    if (mapLocation.trim() !== "") {
-      // Using a placeholder image instead of a real API URL
-      const fakeMapUrl = `https://via.placeholder.com/600x400.png?text=Fake+Map+for+${encodeURIComponent(
-        mapLocation
-      )}`;
-      setEmbedUrl(fakeMapUrl);
+    if (mapLocation.trim().toLowerCase() === "india") {
+      setCenter({ lat: 20.5937, lng: 78.9629 }); // Center map to India
+      setShowMap(true);
     } else {
-      alert("Please enter a location before clicking Add.");
+      alert("Please enter 'India' to view the map.");
     }
   };
+
   const handleCloseClick = () => {
-    setEmbedUrl(""); // Remove the map
+    setShowMap(false); // This should hide the map
   };
+
   const [timeSlots, setTimeSlots] = useState({
     Monday: { open: "", close: "" },
     Tuesday: { open: "", close: "" },
@@ -252,27 +271,33 @@ useEffect(() => {
               <div>
                 <button
                   type="button"
-                  className={styles.addButtons}
+                  className={styles.addButton}
                   onClick={handleAddClick}
+                  disabled={loading}
                 >
-                  Add
+                  {loading ? "Loading..." : "Add"}
                 </button>
               </div>
             </div>
-            {/* Display fake map below the input */}
           </div>
           <div className={styles.mapEmbedContainer}>
-            {embedUrl && (
+            {showMap && isLoaded && (
               <div className={styles.mapContainer}>
-              <button
-                className={styles.closeButton}
-                onClick={handleCloseClick}
-                title="Close Map"
-              >
-                ✖
-              </button>
-              <img src={embedUrl} alt="Fake Map" className={styles.fakeMapImage} />
-            </div>
+                <button
+                  className={styles.closeButton}
+                  onClick={handleCloseClick}
+                  title="Close Map"
+                >
+                  ✖
+                </button>
+                <GoogleMap
+                  mapContainerStyle={{ width: "100%", height: "300px", borderRadius: "8px" }}
+                  center={center}
+                  zoom={4}
+                >
+                  <Marker position={center} />
+                </GoogleMap>
+              </div>
             )}
 
             <div className={styles.scheduleSection}>

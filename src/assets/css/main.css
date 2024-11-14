@@ -108,7 +108,9 @@ width: 100% !important;
   overflow: hidden;
   border-radius: 4px !important;
  background-color: #242424 !important;
-  box-shadow: 0 0 0 1px #0000001a, 0 4px 11px #0000001a;
+ box-shadow: rgba(0, 255, 195, 0.02) 0px 1px 3px 0px, rgba(0, 255, 195, 0.15) 0px 0px 0px 1px !important;
+
+
 }
 .rmsc .select-item:hover {
   background-color: #242424 !important;
@@ -207,6 +209,10 @@ width: 100% !important;
 .css-1ll44ll-MuiOutlinedInput-notchedOutline {
  outline: none !important;
  border: none !important;
+}
+.css-qr46ko {
+  border-radius: 8px !important;
+  box-shadow: rgba(0, 255, 195, 0.02) 0px 1px 3px 0px, rgba(0, 255, 195, 0.15) 0px 0px 0px 1px !important;
 }
 
 /* Style the invoice table  */
