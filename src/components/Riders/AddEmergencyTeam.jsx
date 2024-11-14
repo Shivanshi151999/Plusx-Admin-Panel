@@ -4,22 +4,35 @@ import styles from './addemergency.module.css';
 import { AiOutlineClose, AiOutlineDown, AiOutlineUp } from 'react-icons/ai';
 import UploadIcon from '../../assets/images/uploadicon.svg';
 import { postRequestWithTokenAndFile } from '../../api/Requests';
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 
 const AddEmergencyTeam = () => {
-    const userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
-    const navigate = useNavigate();
-    const [file, setFile] = useState();
-    const [rsaName, setRsaName] = useState("");
-    const [email, setEmail] = useState("");
-    const [mobileNo, setMobileNo] = useState("");
-    const [serviceType, setServiceType] = useState("");
-    const [password, setPassword] = useState("");
+    const userDetails                           = JSON.parse(sessionStorage.getItem('userDetails'));
+    const navigate                              = useNavigate();
+    const [file, setFile]                       = useState();
+    const [rsaName, setRsaName]                 = useState("");
+    const [email, setEmail]                     = useState("");
+    const [mobileNo, setMobileNo]               = useState("");
+    const [serviceType, setServiceType]         = useState(null);
+    const [password, setPassword]               = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    const [errors, setErrors] = useState({});
-    const [chargingType, setChargingType] = useState()
-    const [selectedType, setSelectedType] = useState([])
+    const [errors, setErrors]                   = useState({});
+
+    const typeOpetions = [
+        // { value: "", label: "Select Vehicle Type" },
+        { value: "Charger Installation", label: "Charger Installation" },
+        { value: "EV Pre-Sale",          label: "EV Pre-Sale" },
+        { value: "Portable Charger",     label: "Portable Charger" },
+        { value: "Roadside Assistance",  label: "Roadside Assistance" },
+        { value: "Valet Charging",       label: "Valet Charging" },
+    ];
+
+    const handleType = (selectedOption) => {
+        setServiceType(selectedOption)
+    }
+
     const handleFileChange = (event) => {
         const selectedFile = event.target.files[0];
         if (selectedFile && selectedFile.type.startsWith('image/')) {
@@ -34,9 +47,6 @@ const AddEmergencyTeam = () => {
         setFile(null);
     };
     const serviceDropdownRef = useRef(null);
-    const handleChargingType = (selectedOption) => {
-        setSelectedType(selectedOption);
-    };
 
     const validateForm = () => {
         const newErrors = {};
@@ -91,7 +101,10 @@ const AddEmergencyTeam = () => {
             formData.append("rsa_email", email);
             formData.append("rsa_name", rsaName);
             formData.append("mobile", mobileNo);
-            formData.append("service_type", serviceType);
+            if (serviceType) {
+                formData.append("service_type", serviceType.value);
+            }
+            // formData.append("service_type", serviceType);
             formData.append("password", password);
             formData.append("confirm_password", confirmPassword);
 
@@ -101,8 +114,10 @@ const AddEmergencyTeam = () => {
 
             postRequestWithTokenAndFile('rsa-add', formData, async (response) => {
                 if (response.code === 200) {
-                    toast(response.message[0], { type: "success" });
-                    navigate('/rider-list')
+                    toast(response.message || response.message[0], {type:'success'})
+                    setTimeout(() => {
+                        navigate('/rider-list')
+                    }, 1000);
                 } else {
                     console.log('error in rider-list api', response);
                 }
@@ -122,12 +137,13 @@ const AddEmergencyTeam = () => {
 
     return (
         <div className={styles.addShopContainer}>
+            <ToastContainer />
             <div className={styles.addHeading}>Add Driver</div>
             <div className={styles.addShopFormSection}>
                 <form className={styles.formSection} onSubmit={handleSubmit}>
                     <div className={styles.row}>
                         <div className={styles.addShopInputContainer}>
-                            <label className={styles.addShopLabel} htmlFor="shopName">Station Name</label>
+                            <label className={styles.addShopLabel} htmlFor="shopName">RSA Name</label>
                             <input
                                 className={styles.inputField}
                                 type="text"
@@ -166,9 +182,9 @@ const AddEmergencyTeam = () => {
                             <div ref={serviceDropdownRef}>
                                 <Select
                                     className={styles.addShopSelect}
-                                    options={chargingType}
+                                    options={typeOpetions}
                                     value={serviceType}
-                                    onChange={handleChargingType}
+                                    onChange={handleType}
                                     placeholder="Select Service"
                                     isClearable={true}
                                 />

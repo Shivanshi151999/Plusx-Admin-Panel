@@ -4,25 +4,38 @@ import Select from "react-select";
 import { AiOutlineClose, AiOutlineDown, AiOutlineUp } from 'react-icons/ai';
 import UploadIcon from '../../assets/images/uploadicon.svg';
 import { postRequestWithToken, postRequestWithTokenAndFile } from '../../api/Requests';
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const EditEmergencyTeam = () => {
-    const userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
-    const navigate = useNavigate();
-    const { rsaId } = useParams()
-    const [file, setFile] = useState();
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const [details, setDetails] = useState()
-    const [rsaName, setRsaName] = useState("");
-    const [email, setEmail] = useState("");
-    const [mobileNo, setMobileNo] = useState("");
-    const [serviceType, setServiceType] = useState("");
-    const [password, setPassword] = useState("");
+    const userDetails                           = JSON.parse(sessionStorage.getItem('userDetails'));
+    const navigate                              = useNavigate();
+    const { rsaId }                             = useParams()
+    const [file, setFile]                       = useState();
+    const [isDropdownOpen, setIsDropdownOpen]   = useState(false);
+    const [details, setDetails]                 = useState()
+    const [rsaName, setRsaName]                 = useState("");
+    const [email, setEmail]                     = useState("");
+    const [mobileNo, setMobileNo]               = useState("");
+    const [serviceType, setServiceType]         = useState(null);
+    const [password, setPassword]               = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    const [errors, setErrors] = useState({});
-    const [chargingType, setChargingType] = useState()
-    const [selectedType, setSelectedType] = useState([])
+    const [errors, setErrors]                   = useState({});
+
+    const typeOpetions = [
+        // { value: "", label: "Select Vehicle Type" },
+        { value: "Charger Installation", label: "Charger Installation" },
+        { value: "EV Pre-Sale",          label: "EV Pre-Sale" },
+        { value: "Portable Charger",     label: "Portable Charger" },
+        { value: "Roadside Assistance",  label: "Roadside Assistance" },
+        { value: "Valet Charging",       label: "Valet Charging" },
+    ];
+
+    const handleType = (selectedOption) => {
+        setServiceType(selectedOption)
+    }
+
     const handleFileChange = (event) => {
         const selectedFile = event.target.files[0];
         if (selectedFile && selectedFile.type.startsWith('image/')) {
@@ -38,9 +51,6 @@ const EditEmergencyTeam = () => {
     };
 
     const serviceDropdownRef = useRef(null);
-    const handleChargingType = (selectedOption) => {
-        setSelectedType(selectedOption);
-    };
 
     const validateForm = () => {
         const newErrors = {};
@@ -96,7 +106,9 @@ const EditEmergencyTeam = () => {
             formData.append("rsa_email", email);
             formData.append("rsa_name", rsaName);
             formData.append("mobile", mobileNo);
-            formData.append("service_type", serviceType);
+            if (serviceType) {
+                formData.append("service_type", serviceType.value);
+            }
             formData.append("password", password);
 
             if (file) {
@@ -105,10 +117,12 @@ const EditEmergencyTeam = () => {
 
             postRequestWithTokenAndFile('rsa-update', formData, async (response) => {
                 if (response.status === 1) {
-                    toast(response.message[0], { type: "success" });
-                    navigate('/rider-list')
+                    toast(response.message || response.message[0], {type:'success'})
+                    setTimeout(() => {
+                        navigate('/rider-list')
+                    }, 1000);
                 } else {
-                    console.log('error in add-emergency-team api', response);
+                    console.log('error in rsa-update api', response);
                 }
             });
 
@@ -131,10 +145,12 @@ const EditEmergencyTeam = () => {
                 setRsaName(data?.rsa_name || "");
                 setEmail(data?.email || "");
                 setMobileNo(data?.mobile || "");
-                setServiceType(data?.booking_type || "");
+                // setServiceType(data?.booking_type || "");
                 // setPassword(data?.password || "");
                 // setConfirmPassword(data?.confirm_passwprd || "");
                 setFile(data?.profile_img || "")
+                const initialType = data.booking_type ? { label: data.booking_type, value: data.booking_type } : null;
+                setServiceType(initialType);
 
             } else {
                 console.log('error in rsa-details API', response);
@@ -152,6 +168,7 @@ const EditEmergencyTeam = () => {
 
     return (
         <div className={styles.addShopContainer}>
+            <ToastContainer />
             <div className={styles.addHeading}>Edit Driver</div>
             <div className={styles.addShopFormSection}>
                 <form className={styles.formSection} onSubmit={handleSubmit}>
@@ -196,9 +213,9 @@ const EditEmergencyTeam = () => {
                             <div ref={serviceDropdownRef}>
                                 <Select
                                     className={styles.addShopSelect}
-                                    options={chargingType}
+                                    options={typeOpetions}
                                     value={serviceType}
-                                    onChange={handleChargingType}
+                                    onChange={handleType}
                                     placeholder="Select Service"
                                     isClearable={true}
                     
@@ -249,11 +266,6 @@ const EditEmergencyTeam = () => {
                                 </label>
                             ) : (
                                 <div className={styles.imageContainer}>
-                                    {/* <img
-                                        src={URL.createObjectURL(file)}
-                                        alt="Preview"
-                                        className={styles.previewImage}
-                                    /> */}
                                     <img
                                         src={
                                             typeof file === 'string'
