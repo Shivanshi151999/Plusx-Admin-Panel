@@ -1,5 +1,5 @@
 .bookingStatusContainer {
-    /* border: 2px solid #64FFC5; */
+    /* border: 2px solid #00ffc3; */
     padding: 18px 16px;
     border-radius: 14px;
     background-color: #000000;
@@ -31,12 +31,12 @@
 
 .value {
   font-weight: 600;
-    color:  #64FFC5;
+    color:  #00ffc3;
     font-size: 16px;
 }
 /* start the accordion section */
 .accordionContainer {
-    /* border: 2px solid #64FFC5; */
+    /* border: 2px solid #00ffc3; */
     padding: 18px 16px;
     border-radius: 14px;
     background-color: #000000;
@@ -59,7 +59,7 @@
   }
   
   .status {
-    color:  #64FFC5;
+    color:  #00ffc3;
     font-size: 22px;
     font-weight: bold;
   }

@@ -151,7 +151,7 @@ const AddEmergencyTeam = () => {
                                 value={rsaName}
                                 onChange={(e) => setRsaName(e.target.value.slice(0, 50))}
                             />
-                            {errors.rsaName && <p className={styles.error}>{errors.rsaName}</p>}
+                            {errors.rsaName && <p className="error">{errors.rsaName}</p>}
                         </div>
                         <div className={styles.addShopInputContainer}>
                             <label className={styles.addShopLabel}>Email ID</label>
@@ -162,7 +162,7 @@ const AddEmergencyTeam = () => {
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value.slice(0, 50))}
                             />
-                            {errors.email && <p className={styles.error}>{errors.email}</p>}
+                            {errors.email && <p className="error">{errors.email}</p>}
                         </div>
                     </div>
                     <div className={styles.row}>
@@ -175,7 +175,7 @@ const AddEmergencyTeam = () => {
                                 value={mobileNo}
                                 onChange={(e) => setMobileNo(e.target.value.slice(0, 20))}
                             />
-                            {errors.mobileNo && <p className={styles.error}>{errors.mobileNo}</p>}
+                            {errors.mobileNo && <p className="error">{errors.mobileNo}</p>}
                         </div>
                         <div className={styles.addShopInputContainer}>
                             <label className={styles.addShopLabel}>Service Type</label>
@@ -190,7 +190,7 @@ const AddEmergencyTeam = () => {
                                 />
 
                             </div>
-                            {errors.serviceType && <p className={styles.error}>{errors.serviceType}</p>}
+                            {errors.serviceType && <p className="error">{errors.serviceType}</p>}
                         </div>
                     </div>
                     <div className={styles.row}>
@@ -203,7 +203,7 @@ const AddEmergencyTeam = () => {
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                             />
-                            {errors.password && <p className={styles.error}>{errors.password}</p>}
+                            {errors.password && <p className="error">{errors.password}</p>}
                         </div>
                         <div className={styles.addShopInputContainer}>
                             <label className={styles.addShopLabel}>Confirm Password</label>
@@ -214,7 +214,7 @@ const AddEmergencyTeam = () => {
                                 value={confirmPassword}
                                 onChange={(e) => setConfirmPassword(e.target.value)}
                             />
-                            {errors.confirmPassword && <p className={styles.error}>{errors.confirmPassword}</p>}
+                            {errors.confirmPassword && <p className="error">{errors.confirmPassword}</p>}
                         </div>
                     </div>
 
@@ -250,7 +250,7 @@ const AddEmergencyTeam = () => {
                                 </div>
                             )}
                         </div>
-                        {errors.file && <p className={styles.error}>{errors.file}</p>}
+                        {errors.file && <p className="error">{errors.file}</p>}
                     </div>
                     <div className={styles.editButton}>
                         <button className={styles.editSubmitBtn} type="submit">Add</button>

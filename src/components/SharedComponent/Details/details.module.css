@@ -12,15 +12,19 @@
   display: flex;
   align-items: center;
   column-gap: 12px;
-  border: 2px solid #64FFC5;
+  border: 2px solid #00ffc3;
   padding: 18px 16px;
   border-radius: 14px;
   cursor: pointer;
 }
-/* .detailsHeaderSection:hover{
- background-color: #64FFC5;
+.detailsHeaderSection:hover{
+ background-color: #00ffc3;
  color: #000000;
-} */
+
+}
+.detailsHeaderSection:hover .detailsImageSection img {
+  filter: brightness(0) saturate(100%);
+}
 .detailsImageSection img{
   width: 40px;
   height: auto;
@@ -42,7 +46,7 @@
   overflow: hidden;
   font-size: 15px;
   line-height: 16px;
-  color: #64FFC5;  
+  color: #00ffc3;  
   text-transform: capitalize;
 }
 .infoText{
@@ -71,7 +75,7 @@
 .Detailshead{
   font-size: 18px;
   font-weight: 600;
-  color: #64FFC5;
+  color: #00ffc3;
 }
 /* end the details section */
 /* start the list section */
@@ -98,7 +102,7 @@ background-color: #242424;
   font-weight: 600;
 }
 .sectionTitle {
-  color: #64FFC5;
+  color: #00ffc3;
   font-size: 22px;
   font-weight: 600;
 }
@@ -113,7 +117,7 @@ background-color: #242424;
   border-bottom: #000 !important;
 }
 .customTable th {
-  color: #64FFC5!important;
+  color: #00ffc3!important;
   background-color: #000000 !important;
   font-size: 13px !important;
   font-weight: 400 !important;

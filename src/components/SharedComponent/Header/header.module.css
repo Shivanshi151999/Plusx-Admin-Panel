@@ -32,7 +32,7 @@
   right: 0;
   color: #ffffff;
   background: linear-gradient(rgb(42, 42, 42), rgb(0, 0, 0));
-  border: 1px solid #64ffc5;
+  border: 1px solid #00ffc3;
   width: 400px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   z-index: 1;
@@ -47,8 +47,8 @@
   width: 50px;
   height: 34px;
   border-radius: 50%;
-  background-color: #64ffc5;
-  box-shadow: #64ffc5 0px 2px 14px 0px;
+  background-color: #00ffc3;
+  box-shadow: #00ffc3 0px 2px 14px 0px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -69,7 +69,7 @@
 }
 
 .notificationBottomSection {
-  border-top: 1px solid #64ffc5;
+  border-top: 1px solid #00ffc3;
   display: flex;
   justify-content: space-between;
   padding: 10px 14px;
@@ -90,7 +90,7 @@ a {
 }
 
 .notificationAllList:hover {
-  color: #64ffc5;
+  color: #00ffc3;
 }
 
 .notificationContent {
@@ -104,7 +104,7 @@ a {
   top: 34px;
   right: 0;
   background: linear-gradient(rgb(42, 42, 42), rgb(0, 0, 0));
-  border: 1px solid #64ffc5;
+  border: 1px solid #00ffc3;
   padding: 10px 14px;
   width: 140px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);

@@ -239,7 +239,7 @@
     background-color: #242424;
     padding: 18px 10px;
     border-radius: 14px;
-    border: 1px solid #64FFC5;
+    border: 1px solid #00ffc3;
   }
   
   /* Label for status */
@@ -259,13 +259,13 @@
   
   /* Toggle labels for Un-active and Active */
   .toggleLabel {
-    color: #64FFC5;
+    color: #00ffc3;
     font-size: 12px;
     padding: 0 6px;
   }
   
   .toggleLabel.active {
-    color: #64FFC5;
+    color: #00ffc3;
   }
   
   .toggleLabel.inactive {
@@ -275,7 +275,7 @@
   /* Toggle button container */
   .toggleButton {
     position: relative;
-    border: 2px solid #64FFC5;
+    border: 2px solid #00ffc3;
     background-color: #242424;
     border-radius: 6px;
     width: 60px;
@@ -286,7 +286,7 @@
   
   /* Active state background */
   .toggleButton.active {
-    border: 2px solid #64FFC5;
+    border: 2px solid #00ffc3;
   }
   
   /* Slider inside the button */
@@ -296,7 +296,7 @@
     left: 0px;
     width: 26px;
     height: 26px;
-    background-color: #64FFC5;
+    background-color: #00ffc3;
     border-radius: 4px;
     transform: translateY(-50%);
     transition: all 0.3s ease;

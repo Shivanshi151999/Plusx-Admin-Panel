@@ -98,7 +98,7 @@
   .errorContainer{
     padding: 20px;
     background-color: #000;
-    color: #64FFC5;
+    color: #00ffc3;
     margin: 20px;
     border-radius: 20px;
     font-size: 18px;
@@ -214,7 +214,7 @@ background-color: #242424;
   background-color: #242424;
   padding: 18px 10px;
   border-radius: 14px;
-  border: 1px solid #64FFC5;
+  border: 1px solid #00ffc3;
 }
 
 /* Label for status */
@@ -234,13 +234,13 @@ background-color: #242424;
 
 /* Toggle labels for Un-active and Active */
 .toggleLabel {
-  color: #64FFC5;
+  color: #00ffc3;
   font-size: 12px;
   padding: 0 6px;
 }
 
 .toggleLabel.active {
-  color: #64FFC5;
+  color: #00ffc3;
 }
 
 .toggleLabel.inactive {
@@ -250,7 +250,7 @@ background-color: #242424;
 /* Toggle button container */
 .toggleButton {
   position: relative;
-  border: 2px solid #64FFC5;
+  border: 2px solid #00ffc3;
   background-color: #242424;
   border-radius: 6px;
   width: 60px;
@@ -261,7 +261,7 @@ background-color: #242424;
 
 /* Active state background */
 .toggleButton.active {
-  border: 2px solid #64FFC5;
+  border: 2px solid #00ffc3;
 }
 
 /* Slider inside the button */
@@ -271,7 +271,7 @@ background-color: #242424;
   left: 0px;
   width: 26px;
   height: 26px;
-  background-color: #64FFC5;
+  background-color: #00ffc3;
   border-radius: 4px;
   transform: translateY(-50%);
   transition: all 0.3s ease;
