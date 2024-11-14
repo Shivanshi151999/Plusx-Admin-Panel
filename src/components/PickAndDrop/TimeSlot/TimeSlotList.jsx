@@ -6,6 +6,7 @@ import SubHeader from '../../SharedComponent/SubHeader/SubHeader'
 import Pagination from '../../SharedComponent/Pagination/Pagination'
 import { getRequestWithToken, postRequestWithToken } from '../../../api/Requests';
 import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
 
@@ -114,6 +115,7 @@ const TimeSlotList = () => {
 
     return (
         <div className='main-container'>
+            <ToastContainer />
             <SubHeader heading="Pick & Drop Time Slot List"
                 addButtonProps={addButtonProps}
                 filterValues={filters}
@@ -175,8 +177,8 @@ const TimeSlotList = () => {
                                 <React.Fragment key={index}>
                                     <tr>
                                         <td className={styles.listSpan}>
-                                            {/* Date: {group.slot_date} */}
-                                            Date: 2024-11-08
+                                            Date: {group.slot_date}
+                                            {/* Date: 2024-11-08 */}
                                         </td>
 
                                     </tr>

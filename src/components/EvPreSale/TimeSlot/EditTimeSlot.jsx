@@ -30,7 +30,7 @@ const EditEvPreSaleTimeSlot = () => {
             slot_id: slotId
         };
 
-        postRequestWithToken('pick-and-drop-slot-details', obj, (response) => {
+        postRequestWithToken('ev-pre-sale-time-slot-details', obj, (response) => {
             if (response.code === 200) {
                 const data = response.data || {};
                 setSlotDetails(data);
@@ -40,7 +40,7 @@ const EditEvPreSaleTimeSlot = () => {
                 setBookingLimit(data.booking_limit || "");
                 setIsActive(data.status)
             } else {
-                console.log('error in pick-and-drop-slot-details API', response);
+                console.log('error in ev-pre-sale-time-slot-details API', response);
             }
         });
     };
