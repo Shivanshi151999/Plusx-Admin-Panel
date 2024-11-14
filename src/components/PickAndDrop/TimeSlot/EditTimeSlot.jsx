@@ -151,13 +151,13 @@ const EditPickAndDropTimeSlot = () => {
                 <form className={styles.form} onSubmit={handleSubmit}>
                     <div className={styles.row}>
                         <div className={styles.inputGroup}>
-                            <label className={styles.label}>Date Picker</label>
+                            <label className={styles.label}>Select Date</label>
                             <DatePicker
                                 className={styles.inputCharger}
                                 selected={startDate}
                                 onChange={(date) => setStartDate(date)}
                             />
-                            {errors.startDate && <span className={styles.error} style={{ color: 'red' }}>{errors.startDate}</span>}
+                            {errors.startDate && <span className="error">{errors.startDate}</span>}
                         </div>
                         <div className={styles.inputGroup}>
                             <label className={styles.label}>Start Time</label>
@@ -168,7 +168,7 @@ const EditPickAndDropTimeSlot = () => {
                                 onChange={handleStartTimeChange}
                                 placeholder="HH:MM"
                             />
-                            {errors.startTime && <span className={styles.error} style={{ color: 'red' }}>{errors.startTime}</span>}
+                            {errors.startTime && <span className="error">{errors.startTime}</span>}
                         </div>
                         <div className={styles.inputGroup}>
                             <label className={styles.label}>End Time</label>
@@ -179,7 +179,7 @@ const EditPickAndDropTimeSlot = () => {
                                 onChange={handleEndTimeChange}
                                 placeholder="HH:MM"
                             />
-                            {errors.endTime && <span className={styles.error} style={{ color: 'red' }}>{errors.endTime}</span>}
+                            {errors.endTime && <span className="error">{errors.endTime}</span>}
                         </div>
                         <div className={styles.inputGroup}>
                             <label className={styles.label}>Booking Limit</label>
@@ -190,7 +190,7 @@ const EditPickAndDropTimeSlot = () => {
                                 value={bookingLimit}
                                 onChange={handleBookingLimitChange}
                             />
-                            {errors.bookingLimit && <span className={styles.error} style={{ color: 'red' }}>{errors.bookingLimit}</span>}
+                            {errors.bookingLimit && <span className="error">{errors.bookingLimit}</span>}
                         </div>
                     </div>
                     <div className={styles.toggleContainer}>

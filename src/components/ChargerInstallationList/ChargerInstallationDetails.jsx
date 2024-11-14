@@ -101,7 +101,7 @@ const ChargerInstallationDetails = () => {
         description: bookingDetails?.description,
     }
     return (
-        <div className={styles.appSignupSection}>
+        <div className='main-container'>
             <BookingDetailsHeader content={content} titles={headerTitles} type='chargerInstallation' />
             <div className={styles.bookingLeftContainer}>
                 <BookingLeftDetails titles={sectionTitles1} content={sectionContent1} 

@@ -7,7 +7,7 @@ import EditImage from '../SharedComponent/Edit/EditImage'
 
 const index = () => {
   return (
-    <div className={styles.evBuysellContainer}>
+    <div className='main-container'>
     <EditHeader />
       <EditContentSection />
       <EditFeature />

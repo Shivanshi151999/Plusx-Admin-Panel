@@ -113,7 +113,7 @@ const TimeSlotList = () => {
     const handlePickDropEditTimeSlot = (id) => navigate(`/pick-and-drop/edit-time-slot/${id}`)
 
     return (
-        <>
+        <div className='main-container'>
             <SubHeader heading="Pick & Drop Time Slot List"
                 addButtonProps={addButtonProps}
                 filterValues={filters}
@@ -219,7 +219,7 @@ const TimeSlotList = () => {
                 totalPages={totalPages}
                 onPageChange={handlePageChange}
             />
-        </>
+        </div>
     );
 };
 

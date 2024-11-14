@@ -161,7 +161,7 @@ const EditPortableCharger = () => {
                                 value={chargerName}
                                 onChange={(e) => setChargerName(e.target.value.slice(0, 50))}
                             />
-                            {errors.chargerName && <p className={styles.error} style={{ color: 'red' }}>{errors.chargerName}</p>}
+                            {errors.chargerName && <p className="error">{errors.chargerName}</p>}
                         </div>
                         <div className={styles.inputGroup}>
                             <label className={styles.label}>Charger Price</label>
@@ -175,7 +175,7 @@ const EditPortableCharger = () => {
                                     setChargerPrice(priceValue.slice(0, 5));
                                 }}
                             />
-                            {errors.chargerPrice && <p className={styles.error} style={{ color: 'red' }}>{errors.chargerPrice}</p>}
+                            {errors.chargerPrice && <p className="error">{errors.chargerPrice}</p>}
                         </div>
                         <div className={styles.inputGroup}>
                             <label className={styles.label}>Charger Type</label>
@@ -193,7 +193,7 @@ const EditPortableCharger = () => {
                                 />
                             </div>
                             {errors.chargerType && (
-                                <p className={styles.error} style={{ color: 'red' }}>
+                                <p className="error">
                                     {errors.chargerType}
                                 </p>
                             )}
@@ -209,7 +209,7 @@ const EditPortableCharger = () => {
                                 value={chargerFeature}
                                 onChange={(e) => setChargerFeature(e.target.value)}
                             />
-                            {errors.chargerFeature && <p className={styles.error} style={{ color: 'red' }}>{errors.chargerFeature}</p>}
+                            {errors.chargerFeature && <p className="error">{errors.chargerFeature}</p>}
                         </div>
                     </div>
                     <div className={styles.toggleContainer}>

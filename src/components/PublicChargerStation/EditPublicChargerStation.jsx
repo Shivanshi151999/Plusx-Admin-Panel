@@ -398,7 +398,7 @@ const EditPublicChargerStation = () => {
                                 value={stationName}
                                 onChange={(e) => setStationName(e.target.value)}
                             />
-                            {errors.stationName && <p className={styles.error} style={{ color: 'red' }}>{errors.stationName}</p>}
+                            {errors.stationName && <p className="error">{errors.stationName}</p>}
                         </div>
                         <div className={styles.addShopInputContainer}>
                             <label className={styles.addShopLabel} htmlFor="availableBrands">Charging For</label>
@@ -412,7 +412,7 @@ const EditPublicChargerStation = () => {
                                     closeOnChangedValue={false}
                                     closeOnSelect={false}
                                 />
-                                {errors.chargingFor && <p className={styles.error} style={{ color: 'red' }}>{errors.chargingFor}</p>}
+                                {errors.chargingFor && <p className="error">{errors.chargingFor}</p>}
                             </div>
                         </div>
                     </div>
@@ -430,7 +430,7 @@ const EditPublicChargerStation = () => {
                                     placeholder="Select Service"
                                     isClearable={true}
                                 />
-                                {errors.chargerType && <p className={styles.error} style={{ color: 'red' }}>{errors.chargerType}</p>}
+                                {errors.chargerType && <p className="error">{errors.chargerType}</p>}
                             </div>
                         </div>
                         <div className={styles.addShopInputContainer}>
@@ -450,7 +450,7 @@ const EditPublicChargerStation = () => {
                                     }
                                 }}
                             />
-                            {errors.chargingPoint && <p className={styles.error} style={{ color: 'red' }}>{errors.chargingPoint}</p>}
+                            {errors.chargingPoint && <p className="error">{errors.chargingPoint}</p>}
                         </div>
                     </div>
                     <div className={styles.row}>
@@ -464,7 +464,7 @@ const EditPublicChargerStation = () => {
                                 value={description}
                                 onChange={(e) => setDescription(e.target.value)}
                             />
-                            {errors.description && <p className={styles.error} style={{ color: 'red' }}>{errors.description}</p>}
+                            {errors.description && <p className="error">{errors.description}</p>}
                         </div>
                         <div className={styles.addShopInputContainer}>
                             <label className={styles.addShopLabel} htmlFor="fullAddress">Full Address</label>
@@ -476,7 +476,7 @@ const EditPublicChargerStation = () => {
                                 value={address}
                                 onChange={(e) => setAddress(e.target.value)}
                             />
-                            {errors.address && <p className={styles.error} style={{ color: 'red' }}>{errors.address}</p>}
+                            {errors.address && <p className="error">{errors.address}</p>}
                         </div>
                     </div>
                     <div className={styles.locationRow}>
@@ -496,7 +496,7 @@ const EditPublicChargerStation = () => {
                                     }
                                 }}
                             />
-                            {errors.latitude && <p className={styles.error} style={{ color: 'red' }}>{errors.latitude}</p>}
+                            {errors.latitude && <p className="error">{errors.latitude}</p>}
                         </div>
                         <div className={styles.addShopInputContainer}>
                             <label className={styles.addShopLabel} htmlFor="longitude">Longitude</label>
@@ -513,7 +513,7 @@ const EditPublicChargerStation = () => {
                                     }
                                 }}
                             />
-                            {errors.longitude && <p className={styles.error} style={{ color: 'red' }}>{errors.longitude}</p>}
+                            {errors.longitude && <p className="error">{errors.longitude}</p>}
                         </div>
                         <div className={styles.addShopInputContainer}>
                             <label className={styles.addShopLabel} htmlFor="location">Price</label>
@@ -525,7 +525,7 @@ const EditPublicChargerStation = () => {
                                 isClearable
                                 className={styles.addShopSelect}
                             />
-                            {errors.price && <p className={styles.error} style={{ color: 'red' }}>{errors.price}</p>}
+                            {errors.price && <p className="error">{errors.price}</p>}
                         </div>
                     </div>
                     <div className={styles.scheduleSection}>
@@ -560,7 +560,7 @@ const EditPublicChargerStation = () => {
                                                 value={timeSlots[day].open}
                                                 onChange={handleTimeChange(day, 'open')}
                                             />
-                                            {errors[`${day}OpenTime`] && <p className={styles.error} style={{ color: 'red' }}>{errors[`${day}OpenTime`]}</p>}
+                                            {errors[`${day}OpenTime`] && <p className="error">{errors[`${day}OpenTime`]}</p>}
                                         </label>
 
                                         <label htmlFor={`${day}CloseTime`} className={styles.inputLabel}>
@@ -573,7 +573,7 @@ const EditPublicChargerStation = () => {
                                                 value={timeSlots[day].close}
                                                 onChange={handleTimeChange(day, 'close')}
                                             />
-                                            {errors[`${day}CloseTime`] && <p className={styles.error} style={{ color: 'red' }}>{errors[`${day}CloseTime`]}</p>}
+                                            {errors[`${day}CloseTime`] && <p className="error">{errors[`${day}CloseTime`]}</p>}
                                         </label>
                                     </div>
                                 ))}
@@ -627,7 +627,7 @@ const EditPublicChargerStation = () => {
                                 </div>
                             )}
                         </div>
-                        {errors.file && <p className={styles.error} style={{ color: 'red' }}>{errors.file}</p>}
+                        {errors.file && <p className="error">{errors.file}</p>}
                     </div>
 
                     {/* Station Gallery Multiple Image Upload */}
@@ -670,7 +670,7 @@ const EditPublicChargerStation = () => {
                                 </div>
                             )}
                         </div>
-                        {errors.gallery && <p className={styles.error} style={{ color: 'red' }}>{errors.gallery}</p>}
+                        {errors.gallery && <p className="error">{errors.gallery}</p>}
                     </div>
                     {/* <div className={styles.actions}>
                         <button className={styles.submitBtn} type="submit">Submit</button>

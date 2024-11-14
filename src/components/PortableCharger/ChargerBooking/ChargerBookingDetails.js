@@ -118,7 +118,7 @@ const ChargerBookingDetails = () => {
         slotTime: bookingDetails?.slot_time
     }
     return (
-        <div className={styles.appSignupSection}>
+        <div className='main-container'>
             <BookingDetailsHeader content={content} titles={headerTitles} sectionContent={sectionContent1}
                 type='portableChargerBooking'
             />

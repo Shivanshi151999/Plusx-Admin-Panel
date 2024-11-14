@@ -143,7 +143,7 @@ const EvPreSaleBookingList = () => {
     }
 
     return (
-        <>
+        <div className='main-container'>
          <SubHeader heading = "EV Pre-Sale Testing Booking List"
          fetchFilteredData={fetchFilteredData} 
          dynamicFilters={dynamicFilters} filterValues={filters}
@@ -184,7 +184,7 @@ const EvPreSaleBookingList = () => {
                 onSelectDriver={handleDriverSelect}
                 onAssignDriver={assignDriver}
             />
-        </>
+        </div>
     );
 };
 

@@ -156,7 +156,7 @@ const BuySellDetails = () => {
   
 
   return (
-    <div className={styles.appSignupSection}>
+    <div className='main-container'>
       <BookingDetailsHeader
         content={content} titles={headerTitles}
         type='buySell'

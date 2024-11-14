@@ -150,7 +150,7 @@ const handleCancel = () => {
                 value={modelName}
                 onChange={(e) => setModelName(e.target.value)}
                 />
-                {errors.modelName && <p className={styles.error} style={{ color: 'red' }}>{errors.modelName}</p>}
+                {errors.modelName && <p className="error">{errors.modelName}</p>}
             </div>
             <div className={styles.addShopInputContainer}>
               <label className={styles.addShopLabel} htmlFor="contactNo">Vehicle Name</label>
@@ -161,7 +161,7 @@ const handleCancel = () => {
               value={vehicleName}
                 onChange={(e) => setVehicleName(e.target.value)}
               />
-              {errors.vehicleName && <p className={styles.error} style={{ color: 'red' }}>{errors.vehicleName}</p>}
+              {errors.vehicleName && <p className="error">{errors.vehicleName}</p>}
             </div>
           </div>
           <div className={styles.row}>
@@ -175,7 +175,7 @@ const handleCancel = () => {
                     isClearable
                     className={styles.addShopSelect}
                 />
-                {errors.vehicleType && <p className={styles.error} style={{ color: 'red' }}>{errors.vehicleType}</p>}
+                {errors.vehicleType && <p className="error">{errors.vehicleType}</p>}
             </div>
             <div className={styles.addShopInputContainer}>
               <label className={styles.addShopLabel} htmlFor="email">Engine</label>
@@ -186,7 +186,7 @@ const handleCancel = () => {
                value={engine}
                 onChange={(e) => setEngine(e.target.value)}
                />
-               {errors.engine && <p className={styles.error} style={{ color: 'red' }}>{errors.engine}</p>}
+               {errors.engine && <p className="error">{errors.engine}</p>}
             </div>
           </div>
           <div className={styles.locationRow}>
@@ -200,7 +200,7 @@ const handleCancel = () => {
                value={horsePower}
                 onChange={(e) => setHorsePower(e.target.value)}
                />
-               {errors.horsePower && <p className={styles.error} style={{ color: 'red' }}>{errors.horsePower}</p>}
+               {errors.horsePower && <p className="error">{errors.horsePower}</p>}
             </div>
             <div className={styles.addShopInputContainer}>
               <label className={styles.addShopLabel} htmlFor="email">Max Speed</label>
@@ -212,7 +212,7 @@ const handleCancel = () => {
               value={maxSpeed}
                 onChange={(e) => setMaxSpeed(e.target.value)}
                />
-               {errors.maxSpeed && <p className={styles.error} style={{ color: 'red' }}>{errors.maxSpeed}</p>}
+               {errors.maxSpeed && <p className="error">{errors.maxSpeed}</p>}
             </div>
             <div className={styles.addShopInputContainer}>
               <label className={styles.addShopLabel} htmlFor="email">Price</label>
@@ -224,7 +224,7 @@ const handleCancel = () => {
               value={price}
                 onChange={(e) => setPrice(e.target.value)}
                />
-               {errors.price && <p className={styles.error} style={{ color: 'red' }}>{errors.price}</p>}
+               {errors.price && <p className="error">{errors.price}</p>}
             </div>
           </div>
           <div className={styles.row}>
@@ -238,7 +238,7 @@ const handleCancel = () => {
               value={description}
                 onChange={(e) => setDescription(e.target.value)}
               />
-              {errors.description && <p className={styles.error} style={{ color: 'red' }}>{errors.description}</p>}
+              {errors.description && <p className="error">{errors.description}</p>}
             </div>
             
           </div>
@@ -253,7 +253,7 @@ const handleCancel = () => {
               value={feature}
                 onChange={(e) => setFeature(e.target.value)}
               />
-              {errors.feature && <p className={styles.error} style={{ color: 'red' }}>{errors.feature}</p>}
+              {errors.feature && <p className="error">{errors.feature}</p>}
             </div>
             
           </div>
@@ -281,7 +281,7 @@ const handleCancel = () => {
                         </div>
                     )}
                 </div>
-                {errors.file && <p className={styles.error} style={{ color: 'red' }}>{errors.file}</p>}
+                {errors.file && <p className="error">{errors.file}</p>}
             </div>
             <div className={styles.fileUpload}>
                 <label className={styles.fileLabel}>Station Gallery</label>
@@ -313,7 +313,7 @@ const handleCancel = () => {
                         </div>
                     )}
                     </div>
-                {errors.gallery && <p className={styles.error} style={{ color: 'red' }}>{errors.gallery}</p>}
+                {errors.gallery && <p className="error">{errors.gallery}</p>}
             </div>
             <div className={styles.editButton}>
                 <button className={styles.editCancelBtn} onClick={() => handleCancel()}>Cancel</button>

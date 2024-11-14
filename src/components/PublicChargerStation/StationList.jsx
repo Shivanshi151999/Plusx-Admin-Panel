@@ -66,7 +66,7 @@ const StationList = () => {
     };
 
     return (
-        <div className={styles.stationContainer}>
+        <div className='main-container'>
             <SubHeader heading="Public Chargers List"
                 addButtonProps={addButtonProps}
                 fetchFilteredData={fetchFilteredData}

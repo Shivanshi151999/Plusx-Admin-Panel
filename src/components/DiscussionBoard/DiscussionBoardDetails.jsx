@@ -107,7 +107,7 @@ const DiscussionBoardDetails = () => {
   }
 
   return (
-    <div className={styles.appSignupSection}>
+    <div className='main-container'>
       <BookingDetailsHeader
         content={content} titles={headerTitles}
         type='electricCarLeasing'

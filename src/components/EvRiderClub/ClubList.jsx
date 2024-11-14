@@ -93,7 +93,7 @@ const ClubList = () => {
     };
 
     return (
-        <div className={styles.riderClubSection}>
+        <div className='main-container'>
          <SubHeader heading = "Ev Rider Clubs List"
          fetchFilteredData={fetchFilteredData} 
          dynamicFilters={dynamicFilters} filterValues={filters}

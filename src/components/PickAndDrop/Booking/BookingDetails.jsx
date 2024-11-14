@@ -98,7 +98,7 @@ const PickAndDropBookingDetails = () => {
         vehicle_data: bookingDetails?.vehicle_data,
     }
     return (
-        <div className={styles.appSignupSection}>
+        <div className='main-container'>
             <BookingDetailsHeader content={content} titles={headerTitles} sectionContent1={sectionContent1} type='pickAndDropBooking' />
             <div className={styles.pickBookingContainer}>
                 <BookingLeftDetails titles={sectionTitles1} content={sectionContent1} sectionTitles2={sectionTitles2} 

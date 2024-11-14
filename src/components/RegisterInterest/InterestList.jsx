@@ -93,7 +93,7 @@ const InterestList = () => {
     };
 
     return (
-        <div className={styles.appSignupSection}>
+        <div className='main-container'>
             <ToastContainer />
             <SubHeader heading="Register Interest List"
                 fetchFilteredData={fetchFilteredData}

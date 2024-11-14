@@ -113,7 +113,7 @@ const EvPreSaleSlotList = () => {
     const handlePickDropEditTimeSlot = (id) => navigate(`/ev-pre-sales-testing/edit-time-slot/${id}`)
 
     return (
-        <>
+        <div className='main-container'>
             <SubHeader heading="Time Slot List"
                 addButtonProps={addButtonProps}
                 filterValues={filters}
@@ -221,7 +221,7 @@ const EvPreSaleSlotList = () => {
                 totalPages={totalPages}
                 onPageChange={handlePageChange}
             />
-        </>
+        </div>
     );
 };
 

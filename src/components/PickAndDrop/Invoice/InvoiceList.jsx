@@ -61,7 +61,7 @@ const InvoiceList = () => {
     };
 
     return (
-        <>
+        <div className='main-container'>
          <SubHeader heading = "Pick & Drop Invoice List"
          filterValues={filters}
          fetchFilteredData={fetchFilteredData} 
@@ -108,7 +108,7 @@ const InvoiceList = () => {
           totalPages={totalPages} 
           onPageChange={handlePageChange} 
         />
-        </>
+        </div>
     );
 };
 

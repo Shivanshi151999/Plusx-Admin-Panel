@@ -83,7 +83,7 @@ obj.service_type = 'Portable Charger'
     fetchDetails();
   }, []);
   return (
-    <div className={styles.appSignupSection}>
+    <div className='main-container'>
       <DetailsHeader headerDetails = {riderDetails}/>
       <DetailsSection sectionDetails = {riderDetails}/>
       <DetailsList addressList = {riderAddressList}/>

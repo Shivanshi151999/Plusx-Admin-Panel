@@ -88,7 +88,7 @@ const ChargerList = () => {
     };
 
     return (
-        <>
+        <div className='main-container'>
             <SubHeader heading = "Portable Charger List" 
             addButtonProps={addButtonProps}
             filterValues={filters}
@@ -121,7 +121,7 @@ const ChargerList = () => {
                 totalPages={totalPages} 
                 onPageChange={handlePageChange} 
             />
-        </>
+        </div>
     );
 };
 

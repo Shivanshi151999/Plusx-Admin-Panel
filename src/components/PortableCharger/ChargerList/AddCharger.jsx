@@ -155,7 +155,7 @@ const AddPortableCharger = () => {
                                     setChargerName(e.target.value.slice(0, 50))
                                 }
                             />
-                            {errors.chargerName && <p className={styles.error} style={{ color: 'red' }}>{errors.chargerName}</p>}
+                            {errors.chargerName && <p className="error">{errors.chargerName}</p>}
                         </div>
                         <div className={styles.inputGroup}>
                             <label className={styles.label}>Charger Price</label>
@@ -169,7 +169,7 @@ const AddPortableCharger = () => {
                                     setChargerPrice(priceValue.slice(0, 5));
                                 }}
                             />
-                            {errors.chargerPrice && <p className={styles.error} style={{ color: 'red' }}>{errors.chargerPrice}</p>}
+                            {errors.chargerPrice && <p className="error">{errors.chargerPrice}</p>}
                         </div>
                         <div className={styles.inputGroup}>
                             <label className={styles.label}>Charger Type</label>
@@ -184,7 +184,7 @@ const AddPortableCharger = () => {
                                 />
                             </div>
                             {errors.chargerType && (
-                                <p className={styles.error} style={{ color: 'red' }}>
+                                <p className="error">
                                     {errors.chargerType}
                                 </p>
                             )}
@@ -200,7 +200,7 @@ const AddPortableCharger = () => {
                                 value={chargerFeature}
                                 onChange={(e) => setChargerFeature(e.target.value)}
                             />
-                            {errors.chargerFeature && <p className={styles.error} style={{ color: 'red' }}>{errors.chargerFeature}</p>}
+                            {errors.chargerFeature && <p className="error">{errors.chargerFeature}</p>}
                         </div>
                     </div>
 
@@ -236,7 +236,7 @@ const AddPortableCharger = () => {
                                 </div>
                             )}
                         </div>
-                        {errors.file && <p className={styles.error} style={{ color: 'red' }}>{errors.file}</p>}
+                        {errors.file && <p className="error">{errors.file}</p>}
                     </div>
                     <div className={styles.actions}>
                         <button onClick={backButtonClick} className={styles.cancelBtn} type="button">Cancel</button>

@@ -38,7 +38,7 @@ const Details = () => {
     }, []);
 
   return (
-    <div className={styles.emergencyContainer}>
+    <div className='main-container'>
       <EmergencyCards details = {details}/>
       {/* <EmergencyDetails/> */}
       <EmergencyList detail = {details}/>

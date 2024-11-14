@@ -58,7 +58,7 @@ const RoadAssistanceInvoiceList = () => {
     };
 
     return (
-        <>
+        <div className='main-container'>
          <SubHeader heading = "Ev Road Assistance Invoice List"
          filterValues={filters}
          fetchFilteredData={fetchFilteredData} 
@@ -102,7 +102,7 @@ const RoadAssistanceInvoiceList = () => {
             totalPages={totalPages} 
             onPageChange={handlePageChange} 
             />
-        </>
+        </div>
     );
 };
 

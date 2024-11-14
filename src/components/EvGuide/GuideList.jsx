@@ -89,7 +89,7 @@ const GuideList = () => {
     };
 
     return (
-        <div className={styles.guideListContainer}>
+        <div className='main-container'>
          <SubHeader heading = "EV Guide List"
          fetchFilteredData={fetchFilteredData} 
          dynamicFilters={dynamicFilters} filterValues={filters}

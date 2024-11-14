@@ -93,7 +93,7 @@ const CouponList = () => {
     };
 
     return (
-        <div className={styles.electricBikeSection}>
+        <div className='main-container'>
             <ToastContainer />
             <SubHeader heading="Coupon List"
                 addButtonProps={addButtonProps}

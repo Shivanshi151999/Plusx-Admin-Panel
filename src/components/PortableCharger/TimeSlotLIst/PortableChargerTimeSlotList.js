@@ -111,7 +111,7 @@ const PortableChargerTimeSlotList = () => {
     const handleChargerEditTimeSlot = (id) => navigate(`/portable-charger/edit-time-slot/${id}`)
 
     return (
-        <>
+        <div className='main-container'>
             <ToastContainer />
             <SubHeader
                 heading="Portable Charger Slot List"
@@ -182,7 +182,7 @@ const PortableChargerTimeSlotList = () => {
                 totalPages={totalPages}
                 onPageChange={handlePageChange}
             />
-        </>
+        </div>
     );
 };
 

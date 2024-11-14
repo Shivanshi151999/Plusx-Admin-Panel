@@ -146,7 +146,7 @@ const BookingList = () => {
     }
 
     return (
-        <>
+        <div className='main-container'>
          <SubHeader heading = "Pick & Drop Booking List"
          fetchFilteredData={fetchFilteredData} 
          dynamicFilters={dynamicFilters} filterValues={filters}
@@ -224,7 +224,7 @@ const BookingList = () => {
                 onSelectDriver={handleDriverSelect}
                 onAssignDriver={assignDriver}
             />
-        </>
+        </div>
     );
 };
 

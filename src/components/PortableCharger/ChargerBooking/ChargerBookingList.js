@@ -145,7 +145,7 @@ const ChargerBookingList = () => {
         })
     }
     return (
-        <>
+        <div className='main-container'>
             <SubHeader
                 heading="Portable Charger Booking List"
                 fetchFilteredData={fetchFilteredData}
@@ -218,7 +218,7 @@ const ChargerBookingList = () => {
                 onSelectDriver={handleDriverSelect}
                 onAssignDriver={assignDriver}
             />
-        </>
+        </div>
     );
 };
 

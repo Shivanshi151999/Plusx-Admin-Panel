@@ -37,7 +37,7 @@ function Index() {
   const isLoading = status === "loading";
 
   return (
-    <div className={style.dashboard}>
+    <div className='main-container'>
       {isLoading ? (
         <Loader />
       ) : (

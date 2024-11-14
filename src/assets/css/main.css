@@ -214,7 +214,7 @@ table{
   width: 100% !important;
 }
 
-/* react date picker deisgned */
+/* react Select Date deisgned */
 .react-datepicker__header {
   text-align: center;
   background-color: #000000 !important;
@@ -258,3 +258,26 @@ table{
   font-size: 18px;
 }
 /* end the error container */
+/* Style the main container on entire website */
+.main-container{
+  background-color: #242424;
+  height: 94.2vh;
+  overflow: scroll;
+  padding: 20px 0px; 
+}
+.main-container::-webkit-scrollbar{
+  display: none;
+}
+/* End the main container on entire website */
+/* Style the error message in form section */
+.error{
+  font-size: 12px;
+    display: flex;
+    align-items: start;
+    justify-content: start;
+    text-align: start;
+    color: red !important;
+    width: 100% !important;
+    margin-bottom: 0px !important;
+}
+/* End the error message in form section */

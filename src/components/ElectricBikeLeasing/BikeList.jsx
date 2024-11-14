@@ -91,7 +91,7 @@ const BikeList = () => {
     };
 
     return (
-        <div className={styles.electricBikeSection}>
+        <div className='main-container'>
             <ToastContainer />
          <SubHeader heading = "Electric Bikes Leasing List" 
          addButtonProps={addButtonProps}

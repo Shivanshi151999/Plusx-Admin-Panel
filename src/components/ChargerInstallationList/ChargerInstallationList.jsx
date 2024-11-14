@@ -70,7 +70,7 @@ const ChargerInstallationList = () => {
     };
 
     return (
-        <div className={styles.chargerInstallationSection}>
+        <div className='main-container'>
             <SubHeader heading = "Charger Installation List"
             filterValues={filters}
             fetchFilteredData={fetchFilteredData} 

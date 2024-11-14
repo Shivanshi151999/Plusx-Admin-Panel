@@ -104,7 +104,7 @@ const handleCancel = () => {
                 value={couponName}
                 onChange={(e) => setCouponName(e.target.value)}
                 />
-                {errors.couponName && <p className={styles.error} style={{ color: 'red' }}>{errors.couponName}</p>}
+                {errors.couponName && <p className="error">{errors.couponName}</p>}
             </div>
              <div className={styles.addShopInputContainer}>
                   <label className={styles.addShopLabel} htmlFor="expiryDate">Expiry Date</label>
@@ -134,7 +134,7 @@ const handleCancel = () => {
                     placeholder="DD-MM-YYYY"
                     className={styles.inputField}
                   />
-                  {errors.expiryDate && <p className={styles.error} style={{ color: 'red' }}>{errors.expiryDate}</p>}
+                  {errors.expiryDate && <p className="error">{errors.expiryDate}</p>}
                 </div>
           </div>
          
@@ -148,7 +148,7 @@ const handleCancel = () => {
                value={url}
                 onChange={(e) => setUrl(e.target.value)}
                />
-               {errors.url && <p className={styles.error} style={{ color: 'red' }}>{errors.url}</p>}
+               {errors.url && <p className="error">{errors.url}</p>}
             </div>
           </div>
          
@@ -176,7 +176,7 @@ const handleCancel = () => {
                         </div>
                     )}
                 </div>
-                {errors.file && <p className={styles.error} style={{ color: 'red' }}>{errors.file}</p>}
+                {errors.file && <p className="error">{errors.file}</p>}
             </div>
           
             <div className={styles.editButton}>

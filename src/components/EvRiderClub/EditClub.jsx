@@ -222,7 +222,7 @@ const handleToggle = () => {
   return (
     <div className={styles.addShopContainer}>
          <ToastContainer />
-      <div className={styles.addHeading}>Edit Club</div>
+      <div className={styles.addHeading}>Edit Ev Rider Club</div>
       <div className={styles.addShopFormSection}>
         <form className={styles.formSection} onSubmit={handleSubmit}>
           <div className={styles.row}>
@@ -234,7 +234,7 @@ const handleToggle = () => {
                 value={clubName}
                 onChange={(e) => setClubName(e.target.value)}
                 />
-                {errors.clubName && <p className={styles.error} style={{ color: 'red' }}>{errors.clubName}</p>}
+                {errors.clubName && <p className="error">{errors.clubName}</p>}
             </div>
             
             <div className={styles.addShopInputContainer}>
@@ -247,7 +247,7 @@ const handleToggle = () => {
                     isClearable
                     className={styles.addShopSelect}
                 />
-                {errors.location && <p className={styles.error} style={{ color: 'red' }}>{errors.location}</p>}
+                {errors.location && <p className="error">{errors.location}</p>}
             </div>
 
             <div className={styles.addShopInputContainer}>
@@ -259,7 +259,7 @@ const handleToggle = () => {
               value={noOfMembers}
                 onChange={(e) => setNoOfMembers(e.target.value)}
               />
-              {errors.noOfMembers && <p className={styles.error} style={{ color: 'red' }}>{errors.noOfMembers}</p>}
+              {errors.noOfMembers && <p className="error">{errors.noOfMembers}</p>}
             </div>
           </div>
           <div className={styles.row}>
@@ -273,7 +273,7 @@ const handleToggle = () => {
               value={description}
                 onChange={(e) => setDescription(e.target.value)}
               />
-              {errors.description && <p className={styles.error} style={{ color: 'red' }}>{errors.description}</p>}
+              {errors.description && <p className="error">{errors.description}</p>}
             </div>
             
           </div>
@@ -287,7 +287,7 @@ const handleToggle = () => {
                value={url}
                 onChange={(e) => setUrl(e.target.value)}
                />
-               {errors.url && <p className={styles.error} style={{ color: 'red' }}>{errors.url}</p>}
+               {errors.url && <p className="error">{errors.url}</p>}
             </div>
             <div className={styles.addShopInputContainer}>
                 <label className={styles.addShopLabel} htmlFor="vehicleType">Category</label>
@@ -302,7 +302,7 @@ const handleToggle = () => {
                             closeOnChangedValue={false}
                             closeOnSelect={false}
                         />
-                        {errors.category && <p className={styles.error} style={{ color: 'red' }}>{errors.category}</p>}
+                        {errors.category && <p className="error">{errors.category}</p>}
                     </div>
             </div>
            
@@ -320,7 +320,7 @@ const handleToggle = () => {
                             closeOnChangedValue={false}
                             closeOnSelect={false}
                         />
-                        {errors.ageGroup && <p className={styles.error} style={{ color: 'red' }}>{errors.ageGroup}</p>}
+                        {errors.ageGroup && <p className="error">{errors.ageGroup}</p>}
                     </div>
                    
                 </div>
@@ -334,7 +334,7 @@ const handleToggle = () => {
                         value={preference}
                         onChange={(e) => setPreference(e.target.value)}
                         />
-                        {errors.preference && <p className={styles.error} style={{ color: 'red' }}>{errors.preference}</p>}
+                        {errors.preference && <p className="error">{errors.preference}</p>}
                     </div>
              </div>
              <div className={styles.toggleContainer}>
@@ -384,7 +384,7 @@ const handleToggle = () => {
                                 </div>
                             )}
                         </div>
-                        {errors.file && <p className={styles.error} style={{ color: 'red' }}>{errors.file}</p>}
+                        {errors.file && <p className="error">{errors.file}</p>}
                     </div>
                     <div className={styles.fileUpload}>
                         <label className={styles.fileLabel}>Store Gallery</label>
@@ -430,7 +430,7 @@ const handleToggle = () => {
                                 </div>
                             )}
                         </div>
-                        {errors.gallery && <p className={styles.error} style={{ color: 'red' }}>{errors.gallery}</p>}
+                        {errors.gallery && <p className="error">{errors.gallery}</p>}
                     </div>
             <div className={styles.editButton}>
                 <button className={styles.editCancelBtn} onClick={() => handleCancel()}>Cancel</button>

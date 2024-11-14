@@ -13,17 +13,18 @@ const dynamicFilters = [
 ]
 
 const addButtonProps = {
-    heading: "Add Club", 
+    heading: "Add Club",
     link: "/add-club"
 };
 
 const SubscriptionList = () => {
-    const userDetails = JSON.parse(sessionStorage.getItem('userDetails')); 
+    const userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
     const navigate = useNavigate()
     const [clubList, setClubList] = useState([])
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [filters, setFilters] = useState({});
+<<<<<<< Updated upstream
     const [refresh, setRefresh]           = useState(false)
     const searchTerm = [
         {
@@ -32,16 +33,19 @@ const SubscriptionList = () => {
             type: 'text'
         }
     ]
+=======
+    const [refresh, setRefresh] = useState(false)
+>>>>>>> Stashed changes
 
     const fetchList = (page, appliedFilters = {}) => {
         const obj = {
-            userId : userDetails?.user_id,
-            email : userDetails?.email,
-            page_no : page,
+            userId: userDetails?.user_id,
+            email: userDetails?.email,
+            page_no: page,
             ...appliedFilters,
         }
 
-        postRequestWithToken('subscription-list', obj, async(response) => {
+        postRequestWithToken('subscription-list', obj, async (response) => {
             if (response.code === 200) {
                 const updatedData = response.data.map((item) => ({
                     ...item,
@@ -49,7 +53,7 @@ const SubscriptionList = () => {
                 }));
                 // setClubList(response?.data)
                 setClubList(updatedData)
-                setTotalPages(response?.total_page || 1); 
+                setTotalPages(response?.total_page || 1);
             } else {
                 // toast(response.message, {type:'error'})
                 console.log('error in subscription-list api', response);
@@ -59,8 +63,8 @@ const SubscriptionList = () => {
 
     useEffect(() => {
         if (!userDetails || !userDetails.access_token) {
-            navigate('/login'); 
-            return; 
+            navigate('/login');
+            return;
         }
         fetchList(currentPage, filters);
     }, [currentPage, filters, refresh]);
@@ -70,25 +74,25 @@ const SubscriptionList = () => {
     };
 
     const fetchFilteredData = (newFilters = {}) => {
-        setFilters(newFilters);  
-        setCurrentPage(1); 
+        setFilters(newFilters);
+        setCurrentPage(1);
     };
 
     const handleDeleteSlot = (clubId) => {
         const confirmDelete = window.confirm("Are you sure you want to delete this?");
         if (confirmDelete) {
-            const obj = { 
-                userId   : userDetails?.user_id,
-                email    : userDetails?.email,
-                board_id :  clubId 
+            const obj = {
+                userId: userDetails?.user_id,
+                email: userDetails?.email,
+                board_id: clubId
             };
             postRequestWithToken('discussion-board-delete', obj, async (response) => {
                 if (response.code === 200) {
                     toast(response.message, { type: "success" });
                     setTimeout(() => {
                         setRefresh(prev => !prev);
-                    },1000)
-                    
+                    }, 1000)
+
                 } else {
                     toast(response.message, { type: 'error' });
                     console.log('error in discussion-board-delete api', response);
@@ -98,8 +102,9 @@ const SubscriptionList = () => {
     };
 
     return (
-        <div className={styles.appSignupSection}>
+        <div className='main-container'>
             <ToastContainer />
+<<<<<<< Updated upstream
          <SubHeader heading = "Subscription List"
             fetchFilteredData={fetchFilteredData} 
             dynamicFilters={dynamicFilters} filterValues={filters}
@@ -107,9 +112,17 @@ const SubscriptionList = () => {
             searchTerm = {searchTerm}
          /> 
         {clubList?.length === 0 ? (
+=======
+            <SubHeader heading="Subscription List"
+                fetchFilteredData={fetchFilteredData}
+                dynamicFilters={dynamicFilters} filterValues={filters}
+                addButtonProps={addButtonProps}
+            />
+            {clubList?.length === 0 ? (
+>>>>>>> Stashed changes
                 <div className='errorContainer'>No data available</div>
             ) : (
-                <List 
+                <List
                     tableHeaders={["Subscription ID", "Customer Name", "Amount", "Booking Limit", "Booking Remaining", "Expiry Date", "Action"]}
                     listData={clubList}
                     keyMapping={[
@@ -118,6 +131,7 @@ const SubscriptionList = () => {
                         //     label: 'Date', 
                         //     format: (date) => moment(date).format('DD MMM YYYY') 
                         // },
+<<<<<<< Updated upstream
                         { key: 'subscription_id', label: 'Subscription ID' }, 
                         { key: 'rider_name', label: 'Customer Name' }, 
                         // { key: 'amount', label: 'Amount' }, 
@@ -129,16 +143,24 @@ const SubscriptionList = () => {
                         { key: 'booking_limit', label: 'Booking Limit' }, 
                         { key: 'remaining_booking', label: 'Booking Remaining' }, 
                         { key: 'expiry_date', label: 'Expiry Date' }, 
+=======
+                        { key: 'subscription_id', label: 'Subscription ID' },
+                        { key: 'riderDetails', label: 'Customer Name' },
+                        { key: 'amount', label: 'Amount' },
+                        { key: 'booking_limit', label: 'Booking Limit' },
+                        { key: 'remaining_booking', label: 'Booking Remaining' },
+                        { key: 'expiry_date', label: 'Expiry Date' },
+>>>>>>> Stashed changes
                     ]}
                     pageHeading="Subscription List"
                     onDeleteSlot={handleDeleteSlot}
                 />
             )}
-        <Pagination 
-          currentPage={currentPage} 
-          totalPages={totalPages} 
-          onPageChange={handlePageChange} 
-        />
+            <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+            />
         </div>
     );
 };

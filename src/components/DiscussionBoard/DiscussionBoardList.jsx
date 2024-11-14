@@ -93,7 +93,7 @@ const DiscussionBoardList = () => {
     };
 
     return (
-        <div className={styles.riderClubSection}>
+        <div className='main-container'>
             <ToastContainer />
             <SubHeader heading="Ev Discussion Board List"
                 fetchFilteredData={fetchFilteredData}

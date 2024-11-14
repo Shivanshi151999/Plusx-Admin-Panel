@@ -164,7 +164,7 @@ const RoadAssistanceBookingList = () => {
         }
     };
     return (
-        <>
+        <div className='main-container'>
             <SubHeader
                 heading="Ev Road Assitance Booking List"
                 fetchFilteredData={fetchFilteredData}
@@ -224,7 +224,7 @@ const RoadAssistanceBookingList = () => {
                 onSelectDriver={handleDriverSelect}
                 onAssignDriver={assignDriver}
             />
-        </>
+        </div>
     );
 };
 

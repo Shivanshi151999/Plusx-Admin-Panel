@@ -29,14 +29,21 @@ const AddShopListForm = () => {
   const handleInputChange = (e) => {
     setMapLocation(e.target.value);
   };
+
+  // Handle Add button click
   const handleAddClick = () => {
     if (mapLocation.trim() !== "") {
-      // Create Google Maps Embed URL with your API key
-      const googleEmbedUrl = `https://www.google.com/maps/embed/v1/place?key=YOUR_API_KEY&q=${encodeURIComponent(mapLocation)}`;
-      setEmbedUrl(googleEmbedUrl);
+      // Using a placeholder image instead of a real API URL
+      const fakeMapUrl = `https://via.placeholder.com/600x400.png?text=Fake+Map+for+${encodeURIComponent(
+        mapLocation
+      )}`;
+      setEmbedUrl(fakeMapUrl);
     } else {
       alert("Please enter a location before clicking Add.");
     }
+  };
+  const handleCloseClick = () => {
+    setEmbedUrl(""); // Remove the map
   };
   const [timeSlots, setTimeSlots] = useState({
     Monday: { open: "", close: "" },
@@ -176,98 +183,100 @@ const AddShopListForm = () => {
 
           </div>
           <div className={styles.textarea}>
-            <div className={styles.addShopInputContainer}>
-              <label htmlFor="mapLocation" className={styles.addShopLabel}>
-                Full Address
-              </label>
-              <input
-                type="text"
-                id="mapLocation"
-                placeholder="Enter Location"
-                className={styles.inputField}
-                value={mapLocation}
-                onChange={handleInputChange}
-              />
+            <div className={styles.mapMainContainer}>
+              <div className={styles.addShopInputContainer}>
+                <label htmlFor="mapLocation" className={styles.addShopLabel}>
+                  Full Address
+                </label>
+                <input
+                  type="text"
+                  id="mapLocation"
+                  placeholder="Enter Location"
+                  className={styles.inputField}
+                  value={mapLocation}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div>
+                <button
+                  type="button"
+                  className={styles.addButtons}
+                  onClick={handleAddClick}
+                >
+                  Add
+                </button>
+              </div>
             </div>
-            <div>
-              <button
-                type="button"
-                className={styles.addButtons}
-                onClick={handleAddClick}
-              >
-                Add
-              </button>
-            </div>
-
-            {/* Display map below the input */}
+            {/* Display fake map below the input */}
+          </div>
+          <div className={styles.mapEmbedContainer}>
             {embedUrl && (
               <div className={styles.mapContainer}>
-                <iframe
-                  src={embedUrl}
-                  width="100%"
-                  height="400"
-                  allowFullScreen=""
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                  title="Location Map"
-                ></iframe>
-              </div>
-            )}
-          </div>
-          <div className={styles.scheduleSection}>
-            <div className={styles.alwaysOpen}>
-              <label className={styles.checkboxLabel}>
-                <input
-                  className={styles.checkboxInput}
-                  type="checkbox"
-                  id="alwaysOpen"
-                  checked={isAlwaysOpen}
-                  onChange={handleAlwaysOpenChange}
-                />
-                <span className={styles.checkmark}></span>
-                <div className={styles.checkboxText}>Always Open</div>
-              </label>
+              <button
+                className={styles.closeButton}
+                onClick={handleCloseClick}
+                title="Close Map"
+              >
+                ✖
+              </button>
+              <img src={embedUrl} alt="Fake Map" className={styles.fakeMapImage} />
             </div>
-
-            {!isAlwaysOpen && (
-              <div className={styles.timeSlotContainer}>
-                {["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].map(day => (
-                  <div className={styles.dayRow} key={day}>
-                    <span className={styles.dayLabel}>{day}</span>
-
-                    <label htmlFor={`${day}OpenTime`} className={styles.inputLabel}>
-                      Open Time
-                      <input
-                        type="text"
-                        id={`${day}OpenTime`}
-                        placeholder="Enter time"
-                        className={styles.timeField}
-                        value={timeSlots[day].open}
-                        onChange={handleTimeChange(day, 'open')}
-                      />
-                      {errors[`${day}OpenTime`] && <p className={styles.error} style={{ color: 'red' }}>{errors[`${day}OpenTime`]}</p>}
-                    </label>
-
-
-                    <label htmlFor={`${day}CloseTime`} className={styles.inputLabel}>
-                      Close Time
-                      <input
-                        type="text"
-                        id={`${day}CloseTime`}
-                        placeholder="Enter time"
-                        className={styles.timeField}
-                        value={timeSlots[day].close}
-                        onChange={handleTimeChange(day, 'close')}
-                      />
-                      {errors[`${day}CloseTime`] && <p className={styles.error} style={{ color: 'red' }}>{errors[`${day}CloseTime`]}</p>}
-                    </label>
-
-                  </div>
-                ))}
-              </div>
             )}
-          </div>
 
+            <div className={styles.scheduleSection}>
+              <div className={styles.alwaysOpen}>
+                <label className={styles.checkboxLabel}>
+                  <input
+                    className={styles.checkboxInput}
+                    type="checkbox"
+                    id="alwaysOpen"
+                    checked={isAlwaysOpen}
+                    onChange={handleAlwaysOpenChange}
+                  />
+                  <span className={styles.checkmark}></span>
+                  <div className={styles.checkboxText}>Always Open</div>
+                </label>
+              </div>
+
+              {!isAlwaysOpen && (
+                <div className={styles.timeSlotContainer}>
+                  {["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].map(day => (
+                    <div className={styles.dayRow} key={day}>
+                      <span className={styles.dayLabel}>{day}</span>
+
+                      <label htmlFor={`${day}OpenTime`} className={styles.inputLabel}>
+                        Open Time
+                        <input
+                          type="text"
+                          id={`${day}OpenTime`}
+                          placeholder="Enter time"
+                          className={styles.timeField}
+                          value={timeSlots[day].open}
+                          onChange={handleTimeChange(day, 'open')}
+                        />
+                        {errors[`${day}OpenTime`] && <p className={styles.error} style={{ color: 'red' }}>{errors[`${day}OpenTime`]}</p>}
+                      </label>
+
+
+                      <label htmlFor={`${day}CloseTime`} className={styles.inputLabel}>
+                        Close Time
+                        <input
+                          type="text"
+                          id={`${day}CloseTime`}
+                          placeholder="Enter time"
+                          className={styles.timeField}
+                          value={timeSlots[day].close}
+                          onChange={handleTimeChange(day, 'close')}
+                        />
+                        {errors[`${day}CloseTime`] && <p className={styles.error} style={{ color: 'red' }}>{errors[`${day}CloseTime`]}</p>}
+                      </label>
+
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
           <div className={styles.fileUpload}>
             <label className={styles.fileLabel}>Cover Image</label>
             <div className={styles.fileDropZone}>

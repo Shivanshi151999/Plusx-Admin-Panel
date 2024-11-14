@@ -111,7 +111,7 @@ const handleCancel = () => {
                 value={couponName}
                 onChange={(e) => setCouponName(e.target.value)}
                 />
-                {errors.couponName && <p className={styles.error} style={{ color: 'red' }}>{errors.couponName}</p>}
+                {errors.couponName && <p className="error">{errors.couponName}</p>}
             </div>
             <div className={styles.addShopInputContainer}>
               <label className={styles.addShopLabel} htmlFor="couponCode">Coupon Code</label>
@@ -122,7 +122,7 @@ const handleCancel = () => {
               value={couponCode}
                 onChange={(e) => setCouponCode(e.target.value)}
               />
-              {errors.couponCode && <p className={styles.error} style={{ color: 'red' }}>{errors.couponCode}</p>}
+              {errors.couponCode && <p className="error">{errors.couponCode}</p>}
             </div>
           </div>
          
@@ -137,7 +137,7 @@ const handleCancel = () => {
                     isClearable
                     className={styles.addShopSelect}
                 />
-                {errors.serviceType && <p className={styles.error} style={{ color: 'red' }}>{errors.serviceType}</p>}
+                {errors.serviceType && <p className="error">{errors.serviceType}</p>}
             </div>
             <div className={styles.addShopInputContainer}>
               <label className={styles.addShopLabel} htmlFor="perCustomer">Usage Per Customer</label>
@@ -148,7 +148,7 @@ const handleCancel = () => {
                value={perCustomer}
                 onChange={(e) => setPerCustomer(e.target.value)}
                />
-               {errors.perCustomer && <p className={styles.error} style={{ color: 'red' }}>{errors.perCustomer}</p>}
+               {errors.perCustomer && <p className="error">{errors.perCustomer}</p>}
             </div>
           </div>
          
@@ -183,7 +183,7 @@ const handleCancel = () => {
                     }
                   }}
               />
-              {errors.couponPercentage && <p className={styles.error} style={{ color: 'red' }}>{errors.couponPercentage}</p>}
+              {errors.couponPercentage && <p className="error">{errors.couponPercentage}</p>}
             </div>
             
 
@@ -217,7 +217,7 @@ const handleCancel = () => {
     placeholder="DD-MM-YYYY"
     className={styles.inputField}
   />
-  {errors.expiryDate && <p className={styles.error} style={{ color: 'red' }}>{errors.expiryDate}</p>}
+  {errors.expiryDate && <p className="error">{errors.expiryDate}</p>}
 </div>
 
           </div>

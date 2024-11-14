@@ -93,7 +93,7 @@ const BuySellList = () => {
     };
 
     return (
-        <div className={styles.riderClubSection}>
+        <div className='main-container'>
             <ToastContainer />
          <SubHeader heading = "Ev Buy Sell List"
          fetchFilteredData={fetchFilteredData} 

@@ -162,7 +162,7 @@ const AddEvPreSaleTimeSlot = () => {
                     {timeSlots.map((slot, index) => (
                         <div key={index} className={styles.row}>
                             <div className={styles.inputGroup}>
-                                <label className={styles.label}>Date Picker</label>
+                                <label className={styles.label}>Select Date</label>
                                 <DatePicker 
                                 className={styles.inputCharger} 
                                 selected={slot.date} 
@@ -170,7 +170,7 @@ const AddEvPreSaleTimeSlot = () => {
                                 minDate={new Date()}
                                 maxDate={new Date().setDate(new Date().getDate() + 14)}
                                 />
-                                {errors[index]?.date && <span className={styles.error} style={{ color: 'red' }}>{errors[index].date}</span>}
+                                {errors[index]?.date && <span className="error">{errors[index].date}</span>}
                             </div>
                             <div className={styles.inputGroup}>
                                 <label className={styles.label}>Start Time</label>
@@ -181,7 +181,7 @@ const AddEvPreSaleTimeSlot = () => {
                                     onChange={(e) => handleStartTimeChange(index, e.target.value)}
                                     placeholder="HH:MM"
                                 />
-                                {errors[index]?.startTime && <span className={styles.error} style={{ color: 'red' }}>{errors[index].startTime}</span>}
+                                {errors[index]?.startTime && <span className="error">{errors[index].startTime}</span>}
                             </div>
 
                             <div className={styles.inputGroup}>
@@ -193,7 +193,7 @@ const AddEvPreSaleTimeSlot = () => {
                                     onChange={(e) => handleEndTimeChange(index, e.target.value)}
                                     placeholder="HH:MM" 
                                 />
-                                {errors[index]?.endTime && <span className={styles.error} style={{ color: 'red' }}>{errors[index].endTime}</span>}
+                                {errors[index]?.endTime && <span className="error">{errors[index].endTime}</span>}
                             </div>
 
                             <div className={styles.inputGroup}>
@@ -207,7 +207,7 @@ const AddEvPreSaleTimeSlot = () => {
                                     onChange={(e) => handleBookingLimitChange(index, e)}
                                     onKeyPress={handleBookingLimitKeyPress}
                                 />
-                                {errors[index]?.bookingLimit && <span className={styles.error} style={{ color: 'red' }}>{errors[index].bookingLimit}</span>}
+                                {errors[index]?.bookingLimit && <span className="error">{errors[index].bookingLimit}</span>}
                             </div>
 
                             {timeSlots.length > 1 && (

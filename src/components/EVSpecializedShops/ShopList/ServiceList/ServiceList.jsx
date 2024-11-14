@@ -69,7 +69,7 @@ const ServiceList = () => {
     };
 
     return (
-        <div className={styles.shoplistContainer}>
+        <div className='main-container'>
          <SubHeader heading = "Ev Specialized Shop Service List"
          fetchFilteredData={fetchFilteredData} 
          dynamicFilters={dynamicFilters} filterValues={filters}

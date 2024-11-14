@@ -91,7 +91,7 @@ const RiderList = () => {
     };
 
     return (
-        <div className={styles.ridersContainer}>
+        <div className='main-container'>
          <SubHeader heading = "Drivers List" 
          addButtonProps={addButtonProps}
          fetchFilteredData={fetchFilteredData} 

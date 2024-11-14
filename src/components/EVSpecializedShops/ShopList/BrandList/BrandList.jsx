@@ -68,7 +68,7 @@ const BrandList = () => {
     };
 
     return (
-        <div className={styles.shoplistContainer}>
+        <div className='main-container'>
          <SubHeader heading = "Ev Specialized Shop Brand List"
          fetchFilteredData={fetchFilteredData} 
          dynamicFilters={dynamicFilters} filterValues={filters}

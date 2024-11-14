@@ -112,7 +112,7 @@ const SignupList = () => {
     ]
 
     return (
-        <div className={styles.appSignupContainer}>
+        <div className='main-container'>
             <ToastContainer/>
             <SubHeader heading = "App Signup List" 
             fetchFilteredData={fetchFilteredData} 

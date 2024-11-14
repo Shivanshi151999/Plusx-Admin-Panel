@@ -229,7 +229,7 @@ const handleToggle = () => {
                 value={carName}
                 onChange={(e) => setCarName(e.target.value)}
                 />
-                {errors.carName && <p className={styles.error} style={{ color: 'red' }}>{errors.carName}</p>}
+                {errors.carName && <p className="error">{errors.carName}</p>}
             </div>
             <div className={styles.addShopInputContainer}>
               <label className={styles.addShopLabel} htmlFor="contactNo">Available On</label>
@@ -240,7 +240,7 @@ const handleToggle = () => {
               value={availableOn}
                 onChange={(e) => setAvailableOn(e.target.value)}
               />
-              {errors.availableOn && <p className={styles.error} style={{ color: 'red' }}>{errors.availableOn}</p>}
+              {errors.availableOn && <p className="error">{errors.availableOn}</p>}
             </div>
           </div>
          
@@ -255,7 +255,7 @@ const handleToggle = () => {
                     isClearable
                     className={styles.addShopSelect}
                 />
-                {errors.carType && <p className={styles.error} style={{ color: 'red' }}>{errors.carType}</p>}
+                {errors.carType && <p className="error">{errors.carType}</p>}
             </div>
             <div className={styles.addShopInputContainer}>
               <label className={styles.addShopLabel} htmlFor="email">Price</label>
@@ -266,7 +266,7 @@ const handleToggle = () => {
                value={price}
                 onChange={(e) => setPrice(e.target.value)}
                />
-               {errors.price && <p className={styles.error} style={{ color: 'red' }}>{errors.price}</p>}
+               {errors.price && <p className="error">{errors.price}</p>}
             </div>
           </div>
           <div className={styles.locationRow}>
@@ -282,7 +282,7 @@ const handleToggle = () => {
                             closeOnChangedValue={false}
                             closeOnSelect={false}
                         />
-                        {errors.contract && <p className={styles.error} style={{ color: 'red' }}>{errors.contract}</p>}
+                        {errors.contract && <p className="error">{errors.contract}</p>}
                     </div>
                 </div>
 
@@ -298,7 +298,7 @@ const handleToggle = () => {
                             closeOnChangedValue={false}
                             closeOnSelect={false}
                         />
-                        {errors.feature && <p className={styles.error} style={{ color: 'red' }}>{errors.feature}</p>}
+                        {errors.feature && <p className="error">{errors.feature}</p>}
                     </div>
                 </div>
             
@@ -314,7 +314,7 @@ const handleToggle = () => {
               value={description}
                 onChange={(e) => setDescription(e.target.value)}
               />
-              {errors.description && <p className={styles.error} style={{ color: 'red' }}>{errors.description}</p>}
+              {errors.description && <p className="error">{errors.description}</p>}
             </div>
             
           </div>
@@ -329,7 +329,7 @@ const handleToggle = () => {
               value={url}
                 onChange={(e) => setUrl(e.target.value)}
               />
-              {errors.url && <p className={styles.error} style={{ color: 'red' }}>{errors.url}</p>}
+              {errors.url && <p className="error">{errors.url}</p>}
             </div>
             
           </div>
@@ -380,7 +380,7 @@ const handleToggle = () => {
                                 </div>
                             )}
                         </div>
-                        {errors.file && <p className={styles.error} style={{ color: 'red' }}>{errors.file}</p>}
+                        {errors.file && <p className="error">{errors.file}</p>}
                     </div>
                     <div className={styles.fileUpload}>
                         <label className={styles.fileLabel}>Station Gallery</label>
@@ -426,7 +426,7 @@ const handleToggle = () => {
                                 </div>
                             )}
                         </div>
-                        {errors.gallery && <p className={styles.error} style={{ color: 'red' }}>{errors.gallery}</p>}
+                        {errors.gallery && <p className="error">{errors.gallery}</p>}
                     </div>
             <div className={styles.editButton}>
                 <button className={styles.editCancelBtn} onClick={() => handleCancel()}>Cancel</button>

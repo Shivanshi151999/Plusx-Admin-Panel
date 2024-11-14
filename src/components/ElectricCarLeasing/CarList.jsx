@@ -94,7 +94,7 @@ const CarList = () => {
     };
 
     return (
-        <div className={styles.electricCarContainer}>
+        <div className='main-container'>
             <ToastContainer />
          <SubHeader heading = "Electric Cars Leasing List" 
          addButtonProps={addButtonProps}

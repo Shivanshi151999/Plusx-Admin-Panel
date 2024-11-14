@@ -59,7 +59,7 @@ const ChargerBookingInvoiceList = () => {
     };
 
     return (
-        <>
+        <div className='main-container'>
          <SubHeader heading = "Portable Charger Invoice List"
          filterValues={filters}
          fetchFilteredData={fetchFilteredData} 
@@ -104,7 +104,7 @@ const ChargerBookingInvoiceList = () => {
             totalPages={totalPages} 
             onPageChange={handlePageChange} 
             />
-        </>
+        </div>
     );
 };
 

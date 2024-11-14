@@ -77,7 +77,7 @@ const AccordionFilter = ({ type, isOpen, fetchFilteredData, dynamicFilters, filt
                                     <Card.Body>
                                         <form className={styles.filterForm}>
                                             <div className={`col-xl-4 col-lg-6 col-12 ${styles.filterItem}`}>
-                                                <label className={styles.filterLabel} htmlFor="date_filter">Select Date Range</label>
+                                                <label className={styles.filterLabel} htmlFor="date_filter">Select Date</label>
                                                 <Calendar handleDateChange={handleDateChange} />
                                             </div>
                                             {dynamicFilters?.map((filter) => (
