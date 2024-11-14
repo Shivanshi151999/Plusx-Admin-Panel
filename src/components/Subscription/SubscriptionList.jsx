@@ -101,10 +101,10 @@ const SubscriptionList = () => {
         <div className={styles.appSignupSection}>
             <ToastContainer />
          <SubHeader heading = "Subscription List"
-         fetchFilteredData={fetchFilteredData} 
-         dynamicFilters={dynamicFilters} filterValues={filters}
-         addButtonProps={addButtonProps}
-         searchTerm = {searchTerm}
+            fetchFilteredData={fetchFilteredData} 
+            dynamicFilters={dynamicFilters} filterValues={filters}
+            addButtonProps={addButtonProps}
+            searchTerm = {searchTerm}
          /> 
         {clubList?.length === 0 ? (
                 <div className='errorContainer'>No data available</div>

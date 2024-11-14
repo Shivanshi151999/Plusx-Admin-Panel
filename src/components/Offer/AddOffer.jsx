@@ -76,7 +76,7 @@ const handleSubmit = (e) => {
                 toast(response.message || response.message[0], {type:'success'})
                 setTimeout(() => {
                     navigate('/offer-list');
-                }, 1000);
+                }, 1500);
             } else {
                 toast(response.message || response.message[0], {type:'error'})
                 console.log('Error in add-coupan API:', response);
@@ -92,7 +92,7 @@ const handleCancel = () => {
   return (
     <div className={styles.addShopContainer}>
          <ToastContainer />
-      <div className={styles.addHeading}>Add Coupon</div>
+      <div className={styles.addHeading}>Add Offer</div>
       <div className={styles.addShopFormSection}>
         <form className={styles.formSection} onSubmit={handleSubmit}>
           <div className={styles.row}>

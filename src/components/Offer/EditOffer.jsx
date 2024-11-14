@@ -81,7 +81,7 @@ const handleSubmit = (e) => {
                 toast(response.message || response.message[0], {type:'success'})
                 setTimeout(() => {
                     navigate('/offer-list');
-                }, 1000);
+                }, 1500);
             } else {
                 toast(response.message || response.message[0], {type:'error'})
                 console.log('Error in electric-bike-edit API:', response);

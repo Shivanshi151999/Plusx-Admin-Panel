@@ -29,7 +29,7 @@ const AddEvPreSaleTimeSlot = () => {
     const [errors, setErrors]       = useState([]);
 
     const handleCancel = () => {
-        navigate('/pick-and-drop/time-slot-list')
+        navigate('/ev-pre-sales-testing/time-slot-list')
     }
     const handleDateChange = (index, date) => {
         const newTimeSlots = [...timeSlots];
@@ -124,15 +124,15 @@ const AddEvPreSaleTimeSlot = () => {
                 booking_limit : timeSlots.map(slot => slot.bookingLimit),
             };
     
-            postRequestWithToken('pick-and-drop-add-slot', obj, async(response) => {
+            postRequestWithToken('ev-pre-sale-add-time-slot-list', obj, async(response) => {
                 if (response.code === 200) {
                     toast(response.message[0], { type: "success" });
                     setTimeout(() => {
-                        navigate('/pick-and-drop/time-slot-list')
+                        navigate('/ev-pre-sales-testing/time-slot-list')
                     }, 2000)
                 } else {
                     toast(response.message || response.message[0], { type: "error" });
-                    console.log('error in pick-and-drop-add-slot api', response);
+                    console.log('error in ev-pre-sale-add-time-slot-list api', response);
                 }
             })
         } else {

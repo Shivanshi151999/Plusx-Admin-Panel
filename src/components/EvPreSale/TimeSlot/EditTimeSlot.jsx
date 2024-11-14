@@ -54,7 +54,7 @@ const EditEvPreSaleTimeSlot = () => {
     }, []);
 
     const handleCancel = () => {
-        navigate('/pick-and-drop/time-slot-list');
+        navigate('/ev-pre-sales-testing/time-slot-list');
     };
 
     const handleStartTimeChange = (e) => {
@@ -123,15 +123,15 @@ const EditEvPreSaleTimeSlot = () => {
                 booking_limit: bookingLimit
             };
 
-            postRequestWithToken('pick-and-drop-edit-slot', obj, (response) => {
+            postRequestWithToken('ev-pre-sale-edit-time-slot-list', obj, (response) => {
                 if (response.code === 200) {
                     toast(response.message[0] || response.message, { type: "success" });
                    
                     setTimeout(() => {
-                        navigate('/pick-and-drop/time-slot-list');
+                        navigate('/ev-pre-sales-testing/time-slot-list');
                     },2000)
                 } else {
-                    console.log('error in charger-edit-time-slot API', response);
+                    console.log('error in ev-pre-sale-edit-time-slot-list API', response);
                 }
             });
         }
