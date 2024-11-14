@@ -30,10 +30,10 @@ const SubHeader = ({ heading, fetchFilteredData, dynamicFilters, filterValues, a
 
     const shouldShowFilterButton = 
         heading !== "Portable Charger List" && 
-        heading !== "Portable Charger Invoice List" && 
-        heading !== "Pick & Drop Invoice List" &&
+        // heading !== "Portable Charger Invoice List" && 
+        // heading !== "Pick & Drop Invoice List" &&
         heading !== "Road Assistance Invoice List" &&
-        heading !== "Ev Road Assistance Invoice List" &&
+        // heading !== "Ev Road Assistance Invoice List" &&
         heading !== "Charger Installation List" &&
         heading !== "Ev Rider Clubs List" && 
         heading !== "Ev Discussion Board List" &&
@@ -43,10 +43,22 @@ const SubHeader = ({ heading, fetchFilteredData, dynamicFilters, filterValues, a
         heading !== "Ev Specialized Shop Brand List" && 
         heading !== "Ev Buy Sell List" && 
         heading !== "Offer List" && 
-        heading !== "Register Interest List"
+        heading !== "Pick & Drop Time Slot List" &&
+        heading !== "Portable Charger Slot List" &&
+        heading !== "Time Slot List" &&
+        heading !== "Register Interest List";
+
 
         const shouldShowSearchButton = 
-        heading !== "Portable Charger List" 
+            heading !== "Portable Charger List"  && 
+            heading !== "Offer List"  && 
+            heading !== "Portable Charger Invoice List" && 
+            heading !== "Pick & Drop Invoice List" &&
+            heading !== "Pick & Drop Time Slot List" && 
+            heading !== "Portable Charger Slot List" && 
+            heading !== "Time Slot List" &&
+            heading !== "Ev Road Assistance Invoice List" 
+            
 
     return (
         <div className={styles.subHeaderContainer}>
@@ -66,7 +78,7 @@ const SubHeader = ({ heading, fetchFilteredData, dynamicFilters, filterValues, a
                     )}
                     
                     {/* Search Button */}
-                    {shouldShowFilterButton && (
+                    {shouldShowSearchButton && (
                     <div className={styles.addButtonSection} onClick={toggleSearchAccordion}>
                         <div className={styles.addButtonImg}>
                             <img src={Search} alt='Search' />
