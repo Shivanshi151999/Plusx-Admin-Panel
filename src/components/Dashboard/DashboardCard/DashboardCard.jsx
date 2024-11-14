@@ -139,7 +139,7 @@ const DashboardCard = ({ details }) => {
         details?.find((item) => item.module === "Pre-Sale Testing Bookings")
           ?.count || 0,
       title: "EV Pre-Sales Testing Bookings",
-      route: "/",
+      route: "/ev-pre-sales-testing/pre-sales-list",
     },
     {
       icon: EVSpecializedShopsImage,

@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
-import styles from "./sidenavbar.module.css";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
+
+import styles from "./sidenavbar.module.css";
 import CompanyLogo from "../CompanyLogo";
+import SideBarLinkItem from "./SideBarLink";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
 
@@ -216,30 +218,9 @@ const SideNavbar = () => {
         </NavLink>
       </div>
       <ul className={styles.menuList}>
-        <NavLink
-          to="/"
-          className={({ isActive }) =>
-            isActive ? `${styles.menuItem} ${styles.active}` : styles.menuItem
-          }
-        >
-          <li>Dashboard</li>
-        </NavLink>
-        <NavLink
-          to="/app-signup-list"
-          className={({ isActive }) =>
-            isActive ? `${styles.menuItem} ${styles.active}` : styles.menuItem
-          }
-        >
-          <li>App Sign Up List</li>
-        </NavLink>
-        <NavLink
-          to="/rider-list"
-          className={({ isActive }) =>
-            isActive ? `${styles.menuItem} ${styles.active}` : styles.menuItem
-          }
-        >
-          <li>Drivers</li>
-        </NavLink>
+        <SideBarLinkItem label="Dashboard" path="/" />
+        <SideBarLinkItem label="App Sign Up List" path="/app-signup-list" />
+        <SideBarLinkItem label="Drivers" path="/rider-list" />
 
         {/* Portable Charger Dropdown */}
         <div className={styles.menuItemDiv}>
@@ -389,6 +370,7 @@ const SideNavbar = () => {
             </ul>
           )}
         </div>
+
         {/* Pick & Drop Dropdown */}
         <div className={styles.menuItemDiv}>
           <li
@@ -483,38 +465,19 @@ const SideNavbar = () => {
           )}
         </div>
 
-        <NavLink
-          to="/public-charger-station-list"
-          className={({ isActive }) =>
-            isActive ? `${styles.menuItem} ${styles.active}` : styles.menuItem
-          }
-        >
-          <li>Public Chargers Station</li>
-        </NavLink>
-        <NavLink
-          to="/electric-car-list"
-          className={({ isActive }) =>
-            isActive ? `${styles.menuItem} ${styles.active}` : styles.menuItem
-          }
-        >
-          <li>Electric Car Leasing</li>
-        </NavLink>
-        <NavLink
-          to="/electric-bike-list"
-          className={({ isActive }) =>
-            isActive ? `${styles.menuItem} ${styles.active}` : styles.menuItem
-          }
-        >
-          <li>Electric Bike Leasing</li>
-        </NavLink>
-        <NavLink
-          to="/ev-guide-list"
-          className={({ isActive }) =>
-            isActive ? `${styles.menuItem} ${styles.active}` : styles.menuItem
-          }
-        >
-          <li>EV Guide</li>
-        </NavLink>
+        <SideBarLinkItem
+          label="Public Chargers Station"
+          path="/public-charger-station-list"
+        />
+        <SideBarLinkItem
+          label="Electric Car Leasing"
+          path="/electric-car-list"
+        />
+        <SideBarLinkItem
+          label="Electric Bike Leasing"
+          path="/electric-bike-list"
+        />
+        <SideBarLinkItem label="EV Guide" path="/ev-guide-list" />
 
         {/* EV Road Assistance Dropdown */}
         <div className={styles.menuItemDiv}>
@@ -591,38 +554,16 @@ const SideNavbar = () => {
           )}
         </div>
 
-        <NavLink
-          to="/charger-installation-list"
-          className={({ isActive }) =>
-            isActive ? `${styles.menuItem} ${styles.active}` : styles.menuItem
-          }
-        >
-          <li>Charger Installation</li>
-        </NavLink>
-        <NavLink
-          to="/club-list"
-          className={({ isActive }) =>
-            isActive ? `${styles.menuItem} ${styles.active}` : styles.menuItem
-          }
-        >
-          <li>EV Rider Clubs</li>
-        </NavLink>
-        <NavLink
-          to="/discussion-board-list"
-          className={({ isActive }) =>
-            isActive ? `${styles.menuItem} ${styles.active}` : styles.menuItem
-          }
-        >
-          <li>EV Discussion Board</li>
-        </NavLink>
-        <NavLink
-          to="/ev-insurance-list"
-          className={({ isActive }) =>
-            isActive ? `${styles.menuItem} ${styles.active}` : styles.menuItem
-          }
-        >
-          <li>EV Insurance</li>
-        </NavLink>
+        <SideBarLinkItem
+          label="Charger Installation"
+          path="/charger-installation-list"
+        />
+        <SideBarLinkItem label="EV Rider Clubs" path="/club-list" />
+        <SideBarLinkItem
+          label="EV Discussion Board"
+          path="/discussion-board-list"
+        />
+        <SideBarLinkItem label="EV Insurance" path="/ev-insurance-list" />
 
         {/* EV Pre-Sales Testing Dropdown */}
         <div className={styles.menuItemDiv}>
@@ -798,46 +739,14 @@ const SideNavbar = () => {
           )}
         </div>
 
-        <NavLink
-          to="/ev-buy-sell"
-          className={({ isActive }) =>
-            isActive ? `${styles.menuItem} ${styles.active}` : styles.menuItem
-          }
-        >
-          <li>EV Buy & Sell</li>
-        </NavLink>
-        <NavLink
-          to="/offer-list"
-          className={({ isActive }) =>
-            isActive ? `${styles.menuItem} ${styles.active}` : styles.menuItem
-          }
-        >
-          <li>Offer</li>
-        </NavLink>
-        <NavLink
-          to="/interest-list"
-          className={({ isActive }) =>
-            isActive ? `${styles.menuItem} ${styles.active}` : styles.menuItem
-          }
-        >
-          <li>Register Interest</li>
-        </NavLink>
-        <NavLink
-          to="/coupon-list"
-          className={({ isActive }) =>
-            isActive ? `${styles.menuItem} ${styles.active}` : styles.menuItem
-          }
-        >
-          <li>Coupon</li>
-        </NavLink>
-        <NavLink
-          to="/subscription-list"
-          className={({ isActive }) =>
-            isActive ? `${styles.menuItem} ${styles.active}` : styles.menuItem
-          }
-        >
-          <li>Subscription Package</li>
-        </NavLink>
+        <SideBarLinkItem label="EV Buy & Sell" path="/ev-buy-sell" />
+        <SideBarLinkItem label="Offer" path="/offer-list" />
+        <SideBarLinkItem label="Register Interest" path="/interest-list" />
+        <SideBarLinkItem label="Coupon" path="/coupon-list" />
+        <SideBarLinkItem
+          label="Subscription Package"
+          path="/subscription-list"
+        />
       </ul>
     </div>
   );
