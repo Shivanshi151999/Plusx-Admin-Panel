@@ -1,6 +1,4 @@
 import React, { useState, useRef, useEffect } from "react";
-import Select from "react-select";
-import { MultiSelect } from "react-multi-select-component";
 import styles from './addoffer.module.css';
 import UploadIcon from '../../assets/images/uploadicon.svg';
 import { AiOutlineClose } from 'react-icons/ai';
