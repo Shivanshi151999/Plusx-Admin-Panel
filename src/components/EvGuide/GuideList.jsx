@@ -6,6 +6,7 @@ import Pagination from '../SharedComponent/Pagination/Pagination'
 import { postRequestWithToken } from '../../api/Requests';
 import moment from 'moment';
 import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 
 const dynamicFilters = [
@@ -78,8 +79,10 @@ const GuideList = () => {
             };
             postRequestWithToken('ev-guide-delete', obj, async (response) => {
                 if (response.code === 200) {
-                    setRefresh(prev => !prev);
-                    toast(response.message[0], { type: "success" });
+                    toast(response.message, { type: "success" });
+                    setTimeout(() => {
+                        setRefresh(prev => !prev);
+                    },1000)
                 } else {
                     toast(response.message, { type: 'error' });
                     console.log('error in delete-rider api', response);
@@ -89,7 +92,12 @@ const GuideList = () => {
     };
 
     return (
+<<<<<<< Updated upstream
         <div className='main-container'>
+=======
+        <div className={styles.guideListContainer}>
+            <ToastContainer />
+>>>>>>> Stashed changes
          <SubHeader heading = "EV Guide List"
          fetchFilteredData={fetchFilteredData} 
          dynamicFilters={dynamicFilters} filterValues={filters}
