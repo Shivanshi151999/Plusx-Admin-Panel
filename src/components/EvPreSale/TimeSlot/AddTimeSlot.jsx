@@ -37,11 +37,24 @@ const AddEvPreSaleTimeSlot = () => {
         setTimeSlots(newTimeSlots);
     };
 
+    // const handleTimeInput = (e) => {
+    //     // const value = e.target.value;
+    //     const value = e.target.value.replace(/[A-Za-z]/g, '');
+    //     if (value === '24:00') return '00:00';
+    //     const isValidTime = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/.test(value);
+    //     return isValidTime || value === '' ? value : null; 
+    // };
+
     const handleTimeInput = (e) => {
-        const value = e.target.value;
+        // Remove any alphabetic characters from input
+        const value = e.target.value.replace(/[A-Za-z]/g, '');
+    
+        if (value === '24:00') return '00:00';
+    
         const isValidTime = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/.test(value);
         return isValidTime || value === '' ? value : null; 
     };
+    
     
 
     const handleStartTimeChange = (index, newTime) => {
@@ -94,6 +107,7 @@ const AddEvPreSaleTimeSlot = () => {
             if (!slot.startTime) {
                 errors.startTime = "Start time is required";
             }
+            console.log('endTime',slot.endTime);
             
             if (!slot.endTime) {
                 errors.endTime = "End time is required";

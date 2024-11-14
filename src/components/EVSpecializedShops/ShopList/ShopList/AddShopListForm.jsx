@@ -1,28 +1,38 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styles from './addshoplist.module.css';
 import { MultiSelect } from "react-multi-select-component";
-import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from 'react-router-dom';
 import Select from 'react-select';
 import { AiOutlineClose } from 'react-icons/ai';
 import UploadIcon from "../../../../assets/images/uploadicon.svg";
+import { postRequestWithTokenAndFile, postRequestWithToken } from '../../../../api/Requests';
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const AddShopListForm = () => {
   const navigate = useNavigate();
 
   // State variables
+  const userDetails = JSON.parse(sessionStorage.getItem('userDetails')); 
   const [selectedBrands, setSelectedBrands] = useState([]);
   const [selectedServices, setSelectedServices] = useState([]);
   const [isAlwaysOpen, setIsAlwaysOpen] = useState(false);
   const [mapLocation, setMapLocation] = useState("");
   const [embedUrl, setEmbedUrl] = useState("");
   const [selectedLocation, setSelectedLocation] = useState(null);
-  const locationOptions = [
-    { value: 'delhi', label: 'Delhi' },
-    { value: 'mumbai', label: 'Mumbai' },
-    { value: 'bangalore', label: 'Bangalore' },
-    { value: 'chennai', label: 'Chennai' },
-  ];
+  const [locationOptions, setLocationOptions] = useState([])
+  const [brandOptions, setBrandOptions] = useState([])
+  const [serviceOptions, setServiceOptions]           = useState([])
+  const [location, setLocation]         = useState([])
+  const [services, setServices]         = useState([])
+  const [brands, setBrands]         = useState([])
+
+  // const locationOptions = [
+  //   { value: 'delhi', label: 'Delhi' },
+  //   { value: 'mumbai', label: 'Mumbai' },
+  //   { value: 'bangalore', label: 'Bangalore' },
+  //   { value: 'chennai', label: 'Chennai' },
+  // ];
   const handleLocationChange = (selectedOption) => {
     setSelectedLocation(selectedOption);
   };
@@ -62,18 +72,16 @@ const AddShopListForm = () => {
   const brandDropdownRef = useRef(null);
   const serviceDropdownRef = useRef(null);
 
-  // Brand and service options
-  const brandOptions = [
-    { label: "BMW", value: "BMW" },
-    { label: "Honda City", value: "Honda City" },
-    { label: "Range Rover", value: "Range Rover" }
-  ];
+  const handleLocation = (selectedOption) => {
+    setLocation(selectedOption)
+}
+  const handleBrand = (selectedOption) => {
+    setBrands(selectedOption)
+}
 
-  const serviceOptions = [
-    { label: "Delivery", value: "delivery" },
-    { label: "Home Service", value: "home_service" },
-    { label: "Online Payment", value: "online_payment" }
-  ];
+const handleService = (selectedOption) => {
+  setServices(selectedOption)
+}
 
   // Event Handlers
   const handleAlwaysOpenChange = () => {
@@ -117,6 +125,50 @@ const AddShopListForm = () => {
     toast.success("Shop details submitted successfully!");
   };
 
+  const fetchDetails = () => {
+    const obj = {
+        userId: userDetails?.user_id,
+        email: userDetails?.email,
+        shop_id : ''
+    };
+
+    postRequestWithToken('shop-data', obj, (response) => {
+        if (response.code === 200) {
+            const locations = response.location[0];
+            const formattedLocations = locations.map(loc => ({
+                value: loc.location_name,
+                label: loc.location_name
+            }));
+            setLocationOptions(formattedLocations);
+
+            const services = response.services || [];
+            const formattedServices = services.map(item => ({
+                value: item,
+                label: item
+            }));
+            setBrandOptions(formattedServices);
+            
+            const brands = response.brands || []; 
+            const formattedBrands = brands.map(brand => ({
+                value: brand,
+                label: brand
+            }));
+            setServiceOptions(formattedBrands);
+            
+        } else {
+            console.log('error in shop-data API', response);
+        }
+    });
+};
+
+useEffect(() => {
+    if (!userDetails || !userDetails.access_token) {
+        navigate('/login');
+        return;
+    }
+    fetchDetails();
+}, []);
+
   return (
     <div className={styles.addShopContainer}>
       <div className={styles.addHeading}>Add Shop</div>
@@ -138,8 +190,8 @@ const AddShopListForm = () => {
               <label htmlFor="availableBrands" className={styles.addShopLabel}>Available Brands</label>
               <MultiSelect
                 options={brandOptions}
-                value={selectedBrands}
-                onChange={setSelectedBrands}
+                value={brands}
+                onChange={handleBrand}
                 labelledBy="Select Brands"
                 className={styles.addShopSelect}
               />
@@ -148,8 +200,8 @@ const AddShopListForm = () => {
               <label htmlFor="services" className={styles.addShopLabel}>Services</label>
               <MultiSelect
                 options={serviceOptions}
-                value={selectedServices}
-                onChange={setSelectedServices}
+                value={services}
+                onChange={handleService}
                 labelledBy="Select Services"
                 className={styles.addShopSelect}
               />
@@ -160,8 +212,8 @@ const AddShopListForm = () => {
               <label htmlFor="shopName" className={styles.addShopLabel}>Location</label>
               <Select
                 options={locationOptions}
-                value={selectedLocation}
-                onChange={handleLocationChange}
+                value={location}
+                onChange={handleLocation}
                 placeholder="Select Location"
                 isClearable={true}
               />
