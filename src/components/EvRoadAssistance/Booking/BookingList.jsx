@@ -12,35 +12,29 @@ import { useNavigate } from 'react-router-dom';
 import Custommodal from '../../SharedComponent/CustomModal/CustomModal.jsx';
 
 const statusMapping = {
-    'CNF' : 'Booking Confirmed',
     'BD' : 'Booking Done',
-    'A'  : 'Assigned',
-    'ER' : 'Enroute',
-    'RL' : 'POD Reached at Location',
-    'CS' : 'Charging Started',
-    'CC' : 'Charging Completed',
-    'PU' : 'POD Picked Up',
-    'C'  : 'Cancel'
+    'CNF' : 'Confirmed',
+    'AR'  : 'At Location',
+    'PC' : 'Pickup Completed',
+    'VD' : 'Vehicle Delivered',
+    'C' : 'Cancel',
+    'RA' : 'RSA Accepted',
 };
 
 const dynamicFilters = [
-    // { label : 'Booking ID', name: 'booking_id', type: 'text' },
-    // { label : 'Name', name: 'name', type: 'text' },
-    // { label : 'Mobile', name: 'contact_no', type: 'text' },
     {
         label : 'Status', 
         name  : 'status', 
         type  : 'select', 
         options : [
             { value : '',    label : 'Select Status' },
-            { value : 'CNF', label : 'Booking Confirmed' },
-            { value : 'A',   label : 'Assigned' },
-            { value : 'ER',  label : 'Enroute' },
-            { value : 'RL',  label : 'POD Reached at Location' },
-            { value : 'CS',  label : 'Charging Started' },
-            { value : 'CC',  label : 'Charging Completed' },
-            { value : 'PU',  label : 'POD Picked Up' },
+            { value : 'BD',  label : 'Booking Done' },
+            { value : 'CNF', label : 'Confirmed' },
+            { value : 'AR',  label : 'At Location' },
+            { value : 'PC',  label : 'Pickup Completed' },
+            { value : 'VD',  label : 'Vehicle Delivered' },
             { value : 'C',   label : 'Cancel' },
+            { value : 'RA',  label : 'RSA Accepted' },
         ]
     },
 ];

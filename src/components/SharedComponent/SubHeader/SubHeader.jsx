@@ -11,7 +11,6 @@ const SubHeader = ({ heading, fetchFilteredData, dynamicFilters, filterValues, a
     const [isSearchAccordionOpen, setIsSearchAccordionOpen] = useState(false);
     const [isFilterAccordionOpen, setIsFilterAccordionOpen] = useState(false);
 
-
     const toggleSearchAccordion = () => {
         setIsSearchAccordionOpen(!isSearchAccordionOpen);
         setIsFilterAccordionOpen(false); 
@@ -26,15 +25,24 @@ const SubHeader = ({ heading, fetchFilteredData, dynamicFilters, filterValues, a
         !["App Signup List", "Portable Charger Booking List", "Pick & Drop Booking List", "Portable Charger Invoice List",
           "Pick & Drop Invoice List", "Charger Installation List", "Ev Road Assitance Booking List", 
           "Road Assistance Invoice List", "Board List", "Insurance List", "Buy Sell List", "Interest List",
-          "Subscription List", "EV Pre-Sale Testing Booking List"].includes(heading);
+          "Subscription List", "EV Pre-Sale Testing Booking List", "Ev Road Assistance Invoice List", "Ev Discussion Board List",
+          "Ev Insurance List", "Ev Buy Sell List", "Register Interest List"].includes(heading);
 
     const shouldShowFilterButton = 
         heading !== "Portable Charger List" && 
         heading !== "Portable Charger Invoice List" && 
         heading !== "Pick & Drop Invoice List" &&
         heading !== "Road Assistance Invoice List" &&
-        // heading !== "Pick & Drop Time Slot List" &&
-        heading !== "Charger Installation List";
+        heading !== "Ev Road Assistance Invoice List" &&
+        heading !== "Charger Installation List" &&
+        heading !== "Ev Rider Clubs List" && 
+        heading !== "Ev Discussion Board List" &&
+        heading !== "Ev Insurance List" && 
+        heading !== "Ev Specialized Shop List" && 
+        heading !== "Ev Specialized Shop Service List" && 
+        heading !== "Ev Specialized Shop Brand List" && 
+        heading !== "Ev Buy Sell List" && 
+        heading !== "Register Interest List"
 
     return (
         <div className={styles.subHeaderContainer}>
@@ -85,7 +93,6 @@ const SubHeader = ({ heading, fetchFilteredData, dynamicFilters, filterValues, a
                 />
             )}
 
-            {/* Render AccordionFilter when isFilterAccordionOpen is true */}
             {isFilterAccordionOpen && (
                 <AccordionFilter 
                     type={heading}

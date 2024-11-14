@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 const dynamicFilters = [
-    { label: 'Shop Name', name: 'search', type: 'text' },
+    // { label: 'Shop Name', name: 'search', type: 'text' },
 ]
 
 const addButtonProps = {
@@ -24,6 +24,13 @@ const ShopList = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [filters, setFilters] = useState({});
+    const searchTerm = [
+        {
+            label: 'search', 
+            name: 'search_text', 
+            type: 'text'
+        }
+    ]
 
     const fetchList = (page, appliedFilters = {}) => {
         const obj = {
@@ -67,6 +74,7 @@ const ShopList = () => {
                 fetchFilteredData={fetchFilteredData}
                 dynamicFilters={dynamicFilters} filterValues={filters}
                 addButtonProps={addButtonProps}
+                searchTerm = {searchTerm}
             />
             {shopList?.length === 0 ? (
                 <div className='errorContainer'>No data available</div>

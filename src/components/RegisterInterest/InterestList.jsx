@@ -25,6 +25,13 @@ const InterestList = () => {
     const [totalPages, setTotalPages] = useState(1);
     const [filters, setFilters] = useState({});
     const [refresh, setRefresh] = useState(false)
+    const searchTerm = [
+        {
+            label: 'search', 
+            name: 'search_text', 
+            type: 'text'
+        }
+    ]
 
     const fetchList = (page, appliedFilters = {}) => {
         const obj = {
@@ -92,19 +99,20 @@ const InterestList = () => {
                 fetchFilteredData={fetchFilteredData}
                 dynamicFilters={dynamicFilters} filterValues={filters}
                 addButtonProps={addButtonProps}
+                searchTerm = {searchTerm}
             />
             {clubList?.length === 0 ? (
                  <div className='errorContainer'>No data available</div>
             ) : (
                 <List
-                    tableHeaders={["Date", "Customer ID", "Customer Name", "Vehicle", "Region Specification", "Address"]}
+                    tableHeaders={["Customer ID", "Customer Name", "Vehicle", "Region Specification", "Address"]}
                     listData={clubList}
                     keyMapping={[
-                        {
-                            key: 'created_at',
-                            label: 'Date',
-                            format: (date) => moment(date).format('DD MMM YYYY')
-                        },
+                        // {
+                        //     key: 'created_at',
+                        //     label: 'Date',
+                        //     format: (date) => moment(date).format('DD MMM YYYY')
+                        // },
                         { key: 'user_id', label: 'Customer ID' },
                         { key: 'name', label: 'Customer Name' },
                         { key: 'vehicle', label: 'Vehicle' },

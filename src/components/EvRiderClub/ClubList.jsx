@@ -18,13 +18,20 @@ const addButtonProps = {
 };
 
 const ClubList = () => {
-    const userDetails = JSON.parse(sessionStorage.getItem('userDetails')); 
-    const navigate = useNavigate()
-    const [clubList, setClubList] = useState([])
+    const userDetails                   = JSON.parse(sessionStorage.getItem('userDetails')); 
+    const navigate                      = useNavigate()
+    const [clubList, setClubList]       = useState([])
     const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(1);
-    const [filters, setFilters] = useState({});
-    const [refresh, setRefresh]           = useState(false)
+    const [totalPages, setTotalPages]   = useState(1);
+    const [filters, setFilters]         = useState({});
+    const [refresh, setRefresh]         = useState(false)
+    const searchTerm = [
+        {
+            label: 'search', 
+            name: 'search_text', 
+            type: 'text'
+        }
+    ]
 
     const fetchList = (page, appliedFilters = {}) => {
         const obj = {
@@ -91,6 +98,7 @@ const ClubList = () => {
          fetchFilteredData={fetchFilteredData} 
          dynamicFilters={dynamicFilters} filterValues={filters}
          addButtonProps={addButtonProps}
+         searchTerm = {searchTerm}
          />
           
         {clubList?.length === 0 ? (

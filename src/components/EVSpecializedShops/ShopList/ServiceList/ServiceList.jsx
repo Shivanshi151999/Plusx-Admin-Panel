@@ -9,7 +9,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from 'react-router-dom';
 
 const dynamicFilters = [
-    { label: 'Service Name', name: 'search', type: 'text' },
+    // { label: 'Service Name', name: 'search', type: 'text' },
 ]
 
 const addButtonProps = {
@@ -24,6 +24,13 @@ const ServiceList = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [filters, setFilters] = useState({});
+    const searchTerm = [
+        {
+            label: 'search', 
+            name: 'search_text', 
+            type: 'text'
+        }
+    ]
 
     const fetchList = (page, appliedFilters = {}) => {
         const obj = {
@@ -67,6 +74,7 @@ const ServiceList = () => {
          fetchFilteredData={fetchFilteredData} 
          dynamicFilters={dynamicFilters} filterValues={filters}
          addButtonProps={addButtonProps}
+         searchTerm = {searchTerm}
          />
            {serviceList?.length === 0 ? (
                 <div className='errorContainer'>No data available</div>

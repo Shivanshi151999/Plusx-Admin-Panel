@@ -25,6 +25,13 @@ const BuySellList = () => {
     const [totalPages, setTotalPages] = useState(1);
     const [filters, setFilters] = useState({});
     const [refresh, setRefresh]           = useState(false)
+    const searchTerm = [
+        {
+            label: 'search', 
+            name: 'search_text', 
+            type: 'text'
+        }
+    ]
 
     const fetchList = (page, appliedFilters = {}) => {
         const obj = {
@@ -92,6 +99,7 @@ const BuySellList = () => {
          fetchFilteredData={fetchFilteredData} 
          dynamicFilters={dynamicFilters} filterValues={filters}
          addButtonProps={addButtonProps}
+         searchTerm = {searchTerm}
          />
         {clubList?.length === 0 ? (
                 <div className='errorContainer'>No data available</div>

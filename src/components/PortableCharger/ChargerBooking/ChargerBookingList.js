@@ -23,9 +23,6 @@ const statusMapping = {
 };
 
 const dynamicFilters = [
-    // { label : 'Booking ID', name: 'booking_id', type: 'text' },
-    // { label : 'Name', name: 'name', type: 'text' },
-    // { label : 'Mobile', name: 'contact_no', type: 'text' },
     {
         label : 'Status', 
         name  : 'status', 
