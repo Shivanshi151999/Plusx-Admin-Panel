@@ -19,7 +19,8 @@ const BookingDetailsHeader = ({ content, titles, sectionContent, type }) => {
                     </div>
                 </div>
                 
-                {type !== 'publicChargingStation' && type !== 'evGuide' && type !== 'electricCarLeasing' && type !== 'electricBikeLeasing'  && type !== 'buySell' &&(
+                {type !== 'publicChargingStation' && type !== 'evGuide' && type !== 'electricCarLeasing'
+                 && type !== 'electricBikeLeasing'  && type !== 'buySell' && type !== 'shop' &&(
                 <div className="col-xl-3 col-lg-6 col-12">
                     <div className={styles.detailsHeaderSection}>
                     <div className={styles.detailsImageSection}></div>
@@ -118,7 +119,7 @@ const BookingDetailsHeader = ({ content, titles, sectionContent, type }) => {
                 </div>
                 )}
 
-{type === 'buySell' && (
+                {type === 'buySell' && (
                 <div className="col-xl-3 col-lg-6 col-12">
                     <div className={styles.detailsHeaderSection}>
                     <div className={styles.detailsImageSection}>
@@ -129,6 +130,23 @@ const BookingDetailsHeader = ({ content, titles, sectionContent, type }) => {
                         <span className={styles.infoHeadText}>{content.vehicleId}</span>
                         <span className={styles.infoText}>{content.vehicleModel}</span>
                         {/* <span className={styles.infoText}>Status: {content.status}</span> */}
+                    </div>
+                    </div>
+                </div>
+                )}
+
+                {type === 'shop' && (
+                <div className="col-xl-3 col-lg-6 col-12">
+                    <div className={styles.detailsHeaderSection}>
+                    <div className={styles.detailsImageSection}>
+                        {/* <img src={Email} alt="Email" /> */}
+                    </div>
+                    <div className={styles.infoBlock}>
+                        <span className={styles.infoHeading}>{titles.shopDetailsTitle}</span>
+                        <span className={styles.infoHeadText}>Shop Name: {content.shopName}</span>
+                        <span className={styles.infoHeadText}>Contact No: {content.contact || 'N/A'}</span>
+                        {/* <span className={styles.infoText}>Charger Type: {content.chargerType}</span>
+                        <span className={styles.infoText}>Charging For: {content.chargingFor}</span> */}
                     </div>
                     </div>
                 </div>

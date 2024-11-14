@@ -85,6 +85,7 @@ import EvPreSaleBookingDetails from "../components/EvPreSale/Booking/BookingDeta
 import EvPreSaleSlotList from "../components/EvPreSale/TimeSlot/SlotList.jsx";
 import AddEvPreSaleTimeSlot from "../components/EvPreSale/TimeSlot/AddTimeSlot.jsx";
 import EditEvPreSaleTimeSlot from "../components/EvPreSale/TimeSlot/EditTimeSlot.jsx";
+import ShopDetails from "../components/EVSpecializedShops/ShopList/ShopList/ShopDetails.jsx";
 
 const router = createBrowserRouter([
   {
@@ -368,6 +369,10 @@ const router = createBrowserRouter([
           {
             path: "shop-list",
             element: <ShopList />,
+          },
+          {
+            path: "shop-details/:shopId",
+            element: <ShopDetails />,
           },
           {
             path: "add-shop",
