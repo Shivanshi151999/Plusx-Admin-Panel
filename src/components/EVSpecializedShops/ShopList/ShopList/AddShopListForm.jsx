@@ -1,9 +1,5 @@
-<<<<<<< Updated upstream
 import React, { useState, useRef, useEffect } from "react";
-=======
-import React, { useState, useRef } from "react";
 import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
->>>>>>> Stashed changes
 import styles from './addshoplist.module.css';
 import { MultiSelect } from "react-multi-select-component";
 import { useNavigate } from 'react-router-dom';
@@ -23,33 +19,16 @@ const AddShopListForm = () => {
   const [selectedServices, setSelectedServices] = useState([]);
   const [isAlwaysOpen, setIsAlwaysOpen] = useState(false);
   const [selectedLocation, setSelectedLocation] = useState(null);
-<<<<<<< Updated upstream
   const [locationOptions, setLocationOptions] = useState([])
   const [brandOptions, setBrandOptions] = useState([])
   const [serviceOptions, setServiceOptions]           = useState([])
   const [location, setLocation]         = useState([])
   const [services, setServices]         = useState([])
   const [brands, setBrands]         = useState([])
-
-  // const locationOptions = [
-  //   { value: 'delhi', label: 'Delhi' },
-  //   { value: 'mumbai', label: 'Mumbai' },
-  //   { value: 'bangalore', label: 'Bangalore' },
-  //   { value: 'chennai', label: 'Chennai' },
-  // ];
-=======
   const [mapLocation, setMapLocation] = useState("");
   const [showMap, setShowMap] = useState(false);
   const [center, setCenter] = useState({ lat: 20.5937, lng: 78.9629 }); // Default to India coordinates
   const [loading, setLoading] = useState(false);
-
-  const locationOptions = [
-    { value: 'delhi', label: 'Delhi' },
-    { value: 'mumbai', label: 'Mumbai' },
-    { value: 'bangalore', label: 'Bangalore' },
-    { value: 'chennai', label: 'Chennai' },
-  ];
->>>>>>> Stashed changes
   const handleLocationChange = (selectedOption) => {
     setSelectedLocation(selectedOption);
   };
