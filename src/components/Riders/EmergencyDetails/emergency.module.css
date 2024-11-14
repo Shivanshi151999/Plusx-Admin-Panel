@@ -11,7 +11,6 @@
 .infoCard{
     padding: 20px;
     background-color: #242424;
-    color: white;
     font-family: "Inter", sans-serif !important;
   }
   .detailsHeaderSection{
@@ -21,7 +20,16 @@
     border: 2px solid #00ffc3;
     padding: 18px 16px;
     border-radius: 14px;
+    color: white;
   }
+  .detailsHeaderSection:hover{
+   background-color: #00ffc3;
+   color: #000000;
+   cursor: pointer;
+  }
+  .detailsHeaderSection:hover .detailsImageSection img{
+    filter: brightness(0) saturate(100%);
+   }
   .detailsImageSection img{
     width: 40px;
     height: auto;
@@ -43,11 +51,9 @@
     overflow: hidden;
     font-size: 15px;
     line-height: 16px;
-    color: #ffffff; 
   }
   .infoHeading{
     font-size: 12px;
-    color: #ffffff;
   }
   /* end the details header section */
   /* start the details section */

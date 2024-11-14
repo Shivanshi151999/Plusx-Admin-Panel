@@ -16,3 +16,6 @@
 .riderClubSection::-webkit-scrollbar{
     display: none;
 }
+.ChargerDetailsSection{
+    padding: 20px;
+}

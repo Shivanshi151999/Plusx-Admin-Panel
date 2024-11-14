@@ -42,7 +42,11 @@ const SubHeader = ({ heading, fetchFilteredData, dynamicFilters, filterValues, a
         heading !== "Ev Specialized Shop Service List" && 
         heading !== "Ev Specialized Shop Brand List" && 
         heading !== "Ev Buy Sell List" && 
+        heading !== "Offer List" && 
         heading !== "Register Interest List"
+
+        const shouldShowSearchButton = 
+        heading !== "Portable Charger List" 
 
     return (
         <div className={styles.subHeaderContainer}>
@@ -62,12 +66,14 @@ const SubHeader = ({ heading, fetchFilteredData, dynamicFilters, filterValues, a
                     )}
                     
                     {/* Search Button */}
+                    {shouldShowFilterButton && (
                     <div className={styles.addButtonSection} onClick={toggleSearchAccordion}>
                         <div className={styles.addButtonImg}>
                             <img src={Search} alt='Search' />
                         </div>
                         <div className={styles.addButtonText}>Search</div>
                     </div>
+                     )}
 
                     {/* Filter Button */}
                     {shouldShowFilterButton && (

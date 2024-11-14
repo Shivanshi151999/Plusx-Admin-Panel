@@ -95,7 +95,7 @@ const BuySellList = () => {
     return (
         <div className='main-container'>
             <ToastContainer />
-         <SubHeader heading = "Ev Buy Sell List"
+         <SubHeader heading = "Ev Buy & Sell List"
          fetchFilteredData={fetchFilteredData} 
          dynamicFilters={dynamicFilters} filterValues={filters}
          addButtonProps={addButtonProps}
