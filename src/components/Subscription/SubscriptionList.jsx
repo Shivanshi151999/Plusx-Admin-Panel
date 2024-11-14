@@ -119,8 +119,13 @@ const SubscriptionList = () => {
                         //     format: (date) => moment(date).format('DD MMM YYYY') 
                         // },
                         { key: 'subscription_id', label: 'Subscription ID' }, 
-                        { key: 'riderDetails', label: 'Customer Name' }, 
-                        { key: 'amount', label: 'Amount' }, 
+                        { key: 'rider_name', label: 'Customer Name' }, 
+                        // { key: 'amount', label: 'Amount' }, 
+                        { 
+                            key: 'amount', 
+                            label: 'Amount', 
+                            format: (amount) => (amount ? `AED ${amount}` : '') 
+                        },
                         { key: 'booking_limit', label: 'Booking Limit' }, 
                         { key: 'remaining_booking', label: 'Booking Remaining' }, 
                         { key: 'expiry_date', label: 'Expiry Date' }, 

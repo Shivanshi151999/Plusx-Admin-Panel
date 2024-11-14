@@ -123,7 +123,11 @@ const BuySellList = () => {
                         { key: 'vehicle_data', label: 'Vehicle' }, 
                         { key: 'body_type', label: 'Body Type' }, 
                         { key: 'engine_capacity', label: 'Capacity' }, 
-                        { key: 'price', label: 'Price' }, 
+                        { 
+                            key: 'price', 
+                            label: 'Price', 
+                            format: (amount) => (amount ? `AED ${amount}` : '') 
+                        },
                         { key: 'region', label: 'Region' }, 
                     ]}
                     pageHeading="Buy Sell List"
