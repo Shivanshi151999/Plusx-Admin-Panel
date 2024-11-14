@@ -24,7 +24,6 @@ const SubscriptionList = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [filters, setFilters] = useState({});
-<<<<<<< Updated upstream
     const [refresh, setRefresh]           = useState(false)
     const searchTerm = [
         {
@@ -33,9 +32,6 @@ const SubscriptionList = () => {
             type: 'text'
         }
     ]
-=======
-    const [refresh, setRefresh] = useState(false)
->>>>>>> Stashed changes
 
     const fetchList = (page, appliedFilters = {}) => {
         const obj = {
@@ -104,7 +100,6 @@ const SubscriptionList = () => {
     return (
         <div className='main-container'>
             <ToastContainer />
-<<<<<<< Updated upstream
          <SubHeader heading = "Subscription List"
             fetchFilteredData={fetchFilteredData} 
             dynamicFilters={dynamicFilters} filterValues={filters}
@@ -112,14 +107,6 @@ const SubscriptionList = () => {
             searchTerm = {searchTerm}
          /> 
         {clubList?.length === 0 ? (
-=======
-            <SubHeader heading="Subscription List"
-                fetchFilteredData={fetchFilteredData}
-                dynamicFilters={dynamicFilters} filterValues={filters}
-                addButtonProps={addButtonProps}
-            />
-            {clubList?.length === 0 ? (
->>>>>>> Stashed changes
                 <div className='errorContainer'>No data available</div>
             ) : (
                 <List
@@ -131,7 +118,6 @@ const SubscriptionList = () => {
                         //     label: 'Date', 
                         //     format: (date) => moment(date).format('DD MMM YYYY') 
                         // },
-<<<<<<< Updated upstream
                         { key: 'subscription_id', label: 'Subscription ID' }, 
                         { key: 'rider_name', label: 'Customer Name' }, 
                         // { key: 'amount', label: 'Amount' }, 
@@ -143,14 +129,6 @@ const SubscriptionList = () => {
                         { key: 'booking_limit', label: 'Booking Limit' }, 
                         { key: 'remaining_booking', label: 'Booking Remaining' }, 
                         { key: 'expiry_date', label: 'Expiry Date' }, 
-=======
-                        { key: 'subscription_id', label: 'Subscription ID' },
-                        { key: 'riderDetails', label: 'Customer Name' },
-                        { key: 'amount', label: 'Amount' },
-                        { key: 'booking_limit', label: 'Booking Limit' },
-                        { key: 'remaining_booking', label: 'Booking Remaining' },
-                        { key: 'expiry_date', label: 'Expiry Date' },
->>>>>>> Stashed changes
                     ]}
                     pageHeading="Subscription List"
                     onDeleteSlot={handleDeleteSlot}
