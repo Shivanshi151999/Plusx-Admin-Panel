@@ -4,28 +4,26 @@ import style from "../sidenavbar.module.css";
 
 function SidebarDropdownItem({ item, checkedItems, handleItemClick }) {
   return (
-    <li
+    <NavLink
       key={item.id}
+      to={item.path}
       className={`${
         checkedItems[item.id] ? style.activeItem : style.inactiveItem
       }`}
       onClick={(e) => handleItemClick(item.id, e)}
     >
-      <input
-        className={style.checkboxInput}
-        type="checkbox"
-        id={item.id}
-        checked={checkedItems[item.id]}
-        onChange={(e) => handleItemClick(item.id, e)}
-      />
-      <label htmlFor={item.id} className={style.checkmark}></label>
-      <NavLink
-        to={item.path}
-        className={({ isActive }) => (isActive ? style.activeText : "")}
-      >
+      <li>
+        <input
+          className={style.checkboxInput}
+          type="checkbox"
+          id={item.id}
+          checked={checkedItems[item.id]}
+          onChange={(e) => handleItemClick(item.id, e)}
+        />
+        <label htmlFor={item.id} className={style.checkmark}></label>
         {item.label}
-      </NavLink>
-    </li>
+      </li>
+    </NavLink>
   );
 }
 

@@ -1,219 +1,77 @@
 import React, { useEffect, useState } from "react";
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 
 import styles from "./sidenavbar.module.css";
 import CompanyLogo from "../CompanyLogo";
 import SideBarLinkItem from "./SideBarLinkItem";
 import SidebarDropdown from "./SidebarDropdown/SidebarDropdown";
-import {
-  portableChargerMenuItems,
-  pickAndDropMenuItems,
-  evRoadAssistanceMenuItems,
-  evPreSalesTestingMenuItems,
-  evSpecializedShopsMenuItems,
-} from "./DropdownMenu";
+import { menuItems } from "./DropdownMenu";
 
 const SideNavbar = () => {
   const [openDropdown, setOpenDropdown] = useState(null);
-  const [portableChargerCheckedItems, setPortableChargerCheckedItems] =
-    useState({
+  const [checkedItems, setCheckedItems] = useState({
+    portableCharger: {
       chargerList: false,
       chargerBooking: false,
       invoiceList: false,
       timeSlot: false,
-    });
-  const [pickAndDropCheckedItems, setpickAndDropCheckedItems] = useState({
-    bookingList: false,
-    invoiceList: false,
-    timeSlot: false,
-  });
-  const [evSpecializedShopsCheckedItems, setEVSpecializedShopsCheckedItems] =
-    useState({
+    },
+    pickAndDrop: { bookingList: false, invoiceList: false, timeSlot: false },
+    evRoadAssistance: { bookingList: false, invoiceList: false },
+    evPreSalesTesting: { testingBooking: false, timeSlot: false },
+    evSpecializedShops: {
       shopList: false,
       shopServices: false,
       shopBrands: false,
-    });
-  const [evRoadAssistanceCheckedItems, setEVRoadAssistanceCheckedItems] =
-    useState({
-      bookingList: false,
-      invoiceList: false,
-    });
-  const [evPreSalesTestingCheckedItems, setEVPreSalesTestingCheckedItems] =
-    useState({
-      testingBooking: false,
-      timeSlot: false,
-    });
+    },
+  });
 
-  const navigate = useNavigate();
   const location = useLocation();
 
+  const handleItemClicked = (menu, id, e) => {
+    e.stopPropagation();
+
+    setCheckedItems((prevState) => ({
+      ...prevState,
+      [menu]: {
+        ...prevState[menu],
+        [id]: true,
+        ...Object.fromEntries(
+          Object.keys(prevState[menu]).map((key) =>
+            key !== id ? [key, false] : [key, true]
+          )
+        ),
+      },
+    }));
+  };
+
   useEffect(() => {
-    if (!location.pathname.includes("/portable-charger")) {
-      setPortableChargerCheckedItems({
-        chargerList: false,
-        chargerBooking: false,
-        invoiceList: false,
-        timeSlot: false,
-      });
-    }
-    if (!location.pathname.includes("/pick-and-drop")) {
-      setpickAndDropCheckedItems({
-        bookingList: false,
-        invoiceList: false,
-        timeSlot: false,
-      });
-    }
-    if (!location.pathname.includes("/ev-specialized")) {
-      setEVSpecializedShopsCheckedItems({
-        shopList: false,
-        shopServices: false,
-        shopBrands: false,
-      });
-    }
-    if (!location.pathname.includes("/ev-road-assistance")) {
-      setEVRoadAssistanceCheckedItems({
-        bookingList: false,
-        invoiceList: false,
-      });
-    }
-    if (!location.pathname.includes("/ev-pre-sales-testing")) {
-      setEVPreSalesTestingCheckedItems({
-        testingBooking: false,
-        timeSlot: false,
-      });
-    }
+    setCheckedItems((prevState) => ({
+      portableCharger: location.pathname.includes("/portable-charger")
+        ? prevState.portableCharger
+        : {
+            chargerList: false,
+            chargerBooking: false,
+            invoiceList: false,
+            timeSlot: false,
+          },
+      pickAndDrop: location.pathname.includes("/pick-and-drop")
+        ? prevState.pickAndDrop
+        : { bookingList: false, invoiceList: false, timeSlot: false },
+      evRoadAssistance: location.pathname.includes("/ev-road-assistance")
+        ? prevState.evRoadAssistance
+        : { bookingList: false, invoiceList: false },
+      evPreSalesTesting: location.pathname.includes("/ev-pre-sales-testing")
+        ? prevState.evPreSalesTesting
+        : { testingBooking: false, timeSlot: false },
+      evSpecializedShops: location.pathname.includes("/ev-specialized")
+        ? prevState.evSpecializedShops
+        : { shopList: false, shopServices: false, shopBrands: false },
+    }));
   }, [location]);
 
   const toggleDropdown = (menu) => {
     setOpenDropdown(openDropdown === menu ? null : menu);
-  };
-
-  const handlePortableChargerItemClicked = (id, e) => {
-    e.stopPropagation();
-
-    setPortableChargerCheckedItems((prevState) => {
-      const newState = {
-        chargerList: false,
-        chargerBooking: false,
-        invoiceList: false,
-        timeSlot: false,
-        [id]: true,
-      };
-
-      return newState;
-    });
-
-    const pathMapping = {
-      chargerList: "/portable-charger/charger-list",
-      chargerBooking: "/portable-charger/charger-booking-list",
-      invoiceList: "/portable-charger/charger-booking-invoice-list",
-      timeSlot: "/portable-charger/charger-booking-time-slot-list",
-    };
-
-    const path = pathMapping[id];
-    if (path) {
-      navigate(path);
-    }
-  };
-
-  const handlePickAndDropItemClicked = (id, e) => {
-    e.stopPropagation();
-
-    setpickAndDropCheckedItems((prevState) => {
-      const newState = {
-        bookingList: false,
-        invoiceList: false,
-        timeSlot: false,
-        [id]: true,
-      };
-
-      return newState;
-    });
-
-    const pathMapping = {
-      bookingList: "/pick-and-drop/booking-list",
-      invoiceList: "/pick-and-drop/invoice-list",
-      timeSlot: "/pick-and-drop/time-slot-list",
-    };
-
-    const path = pathMapping[id];
-    if (path) {
-      navigate(path);
-    }
-  };
-
-  const handleEvSpecializedShopsItemClicked = (id, e) => {
-    e.stopPropagation();
-
-    setEVSpecializedShopsCheckedItems((prevState) => {
-      const newState = {
-        shopList: false,
-        shopServices: false,
-        shopBrands: false,
-        [id]: true,
-      };
-
-      return newState;
-    });
-
-    const pathMapping = {
-      shopList: "/ev-specialized/shop-list",
-      shopServices: "/ev-specialized/service-list",
-      shopBrands: "/ev-specialized/brand-list",
-    };
-
-    const path = pathMapping[id];
-    if (path) {
-      navigate(path);
-    }
-  };
-
-  const handleEvRoadAssistanceItemClicked = (id, e) => {
-    e.stopPropagation();
-
-    setEVRoadAssistanceCheckedItems((prevState) => {
-      const newState = {
-        bookingList: false,
-        invoiceList: false,
-        [id]: true,
-      };
-
-      return newState;
-    });
-
-    const pathMapping = {
-      bookingList: "/ev-road-assistance/booking-list",
-      invoiceList: "/ev-road-assistance/invoice-list",
-    };
-
-    const path = pathMapping[id];
-    if (path) {
-      navigate(path);
-    }
-  };
-
-  const handleEvPreSalesTestingItemClicked = (id, e) => {
-    e.stopPropagation();
-
-    setEVPreSalesTestingCheckedItems((prevState) => {
-      const newState = {
-        testingBooking: false,
-        timeSlot: false,
-        [id]: true,
-      };
-
-      return newState;
-    });
-
-    const pathMapping = {
-      testingBooking: "/ev-pre-sales-testing/pre-sales-list",
-      timeSlot: "/ev-pre-sales-testing/time-slot-list",
-    };
-
-    const path = pathMapping[id];
-    if (path) {
-      navigate(path);
-    }
   };
 
   return (
@@ -229,19 +87,21 @@ const SideNavbar = () => {
         <SideBarLinkItem label="Drivers" path="/rider-list" />
         <SidebarDropdown
           menuName="Portable Charger"
-          menuItems={portableChargerMenuItems}
+          menuItems={menuItems.portableCharger}
           openDropdown={openDropdown}
-          handleItemClick={handlePortableChargerItemClicked}
+          handleItemClick={(id, e) =>
+            handleItemClicked("portableCharger", id, e)
+          }
           toggleDropdown={toggleDropdown}
-          checkedItems={portableChargerCheckedItems}
+          checkedItems={checkedItems.portableCharger}
         />
         <SidebarDropdown
           menuName="Pick & Drop"
-          menuItems={pickAndDropMenuItems}
+          menuItems={menuItems.pickAndDrop}
           openDropdown={openDropdown}
-          handleItemClick={handlePickAndDropItemClicked}
+          handleItemClick={(id, e) => handleItemClicked("pickAndDrop", id, e)}
           toggleDropdown={toggleDropdown}
-          checkedItems={pickAndDropCheckedItems}
+          checkedItems={checkedItems.pickAndDrop}
         />
         <SideBarLinkItem
           label="Public Chargers Station"
@@ -258,11 +118,13 @@ const SideNavbar = () => {
         <SideBarLinkItem label="EV Guide" path="/ev-guide-list" />
         <SidebarDropdown
           menuName="EV Road Assistance"
-          menuItems={evRoadAssistanceMenuItems}
+          menuItems={menuItems.evRoadAssistance}
           openDropdown={openDropdown}
-          handleItemClick={handleEvRoadAssistanceItemClicked}
+          handleItemClick={(id, e) =>
+            handleItemClicked("evRoadAssistance", id, e)
+          }
           toggleDropdown={toggleDropdown}
-          checkedItems={evRoadAssistanceCheckedItems}
+          checkedItems={checkedItems.evRoadAssistance}
         />
         <SideBarLinkItem
           label="Charger Installation"
@@ -276,19 +138,23 @@ const SideNavbar = () => {
         <SideBarLinkItem label="EV Insurance" path="/ev-insurance-list" />
         <SidebarDropdown
           menuName="EV Pre-Sales Testing"
-          menuItems={evPreSalesTestingMenuItems}
+          menuItems={menuItems.evPreSalesTesting}
           openDropdown={openDropdown}
-          handleItemClick={handleEvPreSalesTestingItemClicked}
+          handleItemClick={(id, e) =>
+            handleItemClicked("evPreSalesTesting", id, e)
+          }
           toggleDropdown={toggleDropdown}
-          checkedItems={evPreSalesTestingCheckedItems}
+          checkedItems={checkedItems.evPreSalesTesting}
         />
         <SidebarDropdown
           menuName="EV Specialized Shops"
-          menuItems={evSpecializedShopsMenuItems}
+          menuItems={menuItems.evSpecializedShops}
           openDropdown={openDropdown}
-          handleItemClick={handleEvSpecializedShopsItemClicked}
+          handleItemClick={(id, e) =>
+            handleItemClicked("evSpecializedShops", id, e)
+          }
           toggleDropdown={toggleDropdown}
-          checkedItems={evSpecializedShopsCheckedItems}
+          checkedItems={checkedItems.evSpecializedShops}
         />
         <SideBarLinkItem label="EV Buy & Sell" path="/ev-buy-sell" />
         <SideBarLinkItem label="Offer" path="/offer-list" />
