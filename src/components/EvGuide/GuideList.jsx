@@ -92,12 +92,8 @@ const GuideList = () => {
     };
 
     return (
-<<<<<<< Updated upstream
-        <div className='main-container'>
-=======
         <div className={styles.guideListContainer}>
             <ToastContainer />
->>>>>>> Stashed changes
          <SubHeader heading = "EV Guide List"
          fetchFilteredData={fetchFilteredData} 
          dynamicFilters={dynamicFilters} filterValues={filters}
