@@ -216,7 +216,7 @@ background-color: #242424;
 }
 
 .previewImage {
-  width: 200px;
+  width: 100%;
   height: 200px;
     object-fit: cover;
 }
@@ -252,8 +252,8 @@ background-color: #242424;
 
 .previewImage {
   top: 50%;
-  -webkit-transform: translate(0, -50%);
-  transform: translate(0, -50%);
+  -webkit-transform: translate(0, 0%);
+  transform: translate(0, 0%);
   position: relative;
   max-width: 100%;
   max-height: 100%;

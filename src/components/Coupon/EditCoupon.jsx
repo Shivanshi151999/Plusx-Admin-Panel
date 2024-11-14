@@ -143,7 +143,7 @@ const fetchDetails = () => {
     };
 
   return (
-    <div className='main-container'>
+    <div className={styles.addShopContainer}>
             <ToastContainer />
         <div className={styles.addHeading}>Edit Coupon</div>
         <div className={styles.addShopFormSection}>
