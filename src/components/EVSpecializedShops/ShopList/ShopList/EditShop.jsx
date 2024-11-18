@@ -36,8 +36,9 @@ const EditShopListForm = () => {
   const [email, setEmail] = useState()
   const [description, setDescription] = useState()
   const [area, setArea] = useState()
-  const [latitude, setLatitude] = useState()
+  const [latitude, setLatitude]   = useState()
   const [longitude, setLongitude] = useState()
+  const [addresses, setAddresses] = useState([{ address: "", location: "", area_name: "", latitude: "", longitude: "" }])
 
 
   const [loading, setLoading] = useState(false);
@@ -52,40 +53,110 @@ const EditShopListForm = () => {
     setMapLocation(e.target.value);
   };
 
+  // const handleAddClick = () => {
+  //   if (!mapLocation.trim()) {
+  //     setErrors((prev) => ({ ...prev, mapLocation: 'Address is required' }));
+  //     return;
+  //   }
+  
+  //   setLoading(true);
+  
+  //   const geocoder = new window.google.maps.Geocoder();
+  //   geocoder.geocode({ address: mapLocation }, (results, status) => {
+  //     if (status === 'OK' && results[0]) {
+  //       const lat = results[0].geometry.location.lat();
+  //       const lng = results[0].geometry.location.lng();
+  
+  //       setLatitude(lat);
+  //       setLongitude(lng);
+  //       setCenter({ lat, lng });
+  //       setShowMap(true); // Show the map
+  //       setLoading(false);
+  
+  //       console.log('Latitude:', lat);
+  //       console.log('Longitude:', lng);
+  //     } else {
+  //       setLoading(false);
+  //       setErrors((prev) => ({
+  //         ...prev,
+  //         mapLocation: 'Unable to fetch coordinates. Please try again.',
+  //       }));
+  //       console.error('Geocode error: ', status);
+  //     }
+  //   });
+  // };
+  
+  
+
   const handleAddClick = () => {
-    if (!mapLocation.trim()) {
-      setErrors((prev) => ({ ...prev, mapLocation: 'Address is required' }));
+    const lastAddress = addresses[addresses.length - 1];
+
+    // Check if all fields in the last address are filled
+    if (
+      !lastAddress.address.trim() ||
+      !lastAddress.location ||
+      !lastAddress.area_name.trim() ||
+      !lastAddress.latitude ||
+      !lastAddress.longitude
+    ) {
+      alert("Please fill out all fields in the current address before adding a new one.");
+      return;
+    }
+
+    setAddresses((prev) => [
+      ...prev,
+      { address: "", location: "", area_name: "", latitude: "", longitude: "" },
+    ]);
+  };
+
+  const handleAddressInputChange = (index, field, value) => {
+    if (field === "location") {
+      console.log("location", value);
+      
+      value = value?.label || ""; 
+    }
+    setAddresses((prev) =>
+      prev.map((addr, i) =>
+        i === index ? { ...addr, [field]: value } : addr
+      )
+    );
+  };
+  
+
+  const handleOnBlur = (index) => {
+    const currentAddress = addresses[index].address;
+  
+    if (!currentAddress.trim()) {
+      setErrors((prev) => ({ ...prev, [`mapLocation_${index}`]: 'Address is required' }));
       return;
     }
   
     setLoading(true);
   
     const geocoder = new window.google.maps.Geocoder();
-    geocoder.geocode({ address: mapLocation }, (results, status) => {
+    geocoder.geocode({ address: currentAddress }, (results, status) => {
       if (status === 'OK' && results[0]) {
         const lat = results[0].geometry.location.lat();
         const lng = results[0].geometry.location.lng();
   
-        setLatitude(lat);
-        setLongitude(lng);
-        setCenter({ lat, lng });
-        setShowMap(true); // Show the map
-        setLoading(false);
+        setAddresses((prev) =>
+          prev.map((addr, i) =>
+            i === index ? { ...addr, latitude: lat, longitude: lng } : addr
+          )
+        );
   
-        console.log('Latitude:', lat);
-        console.log('Longitude:', lng);
+        setCenter({ lat, lng });
+        setShowMap(true);
+        setLoading(false);
       } else {
         setLoading(false);
         setErrors((prev) => ({
           ...prev,
-          mapLocation: 'Unable to fetch coordinates. Please try again.',
+          [`mapLocation_${index}`]: 'Unable to fetch coordinates. Please try again.',
         }));
-        console.error('Geocode error: ', status);
       }
     });
   };
-  
-  
 
   const handleCloseClick = () => {
     setShowMap(false); // This should hide the map
@@ -182,7 +253,7 @@ const handleService = (selectedOption) => {
     const fields = [
         { name: "shopName", value: shopName, errorMessage: "Shop Name is required." },
         { name: "contactNo", value: contact, errorMessage: "Contact No is required." },
-        { name: "mapLocation", value: mapLocation, errorMessage: "Address is required." },
+        // { name: "mapLocation", value: mapLocation, errorMessage: "Address is required." },
         { name: "file", value: file, errorMessage: "Image is required." },
     ];
 
@@ -222,6 +293,18 @@ const handleService = (selectedOption) => {
                 return acc;
             }, { days: [] });
 
+            let addressArray = []
+            let areaNameArray = []
+            let locationArray = []
+            let latitudeArray = []
+            let longitudeArray = []
+
+            addressArray = addresses.map((item) => item.address);
+            areaNameArray = addresses.map((item) => item.area_name);
+            locationArray = addresses.map((item) => item.location);
+            latitudeArray = addresses.map((item) => item.latitude);
+            longitudeArray = addresses.map((item) => item.longitude);
+
             const formData = new FormData();
             formData.append("userId", userDetails?.user_id);
             formData.append("email", userDetails?.email);
@@ -231,10 +314,15 @@ const handleService = (selectedOption) => {
             formData.append("store_email", email);
             formData.append("store_website", website);
             formData.append("description", description);
-            formData.append("area", area);
-            formData.append("address", mapLocation);
-            formData.append("latitude", latitude);
-            formData.append("longitude", longitude);
+            // formData.append("area", area);
+            // formData.append("address", mapLocation);
+            // formData.append("latitude", latitude);
+            // formData.append("longitude", longitude);
+            addressArray.forEach(item => formData.append("address[]", item));
+            areaNameArray.forEach(item => formData.append("area_name[]", item));
+            locationArray.forEach(item => formData.append("location[]", item));
+            latitudeArray.forEach(item => formData.append("latitude[]", item));
+            longitudeArray.forEach(item => formData.append("longitude[]", item));
             if (brands && brands.length > 0) {
               const selectedBrandsString = brands.map(brand => brand.value).join(', ');
               formData.append("brands", selectedBrandsString);
@@ -243,9 +331,9 @@ const handleService = (selectedOption) => {
               const selectedServices = services.map(brand => brand.value).join(', ');
               formData.append("services", selectedServices);
             }
-            if (location) {
-              formData.append("location", location.value);
-          }
+          //   if (location) {
+          //     formData.append("location", location.value);
+          // }
           formData.append("always_open", formattedData.always_open || 0);
         
           if (isAlwaysOpen) {
@@ -370,6 +458,34 @@ const handleService = (selectedOption) => {
             }));
             const initialChargerType = transformedLocation.find(item => item.value === data.location) || {};
             setLocation(initialChargerType);
+
+            postRequestWithToken('shop-view', obj, (response) => {
+              if (response.code === 200) {
+                const addressData = response.address;  
+
+    
+    setAddresses(addressData.map(address => {
+      // Transform the location array to an object with label and value
+      const transformedLocation = (response?.result?.location || []).flat().map(item => ({
+        label: item.location_name,
+        value: item.location_name
+      }));
+
+      // Find the corresponding location object in transformedLocation array
+      const initialLocation = transformedLocation.find(item => item.value === address.location) || {};
+
+      return {
+        address: address.address,
+        area_name: address.area_name,
+        location: initialLocation, // Set location as the object with label and value
+        latitude: address.latitude,
+        longitude: address.longitude,
+      };
+    }));
+              } else {
+                console.log('error in shop-view API', response);
+              }
+            });
             
         } else {
             console.log('error in shop-data API', response);
@@ -462,29 +578,7 @@ useEffect(() => {
               {errors.services && <p className={styles.error} style={{ color: 'red' }}>{errors.services}</p>}
             </div>
           </div>
-          <div className={styles.row}>
-            <div className={styles.addShopInputContainer}>
-              <label htmlFor="shopName" className={styles.addShopLabel}>Location</label>
-              <Select
-                options={locationOptions}
-                value={location}
-                onChange={handleLocation}
-                placeholder="Select Location"
-                isClearable={true}
-              />
-              {errors.location && <p className={styles.error} style={{ color: 'red' }}>{errors.location}</p>}
-            </div>
-            <div className={styles.addShopInputContainer}>
-              <label htmlFor="area" className={styles.addShopLabel}>Area</label>
-              <input type="text" id="area" 
-              placeholder="Area" 
-              className={styles.inputField}
-              value={area}
-              onChange={(e) => setArea(e.target.value)}
-               />
-               {errors.area && <p className={styles.error} style={{ color: 'red' }}>{errors.area}</p>}
-            </div>
-          </div>
+         
           <div className={styles.textarea}>
             <div className={styles.mapMainContainer}>
               <div className={styles.addShopInputContainer}>
@@ -504,6 +598,20 @@ useEffect(() => {
               
             </div>
           </div>
+
+          <div>
+                <button
+                  type="button"
+                  className={styles.addButton}
+                  onClick={handleAddClick}
+                  disabled={loading}
+                >
+                  {loading ? "Loading..." : "Add"}
+                </button>
+              </div>
+
+          {addresses.map((addr, index) => (
+          <div key={index}>
           <div className={styles.textarea}>
             <div className={styles.mapMainContainer}>
               <div className={styles.addShopInputContainer}>
@@ -515,21 +623,55 @@ useEffect(() => {
                   id="mapLocation"
                   placeholder="Enter Location"
                   className={styles.inputField}
-                  value={mapLocation}
-                  onChange={handleInputChange}
+                   // value={mapLocation}
+                   value={addr.address}
+                   // onChange={handleInputChange}
+                   onChange={(e) =>
+                     handleAddressInputChange(index, "address", e.target.value)
+                   }
+                   // onBlur={handleOnBlur}
+                   onBlur={() => handleOnBlur(index)}
                 />
-                 {errors.mapLocation && <p className={styles.error} style={{ color: 'red' }}>{errors.mapLocation}</p>}
+                 {/* {errors.mapLocation && <p className={styles.error} style={{ color: 'red' }}>{errors.mapLocation}</p>} */}
+
+                 {errors[`mapLocation_${index}`] && (
+                <p className={styles.error} style={{ color: "red" }}>
+                  {errors[`mapLocation_${index}`]}
+                </p>
+              )}
               </div>
-              <div>
-                <button
-                  type="button"
-                  className={styles.addButton}
-                  onClick={handleAddClick}
-                  disabled={loading}
-                >
-                  {loading ? "Loading..." : "Add"}
-                </button>
-              </div>
+              
+            </div>
+          </div>
+          <div className={styles.row}>
+            <div className={styles.addShopInputContainer}>
+              <label htmlFor="shopName" className={styles.addShopLabel}>Location</label>
+              <Select
+                options={locationOptions}
+                // value={location}
+                value={addr.location?.value}
+                // onChange={handleLocation}
+                onChange={(selectedOption) =>
+                  handleAddressInputChange(index, "location", selectedOption)
+                }
+                placeholder="Select Location"
+                isClearable={true}
+              />
+              {errors.location && <p className={styles.error} style={{ color: 'red' }}>{errors.location}</p>}
+            </div>
+            <div className={styles.addShopInputContainer}>
+              <label htmlFor="area" className={styles.addShopLabel}>Area</label>
+              <input type="text" id="area" 
+              placeholder="Area" 
+              className={styles.inputField}
+               // value={area}
+               value={addr.area_name}
+               // onChange={(e) => setArea(e.target.value)}
+               onChange={(e) =>
+                 handleAddressInputChange(index, "area_name", e.target.value)
+               }
+               />
+               {errors.area && <p className={styles.error} style={{ color: 'red' }}>{errors.area}</p>}
             </div>
           </div>
           <div className={styles.row}>
@@ -538,8 +680,12 @@ useEffect(() => {
               <input type="text" id="latitude" 
               placeholder="Latitide" 
               className={styles.inputField} 
-              value={latitude || ''}
-              onChange={(e) => setLatitude(e.target.value)}
+               // value={latitude || ''}
+               value={addr.latitude || ""}
+               // onChange={(e) => setLatitude(e.target.value)}
+               onChange={(e) =>
+                 handleAddressInputChange(index, "latitude", e.target.value)
+               }
               />
               {errors.latitude && <p className={styles.error} style={{ color: 'red' }}>{errors.latitude}</p>}
             </div>
@@ -548,13 +694,19 @@ useEffect(() => {
               <input type="text" id="longitude" 
               placeholder="Longitude" 
               className={styles.inputField} 
-              value={longitude || ''}
-              onChange={(e) => setLongitude(e.target.value)}
+              // value={longitude || ''}
+              value={addr.longitude || ""}
+              // onChange={(e) => setLongitude(e.target.value)}
+              onChange={(e) =>
+                handleAddressInputChange(index, "longitude", e.target.value)
+              }
               />
               {errors.longitude && <p className={styles.error} style={{ color: 'red' }}>{errors.longitude}</p>}
             </div>
 
           </div>
+           </div>
+          ))}
          
           <div className={styles.mapEmbedContainer}>
             {showMap && isLoaded && (

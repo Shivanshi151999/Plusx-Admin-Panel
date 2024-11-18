@@ -31,7 +31,7 @@ const AddShopListForm = () => {
   const [contact, setContact] = useState()
   const [website, setWebsite] = useState()
   const [email, setEmail] = useState()
-  const [description, setDescription] = useState()
+  const [description, setDescription] = useState('')
   const [area, setArea] = useState()
   const [latitude, setLatitude] = useState()
   const [longitude, setLongitude] = useState()
