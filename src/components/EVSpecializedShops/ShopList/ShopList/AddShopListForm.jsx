@@ -1,8 +1,9 @@
 import React, { useState, useRef, useEffect } from "react";
-import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
+import { GoogleMap, useJsApiLoader, useLoadScript, Marker } from "@react-google-maps/api";
 import styles from './addshoplist.module.css';
 import { MultiSelect } from "react-multi-select-component";
 import { useNavigate } from 'react-router-dom';
+import { Helmet } from "react-helmet";
 import Select from 'react-select';
 import { AiOutlineClose } from 'react-icons/ai';
 import UploadIcon from "../../../../assets/images/uploadicon.svg";
@@ -27,41 +28,87 @@ const AddShopListForm = () => {
   const [brands, setBrands]         = useState([])
   const [mapLocation, setMapLocation] = useState("");
   const [showMap, setShowMap] = useState(false);
-  const [center, setCenter] = useState({ lat: 20.5937, lng: 78.9629 }); // Default to India coordinates
+  const [center, setCenter] = useState({ lat: 0, lng: 0 });
+  const [shopName, setShopName] = useState()
+  const [contact, setContact] = useState()
+  const [website, setWebsite] = useState()
+  const [email, setEmail] = useState()
+  const [description, setDescription] = useState()
+  const [area, setArea] = useState()
+  const [latitude, setLatitude] = useState()
+  const [longitude, setLongitude] = useState()
+
+
   const [loading, setLoading] = useState(false);
   const handleLocationChange = (selectedOption) => {
     setSelectedLocation(selectedOption);
   };
   const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: "", // Leave empty if you don't have an API key
+    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY
   });
 
   const handleInputChange = (e) => {
     setMapLocation(e.target.value);
   };
 
+  // const handleAddClick = () => {
+  //   if (mapLocation.trim().toLowerCase() === "india") {
+  //     setCenter({ lat: 20.5937, lng: 78.9629 }); 
+  //     setShowMap(true);
+  //   } else {
+  //     alert("Please enter 'India' to view the map.");
+  //   }
+  // };
+  const googleMapsApiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
+
   const handleAddClick = () => {
-    if (mapLocation.trim().toLowerCase() === "india") {
-      setCenter({ lat: 20.5937, lng: 78.9629 }); // Center map to India
-      setShowMap(true);
-    } else {
-      alert("Please enter 'India' to view the map.");
+    if (!mapLocation.trim()) {
+      setErrors((prev) => ({ ...prev, mapLocation: 'Address is required' }));
+      return;
     }
+  
+    setLoading(true);
+  
+    const geocoder = new window.google.maps.Geocoder();
+    geocoder.geocode({ address: mapLocation }, (results, status) => {
+      if (status === 'OK' && results[0]) {
+        const lat = results[0].geometry.location.lat();
+        const lng = results[0].geometry.location.lng();
+  
+        setLatitude(lat);
+        setLongitude(lng);
+        setCenter({ lat, lng });
+        setShowMap(true); // Show the map
+        setLoading(false);
+  
+        console.log('Latitude:', lat);
+        console.log('Longitude:', lng);
+      } else {
+        setLoading(false);
+        setErrors((prev) => ({
+          ...prev,
+          mapLocation: 'Unable to fetch coordinates. Please try again.',
+        }));
+        console.error('Geocode error: ', status);
+      }
+    });
   };
+  
+  
 
   const handleCloseClick = () => {
     setShowMap(false); // This should hide the map
   };
 
   const [timeSlots, setTimeSlots] = useState({
-    Monday: { open: "", close: "" },
-    Tuesday: { open: "", close: "" },
-    Wednesday: { open: "", close: "" },
-    Thursday: { open: "", close: "" },
-    Friday: { open: "", close: "" },
-    Saturday: { open: "", close: "" },
-    Sunday: { open: "", close: "" },
-  });
+    Monday: { open: '', close: '', openMandatory: false, closeMandatory: false },
+    Tuesday: { open: '', close: '', openMandatory: false, closeMandatory: false },
+    Wednesday: { open: '', close: '', openMandatory: false, closeMandatory: false },
+    Thursday: { open: '', close: '', openMandatory: false, closeMandatory: false },
+    Friday: { open: '', close: '', openMandatory: false, closeMandatory: false },
+    Saturday: { open: '', close: '', openMandatory: false, closeMandatory: false },
+    Sunday: { open: '', close: '', openMandatory: false, closeMandatory: false },
+});
   const [errors, setErrors] = useState({});
   const [file, setFile] = useState(null);
   const [galleryFiles, setGalleryFiles] = useState([]);
@@ -86,12 +133,35 @@ const handleService = (selectedOption) => {
     setIsAlwaysOpen(!isAlwaysOpen);
   };
 
-  const handleTimeChange = (day, type) => (e) => {
-    setTimeSlots({
-      ...timeSlots,
-      [day]: { ...timeSlots[day], [type]: e.target.value }
+  const handleTimeChange = (day, timeType) => (event) => {
+    const value = event.target.value.replace(/[^0-9:-]/g, '');
+
+    setTimeSlots((prev) => {
+        const updatedTimeSlots = {
+            ...prev,
+            [day]: {
+                ...prev[day],
+                [timeType]: value,
+            },
+        };
+
+        if (timeType === 'open') {
+            if (value) {
+                updatedTimeSlots[day].closeMandatory = true;
+            } else {
+                updatedTimeSlots[day].closeMandatory = false;
+            }
+        } else if (timeType === 'close') {
+            if (value) {
+                updatedTimeSlots[day].openMandatory = true;
+            } else if (!updatedTimeSlots[day].open) {
+                updatedTimeSlots[day].openMandatory = false;
+            }
+        }
+
+        return updatedTimeSlots;
     });
-  };
+};
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
@@ -114,13 +184,110 @@ const handleService = (selectedOption) => {
   };
 
   const handleCancel = () => {
-    navigate("/shop-list");
+    navigate("/ev-specialized/shop-list");
   };
+
+  const validateForm = () => {
+    const fields = [
+        { name: "shopName", value: shopName, errorMessage: "Shop Name is required." },
+        { name: "contactNo", value: contact, errorMessage: "Contact No is required." },
+        { name: "mapLocation", value: mapLocation, errorMessage: "Address is required." },
+        { name: "file", value: file, errorMessage: "Image is required." },
+    ];
+
+    const newErrors = fields.reduce((errors, { name, value, errorMessage, isArray }) => {
+        if ((isArray && (!value || value.length === 0)) || (!isArray && !value)) {
+            errors[name] = errorMessage;
+        }
+        return errors;
+    }, {});
+
+    // Validate time slots only if not always open
+    if (!isAlwaysOpen) {
+        Object.entries(timeSlots).forEach(([day, times]) => {
+            if (times.open && !times.close) {
+                newErrors[`${day}CloseTime`] = `${day} Close Time is required`;
+            }
+            if (times.close && !times.open) {
+                newErrors[`${day}OpenTime`] = `${day} Open Time is required`;
+            }
+        });
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+};
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Perform form validation or submit the data
-    toast.success("Shop details submitted successfully!");
+    if (validateForm()) {
+      const formattedData = isAlwaysOpen ? { always_open: 1, days: [] } 
+            : Object.entries(timeSlots).reduce((acc, [day, times]) => {
+                if (times.open && times.close) {
+                    acc.days.push(day.toLowerCase());
+                    acc[`${day.toLowerCase()}_open_time`] = times.open;
+                    acc[`${day.toLowerCase()}_close_time`] = times.close;
+                }
+                return acc;
+            }, { days: [] });
+
+            const formData = new FormData();
+            formData.append("userId", userDetails?.user_id);
+            formData.append("email", userDetails?.email);
+            formData.append("shop_name", shopName);
+            formData.append("contact_no", contact);
+            formData.append("store_email", email);
+            formData.append("store_website", website);
+            formData.append("description", description);
+            formData.append("area", area);
+            formData.append("address", mapLocation);
+            formData.append("latitude", latitude);
+            formData.append("longitude", longitude);
+            if (brands && brands.length > 0) {
+              const selectedBrandsString = brands.map(brand => brand.value).join(', ');
+              formData.append("brands", selectedBrandsString);
+            }
+            if (services && services.length > 0) {
+              const selectedServices = services.map(brand => brand.value).join(', ');
+              formData.append("services", selectedServices);
+            }
+            if (location) {
+              formData.append("location", location.value);
+          }
+          if (!isAlwaysOpen) {
+            Object.keys(formattedData).forEach(key => {
+                if (key !== 'days' && key !== 'always_open') {
+                    formData.append(key, formattedData[key]);
+                }
+            });
+        }
+    
+        if (file) {
+            formData.append("cover_image", file);
+        }
+    
+        if (galleryFiles.length > 0) {
+            galleryFiles.forEach((galleryFile) => {
+                formData.append("shop_gallery", galleryFile);
+            });
+        }
+
+        postRequestWithTokenAndFile('shop-add', formData, async (response) => {
+          if (response.status === 1) {
+              toast(response.message || response.message[0], {type:'success'})
+              setTimeout(() => {
+                  navigate('/ev-specialized/shop-list');
+              }, 1000);
+          } else {
+              toast(response.message || response.message[0], {type:'error'})
+              console.log('Error in shop-add API:', response);
+          }
+      } )
+      // toast.success("Shop details submitted successfully!");
+    } else {
+      toast.error("Validation error");
+    }
+    
   };
 
   const fetchDetails = () => {
@@ -168,6 +335,9 @@ useEffect(() => {
 }, []);
 
   return (
+    
+    <>
+    
     <div className={styles.addShopContainer}>
       <div className={styles.addHeading}>Add Shop</div>
       <div className={styles.addShopFormSection}>
@@ -175,11 +345,45 @@ useEffect(() => {
           <div className={styles.row}>
             <div className={styles.addShopInputContainer}>
               <label htmlFor="shopName" className={styles.addShopLabel}>Shop Name</label>
-              <input type="text" id="shopName" placeholder="Shop Name" className={styles.inputField} />
+              <input type="text" id="shopName" 
+              placeholder="Shop Name" 
+              className={styles.inputField} 
+              value={shopName}
+              onChange={(e) => setShopName(e.target.value)}
+              />
+              {errors.shopName && <p className={styles.error} style={{ color: 'red' }}>{errors.shopName}</p>}
             </div>
             <div className={styles.addShopInputContainer}>
               <label htmlFor="contactNo" className={styles.addShopLabel}>Contact No</label>
-              <input type="text" id="contactNo" placeholder="Contact No" className={styles.inputField} />
+              <input type="text" id="contactNo" 
+              placeholder="Contact No" 
+              className={styles.inputField} 
+              value={contact}
+              onChange={(e) => setContact(e.target.value)}
+              />
+              {errors.contactNo && <p className={styles.error} style={{ color: 'red' }}>{errors.contactNo}</p>}
+            </div>
+          </div>
+          <div className={styles.row}>
+            <div className={styles.addShopInputContainer}>
+              <label htmlFor="website" className={styles.addShopLabel}>Website</label>
+              <input type="text" id="website" 
+              placeholder="Website" 
+              className={styles.inputField} 
+              value={website}
+              onChange={(e) => setWebsite(e.target.value)}
+              />
+              {errors.shopName && <p className={styles.error} style={{ color: 'red' }}>{errors.shopName}</p>}
+            </div>
+            <div className={styles.addShopInputContainer}>
+              <label htmlFor="email" className={styles.addShopLabel}>Email</label>
+              <input type="text" id="contactNo" 
+              placeholder="Email" 
+              className={styles.inputField} 
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              />
+              {errors.email && <p className={styles.error} style={{ color: 'red' }}>{errors.email}</p>}
             </div>
           </div>
 
@@ -193,6 +397,7 @@ useEffect(() => {
                 labelledBy="Select Brands"
                 className={styles.addShopSelect}
               />
+              {errors.brands && <p className={styles.error} style={{ color: 'red' }}>{errors.brands}</p>}
             </div>
             <div className={styles.addShopInputContainer}>
               <label htmlFor="services" className={styles.addShopLabel}>Services</label>
@@ -203,6 +408,7 @@ useEffect(() => {
                 labelledBy="Select Services"
                 className={styles.addShopSelect}
               />
+              {errors.services && <p className={styles.error} style={{ color: 'red' }}>{errors.services}</p>}
             </div>
           </div>
           <div className={styles.row}>
@@ -215,22 +421,37 @@ useEffect(() => {
                 placeholder="Select Location"
                 isClearable={true}
               />
+              {errors.location && <p className={styles.error} style={{ color: 'red' }}>{errors.location}</p>}
             </div>
             <div className={styles.addShopInputContainer}>
-              <label htmlFor="contactNo" className={styles.addShopLabel}>Area</label>
-              <input type="text" id="contactNo" placeholder="Contact No" className={styles.inputField} />
+              <label htmlFor="area" className={styles.addShopLabel}>Area</label>
+              <input type="text" id="area" 
+              placeholder="Area" 
+              className={styles.inputField}
+              value={area}
+              onChange={(e) => setArea(e.target.value)}
+               />
+               {errors.area && <p className={styles.error} style={{ color: 'red' }}>{errors.area}</p>}
             </div>
           </div>
-          <div className={styles.row}>
-            <div className={styles.addShopInputContainer}>
-              <label htmlFor="shopName" className={styles.addShopLabel}>Latitude</label>
-              <input type="text" id="shopName" placeholder="Shop Name" className={styles.inputField} />
+          <div className={styles.textarea}>
+            <div className={styles.mapMainContainer}>
+              <div className={styles.addShopInputContainer}>
+                <label htmlFor="description" className={styles.addShopLabel}>
+                  Description
+                </label>
+                <input
+                  type="text"
+                  id="description"
+                  placeholder="Description"
+                  className={styles.inputField}
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                />
+                 {errors.description && <p className={styles.error} style={{ color: 'red' }}>{errors.description}</p>}
+              </div>
+              
             </div>
-            <div className={styles.addShopInputContainer}>
-              <label htmlFor="contactNo" className={styles.addShopLabel}>Longitude</label>
-              <input type="text" id="contactNo" placeholder="Contact No" className={styles.inputField} />
-            </div>
-
           </div>
           <div className={styles.textarea}>
             <div className={styles.mapMainContainer}>
@@ -246,6 +467,7 @@ useEffect(() => {
                   value={mapLocation}
                   onChange={handleInputChange}
                 />
+                 {errors.mapLocation && <p className={styles.error} style={{ color: 'red' }}>{errors.mapLocation}</p>}
               </div>
               <div>
                 <button
@@ -259,6 +481,30 @@ useEffect(() => {
               </div>
             </div>
           </div>
+          <div className={styles.row}>
+            <div className={styles.addShopInputContainer}>
+              <label htmlFor="latitude" className={styles.addShopLabel}>Latitude</label>
+              <input type="text" id="latitude" 
+              placeholder="Latitide" 
+              className={styles.inputField} 
+              value={latitude || ''}
+              onChange={(e) => setLatitude(e.target.value)}
+              />
+              {errors.latitude && <p className={styles.error} style={{ color: 'red' }}>{errors.latitude}</p>}
+            </div>
+            <div className={styles.addShopInputContainer}>
+              <label htmlFor="longitude" className={styles.addShopLabel}>Longitude</label>
+              <input type="text" id="longitude" 
+              placeholder="Longitude" 
+              className={styles.inputField} 
+              value={longitude || ''}
+              onChange={(e) => setLongitude(e.target.value)}
+              />
+              {errors.longitude && <p className={styles.error} style={{ color: 'red' }}>{errors.longitude}</p>}
+            </div>
+
+          </div>
+         
           <div className={styles.mapEmbedContainer}>
             {showMap && isLoaded && (
               <div className={styles.mapContainer}>
@@ -272,7 +518,7 @@ useEffect(() => {
                 <GoogleMap
                   mapContainerStyle={{ width: "100%", height: "300px", borderRadius: "8px" }}
                   center={center}
-                  zoom={4}
+                  zoom={14}
                 >
                   <Marker position={center} />
                 </GoogleMap>
@@ -403,7 +649,9 @@ useEffect(() => {
       </div>
       <ToastContainer />
     </div>
+    </>
   );
 };
 
 export default AddShopListForm;
+
