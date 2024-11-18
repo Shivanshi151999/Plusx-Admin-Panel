@@ -83,6 +83,7 @@ const List = ({list, tableHeaders, listData, keyMapping, pageHeading, onDeleteSl
 
     //Shop
     const handleShopDetails = (id) => navigate(`/ev-specialized/shop-details/${id}`)
+    const handleShopEditDetails = (id) => navigate(`/ev-specialized/edit-shop/${id}`)
     
     return (
         <div className={styles.containerCharger}>
@@ -195,7 +196,7 @@ const List = ({list, tableHeaders, listData, keyMapping, pageHeading, onDeleteSl
                                     {pageHeading === 'Shop List' && (
                                         <>
                                          <img src={View} alt="view" onClick={() => handleShopDetails(data.shop_id)}/>
-                                            <img src={Edit} alt='edit' />
+                                            <img src={Edit} alt='edit' onClick={() => handleShopEditDetails(data.shop_id)}/>
                                             <img src={Delete} alt='delete' />
                                         </>
                                     )}
