@@ -197,7 +197,7 @@ const List = ({list, tableHeaders, listData, keyMapping, pageHeading, onDeleteSl
                                         <>
                                          <img src={View} alt="view" onClick={() => handleShopDetails(data.shop_id)}/>
                                             <img src={Edit} alt='edit' onClick={() => handleShopEditDetails(data.shop_id)}/>
-                                            <img src={Delete} alt='delete' />
+                                            <img src={Delete} alt='delete' onClick={() => onDeleteSlot(data.shop_id)} />
                                         </>
                                     )}
 

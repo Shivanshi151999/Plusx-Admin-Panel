@@ -117,6 +117,16 @@ const ShopDetails = () => {
         setBookingDetails(response?.shop || {});
         setImageGallery(response?.shop?.shop_gallery)
         setBaseUrl(response.base_url)
+
+        postRequestWithToken('shop-view', obj, (response) => {
+          if (response.code === 200) {
+            setBookingDetails(response?.store || {});
+            setImageGallery(response?.galleryData)
+            setBaseUrl(response.base_url)
+          } else {
+            console.log('error in public-charger-station-details API', response);
+          }
+        });
       } else {
         console.log('error in public-charger-station-details API', response);
       }

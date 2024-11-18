@@ -51,38 +51,6 @@ const AddShopListForm = () => {
   };
 
   const handleAddClick = () => {
-    // if (!mapLocation.trim()) {
-    //   setErrors((prev) => ({ ...prev, mapLocation: 'Address is required' }));
-    //   return;
-    // }
-  
-    // setLoading(true);
-  
-    // const geocoder = new window.google.maps.Geocoder();
-    // geocoder.geocode({ address: mapLocation }, (results, status) => {
-    //   if (status === 'OK' && results[0]) {
-    //     const lat = results[0].geometry.location.lat();
-    //     const lng = results[0].geometry.location.lng();
-  
-    //     setLatitude(lat);
-    //     setLongitude(lng);
-    //     setCenter({ lat, lng });
-    //     setShowMap(true); // Show the map
-    //     setLoading(false);
-  
-    //     console.log('Latitude:', lat);
-    //     console.log('Longitude:', lng);
-    //   } else {
-    //     setLoading(false);
-    //     setErrors((prev) => ({
-    //       ...prev,
-    //       mapLocation: 'Unable to fetch coordinates. Please try again.',
-    //     }));
-    //     console.error('Geocode error: ', status);
-    //   }
-    // });
-
-
     const lastAddress = addresses[addresses.length - 1];
 
     // Check if all fields in the last address are filled
@@ -96,8 +64,7 @@ const AddShopListForm = () => {
       alert("Please fill out all fields in the current address before adding a new one.");
       return;
     }
-  
-    // Add a new address section
+
     setAddresses((prev) => [
       ...prev,
       { address: "", location: "", area_name: "", latitude: "", longitude: "" },
@@ -108,7 +75,7 @@ const AddShopListForm = () => {
     if (field === "location") {
       console.log("location", value);
       
-      value = value?.label || ""; // Extract 'value' from the Select component
+      value = value?.label || ""; 
     }
     setAddresses((prev) =>
       prev.map((addr, i) =>
@@ -116,39 +83,6 @@ const AddShopListForm = () => {
       )
     );
   };
-
-  // const handleOnBlur = () => {
-  //   if (!mapLocation.trim()) {
-  //     setErrors((prev) => ({ ...prev, mapLocation: 'Address is required' }));
-  //     return;
-  //   }
-  
-  //   setLoading(true);
-  
-  //   const geocoder = new window.google.maps.Geocoder();
-  //   geocoder.geocode({ address: mapLocation }, (results, status) => {
-  //     if (status === 'OK' && results[0]) {
-  //       const lat = results[0].geometry.location.lat();
-  //       const lng = results[0].geometry.location.lng();
-  
-  //       setLatitude(lat);
-  //       setLongitude(lng);
-  //       setCenter({ lat, lng });
-  //       setShowMap(true); // Show the map
-  //       setLoading(false);
-  
-  //       console.log('Latitude:', lat);
-  //       console.log('Longitude:', lng);
-  //     } else {
-  //       setLoading(false);
-  //       setErrors((prev) => ({
-  //         ...prev,
-  //         mapLocation: 'Unable to fetch coordinates. Please try again.',
-  //       }));
-  //       console.error('Geocode error: ', status);
-  //     }
-  //   });
-  // }
   
 
   const handleOnBlur = (index) => {
@@ -322,6 +256,18 @@ const handleService = (selectedOption) => {
                 }
                 return acc;
             }, { days: [] });
+            let addressArray = []
+            let areaNameArray = []
+            let locationArray = []
+            let latitudeArray = []
+            let longitudeArray = []
+
+            addressArray = addresses.map((item) => item.address);
+            areaNameArray = addresses.map((item) => item.area_name);
+            locationArray = addresses.map((item) => item.location);
+            latitudeArray = addresses.map((item) => item.latitude);
+            longitudeArray = addresses.map((item) => item.longitude);
+          
 
             const formData = new FormData();
             formData.append("userId", userDetails?.user_id);
@@ -331,13 +277,13 @@ const handleService = (selectedOption) => {
             formData.append("store_email", email);
             formData.append("store_website", website);
             formData.append("description", description);
-            formData.append("area", area);
-            // formData.append("address", mapLocation);
-            formData.append("latitude", latitude);
-            formData.append("longitude", longitude);
 
-            const addressesJson = JSON.stringify(addresses);
-            formData.append("address", addressesJson);
+        
+          addressArray.forEach(item => formData.append("address[]", item));
+          areaNameArray.forEach(item => formData.append("area_name[]", item));
+          locationArray.forEach(item => formData.append("location[]", item));
+          latitudeArray.forEach(item => formData.append("latitude[]", item));
+          longitudeArray.forEach(item => formData.append("longitude[]", item));
 
             if (brands && brands.length > 0) {
               const selectedBrandsString = brands.map(brand => brand.value).join(', ');
@@ -347,9 +293,9 @@ const handleService = (selectedOption) => {
               const selectedServices = services.map(brand => brand.value).join(', ');
               formData.append("services", selectedServices);
             }
-            if (location) {
-              formData.append("location", location.value);
-          }
+          //   if (location) {
+          //     formData.append("location", location.value);
+          // }
           formData.append("always_open", formattedData.always_open || 0);
         
           if (isAlwaysOpen) {
@@ -436,7 +382,6 @@ useEffect(() => {
     }
     fetchDetails();
 }, []);
-console.log('Address', addresses);
 
   return (
     
@@ -546,7 +491,7 @@ console.log('Address', addresses);
                 </button>
               </div>
           {addresses.map((addr, index) => (
-          <div>
+          <div key={index}>
           <div className={styles.textarea}>
             <div className={styles.mapMainContainer}>
               <div className={styles.addShopInputContainer}>
@@ -570,7 +515,7 @@ console.log('Address', addresses);
                  {/* {errors.mapLocation && <p className={styles.error} style={{ color: 'red' }}>{errors.mapLocation}</p>}
                   */}
 
-{errors[`mapLocation_${index}`] && (
+              {errors[`mapLocation_${index}`] && (
                 <p className={styles.error} style={{ color: "red" }}>
                   {errors[`mapLocation_${index}`]}
                 </p>

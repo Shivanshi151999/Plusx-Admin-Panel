@@ -24,6 +24,7 @@ const ShopList = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [filters, setFilters] = useState({});
+    const [refresh, setRefresh]           = useState(false)
     const searchTerm = [
         {
             label: 'search', 
@@ -68,6 +69,26 @@ const ShopList = () => {
         setCurrentPage(1);
     };
 
+    const handleDeleteSlot = (shopId) => {
+        const confirmDelete = window.confirm("Are you sure you want to delete this?");
+        if (confirmDelete) {
+            const obj = { 
+                userId : userDetails?.user_id,
+                email : userDetails?.email,
+                shop_id: shopId 
+            };
+            postRequestWithToken('shop-delete', obj, async (response) => {
+                if (response.code === 200) {
+                    setRefresh(prev => !prev);
+                    toast(response.message[0], { type: "success" });
+                } else {
+                    toast(response.message, { type: 'error' });
+                    console.log('error in delete-rider api', response);
+                }
+            });
+        }
+    };
+
     return (
         <div className='main-container'>
             <SubHeader heading="Ev Specialized Shop List"
@@ -89,6 +110,7 @@ const ShopList = () => {
 
                     ]}
                     pageHeading="Shop List"
+                    onDeleteSlot={handleDeleteSlot}
                 />
             )}
             <Pagination
