@@ -86,6 +86,12 @@
   font-size: 14px;
   border-bottom: 2px dashed #ffffff;
 }
+.dropdownMenuItem:hover {
+  color: #00ffc3 !important;
+}
+.activeItem {
+  color: #00ffc3 !important;
+}
 .checkboxInput {
   margin-right: 10px;
 }

@@ -7,7 +7,7 @@ function SidebarDropdownItem({ item, checkedItems, handleItemClick }) {
     <NavLink
       key={item.id}
       to={item.path}
-      className={`${
+      className={`${style.dropdownMenuItem} ${
         checkedItems[item.id] ? style.activeItem : style.inactiveItem
       }`}
       onClick={(e) => handleItemClick(item.id, e)}
