@@ -254,6 +254,13 @@ const handleService = (selectedOption) => {
             if (location) {
               formData.append("location", location.value);
           }
+          formData.append("always_open", formattedData.always_open || 0);
+        
+          if (isAlwaysOpen) {
+              formData.append("days[]", formattedData.days); 
+          } else {
+              formattedData.days.forEach(day => formData.append("days[]", day));
+          }
           if (!isAlwaysOpen) {
             Object.keys(formattedData).forEach(key => {
                 if (key !== 'days' && key !== 'always_open') {

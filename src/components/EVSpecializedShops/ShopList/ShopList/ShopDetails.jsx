@@ -27,108 +27,75 @@ const formatTime = (timeStr) => {
   return `${format12Hour(start)} - ${format12Hour(end)}`;
 };
 
-// const getFormattedOpeningHours = (details) => {
-//   if (details?.always_open === 0) {
-//     return "Always Open";
-//   }
-
-//   if (!details?.open_days || !details?.open_timing) {
-//     return "No opening hours available";
-//   }
-
-//   const days = details?.open_days.split('_').map((day) => {
-//     // Capitalize the first letter of each day
-//     return day.charAt(0).toUpperCase() + day.slice(1).toLowerCase();
-//   });
-
-//   const timings = details?.open_timing.split('_').map(formatTime);
-
-//   // Check if all the timings are the same
-//   const allSameTimings = timings.every(time => time === timings[0]);
-
-//   if (allSameTimings) {
-//     // If all days have the same timings, return a consolidated range for the whole week
-//     return `${days[0]}-${days[days.length - 1]}: ${timings[0]}`;
-//   }
-
-//   // Otherwise, show each day with its corresponding timings
-//   const formattedOpeningHours = [];
-//   let i = 0;
-//   while (i < days.length) {
-//     let startDay = days[i];
-//     let currentTiming = timings[i];
-//     let j = i;
-
-//     while (j < days.length - 1 && timings[j + 1] === currentTiming) {
-//       j++;
-//     }
-
-//     const dayRange = startDay + (i === j ? "" : `-${days[j]}`);
-//     formattedOpeningHours.push(`${dayRange}: ${currentTiming}`);
-//     i = j + 1;
-//   }
-
-//   return formattedOpeningHours.join(', ');
-// };
-
 
 const getFormattedOpeningHours = (details) => {
-    if (details?.always_open === 0) {
+  if (details?.always_open === 0) {
     return "Always Open";
-    }
+  }
 
-    if (!details?.open_days || !details?.open_timing) {
+  if (!details?.open_days || !details?.open_timing) {
     return "No opening hours available";
-    }
+  }
 
-    // Parse open_days JSON array
-    const days = JSON.parse(details.open_days).map(day =>
-    day.charAt(0).toUpperCase() + day.slice(1)
+  let days, timings;
+
+  // Handle JSON array format or concatenated string format for open_days
+  if (details.open_days.includes("_")) {
+    // Parse concatenated string format
+    days = details.open_days
+      .split("_")
+      .map(day =>
+        day.charAt(0).toUpperCase() + day.slice(1)
+      );
+  } else {
+    // Parse JSON array
+    days = JSON.parse(details.open_days).map(day =>
+      day.charAt(0).toUpperCase() + day.slice(1)
     );
+  }
 
-    // Split the open_timing string by underscores to get individual time ranges
-    const timings = details.open_timing.split('_').map(timeRange => {
-    const [start, end] = timeRange.split('-');
+  // Split the open_timing string by underscores to get individual time ranges
+  timings = details.open_timing.split("_").map(timeRange => {
+    const [start, end] = timeRange.split("-");
     return `${formatToAmPm(start)} - ${formatToAmPm(end)}`;
-    });
+  });
 
-    // Check if all timings are the same
-    const allSameTimings = timings.every(time => time === timings[0]);
+  // Check if all timings are the same
+  const allSameTimings = timings.every(time => time === timings[0]);
 
-    if (allSameTimings) {
+  if (allSameTimings) {
     return `${days.join(', ')}: ${timings[0]}`;
-    }
+  }
 
-    // Group consecutive days with the same timings
-    const formattedOpeningHours = [];
-    let i = 0;
-    while (i < days.length) {
+  // Group consecutive days with the same timings
+  const formattedOpeningHours = [];
+  let i = 0;
+  while (i < days.length) {
     const startDay = days[i];
     const currentTiming = timings[i];
     let j = i;
 
     // Find consecutive days with the same timing
     while (j < days.length - 1 && timings[j + 1] === currentTiming) {
-        j++;
+      j++;
     }
 
     const dayRange = startDay + (i === j ? "" : ` - ${days[j]}`);
     formattedOpeningHours.push(`${dayRange}: ${currentTiming}`);
     i = j + 1;
-    }
+  }
 
-    return formattedOpeningHours.join(', ');
+  return formattedOpeningHours.join(', ');
 };
-  
-  // Helper function to convert 24-hour time to 12-hour AM/PM format
-  const formatToAmPm = (time) => {
-    const [hour, minute] = time.split(':').map(Number);
-    const period = hour >= 12 ? 'PM' : 'AM';
-    const formattedHour = hour % 12 || 12; // Convert hour to 12-hour format
-    return `${formattedHour}:${minute.toString().padStart(2, '0')} ${period}`;
-  };
-  
 
+const formatToAmPm = (time) => {
+  const [hour, minute] = time.split(":").map(Number);
+  const period = hour >= 12 ? "PM" : "AM";
+  const formattedHour = hour % 12 || 12; // Convert hour to 12-hour format
+  return `${formattedHour}:${minute.toString().padStart(2, "0")} ${period}`;
+};
+
+  
 const ShopDetails = () => {
   const userDetails                         = JSON.parse(sessionStorage.getItem('userDetails'));
   const navigate                            = useNavigate()
