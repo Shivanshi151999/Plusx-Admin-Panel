@@ -46,6 +46,25 @@ const SideNavbar = () => {
   };
 
   useEffect(() => {
+    const storedCheckedItems = sessionStorage.getItem("checkedItems");
+    if (storedCheckedItems) {
+      const parsedData = JSON.parse(storedCheckedItems);
+      setCheckedItems(parsedData.checkedItems);
+      setOpenDropdown(parsedData.dropdown);
+    }
+  }, []);
+
+  useEffect(() => {
+    const obj = {
+      dropdown: openDropdown,
+      checkedItems: checkedItems,
+    };
+    if (obj.dropdown) {
+      sessionStorage.setItem("checkedItems", JSON.stringify(obj));
+    }
+  }, [checkedItems, openDropdown]);
+
+  useEffect(() => {
     setCheckedItems((prevState) => ({
       portableCharger: location.pathname.includes("/portable-charger")
         ? prevState.portableCharger
@@ -68,6 +87,19 @@ const SideNavbar = () => {
         ? prevState.evSpecializedShops
         : { shopList: false, shopServices: false, shopBrands: false },
     }));
+
+    const dropdownPaths = [
+      "/portable-charger",
+      "/pick-and-drop",
+      "/ev-road-assistance",
+      "/ev-pre-sales-testing",
+      "/ev-specialized",
+    ];
+
+    if (!dropdownPaths.some((path) => location.pathname.includes(path))) {
+      sessionStorage.removeItem("checkedItems");
+      setOpenDropdown(null);
+    }
   }, [location]);
 
   const toggleDropdown = (menu) => {
