@@ -147,8 +147,8 @@ const AddChargerStation = () => {
             { name: "address", value: address, errorMessage: "Address is required." },
             { name: "latitude", value: latitude, errorMessage: "Latitude is required." },
             { name: "longitude", value: longitude, errorMessage: "Longitude is required." },
-            { name: "file", value: file, errorMessage: "Image is required." },
-            { name: "gallery", value: galleryFiles, errorMessage: "Station Gallery is required.", isArray: true },
+            // { name: "file", value: file, errorMessage: "Image is required." },
+            // { name: "gallery", value: galleryFiles, errorMessage: "Station Gallery is required.", isArray: true },
             { name: "price", value: price, errorMessage: "Price selection is required." }
         ];
     
@@ -248,6 +248,8 @@ const AddChargerStation = () => {
                     console.log('Error in public-charger-add-station API:', response);
                 }
             } )
+        } else {
+            toast.error("Some fields are missing");
         }
     };
 

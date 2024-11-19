@@ -94,6 +94,8 @@ const handleSubmit = (e) => {
                 console.log('Error in electric-bike-edit API:', response);
             }
         } )
+    } else {
+        toast.error("Some fields are missing");
     }
 };
 

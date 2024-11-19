@@ -132,6 +132,8 @@ const handleSubmit = (e) => {
                 console.log('Error in ev-guide-update API:', response);
             }
         } )
+    } else {
+        toast.error("Some fields are missing");
     }
 };
 
@@ -361,7 +363,7 @@ const handleToggle = () => {
                         {errors.file && <p className="error">{errors.file}</p>}
                     </div>
                     <div className={styles.fileUpload}>
-                        <label className={styles.fileLabel}>Station Gallery</label>
+                        <label className={styles.fileLabel}>Vehicle Gallery</label>
                         <div className={styles.fileDropZone}>
                             <input
                                 type="file"

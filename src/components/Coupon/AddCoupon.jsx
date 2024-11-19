@@ -89,6 +89,8 @@ const handleSubmit = (e) => {
                 console.log('Error in add-coupan API:', response);
             }
         } )
+    } else {
+      toast.error("Some fields are missing");
     }
 };
 

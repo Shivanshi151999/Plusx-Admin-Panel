@@ -81,7 +81,7 @@ const validateForm = () => {
         { name: "description", value: description, errorMessage: "Description is required." },
         { name: "url", value: url, errorMessage: "Club URL is required." },
         { name: "file", value: file, errorMessage: "Image is required." },
-        { name: "gallery", value: galleryFiles, errorMessage: "Vehicle Gallery is required.", isArray: true },
+        { name: "gallery", value: galleryFiles, errorMessage: "Club Gallery is required.", isArray: true },
     ];
 
     const newErrors = fields.reduce((errors, { name, value, errorMessage, isArray }) => {
@@ -138,6 +138,8 @@ const handleSubmit = (e) => {
                 console.log('Error in add-club API:', response);
             }
         } )
+    } else {
+        toast.error("Some fields are missing");
     }
 };
 
@@ -387,7 +389,7 @@ const handleToggle = () => {
                         {errors.file && <p className="error">{errors.file}</p>}
                     </div>
                     <div className={styles.fileUpload}>
-                        <label className={styles.fileLabel}>Store Gallery</label>
+                        <label className={styles.fileLabel}>Club Gallery</label>
                         <div className={styles.fileDropZone}>
                             <input
                                 type="file"

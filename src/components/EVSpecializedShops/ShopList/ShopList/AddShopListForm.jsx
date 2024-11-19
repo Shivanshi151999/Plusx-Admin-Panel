@@ -217,7 +217,6 @@ const handleService = (selectedOption) => {
     const fields = [
         { name: "shopName", value: shopName, errorMessage: "Shop Name is required." },
         { name: "contactNo", value: contact, errorMessage: "Contact No is required." },
-        // { name: "mapLocation", value: mapLocation, errorMessage: "Address is required." },
         { name: "file", value: file, errorMessage: "Image is required." },
     ];
 
@@ -334,7 +333,7 @@ const handleService = (selectedOption) => {
       } )
       // toast.success("Shop details submitted successfully!");
     } else {
-      toast.error("Validation error");
+      toast.error("Some fields are missing");
     }
     
   };
@@ -408,7 +407,13 @@ useEffect(() => {
               placeholder="Contact No" 
               className={styles.inputField} 
               value={contact}
-              onChange={(e) => setContact(e.target.value)}
+              // onChange={(e) => setContact(e.target.value)}
+              onChange={(e) => setContact(e.target.value)}  
+              onKeyPress={(e) => {
+                if (!/[0-9]/.test(e.key)) {
+                    e.preventDefault();  
+                }
+              }}
               />
               {errors.contactNo && <p className={styles.error} style={{ color: 'red' }}>{errors.contactNo}</p>}
             </div>

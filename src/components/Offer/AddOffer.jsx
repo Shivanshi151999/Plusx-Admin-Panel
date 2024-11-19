@@ -33,7 +33,7 @@ const AddOffer = () => {
 const validateForm = () => {
     const fields = [
         { name: "couponName", value: couponName, errorMessage: "Offer Name is required." },
-        { name: "url", value: url, errorMessage: "URL is required." },
+        // { name: "url", value: url, errorMessage: "URL is required." },
         { name: "expiryDate", value: expiryDate, errorMessage: "Expiry Date is required."},
         { name: "file", value: file, errorMessage: "Image is required." },
     ];
@@ -80,6 +80,8 @@ const handleSubmit = (e) => {
                 console.log('Error in add-coupan API:', response);
             }
         } )
+    } else {
+      toast.error("Some fields are missing");
     }
 };
 

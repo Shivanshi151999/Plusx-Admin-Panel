@@ -15,14 +15,14 @@ const AddElectricCar = () => {
   const [file, setFile]                 = useState(null);
   const [galleryFiles, setGalleryFiles] = useState([]);
   const [errors, setErrors]             = useState({});
-  const [carName, setCarName]       = useState()
+  const [carName, setCarName]           = useState()
   const [availableOn, setAvailableOn]   = useState()
   const [description, setDescription]   = useState()
-  const [url, setUrl]         = useState()
+  const [url, setUrl]                   = useState()
   const [price, setPrice]               = useState()
-  const [carType, setCarType]   = useState(null);
+  const [carType, setCarType]           = useState(null);
   const [contract, setContract]         = useState([])
-  const [feature, setFeature]         = useState([])
+  const [feature, setFeature]           = useState([])
 
   const contractDropdownRef = useRef(null);
   const featureDropdownRef = useRef(null);
@@ -96,8 +96,8 @@ const validateForm = () => {
         { name: "price", value: price, errorMessage: "Price is required." },
         { name: "description", value: description, errorMessage: "Description is required." },
         { name: "url", value: url, errorMessage: "Lease URL is required." },
-        { name: "file", value: file, errorMessage: "Image is required." },
-        { name: "gallery", value: galleryFiles, errorMessage: "Vehicle Gallery is required.", isArray: true },
+        // { name: "file", value: file, errorMessage: "Image is required." },
+        // { name: "gallery", value: galleryFiles, errorMessage: "Vehicle Gallery is required.", isArray: true },
     ];
 
     const newErrors = fields.reduce((errors, { name, value, errorMessage, isArray }) => {
@@ -153,6 +153,8 @@ const handleSubmit = (e) => {
                 console.log('Error in electric-car-add API:', response);
             }
         } )
+    } else {
+        toast.error("Some fields are missing");
     }
 };
 

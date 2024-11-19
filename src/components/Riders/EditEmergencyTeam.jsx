@@ -53,48 +53,34 @@ const EditEmergencyTeam = () => {
     const serviceDropdownRef = useRef(null);
 
     const validateForm = () => {
-        const newErrors = {};
-        let formIsValid = true;
-
-        if (!rsaName) {
-            newErrors.rsaName = "RSA Name is required.";
-            formIsValid = false;
-        }
-
-        if (!email || !/\S+@\S+\.\S+/.test(email)) {
-            newErrors.email = "Please enter a valid Email ID.";
-            formIsValid = false;
-        }
-
-        if (!mobileNo || isNaN(mobileNo) || mobileNo.length < 10) {
-            newErrors.mobileNo = "Please enter a valid Mobile No.";
-            formIsValid = false;
-        }
-
-        if (!serviceType) {
-            newErrors.serviceType = "Service Type is required.";
-            formIsValid = false;
-        }
-
-        // if (!password) {
-        //     newErrors.password = "Password is required.";
-        //     formIsValid = false;
-        // }
-
-        // if (!confirmPassword || confirmPassword !== password) {
-        //     newErrors.confirmPassword = "Passwords do not match.";
-        //     formIsValid = false;
-        // }
-
-        if (!file) {
-            newErrors.file = "Image is required.";
-            formIsValid = false;
-        }
-
+        const fields = [
+            { name: "rsaName", value: rsaName, errorMessage: "RSA Name is required." },
+            { name: "email", value: email, errorMessage: "Please enter a valid Email ID.", isEmail: true },
+            { name: "mobileNo", value: mobileNo, errorMessage: "Please enter a valid Mobile No.", isMobile: true },
+            { name: "serviceType", value: serviceType, errorMessage: "Service Type is required." },
+            // { name: "password", value: password, errorMessage: "Password is required." },
+            // { name: "confirmPassword", value: confirmPassword, errorMessage: "Passwords do not match.", isPasswordMatch: true },
+            // { name: "file", value: file, errorMessage: "Image is required." }
+        ];
+    
+        const newErrors = fields.reduce((errors, { name, value, errorMessage, isEmail, isMobile, isPasswordMatch }) => {
+            if (!value) {
+                errors[name] = errorMessage;
+            } else if (isEmail && !/\S+@\S+\.\S+/.test(value)) {
+                errors[name] = errorMessage;
+            } else if (isMobile && (isNaN(value) || value.length < 10)) {
+                errors[name] = errorMessage;
+            }
+            //  else if (isPasswordMatch && value !== password) {
+            //     errors[name] = errorMessage;
+            // }
+            return errors;
+        }, {});
+    
         setErrors(newErrors);
-        return formIsValid;
+        return Object.keys(newErrors).length === 0;
     };
-
+    
     const handleSubmit = (e) => {
         e.preventDefault();
         if (validateForm()) {
@@ -128,6 +114,7 @@ const EditEmergencyTeam = () => {
 
         } else {
             console.log("Form validation failed.");
+            toast.error("Some fields are missing");
         }
     };
 

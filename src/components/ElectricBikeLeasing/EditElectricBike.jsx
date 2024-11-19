@@ -98,8 +98,8 @@ const validateForm = () => {
         { name: "price", value: price, errorMessage: "Price is required." },
         { name: "description", value: description, errorMessage: "Description is required." },
         { name: "url", value: url, errorMessage: "Lease URL is required." },
-        { name: "file", value: file, errorMessage: "Image is required." },
-        { name: "gallery", value: galleryFiles, errorMessage: "Vehicle Gallery is required.", isArray: true },
+        // { name: "file", value: file, errorMessage: "Image is required." },
+        // { name: "gallery", value: galleryFiles, errorMessage: "Vehicle Gallery is required.", isArray: true },
     ];
 
     const newErrors = fields.reduce((errors, { name, value, errorMessage, isArray }) => {
@@ -158,6 +158,8 @@ const handleSubmit = (e) => {
                 console.log('Error in electric-bike-edit API:', response);
             }
         } )
+    } else {
+        toast.error("Some fields are missing");
     }
 };
 
@@ -224,7 +226,7 @@ const handleToggle = () => {
             <div className={styles.addShopInputContainer}>
               <label className={styles.addShopLabel} htmlFor="modelName">Bike Name</label>
               <input type="text" id="carName" 
-                placeholder="Car Name" 
+                placeholder="Bike Name" 
                 className={styles.inputField} 
                 value={carName}
                 onChange={(e) => setCarName(e.target.value)}
@@ -383,7 +385,7 @@ const handleToggle = () => {
                         {errors.file && <p className="error">{errors.file}</p>}
                     </div>
                     <div className={styles.fileUpload}>
-                        <label className={styles.fileLabel}>Station Gallery</label>
+                        <label className={styles.fileLabel}>Bike Rental Gallery</label>
                         <div className={styles.fileDropZone}>
                             <input
                                 type="file"

@@ -19,12 +19,6 @@ const AccordionFilter = ({ type, isOpen, fetchFilteredData, dynamicFilters, filt
         }
     }, [isOpen]);
 
-    // useEffect(() => {
-    //     if (!isOpen) {
-    //         fetchFilteredData({ }); 
-    //     }
-    // }, [isOpen, fetchFilteredData, filterValues]);
-
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         fetchFilteredData({ ...filterValues, [name]: value });
@@ -37,7 +31,11 @@ const AccordionFilter = ({ type, isOpen, fetchFilteredData, dynamicFilters, filt
 
     const handleDateChange = (range) => {
         console.log('range',range);
-        
+        fetchFilteredData({
+            ...filterValues,
+            start_date: null,
+            end_date: null,
+        });
         if (!range || range.length < 2) {
             fetchFilteredData({
                 ...filterValues,
@@ -78,7 +76,7 @@ const AccordionFilter = ({ type, isOpen, fetchFilteredData, dynamicFilters, filt
                                         <form className={styles.filterForm}>
                                             <div className={`col-xl-4 col-lg-6 col-12 ${styles.filterItem}`}>
                                                 <label className={styles.filterLabel} htmlFor="date_filter">Select Date</label>
-                                                <Calendar handleDateChange={handleDateChange} />
+                                                <Calendar handleDateChange={handleDateChange}/>
                                             </div>
                                             {dynamicFilters?.map((filter) => (
                                                 <div key={filter.name} className={`col-xl-4 col-lg-6 col-12 ${styles.filterItem}`}>
