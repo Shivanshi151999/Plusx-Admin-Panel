@@ -40,7 +40,6 @@ const EditShopListForm = () => {
   const [longitude, setLongitude] = useState()
   const [addresses, setAddresses] = useState([{ address: "", location: "", area_name: "", latitude: "", longitude: "" }])
 
-
   const [loading, setLoading] = useState(false);
   const handleLocationChange = (selectedOption) => {
     setSelectedLocation(selectedOption);
@@ -53,45 +52,8 @@ const EditShopListForm = () => {
     setMapLocation(e.target.value);
   };
 
-  // const handleAddClick = () => {
-  //   if (!mapLocation.trim()) {
-  //     setErrors((prev) => ({ ...prev, mapLocation: 'Address is required' }));
-  //     return;
-  //   }
-  
-  //   setLoading(true);
-  
-  //   const geocoder = new window.google.maps.Geocoder();
-  //   geocoder.geocode({ address: mapLocation }, (results, status) => {
-  //     if (status === 'OK' && results[0]) {
-  //       const lat = results[0].geometry.location.lat();
-  //       const lng = results[0].geometry.location.lng();
-  
-  //       setLatitude(lat);
-  //       setLongitude(lng);
-  //       setCenter({ lat, lng });
-  //       setShowMap(true); // Show the map
-  //       setLoading(false);
-  
-  //       console.log('Latitude:', lat);
-  //       console.log('Longitude:', lng);
-  //     } else {
-  //       setLoading(false);
-  //       setErrors((prev) => ({
-  //         ...prev,
-  //         mapLocation: 'Unable to fetch coordinates. Please try again.',
-  //       }));
-  //       console.error('Geocode error: ', status);
-  //     }
-  //   });
-  // };
-  
-  
-
   const handleAddClick = () => {
     const lastAddress = addresses[addresses.length - 1];
-
-    // Check if all fields in the last address are filled
     if (
       !lastAddress.address.trim() ||
       !lastAddress.location ||
@@ -111,9 +73,10 @@ const EditShopListForm = () => {
 
   const handleAddressInputChange = (index, field, value) => {
     if (field === "location") {
-      console.log("location", value);
       
-      value = value?.label || ""; 
+      console.log("selected", value);
+      // value = value?.label || ""; 
+      console.log("location", value);
     }
     setAddresses((prev) =>
       prev.map((addr, i) =>
@@ -175,13 +138,6 @@ const EditShopListForm = () => {
   const [file, setFile] = useState(null);
   const [galleryFiles, setGalleryFiles] = useState([]);
 
-  // Dropdown references
-  const brandDropdownRef = useRef(null);
-  const serviceDropdownRef = useRef(null);
-
-  const handleLocation = (selectedOption) => {
-    setLocation(selectedOption)
-}
   const handleBrand = (selectedOption) => {
     setBrands(selectedOption)
 }
@@ -223,7 +179,7 @@ const handleService = (selectedOption) => {
 
         return updatedTimeSlots;
     });
-};
+  };
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
@@ -314,15 +270,13 @@ const handleService = (selectedOption) => {
             formData.append("store_email", email);
             formData.append("store_website", website);
             formData.append("description", description);
-            // formData.append("area", area);
-            // formData.append("address", mapLocation);
-            // formData.append("latitude", latitude);
-            // formData.append("longitude", longitude);
+            
             addressArray.forEach(item => formData.append("address[]", item));
             areaNameArray.forEach(item => formData.append("area_name[]", item));
-            locationArray.forEach(item => formData.append("location[]", item));
+            locationArray.forEach(item => formData.append("location[]", item?.value));
             latitudeArray.forEach(item => formData.append("latitude[]", item));
             longitudeArray.forEach(item => formData.append("longitude[]", item));
+            
             if (brands && brands.length > 0) {
               const selectedBrandsString = brands.map(brand => brand.value).join(', ');
               formData.append("brands", selectedBrandsString);
@@ -331,9 +285,7 @@ const handleService = (selectedOption) => {
               const selectedServices = services.map(brand => brand.value).join(', ');
               formData.append("services", selectedServices);
             }
-          //   if (location) {
-          //     formData.append("location", location.value);
-          // }
+         
           formData.append("always_open", formattedData.always_open || 0);
         
           if (isAlwaysOpen) {
@@ -407,6 +359,19 @@ const handleService = (selectedOption) => {
             }));
             setServiceOptions(formattedBrands);
 
+
+            const formattedAddresses = response?.address?.map(item => ({
+              address: item.address || "",
+              area_name: item.area_name || "",
+              location: locationOptions.find(option => option.value === item.location) || {
+                value: item.location || "",
+                label: item.location || ""
+            },
+              latitude: item.latitude || "",
+              longitude: item.longitude || ""
+          })) || [];
+          setAddresses(formattedAddresses);
+
             const data = response?.shop || {};
                 
             const openDays = data.open_days.split('_') .map(day => {
@@ -439,6 +404,7 @@ const handleService = (selectedOption) => {
             setDescription(data?.description || "");
             setFile(data?.cover_image || "");
             setGalleryFiles(response?.shop_gallery || []);
+            setIsAlwaysOpen(data?.always_open === 1 ? true : false);
 
             const initialSelectedBrands = ( data?.brands.split(", ") || []).map(item => ({ 
                 label: item,
@@ -459,33 +425,6 @@ const handleService = (selectedOption) => {
             const initialChargerType = transformedLocation.find(item => item.value === data.location) || {};
             setLocation(initialChargerType);
 
-            postRequestWithToken('shop-view', obj, (response) => {
-              if (response.code === 200) {
-                const addressData = response.address;  
-
-    
-    setAddresses(addressData.map(address => {
-      // Transform the location array to an object with label and value
-      const transformedLocation = (response?.result?.location || []).flat().map(item => ({
-        label: item.location_name,
-        value: item.location_name
-      }));
-
-      // Find the corresponding location object in transformedLocation array
-      const initialLocation = transformedLocation.find(item => item.value === address.location) || {};
-
-      return {
-        address: address.address,
-        area_name: address.area_name,
-        location: initialLocation, // Set location as the object with label and value
-        latitude: address.latitude,
-        longitude: address.longitude,
-      };
-    }));
-              } else {
-                console.log('error in shop-view API', response);
-              }
-            });
             
         } else {
             console.log('error in shop-data API', response);
@@ -649,7 +588,7 @@ useEffect(() => {
               <Select
                 options={locationOptions}
                 // value={location}
-                value={addr.location?.value}
+                value={addr.location}
                 // onChange={handleLocation}
                 onChange={(selectedOption) =>
                   handleAddressInputChange(index, "location", selectedOption)

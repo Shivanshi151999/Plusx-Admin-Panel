@@ -29,7 +29,7 @@ const formatTime = (timeStr) => {
 
 
 const getFormattedOpeningHours = (details) => {
-  if (details?.always_open === 0) {
+  if (details?.always_open === 1) {
     return "Always Open";
   }
 
