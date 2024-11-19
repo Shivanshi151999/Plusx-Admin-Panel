@@ -5,6 +5,7 @@ import SubHeader from '../../../SharedComponent/SubHeader/SubHeader'
 import Pagination from '../../../SharedComponent/Pagination/Pagination'
 import { postRequestWithToken } from '../../../../api/Requests';
 import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -58,7 +59,7 @@ const ShopList = () => {
             return;
         }
         fetchList(currentPage, filters);
-    }, [currentPage, filters]);
+    }, [currentPage, filters, refresh]);
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -79,8 +80,11 @@ const ShopList = () => {
             };
             postRequestWithToken('shop-delete', obj, async (response) => {
                 if (response.code === 200) {
-                    setRefresh(prev => !prev);
-                    toast(response.message[0], { type: "success" });
+                   
+                    toast(response.message, { type: "success" });
+                    setTimeout(() => {
+                        setRefresh(prev => !prev);
+                    },1000)
                 } else {
                     toast(response.message, { type: 'error' });
                     console.log('error in delete-rider api', response);
@@ -91,6 +95,7 @@ const ShopList = () => {
 
     return (
         <div className='main-container'>
+            <ToastContainer />
             <SubHeader heading="Ev Specialized Shop List"
                 fetchFilteredData={fetchFilteredData}
                 dynamicFilters={dynamicFilters} filterValues={filters}
