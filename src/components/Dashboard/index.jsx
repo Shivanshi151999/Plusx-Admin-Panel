@@ -37,18 +37,21 @@ function Index() {
   const isLoading = status === "loading";
 
   return (
-    <div className='main-container'>
+    <div className="main-container">
       {isLoading ? (
         <Loader />
       ) : (
         <>
           <div className={`row ${style.row}`}>
-            <div className={`col-xl-6 col-lg-12`}>
+            <div className={`col-xl-12 col-lg-12`}>
+              <MapComponent />
+            </div>
+            {/* <div className={`col-xl-6 col-lg-12`}>
               <Graph />
             </div>
             <div className={`col-xl-6 col-lg-12`}>
               <MapComponent />
-            </div>
+            </div> */}
           </div>
           <DashboardCardItem details={details} />
         </>

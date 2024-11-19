@@ -4,7 +4,7 @@ import style from "./Map.module.css";
 
 const containerStyle = {
   width: "100%",
-  height: "320px",
+  height: "500px",
   borderRadius: "20px",
 };
 

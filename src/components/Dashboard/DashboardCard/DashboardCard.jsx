@@ -44,14 +44,14 @@ const DashboardCard = ({ details }) => {
       count:
         details?.find((item) => item.module === "No. of Regs. Drivers")
           ?.count || 0,
-      title: "No. of Regs. Drivers",
+      title: "Active Drivers",
       route: "/rider-list",
     },
     {
       icon: PODBooking,
       count:
         details?.find((item) => item.module === "POD Bookings")?.count || 0,
-      title: "POD Booking",
+      title: "Today's POD Booking",
       route: "/portable-charger/charger-booking-list",
     },
     {
@@ -70,29 +70,29 @@ const DashboardCard = ({ details }) => {
       title: "Total Public Chargers",
       route: "/public-charger-station-list",
     },
-    {
-      icon: ElectricBikeLeasingImage,
-      count:
-        details?.find((item) => item.module === "Total Electric Bikes Leasing")
-          ?.count || 0,
-      title: "Total Electric Bike Leasing",
-      route: "/electric-bike-list",
-    },
-    {
-      icon: ElectricCarLeasingImage,
-      count:
-        details?.find((item) => item.module === "Total Electric Cars Leasing")
-          ?.count || 0,
-      title: "Total Electric Car Leasing",
-      route: "/electric-car-list",
-    },
-    {
-      icon: EVGuideImage,
-      count:
-        details?.find((item) => item.module === "Total EV Guide")?.count || 0,
-      title: "Total EV Guide",
-      route: "/ev-guide-list",
-    },
+    // {
+    //   icon: ElectricBikeLeasingImage,
+    //   count:
+    //     details?.find((item) => item.module === "Total Electric Bikes Leasing")
+    //       ?.count || 0,
+    //   title: "Total Electric Bike Leasing",
+    //   route: "/electric-bike-list",
+    // },
+    // {
+    //   icon: ElectricCarLeasingImage,
+    //   count:
+    //     details?.find((item) => item.module === "Total Electric Cars Leasing")
+    //       ?.count || 0,
+    //   title: "Total Electric Car Leasing",
+    //   route: "/electric-car-list",
+    // },
+    // {
+    //   icon: EVGuideImage,
+    //   count:
+    //     details?.find((item) => item.module === "Total EV Guide")?.count || 0,
+    //   title: "Total EV Guide",
+    //   route: "/ev-guide-list",
+    // },
     {
       icon: EVRoadAssitanceImage,
       count:
@@ -109,30 +109,30 @@ const DashboardCard = ({ details }) => {
       title: "Charger Installation Bookings",
       route: "/charger-installation-list",
     },
-    {
-      icon: EVRiderClubImage,
-      count:
-        details?.find((item) => item.module === "Total EV Rider Clubs")
-          ?.count || 0,
-      title: "Total EV Rider Club",
-      route: "/club-list",
-    },
-    {
-      icon: EVDiscussionBoardImage,
-      count:
-        details?.find((item) => item.module === "Total EV Discussion Board")
-          ?.count || 0,
-      title: "Total EV Discussion Board",
-      route: "/discussion-board-list",
-    },
-    {
-      icon: EVInsuranceImage,
-      count:
-        details?.find((item) => item.module === "Total EV Insurance")?.count ||
-        0,
-      title: "Total EV Insurance",
-      route: "/ev-insurance-list",
-    },
+    // {
+    //   icon: EVRiderClubImage,
+    //   count:
+    //     details?.find((item) => item.module === "Total EV Rider Clubs")
+    //       ?.count || 0,
+    //   title: "Total EV Rider Club",
+    //   route: "/club-list",
+    // },
+    // {
+    //   icon: EVDiscussionBoardImage,
+    //   count:
+    //     details?.find((item) => item.module === "Total EV Discussion Board")
+    //       ?.count || 0,
+    //   title: "Total EV Discussion Board",
+    //   route: "/discussion-board-list",
+    // },
+    // {
+    //   icon: EVInsuranceImage,
+    //   count:
+    //     details?.find((item) => item.module === "Total EV Insurance")?.count ||
+    //     0,
+    //   title: "Total EV Insurance",
+    //   route: "/ev-insurance-list",
+    // },
     {
       icon: EVPreSalesImage,
       count:
@@ -141,37 +141,37 @@ const DashboardCard = ({ details }) => {
       title: "EV Pre-Sales Testing Bookings",
       route: "/ev-pre-sales-testing/pre-sales-list",
     },
-    {
-      icon: EVSpecializedShopsImage,
-      count:
-        details?.find((item) => item.module === "Total EV Specialized Shop")
-          ?.count || 0,
-      title: "Total EV Specialized Shops",
-      route: "/ev-specialized/shop-list",
-    },
-    {
-      icon: EVBuyAndSellImage,
-      count:
-        details?.find((item) => item.module === "EV Buy & Sell")?.count || 0,
-      title: "EV Buy & Sell",
-      route: "/ev-buy-sell",
-    },
-    {
-      icon: ActiveOfferImage,
-      count:
-        details?.find((item) => item.module === "Total Active Offer")?.count ||
-        0,
-      title: "Total Active Offer",
-      route: "/offer-list",
-    },
-    {
-      icon: TotalRegisterYourInterestImage,
-      count:
-        details?.find((item) => item.module === "Total Register your Interest")
-          ?.count || 0,
-      title: "Total Register Your Interest",
-      route: "/interest-list",
-    },
+    // {
+    //   icon: EVSpecializedShopsImage,
+    //   count:
+    //     details?.find((item) => item.module === "Total EV Specialized Shop")
+    //       ?.count || 0,
+    //   title: "Total EV Specialized Shops",
+    //   route: "/ev-specialized/shop-list",
+    // },
+    // {
+    //   icon: EVBuyAndSellImage,
+    //   count:
+    //     details?.find((item) => item.module === "EV Buy & Sell")?.count || 0,
+    //   title: "EV Buy & Sell",
+    //   route: "/ev-buy-sell",
+    // },
+    // {
+    //   icon: ActiveOfferImage,
+    //   count:
+    //     details?.find((item) => item.module === "Total Active Offer")?.count ||
+    //     0,
+    //   title: "Total Active Offer",
+    //   route: "/offer-list",
+    // },
+    // {
+    //   icon: TotalRegisterYourInterestImage,
+    //   count:
+    //     details?.find((item) => item.module === "Total Register your Interest")
+    //       ?.count || 0,
+    //   title: "Total Register Your Interest",
+    //   route: "/interest-list",
+    // },
   ];
   return (
     <div className={style.dashboardCardItem}>
