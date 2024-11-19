@@ -2,7 +2,6 @@ import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "../store/store.js";
-
 import Dashboard from "../components/Dashboard/index.jsx";
 import PortableCharger from "../components/PortableCharger/index.jsx";
 import AppSignupList from "../components/AppSignUp/AppSignupList.js";
@@ -91,6 +90,9 @@ import AddPod from "../components/PortableCharger/AddPod/AddPod.js";
 import AddPodForm from "../components/PortableCharger/AddPod/AddPodForm.js";
 import EditPodForm from "../components/PortableCharger/AddPod/EditPodForm.js";
 import AddPODDetails from "../components/PortableCharger/AddPod/AddPODDetails.js";
+import AddBrandForm from "../components/PortableCharger/AddPod/AddBrandForm.jsx";
+import EditBrandForm from "../components/PortableCharger/AddPod/EditBrandForm.jsx";
+
 const router = createBrowserRouter([
   {
     path: "/login",
@@ -133,8 +135,8 @@ const router = createBrowserRouter([
         element: <PortableCharger />,
         children: [
           {
-            path:"add-pod",
-            element:<AddPod/>
+            path: "add-pod",
+            element: <AddPod />
           },
           {
             path: "charger-list",
@@ -184,16 +186,16 @@ const router = createBrowserRouter([
         element: <EditPublicChargerStation />,
       },
       {
-        path:"/addpod-form",
-        element:<AddPodForm/>
+        path: "/addpod-form",
+        element: <AddPodForm />
       },
       {
-        path:"/editpod-form",
-        element:<EditPodForm/>
+        path: "/editpod-form",
+        element: <EditPodForm />
       },
       {
-path:"/addpod-details",
-element:<AddPODDetails/>
+        path: "/addpod-details",
+        element: <AddPODDetails />
       },
 
       {
@@ -494,6 +496,15 @@ element:<AddPODDetails/>
         path: "/subscription-details/:subId",
         element: <SubscriptionDetails />,
       },
+      // Start the Add POD Brand Route
+      {
+        path:"/add-brand-form",
+        element:<AddBrandForm/>
+      },
+      {
+        path:"/edit-brand-form",
+        element:<EditBrandForm/>
+      }
     ],
   },
   {

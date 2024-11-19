@@ -120,7 +120,7 @@ const AddPODDetails = () => {
                     sectionTitles3={sectionTitles3} sectionContent3={sectionContent3}
                     type='portableChargerBooking' />
                     <BookingDetailsButtons/>
-                <BookingDetailsAccordion history={history} rsa={content} />
+                {/* <BookingDetailsAccordion history={history} rsa={content} /> */}
             </div>
         </div>
     )

@@ -187,8 +187,8 @@ const List = ({ list, tableHeaders, listData, keyMapping, pageHeading, onDeleteS
                                     )}
                                     {pageHeading === 'Add POD List' && (
                                         <>
-                                            <img src={View} alt="view" onClick={() => handleEditPodList(data.slot_id)} />
-                                            <img src={Edit} alt='edit' onClick={() => handleAddPodDetails(data.slot_id)} />
+                                            <img src={View} alt="view" onClick={() => handleAddPodDetails(data.slot_id)} />
+                                            <img src={Edit} alt='edit' onClick={() => handleEditPodList(data.slot_id)} />
                                             <img src={Delete} alt='delete' />
                                         </>
                                     )}

@@ -34,11 +34,13 @@ body{
 }
   /* End the multi dropdown section */
   .accordion-button:not(.collapsed) {
+    padding: 16px !important;
     color: #fff !important;
     background-color: #242424 !important;
     box-shadow: unset !important;
 }
 .accordion-button {
+  padding: 16px !important;
   color: #ffffff !important;
   background-color: #242424 !important;
   border-radius: 4px !important;

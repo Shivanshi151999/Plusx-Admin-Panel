@@ -5,7 +5,7 @@ import styles from './bookingdetails.module.css';
 import moment from 'moment';
 
 
-const BookingDetailsAccordion = ({history, rsa, imageUrl }) => {
+const BookingDetailsAccordion = ({history, rsa, imageUrl, fieldMapping, title }) => {
 
     const statusTitles = {
         P   : 'Open',
@@ -45,7 +45,7 @@ const BookingDetailsAccordion = ({history, rsa, imageUrl }) => {
     return (
         <div className={styles.accordionContainer}>
             <div className={styles.header}>
-                <div className={styles.status}>Order Status</div>
+                <div className={styles.status}>{title || "Order Status"}</div>
             </div>
             <Accordion activeKey={activeKey} className={styles.accordion}>
                         
