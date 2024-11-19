@@ -6,10 +6,12 @@ import Search from '../../../assets/images/Search.svg';
 import SearchAccordion from '../Accordion/SearchAccodion';
 import AccordionFilter from '../Accordion/Accordions'; 
 import { Link } from 'react-router-dom';
+import FormModal from '../CustomModal/FormModal';
 
 const SubHeader = ({ heading, fetchFilteredData, dynamicFilters, filterValues, addButtonProps, searchTerm }) => {
     const [isSearchAccordionOpen, setIsSearchAccordionOpen] = useState(false);
     const [isFilterAccordionOpen, setIsFilterAccordionOpen] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const toggleSearchAccordion = () => {
         setIsSearchAccordionOpen(!isSearchAccordionOpen);
@@ -19,6 +21,14 @@ const SubHeader = ({ heading, fetchFilteredData, dynamicFilters, filterValues, a
     const toggleFilterAccordion = () => {
         setIsFilterAccordionOpen(!isFilterAccordionOpen);
         setIsSearchAccordionOpen(false); 
+    };
+
+    const toggleModal = () => {
+        setIsModalOpen(true); 
+    };
+    const closeModal = () => {
+        setIsModalOpen(false);
+        // setSelectedBookingId(null);
     };
 
     const shouldShowAddButton = 
@@ -66,7 +76,7 @@ const SubHeader = ({ heading, fetchFilteredData, dynamicFilters, filterValues, a
                 <div className={styles.headingList}>{heading}</div>
 
                 <div className={styles.subHeaderButtonSection}>
-                    {shouldShowAddButton && (
+                    {/* {shouldShowAddButton && (
                         <Link to={addButtonProps?.link}>
                             <div className={styles.addButtonSection}>
                                 <div className={styles.addButtonImg}>
@@ -75,6 +85,26 @@ const SubHeader = ({ heading, fetchFilteredData, dynamicFilters, filterValues, a
                                 <div className={styles.addButtonText}>{addButtonProps?.heading}</div>
                             </div>
                         </Link>
+                    )} */}
+
+{shouldShowAddButton && (
+                        heading === "Ev Specialized Shop Brand List" ? (
+                            <div className={styles.addButtonSection} onClick={toggleModal}>
+                                <div className={styles.addButtonImg}>
+                                    <img src={Plus} alt='plus' />
+                                </div>
+                                <div className={styles.addButtonText}>{addButtonProps?.heading}</div>
+                            </div>
+                        ) : (
+                            <Link to={addButtonProps?.link}>
+                                <div className={styles.addButtonSection}>
+                                    <div className={styles.addButtonImg}>
+                                        <img src={Plus} alt='plus' />
+                                    </div>
+                                    <div className={styles.addButtonText}>{addButtonProps?.heading}</div>
+                                </div>
+                            </Link>
+                        )
                     )}
                     
                     {/* Search Button */}
@@ -120,6 +150,17 @@ const SubHeader = ({ heading, fetchFilteredData, dynamicFilters, filterValues, a
                     filterValues={filterValues} 
                 />
             )}
+{isModalOpen && (
+<FormModal
+                isOpen={isModalOpen}
+                onClose={closeModal}
+                // driverList={rsaList}
+                // bookingId = {selectedBookingId}
+                // onSelectDriver={handleDriverSelect}
+                // onAssignDriver={assignDriver}
+            />
+
+        )}
         </div>
     );
 };
