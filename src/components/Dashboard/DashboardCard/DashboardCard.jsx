@@ -99,7 +99,7 @@ const DashboardCard = ({ details }) => {
         details?.find((item) => item.module === "EV Road Assistance")?.count ||
         0,
       title: "EV Road Assistance",
-      route: "/charger-installation-list",
+      route: "/ev-road-assistance/booking-list",
     },
     {
       icon: ChargerInstallationImage,
@@ -107,7 +107,7 @@ const DashboardCard = ({ details }) => {
         details?.find((item) => item.module === "Charger Installation Bookings")
           ?.count || 0,
       title: "Charger Installation Bookings",
-      route: "/ev-road-assistance/booking-list",
+      route: "/charger-installation-list",
     },
     {
       icon: EVRiderClubImage,
