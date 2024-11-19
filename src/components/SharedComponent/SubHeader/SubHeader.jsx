@@ -87,8 +87,8 @@ const SubHeader = ({ heading, fetchFilteredData, dynamicFilters, filterValues, a
                         </Link>
                     )} */}
 
-{shouldShowAddButton && (
-                        heading === "Ev Specialized Shop Brand List" ? (
+                    {shouldShowAddButton && (
+                        (heading === "Ev Specialized Shop Brand List" || heading === "Ev Specialized Shop Service List")  ? (
                             <div className={styles.addButtonSection} onClick={toggleModal}>
                                 <div className={styles.addButtonImg}>
                                     <img src={Plus} alt='plus' />
@@ -150,17 +150,14 @@ const SubHeader = ({ heading, fetchFilteredData, dynamicFilters, filterValues, a
                     filterValues={filterValues} 
                 />
             )}
-{isModalOpen && (
-<FormModal
-                isOpen={isModalOpen}
-                onClose={closeModal}
-                // driverList={rsaList}
-                // bookingId = {selectedBookingId}
-                // onSelectDriver={handleDriverSelect}
-                // onAssignDriver={assignDriver}
-            />
 
-        )}
+            {isModalOpen && (
+                <FormModal
+                    isOpen={isModalOpen}
+                    onClose={closeModal}
+                />
+
+            )}
         </div>
     );
 };
