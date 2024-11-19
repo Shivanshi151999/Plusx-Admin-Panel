@@ -83,7 +83,7 @@ const EditPortableCharger = () => {
             formData.append("charger_price", chargerPrice);
             formData.append("charger_feature", chargerFeature);
             formData.append("charger_type", chargerType);
-            formData.append("status", "1");
+            formData.append("status", isActive === true ? 1 : 0);
 
             // Append new image file if a new file is selected, skip if it's the existing image URL
             if (file instanceof File) {
@@ -123,6 +123,7 @@ const EditPortableCharger = () => {
                 setChargerType(data.charger_type || "");
                 setChargerFeature(data.charger_feature || "");
                 setFile(data.image || "")
+                setIsActive(data?.status)
 
             } else {
                 console.log('error in charger-slot-details API', response);

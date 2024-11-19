@@ -135,7 +135,9 @@ const List = ({ list, tableHeaders, listData, keyMapping, pageHeading, onDeleteS
                                     {pageHeading === 'Charger Booking List' && (
                                         <>
                                             <img src={View} alt="view" onClick={() => handleBookingDetails(data.booking_id)} />
-                                            {/* <img src={Cancel} alt='cancel' /> */}
+                                            {data.status !== 'C' && (
+                                                <img src={Cancel} alt='cancel' />
+                                            )}
                                         </>
                                     )}
                                     {pageHeading === 'Portable Charger List' && (
@@ -167,7 +169,9 @@ const List = ({ list, tableHeaders, listData, keyMapping, pageHeading, onDeleteS
                                     {pageHeading === 'Pick & Drop Booking List' && (
                                         <>
                                             <img src={View} alt="view" onClick={() => handlePDBookingDetails(data.request_id)} />
-                                            {/* <img src={Cancel} alt='cancel' /> */}
+                                            {data.order_status !== 'C' && (
+                                                <img src={Cancel} alt='cancel' />
+                                            )}
                                         </>
                                     )}
                                     {pageHeading === 'Pick & Drop Invoice List' && (
