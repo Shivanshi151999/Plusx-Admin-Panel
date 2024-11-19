@@ -86,15 +86,11 @@ import EvPreSaleSlotList from "../components/EvPreSale/TimeSlot/SlotList.jsx";
 import AddEvPreSaleTimeSlot from "../components/EvPreSale/TimeSlot/AddTimeSlot.jsx";
 import EditEvPreSaleTimeSlot from "../components/EvPreSale/TimeSlot/EditTimeSlot.jsx";
 import ShopDetails from "../components/EVSpecializedShops/ShopList/ShopList/ShopDetails.jsx";
-<<<<<<< Updated upstream
 import EditShopListForm from "../components/EVSpecializedShops/ShopList/ShopList/EditShop.jsx";
-
-=======
 import AddPod from "../components/PortableCharger/AddPod/AddPod.js";
 import AddPodForm from "../components/PortableCharger/AddPod/AddPodForm.js";
 import EditPodForm from "../components/PortableCharger/AddPod/EditPodForm.js";
 import AddPODDetails from "../components/PortableCharger/AddPod/AddPODDetails.js";
->>>>>>> Stashed changes
 const router = createBrowserRouter([
   {
     path: "/login",

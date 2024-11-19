@@ -86,12 +86,9 @@ const List = ({ list, tableHeaders, listData, keyMapping, pageHeading, onDeleteS
 
     //Shop
     const handleShopDetails = (id) => navigate(`/ev-specialized/shop-details/${id}`)
-<<<<<<< Updated upstream
     const handleShopEditDetails = (id) => navigate(`/ev-specialized/edit-shop/${id}`)
     
-=======
 
->>>>>>> Stashed changes
     return (
         <div className={styles.containerCharger}>
 
@@ -208,15 +205,9 @@ const List = ({ list, tableHeaders, listData, keyMapping, pageHeading, onDeleteS
 
                                     {pageHeading === 'Shop List' && (
                                         <>
-<<<<<<< Updated upstream
                                          <img src={View} alt="view" onClick={() => handleShopDetails(data.shop_id)}/>
                                             <img src={Edit} alt='edit' onClick={() => handleShopEditDetails(data.shop_id)}/>
                                             <img src={Delete} alt='delete' onClick={() => onDeleteSlot(data.shop_id)} />
-=======
-                                            <img src={View} alt="view" onClick={() => handleShopDetails(data.shop_id)} />
-                                            <img src={Edit} alt='edit' />
-                                            <img src={Delete} alt='delete' />
->>>>>>> Stashed changes
                                         </>
                                     )}
 
