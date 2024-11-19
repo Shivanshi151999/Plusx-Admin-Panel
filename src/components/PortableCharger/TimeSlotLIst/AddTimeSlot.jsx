@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from './addtimeslot.module.css';
+import InputMask from 'react-input-mask';
 // import TimePicker from 'react-time-picker';
 import dayjs from 'dayjs';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
@@ -169,8 +170,8 @@ const AddPortableChargerTimeSlot = () => {
                             </div>
                             <div className={styles.inputGroup}>
                                 <label className={styles.label}>Start Time</label>
-                                <input
-                                    type="text"
+                                <InputMask
+                                    mask="99:99"
                                     className={styles.inputCharger}
                                     value={slot.startTime}
                                     onChange={(e) => handleStartTimeChange(index, e.target.value)}
@@ -181,8 +182,8 @@ const AddPortableChargerTimeSlot = () => {
 
                             <div className={styles.inputGroup}>
                                 <label className={styles.label}>End Time</label>
-                                <input
-                                    type="text"
+                                <InputMask
+                                    mask="99:99"
                                     className={styles.inputCharger}
                                     value={slot.endTime}
                                     onChange={(e) => handleEndTimeChange(index, e.target.value)}

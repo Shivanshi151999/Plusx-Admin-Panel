@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
-
 import styles from "./sidenavbar.module.css";
 import CompanyLogo from "../CompanyLogo";
 import SideBarLinkItem from "./SideBarLinkItem";
@@ -11,6 +10,7 @@ const SideNavbar = () => {
   const [openDropdown, setOpenDropdown] = useState(null);
   const [checkedItems, setCheckedItems] = useState({
     portableCharger: {
+      addPod:false,
       chargerList: false,
       chargerBooking: false,
       invoiceList: false,
@@ -69,6 +69,7 @@ const SideNavbar = () => {
       portableCharger: location.pathname.includes("/portable-charger")
         ? prevState.portableCharger
         : {
+          addPod:false,
             chargerList: false,
             chargerBooking: false,
             invoiceList: false,

@@ -307,7 +307,12 @@ background-color: #242424;
   font-size: 18px;
   font-weight: 600;
 }
-
+.editSubmitBtn:hover,
+.editCancelBtn:hover{
+  background-color: #000000;
+  border: 1px solid #00ffc3;
+  color: #ffffff;
+}
 /* Container for toggle switch */
 .toggleContainer {
   width: 300px;

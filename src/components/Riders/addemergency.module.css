@@ -89,12 +89,17 @@
 
 .editSubmitBtn {
   color: #000000;
+  border: 1px solid #00ffc3 !important;
   background-color: #00ffc3;
   padding: 10px 26px;
   border-radius: 10px;
   border: none;
   font-size: 18px;
   font-weight: 600;
+}
+.editSubmitBtn:hover {
+  color: #ffffff;
+  background-color: #000000;
 }
 /* Style the image section container */
 .fileUpload {

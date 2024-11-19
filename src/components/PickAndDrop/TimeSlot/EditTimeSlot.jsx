@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styles from './addpickanddroptimeslot.module.css';
 import DatePicker from "react-datepicker";
+import InputMask from 'react-input-mask';
 import "react-datepicker/dist/react-datepicker.css";
 import dayjs from 'dayjs';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
@@ -161,8 +162,8 @@ const EditPickAndDropTimeSlot = () => {
                         </div>
                         <div className={styles.inputGroup}>
                             <label className={styles.label}>Start Time</label>
-                            <input
-                                type="text"
+                            <InputMask
+                                mask="99:99"
                                 className={styles.inputCharger}
                                 value={startTime}
                                 onChange={handleStartTimeChange}
@@ -172,8 +173,8 @@ const EditPickAndDropTimeSlot = () => {
                         </div>
                         <div className={styles.inputGroup}>
                             <label className={styles.label}>End Time</label>
-                            <input
-                                type="text"
+                            <InputMask
+                                mask="99:99"
                                 className={styles.inputCharger}
                                 value={endTime}
                                 onChange={handleEndTimeChange}

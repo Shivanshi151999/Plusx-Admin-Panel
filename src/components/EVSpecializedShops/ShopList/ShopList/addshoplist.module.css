@@ -166,16 +166,22 @@
   color: #ffffff; 
 }
 .addButton {
+  border: 1px solid #00ffc3 !important;
   background-color: #00ffc3;
+  font-weight: 600;
   display: flex;
   color: #000000;
   padding: 6px 20px;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   cursor: pointer;
   align-items: center;
   justify-content: center;
   column-gap: 10px;
+}
+.addButton:hover {
+background-color: #000000;
+color: #ffffff;
 }
 .addButton img{
   width: 16px;
@@ -397,6 +403,7 @@ color: #000000;
 }
 
 .editSubmitBtn {
+  border: 1px solid #00ffc3;
 color: #000000;
 background-color: #00ffc3;
 padding: 10px 26px;
@@ -405,7 +412,12 @@ border: none;
 font-size: 18px;
 font-weight: 600;
 }
-
+.editCancelBtn:hover,
+.editSubmitBtn:hover {
+  background-color: #000000;
+  color: #ffffff;
+  border: 1px solid #00ffc3;
+  }
 /* Container for toggle switch */
 .toggleContainer {
 width: 300px;

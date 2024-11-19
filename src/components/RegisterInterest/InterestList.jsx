@@ -105,14 +105,9 @@ const InterestList = () => {
                  <div className='errorContainer'>No data available</div>
             ) : (
                 <List
-                    tableHeaders={["Customer ID", "Customer Name", "Vehicle", "Region Specification", "Address"]}
+                    tableHeaders={["Customer ID", "Customer Name", "Vehicle", "Region Specification", "Address", ""]}
                     listData={clubList}
                     keyMapping={[
-                        // {
-                        //     key: 'created_at',
-                        //     label: 'Date',
-                        //     format: (date) => moment(date).format('DD MMM YYYY')
-                        // },
                         { key: 'user_id', label: 'Customer ID' },
                         { key: 'name', label: 'Customer Name' },
                         { key: 'vehicle', label: 'Vehicle' },

@@ -3,6 +3,7 @@ import styles from './publiccharger.module.css'
 import BookingDetailsHeader from '../SharedComponent/Details/BookingDetails/BookingDetailsHeader'
 import BookingDetailsSection from '../SharedComponent/Details/BookingDetails/BookingDetailsSection'
 import BookingImageSection from '../SharedComponent/Details/BookingDetails/BookingImageSection'
+import BookingMultipleImages from '../SharedComponent/Details/BookingDetails/BookingMultipleImages.jsx';
 import { postRequestWithToken } from '../../api/Requests';
 import BookingLeftDetails from '../SharedComponent/BookingDetails/BookingLeftDetails.jsx'
 import { useParams } from 'react-router-dom';
@@ -193,6 +194,11 @@ const StationDetails = () => {
         <BookingImageSection
           titles={imageTitles} content={imageContent}
           type='publicChargingStation'
+        />
+        <BookingMultipleImages
+      //  title={imageTitles.galleryImages} 
+      //  content={imageGallery} 
+      //  baseUrl={baseUrl} 
         />
       </div>
     </div>

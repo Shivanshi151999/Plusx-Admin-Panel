@@ -1,5 +1,6 @@
 export const menuItems = {
   portableCharger: [
+    { id: "addPOD", label: "Add POD", path: "/portable-charger/add-pod" },
     { id: "chargerList", label: "Charger List", path: "/portable-charger/charger-list" },
     { id: "chargerBooking", label: "Charger Booking", path: "/portable-charger/charger-booking-list" },
     { id: "invoiceList", label: "Invoice List", path: "/portable-charger/charger-booking-invoice-list" },

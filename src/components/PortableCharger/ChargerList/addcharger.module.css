@@ -114,10 +114,11 @@
     border: none;
     padding: 10px 20px;
     cursor: pointer;
-    border-radius: 8%;
+    border-radius: 8px;
   }
   
   .submitBtn {
+    border: 1px solid #00ffc3 !important;
     background-color:#00ffc3;
     color: #000000;
     outline: none;
@@ -130,11 +131,14 @@
   }
   
   .submitBtn:hover {
-    background-color:#00ffc3;
+    color: #ffffff;
+    background-color: #000000;
   }
   
   .cancelBtn:hover {
-    background-color: #ffffff;
+    border: 1px solid #00ffc3 !important;
+    background-color: #000000;
+    color: #ffffff;
   }
   .fileUpload {
     display: flex;

@@ -109,3 +109,25 @@
   color: #ffffff;
   margin-top: 40px;
 }
+/* start the Booking details pod section */
+.iconContainer{
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap: 20px;
+}
+.iconButton{
+  border: 1px solid #00ffc3;
+  background-color: #000000;
+  color: #fff;
+  padding: 14px 20px;
+  border-radius: 8px;
+}
+.iconButton:hover{
+background-color: #00ffc3;
+color: #000000;
+}
+.iconButton span{
+  font-size: 18px;
+  font-weight: 600;
+}

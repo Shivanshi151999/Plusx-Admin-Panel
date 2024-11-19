@@ -1,18 +1,21 @@
-.subHeaderContainer{
+.subHeaderContainer {
     padding: 20px;
     background-color: #242424;
     color: white;
     font-family: "Inter", sans-serif !important;
 }
+
 .headerCharger {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
-.subHeaderButtonSection{
+
+.subHeaderButtonSection {
     display: flex;
     column-gap: 14px;
 }
+
 .headingList {
     font-size: 24px;
     font-weight: 600;
@@ -24,11 +27,22 @@
     align-items: center;
     column-gap: 8px;
     background-color: #00ffcc;
+    border: 1px solid #00ffcc !important;
     color: #000000;
     padding: 10px 20px;
     border: none;
     border-radius: 10px;
     cursor: pointer;
+}
+
+.addButtonSection:hover {
+    background-color: #000000;
+    /* border: 1px solid #00ffcc; */
+    color: #fff;
+}
+
+.addButtonSection:hover .addButtonImg img {
+    filter: brightness(0) invert(1);
 }
 
 .addButtonImg img {
