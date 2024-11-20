@@ -390,7 +390,7 @@ color: #ffffff;
   font-size: 14px;
   font-weight: 400;
   text-align: left;
-  border-bottom: 1px solid #ffffff;
+  /* border-bottom: 1px solid #ffffff; */
 }
 
 .table thead th:first-child {
@@ -413,36 +413,28 @@ color: #ffffff;
   margin-right: 5px;
   border-radius: 3px;
 }
-/* .timeSlotGroup {
-  background-color: #000000 !important;
-  border-radius: 8px; 
-  overflow: hidden;
-} */
-
-/* Style the first and last rows of tbody to achieve rounded corners */
-/* .timeSlotGroup tr:first-child td:first-child {
-  border-top-left-radius: 10px;
+.timeSlotGroup{
+  border-bottom: 1px solid #ffffff !important;
 }
-
-.timeSlotGroup tr:first-child td:last-child {
-  border-top-right-radius: 10px;
-}
-
-.timeSlotGroup tr:last-child td:first-child {
-  border-bottom-left-radius: 10px;
-}
-
-.timeSlotGroup tr:last-child td:last-child {
-  border-bottom-right-radius: 10px;
-} */
-
 .listSpan{
-  padding: 0px 20px !important;
+  padding: 0px 14px !important;
   font-size: 16px !important;
   font-weight: 500 !important;
   color: #00ffcc !important;
   border-bottom: none !important;
   position: relative;
   top: 12px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.timeSlotContent{
+  background-color: #000000;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap: 18px;
+  padding: 10px;
+  border-radius: 8px;
 }
 /* End the styling in table section */

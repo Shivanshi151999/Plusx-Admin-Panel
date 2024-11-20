@@ -136,7 +136,6 @@ const PortableChargerTimeSlotList = () => {
                                 <th>Total Booking</th>
                                 <th>Remaining Booking</th>
                                 <th>Status</th>
-                                <th>Action</th>
                             </tr>
                         </thead>
 
@@ -180,11 +179,9 @@ const PortableChargerTimeSlotList = () => {
                             <React.Fragment key={index} className={styles.groupContainer}>
                                 {/* Date row */}
                                 <tr className={styles.dateRow}>
-                                    <td colSpan="6" className={styles.listSpan}>
+                                    <td className={styles.listSpan}>
+                                        <div className={styles.timeSlotContent}>
                                         <span>Date: {group.slot_date}</span>
-                                    </td>
-                                    {/* Action buttons in the same row as the date */}
-                                    <td className={styles.actionButtons}>
                                         <div className={styles.editContent}>
                                             <img
                                                 src={Edit}
@@ -196,6 +193,7 @@ const PortableChargerTimeSlotList = () => {
                                                 alt="delete"
                                                 onClick={() => handleDeleteSlot(group.slots[0]?.slot_id)}
                                             />
+                                        </div>
                                         </div>
                                     </td>
                                 </tr>
@@ -216,7 +214,6 @@ const PortableChargerTimeSlotList = () => {
                                             <td>{slot.slot_booking_count || '0'}</td>
                                             <td>{slot.remaining_booking || '0'}</td>
                                             <td>{slot.status === 1 ? "Active" : "Inactive"}</td>
-                                            <td>{/* Leave this cell empty to align with the table */}</td>
                                         </tr>
                                     ))}
                                 </tbody>
