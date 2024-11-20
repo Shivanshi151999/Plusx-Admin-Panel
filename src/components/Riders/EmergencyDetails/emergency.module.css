@@ -130,3 +130,8 @@
         width: 30px;
     }
     /* start the list section */
+
+    .mapContainer{
+      border: 2px solid red;
+      height: 100px !important;
+    }

@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-
 import style from "./index.module.css";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
@@ -44,7 +43,7 @@ function Index() {
         <>
           <div className={`row ${style.row}`}>
             <div className={`col-xl-12 col-lg-12`}>
-              <MapComponent />
+              <MapComponent className={style.mapContainer} />
             </div>
             {/* <div className={`col-xl-6 col-lg-12`}>
               <Graph />

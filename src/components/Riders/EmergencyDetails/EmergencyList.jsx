@@ -3,7 +3,7 @@ import styles from './emergency.module.css'
 import Eye from '../../../assets/images/ViewEye.svg'
 import Delete from '../../../assets/images/Delete.svg'
 
-const EmergencyList = ({details}) => {
+const EmergencyList = ({history}) => {
     const addresses = [
         {
             id: "RIOT Experience Center",
@@ -33,22 +33,29 @@ const EmergencyList = ({details}) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {addresses.map((address, index) => (
+                {history && history.length > 0 ? (
+                    history.map((item, index) => (
                         <tr key={index}>
-                            <td>{address.id}</td>
-                            <td>{address.date}</td>
-                            <td>{address.vehiclename}</td>
-                            <td>{address.status}</td>
+                            <td>{item.id}</td>
+                            <td>{item.date}</td>
+                            <td>{item.vehiclename}</td>
+                            <td>{item.status}</td>
                             <td>
                                 <div className={styles.editContent}>
-                                   <img src={Eye} alt="Eye" />
-                                    {/* <img src={Delete} alt='delete' /> */}
-
+                                    <img src={Eye} alt="Eye" />
                                 </div>
                             </td>
                         </tr>
-                    ))}
-                </tbody>
+                    ))
+                ) : (
+                    <tr>
+                        <td colSpan="5" style={{ textAlign: 'center', padding: '10px' }}>
+                            No data available
+                        </td>
+                    </tr>
+                )}
+            </tbody>
+
             </table>
         </div>
     );

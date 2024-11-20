@@ -9,3 +9,7 @@
 .row {
   padding: 20px;
 }
+.mapContainer{
+  border: 2px solid red;
+  height: 100px !important;
+}
