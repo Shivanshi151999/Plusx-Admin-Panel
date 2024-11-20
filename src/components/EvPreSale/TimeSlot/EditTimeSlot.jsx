@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import styles from './addslot.module.css';
+import Calendar from '../../../assets/images/Calender.svg'
+import Delete from '../../../assets/images/Delete.svg'
+import Add from '../../../assets/images/Add.svg';
 import InputMask from 'react-input-mask';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -21,6 +24,12 @@ const EditEvPreSaleTimeSlot = () => {
     const [startTime, setStartTime] = useState(null);
     const [endTime, setEndTime] = useState(null);
     const [bookingLimit, setBookingLimit] = useState("");
+    const [date, setDate] = useState(new Date()); // Separate state for the date
+    const [timeSlots, setTimeSlots] = useState([
+        { id: "", startTime: null, endTime: null, bookingLimit: "", remainingLimit: "", status: "" }
+    ]);
+
+
     const [errors, setErrors] = useState({});
     const [slotDetails, setSlotDetails] = useState();
 
@@ -78,35 +87,61 @@ const EditEvPreSaleTimeSlot = () => {
         }
     };
 
+    const addTimeSlot = () => {
+        // setTimeSlots([...timeSlots, { date: null, startTime: null, endTime: null, bookingLimit: "" }]);
+        setTimeSlots([...timeSlots, { startTime: null, endTime: null, bookingLimit: "" }]);
+    };
+    const removeTimeSlot = (index) => {
+        const newTimeSlots = timeSlots.filter((_, i) => i !== index);
+        setTimeSlots(newTimeSlots);
+    };
+    // const validateForm = () => {
+    //     let formIsValid = true;
+    //     const newErrors = {};
+    //     const now = dayjs();
 
+    //     if (!startDate) {
+    //         newErrors.startDate = "Date is required";
+    //         formIsValid = false;
+    //     }
+    //     if (!startTime) {
+    //         newErrors.startTime = "Start time is required";
+    //         formIsValid = false;
+    //     }
+    //     if (!endTime) {
+    //         newErrors.endTime = "End time is required";
+    //         formIsValid = false;
+    //     }
+
+    //     if (!bookingLimit) {
+    //         newErrors.bookingLimit = "Booking limit is required";
+    //         formIsValid = false;
+    //     } else if (isNaN(bookingLimit) || bookingLimit <= 0) {
+    //         newErrors.bookingLimit = "Booking limit must be a positive number";
+    //         formIsValid = false;
+    //     }
+
+    //     setErrors(newErrors);
+    //     return formIsValid;
+    // };
     const validateForm = () => {
-        let formIsValid = true;
-        const newErrors = {};
-        const now = dayjs();
-
-        if (!startDate) {
-            newErrors.startDate = "Date is required";
-            formIsValid = false;
+        const errors = [];
+        if (!date) {
+            errors.push({ date: "Date is required" });
         }
-        if (!startTime) {
-            newErrors.startTime = "Start time is required";
-            formIsValid = false;
-        }
-        if (!endTime) {
-            newErrors.endTime = "End time is required";
-            formIsValid = false;
-        }
-
-        if (!bookingLimit) {
-            newErrors.bookingLimit = "Booking limit is required";
-            formIsValid = false;
-        } else if (isNaN(bookingLimit) || bookingLimit <= 0) {
-            newErrors.bookingLimit = "Booking limit must be a positive number";
-            formIsValid = false;
-        }
-
-        setErrors(newErrors);
-        return formIsValid;
+        timeSlots.forEach((slot, index) => {
+            const slotErrors = {};
+            if (!slot.startTime) slotErrors.startTime = "Start time is required";
+            if (!slot.endTime) slotErrors.endTime = "End time is required";
+            if (!slot.bookingLimit) {
+                slotErrors.bookingLimit = "Booking limit is required";
+            } else if (isNaN(slot.bookingLimit) || slot.bookingLimit <= 0) {
+                slotErrors.bookingLimit = "Booking limit must be a positive number";
+            }
+            errors[index] = slotErrors;
+        });
+        setErrors(errors);
+        return !errors.some((error) => Object.keys(error).length > 0);
     };
 
     const handleSubmit = (e) => {
@@ -138,28 +173,43 @@ const EditEvPreSaleTimeSlot = () => {
         }
     };
 
-    const [isActive, setIsActive] = useState(false);
+    const [isActive, setIsActive] = useState(true);
 
-    const handleToggle = () => {
-        setIsActive(!isActive);
+    const handleToggle = (index) => {
+        setTimeSlots((prevSlots) =>
+            prevSlots.map((slot, i) =>
+                i === index ? { ...slot, status: slot.status === 1 ? 0 : 1 } : slot
+            )
+        );
     };
 
     return (
         <div className={styles.containerCharger}>
             <ToastContainer />
-            <h2 className={styles.title}>Edit Slot</h2>
-            <div className={styles.chargerSection}>
-                <form className={styles.form} onSubmit={handleSubmit}>
-                    <div className={styles.row}>
-                        <div className={styles.inputGroup}>
-                            <label className={styles.label}>Select Date</label>
+            <div className={styles.slotHeaderSection}>
+                <h2 className={styles.title}>Edit Slot</h2>
+                <button type="button" className={styles.buttonSec} onClick={addTimeSlot}>
+                    <img src={Add} alt="Add" className={styles.addImg} />
+                    <span className={styles.addContent}>Add</span>
+                </button>
+            </div>
+            <form className={styles.form} onSubmit={handleSubmit}>
+                <div className={styles.chargerSection}>
+                    <div className={styles.inputGroup}>
+                        <label className={styles.label}>Select Date</label>
+                        <div className={styles.datePickerWrapper}>
                             <DatePicker
                                 className={styles.inputCharger}
                                 selected={startDate}
                                 onChange={(date) => setStartDate(date)}
                             />
-                            {errors.startDate && <span className="error">{errors.startDate}</span>}
+                            <img className={styles.datePickerImg} src={Calendar} alt="calendar" />
                         </div>
+                        {errors.startDate && <span className="error">{errors.startDate}</span>}
+                    </div>
+                </div>
+                {timeSlots.map((slot, index) => (
+                    <div key={index} className={styles.slotMainFormSection}>
                         <div className={styles.inputGroup}>
                             <label className={styles.label}>Start Time</label>
                             <InputMask
@@ -193,27 +243,48 @@ const EditEvPreSaleTimeSlot = () => {
                             />
                             {errors.bookingLimit && <span className="error">{errors.bookingLimit}</span>}
                         </div>
-                    </div>
-                    <div className={styles.toggleContainer}>
-                        <label className={styles.statusLabel}>Status</label>
-                        <div className={styles.toggleSwitch} onClick={handleToggle}>
-                            <span className={`${styles.toggleLabel} ${!isActive ? styles.inactive : ''}`}>
-                                In-Active
-                            </span>
-                            <div className={`${styles.toggleButton} ${isActive ? styles.active : ''}`}>
-                                <div className={styles.slider}></div>
-                            </div>
-                            <span className={`${styles.toggleLabel} ${isActive ? styles.active : ''}`}>
-                                Active
-                            </span>
+                        <div className={styles.inputGroup}>
+                            <label className={styles.label}>Available Limit</label>
+                            <input
+                                className={styles.inputCharger}
+                                type="text"
+                                placeholder="Enter Available Limit"
+                                maxLength="4"
+                                value={'0'}
+                                disabled
+                            // onChange={(e) => handleBookingLimitChange(index, e)}
+                            />
+                            {/* {errors[index]?.bookingLimit && <span className="error">{errors[index].bookingLimit}</span>} */}
                         </div>
+                        <div className={styles.toggleContainer}>
+                            <label className={styles.statusLabel}>Status</label>
+                            <div
+                                className={styles.toggleSwitch}
+                                onClick={() => handleToggle(index)}
+                            >
+                                {/* Toggle Button */}
+                                <div className={`${styles.toggleButton} ${slot.status ? styles.active : styles.inactive}`}>
+                                    <div className={styles.slider}></div>
+                                </div>
+
+                                {/* Text for Active or Inactive */}
+                                <span className={`${styles.toggleText} ${slot.status ? styles.activeText : styles.inactiveText}`}>
+                                    {slot.status ? "Active" : "Inactive"}
+                                </span>
+                            </div>
+                        </div>
+                        {timeSlots.length > 1 && (
+                            <button type="button" className={styles.buttonContainer} onClick={() => removeTimeSlot(index)}>
+                                <img className={styles.removeContent} src={Delete} alt="delete" />
+                            </button>
+                        )}
                     </div>
-                    <div className={styles.actions}>
-                        <button className={styles.cancelBtn} type="button" onClick={handleCancel}>Cancel</button>
-                        <button className={styles.submitBtn} type="submit">Submit</button>
-                    </div>
-                </form>
-            </div>
+                ))}
+                <div className={styles.actions}>
+                    <button className={styles.cancelBtn} type="button" onClick={handleCancel}>Cancel</button>
+                    <button className={styles.submitBtn} type="submit">Submit</button>
+                </div>
+            </form>
         </div>
     );
 };

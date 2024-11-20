@@ -222,28 +222,15 @@ const ChargerBookingList = () => {
                 <div className={styles.errorContainer}>No data available</div>
             ) : (
             <List
-                tableHeaders={["Date","Booking ID", "Customer Name", "Service Name", "Price",  "Status", "Driver Assign", "Action"]}
+                tableHeaders={["Date","Booking ID", "Customer Name", "Service Name", "Price",  "Status", "Driver Assign", "Action",""]}
                 listData={chargerBookingList}
                 keyMapping={[
                     { key: 'created_at', label: 'Date & Time', format: (date) => moment(date).format('DD MMM YYYY') },
                     { key: 'booking_id', label: 'ID' },
-                    // {
-                    //     key: 'user_name',
-                    //     label: 'Name',
-                    //     relatedKeys: ['country_code', 'contact_no'],
-                    //     format: (data, key, relatedKeys) => (
-                    //         <>
-                    //             {data[key]}<br />
-                    //             {relatedKeys.map((relatedKey) => data[relatedKey]).join(" ")}
-                    //         </>
-                    //     )
-                    // },
                     { key: 'user_name', label: 'Customer Name' },
                     { key: 'service_name', label: 'Service Name' },
-                    { key: 'service_price', label: 'Price', format: (price) => (price ? `AED ${price}` : '') },
-                    
-                    { key: 'status', label: 'Status', format: (status) => statusMapping[status] || status },
-                    
+                    { key: 'service_price', label: 'Price', format: (price) => (price ? `AED ${price}` : '') },   
+                    { key: 'status', label: 'Status', format: (status) => statusMapping[status] || status },                    
 
                     {
                         key: 'driver_assign',
@@ -270,13 +257,13 @@ const ChargerBookingList = () => {
                             const isCancelable = data[relatedKeys[0]] !== 'C'; 
                     
                             return (
-                                <div style={{ display: 'flex', gap: '10px' }}>
+                                <div className="editButtonSection">
                                     {/* View Button (Always Displayed) */}
                                     <img 
                                         src={View} 
                                         alt="view" 
                                         onClick={() => handleBookingDetails(data.booking_id)} 
-                                        style={{ cursor: 'pointer' }} 
+                                       className="viewButton"
                                     />
                     
                                     {/* Cancel Button (Displayed Conditionally) */}
@@ -285,7 +272,7 @@ const ChargerBookingList = () => {
                                             src={Cancel} 
                                             alt="cancel" 
                                             onClick={() => handleCancelClick(data.booking_id, data.rider_id)} 
-                                            style={{ cursor: 'pointer' }} 
+                                            className="viewButton"
                                         />
                                     )}
                                 </div>
@@ -321,9 +308,8 @@ const ChargerBookingList = () => {
                     onAssign={handleConfirmCancel}
                     buttonName = 'Submit'
                 >
-                    <div className={styles.modalHeading} style={{color:'white'}}>Reason for Cancellation</div>
+                    <div className={styles.modalHeading}>Reason for Cancellation</div>
                     <textarea
-                        style={{color: 'black'}}
                         id="reason"
                         placeholder="Enter reason"
                         className={styles.inputField}

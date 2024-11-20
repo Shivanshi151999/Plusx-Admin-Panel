@@ -29,3 +29,19 @@
     border-radius: 20px;
     font-size: 18px;
 }
+
+.modalHeading{
+    font-size: 22px;
+    font-weight: 600;
+    color: #ffffff;
+}
+.inputField{
+    background-color: #242424;
+    border: none;
+    border-radius: 6px;
+    color: #fff;
+    font-size: 16px;
+    outline: none;
+    padding: 16px 10px;
+    width: 100%;
+}

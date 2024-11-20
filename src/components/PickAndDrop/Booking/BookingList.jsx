@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import List from '../../SharedComponent/List/List'
-import Edit from '../../../assets/images/Pen.svg';
 import Cancel from '../../../assets/images/Cancel.svg';
-import Delete from '../../../assets/images/Delete.svg';
 import View from '../../../assets/images/ViewEye.svg'
 import AddDriver from '../../../assets/images/AddDriver.svg';
 import SubHeader from '../../SharedComponent/SubHeader/SubHeader'
@@ -218,7 +216,7 @@ const BookingList = () => {
                 <div className='errorContainer'>No data available</div>
             ) : (
         <List 
-        tableHeaders={["Date", "Booking ID", "Customer Name", "Price", "Status", "Driver Assign", "Action"]}
+        tableHeaders={["Date", "Booking ID", "Customer Name", "Price", "Status", "Driver Assign", "Action",""]}
           listData = {chargerBookingList}
           keyMapping={[
             { 
@@ -276,13 +274,13 @@ const BookingList = () => {
                     const isCancelable = data[relatedKeys[0]] !== 'C'; 
             
                     return (
-                        <div style={{ display: 'flex', gap: '10px' }}>
+                        <div className="editButtonSection">
                             {/* View Button (Always Displayed) */}
                             <img 
                                 src={View} 
                                 alt="view" 
                                 onClick={() => handlePDBookingDetails(data.request_id)} 
-                                style={{ cursor: 'pointer' }} 
+                                className="viewButton" 
                             />
             
                             {/* Cancel Button (Displayed Conditionally) */}
@@ -291,7 +289,7 @@ const BookingList = () => {
                                     src={Cancel} 
                                     alt="cancel" 
                                     onClick={() => handleCancelClick(data.request_id, data.rider_id)} 
-                                    style={{ cursor: 'pointer' }} 
+                                    className="viewButton" 
                                 />
                             )}
                         </div>

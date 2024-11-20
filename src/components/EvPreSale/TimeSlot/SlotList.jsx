@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Delete from '../../../assets/images/Delete.svg';
 import Edit from '../../../assets/images/Pen.svg';
-import styles from '../../SharedComponent/List/list.module.css';
+import styles from './addslot.module.css';
 import SubHeader from '../../SharedComponent/SubHeader/SubHeader'
 import Pagination from '../../SharedComponent/Pagination/Pagination'
 import { getRequestWithToken, postRequestWithToken } from '../../../api/Requests';
@@ -123,32 +123,40 @@ const EvPreSaleSlotList = () => {
                 filterValues={filters}
                 fetchFilteredData={fetchFilteredData}
                 searchTerm={searchTerm}
-                count = {totalCount}
+                count={totalCount}
             />
 
             {timeSlotList.length === 0 ? (
                 <div className='errorContainer'>No data available</div>
             ) : (
-                <div className={styles.containerCharger}>
+                <div className={styles.TimeslotcontainerCharger}>
 
                     <table className={styles.table}>
                         <thead>
-                        <tr>
+                            <tr>
                                 <th>Slot ID</th>
                                 <th>Timing</th>
                                 <th>Booking Limit</th>
                                 <th>Total Booking</th>
                                 <th>Remaining Booking</th>
                                 <th>Status</th>
-                                <th>Action</th>
+
                             </tr>
                         </thead>
                         {/* <tbody> */}
 
                         {groupedData.map((group, index) => (
                             <React.Fragment key={index} className={styles.groupContainer}>
-                                <tr >
-                                    <td className={styles.listSpan}>Date: {group.slot_date}</td>
+                                <tr className={styles.dateRow}>
+                                    <td className={styles.listSpan}>
+                                        <div className={styles.timeSlotContent}>
+                                            <span>Date: {group.slot_date}</span>
+                                            <div className={styles.editContent}>
+                                                <img src={Edit} alt='edit' onClick={() => handlePickDropEditTimeSlot(group.slots[0]?.slot_id)} />
+                                                <img src={Delete} alt='delete' onClick={() => handleDeleteSlot(group.slots[0]?.slot_id)} />
+                                            </div>
+                                        </div>
+                                    </td>
                                 </tr>
                                 <tbody className={styles.timeSlotGroup} >
                                     {group.slots.map((slot, slotIndex) => (
@@ -166,12 +174,7 @@ const EvPreSaleSlotList = () => {
                                             <td>{slot.slot_booking_count || '0'}</td>
                                             <td>{slot.remaining_booking || '0'}</td>
                                             <td>{slot.status === 1 ? "Active" : "Inactive"}</td>
-                                            <td>
-                                                <div className={styles.editContent}>
-                                                    <img src={Edit} alt='edit' onClick={() => handlePickDropEditTimeSlot(slot.slot_id)} />
-                                                    <img src={Delete} alt='delete' onClick={() => handleDeleteSlot(slot.slot_id)} />
-                                                </div>
-                                            </td>
+
                                         </tr>
                                     ))}
                                 </tbody>

@@ -305,3 +305,14 @@ table{
     margin-bottom: 0px !important;
 }
 /* End the error message in form section */
+/* Style the all booking details button */
+.editButtonSection{
+  display: flex;
+  column-gap: 10px;
+  align-items: center;
+}
+.viewButton{
+  width: 24px;
+  cursor: pointer;
+}
+/* end the all booking details button */
