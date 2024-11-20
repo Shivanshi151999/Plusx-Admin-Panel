@@ -26,7 +26,7 @@ const EditPortableChargerTimeSlot = () => {
 
     const [date, setDate] = useState(new Date()); // Separate state for the date
     const [timeSlots, setTimeSlots] = useState([
-        { id: "", startTime: null, endTime: null, bookingLimit: "", status: "" }
+        { id: "", startTime: null, endTime: null, bookingLimit: "", remainingLimit: "", status: "" }
     ]);
 
     const [errors, setErrors] = useState({});
@@ -56,6 +56,7 @@ const EditPortableChargerTimeSlot = () => {
                         startTime: moment(slot.start_time, 'HH:mm:ss').format('HH:mm'),
                         endTime: moment(slot.end_time, 'HH:mm:ss').format('HH:mm'),
                         bookingLimit: slot.booking_limit.toString(),
+                        remainingLimit: slot.booking_limit.toString()- slot.slot_booking_count.toString(),
                         id: slot.id,
                         // status: setIsActive(slot.status)
                         status: slot.status === 1,
@@ -392,7 +393,7 @@ const EditPortableChargerTimeSlot = () => {
                                     type="text"
                                     placeholder="Enter Available Limit"
                                     maxLength="4"
-                                    value={'0'}
+                                    value={slot.remainingLimit}
                                     disabled
                                     // onChange={(e) => handleBookingLimitChange(index, e)}
                                 />
