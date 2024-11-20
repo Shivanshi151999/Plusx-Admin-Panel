@@ -316,3 +316,20 @@ table{
   cursor: pointer;
 }
 /* end the all booking details button */
+/* Style the Assign Modal Css */
+.modalHeading{
+  font-size: 22px;
+  font-weight: 600;
+  color: #ffffff;
+}
+.modal-textarea{
+  background-color: #242424;
+  border: none;
+  border-radius: 6px;
+  color: #fff;
+  font-size: 16px;
+  outline: none;
+  padding: 16px 10px;
+  width: 100%;
+}
+/* End the assign modal css */

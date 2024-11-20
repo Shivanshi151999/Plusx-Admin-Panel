@@ -322,12 +322,11 @@ const BookingList = () => {
                     onAssign={handleConfirmCancel}
                     buttonName = 'Submit'
                 >
-                    <div className='reason-div' style={{color:'white'}}>Reason for Cancellation</div>
+                    <div className="modalHeading">Reason for Cancellation</div>
                     <textarea
-                        style={{color: 'black'}}
+                         className="modal-textarea"
                         id="reason"
                         placeholder="Enter reason"
-                        className='reason'
                         rows="4"
                         value={reason} 
                         onChange={handleReasonChange}
