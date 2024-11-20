@@ -328,7 +328,7 @@ const EditPortableChargerTimeSlot = () => {
                                 type="text"
                                 placeholder="Enter Available Limit"
                                 maxLength="4"
-                                value={'0'}
+                                value={slot.remainingLimit}
                                 disabled
                             // onChange={(e) => handleBookingLimitChange(index, e)}
                             />
