@@ -256,10 +256,10 @@ const EditPickAndDropTimeSlot = () => {
              <ToastContainer/>
              <div className={styles.slotHeaderSection}>
                 <h2 className={styles.title}>Edit Slot</h2>
-                <button type="button" className={styles.buttonSec} onClick={addTimeSlot}>
+                {/* <button type="button" className={styles.buttonSec} onClick={addTimeSlot}>
                     <img src={Add} alt="Add" className={styles.addImg} />
                     <span className={styles.addContent}>Add</span>
-                </button>
+                </button> */}
             </div>
             
                 {/* <form className={styles.form} onSubmit={handleSubmit}>

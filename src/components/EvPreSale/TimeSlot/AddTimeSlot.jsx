@@ -52,11 +52,7 @@ const AddEvPreSaleTimeSlot = () => {
     // };
 
     const handleTimeInput = (e) => {
-        // Remove any alphabetic characters from input
-        const value = e.target.value.replace(/[A-Za-z]/g, '');
-
-        if (value === '24:00') return '00:00';
-
+        const value = e.target.value;
         const isValidTime = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/.test(value);
         return isValidTime || value === '' ? value : null;
     };
@@ -94,7 +90,8 @@ const AddEvPreSaleTimeSlot = () => {
     };
 
     const addTimeSlot = () => {
-        setTimeSlots([...timeSlots, { date: null, startTime: null, endTime: null, bookingLimit: "" }]);
+        // setTimeSlots([...timeSlots, { date: null, startTime: null, endTime: null, bookingLimit: "" }]);
+        setTimeSlots([...timeSlots, { startTime: null, endTime: null, bookingLimit: "" }]);
     };
 
     const removeTimeSlot = (index) => {
@@ -102,46 +99,78 @@ const AddEvPreSaleTimeSlot = () => {
         setTimeSlots(newTimeSlots);
     };
 
+    // const validateForm = () => {
+    //     const newErrors = timeSlots.map((slot) => {
+    //         const errors = {};
+
+    //         if (!slot.date) {
+    //             errors.date = "Date is required";
+    //         }
+
+    //         if (!slot.startTime) {
+    //             errors.startTime = "Start time is required";
+    //         }
+    //         console.log('endTime', slot.endTime);
+
+    //         if (!slot.endTime) {
+    //             errors.endTime = "End time is required";
+    //         }
+
+    //         if (!slot.bookingLimit) {
+    //             errors.bookingLimit = "Booking limit is required";
+    //         } else if (isNaN(slot.bookingLimit) || slot.bookingLimit <= 0) {
+    //             errors.bookingLimit = "Booking limit must be a positive number";
+    //         }
+
+    //         return errors;
+    //     });
+
+    //     setErrors(newErrors);
+    //     return newErrors.every((error) => Object.keys(error).length === 0);
+    // };
+
     const validateForm = () => {
-        const newErrors = timeSlots.map((slot) => {
-            const errors = {};
-
-            if (!slot.date) {
-                errors.date = "Date is required";
-            }
-
-            if (!slot.startTime) {
-                errors.startTime = "Start time is required";
-            }
-            console.log('endTime', slot.endTime);
-
-            if (!slot.endTime) {
-                errors.endTime = "End time is required";
-            }
-
+        const errors = [];
+        if (!date) {
+            errors.push({ date: "Date is required" });
+        }
+        timeSlots.forEach((slot, index) => {
+            const slotErrors = {};
+            if (!slot.startTime) slotErrors.startTime = "Start time is required";
+            if (!slot.endTime) slotErrors.endTime = "End time is required";
             if (!slot.bookingLimit) {
-                errors.bookingLimit = "Booking limit is required";
+                slotErrors.bookingLimit = "Booking limit is required";
             } else if (isNaN(slot.bookingLimit) || slot.bookingLimit <= 0) {
-                errors.bookingLimit = "Booking limit must be a positive number";
+                slotErrors.bookingLimit = "Booking limit must be a positive number";
             }
-
-            return errors;
+            errors[index] = slotErrors;
         });
-
-        setErrors(newErrors);
-        return newErrors.every((error) => Object.keys(error).length === 0);
+        setErrors(errors);
+        return !errors.some((error) => Object.keys(error).length > 0);
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
         if (validateForm()) {
+            const slot_date = dayjs(date).format("DD-MM-YYYY");
+            const start_time = timeSlots.map(slot => slot.startTime);
+            const end_time = timeSlots.map(slot => slot.endTime);
+            const booking_limit = timeSlots.map(slot => slot.bookingLimit);
+            const status = timeSlots.map(slot => "1");
+
             const obj = {
                 userId: userDetails?.user_id,
                 email: userDetails?.email,
-                slot_date: timeSlots.map(slot => slot.date ? dayjs(slot.date).format("DD-MM-YYYY") : ''),
-                start_time: timeSlots.map(slot => slot.startTime),
-                end_time: timeSlots.map(slot => slot.endTime),
-                booking_limit: timeSlots.map(slot => slot.bookingLimit),
+                // slot_date: timeSlots.map(slot => slot.date ? dayjs(slot.date).format("DD-MM-YYYY") : ''),
+                // start_time: timeSlots.map(slot => slot.startTime),
+                // end_time: timeSlots.map(slot => slot.endTime),
+                // booking_limit: timeSlots.map(slot => slot.bookingLimit),
+
+                slot_date,
+                start_time,
+                end_time,
+                booking_limit,
+                status
             };
 
             postRequestWithToken('ev-pre-sale-add-time-slot-list', obj, async (response) => {

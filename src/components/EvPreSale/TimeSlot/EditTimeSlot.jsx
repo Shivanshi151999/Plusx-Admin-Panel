@@ -24,6 +24,7 @@ const EditEvPreSaleTimeSlot = () => {
     const [startTime, setStartTime] = useState(null);
     const [endTime, setEndTime] = useState(null);
     const [bookingLimit, setBookingLimit] = useState("");
+
     const [date, setDate] = useState(new Date()); // Separate state for the date
     const [timeSlots, setTimeSlots] = useState([
         { id: "", startTime: null, endTime: null, bookingLimit: "", remainingLimit: "", status: "" }
@@ -43,12 +44,32 @@ const EditEvPreSaleTimeSlot = () => {
         postRequestWithToken('ev-pre-sale-time-slot-details', obj, (response) => {
             if (response.code === 200) {
                 const data = response.data || {};
-                setSlotDetails(data);
-                setStartDate(data.slot_date);
-                setStartTime(moment(data.start_time, 'HH:mm:ss').format('HH:mm'));
-                setEndTime(moment(data.end_time, 'HH:mm:ss').format('HH:mm'));
-                setBookingLimit(data.booking_limit || "");
-                setIsActive(data.status)
+                // setSlotDetails(data);
+                // setStartDate(data.slot_date);
+                // setStartTime(moment(data.start_time, 'HH:mm:ss').format('HH:mm'));
+                // setEndTime(moment(data.end_time, 'HH:mm:ss').format('HH:mm'));
+                // setBookingLimit(data.booking_limit || "");
+                // setIsActive(data.status)
+
+                const slots = response.data || [];
+            if (slots.length > 0) {
+                setTimeSlots(
+                    slots.map(slot => ({
+                        startTime: moment(slot.start_time, 'HH:mm:ss').format('HH:mm'),
+                        endTime: moment(slot.end_time, 'HH:mm:ss').format('HH:mm'),
+                        bookingLimit: slot.booking_limit.toString(),
+                        remainingLimit: slot.booking_limit.toString()- slot.slot_booking_count.toString(),
+                        id: slot.id,
+                        // status: setIsActive(slot.status)
+                        status: slot.status === 1,
+                    }))
+                );
+
+                    // Set the date state using the first slot's date
+                    setDate(new Date(slots[0].slot_date));
+                    setStartDate(new Date(slots[0].slot_date)); // If this is used elsewhere
+                    setIsActive(slots[0].status === 1);
+                }
             } else {
                 console.log('error in ev-pre-sale-time-slot-details API', response);
             }
@@ -67,23 +88,52 @@ const EditEvPreSaleTimeSlot = () => {
         navigate('/ev-pre-sales-testing/time-slot-list');
     };
 
-    const handleStartTimeChange = (e) => {
-        const formattedTime = e.target.value;
-        setStartTime(formattedTime);
-        setErrors((prev) => ({ ...prev, startTime: "" }));
+    const handleTimeInput = (e) => {
+        const value = e.target.value;
+        const isValidTime = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/.test(value);
+        return isValidTime || value === '' ? value : null;
     };
 
-    const handleEndTimeChange = (e) => {
-        const formattedTime = e.target.value;
-        setEndTime(formattedTime);
-        setErrors((prev) => ({ ...prev, endTime: "" }));
+    // const handleStartTimeChange = (e) => {
+    //     const formattedTime = e.target.value;
+    //     setStartTime(formattedTime);
+    //     setErrors((prev) => ({ ...prev, startTime: "" }));
+    // };
+
+    const handleStartTimeChange = (index, newTime) => {
+        const validatedTime = handleTimeInput({ target: { value: newTime } });
+        const newTimeSlots = [...timeSlots];
+        newTimeSlots[index].startTime = validatedTime === '' ? null : validatedTime;
+        setTimeSlots(newTimeSlots);
     };
 
-    const handleBookingLimitChange = (e) => {
+    // const handleEndTimeChange = (e) => {
+    //     const formattedTime = e.target.value;
+    //     setEndTime(formattedTime);
+    //     setErrors((prev) => ({ ...prev, endTime: "" }));
+    // };
+
+    const handleEndTimeChange = (index, newTime) => {
+        const validatedTime = handleTimeInput({ target: { value: newTime } });
+        const newTimeSlots = [...timeSlots];
+        newTimeSlots[index].endTime = validatedTime === '' ? null : validatedTime;
+        setTimeSlots(newTimeSlots);
+    };
+
+    // const handleBookingLimitChange = (e) => {
+    //     const value = e.target.value;
+    //     if (/^\d{0,4}$/.test(value)) {
+    //         setBookingLimit(value);
+    //         setErrors((prev) => ({ ...prev, bookingLimit: "" }));
+    //     }
+    // };
+
+    const handleBookingLimitChange = (index, e) => {
         const value = e.target.value;
         if (/^\d{0,4}$/.test(value)) {
-            setBookingLimit(value);
-            setErrors((prev) => ({ ...prev, bookingLimit: "" }));
+            const newTimeSlots = [...timeSlots];
+            newTimeSlots[index].bookingLimit = value;
+            setTimeSlots(newTimeSlots);
         }
     };
 
@@ -124,6 +174,7 @@ const EditEvPreSaleTimeSlot = () => {
     //     setErrors(newErrors);
     //     return formIsValid;
     // };
+    
     const validateForm = () => {
         const errors = [];
         if (!date) {
@@ -147,21 +198,32 @@ const EditEvPreSaleTimeSlot = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (validateForm()) {
+            const slot_date = dayjs(date).format("DD-MM-YYYY");
+            const id = timeSlots.map(slot => slot.id);
+            const start_time = timeSlots.map(slot => slot.startTime);
+            const end_time = timeSlots.map(slot => slot.endTime);
+            const booking_limit = timeSlots.map(slot => slot.bookingLimit);
+            const status = timeSlots.map(slot => (slot.status ? 1 : 0));
             const obj = {
                 userId: userDetails?.user_id,
                 email: userDetails?.email,
                 slot_id: slotId,
-                status: isActive ? "1" : "0",
-                slot_date: moment(startDate).format('DD-MM-YYYY'),
-                // slot_date: startDate,
-                start_time: startTime,
-                end_time: endTime,
-                booking_limit: bookingLimit
+                // status: isActive ? "1" : "0",
+                // slot_date: moment(startDate).format('DD-MM-YYYY'),
+                // start_time: startTime,
+                // end_time: endTime,
+                // booking_limit: bookingLimit
+                id,
+                slot_date,
+                start_time,
+                end_time,
+                booking_limit,
+                status
             };
 
             postRequestWithToken('ev-pre-sale-edit-time-slot-list', obj, (response) => {
                 if (response.code === 200) {
-                    toast(response.message[0] || response.message, { type: "success" });
+                    toast(response.message || response.message[0], { type: "success" });
 
                     setTimeout(() => {
                         navigate('/ev-pre-sales-testing/time-slot-list');
@@ -188,10 +250,10 @@ const EditEvPreSaleTimeSlot = () => {
             <ToastContainer />
             <div className={styles.slotHeaderSection}>
                 <h2 className={styles.title}>Edit Slot</h2>
-                <button type="button" className={styles.buttonSec} onClick={addTimeSlot}>
+                {/* <button type="button" className={styles.buttonSec} onClick={addTimeSlot}>
                     <img src={Add} alt="Add" className={styles.addImg} />
                     <span className={styles.addContent}>Add</span>
-                </button>
+                </button> */}
             </div>
             <form className={styles.form} onSubmit={handleSubmit}>
                 <div className={styles.chargerSection}>
@@ -200,12 +262,14 @@ const EditEvPreSaleTimeSlot = () => {
                         <div className={styles.datePickerWrapper}>
                             <DatePicker
                                 className={styles.inputCharger}
-                                selected={startDate}
-                                onChange={(date) => setStartDate(date)}
+                                selected={date}
+                                onChange={(date) => setDate(date)}
+                                minDate={new Date()}
+                                maxDate={new Date().setDate(new Date().getDate() + 14)}
                             />
                             <img className={styles.datePickerImg} src={Calendar} alt="calendar" />
                         </div>
-                        {errors.startDate && <span className="error">{errors.startDate}</span>}
+                        {errors.date && <span className="error">{errors.date}</span>}
                     </div>
                 </div>
                 {timeSlots.map((slot, index) => (
@@ -215,22 +279,22 @@ const EditEvPreSaleTimeSlot = () => {
                             <InputMask
                                 mask="99:99"
                                 className={styles.inputCharger}
-                                value={startTime}
-                                onChange={handleStartTimeChange}
+                                value={slot.startTime}
+                                onChange={(e) => handleStartTimeChange(index, e.target.value)}
                                 placeholder="HH:MM"
                             />
-                            {errors.startTime && <span className="error">{errors.startTime}</span>}
+                            {errors[index]?.startTime && <span className="error">{errors[index].startTime}</span>}
                         </div>
                         <div className={styles.inputGroup}>
                             <label className={styles.label}>End Time</label>
                             <InputMask
                                 mask="99:99"
                                 className={styles.inputCharger}
-                                value={endTime}
-                                onChange={handleEndTimeChange}
+                                value={slot.endTime}
+                                onChange={(e) => handleEndTimeChange(index, e.target.value)}
                                 placeholder="HH:MM"
                             />
-                            {errors.endTime && <span className="error">{errors.endTime}</span>}
+                            {errors[index]?.endTime && <span className="error">{errors[index].endTime}</span>}
                         </div>
                         <div className={styles.inputGroup}>
                             <label className={styles.label}>Booking Limit</label>
@@ -238,10 +302,10 @@ const EditEvPreSaleTimeSlot = () => {
                                 className={styles.inputCharger}
                                 type="text"
                                 placeholder="Enter Booking Limit"
-                                value={bookingLimit}
-                                onChange={handleBookingLimitChange}
+                                value={slot.bookingLimit}
+                                onChange={(e) => handleBookingLimitChange(index, e)}
                             />
-                            {errors.bookingLimit && <span className="error">{errors.bookingLimit}</span>}
+                            {errors[index]?.bookingLimit && <span className="error">{errors[index].bookingLimit}</span>}
                         </div>
                         <div className={styles.inputGroup}>
                             <label className={styles.label}>Available Limit</label>
@@ -250,7 +314,7 @@ const EditEvPreSaleTimeSlot = () => {
                                 type="text"
                                 placeholder="Enter Available Limit"
                                 maxLength="4"
-                                value={'0'}
+                                value={slot.remainingLimit}
                                 disabled
                             // onChange={(e) => handleBookingLimitChange(index, e)}
                             />
