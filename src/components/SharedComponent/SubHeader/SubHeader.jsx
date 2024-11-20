@@ -72,6 +72,16 @@ const SubHeader = ({ heading, fetchFilteredData, dynamicFilters, filterValues, a
         heading !== "Portable Charger Booking List" &&
         heading !== "Pick & Drop Booking List" &&
         heading !== "Charger Installation List" &&
+        heading !== "Pick & Drop Invoice List" &&
+        heading !== "Pick & Drop Time Slot List" &&
+        heading !== "Add POD List" &&
+        heading !== "Portable Charger List" &&
+        heading !== "Portable Charger Invoice List" &&
+        heading !== "Portable Charger Slot List" &&
+        heading !== "Ev Road Assistance Invoice List" &&
+        heading !== "Time Slot List" && 
+        heading !== "Ev Specialized Shop Service List" && 
+        heading !== "Ev Specialized Shop Brand List" && 
         heading !== "Ev Road Assitance Booking List"
 
     const showHeading = 
@@ -81,25 +91,16 @@ const SubHeader = ({ heading, fetchFilteredData, dynamicFilters, filterValues, a
       heading !== "Register Interest List" &&
       heading !== "Ev Buy & Sell List" &&
       heading !== "Ev Specialized Shop List" &&
-      heading !== "Ev Specialized Shop Service List" && 
-      heading !== "Ev Specialized Shop Brand List" && 
-      heading !== "Time Slot List" && 
+     
+      
+      
       heading !== "Ev Insurance List" && 
       heading !== "Ev Discussion Board List" && 
       heading !== "Ev Rider Clubs List" && 
-      heading !== "Ev Road Assistance Invoice List" &&
+     
       heading !== "EV Guide List" &&
       heading !== "Electric Bikes Leasing List" &&
-      heading !== "Electric Cars Leasing List" &&
-      heading !== "Add POD List" &&
-      heading !== "Pick & Drop Invoice List" &&
-      heading !== "Portable Charger List" &&
-      heading !== "Portable Charger Invoice List" &&
-      heading !== "Portable Charger Slot List" &&
-      heading !== "Pick & Drop Time Slot List" 
-    //   
-
-      
+      heading !== "Electric Cars Leasing List" 
 
     return (
         <div className={styles.subHeaderContainer}>
