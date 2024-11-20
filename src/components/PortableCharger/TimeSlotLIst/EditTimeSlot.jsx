@@ -51,7 +51,6 @@ const EditPortableChargerTimeSlot = () => {
                 // setIsActive(data.status)
 
                 const slots = response.data || [];
-<<<<<<< Updated upstream
             if (slots.length > 0) {
                 setTimeSlots(
                     slots.map(slot => ({
@@ -64,19 +63,6 @@ const EditPortableChargerTimeSlot = () => {
                         status: slot.status === 1,
                     }))
                 );
-=======
-                if (slots.length > 0) {
-                    setTimeSlots(
-                        slots.map(slot => ({
-                            startTime: moment(slot.start_time, 'HH:mm:ss').format('HH:mm'),
-                            endTime: moment(slot.end_time, 'HH:mm:ss').format('HH:mm'),
-                            bookingLimit: slot.booking_limit.toString(),
-                            id: slot.id,
-                            // status: setIsActive(slot.status)
-                            status: slot.status === 1,
-                        }))
-                    );
->>>>>>> Stashed changes
 
                     // Set the date state using the first slot's date
                     setDate(new Date(slots[0].slot_date));
@@ -349,97 +335,6 @@ const EditPortableChargerTimeSlot = () => {
                             {/* {errors[index]?.bookingLimit && <span className="error">{errors[index].bookingLimit}</span>} */}
                         </div>
 
-<<<<<<< Updated upstream
-
-                <form className={styles.form} onSubmit={handleSubmit}>
-                    <div className={styles.addSection}>
-                        <button type="button" className={styles.buttonSec} onClick={addTimeSlot}>
-                            <img src={Add} alt="Add" className={styles.addImg} />
-                            <span className={styles.addContent}>Add</span>
-                        </button>
-                    </div>
-                    <div className={styles.inputGroup}>
-                        <label className={styles.label}>Select Date</label>
-                        <DatePicker
-                            className={styles.inputCharger}
-                            selected={date}
-                            onChange={(date) => setDate(date)}
-                            minDate={new Date()}
-                            maxDate={new Date().setDate(new Date().getDate() + 14)}
-                        />
-                        {errors.date && <span className="error">{errors.date}</span>}
-                    </div>
-
-                    
-
-                   {timeSlots.map((slot, index) => (
-                        <div key={index} className={styles.row}>
-                            <div className={styles.inputGroup}>
-                                <label className={styles.label}>Start Time</label>
-                                <InputMask
-                                    mask="99:99"
-                                    className={styles.inputCharger}
-                                    value={slot.startTime}
-                                    onChange={(e) => handleStartTimeChange(index, e.target.value)}
-                                    placeholder="HH:MM"
-                                />
-                                {errors[index]?.startTime && <span className="error">{errors[index].startTime}</span>}
-                            </div>
-
-                            <div className={styles.inputGroup}>
-                                <label className={styles.label}>End Time</label>
-                                <InputMask
-                                    mask="99:99"
-                                    className={styles.inputCharger}
-                                    value={slot.endTime}
-                                    onChange={(e) => handleEndTimeChange(index, e.target.value)}
-                                    placeholder="HH:MM"
-                                />
-                                {errors[index]?.endTime && <span className="error">{errors[index].endTime}</span>}
-                            </div>
-
-                            <div className={styles.inputGroup}>
-                                <label className={styles.label}>Booking Limit</label>
-                                <input
-                                    className={styles.inputCharger}
-                                    type="text"
-                                    placeholder="Enter Booking Limit"
-                                    maxLength="4"
-                                    value={slot.bookingLimit}
-                                    onChange={(e) => handleBookingLimitChange(index, e)}
-                                />
-                                {errors[index]?.bookingLimit && <span className="error">{errors[index].bookingLimit}</span>}
-                            </div>
-                            <div className={styles.inputGroup}>
-                                <label className={styles.label}>Available Limit</label>
-                                <input
-                                    className={styles.inputCharger}
-                                    type="text"
-                                    placeholder="Enter Available Limit"
-                                    maxLength="4"
-                                    value={slot.remainingLimit}
-                                    disabled
-                                    // onChange={(e) => handleBookingLimitChange(index, e)}
-                                />
-                                {/* {errors[index]?.bookingLimit && <span className="error">{errors[index].bookingLimit}</span>} */}
-                            </div>
-
-                            <div className={styles.toggleContainer}>
-                                <label className={styles.statusLabel}>Status</label>
-                                <div
-                                    className={styles.toggleSwitch}
-                                    onClick={() => handleToggle(index)} // Pass the index to identify the slot
-                                >
-                                    <span className={`${styles.toggleLabel} ${!slot.status ? styles.inactive : ''}`}>
-                                        In-Active
-                                    </span>
-                                    <div className={`${styles.toggleButton} ${slot.status ? styles.active : ''}`}>
-                                        <div className={styles.slider}></div>
-                                    </div>
-                                    <span className={`${styles.toggleLabel} ${slot.status ? styles.active : ''}`}>
-                                        Active
-                                    </span>
-=======
                         <div className={styles.toggleContainer}>
                             <label className={styles.statusLabel}>Status</label>
                             <div
@@ -449,7 +344,6 @@ const EditPortableChargerTimeSlot = () => {
                                 {/* Toggle Button */}
                                 <div className={`${styles.toggleButton} ${slot.status ? styles.active : styles.inactive}`}>
                                     <div className={styles.slider}></div>
->>>>>>> Stashed changes
                                 </div>
 
                                 {/* Text for Active or Inactive */}
