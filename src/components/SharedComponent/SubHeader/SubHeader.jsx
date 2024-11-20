@@ -69,15 +69,57 @@ const SubHeader = ({ heading, fetchFilteredData, dynamicFilters, filterValues, a
         heading !== "Time Slot List" &&
         heading !== "Ev Road Assistance Invoice List"
 
+    const showCard =
+        
+        heading !== "App Signup List" &&
+        heading !== "EV Pre-Sale Testing Booking List" &&
+        heading !== "Public Chargers List" &&
+        heading !== "Drivers List" &&
+        // heading !== "Add POD List" &&
+        
+        heading !== "Portable Charger Booking List" &&
+        heading !== "Pick & Drop Booking List" &&
+        heading !== "Charger Installation List" &&
+        
+        heading !== "Ev Road Assitance Booking List"
+
+    const showHeading = 
+      heading !== "Offer List" &&
+      heading !== "Subscription List" &&
+      heading !== "Coupon List" &&
+      heading !== "Register Interest List" &&
+      heading !== "Ev Buy & Sell List" &&
+      heading !== "Ev Specialized Shop List" &&
+      heading !== "Ev Specialized Shop Service List" && 
+      heading !== "Ev Specialized Shop Brand List" && 
+      heading !== "Ev Insurance List" && 
+      heading !== "Ev Discussion Board List" && 
+      heading !== "Ev Rider Clubs List" && 
+      heading !== "Ev Road Assistance Invoice List" &&
+      heading !== "EV Guide List" &&
+      heading !== "Electric Bikes Leasing List" &&
+      heading !== "Electric Cars Leasing List" &&
+      heading !== "Pick & Drop Invoice List" &&
+      heading !== "Portable Charger List" &&
+      heading !== "Portable Charger Invoice List" &&
+    heading !== "Portable Charger Slot List" &&
+      heading !== "Pick & Drop Time Slot List" 
+    //   
+
+      
 
     return (
         <div className={styles.subHeaderContainer}>
             <div className={styles.headerCharger}>
+            {showHeading && (
                 <div className={styles.headingList}>{heading}</div>
+            )}
+                {showCard && (
                 <div className={styles.headCardSection}>
                     <div className={styles.headCardNumber}>24</div>
-                    <div className={styles.headCardText}>Total EV Guide List</div>
+                    <div className={styles.headCardText}>Total {heading}</div>
                 </div>
+                )}
                 <div className={styles.subHeaderButtonSection}>
                     {/* {shouldShowAddButton && (
                         <Link to={addButtonProps?.link}>
