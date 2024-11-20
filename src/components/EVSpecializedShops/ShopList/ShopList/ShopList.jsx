@@ -24,6 +24,7 @@ const ShopList = () => {
     const [shopList, setShopList] = useState([])
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const [totalCount, setTotalCount] = useState(1)
     const [filters, setFilters] = useState({});
     const [refresh, setRefresh]           = useState(false)
     const searchTerm = [
@@ -46,6 +47,7 @@ const ShopList = () => {
             if (response.code === 200) {
                 setShopList(response?.data)
                 setTotalPages(response?.total_page || 1);
+                setTotalCount(response?.total || 1)
             } else {
                 // toast(response.message, {type:'error'})
                 console.log('error in shop-list api', response);
@@ -101,6 +103,7 @@ const ShopList = () => {
                 dynamicFilters={dynamicFilters} filterValues={filters}
                 addButtonProps={addButtonProps}
                 searchTerm = {searchTerm}
+                count = {totalCount}
             />
             {shopList?.length === 0 ? (
                 <div className='errorContainer'>No data available</div>

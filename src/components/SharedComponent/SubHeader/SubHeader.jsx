@@ -8,7 +8,7 @@ import AccordionFilter from '../Accordion/Accordions';
 import { Link } from 'react-router-dom';
 import FormModal from '../CustomModal/FormModal';
 
-const SubHeader = ({ heading, fetchFilteredData, dynamicFilters, filterValues, addButtonProps, searchTerm }) => {
+const SubHeader = ({ heading, fetchFilteredData, dynamicFilters, filterValues, addButtonProps, searchTerm, count }) => {
     const [isSearchAccordionOpen, setIsSearchAccordionOpen] = useState(false);
     const [isFilterAccordionOpen, setIsFilterAccordionOpen] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -83,6 +83,7 @@ const SubHeader = ({ heading, fetchFilteredData, dynamicFilters, filterValues, a
       heading !== "Ev Specialized Shop List" &&
       heading !== "Ev Specialized Shop Service List" && 
       heading !== "Ev Specialized Shop Brand List" && 
+      heading !== "Time Slot List" && 
       heading !== "Ev Insurance List" && 
       heading !== "Ev Discussion Board List" && 
       heading !== "Ev Rider Clubs List" && 
@@ -108,7 +109,7 @@ const SubHeader = ({ heading, fetchFilteredData, dynamicFilters, filterValues, a
             )}
                 {showCard && (
                 <div className={styles.headCardSection}>
-                    <div className={styles.headCardNumber}>24</div>
+                    <div className={styles.headCardNumber}>{count || 0}</div>
                     <div className={styles.headCardText}>Total {heading}</div>
                 </div>
                 )}

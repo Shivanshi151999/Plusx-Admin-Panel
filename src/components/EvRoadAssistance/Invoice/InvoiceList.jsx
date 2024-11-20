@@ -12,7 +12,8 @@ const RoadAssistanceInvoiceList = () => {
     const navigate = useNavigate()
     const [invoiceList, setInvoiceList] = useState([])
     const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(1);
+    const [totalPages, setTotalPages] = useState(1); 
+    const [totalCount, setTotalCount] = useState(1)
     const [filters, setFilters] = useState({});
     const searchTerm = [
         {
@@ -33,6 +34,7 @@ const RoadAssistanceInvoiceList = () => {
             if (response.code === 200) {
                 setInvoiceList(response?.data)
                 setTotalPages(response?.total_page || 1); 
+                setTotalCount(response?.total || 1)
             } else {
                 // toast(response.message, {type:'error'})
                 console.log('error in ev-road-assistance-invoice-list api', response);
@@ -60,9 +62,10 @@ const RoadAssistanceInvoiceList = () => {
     return (
         <div className='main-container'>
          <SubHeader heading = "Ev Road Assistance Invoice List"
-         filterValues={filters}
-         fetchFilteredData={fetchFilteredData} 
-         searchTerm = {searchTerm}
+            filterValues={filters}
+            fetchFilteredData={fetchFilteredData} 
+            searchTerm = {searchTerm}
+            count = {totalCount}
          />
            {invoiceList.length === 0 ? (
                <div className='errorContainer'>No data available</div>

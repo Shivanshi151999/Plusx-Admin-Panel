@@ -16,6 +16,7 @@ const PortableChargerTimeSlotList = () => {
     const [timeSlotList, setTimeSlotList] = useState([])
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const [totalCount, setTotalCount] = useState(1)
     const [refresh, setRefresh] = useState(false)
     const [filters, setFilters] = useState({});
 
@@ -65,7 +66,7 @@ const PortableChargerTimeSlotList = () => {
                 }));
                 setTimeSlotList(updatedData)
                 setTotalPages(response?.total_page || 1);
-                // toast(response.message[0], { type: "success" });
+                setTotalCount(response?.total || 1)
             } else {
                 toast(response.message, { type: 'error' })
                 console.log('error in charger-slot-list api', response);
@@ -119,6 +120,7 @@ const PortableChargerTimeSlotList = () => {
                 filterValues={filters}
                 fetchFilteredData={fetchFilteredData}
                 searchTerm={searchTerm}
+                count = {totalCount}
             />
              {timeSlotList.length === 0 ? (
                 <div className='errorContainer'>No data available</div>

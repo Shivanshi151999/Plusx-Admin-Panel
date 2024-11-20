@@ -19,6 +19,7 @@ const OfferList = () => {
     const [carList, setCarList] = useState([])
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const [totalCount, setTotalCount] = useState(1)
     const [filters, setFilters] = useState({});
     const [refresh, setRefresh] = useState(false)
     const searchTerm = [
@@ -46,6 +47,7 @@ const OfferList = () => {
             if (response.code === 200) {
                 setCarList(response?.data)
                 setTotalPages(response?.total_page || 1);
+                setTotalCount(response?.total || 1)
             } else {
                 // toast(response.message, {type:'error'})
                 console.log('error in offer-list api', response);
@@ -99,6 +101,7 @@ const OfferList = () => {
                 fetchFilteredData={fetchFilteredData}
                 dynamicFilters={dynamicFilters} filterValues={filters}
                 searchTerm={searchTerm}
+                count = {totalCount}
             />
              {carList?.length === 0 ? (
             <div className='errorContainer'>No data available</div>

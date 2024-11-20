@@ -23,6 +23,7 @@ const BuySellList = () => {
     const [clubList, setClubList] = useState([])
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const [totalCount, setTotalCount] = useState(1)
     const [filters, setFilters] = useState({});
     const [refresh, setRefresh]           = useState(false)
     const searchTerm = [
@@ -45,6 +46,7 @@ const BuySellList = () => {
             if (response.code === 200) {
                 setClubList(response?.data)
                 setTotalPages(response?.total_page || 1); 
+                setTotalCount(response?.total || 1)
             } else {
                 // toast(response.message, {type:'error'})
                 console.log('error in buy-sell-list api', response);
@@ -96,10 +98,11 @@ const BuySellList = () => {
         <div className='main-container'>
             <ToastContainer />
          <SubHeader heading = "Ev Buy & Sell List"
-         fetchFilteredData={fetchFilteredData} 
-         dynamicFilters={dynamicFilters} filterValues={filters}
-         addButtonProps={addButtonProps}
-         searchTerm = {searchTerm}
+            fetchFilteredData={fetchFilteredData} 
+            dynamicFilters={dynamicFilters} filterValues={filters}
+            addButtonProps={addButtonProps}
+            searchTerm = {searchTerm}
+            count = {totalCount}
          />
         {clubList?.length === 0 ? (
                 <div className='errorContainer'>No data available</div>

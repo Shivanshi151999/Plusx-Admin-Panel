@@ -13,6 +13,7 @@ const InvoiceList = () => {
     const [invoiceList, setInvoiceList] = useState([])
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const [totalCount, setTotalCount] = useState(1)
     const [filters, setFilters] = useState({});
     
     const searchTerm = [
@@ -35,6 +36,7 @@ const InvoiceList = () => {
             if (response.code === 200) {
                 setInvoiceList(response?.data)
                 setTotalPages(response?.total_page || 1); 
+                setTotalCount(response?.total || 1)
             } else {
                 // toast(response.message, {type:'error'})
                 console.log('error in charger-booking-list api', response);
@@ -66,6 +68,7 @@ const InvoiceList = () => {
          filterValues={filters}
          fetchFilteredData={fetchFilteredData} 
          searchTerm = {searchTerm}
+         count = {totalCount}
          />
           {invoiceList.length === 0 ? (
                 <div className='errorContainer'>No data available</div>

@@ -16,6 +16,7 @@ const TimeSlotList = () => {
     const [timeSlotList, setTimeSlotList] = useState([])
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const [totalCount, setTotalCount] = useState(1)
     const [refresh, setRefresh] = useState(false)
     const [filters, setFilters] = useState({});
 
@@ -67,6 +68,7 @@ const TimeSlotList = () => {
                 }));
                 setTimeSlotList(updatedData)
                 setTotalPages(response?.total_page || 1);
+                setTotalCount(response?.total || 1)
             } else {
                 // toast(response.message, {type:'error'})
                 console.log('error in pick-and-drop-slot-list api', response);
@@ -121,6 +123,7 @@ const TimeSlotList = () => {
                 filterValues={filters}
                 fetchFilteredData={fetchFilteredData}
                 searchTerm={searchTerm}
+                count = {totalCount}
             />
 
             

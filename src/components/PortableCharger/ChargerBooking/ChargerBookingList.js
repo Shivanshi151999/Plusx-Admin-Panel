@@ -55,6 +55,7 @@ const ChargerBookingList = () => {
     const [rsaList, setRsaList]                       = useState([])
     const [currentPage, setCurrentPage]               = useState(1);
     const [totalPages, setTotalPages]                 = useState(1);
+    const [totalCount, setTotalCount]                 = useState(1)
     const [filters, setFilters]                       = useState({});
     const [isModalOpen, setIsModalOpen]               = useState(false);
     const [selectedBookingId, setSelectedBookingId]   = useState(null);
@@ -73,6 +74,7 @@ const ChargerBookingList = () => {
             if (response.code === 200) {
                 setChargerBookingList(response?.data);
                 setTotalPages(response?.total_page || 1);
+                setTotalCount(response?.total || 1)
             } else {
                 console.log('error in charger-booking-list api', response);
             }
@@ -152,6 +154,7 @@ const ChargerBookingList = () => {
                 dynamicFilters={dynamicFilters}
                 filterValues={filters}
                 searchTerm = {searchTerm}
+                count = {totalCount}
             />
             <ToastContainer />
             {chargerBookingList.length === 0 ? (

@@ -19,6 +19,7 @@ const CouponList = () => {
     const [carList, setCarList] = useState([])
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const [totalCount, setTotalCount] = useState(1)
     const [filters, setFilters] = useState({});
     const [refresh, setRefresh] = useState(false)
     const searchTerm = [
@@ -46,6 +47,7 @@ const CouponList = () => {
             if (response.code === 200) {
                 setCarList(response?.data)
                 setTotalPages(response?.total_page || 1);
+                setTotalCount(response?.total || 1)
             } else {
                 // toast(response.message, {type:'error'})
                 console.log('error in coupon-list api', response);
@@ -100,6 +102,7 @@ const CouponList = () => {
                 fetchFilteredData={fetchFilteredData}
                 dynamicFilters={dynamicFilters} filterValues={filters}
                 searchTerm={searchTerm}
+                count = {totalCount}
             />
             <List
                 tableHeaders={["Coupon ID", "Coupon Name", "Coupon Code", "Service Name", "Per User", "Coupon %", "End Date", "Status", "Action"]}

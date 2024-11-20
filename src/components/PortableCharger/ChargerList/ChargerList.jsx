@@ -14,6 +14,7 @@ const ChargerList = () => {
     const [chargerList, setChargerList] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const [totalCount, setTotalCount] = useState(1)
     const [refresh, setRefresh] = useState(false)
     const [filters, setFilters] = useState({});
     
@@ -39,7 +40,8 @@ const ChargerList = () => {
         getRequestWithToken('charger-list', obj, (response) => {
             if (response.code === 200) {
                 setChargerList(response?.data || []);  
-                setTotalPages(response?.data?.total_pages || 1);  
+                setTotalPages(response?.total_page || 1);  
+                setTotalCount(response?.total || 1)
             } else {
                 console.log('error in charger-list API', response);
             }
@@ -94,6 +96,7 @@ const ChargerList = () => {
             filterValues={filters}
             fetchFilteredData={fetchFilteredData} 
             searchTerm = {searchTerm}
+            count = {totalCount}
             />
             <ToastContainer />
             {chargerList.length === 0 ? (

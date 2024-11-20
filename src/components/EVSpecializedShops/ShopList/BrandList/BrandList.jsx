@@ -22,6 +22,7 @@ const BrandList = () => {
     const [brandList, setBrandList] = useState([])
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const [totalCount, setTotalCount] = useState(1)
     const [filters, setFilters] = useState({});
     const searchTerm = [
         {
@@ -43,6 +44,7 @@ const BrandList = () => {
             if (response.code === 200) {
                 setBrandList(response?.data)
                 setTotalPages(response?.total_page || 1); 
+                setTotalCount(response?.total || 1)
             } else {
                 // toast(response.message, {type:'error'})
                 console.log('error in shop-brand-list api', response);
@@ -70,10 +72,11 @@ const BrandList = () => {
     return (
         <div className='main-container'>
          <SubHeader heading = "Ev Specialized Shop Brand List"
-         fetchFilteredData={fetchFilteredData} 
-         dynamicFilters={dynamicFilters} filterValues={filters}
-         addButtonProps={addButtonProps}
-         searchTerm = {searchTerm}
+            fetchFilteredData={fetchFilteredData} 
+            dynamicFilters={dynamicFilters} filterValues={filters}
+            addButtonProps={addButtonProps}
+            searchTerm = {searchTerm}
+            count = {totalCount}
          />
          {brandList?.length === 0 ? (
                 <div className='errorContainer'>No data available</div>

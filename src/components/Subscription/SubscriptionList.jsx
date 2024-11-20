@@ -23,6 +23,7 @@ const SubscriptionList = () => {
     const [clubList, setClubList] = useState([])
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const [totalCount, setTotalCount] = useState(1)
     const [filters, setFilters] = useState({});
     const [refresh, setRefresh]           = useState(false)
     const searchTerm = [
@@ -50,6 +51,7 @@ const SubscriptionList = () => {
                 // setClubList(response?.data)
                 setClubList(updatedData)
                 setTotalPages(response?.total_page || 1);
+                setTotalCount(response?.total || 1)
             } else {
                 // toast(response.message, {type:'error'})
                 console.log('error in subscription-list api', response);
@@ -105,6 +107,7 @@ const SubscriptionList = () => {
             dynamicFilters={dynamicFilters} filterValues={filters}
             addButtonProps={addButtonProps}
             searchTerm = {searchTerm}
+            count = {totalCount}
          /> 
         {clubList?.length === 0 ? (
                 <div className='errorContainer'>No data available</div>
