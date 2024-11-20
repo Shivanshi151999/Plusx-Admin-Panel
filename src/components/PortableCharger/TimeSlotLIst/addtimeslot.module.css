@@ -8,6 +8,33 @@
 .containerCharger::-webkit-scrollbar{
   display: none;
 }
+.slotMainFormSection{
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 0px 20px;
+}
+.slotHeaderSection{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.datePickerWrapper{
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  cursor: pointer;
+}
+.datePickerImg {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  width: 30px;
+  pointer-events: none;
+}
 .title {
   color: #00ffc3;
   font-size: 24px;
@@ -27,6 +54,7 @@
   display: flex;
   row-gap: 20px;
   flex-direction: column;
+  margin-top: 20px;
 }
 
 .row {
@@ -54,7 +82,7 @@
 
 .inputCharger{
   outline: none;
-  background-color: #242424;
+  background-color: #4e4e4e;
   border: none;
   padding: 16px 10px;
   border-radius: 6px;
@@ -234,7 +262,7 @@ color: #ffffff;
   font-size: 16px;
 }
 .buttonContainer{
-  background-color: #000000 !important;
+  background-color: #242424 !important;
 }
 .removeContent{
   background-color: #00ffc3 !important;

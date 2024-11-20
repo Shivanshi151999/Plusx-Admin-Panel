@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styles from './addtimeslot.module.css';
 import InputMask from 'react-input-mask';
-// import TimePicker from 'react-time-picker';
+import Calendar from '../../../assets/images/Calender.svg'
 import dayjs from 'dayjs';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import { postRequestWithToken } from '../../../api/Requests';
@@ -182,81 +182,87 @@ const AddPortableChargerTimeSlot = () => {
     }, [userDetails, navigate]);
     return (
         <div className={styles.containerCharger}>
-            <h2 className={styles.title}>Add Slot</h2>
+            <div className={styles.slotHeaderSection}>
+                <h2 className={styles.title}>Add Slot</h2>
+                <button type="button" className={styles.buttonSec} onClick={addTimeSlot}>
+                    <img src={Add} alt="Add" className={styles.addImg} />
+                    <span className={styles.addContent}>Add</span>
+                </button>
+            </div>
             <ToastContainer />
-            <div className={styles.chargerSection}>
-                <form className={styles.form} onSubmit={handleSubmit}>
+            <form className={styles.form} onSubmit={handleSubmit}>
+                <div className={styles.chargerSection}>
                     <div className={styles.addSection}>
                         <div className={styles.inputGroup}>
                             <label className={styles.label}>Select Date</label>
+                            <div className={styles.datePickerWrapper}>
                             <DatePicker
-                                className={styles.inputCharger}
+                                className={`${styles.inputCharger} custom-datepicker`} 
                                 selected={date}
                                 onChange={(date) => setDate(date)}
                                 minDate={new Date()}
                                 maxDate={new Date().setDate(new Date().getDate() + 14)}
                             />
+                            <img className={styles.datePickerImg} src={Calendar} alt="calendar" />
+                            </div>
                             {errors.date && <span className="error">{errors.date}</span>}
                         </div>
-                        <button type="button" className={styles.buttonSec} onClick={addTimeSlot}>
-                            <img src={Add} alt="Add" className={styles.addImg} />
-                            <span className={styles.addContent}>Add</span>
-                        </button>
+
                     </div>
-                    {timeSlots.map((slot, index) => (
-                        <div key={index} className={styles.row}>
-                            <div className={styles.inputGroup}>
-                                <label className={styles.label}>Start Time</label>
-                                <InputMask
-                                    mask="99:99"
-                                    className={styles.inputCharger}
-                                    value={slot.startTime}
-                                    onChange={(e) => handleStartTimeChange(index, e.target.value)}
-                                    placeholder="HH:MM"
-                                />
-                                {errors[index]?.startTime && <span className="error">{errors[index].startTime}</span>}
-                            </div>
-
-                            <div className={styles.inputGroup}>
-                                <label className={styles.label}>End Time</label>
-                                <InputMask
-                                    mask="99:99"
-                                    className={styles.inputCharger}
-                                    value={slot.endTime}
-                                    onChange={(e) => handleEndTimeChange(index, e.target.value)}
-                                    placeholder="HH:MM"
-                                />
-                                {errors[index]?.endTime && <span className="error">{errors[index].endTime}</span>}
-                            </div>
-
-                            <div className={styles.inputGroup}>
-                                <label className={styles.label}>Booking Limit</label>
-                                <input
-                                    className={styles.inputCharger}
-                                    type="text"
-                                    placeholder="Enter Booking Limit"
-                                    maxLength="4"
-                                    value={slot.bookingLimit}
-                                    onChange={(e) => handleBookingLimitChange(index, e)}
-                                />
-                                {errors[index]?.bookingLimit && <span className="error">{errors[index].bookingLimit}</span>}
-                            </div>
-
-                            {timeSlots.length > 1 && (
-                                <button type="button" className={styles.buttonContainer} onClick={() => removeTimeSlot(index)}>
-                                    <FaTimes className={styles.removeContent} />
-                                </button>
-                            )}
+                </div>
+                {timeSlots.map((slot, index) => (
+                    <div key={index} className={styles.slotMainFormSection}>
+                        <div className={styles.inputGroup}>
+                            <label className={styles.label}>Start Time</label>
+                            <InputMask
+                                mask="99:99"
+                                className={styles.inputCharger}
+                                value={slot.startTime}
+                                onChange={(e) => handleStartTimeChange(index, e.target.value)}
+                                placeholder="HH:MM"
+                            />
+                            {errors[index]?.startTime && <span className="error">{errors[index].startTime}</span>}
                         </div>
-                    ))}
 
-                    <div className={styles.actions}>
-                        <button className={styles.cancelBtn} type="button" onClick={handleCancel}>Cancel</button>
-                        <button className={styles.submitBtn} type="submit">Submit</button>
+                        <div className={styles.inputGroup}>
+                            <label className={styles.label}>End Time</label>
+                            <InputMask
+                                mask="99:99"
+                                className={styles.inputCharger}
+                                value={slot.endTime}
+                                onChange={(e) => handleEndTimeChange(index, e.target.value)}
+                                placeholder="HH:MM"
+                            />
+                            {errors[index]?.endTime && <span className="error">{errors[index].endTime}</span>}
+                        </div>
+
+                        <div className={styles.inputGroup}>
+                            <label className={styles.label}>Booking Limit</label>
+                            <input
+                                className={styles.inputCharger}
+                                type="text"
+                                placeholder="Enter Booking Limit"
+                                maxLength="4"
+                                value={slot.bookingLimit}
+                                onChange={(e) => handleBookingLimitChange(index, e)}
+                            />
+                            {errors[index]?.bookingLimit && <span className="error">{errors[index].bookingLimit}</span>}
+                        </div>
+
+                        {timeSlots.length > 1 && (
+                            <button type="button" className={styles.buttonContainer} onClick={() => removeTimeSlot(index)}>
+                                <FaTimes className={styles.removeContent} />
+                            </button>
+                        )}
                     </div>
-                </form >
-            </div>
-        </div >
+                ))}
+
+                <div className={styles.actions}>
+                    <button className={styles.cancelBtn} type="button" onClick={handleCancel}>Cancel</button>
+                    <button className={styles.submitBtn} type="submit">Submit</button>
+                </div>
+            </form >
+        </div>
     );
 };
 

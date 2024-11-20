@@ -220,9 +220,25 @@ width: 100% !important;
 /* Style the invoice table  */
 table{
   width: 100% !important;
-}
+} 
 
 /* react Select Date deisgned */
+.react-datepicker-wrapper {
+  width: 100% !important;
+}
+.react-datepicker-popper {
+  transform: translate(0px, 70px) !important;
+}
+.react-datepicker__day--disabled, .react-datepicker__month-text--disabled, .react-datepicker__quarter-text--disabled, .react-datepicker__year-text--disabled {
+  cursor: default;
+  color: #ccc !important;
+}
+.react-datepicker__day {
+  color: inherit!important;
+}
+.react-datepicker__day-name {
+  color: #ffffff !important;
+}
 .react-datepicker__header {
   text-align: center;
   background-color: #000000 !important;
@@ -235,9 +251,9 @@ table{
 .react-datepicker__current-month, .react-datepicker-time__header, .react-datepicker-year-header {
   color: #fff !important;
 }
-.react-datepicker__day-name, .react-datepicker__day, .react-datepicker__time-name {
+/* .react-datepicker__day-name, .react-datepicker__day, .react-datepicker__time-name {
   color: #ffffff !important;
-}
+} */
 .react-datepicker {
   font-family: "Helvetica Neue", helvetica, arial, sans-serif;
   font-size: 0.8rem;
