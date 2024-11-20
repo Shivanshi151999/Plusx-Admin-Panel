@@ -385,6 +385,19 @@ const EditPortableChargerTimeSlot = () => {
                                 />
                                 {errors[index]?.bookingLimit && <span className="error">{errors[index].bookingLimit}</span>}
                             </div>
+                            <div className={styles.inputGroup}>
+                                <label className={styles.label}>Available Limit</label>
+                                <input
+                                    className={styles.inputCharger}
+                                    type="text"
+                                    placeholder="Enter Available Limit"
+                                    maxLength="4"
+                                    value={'0'}
+                                    disabled
+                                    // onChange={(e) => handleBookingLimitChange(index, e)}
+                                />
+                                {/* {errors[index]?.bookingLimit && <span className="error">{errors[index].bookingLimit}</span>} */}
+                            </div>
 
                             <div className={styles.toggleContainer}>
                                 <label className={styles.statusLabel}>Status</label>
