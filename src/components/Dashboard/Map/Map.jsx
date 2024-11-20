@@ -15,16 +15,18 @@ function MapComponent({ coordinates }) {
 
   if (!isLoaded) return <div>Loading...</div>;
 
+  const mapCenter = coordinates?.lat && coordinates?.lng ? coordinates : center;
+
   return (
     <div className={style.map}>
       <div className={`${style.mapContainer}`}>
         <GoogleMap mapContainerClassName={style.mapResponsive} 
-        center={coordinates || center}
+        center={mapCenter}
         zoom={12}
         >
-           {coordinates && coordinates.lat && coordinates.lng && (
-            <Marker position={coordinates || center} />
-          )}
+           {/* {coordinates && coordinates.lat && coordinates.lng && ( */}
+            <Marker position={mapCenter} />
+          {/* )} */}
         </GoogleMap>
       </div>
     </div>
