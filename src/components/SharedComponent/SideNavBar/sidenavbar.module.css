@@ -1,17 +1,39 @@
 .sidebar {
+  position: relative;
   width: 260px;
   background-color: #000000;
   color: white;
   height: 100vh;
   overflow: scroll;
   padding: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
   font-family: "Inter", sans-serif !important;
 }
 .sidebar::-webkit-scrollbar {
   display: none;
+}
+.hamburger {
+  display: none;
+  font-size: 24px;
+  color: white;
+  cursor: pointer;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.sidebarContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  transition: transform 0.3s ease-in-out;
+}
+
+.sidebarContainer.hide {
+  transform: translateX(-100%);
+}
+
+.sidebarContainer.show {
+  transform: translateX(0);
 }
 .subMenu {
   text-decoration: none !important;
@@ -135,9 +157,29 @@ a {
   display: block;
 }
 
-/* Optional: Add responsive styles if needed */
-@media (max-width: 768px) {
-  .sidebar {
+@media (max-width: 992px) {
+  .hamburger {
+    display: block;
+  }
+  .sidebarContainer {
+    position: absolute;
+    padding: 20px;
+    top: 37px;
+    left: 0;
+    background-color: #000;
+    z-index: 1;
+    width: 260px;
+    transform: translateX(-100%);
+  }
+  .sidebarOpen {
+    width: 260px;
+  }
+
+  .sidebarClosed {
     width: 100%;
+    padding: 22px;
+  }
+  .logo {
+    padding: 0px 0px 10px;
   }
 }

@@ -7,10 +7,11 @@ import SidebarDropdown from "./SidebarDropdown/SidebarDropdown";
 import { menuItems } from "./DropdownMenu";
 
 const SideNavbar = () => {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(null);
   const [checkedItems, setCheckedItems] = useState({
     portableCharger: {
-      addPod:false,
+      addPod: false,
       chargerList: false,
       chargerBooking: false,
       invoiceList: false,
@@ -69,7 +70,7 @@ const SideNavbar = () => {
       portableCharger: location.pathname.includes("/portable-charger")
         ? prevState.portableCharger
         : {
-          addPod:false,
+            addPod: false,
             chargerList: false,
             chargerBooking: false,
             invoiceList: false,
@@ -107,97 +108,115 @@ const SideNavbar = () => {
     setOpenDropdown(openDropdown === menu ? null : menu);
   };
 
+  const toggleSidebar = () => {
+    setIsSidebarOpen((prev) => !prev);
+  };
+
   return (
-    <div className={styles.sidebar}>
-      <div className={styles.logo}>
-        <NavLink to="/">
-          <CompanyLogo />
-        </NavLink>
+    <div
+      className={`${styles.sidebar} ${
+        isSidebarOpen ? styles.sidebarOpen : styles.sidebarClosed
+      }`}
+    >
+      <div className={styles.hamburger} onClick={toggleSidebar}>
+        {isSidebarOpen ? "✖" : "☰"}
       </div>
-      <ul className={styles.menuList}>
-        <SideBarLinkItem label="Dashboard" path="/" />
-        <SideBarLinkItem label="App Sign Up List" path="/app-signup-list" />
-        <SideBarLinkItem label="Drivers" path="/rider-list" />
-        <SidebarDropdown
-          menuName="Portable Charger"
-          menuItems={menuItems.portableCharger}
-          openDropdown={openDropdown}
-          handleItemClick={(id, e) =>
-            handleItemClicked("portableCharger", id, e)
-          }
-          toggleDropdown={toggleDropdown}
-          checkedItems={checkedItems.portableCharger}
-        />
-        <SidebarDropdown
-          menuName="Pick & Drop"
-          menuItems={menuItems.pickAndDrop}
-          openDropdown={openDropdown}
-          handleItemClick={(id, e) => handleItemClicked("pickAndDrop", id, e)}
-          toggleDropdown={toggleDropdown}
-          checkedItems={checkedItems.pickAndDrop}
-        />
-        <SideBarLinkItem
-          label="Public Chargers Station"
-          path="/public-charger-station-list"
-        />
-        <SideBarLinkItem
-          label="Electric Car Leasing"
-          path="/electric-car-list"
-        />
-        <SideBarLinkItem
-          label="Electric Bike Leasing"
-          path="/electric-bike-list"
-        />
-        <SideBarLinkItem label="EV Guide" path="/ev-guide-list" />
-        <SidebarDropdown
-          menuName="EV Road Assistance"
-          menuItems={menuItems.evRoadAssistance}
-          openDropdown={openDropdown}
-          handleItemClick={(id, e) =>
-            handleItemClicked("evRoadAssistance", id, e)
-          }
-          toggleDropdown={toggleDropdown}
-          checkedItems={checkedItems.evRoadAssistance}
-        />
-        <SideBarLinkItem
-          label="Charger Installation"
-          path="/charger-installation-list"
-        />
-        <SideBarLinkItem label="EV Rider Clubs" path="/club-list" />
-        <SideBarLinkItem
-          label="EV Discussion Board"
-          path="/discussion-board-list"
-        />
-        <SideBarLinkItem label="EV Insurance" path="/ev-insurance-list" />
-        <SidebarDropdown
-          menuName="EV Pre-Sales Testing"
-          menuItems={menuItems.evPreSalesTesting}
-          openDropdown={openDropdown}
-          handleItemClick={(id, e) =>
-            handleItemClicked("evPreSalesTesting", id, e)
-          }
-          toggleDropdown={toggleDropdown}
-          checkedItems={checkedItems.evPreSalesTesting}
-        />
-        <SidebarDropdown
-          menuName="EV Specialized Shops"
-          menuItems={menuItems.evSpecializedShops}
-          openDropdown={openDropdown}
-          handleItemClick={(id, e) =>
-            handleItemClicked("evSpecializedShops", id, e)
-          }
-          toggleDropdown={toggleDropdown}
-          checkedItems={checkedItems.evSpecializedShops}
-        />
-        <SideBarLinkItem label="EV Buy & Sell" path="/ev-buy-sell" />
-        <SideBarLinkItem label="Offer" path="/offer-list" />
-        <SideBarLinkItem label="Register Interest" path="/interest-list" />
-        <SideBarLinkItem label="Coupon" path="/coupon-list" />
-        <SideBarLinkItem
-          label="Subscription Package"
-          path="/subscription-list"
-        />
-      </ul>
+
+      <div
+        className={`${styles.sidebarContainer} ${
+          isSidebarOpen ? styles.show : ""
+        }`}
+      >
+        <div className={styles.logo}>
+          <NavLink to="/">
+            <CompanyLogo />
+          </NavLink>
+        </div>
+        <ul className={styles.menuList}>
+          <SideBarLinkItem label="Dashboard" path="/" />
+          <SideBarLinkItem label="App Sign Up List" path="/app-signup-list" />
+          <SideBarLinkItem label="Drivers" path="/rider-list" />
+          <SidebarDropdown
+            menuName="Portable Charger"
+            menuItems={menuItems.portableCharger}
+            openDropdown={openDropdown}
+            handleItemClick={(id, e) =>
+              handleItemClicked("portableCharger", id, e)
+            }
+            toggleDropdown={toggleDropdown}
+            checkedItems={checkedItems.portableCharger}
+          />
+          <SidebarDropdown
+            menuName="Pick & Drop"
+            menuItems={menuItems.pickAndDrop}
+            openDropdown={openDropdown}
+            handleItemClick={(id, e) => handleItemClicked("pickAndDrop", id, e)}
+            toggleDropdown={toggleDropdown}
+            checkedItems={checkedItems.pickAndDrop}
+          />
+          <SideBarLinkItem
+            label="Public Chargers Station"
+            path="/public-charger-station-list"
+          />
+          <SideBarLinkItem
+            label="Electric Car Leasing"
+            path="/electric-car-list"
+          />
+          <SideBarLinkItem
+            label="Electric Bike Leasing"
+            path="/electric-bike-list"
+          />
+          <SideBarLinkItem label="EV Guide" path="/ev-guide-list" />
+          <SidebarDropdown
+            menuName="EV Road Assistance"
+            menuItems={menuItems.evRoadAssistance}
+            openDropdown={openDropdown}
+            handleItemClick={(id, e) =>
+              handleItemClicked("evRoadAssistance", id, e)
+            }
+            toggleDropdown={toggleDropdown}
+            checkedItems={checkedItems.evRoadAssistance}
+          />
+          <SideBarLinkItem
+            label="Charger Installation"
+            path="/charger-installation-list"
+          />
+          <SideBarLinkItem label="EV Rider Clubs" path="/club-list" />
+          <SideBarLinkItem
+            label="EV Discussion Board"
+            path="/discussion-board-list"
+          />
+          <SideBarLinkItem label="EV Insurance" path="/ev-insurance-list" />
+          <SidebarDropdown
+            menuName="EV Pre-Sales Testing"
+            menuItems={menuItems.evPreSalesTesting}
+            openDropdown={openDropdown}
+            handleItemClick={(id, e) =>
+              handleItemClicked("evPreSalesTesting", id, e)
+            }
+            toggleDropdown={toggleDropdown}
+            checkedItems={checkedItems.evPreSalesTesting}
+          />
+          <SidebarDropdown
+            menuName="EV Specialized Shops"
+            menuItems={menuItems.evSpecializedShops}
+            openDropdown={openDropdown}
+            handleItemClick={(id, e) =>
+              handleItemClicked("evSpecializedShops", id, e)
+            }
+            toggleDropdown={toggleDropdown}
+            checkedItems={checkedItems.evSpecializedShops}
+          />
+          <SideBarLinkItem label="EV Buy & Sell" path="/ev-buy-sell" />
+          <SideBarLinkItem label="Offer" path="/offer-list" />
+          <SideBarLinkItem label="Register Interest" path="/interest-list" />
+          <SideBarLinkItem label="Coupon" path="/coupon-list" />
+          <SideBarLinkItem
+            label="Subscription Package"
+            path="/subscription-list"
+          />
+        </ul>
+      </div>
     </div>
   );
 };
