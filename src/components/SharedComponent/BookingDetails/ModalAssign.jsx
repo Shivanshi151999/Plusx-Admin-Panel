@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './history.module.css';
 
-const Modal = ({ isOpen, onClose, onAssign, children }) => {
+const Modal = ({ isOpen, onClose, onAssign, children, buttonName }) => {
     if (!isOpen) return null;
 
     return (
@@ -16,7 +16,7 @@ const Modal = ({ isOpen, onClose, onAssign, children }) => {
                         Close
                     </button>
                     <button className={styles.assignButton} onClick={onAssign}>
-                        Assign
+                        {buttonName || 'Assign'}
                     </button>
                     
                 </div>

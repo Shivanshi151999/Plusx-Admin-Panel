@@ -6,10 +6,14 @@ import Delete from '../../../assets/images/Delete.svg';
 import View from '../../../assets/images/ViewEye.svg'
 import AddDriver from '../../../assets/images/AddDriver.svg';
 import { useNavigate } from 'react-router-dom';
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+import { postRequestWithToken } from '../../../api/Requests';
+
 
 
 const List = ({ list, tableHeaders, listData, keyMapping, pageHeading, onDeleteSlot, onBookingConfirm }) => {
-
+    const userDetails    = JSON.parse(sessionStorage.getItem('userDetails'));
     const navigate = useNavigate()
 
     const handleSignupDetails = (id) => navigate(`/rider-details/${id}`)
@@ -91,7 +95,7 @@ const List = ({ list, tableHeaders, listData, keyMapping, pageHeading, onDeleteS
 
     return (
         <div className={styles.containerCharger}>
-
+             <ToastContainer />
             <table className={styles.table}>
                 <thead>
                     <tr>
@@ -132,14 +136,14 @@ const List = ({ list, tableHeaders, listData, keyMapping, pageHeading, onDeleteS
                                         </>
                                     )}
 
-                                    {pageHeading === 'Charger Booking List' && (
+                                    {/* {pageHeading === 'Charger Booking List' && (
                                         <>
                                             <img src={View} alt="view" onClick={() => handleBookingDetails(data.booking_id)} />
                                             {data.status !== 'C' && (
-                                                <img src={Cancel} alt='cancel' />
+                                                <img src={Cancel} alt='cancel' onClick={() => handleCancelClick(data.booking_id)}/>
                                             )}
                                         </>
-                                    )}
+                                    )} */}
                                     {pageHeading === 'Portable Charger List' && (
                                         <>
                                             <img src={Edit} alt='edit' onClick={() => handleChargerDetails(data.charger_id)} />
@@ -166,14 +170,14 @@ const List = ({ list, tableHeaders, listData, keyMapping, pageHeading, onDeleteS
                                         </>
                                     )}
 
-                                    {pageHeading === 'Pick & Drop Booking List' && (
+                                    {/* {pageHeading === 'Pick & Drop Booking List' && (
                                         <>
                                             <img src={View} alt="view" onClick={() => handlePDBookingDetails(data.request_id)} />
                                             {data.order_status !== 'C' && (
                                                 <img src={Cancel} alt='cancel' />
                                             )}
                                         </>
-                                    )}
+                                    )} */}
                                     {pageHeading === 'Pick & Drop Invoice List' && (
                                         <>
                                             <img src={View} alt="view" onClick={() => handlePickAndDropInvoiceDetails(data.invoice_id)} />
@@ -342,6 +346,8 @@ const List = ({ list, tableHeaders, listData, keyMapping, pageHeading, onDeleteS
                     ))}
                 </tbody>
             </table>
+
+          
         </div>
     );
 };

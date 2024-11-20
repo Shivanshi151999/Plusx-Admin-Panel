@@ -1,13 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import List from '../../SharedComponent/List/List'
+import Edit from '../../../assets/images/Pen.svg';
+import Cancel from '../../../assets/images/Cancel.svg';
+import Delete from '../../../assets/images/Delete.svg';
+import View from '../../../assets/images/ViewEye.svg'
 import AddDriver from '../../../assets/images/AddDriver.svg';
 import SubHeader from '../../SharedComponent/SubHeader/SubHeader'
 import Pagination from '../../SharedComponent/Pagination/Pagination'
 import Custommodal from '../../SharedComponent/CustomModal/CustomModal';
+import ModalAssign from '../../SharedComponent/BookingDetails/ModalAssign.jsx'
 import { postRequestWithToken } from '../../../api/Requests';
 import moment from 'moment';
 import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from 'react-router-dom';
+
+
 
 const statusMapping = {
     'CNF': 'Booking Confirmed',
@@ -53,6 +60,7 @@ const BookingList = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedBookingId, setSelectedBookingId] = useState(null);
     const [selectedDriverId, setSelectedDriverId] = useState(null);
+    const [selectedRiderId, setSelectedRiderId]   = useState(null);
     const searchTerm = [
         {
             label: 'search', 
@@ -60,6 +68,60 @@ const BookingList = () => {
             type: 'text'
         }
     ]
+
+    const [showPopup, setShowPopup] = useState(false);
+    const [reason, setReason] = useState("");
+
+    const handlePDBookingDetails = (id) => navigate(`/pick-and-drop/booking-details/${id}`)
+
+  const handleCancelClick = (bookingId, riderId) => {
+    setSelectedBookingId(bookingId);
+    setSelectedRiderId(riderId)
+    console.log(bookingId,riderId);
+    setShowPopup(true); 
+  };
+
+  const handleClosePopup = () => {
+    setShowPopup(false); 
+    setSelectedBookingId(null);
+    setSelectedRiderId(null)
+    setReason("");
+  };
+
+  const handleReasonChange = (e) => {
+    setReason(e.target.value); 
+  };
+
+  const handleConfirmCancel = () => {
+    if (!reason.trim()) {
+        toast("Please enter a reason for cancellation.", {type:'error'})
+        return;
+      }
+    console.log("Canceling item with ID:", selectedBookingId, selectedDriverId);
+    const obj = {
+        userId     : userDetails?.user_id,
+        email      : userDetails?.email,
+        booking_id : selectedBookingId,
+        rider_id   : selectedRiderId,
+        reason     : reason
+    };
+
+    postRequestWithToken('charging-service-cancel', obj, async (response) => {
+        if (response.code === 200) {
+            toast(response.message[0], {type:'success'})
+                setTimeout(() => {
+                    fetchList(currentPage, filters);
+                }, 1500);
+            setShowPopup(false);
+            setSelectedBookingId(null);
+            setSelectedRiderId(null)
+        } else {
+            toast(response.message, {type:'error'})
+            console.log('error in charger-booking-list api', response);
+        }
+    });
+    
+  };
 
     const fetchList = (page, appliedFilters = {}) => {
         const obj = {
@@ -205,6 +267,36 @@ const BookingList = () => {
                         />
                     ) : null;
                 }
+            },
+            {
+                key: 'action',
+                label: 'Action',
+                relatedKeys: ['status'], 
+                format: (data, key, relatedKeys) => {
+                    const isCancelable = data[relatedKeys[0]] !== 'C'; 
+            
+                    return (
+                        <div style={{ display: 'flex', gap: '10px' }}>
+                            {/* View Button (Always Displayed) */}
+                            <img 
+                                src={View} 
+                                alt="view" 
+                                onClick={() => handlePDBookingDetails(data.request_id)} 
+                                style={{ cursor: 'pointer' }} 
+                            />
+            
+                            {/* Cancel Button (Displayed Conditionally) */}
+                            {isCancelable && (
+                                <img 
+                                    src={Cancel} 
+                                    alt="cancel" 
+                                    onClick={() => handleCancelClick(data.request_id, data.rider_id)} 
+                                    style={{ cursor: 'pointer' }} 
+                                />
+                            )}
+                        </div>
+                    );
+                }
             }
         ]}
         pageHeading="Pick & Drop Booking List"
@@ -224,6 +316,28 @@ const BookingList = () => {
                 onSelectDriver={handleDriverSelect}
                 onAssignDriver={assignDriver}
             />
+
+            {showPopup && (
+                <ModalAssign
+                    isOpen={showPopup}
+                    onClose={handleClosePopup}
+                    onAssign={handleConfirmCancel}
+                    buttonName = 'Submit'
+                >
+                    <div className='reason-div' style={{color:'white'}}>Reason for Cancellation</div>
+                    <textarea
+                        style={{color: 'black'}}
+                        id="reason"
+                        placeholder="Enter reason"
+                        className='reason'
+                        rows="4"
+                        value={reason} 
+                        onChange={handleReasonChange}
+                                
+                    />
+                </ModalAssign>
+                
+            )}
         </div>
     );
 };
