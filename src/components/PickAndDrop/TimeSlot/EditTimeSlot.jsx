@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import styles from './addpickanddroptimeslot.module.css';
 import Add from '../../../assets/images/Add.svg';
-import { FaTimes } from 'react-icons/fa';
+import Calendar from '../../../assets/images/Calender.svg'
+import Delete from '../../../assets/images/Delete.svg'
 import DatePicker from "react-datepicker";
 import InputMask from 'react-input-mask';
 import "react-datepicker/dist/react-datepicker.css";
@@ -253,8 +254,14 @@ const EditPickAndDropTimeSlot = () => {
     return (
         <div className={styles.containerCharger}>
              <ToastContainer/>
-            <h2 className={styles.title}>Edit Slot</h2>
-            <div className={styles.chargerSection}>
+             <div className={styles.slotHeaderSection}>
+                <h2 className={styles.title}>Edit Slot</h2>
+                <button type="button" className={styles.buttonSec} onClick={addTimeSlot}>
+                    <img src={Add} alt="Add" className={styles.addImg} />
+                    <span className={styles.addContent}>Add</span>
+                </button>
+            </div>
+            
                 {/* <form className={styles.form} onSubmit={handleSubmit}>
                     <div className={styles.row}>
                         <div className={styles.inputGroup}>
@@ -321,14 +328,10 @@ const EditPickAndDropTimeSlot = () => {
                 </form> */}
 
                 <form className={styles.form} onSubmit={handleSubmit}>
-                    <div className={styles.addSection}>
-                        <button type="button" className={styles.buttonSec} onClick={addTimeSlot}>
-                            <img src={Add} alt="Add" className={styles.addImg} />
-                            <span className={styles.addContent}>Add</span>
-                        </button>
-                    </div>
+                <div className={styles.chargerSection}>
                     <div className={styles.inputGroup}>
                         <label className={styles.label}>Select Date</label>
+                        <div className={styles.datePickerWrapper}>
                         <DatePicker
                             className={styles.inputCharger}
                             selected={date}
@@ -336,13 +339,15 @@ const EditPickAndDropTimeSlot = () => {
                             minDate={new Date()}
                             maxDate={new Date().setDate(new Date().getDate() + 14)}
                         />
+                         <img className={styles.datePickerImg} src={Calendar} alt="calendar" />
+                         </div>
                         {errors.date && <span className="error">{errors.date}</span>}
                     </div>
-
+                    </div>
                     
 
                     {timeSlots.map((slot, index) => (
-                        <div key={index} className={styles.row}>
+                         <div key={index} className={styles.slotMainFormSection}>
                             <div className={styles.inputGroup}>
                                 <label className={styles.label}>Start Time</label>
                                 <InputMask
@@ -400,21 +405,19 @@ const EditPickAndDropTimeSlot = () => {
                                     className={styles.toggleSwitch}
                                     onClick={() => handleToggle(index)} // Pass the index to identify the slot
                                 >
-                                    <span className={`${styles.toggleLabel} ${!slot.status ? styles.inactive : ''}`}>
-                                        In-Active
-                                    </span>
-                                    <div className={`${styles.toggleButton} ${slot.status ? styles.active : ''}`}>
+                                    
+                                    <div className={`${styles.toggleButton} ${slot.status ? styles.active : styles.inactive}`}>
                                         <div className={styles.slider}></div>
                                     </div>
-                                    <span className={`${styles.toggleLabel} ${slot.status ? styles.active : ''}`}>
-                                        Active
-                                    </span>
+                                    <span className={`${styles.toggleText} ${slot.status ? styles.activeText : styles.inactiveText}`}>
+                                    {slot.status ? "Active" : "Inactive"}
+                                </span>
                                 </div>
                             </div>
 
                             {timeSlots.length > 1 && (
                                 <button type="button" className={styles.buttonContainer} onClick={() => removeTimeSlot(index)}>
-                                    <FaTimes className={styles.removeContent} />
+                                    <img className={styles.removeContent} src={Delete} alt="delete" />
                                 </button>
                             )}
                         </div>
@@ -426,7 +429,7 @@ const EditPickAndDropTimeSlot = () => {
                     </div>
                 </form >
             </div>
-        </div>
+        
     );
 };
 

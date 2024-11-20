@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import styles from './addtimeslot.module.css';
 import Add from '../../../assets/images/Add.svg';
-import { FaTimes } from 'react-icons/fa';
+import Calendar from '../../../assets/images/Calender.svg'
+import Delete from '../../../assets/images/Delete.svg'
 import InputMask from 'react-input-mask';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -50,6 +51,7 @@ const EditPortableChargerTimeSlot = () => {
                 // setIsActive(data.status)
 
                 const slots = response.data || [];
+<<<<<<< Updated upstream
             if (slots.length > 0) {
                 setTimeSlots(
                     slots.map(slot => ({
@@ -62,12 +64,25 @@ const EditPortableChargerTimeSlot = () => {
                         status: slot.status === 1,
                     }))
                 );
+=======
+                if (slots.length > 0) {
+                    setTimeSlots(
+                        slots.map(slot => ({
+                            startTime: moment(slot.start_time, 'HH:mm:ss').format('HH:mm'),
+                            endTime: moment(slot.end_time, 'HH:mm:ss').format('HH:mm'),
+                            bookingLimit: slot.booking_limit.toString(),
+                            id: slot.id,
+                            // status: setIsActive(slot.status)
+                            status: slot.status === 1,
+                        }))
+                    );
+>>>>>>> Stashed changes
 
-                // Set the date state using the first slot's date
-                setDate(new Date(slots[0].slot_date));
-                setStartDate(new Date(slots[0].slot_date)); // If this is used elsewhere
-                setIsActive(slots[0].status === 1);
-            }
+                    // Set the date state using the first slot's date
+                    setDate(new Date(slots[0].slot_date));
+                    setStartDate(new Date(slots[0].slot_date)); // If this is used elsewhere
+                    setIsActive(slots[0].status === 1);
+                }
             } else {
                 console.log('error in charger-slot-details API', response);
             }
@@ -89,7 +104,7 @@ const EditPortableChargerTimeSlot = () => {
     const handleTimeInput = (e) => {
         const value = e.target.value;
         const isValidTime = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/.test(value);
-        return isValidTime || value === '' ? value : null; 
+        return isValidTime || value === '' ? value : null;
     };
 
     // const handleStartTimeChange = (e) => {
@@ -101,7 +116,7 @@ const EditPortableChargerTimeSlot = () => {
     const handleStartTimeChange = (index, newTime) => {
         const validatedTime = handleTimeInput({ target: { value: newTime } });
         const newTimeSlots = [...timeSlots];
-        newTimeSlots[index].startTime = validatedTime === '' ? null : validatedTime; 
+        newTimeSlots[index].startTime = validatedTime === '' ? null : validatedTime;
         setTimeSlots(newTimeSlots);
     };
 
@@ -114,7 +129,7 @@ const EditPortableChargerTimeSlot = () => {
     const handleEndTimeChange = (index, newTime) => {
         const validatedTime = handleTimeInput({ target: { value: newTime } });
         const newTimeSlots = [...timeSlots];
-        newTimeSlots[index].endTime = validatedTime === '' ? null : validatedTime; 
+        newTimeSlots[index].endTime = validatedTime === '' ? null : validatedTime;
         setTimeSlots(newTimeSlots);
     };
 
@@ -201,12 +216,12 @@ const EditPortableChargerTimeSlot = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (validateForm()) {
-            const slot_date     = dayjs(date).format("DD-MM-YYYY"); 
-            const id            = timeSlots.map(slot => slot.id);
-            const start_time    = timeSlots.map(slot => slot.startTime);
-            const end_time      = timeSlots.map(slot => slot.endTime);
+            const slot_date = dayjs(date).format("DD-MM-YYYY");
+            const id = timeSlots.map(slot => slot.id);
+            const start_time = timeSlots.map(slot => slot.startTime);
+            const end_time = timeSlots.map(slot => slot.endTime);
             const booking_limit = timeSlots.map(slot => slot.bookingLimit);
-            const status        = timeSlots.map(slot => (slot.status ? 1 : 0));
+            const status = timeSlots.map(slot => (slot.status ? 1 : 0));
 
             const obj = {
                 userId: userDetails?.user_id,
@@ -218,10 +233,10 @@ const EditPortableChargerTimeSlot = () => {
                 // end_time: endTime,
                 // booking_limit: bookingLimit,
                 id,
-                slot_date, 
-                start_time, 
-                end_time, 
-                booking_limit ,
+                slot_date,
+                start_time,
+                end_time,
+                booking_limit,
                 status
             };
 
@@ -252,80 +267,89 @@ const EditPortableChargerTimeSlot = () => {
             )
         );
     };
-    
+
 
     return (
         <div className={styles.containerCharger}>
             <ToastContainer />
-            <h2 className={styles.title}>Edit Slot</h2>
-            <div className={styles.chargerSection}>
-                {/* <form className={styles.form} onSubmit={handleSubmit}>
-                    <div className={styles.row}>
-                        <div className={styles.inputGroup}>
-                            <label className={styles.label}>Select Date</label>
+            <div className={styles.slotHeaderSection}>
+                <h2 className={styles.title}>Edit Slot</h2>
+                <button type="button" className={styles.buttonSec} onClick={addTimeSlot}>
+                    <img src={Add} alt="Add" className={styles.addImg} />
+                    <span className={styles.addContent}>Add</span>
+                </button>
+            </div>
+            <form className={styles.form} onSubmit={handleSubmit}>
+                <div className={styles.chargerSection}>
+                    <div className={styles.inputGroup}>
+                        <label className={styles.label}>Select Date</label>
+                        <div className={styles.datePickerWrapper}>
                             <DatePicker
                                 className={styles.inputCharger}
-                                selected={startDate}
-                                onChange={(date) => setStartDate(date)}
+                                selected={date}
+                                onChange={(date) => setDate(date)}
+                                minDate={new Date()}
+                                maxDate={new Date().setDate(new Date().getDate() + 14)}
                             />
-                            {errors.startDate && <span className="error">{errors.startDate}</span>}
+                            <img className={styles.datePickerImg} src={Calendar} alt="calendar" />
                         </div>
+                        {errors.date && <span className="error">{errors.date}</span>}
+                    </div>
+                </div>
+
+                {timeSlots.map((slot, index) => (
+                    <div key={index} className={styles.slotMainFormSection}>
                         <div className={styles.inputGroup}>
                             <label className={styles.label}>Start Time</label>
                             <InputMask
                                 mask="99:99"
                                 className={styles.inputCharger}
-                                value={startTime}
-                                // onChange={(e) => handleStartTimeChange(dayjs(e.target.value, "HH:mm"))}
-                                onChange={handleStartTimeChange}
+                                value={slot.startTime}
+                                onChange={(e) => handleStartTimeChange(index, e.target.value)}
                                 placeholder="HH:MM"
                             />
-                            {errors.startTime && <span className="error">{errors.startTime}</span>}
+                            {errors[index]?.startTime && <span className="error">{errors[index].startTime}</span>}
                         </div>
+
                         <div className={styles.inputGroup}>
                             <label className={styles.label}>End Time</label>
                             <InputMask
                                 mask="99:99"
                                 className={styles.inputCharger}
-                                value={endTime}
-                                // onChange={(e) => handleEndTimeChange(dayjs(e.target.value, "HH:mm"))}
-                                onChange={handleEndTimeChange}
+                                value={slot.endTime}
+                                onChange={(e) => handleEndTimeChange(index, e.target.value)}
                                 placeholder="HH:MM"
                             />
-                            {errors.endTime && <span className="error">{errors.endTime}</span>}
+                            {errors[index]?.endTime && <span className="error">{errors[index].endTime}</span>}
                         </div>
+
                         <div className={styles.inputGroup}>
                             <label className={styles.label}>Booking Limit</label>
                             <input
                                 className={styles.inputCharger}
                                 type="text"
                                 placeholder="Enter Booking Limit"
-                                value={bookingLimit}
-                                onChange={handleBookingLimitChange}
+                                maxLength="4"
+                                value={slot.bookingLimit}
+                                onChange={(e) => handleBookingLimitChange(index, e)}
                             />
-                            {errors.bookingLimit && <span className="error">{errors.bookingLimit}</span>}
+                            {errors[index]?.bookingLimit && <span className="error">{errors[index].bookingLimit}</span>}
                         </div>
-                    </div>
-                    <div className={styles.toggleContainer}>
-                        <label className={styles.statusLabel}>Status</label>
-                        <div className={styles.toggleSwitch} onClick={handleToggle}>
-                            <span className={`${styles.toggleLabel} ${!isActive ? styles.inactive : ''}`}>
-                                In-Active
-                            </span>
-                            <div className={`${styles.toggleButton} ${isActive ? styles.active : ''}`}>
-                                <div className={styles.slider}></div>
-                            </div>
-                            <span className={`${styles.toggleLabel} ${isActive ? styles.active : ''}`}>
-                                Active
-                            </span>
+                        <div className={styles.inputGroup}>
+                            <label className={styles.label}>Available Limit</label>
+                            <input
+                                className={styles.inputCharger}
+                                type="text"
+                                placeholder="Enter Available Limit"
+                                maxLength="4"
+                                value={'0'}
+                                disabled
+                            // onChange={(e) => handleBookingLimitChange(index, e)}
+                            />
+                            {/* {errors[index]?.bookingLimit && <span className="error">{errors[index].bookingLimit}</span>} */}
                         </div>
-                    </div>
-                    <div className={styles.actions}>
-                        <button className={styles.cancelBtn} type="button" onClick={handleCancel}>Cancel</button>
-                        <button className={styles.submitBtn} type="submit">Submit</button>
-                    </div>
-                </form> */}
 
+<<<<<<< Updated upstream
 
                 <form className={styles.form} onSubmit={handleSubmit}>
                     <div className={styles.addSection}>
@@ -415,23 +439,42 @@ const EditPortableChargerTimeSlot = () => {
                                     <span className={`${styles.toggleLabel} ${slot.status ? styles.active : ''}`}>
                                         Active
                                     </span>
+=======
+                        <div className={styles.toggleContainer}>
+                            <label className={styles.statusLabel}>Status</label>
+                            <div
+                                className={styles.toggleSwitch}
+                                onClick={() => handleToggle(index)}
+                            >
+                                {/* Toggle Button */}
+                                <div className={`${styles.toggleButton} ${slot.status ? styles.active : styles.inactive}`}>
+                                    <div className={styles.slider}></div>
+>>>>>>> Stashed changes
                                 </div>
+
+                                {/* Text for Active or Inactive */}
+                                <span className={`${styles.toggleText} ${slot.status ? styles.activeText : styles.inactiveText}`}>
+                                    {slot.status ? "Active" : "Inactive"}
+                                </span>
                             </div>
-
-                            {timeSlots.length > 1 && (
-                                <button type="button" className={styles.buttonContainer} onClick={() => removeTimeSlot(index)}>
-                                    <FaTimes className={styles.removeContent} />
-                                </button>
-                            )}
                         </div>
-                    ))}
 
-                    <div className={styles.actions}>
-                        <button className={styles.cancelBtn} type="button" onClick={handleCancel}>Cancel</button>
-                        <button className={styles.submitBtn} type="submit">Submit</button>
+
+
+
+                        {timeSlots.length > 1 && (
+                            <button type="button" className={styles.buttonContainer} onClick={() => removeTimeSlot(index)}>
+                                <img className={styles.removeContent} src={Delete} alt="delete" />
+                            </button>
+                        )}
                     </div>
-                </form >
-            </div>
+                ))}
+
+                <div className={styles.actions}>
+                    <button className={styles.cancelBtn} type="button" onClick={handleCancel}>Cancel</button>
+                    <button className={styles.submitBtn} type="submit">Submit</button>
+                </div>
+            </form >
         </div>
     );
 };

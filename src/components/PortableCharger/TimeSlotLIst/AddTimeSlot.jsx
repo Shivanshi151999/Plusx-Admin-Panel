@@ -11,7 +11,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Add from '../../../assets/images/Add.svg';
-import { FaTimes } from 'react-icons/fa';
+import Delete from '../../../assets/images/Delete.svg'
 
 dayjs.extend(isSameOrAfter);
 
@@ -251,7 +251,7 @@ const AddPortableChargerTimeSlot = () => {
 
                         {timeSlots.length > 1 && (
                             <button type="button" className={styles.buttonContainer} onClick={() => removeTimeSlot(index)}>
-                                <FaTimes className={styles.removeContent} />
+                                <img className={styles.removeContent} src={Delete} alt="delete" />
                             </button>
                         )}
                     </div>
