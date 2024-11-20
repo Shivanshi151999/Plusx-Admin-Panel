@@ -205,8 +205,8 @@ height: 200px;
   display: flex;
   align-items: center;
   cursor: pointer;
-  justify-content: end;
-
+  justify-content: space-between;
+  gap: 20px;
 }
 .buttonSec{
   border: 1px solid #00ffc3 !important;

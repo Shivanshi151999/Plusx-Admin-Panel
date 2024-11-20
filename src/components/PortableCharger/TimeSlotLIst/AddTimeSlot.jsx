@@ -41,24 +41,24 @@ const AddPortableChargerTimeSlot = () => {
     const handleTimeInput = (e) => {
         const value = e.target.value;
         const isValidTime = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/.test(value);
-        return isValidTime || value === '' ? value : null; 
+        return isValidTime || value === '' ? value : null;
     };
-    
+
 
     const handleStartTimeChange = (index, newTime) => {
         const validatedTime = handleTimeInput({ target: { value: newTime } });
         const newTimeSlots = [...timeSlots];
-        newTimeSlots[index].startTime = validatedTime === '' ? null : validatedTime; 
+        newTimeSlots[index].startTime = validatedTime === '' ? null : validatedTime;
         setTimeSlots(newTimeSlots);
     };
-    
+
     const handleEndTimeChange = (index, newTime) => {
         const validatedTime = handleTimeInput({ target: { value: newTime } });
         const newTimeSlots = [...timeSlots];
-        newTimeSlots[index].endTime = validatedTime === '' ? null : validatedTime; 
+        newTimeSlots[index].endTime = validatedTime === '' ? null : validatedTime;
         setTimeSlots(newTimeSlots);
     };
-    
+
 
     const handleBookingLimitChange = (index, e) => {
         const value = e.target.value;
@@ -88,32 +88,32 @@ const AddPortableChargerTimeSlot = () => {
     // const validateForm = () => {
     //     const newErrors = timeSlots.map((slot) => {
     //         const errors = {};
-    
+
     //         if (!slot.date) {
     //             errors.date = "Date is required";
     //         }
-            
+
     //         if (!slot.startTime) {
     //             errors.startTime = "Start time is required";
     //         }
-            
+
     //         if (!slot.endTime) {
     //             errors.endTime = "End time is required";
     //         }
-            
+
     //         if (!slot.bookingLimit) {
     //             errors.bookingLimit = "Booking limit is required";
     //         } else if (isNaN(slot.bookingLimit) || slot.bookingLimit <= 0) {
     //             errors.bookingLimit = "Booking limit must be a positive number";
     //         }
-    
+
     //         return errors;
     //     });
-    
+
     //     setErrors(newErrors);
     //     return newErrors.every((error) => Object.keys(error).length === 0);
     // };
-    
+
 
     const validateForm = () => {
         const errors = [];
@@ -139,23 +139,23 @@ const AddPortableChargerTimeSlot = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (validateForm()) {
-            const slot_date  = dayjs(date).format("DD-MM-YYYY"); 
-            const start_time   = timeSlots.map(slot => slot.startTime);
-            const end_time      = timeSlots.map(slot => slot.endTime);
+            const slot_date = dayjs(date).format("DD-MM-YYYY");
+            const start_time = timeSlots.map(slot => slot.startTime);
+            const end_time = timeSlots.map(slot => slot.endTime);
             const booking_limit = timeSlots.map(slot => slot.bookingLimit);
-            const status        = timeSlots.map(slot => "1");
+            const status = timeSlots.map(slot => "1");
             const obj = {
-                userId        : userDetails?.user_id,
-                email         : userDetails?.email,
+                userId: userDetails?.user_id,
+                email: userDetails?.email,
                 // slot_date     : timeSlots.map(slot => slot.date ? dayjs(slot.date).format("DD-MM-YYYY") : ''),
                 // start_time    : timeSlots.map(slot => slot.startTime),
                 // end_time      : timeSlots.map(slot => slot.endTime),
                 // booking_limit : timeSlots.map(slot => slot.bookingLimit),
 
-                slot_date, 
-                start_time, 
-                end_time, 
-                booking_limit ,
+                slot_date,
+                start_time,
+                end_time,
+                booking_limit,
                 status
             };
 
@@ -187,83 +187,23 @@ const AddPortableChargerTimeSlot = () => {
             <div className={styles.chargerSection}>
                 <form className={styles.form} onSubmit={handleSubmit}>
                     <div className={styles.addSection}>
+                        <div className={styles.inputGroup}>
+                            <label className={styles.label}>Select Date</label>
+                            <DatePicker
+                                className={styles.inputCharger}
+                                selected={date}
+                                onChange={(date) => setDate(date)}
+                                minDate={new Date()}
+                                maxDate={new Date().setDate(new Date().getDate() + 14)}
+                            />
+                            {errors.date && <span className="error">{errors.date}</span>}
+                        </div>
                         <button type="button" className={styles.buttonSec} onClick={addTimeSlot}>
                             <img src={Add} alt="Add" className={styles.addImg} />
                             <span className={styles.addContent}>Add</span>
                         </button>
                     </div>
-                    <div className={styles.inputGroup}>
-                        <label className={styles.label}>Select Date</label>
-                        <DatePicker
-                            className={styles.inputCharger}
-                            selected={date}
-                            onChange={(date) => setDate(date)}
-                            minDate={new Date()}
-                            maxDate={new Date().setDate(new Date().getDate() + 14)}
-                        />
-                        {errors.date && <span className="error">{errors.date}</span>}
-                    </div>
-
-                    {/* {timeSlots.map((slot, index) => (
-                        <div key={index} className={styles.row}>
-                            <div className={styles.inputGroup}>
-                                <label className={styles.label}>Select Date</label>
-                                <DatePicker 
-                                className={styles.inputCharger} 
-                                selected={slot.date} 
-                                onChange={(date) => handleDateChange(index, date)}
-                                minDate={new Date()}
-                                maxDate={new Date().setDate(new Date().getDate() + 14)}
-                                />
-                                {errors[index]?.date && <span className="error">{errors[index].date}</span>}
-                            </div>
-                            <div className={styles.inputGroup}>
-                                <label className={styles.label}>Start Time</label>
-                                <InputMask
-                                    mask="99:99"
-                                    className={styles.inputCharger}
-                                    value={slot.startTime}
-                                    onChange={(e) => handleStartTimeChange(index, e.target.value)}
-                                    placeholder="HH:MM"
-                                />
-                                {errors[index]?.startTime && <span className="error">{errors[index].startTime}</span>}
-                            </div>
-
-                            <div className={styles.inputGroup}>
-                                <label className={styles.label}>End Time</label>
-                                <InputMask
-                                    mask="99:99"
-                                    className={styles.inputCharger}
-                                    value={slot.endTime}
-                                    onChange={(e) => handleEndTimeChange(index, e.target.value)}
-                                    placeholder="HH:MM" 
-                                />
-                                {errors[index]?.endTime && <span className="error">{errors[index].endTime}</span>}
-                            </div>
-
-                            <div className={styles.inputGroup}>
-                                <label className={styles.label}>Booking Limit</label>
-                                <input
-                                    className={styles.inputCharger}
-                                    type="text"
-                                    placeholder="Enter Booking Limit"
-                                    maxLength="4"
-                                    value={slot.bookingLimit}
-                                    onChange={(e) => handleBookingLimitChange(index, e)}
-                                    onKeyPress={handleBookingLimitKeyPress}
-                                />
-                                {errors[index]?.bookingLimit && <span className="error">{errors[index].bookingLimit}</span>}
-                            </div>
-
-                            {timeSlots.length > 1 && (
-                                <button type="button" className={styles.buttonContainer} onClick={() => removeTimeSlot(index)}>
-                                    <FaTimes className={styles.removeContent} />
-                                </button>
-                            )}
-                        </div>
-                    ))} */}
-
-{timeSlots.map((slot, index) => (
+                    {timeSlots.map((slot, index) => (
                         <div key={index} className={styles.row}>
                             <div className={styles.inputGroup}>
                                 <label className={styles.label}>Start Time</label>

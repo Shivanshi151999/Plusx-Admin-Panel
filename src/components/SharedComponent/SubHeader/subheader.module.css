@@ -21,7 +21,33 @@
     font-weight: 600;
     color: #00ffcc;
 }
+.headCardSection{
+    background-color: #000000;
+    border: 1px solid #00ffcc;
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    border-radius: 10px;
+    column-gap: 20px;
+}
+.headCardNumber{
+    border: 1px solid #00ffcc;
+    color: #00ffcc;
+    font-size: 18px;
+    font-weight: 600;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
+}
+.headCardText{
+    font-size: 18px;
+    color: #fff;
+    font-weight: 550;
 
+}
 .addButtonSection {
     display: flex;
     align-items: center;
