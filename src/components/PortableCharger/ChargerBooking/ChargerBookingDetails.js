@@ -65,14 +65,6 @@ const ChargerBookingDetails = () => {
         bookingStatus: "Booking Status",
         price: "Price",
         serviceName: "Service Name",
-        // vehicle        : "Vehicle",
-        // serviceType    : "Service Type",
-        // serviceFeature : "Service Feature",
-
-
-        // address        : "Address",
-        // slotDate       : "Slot Date",
-        // slotTime       : "Slot Time"
     }
     const sectionTitles2 = {
         vehicle: "Vehicle",
@@ -92,20 +84,12 @@ const ChargerBookingDetails = () => {
         customerContact: `${bookingDetails?.country_code} ${bookingDetails?.contact_no}`,
         driverName: rsa_data ? rsa_data[0] : '',
         driverContact: rsa_data ? rsa_data[1] : '',
-        // invoice         : bookingDetails?.invoice_url,
         imageUrl: bookingDetails?.imageUrl,
     };
     const sectionContent1 = {
         bookingStatus: statusMapping[bookingDetails?.status] || bookingDetails?.status,
         serviceName: bookingDetails?.service_name,
         price: bookingDetails?.service_price,
-        // vehicle        : bookingDetails?.vehicle_data,
-        // serviceType    : bookingDetails?.service_type,
-        // serviceFeature : bookingDetails?.service_feature,
-
-        // address        : bookingDetails?.address,
-        // slotDate       : moment(bookingDetails?.slot_date).format('DD MMM YYYY'),
-        // slotTime       : bookingDetails?.slot_time
     }
     const sectionContent2 = {
         vehicle: bookingDetails?.vehicle_data,
@@ -113,7 +97,17 @@ const ChargerBookingDetails = () => {
         serviceFeature: bookingDetails?.service_feature,
     }
     const sectionContent3 = {
-        address: bookingDetails?.address,
+        // address: bookingDetails?.address,
+        address: (
+            <a
+                href={`https://www.google.com/maps?q=${bookingDetails?.latitude},${bookingDetails?.longitude}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ textDecoration: 'none', color: 'inherit' }}
+            >
+                {bookingDetails?.address || 'View on Map'}
+            </a>
+        ),
         slotDate: moment(bookingDetails?.slot_date).format('DD MMM YYYY'),
         slotTime: bookingDetails?.slot_time
     }

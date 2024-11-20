@@ -91,7 +91,17 @@ const PickAndDropBookingDetails = () => {
     const sectionContent2 = {
         parking: bookingDetails?.parking_number,
         parkingFloor: bookingDetails?.parking_floor,
-        address: bookingDetails?.pickup_address,
+        // address: bookingDetails?.pickup_address,
+        address: (
+            <a
+                href={`https://www.google.com/maps?q=${bookingDetails?.pickup_latitude},${bookingDetails?.pickup_longitude}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ textDecoration: 'none', color: 'inherit' }}
+            >
+                {bookingDetails?.pickup_address || 'View on Map'}
+            </a>
+        ),
     }
     const sectionContent3 = {
         slotDate: moment(bookingDetails?.slot_date_time).format('DD MMM YYYY h:mm A'),

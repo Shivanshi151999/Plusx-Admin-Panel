@@ -107,7 +107,6 @@ const DashboardCard = ({ details }) => {
         details?.find((item) => item.module === "Charger Installation Bookings")
           ?.count || 0,
       title: "Charger Installation Bookings",
-      route: "/ev-road-assistance/booking-list",
       route: "/charger-installation-list",
     },
     // {
