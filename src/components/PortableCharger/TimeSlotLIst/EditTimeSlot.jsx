@@ -51,7 +51,6 @@ const EditPortableChargerTimeSlot = () => {
 
                 const slots = response.data || [];
             if (slots.length > 0) {
-                // Prefill the timeSlots state with data from the response
                 setTimeSlots(
                     slots.map(slot => ({
                         startTime: moment(slot.start_time, 'HH:mm:ss').format('HH:mm'),
@@ -327,7 +326,7 @@ const EditPortableChargerTimeSlot = () => {
                 </form> */}
 
 
-<form className={styles.form} onSubmit={handleSubmit}>
+                <form className={styles.form} onSubmit={handleSubmit}>
                     <div className={styles.addSection}>
                         <button type="button" className={styles.buttonSec} onClick={addTimeSlot}>
                             <img src={Add} alt="Add" className={styles.addImg} />
@@ -348,7 +347,7 @@ const EditPortableChargerTimeSlot = () => {
 
                     
 
-{timeSlots.map((slot, index) => (
+                   {timeSlots.map((slot, index) => (
                         <div key={index} className={styles.row}>
                             <div className={styles.inputGroup}>
                                 <label className={styles.label}>Start Time</label>
@@ -388,22 +387,22 @@ const EditPortableChargerTimeSlot = () => {
                             </div>
 
                             <div className={styles.toggleContainer}>
-    <label className={styles.statusLabel}>Status</label>
-    <div
-        className={styles.toggleSwitch}
-        onClick={() => handleToggle(index)} // Pass the index to identify the slot
-    >
-        <span className={`${styles.toggleLabel} ${!slot.status ? styles.inactive : ''}`}>
-            In-Active
-        </span>
-        <div className={`${styles.toggleButton} ${slot.status ? styles.active : ''}`}>
-            <div className={styles.slider}></div>
-        </div>
-        <span className={`${styles.toggleLabel} ${slot.status ? styles.active : ''}`}>
-            Active
-        </span>
-    </div>
-</div>
+                                <label className={styles.statusLabel}>Status</label>
+                                <div
+                                    className={styles.toggleSwitch}
+                                    onClick={() => handleToggle(index)} // Pass the index to identify the slot
+                                >
+                                    <span className={`${styles.toggleLabel} ${!slot.status ? styles.inactive : ''}`}>
+                                        In-Active
+                                    </span>
+                                    <div className={`${styles.toggleButton} ${slot.status ? styles.active : ''}`}>
+                                        <div className={styles.slider}></div>
+                                    </div>
+                                    <span className={`${styles.toggleLabel} ${slot.status ? styles.active : ''}`}>
+                                        Active
+                                    </span>
+                                </div>
+                            </div>
 
                             {timeSlots.length > 1 && (
                                 <button type="button" className={styles.buttonContainer} onClick={() => removeTimeSlot(index)}>

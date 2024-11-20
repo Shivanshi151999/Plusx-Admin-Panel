@@ -40,10 +40,7 @@ const SubHeader = ({ heading, fetchFilteredData, dynamicFilters, filterValues, a
 
     const shouldShowFilterButton =
         heading !== "Portable Charger List" &&
-        // heading !== "Portable Charger Invoice List" && 
-        // heading !== "Pick & Drop Invoice List" &&
         heading !== "Road Assistance Invoice List" &&
-        // heading !== "Ev Road Assistance Invoice List" &&
         heading !== "Charger Installation List" &&
         heading !== "Ev Rider Clubs List" &&
         heading !== "Ev Discussion Board List" &&
@@ -58,9 +55,7 @@ const SubHeader = ({ heading, fetchFilteredData, dynamicFilters, filterValues, a
         heading !== "Time Slot List" &&
         heading !== "Register Interest List";
 
-
     const shouldShowSearchButton =
-        // heading !== "Portable Charger List"  && 
         heading !== "Offer List" &&
         heading !== "Portable Charger Invoice List" &&
         heading !== "Pick & Drop Invoice List" &&
@@ -70,17 +65,13 @@ const SubHeader = ({ heading, fetchFilteredData, dynamicFilters, filterValues, a
         heading !== "Ev Road Assistance Invoice List"
 
     const showCard =
-        
         heading !== "App Signup List" &&
         heading !== "EV Pre-Sale Testing Booking List" &&
         heading !== "Public Chargers List" &&
         heading !== "Drivers List" &&
-        // heading !== "Add POD List" &&
-        
         heading !== "Portable Charger Booking List" &&
         heading !== "Pick & Drop Booking List" &&
         heading !== "Charger Installation List" &&
-        
         heading !== "Ev Road Assitance Booking List"
 
     const showHeading = 
@@ -99,10 +90,11 @@ const SubHeader = ({ heading, fetchFilteredData, dynamicFilters, filterValues, a
       heading !== "EV Guide List" &&
       heading !== "Electric Bikes Leasing List" &&
       heading !== "Electric Cars Leasing List" &&
+      heading !== "Add POD List" &&
       heading !== "Pick & Drop Invoice List" &&
       heading !== "Portable Charger List" &&
       heading !== "Portable Charger Invoice List" &&
-    heading !== "Portable Charger Slot List" &&
+      heading !== "Portable Charger Slot List" &&
       heading !== "Pick & Drop Time Slot List" 
     //   
 

@@ -174,56 +174,53 @@ const PortableChargerTimeSlotList = () => {
                             </React.Fragment>
                         ))} */}
 
-{groupedData.map((group, index) => (
-    <React.Fragment key={index} className={styles.groupContainer}>
-        {/* Date row */}
-        <tr className={styles.dateRow}>
-            <td colSpan="6" className={styles.listSpan}>
-                <span>Date: {group.slot_date}</span>
-            </td>
-            {/* Action buttons in the same row as the date */}
-            <td className={styles.actionButtons}>
-                <div className={styles.editContent}>
-                    <img
-                        src={Edit}
-                        alt="edit"
-                        onClick={() => handleChargerEditTimeSlot(group.slots[0]?.slot_id)}
-                    />
-                    <img
-                        src={Delete}
-                        alt="delete"
-                        onClick={() => handleDeleteSlot(group.slots[0]?.slot_id)}
-                    />
-                </div>
-            </td>
-        </tr>
-        {/* Slot details for the date */}
-        <tbody className={styles.timeSlotGroup}>
-            {group.slots.map((slot, slotIndex) => (
-                <tr key={slotIndex} className={styles.slotRow}>
-                    <td>{slot.slot_id}</td>
-                    <td>
-                        {slot.timing ? (() => {
-                            const [startTime, endTime] = slot.timing.split(' - ');
-                            const formattedStart = moment(startTime, 'HH:mm:ss').format('HH:mm');
-                            const formattedEnd = moment(endTime, 'HH:mm:ss').format('HH:mm');
-                            return `${formattedStart} - ${formattedEnd}`;
-                        })() : 'N/A'}
-                    </td>
-                    <td>{slot.booking_limit || '0'}</td>
-                    <td>{slot.slot_booking_count || '0'}</td>
-                    <td>{slot.remaining_booking || '0'}</td>
-                    <td>{slot.status === 1 ? "Active" : "Inactive"}</td>
-                    <td>{/* Leave this cell empty to align with the table */}</td>
-                </tr>
-            ))}
-        </tbody>
-    </React.Fragment>
-))}
-
-
-
-
+                        {groupedData.map((group, index) => (
+                            <React.Fragment key={index} className={styles.groupContainer}>
+                                {/* Date row */}
+                                <tr className={styles.dateRow}>
+                                    <td colSpan="6" className={styles.listSpan}>
+                                        <span>Date: {group.slot_date}</span>
+                                    </td>
+                                    {/* Action buttons in the same row as the date */}
+                                    <td className={styles.actionButtons}>
+                                        <div className={styles.editContent}>
+                                            <img
+                                                src={Edit}
+                                                alt="edit"
+                                                onClick={() => handleChargerEditTimeSlot(group.slots[0]?.slot_id)}
+                                            />
+                                            <img
+                                                src={Delete}
+                                                alt="delete"
+                                                onClick={() => handleDeleteSlot(group.slots[0]?.slot_id)}
+                                            />
+                                        </div>
+                                    </td>
+                                </tr>
+                                {/* Slot details for the date */}
+                                <tbody className={styles.timeSlotGroup}>
+                                    {group.slots.map((slot, slotIndex) => (
+                                        <tr key={slotIndex} className={styles.slotRow}>
+                                            <td>{slot.slot_id}</td>
+                                            <td>
+                                                {slot.timing ? (() => {
+                                                    const [startTime, endTime] = slot.timing.split(' - ');
+                                                    const formattedStart = moment(startTime, 'HH:mm:ss').format('HH:mm');
+                                                    const formattedEnd = moment(endTime, 'HH:mm:ss').format('HH:mm');
+                                                    return `${formattedStart} - ${formattedEnd}`;
+                                                })() : 'N/A'}
+                                            </td>
+                                            <td>{slot.booking_limit || '0'}</td>
+                                            <td>{slot.slot_booking_count || '0'}</td>
+                                            <td>{slot.remaining_booking || '0'}</td>
+                                            <td>{slot.status === 1 ? "Active" : "Inactive"}</td>
+                                            <td>{/* Leave this cell empty to align with the table */}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </React.Fragment>
+                        ))}
+                        
                     </table>
 
                 </div>
