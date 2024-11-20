@@ -7,3 +7,21 @@
   background-color: #000000;
   border-radius: 20px;
 }
+
+.mapResponsive {
+  width: 100%;
+  height: 500px;
+  border-radius: 20px;
+}
+
+@media (max-width: 1400px) {
+  .mapResponsive {
+    height: 400px;
+  }
+}
+
+@media (max-width: 992px) {
+  .mapResponsive {
+    height: 300px;
+  }
+}

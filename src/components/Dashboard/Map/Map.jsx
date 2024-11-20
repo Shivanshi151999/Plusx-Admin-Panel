@@ -2,12 +2,6 @@ import React from "react";
 import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
 import style from "./Map.module.css";
 
-const containerStyle = {
-  width: "100%",
-  height: "500px",
-  borderRadius: "20px",
-};
-
 const center = {
   lat: 25.2048,
   lng: 55.2708,
@@ -23,8 +17,7 @@ function MapComponent() {
   return (
     <div className={style.map}>
       <div className={`${style.mapContainer}`}>
-        <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={12}>
-          {/* <Marker position={center} /> */}
+        <GoogleMap mapContainerClassName={style.mapResponsive} center={center} zoom={12}>
         </GoogleMap>
       </div>
     </div>
