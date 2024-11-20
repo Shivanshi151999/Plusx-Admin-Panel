@@ -8,7 +8,6 @@ const center = {
 };
 
 function MapComponent({ coordinates }) {
-  console.log(coordinates);
   
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY
@@ -20,11 +19,11 @@ function MapComponent({ coordinates }) {
     <div className={style.map}>
       <div className={`${style.mapContainer}`}>
         <GoogleMap mapContainerClassName={style.mapResponsive} 
-        center={coordinates}
+        center={coordinates || center}
         zoom={12}
         >
            {coordinates && coordinates.lat && coordinates.lng && (
-            <Marker position={coordinates} />
+            <Marker position={coordinates || center} />
           )}
         </GoogleMap>
       </div>
