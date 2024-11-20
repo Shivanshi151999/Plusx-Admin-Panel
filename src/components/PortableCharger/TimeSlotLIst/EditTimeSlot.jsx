@@ -26,7 +26,7 @@ const EditPortableChargerTimeSlot = () => {
 
     const [date, setDate] = useState(new Date()); // Separate state for the date
     const [timeSlots, setTimeSlots] = useState([
-        { startTime: null, endTime: null, bookingLimit: "", status: "" }
+        { id: "", startTime: null, endTime: null, bookingLimit: "", status: "" }
     ]);
 
     const [errors, setErrors] = useState({});
@@ -57,6 +57,7 @@ const EditPortableChargerTimeSlot = () => {
                         startTime: moment(slot.start_time, 'HH:mm:ss').format('HH:mm'),
                         endTime: moment(slot.end_time, 'HH:mm:ss').format('HH:mm'),
                         bookingLimit: slot.booking_limit.toString(),
+                        id: slot.id,
                         // status: setIsActive(slot.status)
                         status: slot.status === 1,
                     }))
@@ -200,11 +201,12 @@ const EditPortableChargerTimeSlot = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (validateForm()) {
-            const slot_date  = dayjs(date).format("DD-MM-YYYY"); 
-            const start_time   = timeSlots.map(slot => slot.startTime);
+            const slot_date     = dayjs(date).format("DD-MM-YYYY"); 
+            const id            = timeSlots.map(slot => slot.id);
+            const start_time    = timeSlots.map(slot => slot.startTime);
             const end_time      = timeSlots.map(slot => slot.endTime);
             const booking_limit = timeSlots.map(slot => slot.bookingLimit);
-            const status = timeSlots.map(slot => (slot.status ? 1 : 0));
+            const status        = timeSlots.map(slot => (slot.status ? 1 : 0));
 
             const obj = {
                 userId: userDetails?.user_id,
@@ -215,6 +217,7 @@ const EditPortableChargerTimeSlot = () => {
                 // start_time: startTime,
                 // end_time: endTime,
                 // booking_limit: bookingLimit,
+                id,
                 slot_date, 
                 start_time, 
                 end_time, 
@@ -224,7 +227,7 @@ const EditPortableChargerTimeSlot = () => {
 
             postRequestWithToken('charger-edit-time-slot', obj, (response) => {
                 if (response.code === 200) {
-                    toast(response.message[0] || response.message, { type: "success" });
+                    toast(response.message || response.message, { type: "success" });
                     setTimeout(() => {
                         navigate('/portable-charger/charger-booking-time-slot-list');
                     }, 2000)
