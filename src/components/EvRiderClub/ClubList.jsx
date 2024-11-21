@@ -7,7 +7,6 @@ import { postRequestWithToken } from '../../api/Requests';
 import moment from 'moment';
 import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from 'react-router-dom';
-import Loader from '../SharedComponent/Loader/Loader';
 
 const dynamicFilters = [
     { label: 'Club Name', name: 'search', type: 'text' },
@@ -24,10 +23,9 @@ const ClubList = () => {
     const [clubList, setClubList]       = useState([])
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages]   = useState(1);
-    const [totalCount, setTotalCount]   = useState(1)
+    const [totalCount, setTotalCount] = useState(1)
     const [filters, setFilters]         = useState({});
     const [refresh, setRefresh]         = useState(false)
-    const [loading, setLoading]         = useState(false);
     const searchTerm = [
         {
             label: 'search', 
@@ -37,7 +35,6 @@ const ClubList = () => {
     ]
 
     const fetchList = (page, appliedFilters = {}) => {
-        setLoading(true);
         const obj = {
             userId : userDetails?.user_id,
             email : userDetails?.email,
@@ -54,7 +51,6 @@ const ClubList = () => {
                 // toast(response.message, {type:'error'})
                 console.log('error in club-list api', response);
             }
-            setLoading(false);
         })
     }
 
@@ -107,11 +103,10 @@ const ClubList = () => {
             searchTerm = {searchTerm}
             count = {totalCount}
          />
-          {loading ? <Loader/> : 
-        clubList?.length === 0 ? (
+          
+        {clubList?.length === 0 ? (
             <div className='errorContainer'>No data available</div>
             ) : (
-                <>
                 <List 
                     tableHeaders={["Club ID", "Club Name", "Location", "No of Members", "Action"]}
                     listData={clubList}
@@ -124,14 +119,12 @@ const ClubList = () => {
                     pageHeading="Club List"
                     onDeleteSlot={handleDeleteSlot}
                 />
-                
+            )}
         <Pagination 
           currentPage={currentPage} 
           totalPages={totalPages} 
           onPageChange={handlePageChange} 
         />
-        </>
-            )}
         </div>
     );
 };

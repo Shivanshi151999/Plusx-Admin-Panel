@@ -8,7 +8,6 @@ import moment from 'moment';
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
-import Loader from '../SharedComponent/Loader/Loader';
 
 const dynamicFilters = [
     // { label: 'Club Name', name: 'search', type: 'text' },
@@ -27,7 +26,6 @@ const GuideList = () => {
     const [totalCount, setTotalCount] = useState(1)
     const [refresh, setRefresh] = useState(false)
     const [filters, setFilters] = useState({});
-    const [loading, setLoading] = useState(false);
     const searchTerm = [
         {
             label: 'search',
@@ -37,7 +35,6 @@ const GuideList = () => {
     ]
 
     const fetchList = (page, appliedFilters = {}) => {
-        setLoading(true);
         const obj = {
             userId: userDetails?.user_id,
             email: userDetails?.email,
@@ -54,7 +51,6 @@ const GuideList = () => {
                 // toast(response.message, {type:'error'})
                 console.log('error in ev-guide-list api', response);
             }
-            setLoading(false);
         })
     }
 
@@ -107,11 +103,9 @@ const GuideList = () => {
                 searchTerm={searchTerm}
                 count = {totalCount}
             />
-            {loading ? <Loader/> : 
-            vehicleList.length === 0 ? (
+            {vehicleList.length === 0 ? (
                <div className='errorContainer'>No data available</div>
             ) : (
-                <>
                 <List tableHeaders={["Vehicle ID", "Vehicle / Model Name", "Vehicle Type", "Horse Power", "Price", "Action"]}
                     listData = {vehicleList}
                     keyMapping={[
@@ -135,13 +129,12 @@ const GuideList = () => {
                     pageHeading="EV Guide List"
                     onDeleteSlot={handleDeleteSlot}
                 />
+            )}
             <Pagination 
                 currentPage={currentPage} 
                 totalPages={totalPages} 
                 onPageChange={handlePageChange} 
             />
-            </>
-                )}
         </div>
     );
 };

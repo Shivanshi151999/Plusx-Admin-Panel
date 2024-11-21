@@ -6,7 +6,6 @@ import Pagination from '../SharedComponent/Pagination/Pagination'
 import { postRequestWithToken } from '../../api/Requests';
 import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from 'react-router-dom';
-import Loader from "../SharedComponent/Loader/Loader";
 
 const dynamicFilters = [
     // { label: 'Name', name: 'search', type: 'text' },
@@ -19,7 +18,6 @@ const StationList = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [filters, setFilters] = useState({});
-    const [loading, setLoading] = useState(false);
     const searchTerm = [
         {
             label: 'search', 
@@ -33,7 +31,6 @@ const StationList = () => {
     };
 
     const fetchList = (page, appliedFilters = {}) => {
-        setLoading(true);
         const obj = {
             userId: userDetails?.user_id,
             email: userDetails?.email,
@@ -49,7 +46,6 @@ const StationList = () => {
                 // toast(response.message, {type:'error'})
                 console.log('error in public-charger-station-list api', response);
             }
-            setLoading(false);
         })
     }   
 
@@ -77,11 +73,9 @@ const StationList = () => {
                 dynamicFilters={dynamicFilters} filterValues={filters}
                 searchTerm = {searchTerm}
             />
-            {loading ? <Loader/> : 
-                stationList.length === 0 ? (
+            {stationList.length === 0 ? (
                <div className='errorContainer'>No data available</div>
-                ) : (
-                <>
+            ) : (
             <List
                 tableHeaders={["Station Name", "Charging For", "Charging Type", "Price", "Address", "Action"]}
                 listData={stationList}
@@ -101,14 +95,12 @@ const StationList = () => {
                 ]}
                 pageHeading="Public Chargers List"
             />
-        
+        )}
             <Pagination
                 currentPage={currentPage}
                 totalPages={totalPages}
                 onPageChange={handlePageChange}
             />
-            </>
-            )}
         </div>
     );
 };

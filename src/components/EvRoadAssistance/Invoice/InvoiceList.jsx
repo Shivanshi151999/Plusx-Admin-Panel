@@ -6,7 +6,6 @@ import { getRequestWithToken, postRequestWithToken } from '../../../api/Requests
 import moment from 'moment';
 import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from 'react-router-dom';
-import Loader from '../../SharedComponent/Loader/Loader';
 
 const RoadAssistanceInvoiceList = () => {
     const userDetails = JSON.parse(sessionStorage.getItem('userDetails')); 
@@ -16,7 +15,6 @@ const RoadAssistanceInvoiceList = () => {
     const [totalPages, setTotalPages] = useState(1); 
     const [totalCount, setTotalCount] = useState(1)
     const [filters, setFilters] = useState({});
-    const [loading, setLoading] = useState(false);
     const searchTerm = [
         {
             label: 'search', 
@@ -25,7 +23,6 @@ const RoadAssistanceInvoiceList = () => {
         }
     ]
     const fetchList = (page, appliedFilters = {}) => {
-        setLoading(true);
         const obj = {
             userId : userDetails?.user_id,
             email : userDetails?.email,
@@ -42,7 +39,6 @@ const RoadAssistanceInvoiceList = () => {
                 // toast(response.message, {type:'error'})
                 console.log('error in ev-road-assistance-invoice-list api', response);
             }
-            setLoading(false);
         })
     }
 
@@ -71,11 +67,9 @@ const RoadAssistanceInvoiceList = () => {
             searchTerm = {searchTerm}
             count = {totalCount}
          />
-         {loading ? <Loader /> : 
-           invoiceList.length === 0 ? (
+           {invoiceList.length === 0 ? (
                <div className='errorContainer'>No data available</div>
             ) : (
-                <>
         <List 
         tableHeaders={["Invoice Date", "Invoice ID", "Customer Name", "Amount", "Status", "Action"]}
           listData = {invoiceList}
@@ -105,14 +99,12 @@ const RoadAssistanceInvoiceList = () => {
         ]}
         pageHeading="Road Assistance Invoice List"
           />
-          
+    )}
            <Pagination 
             currentPage={currentPage} 
             totalPages={totalPages} 
             onPageChange={handlePageChange} 
             />
-            </>
-            )}
         </div>
     );
 };

@@ -8,7 +8,6 @@ import moment from 'moment';
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
-import Loader from "../SharedComponent/Loader/Loader";
 
 
 const SignupList = () => {
@@ -20,10 +19,8 @@ const SignupList = () => {
     const [filters, setFilters]           = useState({});
     const [refresh, setRefresh]           = useState(false)
     const [emiratesList, setEmiratesList] = useState([]);
-    const [loading, setLoading]           = useState(false);
     
     const fetchChargers = (page, appliedFilters = {}) => {
-        setLoading(true);
         const obj = {
             userId  : userDetails?.user_id,
             email   : userDetails?.email,
@@ -38,8 +35,8 @@ const SignupList = () => {
                 setTotalPages(response?.total_page || 1);  
             } else {
                 toast(response.message || response.message[0], { type: 'error' });
+                console.log('error in rider-list API', response);
             }
-            setLoading(false);
         });
     };
 
@@ -121,12 +118,10 @@ const SignupList = () => {
             fetchFilteredData={fetchFilteredData} 
             dynamicFilters={dynamicFilters} filterValues={filters}
             searchTerm = {searchTerm}
-            /> 
-            {loading ? <Loader /> : 
-                signupList.length === 0 ? (
+            />
+            {signupList.length === 0 ? (
                 <div className={styles.errorContainer}>No data available</div>
-                ) : (
-                <>
+            ) : (
                 <List
                     tableHeaders={["Date", "Customer ID", "Customer Name", "Email", "Emirate", "Action"]}
                     listData={signupList}
@@ -144,14 +139,12 @@ const SignupList = () => {
                     pageHeading="App Signup List"
                     onDeleteSlot={handleDeleteSlot}
                 />
-            
+            )}
             <Pagination 
                 currentPage={currentPage} 
                 totalPages={totalPages} 
                 onPageChange={handlePageChange} 
             />
-            </>
-            )}
         </div>
     );
 };

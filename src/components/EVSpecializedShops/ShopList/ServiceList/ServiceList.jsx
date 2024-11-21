@@ -11,7 +11,6 @@ import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 import ModalAssign from '../../../SharedComponent/BookingDetails/ModalAssign'
-import Loader from '../../../SharedComponent/Loader/Loader';
 
 const dynamicFilters = [
     // { label: 'Service Name', name: 'search', type: 'text' },
@@ -34,7 +33,6 @@ const ServiceList = () => {
     const [selectedServiceId, setSelectedServiceId]  = useState(null);
     const [showPopup, setShowPopup] = useState(false);
     const [name, setName] = useState("");
-    const [loading, setLoading] = useState(false);
     const searchTerm = [
         {
             label: 'search', 
@@ -111,7 +109,6 @@ const ServiceList = () => {
     };
 
     const fetchList = (page, appliedFilters = {}) => {
-        setLoading(true);
         const obj = {
             userId : userDetails?.user_id,
             email : userDetails?.email,
@@ -128,7 +125,6 @@ const ServiceList = () => {
                 // toast(response.message, {type:'error'})
                 console.log('error in shop-service-list api', response);
             }
-            setLoading(false);
         })
     }
 
@@ -163,11 +159,9 @@ const ServiceList = () => {
             apiEndPoint = 'shop-service-create'
             nameKey = 'service_name'
          />
-         {loading ? <Loader /> : 
-            serviceList?.length === 0 ? (
+           {serviceList?.length === 0 ? (
                 <div className='errorContainer'>No data available</div>
             ) : (
-                <>
         <List 
         tableHeaders={["Service ID", "Service Name", "Created Time", "Action"]}
           listData = {serviceList}
@@ -208,7 +202,7 @@ const ServiceList = () => {
         ]}
         pageHeading="Shop Service List"
           />
-          
+    )}
         <Pagination 
           currentPage={currentPage} 
           totalPages={totalPages} 
@@ -235,8 +229,6 @@ const ServiceList = () => {
                 </ModalAssign>
                 
             )}
-        </>
-        )}
         </div>
     );
 };

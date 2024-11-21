@@ -15,7 +15,6 @@ import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 import Custommodal from '../../SharedComponent/CustomModal/CustomModal.jsx';
-import Loader from '../../SharedComponent/Loader/Loader.jsx';
 
 const statusMapping = {
     'BD' : 'Booking Done',
@@ -64,8 +63,7 @@ const RoadAssistanceBookingList = () => {
     const [selectedBookingId, setSelectedBookingId]   = useState(null);
     const [selectedDriverId, setSelectedDriverId]     = useState(null);
     const [selectedRiderId, setSelectedRiderId]       = useState(null);
-    const [refresh, setRefresh]                       = useState(false);
-    const [loading, setLoading]                       = useState(false);
+    const [refresh, setRefresh]           = useState(false)
 
     const [showPopup, setShowPopup] = useState(false);
     const [reason, setReason] = useState("");
@@ -122,7 +120,6 @@ const RoadAssistanceBookingList = () => {
   };
 
     const fetchList = (page, appliedFilters = {}) => {
-        setLoading(true);
         const obj = {
             userId: userDetails?.user_id,
             email: userDetails?.email,
@@ -138,7 +135,6 @@ const RoadAssistanceBookingList = () => {
             } else {
                 console.log('error in ev-road-assistance-booking-list', response);
             }
-            setLoading(false);
         });
         obj.service_type = 'Portable Charger'
 
@@ -238,11 +234,9 @@ const RoadAssistanceBookingList = () => {
                 searchTerm = {searchTerm}
             />
             <ToastContainer />
-            {loading ? <Loader /> : 
-                chargerBookingList.length === 0 ? (
+            {chargerBookingList.length === 0 ? (
                 <div className='errorContainer'>No data available</div>
             ) : (
-                <>
             <List
                 tableHeaders={["Date","Order ID", "Customer Name", "Price",  "Status", "Action"]}
                 listData={chargerBookingList}
@@ -313,14 +307,12 @@ const RoadAssistanceBookingList = () => {
                 pageHeading="Ev Road Assitance Booking List"
                 onBookingConfirm={handleConfirm}
             />
-            
+        )}
             <Pagination
                 currentPage={currentPage}
                 totalPages={totalPages}
                 onPageChange={handlePageChange}
             />
-            </>
-            )}
 
             <Custommodal
                 isOpen={isModalOpen}

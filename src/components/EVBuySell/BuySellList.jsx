@@ -8,7 +8,6 @@ import moment from 'moment';
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
-import Loader from '../SharedComponent/Loader/Loader';
 
 const dynamicFilters = [
 ]
@@ -26,8 +25,7 @@ const BuySellList = () => {
     const [totalPages, setTotalPages] = useState(1);
     const [totalCount, setTotalCount] = useState(1)
     const [filters, setFilters] = useState({});
-    const [refresh, setRefresh]           = useState(false);
-    const [loading, setLoading] = useState(false);
+    const [refresh, setRefresh]           = useState(false)
     const searchTerm = [
         {
             label: 'search', 
@@ -37,7 +35,6 @@ const BuySellList = () => {
     ]
 
     const fetchList = (page, appliedFilters = {}) => {
-        setLoading(true);
         const obj = {
             userId : userDetails?.user_id,
             email : userDetails?.email,
@@ -54,7 +51,6 @@ const BuySellList = () => {
                 // toast(response.message, {type:'error'})
                 console.log('error in buy-sell-list api', response);
             }
-            setLoading(false);
         })
     }
 
@@ -108,11 +104,9 @@ const BuySellList = () => {
             searchTerm = {searchTerm}
             count = {totalCount}
          />
-         {loading ? <Loader/> : 
-        clubList?.length === 0 ? (
+        {clubList?.length === 0 ? (
                 <div className='errorContainer'>No data available</div>
             ) : (
-                <>
                 <List 
                     tableHeaders={["Seller Name","Vehicle", "Body Type", "Capacity", "Price", "Region", "Action"]}
                     listData={clubList}
@@ -142,14 +136,12 @@ const BuySellList = () => {
                     pageHeading="Buy Sell List"
                     onDeleteSlot={handleDeleteSlot}
                 />
-
+            )}
         <Pagination 
           currentPage={currentPage} 
           totalPages={totalPages} 
           onPageChange={handlePageChange} 
         />
-        </>
-            )}
         </div>
     );
 };

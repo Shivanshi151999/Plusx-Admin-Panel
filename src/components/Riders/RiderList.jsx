@@ -6,7 +6,6 @@ import { postRequestWithToken } from '../../api/Requests';
 import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from 'react-router-dom';
 import styles from './addemergency.module.css'
-import Loader from '../SharedComponent/Loader/Loader';
 
 const dynamicFilters = [
     // { label: 'RSA ID', name: 'rsa_id', type: 'text' },
@@ -22,8 +21,7 @@ const RiderList = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [filters, setFilters] = useState({});
-    const [refresh, setRefresh] = useState(false);
-    const [loading, setLoading] = useState(false);
+    const [refresh, setRefresh] = useState(false)
     const searchTerm = [
         {
             label: 'search', 
@@ -38,7 +36,6 @@ const RiderList = () => {
     };
 
     const fetchList = (page, appliedFilters = {}) => {
-        setLoading(true);
         const obj = {
             userId : userDetails?.user_id,
             email : userDetails?.email,
@@ -54,7 +51,6 @@ const RiderList = () => {
                 // toast(response.message, {type:'error'})
                 console.log('error in public-charger-station-list api', response);
             }
-            setLoading(false);
         })
     }
 
@@ -102,11 +98,9 @@ const RiderList = () => {
          dynamicFilters={dynamicFilters} filterValues={filters}
          searchTerm = {searchTerm}
          />
-         {loading ? <Loader/> : 
-           rsaList.length === 0 ? (
+           {rsaList.length === 0 ? (
                 <div className={styles.errorContainer}>No data available</div>
             ) : (
-                <>
         <List 
         tableHeaders={["ID", "Driver Name", "Driver Email", "Service Type", "Status", "Action"]}
           listData = {rsaList}
@@ -133,15 +127,13 @@ const RiderList = () => {
         pageHeading="Emergency Team List"
         onDeleteSlot={handleDeleteSlot}
           />
-    
+    )}
            
         <Pagination 
           currentPage={currentPage} 
           totalPages={totalPages} 
           onPageChange={handlePageChange} 
         />
-        </>
-        )}
         </div>
     );
 };

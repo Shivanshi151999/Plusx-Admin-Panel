@@ -6,7 +6,6 @@ import { getRequestWithToken, postRequestWithToken } from '../../api/Requests';
 import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
 import styles from './chargerinstallation.module.css'
-import Loader from '../SharedComponent/Loader/Loader';
 
 const statusMapping = {
     'P': 'Placed',
@@ -26,7 +25,6 @@ const ChargerInstallationList = () => {
     const [currentPage, setCurrentPage]                         = useState(1);
     const [totalPages, setTotalPages]                           = useState(1);
     const [filters, setFilters]                                 = useState({});
-    const [loading, setLoading]                                 = useState(false);
     
     const searchTerm = [
         {
@@ -37,7 +35,6 @@ const ChargerInstallationList = () => {
     ]
 
     const fetchList = (page, appliedFilters = {}) => {
-        setLoading(true);
         const obj = {
             userId  : userDetails?.user_id,
             email   : userDetails?.email,
@@ -52,7 +49,6 @@ const ChargerInstallationList = () => {
                 // toast(response.message, {type:'error'})
                 console.log('error in charger-installation-list api', response);
             }
-            setLoading(false);
         })
     }
 
@@ -80,11 +76,9 @@ const ChargerInstallationList = () => {
             fetchFilteredData={fetchFilteredData} 
             searchTerm = {searchTerm}
             />
-            {loading ? <Loader/> : 
-             chargerInstallationList.length === 0 ? (
+             {chargerInstallationList.length === 0 ? (
                <div className='errorContainer'>No data available</div>
             ) : (
-                <>
             <List 
                 tableHeaders={["Date","Request ID", "Customer Name", "Service Type", "Vehicle Model",  "Status", "Action"]}
                 listData = {chargerInstallationList}
@@ -106,10 +100,8 @@ const ChargerInstallationList = () => {
                 ]}
                 pageHeading = "Charger Installation List"
             />
-            
-            <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
-            </>
             )}
+            <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
         </div>
     );
 };

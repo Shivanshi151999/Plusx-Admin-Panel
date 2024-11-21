@@ -6,7 +6,6 @@ import { getRequestWithToken, postRequestWithToken } from '../../../api/Requests
 import moment from 'moment';
 import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from 'react-router-dom';
-import Loader from '../../SharedComponent/Loader/Loader';
 
 const InvoiceList = () => {
     const userDetails = JSON.parse(sessionStorage.getItem('userDetails')); 
@@ -16,7 +15,6 @@ const InvoiceList = () => {
     const [totalPages, setTotalPages] = useState(1);
     const [totalCount, setTotalCount] = useState(1)
     const [filters, setFilters] = useState({});
-    const [loading, setLoading] = useState(false);
     
     const searchTerm = [
         {
@@ -27,7 +25,6 @@ const InvoiceList = () => {
     ]
 
     const fetchList = (page, appliedFilters = {}) => {
-        setLoading(true);
         const obj = {
             userId : userDetails?.user_id,
             email : userDetails?.email,
@@ -44,7 +41,6 @@ const InvoiceList = () => {
                 // toast(response.message, {type:'error'})
                 console.log('error in charger-booking-list api', response);
             }
-            setLoading(false);
         })
     }
 
@@ -74,11 +70,9 @@ const InvoiceList = () => {
          searchTerm = {searchTerm}
          count = {totalCount}
          />
-         {loading ? <Loader /> : 
-          invoiceList.length === 0 ? (
+          {invoiceList.length === 0 ? (
                 <div className='errorContainer'>No data available</div>
             ) : (
-                <>
         <List 
         tableHeaders={["Invoice Date", "Invoice ID", "Customer Name", "Amount", "Status", "Action"]}
           listData = {invoiceList}
@@ -111,14 +105,12 @@ const InvoiceList = () => {
         ]}
         pageHeading="Pick & Drop Invoice List"
           />
-          
+    )}
         <Pagination 
           currentPage={currentPage} 
           totalPages={totalPages} 
           onPageChange={handlePageChange} 
         />
-        </>
-            )}
         </div>
     );
 };

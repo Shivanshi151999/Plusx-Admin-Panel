@@ -8,7 +8,6 @@ import moment from 'moment';
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
-import Loader from '../SharedComponent/Loader/Loader';
 
 const dynamicFilters = [
 ]
@@ -26,8 +25,7 @@ const InterestList = () => {
     const [totalPages, setTotalPages] = useState(1);
     const [totalCount, setTotalCount] = useState(1)
     const [filters, setFilters] = useState({});
-    const [refresh, setRefresh] = useState(false);
-    const [loading, setLoading] = useState(false);
+    const [refresh, setRefresh] = useState(false)
     const searchTerm = [
         {
             label: 'search', 
@@ -37,7 +35,6 @@ const InterestList = () => {
     ]
 
     const fetchList = (page, appliedFilters = {}) => {
-        setLoading(true);
         const obj = {
             userId: userDetails?.user_id,
             email: userDetails?.email,
@@ -54,7 +51,6 @@ const InterestList = () => {
                 // toast(response.message, {type:'error'})
                 console.log('error in interest-list api', response);
             }
-            setLoading(false);
         })
     }
 
@@ -108,11 +104,9 @@ const InterestList = () => {
                 searchTerm = {searchTerm}
                 count = {totalCount}
             />
-            {loading ? <Loader /> : 
-                clubList?.length === 0 ? (
+            {clubList?.length === 0 ? (
                  <div className='errorContainer'>No data available</div>
-                ) : (
-                    <>
+            ) : (
                 <List
                     tableHeaders={["Customer ID", "Customer Name", "Vehicle", "Region Specification", "Address", ""]}
                     listData={clubList}
@@ -126,14 +120,12 @@ const InterestList = () => {
                     pageHeading="Interest List"
                     onDeleteSlot={handleDeleteSlot}
                 />
-                
+            )}
             <Pagination
                 currentPage={currentPage}
                 totalPages={totalPages}
                 onPageChange={handlePageChange}
             />
-            </>
-            )}
         </div>
     );
 };

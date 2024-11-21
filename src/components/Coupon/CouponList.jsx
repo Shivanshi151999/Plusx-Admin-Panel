@@ -8,7 +8,6 @@ import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
-import Loader from '../SharedComponent/Loader/Loader';
 
 const dynamicFilters = [
     // { label: 'Bike Name', name: 'search_text', type: 'text' }
@@ -22,8 +21,7 @@ const CouponList = () => {
     const [totalPages, setTotalPages] = useState(1);
     const [totalCount, setTotalCount] = useState(1)
     const [filters, setFilters] = useState({});
-    const [refresh, setRefresh] = useState(false);
-    const [loading, setLoading] = useState(false);
+    const [refresh, setRefresh] = useState(false)
     const searchTerm = [
         {
             label: 'search',
@@ -38,7 +36,6 @@ const CouponList = () => {
     };
 
     const fetchList = (page, appliedFilters = {}) => {
-        setLoading(true);
         const obj = {
             userId: userDetails?.user_id,
             email: userDetails?.email,
@@ -55,7 +52,6 @@ const CouponList = () => {
                 // toast(response.message, {type:'error'})
                 console.log('error in coupon-list api', response);
             }
-            setLoading(false);
         })
     }
 
@@ -108,8 +104,6 @@ const CouponList = () => {
                 searchTerm={searchTerm}
                 count = {totalCount}
             />
-            {loading ? <Loader /> : 
-            <>
             <List
                 tableHeaders={["Coupon ID", "Coupon Name", "Coupon Code", "Service Name", "Per User", "Coupon %", "End Date", "Status", "Action"]}
                 listData={carList}
@@ -136,8 +130,6 @@ const CouponList = () => {
                 totalPages={totalPages}
                 onPageChange={handlePageChange}
             />
-            </>
-            }
         </div>
     );
 };

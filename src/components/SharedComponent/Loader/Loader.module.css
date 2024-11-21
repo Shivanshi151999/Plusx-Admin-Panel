@@ -2,9 +2,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 80%;
-  /* height: 100vh; */
-  /* position: fixed; */
+  height: 100vh;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;

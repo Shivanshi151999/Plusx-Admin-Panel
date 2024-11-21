@@ -10,7 +10,6 @@ import { postRequestWithToken } from '../../../../api/Requests';
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
-import Loader from '../../../SharedComponent/Loader/Loader';
 
 const dynamicFilters = [
     // { label: 'Brand Name', name: 'search', type: 'text' },
@@ -33,7 +32,6 @@ const BrandList = () => {
     const [selectedBrandId, setSelectedBrandId]  = useState(null);
     const [showPopup, setShowPopup] = useState(false);
     const [name, setName] = useState("");
-    const [loading, setLoading] = useState(false);
     const searchTerm = [
         {
             label: 'search', 
@@ -110,7 +108,6 @@ const BrandList = () => {
     };
 
     const fetchList = (page, appliedFilters = {}) => {
-        setLoading(true);
         const obj = {
             userId : userDetails?.user_id,
             email : userDetails?.email,
@@ -127,7 +124,6 @@ const BrandList = () => {
                 // toast(response.message, {type:'error'})
                 console.log('error in shop-brand-list api', response);
             }
-            setLoading(false);
         })
     }
 
@@ -162,11 +158,9 @@ const BrandList = () => {
             apiEndPoint = 'shop-brand-create'
             nameKey = 'brand_name'
          />
-         {loading ? <Loader /> : 
-            brandList?.length === 0 ? (
+         {brandList?.length === 0 ? (
                 <div className='errorContainer'>No data available</div>
             ) : (
-                <>
         <List 
         tableHeaders={["Brand ID", "Brand Name", "Action"]}
           listData = {brandList}
@@ -203,7 +197,7 @@ const BrandList = () => {
         ]}
         pageHeading="Shop Brand List"
           />
-          
+    )}     
         <Pagination 
           currentPage={currentPage} 
           totalPages={totalPages} 
@@ -230,8 +224,6 @@ const BrandList = () => {
                 </ModalAssign>
                 
             )}
-        </>
-        )}
         </div>
     );
 };

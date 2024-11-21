@@ -15,7 +15,6 @@ import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 import Custommodal from '../../SharedComponent/CustomModal/CustomModal.jsx';
-import Loader from '../../SharedComponent/Loader/Loader.jsx';
 
 
 const statusMapping = {
@@ -68,7 +67,6 @@ const ChargerBookingList = () => {
     const [selectedBookingId, setSelectedBookingId]   = useState(null);
     const [selectedDriverId, setSelectedDriverId]     = useState(null);
     const [selectedRiderId, setSelectedRiderId]       = useState(null);
-    const [loading, setLoading]                       = useState(false);
 
     const [showPopup, setShowPopup] = useState(false);
     const [reason, setReason] = useState("");
@@ -125,7 +123,6 @@ const ChargerBookingList = () => {
   const handleBookingDetails = (id) => navigate(`/portable-charger/charger-booking-details/${id}`)
 
     const fetchList = (page, appliedFilters = {}) => {
-        setLoading(true);
         const obj = {
             userId: userDetails?.user_id,
             email: userDetails?.email,
@@ -142,7 +139,6 @@ const ChargerBookingList = () => {
             } else {
                 console.log('error in charger-booking-list api', response);
             }
-            setLoading(false);
         });
         obj.service_type = 'Portable Charger'
 
@@ -222,11 +218,9 @@ const ChargerBookingList = () => {
                 count = {totalCount}
             />
             <ToastContainer />
-            {loading ? <Loader /> : 
-            chargerBookingList.length === 0 ? (
+            {chargerBookingList.length === 0 ? (
                 <div className={styles.errorContainer}>No data available</div>
             ) : (
-                <>
             <List
                 tableHeaders={["Date","Booking ID", "Customer Name", "Service Name", "Price",  "Status", "Driver Assign", "Action",""]}
                 listData={chargerBookingList}
@@ -291,14 +285,12 @@ const ChargerBookingList = () => {
                 ]}
                 pageHeading="Charger Booking List"
             />
-            
+        )}
             <Pagination
                 currentPage={currentPage}
                 totalPages={totalPages}
                 onPageChange={handlePageChange}
             />
-            </>
-            )}
 
             <Custommodal
                 isOpen={isModalOpen}
