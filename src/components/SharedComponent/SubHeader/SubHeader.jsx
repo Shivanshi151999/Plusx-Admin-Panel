@@ -18,12 +18,11 @@ const SubHeader = ({ heading, fetchFilteredData, dynamicFilters, filterValues,
                      nameKey  }) => {
 
     const userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
+
     const [isSearchAccordionOpen, setIsSearchAccordionOpen] = useState(false);
     const [isFilterAccordionOpen, setIsFilterAccordionOpen] = useState(false);
-    const [isModalOpen, setIsModalOpen] = useState(false);
-
-    const [showPopup, setShowPopup] = useState(false);
-    const [name, setName] = useState("");
+    const [showPopup, setShowPopup]                         = useState(false);
+    const [name, setName]                                   = useState("");
 
     const handleAddClick = () => {
         setShowPopup(true); 
@@ -74,14 +73,6 @@ const SubHeader = ({ heading, fetchFilteredData, dynamicFilters, filterValues,
         setIsSearchAccordionOpen(false);
     };
 
-    const toggleModal = () => {
-        setIsModalOpen(true);
-    };
-    const closeModal = () => {
-        setIsModalOpen(false);
-        // setSelectedBookingId(null);
-    };
-
     const shouldShowAddButton =
         !["App Signup List", "Portable Charger Booking List", "Pick & Drop Booking List", "Portable Charger Invoice List",
             "Pick & Drop Invoice List", "Charger Installation List", "Ev Road Assitance Booking List",
@@ -115,45 +106,43 @@ const SubHeader = ({ heading, fetchFilteredData, dynamicFilters, filterValues,
         heading !== "Time Slot List" &&
         heading !== "Ev Road Assistance Invoice List"
 
-    const showCard =
-        heading !== "App Signup List" &&
-        heading !== "EV Pre-Sale Testing Booking List" &&
-        heading !== "Public Chargers List" &&
-        heading !== "Drivers List" &&
-        heading !== "Portable Charger Booking List" &&
-        heading !== "Pick & Drop Booking List" &&
-        heading !== "Charger Installation List" &&
-        heading !== "Pick & Drop Invoice List" &&
-        heading !== "Pick & Drop Time Slot List" &&
-        heading !== "Add POD List" &&
-        heading !== "Portable Charger List" &&
-        heading !== "Portable Charger Invoice List" &&
-        heading !== "Portable Charger Slot List" &&
-        heading !== "Ev Road Assistance Invoice List" &&
-        heading !== "Time Slot List" && 
-        heading !== "Ev Specialized Shop Service List" && 
-        heading !== "Ev Specialized Shop Brand List" && 
-        heading !== "Ev Road Assitance Booking List" &&
-        heading !== "POD Brand List" &&
-        heading !== "POD Device List"
-
-    const showHeading = 
-      heading !== "Offer List" &&
-      heading !== "Subscription List" &&
-      heading !== "Coupon List" &&
-      heading !== "Register Interest List" &&
-      heading !== "Ev Buy & Sell List" &&
-      heading !== "Ev Specialized Shop List" &&
-     
-      
-      
-      heading !== "Ev Insurance List" && 
-      heading !== "Ev Discussion Board List" && 
-      heading !== "Ev Rider Clubs List" && 
-     
-      heading !== "EV Guide List" &&
-      heading !== "Electric Bikes Leasing List" &&
-      heading !== "Electric Cars Leasing List" 
+        const showCard = [
+            "Offer List",
+            "Subscription List",
+            "Coupon List",
+            "Register Interest List",
+            "Ev Buy & Sell List",
+            "Ev Specialized Shop List",
+            "Ev Insurance List",
+            "Ev Discussion Board List",
+            "Ev Rider Clubs List",
+            "EV Guide List",
+            "Electric Bikes Leasing List",
+            "Electric Cars Leasing List",
+        ].includes(heading);
+        
+        const showHeading = [
+            "App Signup List",
+            "Drivers List",
+            "Portable Charger Booking List",
+            "Portable Charger List",
+            "Portable Charger Invoice List",
+            "Portable Charger Slot List",
+            "Pick & Drop Booking List",
+            "Pick & Drop Invoice List",
+            "Pick & Drop Time Slot List",
+            "Public Chargers List",
+            "Charger Installation List",
+            "EV Pre-Sale Testing Booking List",
+            "Time Slot List",
+            "Ev Road Assistance Invoice List",
+            "Ev Specialized Shop Service List",
+            "Ev Specialized Shop Brand List",
+            "Ev Road Assitance Booking List",
+            "Add POD List",
+            "POD Brand List",
+            "POD Device List",
+        ].includes(heading);
 
     return (
         <div className={styles.subHeaderContainer}>
@@ -243,7 +232,6 @@ const SubHeader = ({ heading, fetchFilteredData, dynamicFilters, filterValues,
                         id="name"
                         placeholder={modalTitle}
                         className="modal-textarea"
-                        rows="4"
                         value={name} 
                         onChange={handleReasonChange}
                                 
