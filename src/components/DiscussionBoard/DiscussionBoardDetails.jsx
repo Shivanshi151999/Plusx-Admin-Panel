@@ -31,7 +31,15 @@ const DiscussionBoardDetails = () => {
 
     postRequestWithToken('discussion-board-detail', obj, (response) => {
       if (response.code === 200) {
-        setBookingDetails(response?.board || {});
+        const boardData = response?.board || {};
+        const [rider_name, rider_mobile, country_code] = boardData.rider_data?.split(",") || [];
+        // setBookingDetails(response?.board || {});
+        setBookingDetails({
+          ...boardData,
+          rider_name,
+          rider_mobile,
+          country_code,
+        });
         setImageGallery(response.galleryData)
         setBaseUrl(response.base_url)
       } else {
@@ -50,12 +58,13 @@ const DiscussionBoardDetails = () => {
 
   const headerTitles = {
     bookingIdTitle      : "Board ID",
-    stationDetailsTitle : "Customer Details",
+    customerDetailsTitle : "Customer Details",
   };
   const content = {
-    bookingId   : bookingDetails?.board_id,
-    createdAt   : moment(bookingDetails?.created_at).format('DD MMM YYYY h:mm A'),
-    stationName : bookingDetails?.club_name,
+    bookingId       : bookingDetails?.board_id,
+    createdAt       : moment(bookingDetails?.created_at).format('DD MMM YYYY h:mm A'),
+    customerName    : bookingDetails?.rider_name,
+    customerContact : `${bookingDetails?.country_code} ${bookingDetails?.rider_mobile}`,
   };
 
   const sectionTitles1 = {
@@ -110,7 +119,7 @@ const DiscussionBoardDetails = () => {
     <div className='main-container'>
       <BookingDetailsHeader
         content={content} titles={headerTitles}
-        type='electricCarLeasing'
+        type='discussionBoard'
       />
       <div className={styles.ChargerDetailsSection}>
         <BookingLeftDetails titles={sectionTitles1} content={sectionContent1}
