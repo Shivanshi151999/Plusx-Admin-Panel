@@ -49,7 +49,7 @@ const EmergencyList = ({history}) => {
                     ))
                 ) : (
                     <tr>
-                        <td colSpan="5" style={{ textAlign: 'center', padding: '10px' }}>
+                        <td colSpan="5" style={{ textAlign: 'start', padding: '10px' }}>
                             No data available
                         </td>
                     </tr>

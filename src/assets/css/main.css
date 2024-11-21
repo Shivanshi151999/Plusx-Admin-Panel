@@ -285,7 +285,7 @@ table{
 /* Style the main container on entire website */
 .main-container{
   background-color: #242424;
-  height: 94.2vh;
+  height: 94vh;
   overflow: scroll;
   padding: 20px 0px; 
 }
