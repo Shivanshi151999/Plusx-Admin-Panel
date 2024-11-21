@@ -350,14 +350,16 @@ const handleService = (selectedOption) => {
                 value: item,
                 label: item
             }));
-            setBrandOptions(formattedServices);
+            
+            setServiceOptions(formattedServices);
             
             const brands = response.brands || []; 
             const formattedBrands = brands.map(brand => ({
                 value: brand,
                 label: brand
             }));
-            setServiceOptions(formattedBrands);
+            
+            setBrandOptions(formattedBrands);
 
 
             const formattedAddresses = response?.address?.map(item => ({

@@ -5,6 +5,7 @@ import BookingDetailsSection from '../../../SharedComponent/Details/BookingDetai
 import BookingImageSection from '../../../SharedComponent/Details/BookingDetails/BookingImageSection'
 import { postRequestWithToken } from '../../../../api/Requests';
 import BookingLeftDetails from '../../../SharedComponent/BookingDetails/BookingLeftDetails.jsx'
+import AddressList from '../../../SharedComponent/Details/AddressList.jsx'
 import { useParams } from 'react-router-dom';
 import moment from 'moment';
 import { toast, ToastContainer } from "react-toastify";
@@ -101,6 +102,7 @@ const ShopDetails = () => {
   const navigate                            = useNavigate()
   const { shopId }                          = useParams()
   const [bookingDetails, setBookingDetails] = useState()
+  const [address, setAddress]               = useState()
   const [imageGallery, setImageGallery]     = useState()
   const [baseUrl, setBaseUrl]               = useState()
 
@@ -121,6 +123,7 @@ const ShopDetails = () => {
         postRequestWithToken('shop-view', obj, (response) => {
           if (response.code === 200) {
             setBookingDetails(response?.store || {});
+            setAddress(response?.address || [])
             setImageGallery(response?.galleryData)
             setBaseUrl(response.base_url)
           } else {
@@ -154,46 +157,51 @@ const ShopDetails = () => {
 
   const sectionTitles1 = {
     openingDetails : "Opening Details",
-    address        : "Address",
-    location       : "Location",
+    email  : "Email",
+    brands   : "Brands",
+    // address        : "Address",
+    // location       : "Location",
   }
   const sectionContent1 = {
     openingDetails : getFormattedOpeningHours(bookingDetails),
-    address        : bookingDetails?.address,
-    location       : bookingDetails?.location,
+    email  : bookingDetails?.store_email,
+    brands   : bookingDetails?.brands,
+    // address        : bookingDetails?.address,
+    // location       : bookingDetails?.location,
   }
 
   const sectionTitles2 = {
-    latitude  : "Latitude",
-    longitude : "Longitude",
-    estYear   : "Established Year"
+    // latitude  : "Latitude",
+    // longitude : "Longitude",
+    services : "Services",
+    status : "Status"
+    // estYear   : "Established Year"
   }
   const sectionContent2 = {
-    latitude  : bookingDetails?.latitude,
-    longitude : bookingDetails?.longitude,
-    estYear   : bookingDetails?.establishment_year
+    services : bookingDetails?.services,
+    status : bookingDetails?.status === 1 ? 'Active' : 'Inactive'
+    // estYear   : bookingDetails?.establishment_year
   }
 
   const sectionTitles3 = {
-    brands   : "Brands",
-    services : "Services",
-    estYear  : "Established Year"
+    // brands   : "Brands",
+    // services : "Services",
+    // estYear  : "Established Year"
   }
   const sectionContent3 = {
-    brands   : bookingDetails?.brands,
-    services : bookingDetails?.services,
-    estYear  : bookingDetails?.establishment_year
+    // brands   : bookingDetails?.brands,
+    // services : bookingDetails?.services,
   }
 
   const sectionTitles5 = {
-    email  : "Email",
-    area   : "Area",
-    status : "Status"
+    // email  : "Email",
+    // area   : "Area",
+    // status : "Status"
   }
   const sectionContent5 = {
-    email  : bookingDetails?.store_email,
-    area   : bookingDetails?.area_name,
-    status : bookingDetails?.status === 1 ? 'Active' : 'Inactive'
+    // email  : bookingDetails?.store_email,
+    // area   : bookingDetails?.area_name,
+    // status : bookingDetails?.status === 1 ? 'Active' : 'Inactive'
   }
 
   const sectionTitles4 = {
@@ -220,13 +228,16 @@ const ShopDetails = () => {
         type='shop'
       />
       <div className={styles.ChargerDetailsSection}>
+        
         <BookingLeftDetails titles={sectionTitles1} content={sectionContent1}
           sectionTitles2={sectionTitles2} sectionContent2={sectionContent2}
           sectionTitles3={sectionTitles3} sectionContent3={sectionContent3}
           sectionTitles4={sectionTitles4} sectionContent4={sectionContent4}
           sectionTitles5={sectionTitles5} sectionContent5={sectionContent5}
-          type='portableChargerBooking' />
+          type='portableChargerBooking'
+        />
 
+        <AddressList addressList={address}/> 
         <BookingImageSection
           titles={imageTitles} content={imageContent}
           type='publicChargingStation'

@@ -72,12 +72,12 @@ const SubscriptionDetails = () => {
   const sectionTitles2 = {
     paymentDate : "Payment Date",
     expiry      : "Expiry",
-    leaseUrl    : "Lease URL"
+    // leaseUrl    : "Lease URL"
   }
   const sectionContent2 = {
     paymentDate : bookingDetails?.payment_date,
     expiry      : bookingDetails?.expiry_date,
-    leaseUrl    : bookingDetails?.lease_url
+    // leaseUrl    : bookingDetails?.lease_url
   }
 
   const sectionTitles3 = {
