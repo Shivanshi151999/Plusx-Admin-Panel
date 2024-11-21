@@ -8,6 +8,7 @@ import { postRequestWithToken } from '../../../api/Requests';
 import moment from 'moment';
 import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from 'react-router-dom';
+import Loader from '../../SharedComponent/Loader/Loader';
 
 const statusMapping = {
     'CNF': 'Booking Confirmed',
@@ -50,6 +51,7 @@ const EvPreSaleBookingList = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedBookingId, setSelectedBookingId] = useState(null);
     const [selectedDriverId, setSelectedDriverId] = useState(null);
+    const [loading, setLoading] = useState(false);
     const searchTerm = [
         {
             label: 'search', 
@@ -59,6 +61,7 @@ const EvPreSaleBookingList = () => {
     ]
 
     const fetchList = (page, appliedFilters = {}) => {
+        setLoading(true);
         const obj = {
             userId : userDetails?.user_id,
             email : userDetails?.email,
@@ -75,6 +78,7 @@ const EvPreSaleBookingList = () => {
                 // toast(response.message, {type:'error'})
                 console.log('error in ev-pre-sale-list api', response);
             }
+            setLoading(false);
         })
 
         postRequestWithToken('rsa-list', obj, async(response) => {
@@ -149,9 +153,11 @@ const EvPreSaleBookingList = () => {
          dynamicFilters={dynamicFilters} filterValues={filters}
          searchTerm = {searchTerm}
          />
-         {chargerBookingList.length === 0 ? (
+         {loading ? <Loader /> : 
+            chargerBookingList.length === 0 ? (
                 <div className='errorContainer'>No data available</div>
             ) : (
+                <>
         <List 
         tableHeaders={["Date", "Booking ID", "Owner Name", "Vehicle", "Action"]}
           listData = {chargerBookingList}
@@ -169,12 +175,14 @@ const EvPreSaleBookingList = () => {
         ]}
         pageHeading="EV Pre-Sale Testing Booking List"
           />
-        )}
+          
         <Pagination 
           currentPage={currentPage} 
           totalPages={totalPages} 
           onPageChange={handlePageChange} 
         />
+        </>
+            )}
 
              <Custommodal
                 isOpen={isModalOpen}

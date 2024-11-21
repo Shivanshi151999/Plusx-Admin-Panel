@@ -7,6 +7,7 @@ import { postRequestWithToken } from '../../../../api/Requests';
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
+import Loader from '../../../SharedComponent/Loader/Loader';
 
 
 const dynamicFilters = [
@@ -26,7 +27,8 @@ const ShopList = () => {
     const [totalPages, setTotalPages] = useState(1);
     const [totalCount, setTotalCount] = useState(1)
     const [filters, setFilters] = useState({});
-    const [refresh, setRefresh]           = useState(false)
+    const [refresh, setRefresh]           = useState(false);
+    const [loading, setLoading] = useState(false);
     const searchTerm = [
         {
             label: 'search', 
@@ -36,6 +38,7 @@ const ShopList = () => {
     ]
 
     const fetchList = (page, appliedFilters = {}) => {
+        setLoading(true);
         const obj = {
             userId: userDetails?.user_id,
             email: userDetails?.email,
@@ -52,6 +55,7 @@ const ShopList = () => {
                 // toast(response.message, {type:'error'})
                 console.log('error in shop-list api', response);
             }
+            setLoading(false);
         })
     }
 
@@ -105,9 +109,11 @@ const ShopList = () => {
                 searchTerm = {searchTerm}
                 count = {totalCount}
             />
-            {shopList?.length === 0 ? (
+            {loading ? <Loader /> : 
+                shopList?.length === 0 ? (
                 <div className='errorContainer'>No data available</div>
             ) : (
+                <>
                 <List
                     tableHeaders={["ID", "Shop Name", "Location", "Action"]}
                     listData={shopList}
@@ -120,12 +126,14 @@ const ShopList = () => {
                     pageHeading="Shop List"
                     onDeleteSlot={handleDeleteSlot}
                 />
-            )}
+
             <Pagination
                 currentPage={currentPage}
                 totalPages={totalPages}
                 onPageChange={handlePageChange}
             />
+            </>
+            )}
         </div>
     );
 };

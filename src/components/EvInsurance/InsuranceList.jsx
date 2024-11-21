@@ -8,6 +8,7 @@ import { postRequestWithToken } from '../../api/Requests';
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
+import Loader from '../SharedComponent/Loader/Loader';
 
 const dynamicFilters = [
     // { label: 'Car Name', name: 'search_text', type: 'text' },
@@ -25,6 +26,7 @@ const InsuranceList = () => {
     const [totalCount, setTotalCount] = useState(1)
     const [filters, setFilters] = useState({});
     const [refresh, setRefresh] = useState(false)
+    const [loading, setLoading] = useState(false);
     const searchTerm = [
         {
             label: 'search',
@@ -39,6 +41,7 @@ const InsuranceList = () => {
     };
 
     const fetchList = (page, appliedFilters = {}) => {
+        setLoading(true);
         const obj = {
             userId: userDetails?.user_id,
             email: userDetails?.email,
@@ -55,6 +58,7 @@ const InsuranceList = () => {
                 // toast(response.message, {type:'error'})
                 console.log('error in ev-insurance-list api', response);
             }
+            setLoading(false);
         })
     }
 
@@ -106,9 +110,11 @@ const InsuranceList = () => {
                 searchTerm={searchTerm}
                 count = {totalCount}
             />
-             {carList?.length === 0 ? (
+            {loading ? <Loader/> : 
+             carList?.length === 0 ? (
                 <div className='errorContainer'>No data available</div>
             ) : (
+                <>
             <List
                 tableHeaders={["Date", "Insurance ID", "Owner Name", "Vehicle", "Regs. Place", "Country", "Action"]}
                 listData={carList}
@@ -130,12 +136,14 @@ const InsuranceList = () => {
                 pageHeading="Insurance List"
                 onDeleteSlot={handleDeleteSlot}
             />
-            )}
+            
             <Pagination
                 currentPage={currentPage}
                 totalPages={totalPages}
                 onPageChange={handlePageChange}
             />
+            </>
+            )}
         </div>
     );
 };

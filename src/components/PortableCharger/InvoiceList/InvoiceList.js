@@ -7,6 +7,7 @@ import { getRequestWithToken, postRequestWithToken } from '../../../api/Requests
 import moment from 'moment';
 import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from 'react-router-dom';
+import Loader from '../../SharedComponent/Loader/Loader';
 
 const ChargerBookingInvoiceList = () => {
     const userDetails = JSON.parse(sessionStorage.getItem('userDetails')); 
@@ -16,6 +17,7 @@ const ChargerBookingInvoiceList = () => {
     const [totalPages, setTotalPages] = useState(1);
     const [totalCount, setTotalCount] = useState(1)
     const [filters, setFilters] = useState({});
+    const [loading, setLoading] = useState(false);
     const searchTerm = [
         {
             label: 'search', 
@@ -24,6 +26,7 @@ const ChargerBookingInvoiceList = () => {
         }
     ]
     const fetchList = (page, appliedFilters = {}) => {
+        setLoading(true);
         const obj = {
             userId : userDetails?.user_id,
             email : userDetails?.email,
@@ -40,6 +43,7 @@ const ChargerBookingInvoiceList = () => {
                 // toast(response.message, {type:'error'})
                 console.log('error in charger-booking-invoice-list api', response);
             }
+            setLoading(false);
         })
     }
 
@@ -68,9 +72,11 @@ const ChargerBookingInvoiceList = () => {
          searchTerm = {searchTerm}
          count = {totalCount}
          />
-          {invoiceList.length === 0 ? (
+         {loading ? <Loader /> : 
+          invoiceList.length === 0 ? (
                 <div className={styles.errorContainer}>No data available</div>
             ) : (
+                <>
         <List 
         tableHeaders={["Invoice Date", "Invoice ID", "Customer Name", "Amount", "Status", "Action"]}
           listData = {invoiceList}
@@ -100,13 +106,15 @@ const ChargerBookingInvoiceList = () => {
         ]}
         pageHeading="Portable Charger Invoice List"
           />
-    )}
+          
            
            <Pagination 
             currentPage={currentPage} 
             totalPages={totalPages} 
             onPageChange={handlePageChange} 
             />
+            </>
+            )}
         </div>
     );
 };

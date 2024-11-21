@@ -7,6 +7,7 @@ import { postRequestWithToken } from '../../api/Requests';
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
+import Loader from '../SharedComponent/Loader/Loader';
 
 const dynamicFilters = [
     // { label: 'Bike Name', name: 'search_text', type: 'text' }
@@ -21,6 +22,7 @@ const BikeList = () => {
     const [totalCount, setTotalCount] = useState(1)
     const [filters, setFilters] = useState({});
     const [refresh, setRefresh] = useState(false)
+    const [loading, setLoading] = useState(false);
     const searchTerm = [
         {
             label: 'search', 
@@ -35,6 +37,7 @@ const BikeList = () => {
     };
 
     const fetchList = (page, appliedFilters = {}) => {
+        setLoading(true);
         const obj = {
             userId : userDetails?.user_id,
             email : userDetails?.email,
@@ -51,6 +54,7 @@ const BikeList = () => {
                 // toast(response.message, {type:'error'})
                 console.log('error in electric-bikes-list api', response);
             }
+            setLoading(false);
         })
     }
 
@@ -102,9 +106,11 @@ const BikeList = () => {
             searchTerm = {searchTerm}
             count = {totalCount}
          />
-          {carList.length === 0 ? (
+         {loading ? <Loader/> : 
+          carList.length === 0 ? (
                <div className='errorContainer'>No data available</div>
             ) : (
+                <>
         <List 
           tableHeaders={["ID", "Bike Name", "Available On", "Bike Type", "Price", "Contract", "Action"]}
           listData = {carList}
@@ -122,12 +128,14 @@ const BikeList = () => {
         pageHeading="Electric Bikes Leasing List"
         onDeleteSlot={handleDeleteSlot}
           />
-    )}
+          
         <Pagination 
           currentPage={currentPage} 
           totalPages={totalPages} 
           onPageChange={handlePageChange} 
         />
+        </>
+    )}
         </div>
     );
 };
