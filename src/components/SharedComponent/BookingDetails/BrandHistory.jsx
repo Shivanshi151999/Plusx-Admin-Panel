@@ -31,7 +31,7 @@ const BrandHistory = ({deviceBrandList, currentPage, totalPages, onPageChange}) 
                     </tr>
                 </thead>
                 <tbody>
-                    {deviceBrandList.length > 0 && deviceBrandList.map((vehicle, index) => (
+                    {deviceBrandList?.length > 0 && deviceBrandList?.map((vehicle, index) => (
                         <tr key={index}>
                             <td>{vehicle.brand_name}</td>
                             <td>{vehicle.start_date}</td>
