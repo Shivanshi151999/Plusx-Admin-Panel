@@ -6,6 +6,11 @@ import { getRequestWithToken, postRequestWithToken } from '../../../api/Requests
 import moment from 'moment';
 import { AiOutlinePlus } from 'react-icons/ai';  
 import AddDriver from '../../../assets/images/AddDriver.svg';
+import Edit from '../../../assets/images/Pen.svg';
+import Cancel from '../../../assets/images/Cancel.svg';
+import Delete from '../../../assets/images/Delete.svg';
+import View from '../../../assets/images/ViewEye.svg'
+import ModalAssign from '../../SharedComponent/BookingDetails/ModalAssign.jsx'
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
@@ -57,7 +62,62 @@ const RoadAssistanceBookingList = () => {
     const [isModalOpen, setIsModalOpen]               = useState(false);
     const [selectedBookingId, setSelectedBookingId]   = useState(null);
     const [selectedDriverId, setSelectedDriverId]     = useState(null);
+    const [selectedRiderId, setSelectedRiderId]       = useState(null);
     const [refresh, setRefresh]           = useState(false)
+
+    const [showPopup, setShowPopup] = useState(false);
+    const [reason, setReason] = useState("");
+
+  const handleCancelClick = (bookingId, riderId) => {
+    setSelectedBookingId(bookingId);
+    setSelectedRiderId(riderId)
+    console.log(bookingId,riderId);
+    setShowPopup(true); 
+  };
+
+  const handleClosePopup = () => {
+    setShowPopup(false); 
+    setSelectedBookingId(null);
+    setSelectedRiderId(null)
+    setReason("");
+  };
+
+  const handleReasonChange = (e) => {
+    setReason(e.target.value); 
+  };
+
+  const handleRoadAssistanceBookingDetails = (id) => navigate(`/ev-road-assistance/booking-details/${id}`)
+
+  const handleConfirmCancel = () => {
+    if (!reason.trim()) {
+        toast("Please enter a reason for cancellation.", {type:'error'})
+        return;
+      }
+    console.log("Canceling item with ID:", selectedBookingId, selectedDriverId);
+    const obj = {
+        userId     : userDetails?.user_id,
+        email      : userDetails?.email,
+        request_id : selectedBookingId,
+        rider_id   : selectedRiderId,
+        reason     : reason
+    };
+    
+    postRequestWithToken('ev-road-assistance-cancel-booking', obj, async (response) => {
+        if (response.code === 200) {
+            toast(response.message, {type:'success'})
+                setTimeout(() => {
+                    fetchList(currentPage, filters);
+                }, 1500);
+            setShowPopup(false);
+            setSelectedBookingId(null);
+            setSelectedRiderId(null)
+        } else {
+            toast(response.message, {type:'error'})
+            console.log('error in charger-booking-list api', response);
+        }
+    });
+    
+  };
 
     const fetchList = (page, appliedFilters = {}) => {
         const obj = {
@@ -128,7 +188,7 @@ const RoadAssistanceBookingList = () => {
             rsa_id: selectedDriverId, 
             booking_id: selectedBookingId
         }
-        postRequestWithToken('/charger-booking-assign', obj, async(response) => {
+        postRequestWithToken('/charger-booking-assig', obj, async(response) => {
             if (response.code === 200) {
                 
                 setIsModalOpen(false);
@@ -163,6 +223,7 @@ const RoadAssistanceBookingList = () => {
             });
         }
     };
+
     return (
         <div className='main-container'>
             <SubHeader
@@ -185,7 +246,44 @@ const RoadAssistanceBookingList = () => {
                     { key: 'name', label: 'Customer Name' },
                     { key: 'price', label: 'Price', format: (price) => (price ? `AED ${price}` : '') },
                     { key: 'order_status', label: 'Status', format: (status) => statusMapping[status] || status },
-                
+                    {
+                        key: 'action',
+                        label: 'Action',
+                        relatedKeys: ['order_status'], 
+                        format: (data, key, relatedKeys) => {
+                            const isCancelable = data[relatedKeys[0]] !== 'C'; 
+                    
+                            return (
+                                <div className="editButtonSection">
+                                    {/* View Button (Always Displayed) */}
+                                    <img 
+                                        src={View} 
+                                        alt="view" 
+                                        onClick={() => handleRoadAssistanceBookingDetails(data.request_id)}
+                                       className="viewButton"
+                                    />
+                                   
+                                   {isCancelable && (
+                                    <>
+                                        <img 
+                                            src={AddDriver} 
+                                            alt="Add Driver" 
+                                            className="viewButton" 
+                                            onClick={(e) => handleConfirm(data.request_id)}
+                                        />
+                                        <img 
+                                            src={Cancel} 
+                                            alt="Cancel" 
+                                            onClick={() => handleCancelClick(data.request_id, data.rider_id)} 
+                                            className="viewButton" 
+                                        />
+                                    </>
+                                )}
+
+                                </div>
+                            );
+                        }
+                    }
                     // {
                     //     key: 'driver_assign',
                     //     label: 'Driver Assign',
@@ -224,6 +322,27 @@ const RoadAssistanceBookingList = () => {
                 onSelectDriver={handleDriverSelect}
                 onAssignDriver={assignDriver}
             />
+
+            {showPopup && (
+                <ModalAssign
+                    isOpen={showPopup}
+                    onClose={handleClosePopup}
+                    onAssign={handleConfirmCancel}
+                    buttonName = 'Submit'
+                >
+                    <div className="modalHeading">Reason for Cancellation</div>
+                    <textarea
+                        id="reason"
+                        placeholder="Enter reason"
+                        className="modal-textarea"
+                        rows="4"
+                        value={reason} 
+                        onChange={handleReasonChange}
+                                
+                    />
+                </ModalAssign>
+                
+            )}
         </div>
     );
 };
