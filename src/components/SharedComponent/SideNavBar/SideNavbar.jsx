@@ -120,9 +120,8 @@ const SideNavbar = () => {
             <div className={styles.hamburger} onClick={toggleSidebar}>
                 {isSidebarOpen ? "✖" : "☰"}
             </div>
-            <div className={`${styles.sidebarContainer} ${ isSidebarOpen ? styles.show : "" }`} ></div>
+            <div className={`${styles.sidebarContainer} ${ isSidebarOpen ? styles.show : "" }`} >
         
-            {/* <div className={styles.sidebar}> */}
             <div className={styles.logo}>
                 <NavLink to="/">
                     <CompanyLogo />
@@ -205,6 +204,7 @@ const SideNavbar = () => {
                     checkedItems={checkedItems.podDevice}
                 />
             </ul>
+            </div>
         </div>
     );
 };
