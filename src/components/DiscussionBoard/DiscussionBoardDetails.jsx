@@ -6,6 +6,7 @@ import BookingImageSection from '../SharedComponent/Details/BookingDetails/Booki
 import { postRequestWithToken } from '../../api/Requests';
 import BookingLeftDetails from '../SharedComponent/BookingDetails/BookingLeftDetails.jsx'
 import BookingDetailsAccordion from '../SharedComponent/BookingDetails/BookingDetailsAccordion.jsx'
+import CommentAccordion from '../SharedComponent/Details/CommentAccordion.jsx';
 import { useParams } from 'react-router-dom';
 import moment from 'moment';
 import { toast, ToastContainer } from "react-toastify";
@@ -42,6 +43,7 @@ const DiscussionBoardDetails = () => {
         });
         setImageGallery(response.galleryData)
         setBaseUrl(response.base_url)
+        setComments(response.comments)
       } else {
         console.log('error in discussion-board-detail API', response);
       }
@@ -128,11 +130,11 @@ const DiscussionBoardDetails = () => {
           sectionTitles4={sectionTitles4} sectionContent4={sectionContent4}
           type='evGuide' />
 
-        <BookingImageSection
+        {/* <BookingImageSection
           titles={imageTitles} content={imageContent}
           type='evGuide'
-        />
-         {/* <BookingDetailsAccordion history={comments} rsa={content} /> */}
+        /> */}
+         <CommentAccordion history={comments} title='Comments' />
       </div>
     </div>
   )
