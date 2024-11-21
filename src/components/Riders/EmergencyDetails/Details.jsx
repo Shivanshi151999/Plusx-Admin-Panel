@@ -47,6 +47,21 @@ const Details = () => {
       fetchDetails();
     }, []);
 
+
+    //interval api call
+    useEffect(() => {
+      if (!userDetails || !userDetails.access_token) {
+        navigate('/login'); 
+        return; 
+    }
+      const intervalCall = setInterval(() => {
+        fetchDetails();
+      }, 50000);
+      return () => {
+        // clean up
+        clearInterval(intervalCall);
+      };
+    }, []);
    
 
   return (
