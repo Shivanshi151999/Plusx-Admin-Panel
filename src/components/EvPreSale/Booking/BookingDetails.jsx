@@ -47,7 +47,7 @@ const EvPreSaleBookingDetails = () => {
   }, []);
 
   const headerTitles = {
-    bookingIdTitle      : "Subscription ID",
+    bookingIdTitle      : "Booking ID",
     customerDetailsTitle : "Customer Details",
   };
   const content = {
@@ -84,7 +84,17 @@ const EvPreSaleBookingDetails = () => {
    address: 'Pickup Address'
   }
   const sectionContent3 = {
-    address: bookingDetails?.pickup_address
+    // address: bookingDetails?.pickup_address
+    address: (
+      <a
+          href={`https://www.google.com/maps?q=${bookingDetails?.pickup_latitude},${bookingDetails?.pickup_longitude}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ textDecoration: 'none', color: 'inherit' }}
+      >
+          {bookingDetails?.pickup_address || 'View on Map'}
+      </a>
+  ),
   }
 
   const sectionTitles4 = {
