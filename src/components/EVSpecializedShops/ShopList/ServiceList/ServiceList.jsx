@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import List from '../../../SharedComponent/List/List'
 import styles from '../ShopList/addshoplist.module.css'
+import Edit from '../../../../assets/images/Pen.svg';
+import Delete from '../../../../assets/images/Delete.svg';
 import SubHeader from '../../../SharedComponent/SubHeader/SubHeader'
 import Pagination from '../../../SharedComponent/Pagination/Pagination'
 import { postRequestWithToken } from '../../../../api/Requests';
 import moment from 'moment';
 import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 import ModalAssign from '../../../SharedComponent/BookingDetails/ModalAssign'
 
@@ -27,6 +30,9 @@ const ServiceList = () => {
     const [totalCount, setTotalCount] = useState(1)
     const [filters, setFilters] = useState({});
     const [refresh, setRefresh] = useState(false)
+    const [selectedServiceId, setSelectedServiceId]  = useState(null);
+    const [showPopup, setShowPopup] = useState(false);
+    const [name, setName] = useState("");
     const searchTerm = [
         {
             label: 'search', 
@@ -34,6 +40,73 @@ const ServiceList = () => {
             type: 'text'
         }
     ]
+
+    const handleEditClick = (serviceId, name) => {
+        setSelectedServiceId(serviceId);
+        setName(name)
+        console.log(serviceId,name);
+        setShowPopup(true); 
+      };
+    
+      const handleClosePopup = () => {
+        setShowPopup(false); 
+        setSelectedServiceId(null);
+        setName(null)
+      };
+    
+      const handleNameChange = (e) => {
+        setName(e.target.value); 
+      };
+    
+      const handleConfirmEdit = () => {
+        if (!name.trim()) {
+            toast("Please enter a name.", {type:'error'})
+            return;
+          }
+       
+        const obj = {
+            userId       : userDetails?.user_id,
+            email        : userDetails?.email,
+            service_id   : selectedServiceId,
+            service_name : name
+        };
+    
+        postRequestWithToken('shop-service-update', obj, async (response) => {
+            if (response.code === 200) {
+                toast(response.message, {type:'success'})
+                    setTimeout(() => {
+                        fetchList(currentPage, filters);
+                    }, 1500);
+                setShowPopup(false);
+                setSelectedServiceId(null);
+                setName(null)
+            } else {
+                toast(response.message, {type:'error'})
+                console.log('error in shop-brand-update api', response);
+            }
+        });
+        
+      };
+
+      const handleDeleteBrand = (serviceId) => {
+        const confirmDelete = window.confirm("Are you sure you want to delete this?");
+        if (confirmDelete) {
+            const obj = { 
+                userId     : userDetails?.user_id,
+                email      : userDetails?.email,
+                service_id : serviceId 
+            };
+            postRequestWithToken('shop-service-delete', obj, async (response) => {
+                if (response.code === 200) {
+                    setRefresh(prev => !prev);
+                    toast(response.message, { type: "success" });
+                } else {
+                    toast(response.message, { type: 'error' });
+                    console.log('error in shop-service-delete api', response);
+                }
+            });
+        }
+    };
 
     const fetchList = (page, appliedFilters = {}) => {
         const obj = {
@@ -74,6 +147,7 @@ const ServiceList = () => {
 
     return (
         <div className='main-container'>
+            <ToastContainer />
          <SubHeader heading = "Ev Specialized Shop Service List"
             fetchFilteredData={fetchFilteredData} 
             dynamicFilters={dynamicFilters} filterValues={filters}
@@ -99,6 +173,31 @@ const ServiceList = () => {
                 label: 'Created Time', 
                 format: (date) => moment(date).format('DD MMM YYYY h:mm A') 
             } ,
+            {
+                key: 'action',
+                label: 'Action',
+                relatedKeys: ['service_id'], 
+                format: (data, relatedKeys) => {
+                    return (
+                        <>
+                            <img 
+                                src={Edit} 
+                                alt="edit" 
+                                onClick={() => {
+                                    handleEditClick(data.service_id, data.service_name);
+                                }} 
+                            />
+                            <img 
+                                src={Delete} 
+                                alt="delete" 
+                                onClick={() => {
+                                    handleDeleteBrand(data.service_id);
+                                }} 
+                            />
+                        </>
+                    );
+                }
+            }
             
         ]}
         pageHeading="Shop Service List"
@@ -109,6 +208,27 @@ const ServiceList = () => {
           totalPages={totalPages} 
           onPageChange={handlePageChange} 
         />
+
+            {showPopup && (
+                <ModalAssign
+                    isOpen={showPopup}
+                    onClose={handleClosePopup}
+                    onAssign={handleConfirmEdit}
+                    buttonName = 'Submit'
+                >
+                    <div className="modalHeading">Shop Service</div>
+                    <input
+                        id="name"
+                        placeholder="Brand Name"
+                        className="modal-textarea"
+                        rows="4"
+                        value={name} 
+                        onChange={handleNameChange}
+                                
+                    />
+                </ModalAssign>
+                
+            )}
         </div>
     );
 };

@@ -229,19 +229,19 @@ const List = ({ list, tableHeaders, listData, keyMapping, pageHeading, onDeleteS
                                         </>
                                     )}
 
-                                    {pageHeading === 'Shop Service List' && (
+                                    {/* {pageHeading === 'Shop Service List' && (
                                         <>
                                             <img src={Edit} alt='edit' />
                                             <img src={Delete} alt='delete' />
                                         </>
-                                    )}
+                                    )} */}
 
-                                    {pageHeading === 'Shop Brand List' && (
+                                    {/* {pageHeading === 'Shop Brand List' && (
                                         <>
-                                            <img src={Edit} alt='edit' />
-                                            <img src={Delete} alt='delete' />
+                                             <img src={Edit} alt='edit' /> 
+                                            <img src={Delete} alt='delete' /> 
                                         </>
-                                    )}
+                                    )} */}
 
                                     {pageHeading === 'Club List' && (
                                         <>
