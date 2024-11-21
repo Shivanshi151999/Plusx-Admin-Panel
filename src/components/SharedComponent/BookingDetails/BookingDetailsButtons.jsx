@@ -5,43 +5,41 @@ import PODChargeHistory from './PODChargeHistory';
 import PODZoneHistory from './PODZoneHistory';
 
 const BookingDetailsButtons = () => {
-  const [activeSection, setActiveSection] = useState('brandingHistory');
+    const [activeSection, setActiveSection] = useState('brandingHistory');
 
-  return (
-    <div>
-      <div className={styles.iconContainer}>
-        <button
-          className={`${styles.iconButton} ${
-            activeSection === 'brandingHistory' ? styles.active : ''
-          }`}
-          onClick={() => setActiveSection('brandingHistory')}
-        >
-          <span>Branding History</span>
-        </button>
-        <button
-          className={`${styles.iconButton} ${
-            activeSection === 'podChargeHistory' ? styles.active : ''
-          }`}
-          onClick={() => setActiveSection('podChargeHistory')}
-        >
-          <span>POD Charge History</span>
-        </button>
-        <button
-          className={`${styles.iconButton} ${
-            activeSection === 'podZoneHistory' ? styles.active : ''
-          }`}
-          onClick={() => setActiveSection('podZoneHistory')}
-        >
-          <span>POD Zone History</span>
-        </button>
-      </div>
-      <div className={styles.sectionContent}>
-        {activeSection === 'brandingHistory' && <BrandingHistory />}
-        {activeSection === 'podChargeHistory' && <PODChargeHistory />}
-        {activeSection === 'podZoneHistory' && <PODZoneHistory />}
-      </div>
-    </div>
-  );
+    return (
+        <div>
+        <div className={styles.iconContainer}>
+            <button 
+            className={`${styles.iconButton} ${
+                activeSection === 'brandingHistory' ? styles.active : ''
+            }`} onClick={() => setActiveSection('brandingHistory')} >
+                <span>Branding History</span>
+            </button>
+            <button
+            className={`${styles.iconButton} ${
+                activeSection === 'podChargeHistory' ? styles.active : ''
+            }`}
+            onClick={() => setActiveSection('podChargeHistory')}
+            >
+                <span>POD Charge History</span>
+            </button>
+            <button
+            className={`${styles.iconButton} ${
+                activeSection === 'podZoneHistory' ? styles.active : ''
+            }`}
+            onClick={() => setActiveSection('podZoneHistory')}
+            >
+                <span>POD Zone History</span>
+            </button>
+        </div>
+        <div className={styles.sectionContent}>
+            {activeSection === 'brandingHistory' && <BrandingHistory />}
+            {activeSection === 'podChargeHistory' && <PODChargeHistory />}
+            {activeSection === 'podZoneHistory' && <PODZoneHistory />}
+        </div>
+        </div>
+    );
 };
 
 export default BookingDetailsButtons;

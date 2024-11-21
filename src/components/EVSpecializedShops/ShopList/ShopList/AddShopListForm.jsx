@@ -3,7 +3,7 @@ import { GoogleMap, useJsApiLoader, useLoadScript, Marker } from "@react-google-
 import styles from './addshoplist.module.css';
 import { MultiSelect } from "react-multi-select-component";
 import { useNavigate } from 'react-router-dom';
-import { Helmet } from "react-helmet";
+// import { Helmet } from "react-helmet";
 import Select from 'react-select';
 import { AiOutlineClose } from 'react-icons/ai';
 import UploadIcon from "../../../../assets/images/uploadicon.svg";

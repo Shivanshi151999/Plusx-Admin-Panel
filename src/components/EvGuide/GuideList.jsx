@@ -96,45 +96,44 @@ const GuideList = () => {
     return (
         <div className={styles.guideListContainer}>
             <ToastContainer />
-            <SubHeader heading="EV Guide List"
-                fetchFilteredData={fetchFilteredData}
+            <SubHeader heading = "EV Guide List"
+                fetchFilteredData={fetchFilteredData} 
                 dynamicFilters={dynamicFilters} filterValues={filters}
                 addButtonProps={addButtonProps}
                 searchTerm={searchTerm}
                 count = {totalCount}
             />
             {vehicleList.length === 0 ? (
-                <div className='errorContainer'>No data available</div>
+               <div className='errorContainer'>No data available</div>
             ) : (
-                <List
-                    tableHeaders={["Vehicle ID", "Vehicle / Model Name", "Vehicle Type", "Horse Power", "Price", "Action"]}
-                    listData={vehicleList}
+                <List tableHeaders={["Vehicle ID", "Vehicle / Model Name", "Vehicle Type", "Horse Power", "Price", "Action"]}
+                    listData = {vehicleList}
                     keyMapping={[
-                        { key: 'vehicle_id', label: 'Vehicle ID' },
+                        { key: 'vehicle_id', label: 'Vehicle ID' }, 
                         // { key: 'vehicle_name', label: 'Vehicle / Model Name' }, 
-                        {
-                            key: 'vehicle_name',
+                        { 
+                            key: 'vehicle_name', 
                             label: 'Vehicle / Model Name',
-                            relatedKeys: ['vehicle_model'],
+                            relatedKeys: [ 'vehicle_model'], 
                             format: (data, key, relatedKeys) => (
                                 <>
                                     {data[key]}<br />
                                     {relatedKeys.map((relatedKey) => data[relatedKey]).join(" ")}
                                 </>
                             )
-                        },
-                        { key: 'vehicle_type', label: 'Vehicle Type' },
-                        { key: 'horse_power', label: 'Horse Power' },
-                        { key: 'price', label: 'Price' },
+                        }, 
+                        { key: 'vehicle_type', label: 'Vehicle Type' }, 
+                        { key: 'horse_power', label: 'Horse Power' }, 
+                        { key: 'price', label: 'Price' }, 
                     ]}
                     pageHeading="EV Guide List"
                     onDeleteSlot={handleDeleteSlot}
                 />
             )}
-            <Pagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={handlePageChange}
+            <Pagination 
+                currentPage={currentPage} 
+                totalPages={totalPages} 
+                onPageChange={handlePageChange} 
             />
         </div>
     );

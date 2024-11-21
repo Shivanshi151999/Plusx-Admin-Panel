@@ -92,7 +92,11 @@ const List = ({ list, tableHeaders, listData, keyMapping, pageHeading, onDeleteS
     const handleShopDetails = (id) => navigate(`/ev-specialized/shop-details/${id}`)
     const handleShopEditDetails = (id) => navigate(`/ev-specialized/edit-shop/${id}`)
     
-
+    // POD Device
+    const handleDeviceDetails = (id) => navigate(`/pod-device/device-details/${id}`)  
+    const handleDeviceEdit = (id) => navigate(`/pod-device/edit-device/${id}`)
+    // 
+     
     return (
         <div className={styles.containerCharger}>
              <ToastContainer />
@@ -332,8 +336,14 @@ const List = ({ list, tableHeaders, listData, keyMapping, pageHeading, onDeleteS
                                             <img src={Delete} alt='delete' onClick={() => onDeleteSlot(data.offer_id)} />
                                         </>
                                     )}
-
-
+                                    {/* EV Guide */}
+                                    {pageHeading === 'POD Device List' && (
+                                        <>
+                                            <img src={View} alt="view" onClick={() => handleDeviceDetails(data.device_id)} />
+                                            <img src={Edit} alt='edit' onClick={() => handleDeviceEdit(data.device_id)} />
+                                            {/* <img src={Delete} alt='delete' onClick={() => onDeleteDevice(data.device_id)} /> */}
+                                        </>
+                                    )}
 
                                     {/* <img src={View} alt="view" />
                                     <img src={Edit} alt='edit' />

@@ -82,7 +82,9 @@ const SubHeader = ({ heading, fetchFilteredData, dynamicFilters, filterValues, a
         heading !== "Time Slot List" && 
         heading !== "Ev Specialized Shop Service List" && 
         heading !== "Ev Specialized Shop Brand List" && 
-        heading !== "Ev Road Assitance Booking List"
+        heading !== "Ev Road Assitance Booking List" &&
+        heading !== "POD Brand List" &&
+        heading !== "POD Device List"
 
     const showHeading = 
       heading !== "Offer List" &&
@@ -105,9 +107,9 @@ const SubHeader = ({ heading, fetchFilteredData, dynamicFilters, filterValues, a
     return (
         <div className={styles.subHeaderContainer}>
             <div className={styles.headerCharger}>
-            {showHeading && (
-                <div className={styles.headingList}>{heading}</div>
-            )}
+                { showHeading && (
+                    <div className={styles.headingList}>{heading}</div>
+                )}
                 {showCard && (
                 <div className={styles.headCardSection}>
                     <div className={styles.headCardNumber}>{count || 0}</div>
