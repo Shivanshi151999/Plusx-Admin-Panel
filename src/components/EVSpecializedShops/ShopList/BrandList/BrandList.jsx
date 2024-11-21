@@ -24,6 +24,7 @@ const BrandList = () => {
     const [totalPages, setTotalPages] = useState(1);
     const [totalCount, setTotalCount] = useState(1)
     const [filters, setFilters] = useState({});
+    const [refresh, setRefresh] = useState(false)
     const searchTerm = [
         {
             label: 'search', 
@@ -58,7 +59,7 @@ const BrandList = () => {
             return; 
         }
         fetchList(currentPage, filters);
-    }, [currentPage, filters]);
+    }, [currentPage, filters, refresh]);
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -77,6 +78,10 @@ const BrandList = () => {
             addButtonProps={addButtonProps}
             searchTerm = {searchTerm}
             count = {totalCount}
+            modalTitle = 'Store Brand'
+            setRefresh = {setRefresh}
+            apiEndPoint = 'shop-brand-create'
+            nameKey = 'brand_name'
          />
          {brandList?.length === 0 ? (
                 <div className='errorContainer'>No data available</div>

@@ -7,6 +7,7 @@ import { postRequestWithToken } from '../../../../api/Requests';
 import moment from 'moment';
 import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from 'react-router-dom';
+import ModalAssign from '../../../SharedComponent/BookingDetails/ModalAssign'
 
 const dynamicFilters = [
     // { label: 'Service Name', name: 'search', type: 'text' },
@@ -25,6 +26,7 @@ const ServiceList = () => {
     const [totalPages, setTotalPages] = useState(1);
     const [totalCount, setTotalCount] = useState(1)
     const [filters, setFilters] = useState({});
+    const [refresh, setRefresh] = useState(false)
     const searchTerm = [
         {
             label: 'search', 
@@ -59,7 +61,7 @@ const ServiceList = () => {
             return; 
         }
         fetchList(currentPage, filters);
-    }, [currentPage, filters]);
+    }, [currentPage, filters, refresh]);
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -78,6 +80,10 @@ const ServiceList = () => {
             addButtonProps={addButtonProps}
             searchTerm = {searchTerm}
             count = {totalCount}
+            modalTitle = 'Shop Service'
+            setRefresh = {setRefresh}
+            apiEndPoint = 'shop-service-create'
+            nameKey = 'service_name'
          />
            {serviceList?.length === 0 ? (
                 <div className='errorContainer'>No data available</div>

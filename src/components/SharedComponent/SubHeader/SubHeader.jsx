@@ -7,11 +7,62 @@ import SearchAccordion from '../Accordion/SearchAccodion';
 import AccordionFilter from '../Accordion/Accordions';
 import { Link } from 'react-router-dom';
 import FormModal from '../CustomModal/FormModal';
+import ModalAssign from '../BookingDetails/ModalAssign'
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+import { postRequestWithToken } from '../../../api/Requests';
 
-const SubHeader = ({ heading, fetchFilteredData, dynamicFilters, filterValues, addButtonProps, searchTerm, count }) => {
+
+const SubHeader = ({ heading, fetchFilteredData, dynamicFilters, filterValues, 
+                     addButtonProps, searchTerm, count, modalTitle, setRefresh,apiEndPoint, 
+                     nameKey  }) => {
+
+    const userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
     const [isSearchAccordionOpen, setIsSearchAccordionOpen] = useState(false);
     const [isFilterAccordionOpen, setIsFilterAccordionOpen] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const [showPopup, setShowPopup] = useState(false);
+    const [name, setName] = useState("");
+
+    const handleAddClick = () => {
+        setShowPopup(true); 
+    };
+
+    const handleClosePopup = () => {
+        setShowPopup(false); 
+        setName("");
+      };
+    
+      const handleReasonChange = (e) => {
+        setName(e.target.value); 
+      };
+    
+      const handleConfirmAdd = () => {
+        if (!name.trim()) {
+            toast("Please enter name.", {type:'error'})
+            return;
+          }
+        const obj = {
+            userId     : userDetails?.user_id,
+            email      : userDetails?.email,
+            [nameKey]  : name
+        };
+    
+        postRequestWithToken(apiEndPoint, obj, async (response) => {
+            if (response.code === 200) {
+                toast(response.message, {type:'success'})
+                    setTimeout(() => {
+                        setRefresh(prev => !prev);
+                    }, 1500);
+                setShowPopup(false);
+            } else {
+                toast(response.message, {type:'error'})
+                console.log(`Error in ${apiEndPoint} API`, response);
+            }
+        });
+        
+      };
 
     const toggleSearchAccordion = () => {
         setIsSearchAccordionOpen(!isSearchAccordionOpen);
@@ -117,20 +168,9 @@ const SubHeader = ({ heading, fetchFilteredData, dynamicFilters, filterValues, a
                 </div>
                 )}
                 <div className={styles.subHeaderButtonSection}>
-                    {/* {shouldShowAddButton && (
-                        <Link to={addButtonProps?.link}>
-                            <div className={styles.addButtonSection}>
-                                <div className={styles.addButtonImg}>
-                                    <img src={Plus} alt='plus' />
-                                </div>
-                                <div className={styles.addButtonText}>{addButtonProps?.heading}</div>
-                            </div>
-                        </Link>
-                    )} */}
-
                     {shouldShowAddButton && (
                         (heading === "Ev Specialized Shop Brand List" || heading === "Ev Specialized Shop Service List") ? (
-                            <div className={styles.addButtonSection} onClick={toggleModal}>
+                            <div className={styles.addButtonSection} onClick={handleAddClick}>
                                 <div className={styles.addButtonImg}>
                                     <img src={Plus} alt='plus' />
                                 </div>
@@ -176,7 +216,6 @@ const SubHeader = ({ heading, fetchFilteredData, dynamicFilters, filterValues, a
                     type={heading}
                     isOpen={isSearchAccordionOpen}
                     fetchFilteredData={fetchFilteredData}
-                    // dynamicFilters={dynamicFilters} 
                     searchTerm={searchTerm}
                     filterValues={filterValues}
                 />
@@ -192,12 +231,25 @@ const SubHeader = ({ heading, fetchFilteredData, dynamicFilters, filterValues, a
                 />
             )}
 
-            {isModalOpen && (
-                <FormModal
-                    isOpen={isModalOpen}
-                    onClose={closeModal}
-                />
-
+            {showPopup && (
+                <ModalAssign
+                    isOpen={showPopup}
+                    onClose={handleClosePopup}
+                    onAssign={handleConfirmAdd}
+                    buttonName = 'Submit'
+                >
+                    <div className="modalHeading">{modalTitle}</div>
+                    <input
+                        id="name"
+                        placeholder={modalTitle}
+                        className="modal-textarea"
+                        rows="4"
+                        value={name} 
+                        onChange={handleReasonChange}
+                                
+                    />
+                </ModalAssign>
+                
             )}
         </div>
     );
