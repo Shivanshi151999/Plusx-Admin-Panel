@@ -10,9 +10,10 @@ import 'react-toastify/dist/ReactToastify.css';
 const Login = () => {
     const navigate = useNavigate()
     const [passwordVisible, setPasswordVisible] = useState(false);
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const [errors, setErrors] = useState({ username: '', password: '' });
+    const [username, setUsername]               = useState("");
+    const [password, setPassword]               = useState("");
+    const [errors, setErrors]                   = useState({ username: '', password: '' });
+    const [loading, setLoading]                 = useState(false);
 
     const togglePasswordVisibility = () => {
         if (password.length > 0) {
@@ -36,7 +37,7 @@ const Login = () => {
         setErrors(validationErrors);
 
         if (!validationErrors.username && !validationErrors.password) {
-            console.log('Form submitted successfully:', { username, password });
+            setLoading(true); 
             
             const obj = {
                 email    : username,
@@ -46,12 +47,12 @@ const Login = () => {
                 if (response.code === 200) {
                     toast(response.message || response.message[0], {type:'success'})
                     const userDetails = {
-                        user_id: response.userDetails.id,
-                        name: response.userDetails.name,
-                        email: response.userDetails.email,
-                        phone: response.userDetails.phone,
-                        image: response.userDetails.image,
-                        access_token: response.Token 
+                        user_id      : response.userDetails.id,
+                        name         : response.userDetails.name,
+                        email        : response.userDetails.email,
+                        phone        : response.userDetails.phone,
+                        image        : response.userDetails.image,
+                        access_token : response.Token 
                     };
                     sessionStorage.setItem('userDetails', JSON.stringify(userDetails));
                     
@@ -60,7 +61,7 @@ const Login = () => {
                     }, 1000);
                 } else {
                     toast(response.message, {type:'error'})
-                    console.log('error in login api', response);
+                    setLoading(false);
                 }
             })
         }
@@ -121,7 +122,16 @@ const Login = () => {
                             Forgot Password?
                         </div>
                         <div className={styles.formButtonSection}>
-                            <button type="submit" className={styles.formButton}>Login</button>
+                            <button type="submit" className={styles.formButton}>
+                            {loading ? (
+                                    <>
+                                        <span className="spinner-border spinner-border-sm me-2"></span>
+                                        Login...
+                                    </>
+                                ) : (
+                                    "Login"
+                                )}
+                            </button>
                         </div>
                     </form>
                 </div>

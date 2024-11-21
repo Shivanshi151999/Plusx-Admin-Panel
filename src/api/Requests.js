@@ -4,8 +4,6 @@ axios.defaults.headers.post['Content-Type']  = 'application/json';
 axios.defaults.headers.post['authorization'] = process.env.REACT_APP_Authorization;
 // axios.defaults.withCredentials               = true
 
-const userDetails = JSON.parse(sessionStorage.getItem('userDetails')); 
-
 export const postRequest = async (URL, requestData, callback) => {
     try {
         const response  = await axios.post(URL, requestData);
@@ -38,6 +36,7 @@ export const postRequestWithFile = async (URL, requestData, callback) => {
 }
 
 export const getRequestWithToken = async (URL, requestData, callback) => {
+    const userDetails = JSON.parse(sessionStorage.getItem('userDetails')); 
     try {
         const response = await axios({
             method  : "POST",
@@ -45,9 +44,8 @@ export const getRequestWithToken = async (URL, requestData, callback) => {
             data    : requestData,
             // withCredentials : true,
             headers : {
-                // "access_token" : sessionStorage.getItem('token') || localStorage.getItem('token'),
-                access_token : "lQIjtDlvQp5Herw08dmSV0XdHDcuRLqBHcm56Vb5cgbycZ4hWMm46oe4i8tlGihQ",
-                "userId"     : sessionStorage.getItem('admin_id') || localStorage.getItem('admin_id') || "1",
+                access_token: userDetails.access_token,
+                "userId"     :  userDetails.user_id,
                 "Content-Type" : "application/json"
             } 
         });
@@ -65,6 +63,7 @@ export const getRequestWithToken = async (URL, requestData, callback) => {
 }
 
 export const postRequestWithToken = async (URL, requestData, callback) => {
+    const userDetails = JSON.parse(sessionStorage.getItem('userDetails')); 
     try {
         const response = await axios({
             method  : "POST",
@@ -91,6 +90,7 @@ export const postRequestWithToken = async (URL, requestData, callback) => {
 }
 
 export const postRequestWithTokenAndFile = async (URL, requestData, callback) => {
+    const userDetails = JSON.parse(sessionStorage.getItem('userDetails')); 
     try {
         const response = await axios({
             method  : "POST",
