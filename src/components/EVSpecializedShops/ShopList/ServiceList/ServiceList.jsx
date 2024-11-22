@@ -162,6 +162,7 @@ const ServiceList = () => {
             setRefresh = {setRefresh}
             apiEndPoint = 'shop-service-create'
             nameKey = 'service_name'
+            fetchList = {fetchList}
          />
            {serviceList?.length === 0 ? (
                 <div className='errorContainer'>No data available</div>

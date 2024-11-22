@@ -16,7 +16,7 @@ const SignupList = () => {
     const [signupList, setSignupList]     = useState([]);
     const [currentPage, setCurrentPage]   = useState(1);
     const [totalPages, setTotalPages]     = useState(1);
-    const [filters, setFilters]           = useState({});
+    const [filters, setFilters]           = useState({start_date: null,end_date: null});
     const [refresh, setRefresh]           = useState(false)
     const [emiratesList, setEmiratesList] = useState([]);
     

@@ -55,6 +55,7 @@ const AccordionFilter = ({ type, isOpen, fetchFilteredData, dynamicFilters, filt
         });
     };
 
+    
     const toggleDropdown = (name) => {
         setOpenDropdowns((prev) => ({ ...prev, [name]: !prev[name] }));
     };

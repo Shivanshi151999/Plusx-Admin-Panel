@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Accordion, Card } from 'react-bootstrap';
 import styles from './accordion.module.css';
 import { motion, AnimatePresence } from 'framer-motion';
-import Calendar from "../Calendar/Calendar";
-import { format } from 'date-fns';
 
 const SearchAccodion = ({ type, isOpen, fetchFilteredData, dynamicFilters, filterValues, searchTerm }) => {
     const [showContent, setShowContent] = useState(isOpen);
@@ -27,30 +25,6 @@ const SearchAccodion = ({ type, isOpen, fetchFilteredData, dynamicFilters, filte
     const handleBlur = () => {
         fetchFilteredData(filterValues);
         setIsOpenDropdown(false); 
-    };
-
-    const handleDateChange = (range) => {
-        if (!range || range.length < 2) {
-            fetchFilteredData({
-                ...filterValues,
-                start_date: null,
-                end_date: null
-            });
-            return;
-        }
-
-        const [start, end] = range;
-        const formattedStart = format(start, 'yyyy-MM-dd');
-        const formattedEnd = format(end, 'yyyy-MM-dd');
-        fetchFilteredData({
-            ...filterValues,
-            start_date: formattedStart,
-            end_date: formattedEnd
-        });
-    };
-
-    const toggleDropdown = () => {
-        setIsOpenDropdown(!isOpenDropdown);
     };
 
     return (
