@@ -4,14 +4,10 @@ import Edit from '../../../assets/images/Pen.svg';
 import Cancel from '../../../assets/images/Cancel.svg';
 import Delete from '../../../assets/images/Delete.svg';
 import View from '../../../assets/images/ViewEye.svg'
-import AddDriver from '../../../assets/images/AddDriver.svg';
 import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { postRequestWithToken } from '../../../api/Requests';
-
-
-
 const List = ({ list, tableHeaders, listData, keyMapping, pageHeading, onDeleteSlot, onBookingConfirm }) => {
     const userDetails    = JSON.parse(sessionStorage.getItem('userDetails'));
     const navigate = useNavigate()
@@ -141,15 +137,6 @@ const List = ({ list, tableHeaders, listData, keyMapping, pageHeading, onDeleteS
                                             <img src={Delete} alt='delete' onClick={() => onDeleteSlot(data.rsa_id)} />
                                         </>
                                     )}
-
-                                    {/* {pageHeading === 'Charger Booking List' && (
-                                        <>
-                                            <img src={View} alt="view" onClick={() => handleBookingDetails(data.booking_id)} />
-                                            {data.status !== 'C' && (
-                                                <img src={Cancel} alt='cancel' onClick={() => handleCancelClick(data.booking_id)}/>
-                                            )}
-                                        </>
-                                    )} */}
                                     {pageHeading === 'Portable Charger List' && (
                                         <>
                                             <img src={Edit} alt='edit' onClick={() => handleChargerDetails(data.charger_id)} />
@@ -175,15 +162,6 @@ const List = ({ list, tableHeaders, listData, keyMapping, pageHeading, onDeleteS
                                             <img src={Delete} alt='delete' onClick={() => onDeleteSlot(data.rider_id)} />
                                         </>
                                     )}
-
-                                    {/* {pageHeading === 'Pick & Drop Booking List' && (
-                                        <>
-                                            <img src={View} alt="view" onClick={() => handlePDBookingDetails(data.request_id)} />
-                                            {data.order_status !== 'C' && (
-                                                <img src={Cancel} alt='cancel' />
-                                            )}
-                                        </>
-                                    )} */}
                                     {pageHeading === 'Pick & Drop Invoice List' && (
                                         <>
                                             <img src={View} alt="view" onClick={() => handlePickAndDropInvoiceDetails(data.invoice_id)} />
@@ -230,21 +208,6 @@ const List = ({ list, tableHeaders, listData, keyMapping, pageHeading, onDeleteS
                                             <img src={View} alt="view" onClick={() => handlePreSaleBookingDetails(data.booking_id)} />
                                         </>
                                     )}
-
-                                    {/* {pageHeading === 'Shop Service List' && (
-                                        <>
-                                            <img src={Edit} alt='edit' />
-                                            <img src={Delete} alt='delete' />
-                                        </>
-                                    )} */}
-
-                                    {/* {pageHeading === 'Shop Brand List' && (
-                                        <>
-                                             <img src={Edit} alt='edit' /> 
-                                            <img src={Delete} alt='delete' /> 
-                                        </>
-                                    )} */}
-
                                     {pageHeading === 'Club List' && (
                                         <>
                                             <img src={View} alt="view" onClick={() => handleRiderClubDetails(data.club_id)} />
@@ -279,18 +242,7 @@ const List = ({ list, tableHeaders, listData, keyMapping, pageHeading, onDeleteS
                                     )}
 
                                     {/* Ev Road Assitance */}
-                                    {/* {pageHeading === 'Ev Road Assitance Booking List' && (
-                                        <>
-                                            <img src={View} alt="view" onClick={() => handleRoadAssistanceBookingDetails(data.request_id)} />
-                                            
-                                            {data.order_status !== 'C' && (
-                                                <img src={AddDriver} alt='confirm' onClick={() => onBookingConfirm(data.request_id)} />
-                                            )}
-                                            {data.order_status !== 'C' && (
-                                                <img src={Cancel} alt='cancel' />
-                                            )}
-                                        </>
-                                    )} */}
+                            
                                     {pageHeading === 'Road Assistance Invoice List' && (
                                         <>
                                             <img src={View} alt="view" onClick={() => handleRoadAssistanceInvoiceDetails(data.invoice_id)} />
@@ -346,12 +298,6 @@ const List = ({ list, tableHeaders, listData, keyMapping, pageHeading, onDeleteS
                                             {/* <img src={Delete} alt='delete' onClick={() => onDeleteDevice(data.device_id)} /> */}
                                         </>
                                     )}
-
-                                    {/* <img src={View} alt="view" />
-                                    <img src={Edit} alt='edit' />
-                                    <img src={Cancel} alt='cancel' />
-                                    <img src={Delete} alt='delete' /> */}
-
                                 </div>
                             </td>
                         </tr>

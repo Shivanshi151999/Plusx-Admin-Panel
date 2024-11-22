@@ -162,7 +162,7 @@ const BrandList = () => {
                 <div className='errorContainer'>No data available</div>
             ) : (
         <List 
-        tableHeaders={["Brand ID", "Brand Name", "Action"]}
+        tableHeaders={["Brand ID", "Brand Name", "Action",""]}
           listData = {brandList}
           keyMapping={[
             { key: 'brand_id', label: 'Brand ID' }, 
@@ -173,7 +173,7 @@ const BrandList = () => {
                 relatedKeys: ['brand_id'], 
                 format: (data, relatedKeys) => {
                     return (
-                        <>
+                        <div className='listAction'>
                             <img 
                                 src={Edit} 
                                 alt="edit" 
@@ -188,7 +188,7 @@ const BrandList = () => {
                                     handleDeleteBrand(data.brand_id);
                                 }} 
                             />
-                        </>
+                        </div>
                     );
                 }
             }

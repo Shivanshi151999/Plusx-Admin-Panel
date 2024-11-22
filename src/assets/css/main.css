@@ -358,3 +358,14 @@ table{
   border: 1px solid #00ffc3 !important;
 }
 /* End the react resposnsive modal */
+/* Style the table section */
+.listAction{
+  display: flex;
+  column-gap: 10px;
+  align-items: center;
+  cursor: pointer;
+}
+.listAction img{
+  width: 24px;
+}
+/* End the table Section */

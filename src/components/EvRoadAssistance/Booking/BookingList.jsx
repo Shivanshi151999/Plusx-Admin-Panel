@@ -238,7 +238,7 @@ const RoadAssistanceBookingList = () => {
                 <div className='errorContainer'>No data available</div>
             ) : (
             <List
-                tableHeaders={["Date","Order ID", "Customer Name", "Price",  "Status", "Action"]}
+                tableHeaders={["Date","Order ID", "Customer Name", "Price",  "Status", "Action",""]}
                 listData={chargerBookingList}
                 keyMapping={[
                     { key: 'created_at', label: 'Date & Time', format: (date) => moment(date).format('DD MMM YYYY') },

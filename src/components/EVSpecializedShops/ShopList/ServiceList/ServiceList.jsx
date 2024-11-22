@@ -167,7 +167,7 @@ const ServiceList = () => {
                 <div className='errorContainer'>No data available</div>
             ) : (
         <List 
-        tableHeaders={["Service ID", "Service Name", "Created Time", "Action"]}
+        tableHeaders={["Service ID", "Service Name", "Created Time", "Action",""]}
           listData = {serviceList}
           keyMapping={[
             { key: 'service_id', label: 'Service ID' }, 
@@ -183,7 +183,8 @@ const ServiceList = () => {
                 relatedKeys: ['service_id'], 
                 format: (data, relatedKeys) => {
                     return (
-                        <>
+                      
+                        <div className='listAction'>
                             <img 
                                 src={Edit} 
                                 alt="edit" 
@@ -197,8 +198,10 @@ const ServiceList = () => {
                                 onClick={() => {
                                     handleDeleteBrand(data.service_id);
                                 }} 
+                                
                             />
-                        </>
+                            </div>
+                       
                     );
                 }
             }
