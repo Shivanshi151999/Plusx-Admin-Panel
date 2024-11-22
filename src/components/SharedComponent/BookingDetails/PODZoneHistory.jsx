@@ -3,24 +3,37 @@ import styles from './history.module.css';
 import Pagination from '../Pagination/Pagination';
 import AddZone from '../../../assets/images/AddDriver.svg';
 import Modal from './ModalAssign';
+import Add from '../../../assets/images/Plus.svg';
+import Select from 'react-select';
+import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
 
-const PODZoneHistory = () => {
-    const staticVehicleList = [
-        { vehicle_type: 'Car', vehicle_number: 'ABC123', vehicle_code: 'B123' },
-        { vehicle_type: 'Truck', vehicle_number: 'DEF456', vehicle_code: 'T456' },
-        { vehicle_type: 'Bike', vehicle_number: 'GHI789', vehicle_code: 'B789' },
-        { vehicle_type: 'Bus', vehicle_number: 'JKL012', vehicle_code: 'B012' },
-        { vehicle_type: 'Van', vehicle_number: 'MNO345', vehicle_code: 'V345' },
+const PODZoneHistory = ({
+    deviceBrandList = [],
+    initialPage = 1,
+    itemsPerPage = 5, 
+    defaultCoordinates = { lat: 25.276987, lng: 55.296249 },
+}) => {
+    const toggleDropdown = () => {
+        setIsDropdownOpen(!isDropdownOpen);
+    };
+
+    const [currentPage, setCurrentPage] = useState(initialPage);
+    const [totalPages, setTotalPages] = useState(1);
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const options = [
+        { value: 'Dubai', label: 'Dubai' },
+        { value: 'Abu Dhabi', label: 'Abu Dhabi' },
+        { value: 'Ajman', label: 'Ajman' },
+        { value: 'Umm Al Qaiwain', label: 'Umm Al Qaiwain' },
     ];
 
-    const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(1);
-    const [isModalOpen, setIsModalOpen] = useState(false); // Modal state
-    const itemsPerPage = 3;
+    // Assuming `staticVehicleList` is defined somewhere in your code
+    const staticVehicleList = []; // Placeholder, replace with your actual data
 
     useEffect(() => {
         setTotalPages(Math.ceil(staticVehicleList.length / itemsPerPage));
-    }, [staticVehicleList]);
+    }, [staticVehicleList, itemsPerPage]);
 
     const currentItems = staticVehicleList.slice(
         (currentPage - 1) * itemsPerPage,
@@ -31,22 +44,33 @@ const PODZoneHistory = () => {
         setCurrentPage(pageNumber);
     };
 
-    const handleAddClick = () => {
-        setIsModalOpen(true); // Open the modal
+    const handleAddZoneClick = () => {
+        setIsModalOpen(true);
     };
 
     const handleCloseModal = () => {
-        setIsModalOpen(false); // Close the modal
+        setIsModalOpen(false);
     };
 
-    const handleAssign = () => {
-        console.log('Assign button clicked!');
-        setIsModalOpen(false); // Close modal after assigning
-    };
+    // Load Google Maps
+    const { isLoaded } = useJsApiLoader({
+        googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
+    });
+
+    if (!isLoaded) return <div>Loading...</div>;
 
     return (
         <div className={styles.addressListContainer}>
-            <span className={styles.sectionTitle}>POD Zone History List</span>
+            <div className={styles.brandHistorySection}>
+                <span className={styles.sectionTitle}>POD Zone List</span>
+                <button
+                    className={styles.brandHistoryButton}
+                    onClick={handleAddZoneClick}
+                >
+                    <img className={styles.brandImg} src={Add} alt="Add Brand" />
+                    <span>Add Zone</span>
+                </button>
+            </div>
             <table className={`table ${styles.customTable}`}>
                 <thead>
                     <tr>
@@ -54,7 +78,6 @@ const PODZoneHistory = () => {
                         <th>Assigned Date</th>
                         <th>Area Name</th>
                         <th>Status</th>
-                        <th>Zone Assign</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -64,15 +87,6 @@ const PODZoneHistory = () => {
                             <td>{vehicle.vehicle_number}</td>
                             <td>{vehicle.vehicle_type}</td>
                             <td>{vehicle.vehicle_number}</td>
-                            <td>
-                                <div className={styles.editContent}>
-                                    <img
-                                        src={AddZone}
-                                        alt='add'
-                                        onClick={handleAddClick} // Open modal on click
-                                    />
-                                </div>
-                            </td>
                         </tr>
                     ))}
                 </tbody>
@@ -85,14 +99,26 @@ const PODZoneHistory = () => {
             <Modal
                 isOpen={isModalOpen}
                 onClose={handleCloseModal}
-                onAssign={handleAssign} // Assign button callback
+                buttonName="Add"
+                onAssign={() => {
+                    console.log('Add Zone action');
+                    handleCloseModal();
+                }}
             >
-                <div className={styles.modalHeading}>Add Zone</div>
-                <input
-                    type="text"
-                    placeholder="Enter Zone ID"
-                    className={styles.inputField}
-                />
+                <div className="modalHeading">Add New Zone</div>
+                <div className={styles.modalContainer}>
+                    <Select
+                        options={options}
+                        placeholder="Select Area"
+                    />
+                    <GoogleMap
+                        mapContainerClassName={styles.mapResponsive}
+                        center={defaultCoordinates}
+                        zoom={12}
+                    >
+                        <Marker position={defaultCoordinates} />
+                    </GoogleMap>
+                </div>
             </Modal>
         </div>
     );

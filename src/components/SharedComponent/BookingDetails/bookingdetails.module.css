@@ -34,6 +34,18 @@
     color:  #00ffc3;
     font-size: 16px;
 }
+/* start the main heading section */
+.brandButtonContainer{
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+}
+.brandMainHeading{
+  font-size: 28px;
+  font-weight: 600;
+  color: #00ffc3;
+}
+/* end the main heading section */
 /* start the accordion section */
 .accordionContainer {
     /* border: 2px solid #00ffc3; */
@@ -120,7 +132,7 @@
   border: 1px solid #00ffc3;
   background-color: #000000;
   color: #fff;
-  padding: 12px 16px;
+  padding: 10px 16px;
   border-radius: 8px;
 }
 .iconButton.active {

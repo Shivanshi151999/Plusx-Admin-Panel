@@ -333,3 +333,28 @@ table{
   width: 100%;
 }
 /* End the assign modal css */
+/* Start the react repsonsive modal */
+.react-responsive-modal-closeButton {
+  position: absolute;
+  top: 4px !important;
+  right: 4px !important;
+  width: 16px !important;
+  height: 16px !important;
+  border: none;
+  padding: 0px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center !important;
+  align-items: center !important;
+}
+.react-responsive-modal-closeButton svg {
+  fill: white !important;
+}
+.react-responsive-modal-modal {
+
+  text-align: center !important;
+  background: #000000 !important;
+  border-radius: 10px !important;
+  border: 1px solid #00ffc3 !important;
+}
+/* End the react resposnsive modal */
