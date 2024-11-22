@@ -5,60 +5,81 @@
   padding: 20px;
   color: #ffffff;
 }
-.addShopContainer::-webkit-scrollbar{
+
+.addShopContainer::-webkit-scrollbar {
   display: none;
 }
-.shoplistContainer{
+.mainShopContainer{
+  display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+    justify-content: start;
+}
+.mainAddSection{
+  width: 100%;
+  display: flex;
+  justify-content: end;
+}
+.shoplistContainer {
   background-color: #242424;
   height: 94.2vh;
   overflow: scroll;
   padding: 20px;
   color: #ffffff;
 }
-.addButtons{
+
+.addButtons {
   color: #000000;
-    background-color: #00ffc3;
-    padding: 10px 26px;
-    border-radius: 10px;
-    border: none;
-    font-size: 18px;
-    font-weight: 600;
+  background-color: #00ffc3;
+  padding: 10px 26px;
+  border-radius: 10px;
+  border: none;
+  font-size: 18px;
+  font-weight: 600;
 }
-.shoplistContainer::-webkit-scrollbar{
- display: none;
+
+.shoplistContainer::-webkit-scrollbar {
+  display: none;
 }
-.textarea{
+
+.textarea {
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 20px;
 }
-.mapMainContainer{
+
+.mapMainContainer {
   display: flex;
   justify-content: start;
   align-items: center;
   gap: 20px;
   width: 100%;
 }
-.mapEmbedContainer{
+
+.mapEmbedContainer {
   width: 100%;
   margin-top: 10px;
   display: flex;
   gap: 20px;
-  justify-content:start;
+  justify-content: start;
 }
-.mapContainer{
+
+.mapContainer {
   width: 400px;
   position: relative;
   height: auto;
   border-radius: 10px;
 }
-.mapContainer img{
+
+.mapContainer img {
   width: 350px;
   height: auto;
   border-radius: 6px;
 }
-.addShopFormSection{
+
+.addShopFormSection {
   padding: 30px;
   border-radius: 14px;
   border: 1px solid #00ffc3;
@@ -66,6 +87,7 @@
   display: flex;
   flex-direction: column;
 }
+
 .closeButton {
   position: absolute;
   display: flex;
@@ -86,28 +108,32 @@
   align-items: center;
 }
 
-.addHeading{
+.addHeading {
   color: #00ffc3;
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 20px;
 }
-.addShopInputContainer{
+
+.addShopInputContainer {
   width: 100%;
   display: flex;
   flex-direction: column;
   row-gap: 6px;
 }
+
 .formSection {
   display: flex;
   flex-direction: column;
   row-gap: 20px;
 }
-.addShopLabel{
+
+.addShopLabel {
   font-size: 18px;
   color: #ffffff;
   font-weight: 500;
 }
+
 .row {
   display: flex;
   justify-content: space-between;
@@ -124,6 +150,7 @@
   font-size: 16px;
   width: 100%;
 }
+
 .inputFieldFull {
   width: 100%;
   padding: 10px;
@@ -137,12 +164,14 @@
   align-items: center;
   column-gap: 20px;
 }
+
 .selectWrapper {
   position: relative;
   display: inline-block;
   width: 100%;
 }
-.selectField{
+
+.selectField {
   outline: none;
   background-color: #242424;
   border: none;
@@ -152,7 +181,7 @@
   font-size: 16px;
   width: 100%;
   appearance: none;
-  cursor:  pointer;
+  cursor: pointer;
 }
 
 .dropdownIcon {
@@ -162,9 +191,10 @@
   right: 10px;
   pointer-events: none;
   transform: translateY(-50%);
-  font-size: 16px; 
-  color: #ffffff; 
+  font-size: 16px;
+  color: #ffffff;
 }
+
 .addButton {
   border: 1px solid #00ffc3 !important;
   background-color: #00ffc3;
@@ -179,17 +209,21 @@
   justify-content: center;
   column-gap: 10px;
 }
+
 .addButton:hover {
-background-color: #000000;
-color: #ffffff;
+  background-color: #000000;
+  color: #ffffff;
 }
-.addButton img{
+
+.addButton img {
   width: 16px;
 }
-.addButton span{
+
+.addButton span {
   font-size: 18px;
   font-weight: 600;
 }
+
 .scheduleSection {
   display: flex;
   flex-direction: column;
@@ -218,9 +252,11 @@ color: #ffffff;
   gap: 20px;
   margin-bottom: 10px;
 }
-.dayLabel{
+
+.dayLabel {
   width: 220px;
 }
+
 .timeField {
   outline: none;
   width: 80%;
@@ -230,7 +266,8 @@ color: #ffffff;
   border-radius: 4px;
   color: #ffffff !important;
 }
-.textAreaField{
+
+.textAreaField {
   outline: none;
   background-color: #242424;
   border: none;
@@ -240,28 +277,33 @@ color: #ffffff;
   font-size: 16px;
   width: 100%;
 }
-.addShopAddressSection{
+
+.addShopAddressSection {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   width: 100%;
   gap: 6px;
 }
-.addShopAddress{
+
+.addShopAddress {
   display: flex;
   column-gap: 20px;
   row-gap: 6px;
   width: 100%;
 }
-.timeSlotContainer{
+
+.timeSlotContainer {
   display: flex;
   flex-direction: column;
   row-gap: 14px;
 }
-.classTimeslot{
+
+.classTimeslot {
   width: 100px;
 }
-.inputLabel{
+
+.inputLabel {
   width: 100%;
   display: flex;
   gap: 20px;
@@ -280,7 +322,7 @@ color: #ffffff;
   width: 100%;
   font-size: 18px;
   margin-bottom: 10px;
-  color: #ffffff; 
+  color: #ffffff;
 }
 
 .fileDropZone {
@@ -288,7 +330,7 @@ color: #ffffff;
   width: 100%;
   padding: 40px;
   border-radius: 14px;
-background-color: #242424;
+  background-color: #242424;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -319,14 +361,14 @@ background-color: #242424;
 }
 
 .previewImage {
-width: 200px;
-height: 200px;
+  width: 200px;
+  height: 200px;
   object-fit: cover;
 }
 
 .removeButton {
   position: absolute;
-  background-color:#00ffc3;
+  background-color: #00ffc3;
   color: #000000 !important;
   padding: 0px;
   top: 5px;
@@ -339,208 +381,219 @@ height: 200px;
 
 
 .galleryContainer {
-display: flex;
-flex-wrap: wrap;
-gap: 10px;
-padding: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 10px;
 }
 
 .imageContainer {
-position: relative;
-/* width: 150px;
+  position: relative;
+  /* width: 150px;
 height: 150px; */
-overflow: hidden;
-border-radius: 8px;
+  overflow: hidden;
+  border-radius: 8px;
 }
 
 .previewImage {
-width: 200px;
-height: 170px;
-object-fit: cover;
-border-radius: 8px;
+  width: 200px;
+  height: 170px;
+  object-fit: cover;
+  border-radius: 8px;
 }
 
 .removesButton {
-position: absolute;
-top: 5px;
-right: 5px;
-background: #fff;
-border: none;
-border-radius: 50%;
-cursor: pointer;
-padding: 2px;
-box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.2);
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: #fff;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  padding: 2px;
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.2);
 }
 
 .galleryContainer::-webkit-scrollbar {
-width: 6px;
+  width: 6px;
 }
 
 .galleryContainer::-webkit-scrollbar-thumb {
-background-color: #cccccc;
-border-radius: 3px;
+  background-color: #cccccc;
+  border-radius: 3px;
 }
 
 
 .editButton {
-width: 100%;
-display: flex;
-justify-content: center;
-align-items: center;
-column-gap: 30px;
-cursor: pointer;
-margin-top: 20px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 30px;
+  cursor: pointer;
+  margin-top: 20px;
 }
 
 .editCancelBtn {
-background-color: #ffffff;
-padding: 10px 26px;
-border-radius: 10px;
-border: none;
-font-size: 18px;
-font-weight: 600;
-color: #000000;
+  background-color: #ffffff;
+  padding: 10px 26px;
+  border-radius: 10px;
+  border: none;
+  font-size: 18px;
+  font-weight: 600;
+  color: #000000;
 }
 
 .editSubmitBtn {
   border: 1px solid #00ffc3;
-color: #000000;
-background-color: #00ffc3;
-padding: 10px 26px;
-border-radius: 10px;
-border: none;
-font-size: 18px;
-font-weight: 600;
+  color: #000000;
+  background-color: #00ffc3;
+  padding: 10px 26px;
+  border-radius: 10px;
+  border: none;
+  font-size: 18px;
+  font-weight: 600;
 }
+
 .editCancelBtn:hover,
 .editSubmitBtn:hover {
   background-color: #000000;
   color: #ffffff;
   border: 1px solid #00ffc3;
-  }
+}
+
+/* Container for toggle switch */
 /* Container for toggle switch */
 .toggleContainer {
-width: 300px;
-display: flex;
-align-items: center;
-justify-content: space-between;
-background-color: #242424;
-padding: 18px 10px;
-border-radius: 14px;
-border: 1px solid #00ffc3;
+  width: 220px;
+  display: flex;
+  gap: 20px;
+  padding: 18px 10px;
+  border-radius: 14px;
+  background-color: #242424;
+  border: 1px solid #00ffc3;
 }
 
 /* Label for status */
 .statusLabel {
-color: #ffffff;
-font-size: 18px;
+  color: #ffffff;
+  font-size: 18px;
 }
 
 /* Toggle switch area */
 .toggleSwitch {
-display: flex;
-align-items: center;
-cursor: pointer;
-border-radius: 20px;
-padding: 5px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  gap: 10px;
+  /* Space between the slider and text */
 }
 
-/* Toggle labels for Un-active and Active */
-.toggleLabel {
-color: #00ffc3;
-font-size: 12px;
-padding: 0 6px;
-}
-
-.toggleLabel.active {
-color: #00ffc3;
-}
-
-.toggleLabel.inactive {
-color: #828282;
-}
-
-/* Toggle button container */
+/* Toggle button area */
 .toggleButton {
-position: relative;
-border: 2px solid #00ffc3;
-background-color: #242424;
-border-radius: 6px;
-width: 60px;
-height: 28px;
-margin: 0 6px;
-transition: background-color 0.3s ease;
+  position: relative;
+  border: 2px solid;
+  border-radius: 6px;
+  width: 60px;
+  height: 34px;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
 }
 
-/* Active state background */
-.toggleButton.active {
-border: 2px solid #00ffc3;
+.toggleButton.activeToggle {
+  border-color: #00ffc3;
 }
 
-/* Slider inside the button */
+.toggleButton.inactiveToggle {
+  border-color: #ffffff;
+}
+
 .slider {
-position: absolute;
-top: 50%;
-left: 0px;
-width: 26px;
-height: 26px;
-background-color: #00ffc3;
-border-radius: 4px;
-transform: translateY(-50%);
-transition: all 0.3s ease;
+  position: absolute;
+  top: 50%;
+  left: 0px;
+  width: 28px;
+  height: 30px;
+  background-color: #ffffff;
+  border-radius: 0px;
+  transform: translateY(-50%);
+  transition: left 0.3s ease, background-color 0.3s ease;
 }
 
-.toggleButton.active .slider {
-left: 30px;
+.toggleButton.activeToggle .slider {
+  left: 28px;
+  background-color: #00ffc3;
 }
-.error{
-font-size: 12px;
-display: flex;
-align-items: start;
-justify-content: start;
-text-align: start;
-color: red !important;
-width: 100% !important;
-margin-bottom: 0px !important;
+
+.toggleButton.inactiveToggle .slider {
+  background-color: #ffffff;
 }
+
+.toggleText {
+  font-size: 14px;
+  transition: color 0.3s ease;
+}
+
+.toggleText.activeText {
+  color: #00ffc3;
+}
+
+.toggleText.inactiveText {
+  color: #ffffff;
+  width: 60px;
+}
+
+.error {
+  font-size: 12px;
+  display: flex;
+  align-items: start;
+  justify-content: start;
+  text-align: start;
+  color: red !important;
+  width: 100% !important;
+  margin-bottom: 0px !important;
+}
+
 /* End the feature section */
 
 /* Start the checkmark design */
 .checkboxInput {
-margin-right: 10px;
-} 
-.arrow {
-font-size: 12px;
-font-weight: 800;
+  margin-right: 10px;
 }
+
+.arrow {
+  font-size: 12px;
+  font-weight: 800;
+}
+
 .checkboxInput {
-display: none;
+  display: none;
 }
 
 .checkmark {
-position: relative;
-display: inline-block;
-width: 16px;
-height: 16px;
-border: 1px solid #00ffc3;
-border-radius: 2px; 
-cursor: pointer; 
-background-color: #000000;
-transition: background-color 0.3s, border-color 0.3s; 
+  position: relative;
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 1px solid #00ffc3;
+  border-radius: 2px;
+  cursor: pointer;
+  background-color: #000000;
+  transition: background-color 0.3s, border-color 0.3s;
 }
+
 /* Style when checkbox is checked */
-.checkboxInput:checked + .checkmark {
-background-color: #00ffc3; 
-border-color:#00ffc3 ; 
+.checkboxInput:checked+.checkmark {
+  background-color: #00ffc3;
+  border-color: #00ffc3;
 }
 
 /* Checkmark */
 .checkmark::after {
-content: "";
-position: absolute;
-display: none; 
+  content: "";
+  position: absolute;
+  display: none;
 }
 
-.checkboxInput:checked + .checkmark::after {
-display: block; 
+.checkboxInput:checked+.checkmark::after {
+  display: block;
 }

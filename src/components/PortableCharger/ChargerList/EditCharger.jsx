@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from './addcharger.module.css';
-import { AiOutlineClose, AiOutlineDown, AiOutlineUp } from 'react-icons/ai';
+import { AiOutlineClose } from 'react-icons/ai';
 import UploadIcon from '../../../assets/images/uploadicon.svg';
 import { postRequestWithToken, postRequestWithTokenAndFile } from '../../../api/Requests';
 import { toast, ToastContainer } from 'react-toastify';
@@ -10,18 +10,18 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Select from 'react-select';
 
 const EditPortableCharger = () => {
-    const userDetails                         = JSON.parse(sessionStorage.getItem('userDetails')); 
-    const navigate                            = useNavigate()
-    const {chargerId}                         = useParams()
-    const [details, setDetails]               = useState()
-    const [file, setFile]                     = useState();
+    const userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
+    const navigate = useNavigate()
+    const { chargerId } = useParams()
+    const [details, setDetails] = useState()
+    const [file, setFile] = useState();
 
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const [chargerName, setChargerName]       = useState("");
-    const [chargerPrice, setChargerPrice]     = useState("");
-    const [chargerType, setChargerType]       = useState("");
+    const [chargerName, setChargerName] = useState("");
+    const [chargerPrice, setChargerPrice] = useState("");
+    const [chargerType, setChargerType] = useState("");
     const [chargerFeature, setChargerFeature] = useState("");
-    const [errors, setErrors]                 = useState({});
+    const [errors, setErrors] = useState({});
 
     const handleFileChange = (event) => {
         const selectedFile = event.target.files[0];
@@ -29,7 +29,7 @@ const EditPortableCharger = () => {
             setFile(selectedFile);
             setErrors((prev) => ({ ...prev, file: "" }));
         } else {
-            toast('Please upload a valid image file.', {type:'error'})
+            toast('Please upload a valid image file.', { type: 'error' })
         }
     };
 
@@ -93,12 +93,12 @@ const EditPortableCharger = () => {
             postRequestWithTokenAndFile('edit-charger', formData, async (response) => {
                 if (response.code === 200) {
                     toast(response.message[0], { type: "success" });
-                    
+
                     setTimeout(() => {
                         navigate('/portable-charger/charger-list')
                     }, 2000);
                 } else {
-                    toast(response.message[0], {type:'error'})
+                    toast(response.message[0], { type: 'error' })
                     console.log('error in edit-charger api', response);
                 }
             });
@@ -142,7 +142,7 @@ const EditPortableCharger = () => {
     const [isActive, setIsActive] = useState(false);
 
     const handleToggle = () => {
-        setIsActive(!isActive);
+        setIsActive((prevState) => !prevState);
     };
 
     return (
@@ -150,9 +150,9 @@ const EditPortableCharger = () => {
             <h2 className={styles.title}>Edit Charger</h2>
             <div className={styles.chargerSection}>
                 <form className={styles.form} onSubmit={handleSubmit}>
-                <ToastContainer />
+                    <ToastContainer />
                     <div className={styles.row}>
-                        
+
                         <div className={styles.inputGroup}>
                             <label className={styles.label}>Charger Name</label>
                             <input
@@ -216,14 +216,17 @@ const EditPortableCharger = () => {
                     <div className={styles.toggleContainer}>
                         <label className={styles.statusLabel}>Status</label>
                         <div className={styles.toggleSwitch} onClick={handleToggle}>
-                            <span className={`${styles.toggleLabel} ${!isActive ? styles.inactive : ''}`}>
-                            In-Active
-                            </span>
-                            <div className={`${styles.toggleButton} ${isActive ? styles.active : ''}`}>
+                            <div
+                                className={`${styles.toggleButton} ${isActive ? styles.activeToggle : styles.inactiveToggle
+                                    }`}
+                            >
                                 <div className={styles.slider}></div>
                             </div>
-                            <span className={`${styles.toggleLabel} ${isActive ? styles.active : ''}`}>
-                                Active
+                            <span
+                                className={`${styles.toggleText} ${isActive ? styles.activeText : styles.inactiveText
+                                    }`}
+                            >
+                                {isActive ? 'Active' : 'Inactive'}
                             </span>
                         </div>
                     </div>
@@ -265,7 +268,7 @@ const EditPortableCharger = () => {
                                 </div>
                             )}
                         </div>
-                        {errors.file && <p className={styles.error} style={{color: 'red'}}>{errors.file}</p>}
+                        {errors.file && <p className={styles.error} style={{ color: 'red' }}>{errors.file}</p>}
                     </div>
                     <div className={styles.actions}>
                         <button onClick={backButtonClick} className={styles.cancelBtn} type="button">Cancel</button>

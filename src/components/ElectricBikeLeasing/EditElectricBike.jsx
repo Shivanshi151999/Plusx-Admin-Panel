@@ -10,24 +10,24 @@ import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
 const EditElectricBike = () => {
-  const userDetails                     = JSON.parse(sessionStorage.getItem('userDetails')); 
-  const navigate                        = useNavigate()
-  const {rentalId}                      = useParams()
-  const [details, setDetails]           = useState()
-  const [file, setFile]                 = useState(null);
-  const [galleryFiles, setGalleryFiles] = useState([]);
-  const [errors, setErrors]             = useState({});
-  const [carName, setCarName]           = useState()
-  const [availableOn, setAvailableOn]   = useState()
-  const [description, setDescription]   = useState()
-  const [url, setUrl]                   = useState()
-  const [price, setPrice]               = useState()
-  const [carType, setCarType]           = useState(null);
-  const [contract, setContract]         = useState([])
-  const [feature, setFeature]           = useState([])
+    const userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
+    const navigate = useNavigate()
+    const { rentalId } = useParams()
+    const [details, setDetails] = useState()
+    const [file, setFile] = useState(null);
+    const [galleryFiles, setGalleryFiles] = useState([]);
+    const [errors, setErrors] = useState({});
+    const [carName, setCarName] = useState()
+    const [availableOn, setAvailableOn] = useState()
+    const [description, setDescription] = useState()
+    const [url, setUrl] = useState()
+    const [price, setPrice] = useState()
+    const [carType, setCarType] = useState(null);
+    const [contract, setContract] = useState([])
+    const [feature, setFeature] = useState([])
 
-  const contractDropdownRef = useRef(null);
-  const featureDropdownRef = useRef(null);
+    const contractDropdownRef = useRef(null);
+    const featureDropdownRef = useRef(null);
 
     const typeOpetions = [
         // { value: "", label: "Select Vehicle Type" },
@@ -58,284 +58,284 @@ const EditElectricBike = () => {
         setFeature(selectedOption)
     }
 
-  const handleFileChange = (event) => {
-    const selectedFile = event.target.files[0];
-    if (selectedFile && selectedFile.type.startsWith('image/')) {
-        setFile(selectedFile);
-        setErrors((prev) => ({ ...prev, file: "" }));
-    } else {
-        alert('Please upload a valid image file.');
-    }
-};
-
-const handleRemoveImage = () => setFile(null);
-
-const handleGalleryChange = (event) => {
-    const selectedFiles = Array.from(event.target.files);
-    const validFiles = selectedFiles.filter(file => file.type.startsWith('image/'));
-
-    if (validFiles.length !== selectedFiles.length) {
-        alert('Please upload only valid image files.');
-        return;
-    }
-
-    setGalleryFiles((prevFiles) => [...prevFiles, ...validFiles]);
-    setErrors((prev) => ({ ...prev, gallery: "" }));
-};
-
-const handleRemoveGalleryImage = (index) => {
-    setGalleryFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
-};
-
-const validateForm = () => {
-    const fields = [
-        { name: "carName", value: carName, errorMessage: "Bike Name is required." },
-        { name: "availableOn", value: availableOn, errorMessage: "Available On is required." },
-        { name: "carType", value: carType, errorMessage: "Bike Type is required." },
-        { name: "price", value: price, errorMessage: "Price is required." },
-        { name: "contract", value: contract, errorMessage: "Contract is required.", isArray: true},
-        { name: "feature", value: feature, errorMessage: "Feature is required.", isArray: true },
-        { name: "price", value: price, errorMessage: "Price is required." },
-        { name: "description", value: description, errorMessage: "Description is required." },
-        { name: "url", value: url, errorMessage: "Lease URL is required." },
-        // { name: "file", value: file, errorMessage: "Image is required." },
-        // { name: "gallery", value: galleryFiles, errorMessage: "Vehicle Gallery is required.", isArray: true },
-    ];
-
-    const newErrors = fields.reduce((errors, { name, value, errorMessage, isArray }) => {
-        if ((isArray && (!value || value.length === 0)) || (!isArray && !value)) {
-            errors[name] = errorMessage;
-        }
-        return errors;
-    }, {});
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-};
-
-const handleSubmit = (e) => {
-    e.preventDefault();
-    if (validateForm()) {
-        const formData = new FormData();
-        formData.append("userId", userDetails?.user_id);
-        formData.append("email", userDetails?.email);
-        formData.append("rental_id", rentalId);
-        formData.append("bike_name", carName);
-        formData.append("available_on", availableOn);
-        formData.append("description", description);
-        formData.append("price", price);
-        formData.append("lease_url", url);
-        formData.append("status", isActive === true ? 1 : 0);
-        if (carType) {
-            formData.append("bike_type", carType.value);
-        }
-        if (contract && contract.length > 0) {
-            const selectedContracts = contract.map(item => item.value).join(', ');
-            formData.append("contract", selectedContracts);
-        }
-        if (feature && feature.length > 0) {
-            const selectedFeatures = feature.map(item => item.value).join(', ');
-            formData.append("feature", selectedFeatures);
-        }
-        if (file) {
-            formData.append("cover_image", file);
-        }
-        if (galleryFiles.length > 0) {
-            galleryFiles.forEach((galleryFile) => {
-                formData.append("rental_gallery", galleryFile);
-            });
-        }
-        console.log('isActive',isActive);
-        
-        postRequestWithTokenAndFile('electric-bike-edit', formData, async (response) => {
-            if (response.status === 1) {
-                toast(response.message || response.message[0], {type:'success'})
-                setTimeout(() => {
-                    navigate('/electric-bike-list');
-                }, 1000);
-            } else {
-                toast(response.message || response.message[0], {type:'error'})
-                console.log('Error in electric-bike-edit API:', response);
-            }
-        } )
-    } else {
-        toast.error("Some fields are missing");
-    }
-};
-
-const fetchDetails = () => {
-    const obj = {
-        userId     : userDetails?.user_id,
-        email      : userDetails?.email,
-        rental_id  : rentalId
-    };
-    postRequestWithToken('electric-bike-detail', obj, (response) => {
-        
-        if (response.status === 1) {
-            const data = response?.bike || {};
-            setDetails(data);
-            setCarName(data?.bike_name || "");
-            setAvailableOn(data?.available_on || "");
-            // setCarType(data?.car_type || []);
-            setContract(data?.contract || "");
-            setDescription(data?.description || "");
-            // setFeature(data?.feature || []);
-            setUrl(data?.lease_url || "");
-            setFile(data?.image || "");
-            setGalleryFiles(response?.galleryData || []);
-            setPrice(data?.price)
-            setIsActive(data?.status === 1 ? true : false)
-
-            setContract(data?.contract ? data.contract.split(',').map(item => ({ label: item.trim(), value: item.trim() })) : []);
-            setFeature(data?.feature ? data.feature.split(',').map(item => ({ label: item.trim(), value: item.trim() })) : []);
-
-            const initialCarType = data.bike_type ? { label: data.bike_type, value: data.bike_type } : null;
-            setCarType(initialCarType);
-
+    const handleFileChange = (event) => {
+        const selectedFile = event.target.files[0];
+        if (selectedFile && selectedFile.type.startsWith('image/')) {
+            setFile(selectedFile);
+            setErrors((prev) => ({ ...prev, file: "" }));
         } else {
-            console.error('Error in electric-bike-detail API', response);
+            alert('Please upload a valid image file.');
         }
-    });
-};
+    };
 
-useEffect(() => {
-    if (!userDetails || !userDetails.access_token) {
-        navigate('/login');
-        return;
+    const handleRemoveImage = () => setFile(null);
+
+    const handleGalleryChange = (event) => {
+        const selectedFiles = Array.from(event.target.files);
+        const validFiles = selectedFiles.filter(file => file.type.startsWith('image/'));
+
+        if (validFiles.length !== selectedFiles.length) {
+            alert('Please upload only valid image files.');
+            return;
+        }
+
+        setGalleryFiles((prevFiles) => [...prevFiles, ...validFiles]);
+        setErrors((prev) => ({ ...prev, gallery: "" }));
+    };
+
+    const handleRemoveGalleryImage = (index) => {
+        setGalleryFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
+    };
+
+    const validateForm = () => {
+        const fields = [
+            { name: "carName", value: carName, errorMessage: "Bike Name is required." },
+            { name: "availableOn", value: availableOn, errorMessage: "Available On is required." },
+            { name: "carType", value: carType, errorMessage: "Bike Type is required." },
+            { name: "price", value: price, errorMessage: "Price is required." },
+            { name: "contract", value: contract, errorMessage: "Contract is required.", isArray: true },
+            { name: "feature", value: feature, errorMessage: "Feature is required.", isArray: true },
+            { name: "price", value: price, errorMessage: "Price is required." },
+            { name: "description", value: description, errorMessage: "Description is required." },
+            { name: "url", value: url, errorMessage: "Lease URL is required." },
+            // { name: "file", value: file, errorMessage: "Image is required." },
+            // { name: "gallery", value: galleryFiles, errorMessage: "Vehicle Gallery is required.", isArray: true },
+        ];
+
+        const newErrors = fields.reduce((errors, { name, value, errorMessage, isArray }) => {
+            if ((isArray && (!value || value.length === 0)) || (!isArray && !value)) {
+                errors[name] = errorMessage;
+            }
+            return errors;
+        }, {});
+
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (validateForm()) {
+            const formData = new FormData();
+            formData.append("userId", userDetails?.user_id);
+            formData.append("email", userDetails?.email);
+            formData.append("rental_id", rentalId);
+            formData.append("bike_name", carName);
+            formData.append("available_on", availableOn);
+            formData.append("description", description);
+            formData.append("price", price);
+            formData.append("lease_url", url);
+            formData.append("status", isActive === true ? 1 : 0);
+            if (carType) {
+                formData.append("bike_type", carType.value);
+            }
+            if (contract && contract.length > 0) {
+                const selectedContracts = contract.map(item => item.value).join(', ');
+                formData.append("contract", selectedContracts);
+            }
+            if (feature && feature.length > 0) {
+                const selectedFeatures = feature.map(item => item.value).join(', ');
+                formData.append("feature", selectedFeatures);
+            }
+            if (file) {
+                formData.append("cover_image", file);
+            }
+            if (galleryFiles.length > 0) {
+                galleryFiles.forEach((galleryFile) => {
+                    formData.append("rental_gallery", galleryFile);
+                });
+            }
+            console.log('isActive', isActive);
+
+            postRequestWithTokenAndFile('electric-bike-edit', formData, async (response) => {
+                if (response.status === 1) {
+                    toast(response.message || response.message[0], { type: 'success' })
+                    setTimeout(() => {
+                        navigate('/electric-bike-list');
+                    }, 1000);
+                } else {
+                    toast(response.message || response.message[0], { type: 'error' })
+                    console.log('Error in electric-bike-edit API:', response);
+                }
+            })
+        } else {
+            toast.error("Some fields are missing");
+        }
+    };
+
+    const fetchDetails = () => {
+        const obj = {
+            userId: userDetails?.user_id,
+            email: userDetails?.email,
+            rental_id: rentalId
+        };
+        postRequestWithToken('electric-bike-detail', obj, (response) => {
+
+            if (response.status === 1) {
+                const data = response?.bike || {};
+                setDetails(data);
+                setCarName(data?.bike_name || "");
+                setAvailableOn(data?.available_on || "");
+                // setCarType(data?.car_type || []);
+                setContract(data?.contract || "");
+                setDescription(data?.description || "");
+                // setFeature(data?.feature || []);
+                setUrl(data?.lease_url || "");
+                setFile(data?.image || "");
+                setGalleryFiles(response?.galleryData || []);
+                setPrice(data?.price)
+                setIsActive(data?.status === 1 ? true : false)
+
+                setContract(data?.contract ? data.contract.split(',').map(item => ({ label: item.trim(), value: item.trim() })) : []);
+                setFeature(data?.feature ? data.feature.split(',').map(item => ({ label: item.trim(), value: item.trim() })) : []);
+
+                const initialCarType = data.bike_type ? { label: data.bike_type, value: data.bike_type } : null;
+                setCarType(initialCarType);
+
+            } else {
+                console.error('Error in electric-bike-detail API', response);
+            }
+        });
+    };
+
+    useEffect(() => {
+        if (!userDetails || !userDetails.access_token) {
+            navigate('/login');
+            return;
+        }
+        fetchDetails();
+    }, []);
+
+    const handleCancel = () => {
+        navigate('/electric-car-list')
     }
-    fetchDetails();
-}, []);
 
-const handleCancel = () => {
-    navigate('/electric-car-list')
-}
+    const [isActive, setIsActive] = useState(false);
 
-const [isActive, setIsActive] = useState(false);
+    const handleToggle = () => {
+        setIsActive((prevState) => !prevState);
+    };
 
-const handleToggle = () => {
-    setIsActive(!isActive);
-};
-
-  return (
-    <div className={styles.addShopContainer}>
-         <ToastContainer />
-      <div className={styles.addHeading}>Edit Electric Bike</div>
-      <div className={styles.addShopFormSection}>
-        <form className={styles.formSection} onSubmit={handleSubmit}>
-          <div className={styles.row}>
-            <div className={styles.addShopInputContainer}>
-              <label className={styles.addShopLabel} htmlFor="modelName">Bike Name</label>
-              <input type="text" id="carName" 
-                placeholder="Bike Name" 
-                className={styles.inputField} 
-                value={carName}
-                onChange={(e) => setCarName(e.target.value)}
-                />
-                {errors.carName && <p className="error">{errors.carName}</p>}
-            </div>
-            <div className={styles.addShopInputContainer}>
-              <label className={styles.addShopLabel} htmlFor="contactNo">Available On</label>
-              <input type="text" 
-              id="availableOn" 
-              placeholder="Available On" 
-              className={styles.inputField} 
-              value={availableOn}
-                onChange={(e) => setAvailableOn(e.target.value)}
-              />
-              {errors.availableOn && <p className="error">{errors.availableOn}</p>}
-            </div>
-          </div>
-         
-          <div className={styles.row}>
-            <div className={styles.addShopInputContainer}>
-                <label className={styles.addShopLabel} htmlFor="vehicleType">Bike Type</label>
-                <Select
-                    options={typeOpetions}
-                    value={carType}
-                    onChange={handleVehicleType}
-                    placeholder="Select"
-                    isClearable
-                    className={styles.addShopSelect}
-                />
-                {errors.carType && <p className="error">{errors.carType}</p>}
-            </div>
-            <div className={styles.addShopInputContainer}>
-              <label className={styles.addShopLabel} htmlFor="email">Price</label>
-              <input type="text"
-               id="engine" 
-               placeholder="Price" 
-               className={styles.inputField} 
-               value={price}
-                onChange={(e) => setPrice(e.target.value)}
-               />
-               {errors.price && <p className="error">{errors.price}</p>}
-            </div>
-          </div>
-          <div className={styles.locationRow}>
-               <div className={styles.addShopInputContainer}>
-                    <label className={styles.addShopLabel} htmlFor="availableBrands">Contract</label>
-                    <div ref={contractDropdownRef}>
-                        <MultiSelect
-                            className={styles.addShopSelect}
-                            options={contractOptions}
-                            value={contract}
-                            onChange={handleContract}
-                            labelledBy="Charging For"
-                            closeOnChangedValue={false}
-                            closeOnSelect={false}
-                        />
-                        {errors.contract && <p className="error">{errors.contract}</p>}
+    return (
+        <div className={styles.addShopContainer}>
+            <ToastContainer />
+            <div className={styles.addHeading}>Edit Electric Bike</div>
+            <div className={styles.addShopFormSection}>
+                <form className={styles.formSection} onSubmit={handleSubmit}>
+                    <div className={styles.row}>
+                        <div className={styles.addShopInputContainer}>
+                            <label className={styles.addShopLabel} htmlFor="modelName">Bike Name</label>
+                            <input type="text" id="carName"
+                                placeholder="Bike Name"
+                                className={styles.inputField}
+                                value={carName}
+                                onChange={(e) => setCarName(e.target.value)}
+                            />
+                            {errors.carName && <p className="error">{errors.carName}</p>}
+                        </div>
+                        <div className={styles.addShopInputContainer}>
+                            <label className={styles.addShopLabel} htmlFor="contactNo">Available On</label>
+                            <input type="text"
+                                id="availableOn"
+                                placeholder="Available On"
+                                className={styles.inputField}
+                                value={availableOn}
+                                onChange={(e) => setAvailableOn(e.target.value)}
+                            />
+                            {errors.availableOn && <p className="error">{errors.availableOn}</p>}
+                        </div>
                     </div>
-                </div>
 
-                <div className={styles.addShopInputContainer}>
-                    <label className={styles.addShopLabel} htmlFor="availableBrands">Feature</label>
-                    <div ref={featureDropdownRef}>
-                        <MultiSelect
-                            className={styles.addShopSelect}
-                            options={featureOptions}
-                            value={feature}
-                            onChange={handleFeature}
-                            labelledBy="Feature"
-                            closeOnChangedValue={false}
-                            closeOnSelect={false}
-                        />
-                        {errors.feature && <p className="error">{errors.feature}</p>}
+                    <div className={styles.row}>
+                        <div className={styles.addShopInputContainer}>
+                            <label className={styles.addShopLabel} htmlFor="vehicleType">Bike Type</label>
+                            <Select
+                                options={typeOpetions}
+                                value={carType}
+                                onChange={handleVehicleType}
+                                placeholder="Select"
+                                isClearable
+                                className={styles.addShopSelect}
+                            />
+                            {errors.carType && <p className="error">{errors.carType}</p>}
+                        </div>
+                        <div className={styles.addShopInputContainer}>
+                            <label className={styles.addShopLabel} htmlFor="email">Price</label>
+                            <input type="text"
+                                id="engine"
+                                placeholder="Price"
+                                className={styles.inputField}
+                                value={price}
+                                onChange={(e) => setPrice(e.target.value)}
+                            />
+                            {errors.price && <p className="error">{errors.price}</p>}
+                        </div>
                     </div>
-                </div>
-            
-          </div>
-          <div className={styles.row}>
-            <div className={styles.addShopInputContainer}>
-              <label className={styles.addShopLabel} htmlFor="modelName">Description</label>
-              <input 
-              type="text" 
-              id="description" 
-              placeholder="Description" 
-              className={styles.inputField} 
-              value={description}
-                onChange={(e) => setDescription(e.target.value)}
-              />
-              {errors.description && <p className="error">{errors.description}</p>}
-            </div>
-            
-          </div>
-          <div className={styles.row}>
-            <div className={styles.addShopInputContainer}>
-              <label className={styles.addShopLabel} htmlFor="modelName">Lease URL</label>
-              <input 
-              type="text" 
-              id="feature" 
-              placeholder="Lease URL" 
-              className={styles.inputField} 
-              value={url}
-                onChange={(e) => setUrl(e.target.value)}
-              />
-              {errors.url && <p className="error">{errors.url}</p>}
-            </div>
-            
-          </div>
-          <div className={styles.toggleContainer}>
+                    <div className={styles.locationRow}>
+                        <div className={styles.addShopInputContainer}>
+                            <label className={styles.addShopLabel} htmlFor="availableBrands">Contract</label>
+                            <div ref={contractDropdownRef}>
+                                <MultiSelect
+                                    className={styles.addShopSelect}
+                                    options={contractOptions}
+                                    value={contract}
+                                    onChange={handleContract}
+                                    labelledBy="Charging For"
+                                    closeOnChangedValue={false}
+                                    closeOnSelect={false}
+                                />
+                                {errors.contract && <p className="error">{errors.contract}</p>}
+                            </div>
+                        </div>
+
+                        <div className={styles.addShopInputContainer}>
+                            <label className={styles.addShopLabel} htmlFor="availableBrands">Feature</label>
+                            <div ref={featureDropdownRef}>
+                                <MultiSelect
+                                    className={styles.addShopSelect}
+                                    options={featureOptions}
+                                    value={feature}
+                                    onChange={handleFeature}
+                                    labelledBy="Feature"
+                                    closeOnChangedValue={false}
+                                    closeOnSelect={false}
+                                />
+                                {errors.feature && <p className="error">{errors.feature}</p>}
+                            </div>
+                        </div>
+
+                    </div>
+                    <div className={styles.row}>
+                        <div className={styles.addShopInputContainer}>
+                            <label className={styles.addShopLabel} htmlFor="modelName">Description</label>
+                            <input
+                                type="text"
+                                id="description"
+                                placeholder="Description"
+                                className={styles.inputField}
+                                value={description}
+                                onChange={(e) => setDescription(e.target.value)}
+                            />
+                            {errors.description && <p className="error">{errors.description}</p>}
+                        </div>
+
+                    </div>
+                    <div className={styles.row}>
+                        <div className={styles.addShopInputContainer}>
+                            <label className={styles.addShopLabel} htmlFor="modelName">Lease URL</label>
+                            <input
+                                type="text"
+                                id="feature"
+                                placeholder="Lease URL"
+                                className={styles.inputField}
+                                value={url}
+                                onChange={(e) => setUrl(e.target.value)}
+                            />
+                            {errors.url && <p className="error">{errors.url}</p>}
+                        </div>
+
+                    </div>
+                    {/* <div className={styles.toggleContainer}>
                         <label className={styles.statusLabel}>Status</label>
                         <div className={styles.toggleSwitch} onClick={handleToggle}>
                             <span className={`${styles.toggleLabel} ${!isActive ? styles.inactive : ''}`}>
@@ -346,6 +346,23 @@ const handleToggle = () => {
                             </div>
                             <span className={`${styles.toggleLabel} ${isActive ? styles.active : ''}`}>
                                 Inactive
+                            </span>
+                        </div>
+                    </div> */}
+                    <div className={styles.toggleContainer}>
+                        <label className={styles.statusLabel}>Status</label>
+                        <div className={styles.toggleSwitch} onClick={handleToggle}>
+                            <div
+                                className={`${styles.toggleButton} ${isActive ? styles.activeToggle : styles.inactiveToggle
+                                    }`}
+                            >
+                                <div className={styles.slider}></div>
+                            </div>
+                            <span
+                                className={`${styles.toggleText} ${isActive ? styles.activeText : styles.inactiveText
+                                    }`}
+                            >
+                                {isActive ? 'Active' : 'Inactive'}
                             </span>
                         </div>
                     </div>
@@ -407,20 +424,20 @@ const handleToggle = () => {
                                     {Array.isArray(galleryFiles) && galleryFiles.length > 0 ? (
                                         galleryFiles.map((file, index) => (
                                             <div className={styles.imageContainer} key={index}>
-                                            <img
-                                                key={index}
-                                                src={
-                                                    typeof file === 'string'
-                                                        ? `${process.env.REACT_APP_SERVER_URL}uploads/bike-rental-images/${file}`
-                                                        : URL.createObjectURL(file)
-                                                }
-                                                alt={`Preview ${index + 1}`}
-                                                className={styles.previewImage}
-                                            />
-                                            <button type="button" className={styles.removeButton} onClick={() => handleRemoveGalleryImage(index)}>
-                                            <AiOutlineClose size={20} style={{ padding: '2px' }} />
-                                        </button>
-                                        </div>
+                                                <img
+                                                    key={index}
+                                                    src={
+                                                        typeof file === 'string'
+                                                            ? `${process.env.REACT_APP_SERVER_URL}uploads/bike-rental-images/${file}`
+                                                            : URL.createObjectURL(file)
+                                                    }
+                                                    alt={`Preview ${index + 1}`}
+                                                    className={styles.previewImage}
+                                                />
+                                                <button type="button" className={styles.removeButton} onClick={() => handleRemoveGalleryImage(index)}>
+                                                    <AiOutlineClose size={20} style={{ padding: '2px' }} />
+                                                </button>
+                                            </div>
                                         ))
                                     ) : (
                                         <p>No images available</p>
@@ -430,14 +447,14 @@ const handleToggle = () => {
                         </div>
                         {errors.gallery && <p className="error">{errors.gallery}</p>}
                     </div>
-            <div className={styles.editButton}>
-                <button className={styles.editCancelBtn} onClick={() => handleCancel()}>Cancel</button>
-                <button type="submit" className={styles.editSubmitBtn}>Submit</button>
+                    <div className={styles.editButton}>
+                        <button className={styles.editCancelBtn} onClick={() => handleCancel()}>Cancel</button>
+                        <button type="submit" className={styles.editSubmitBtn}>Submit</button>
+                    </div>
+                </form>
             </div>
-        </form>
-      </div>
-    </div>
-  );
+        </div>
+    );
 };
 
 export default EditElectricBike;

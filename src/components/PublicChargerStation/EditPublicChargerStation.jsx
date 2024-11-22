@@ -329,11 +329,10 @@ const EditPublicChargerStation = () => {
         navigate('/public-charger-station-list')
     }
 
-    // Start the toogle button function
     const [isActive, setIsActive] = useState(false);
 
     const handleToggle = () => {
-        setIsActive(!isActive);
+        setIsActive((prevState) => !prevState);
     };
 
     return (
@@ -535,7 +534,7 @@ const EditPublicChargerStation = () => {
                             </div>
                         )}
                     </div>
-                    <div className={styles.toggleContainer}>
+                    {/* <div className={styles.toggleContainer}>
                         <label className={styles.statusLabel}>Status</label>
                         <div className={styles.toggleSwitch} onClick={handleToggle}>
                             <span className={`${styles.toggleLabel} ${!isActive ? styles.inactive : ''}`}>
@@ -546,6 +545,23 @@ const EditPublicChargerStation = () => {
                             </div>
                             <span className={`${styles.toggleLabel} ${isActive ? styles.active : ''}`}>
                                 Available
+                            </span>
+                        </div>
+                    </div> */}
+                    <div className={styles.toggleContainer}>
+                        <label className={styles.statusLabel}>Status</label>
+                        <div className={styles.toggleSwitch} onClick={handleToggle}>
+                            <div
+                                className={`${styles.toggleButton} ${isActive ? styles.activeToggle : styles.inactiveToggle
+                                    }`}
+                            >
+                                <div className={styles.slider}></div>
+                            </div>
+                            <span
+                                className={`${styles.toggleText} ${isActive ? styles.activeText : styles.inactiveText
+                                    }`}
+                            >
+                                {isActive ? ' Occupied' : 'Available'}
                             </span>
                         </div>
                     </div>

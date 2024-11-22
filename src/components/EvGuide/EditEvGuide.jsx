@@ -12,22 +12,22 @@ import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
 const EditEvGuide = () => {
-  const userDetails                     = JSON.parse(sessionStorage.getItem('userDetails')); 
-  const navigate                        = useNavigate()
-  const {vehicleId}                     = useParams()
-  const [details, setDetails]           = useState()
-  const [file, setFile]                 = useState(null);
-  const [galleryFiles, setGalleryFiles] = useState([]);
-  const [errors, setErrors]             = useState({});
-  const [modelName, setModelName]       = useState()
-  const [vehicleName, setVehicleName]   = useState()
-  const [engine, setEngine]             = useState()
-  const [horsePower, setHorsePower]     = useState()
-  const [maxSpeed, setMaxSpeed]         = useState()
-  const [price, setPrice]               = useState()
-  const [description, setDescription]   = useState()
-  const [feature, setFeature]           = useState()
-  const [vehicleType, setVehicleType]   = useState(null);
+    const userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
+    const navigate = useNavigate()
+    const { vehicleId } = useParams()
+    const [details, setDetails] = useState()
+    const [file, setFile] = useState(null);
+    const [galleryFiles, setGalleryFiles] = useState([]);
+    const [errors, setErrors] = useState({});
+    const [modelName, setModelName] = useState()
+    const [vehicleName, setVehicleName] = useState()
+    const [engine, setEngine] = useState()
+    const [horsePower, setHorsePower] = useState()
+    const [maxSpeed, setMaxSpeed] = useState()
+    const [price, setPrice] = useState()
+    const [description, setDescription] = useState()
+    const [feature, setFeature] = useState()
+    const [vehicleType, setVehicleType] = useState(null);
 
     const typeOpetions = [
         // { value: "", label: "Select Vehicle Type" },
@@ -39,281 +39,281 @@ const EditEvGuide = () => {
         setVehicleType(selectedOption)
     }
 
-  const handleFileChange = (event) => {
-    const selectedFile = event.target.files[0];
-    if (selectedFile && selectedFile.type.startsWith('image/')) {
-        setFile(selectedFile);
-        setErrors((prev) => ({ ...prev, file: "" }));
-    } else {
-        alert('Please upload a valid image file.');
-    }
-};
-
-const handleRemoveImage = () => setFile(null);
-
-const handleGalleryChange = (event) => {
-    const selectedFiles = Array.from(event.target.files);
-    const validFiles = selectedFiles.filter(file => file.type.startsWith('image/'));
-
-    if (validFiles.length !== selectedFiles.length) {
-        alert('Please upload only valid image files.');
-        return;
-    }
-
-    setGalleryFiles((prevFiles) => [...prevFiles, ...validFiles]);
-    setErrors((prev) => ({ ...prev, gallery: "" }));
-};
-
-const handleRemoveGalleryImage = (index) => {
-    setGalleryFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
-};
-
-const validateForm = () => {
-    const fields = [
-        { name: "modelName", value: modelName, errorMessage: "Model Name is required." },
-        { name: "vehicleName", value: vehicleName, errorMessage: "Vehicle Name is required." },
-        { name: "vehicleType", value: vehicleType, errorMessage: "Vehicle Type is required." },
-        { name: "engine", value: engine, errorMessage: "Engine is required." },
-        { name: "horsePower", value: horsePower, errorMessage: "Horse Power is required." },
-        { name: "maxSpeed", value: maxSpeed, errorMessage: "Max Speed is required." },
-        { name: "price", value: price, errorMessage: "Price is required." },
-        { name: "description", value: description, errorMessage: "Description is required." },
-        { name: "feature", value: feature, errorMessage: "Best Feature is required." },
-        // { name: "file", value: file, errorMessage: "Image is required." },
-        // { name: "gallery", value: galleryFiles, errorMessage: "Vehicle Gallery is required.", isArray: true },
-    ];
-
-    const newErrors = fields.reduce((errors, { name, value, errorMessage, isArray }) => {
-        if ((isArray && (!value || value.length === 0)) || (!isArray && !value)) {
-            errors[name] = errorMessage;
-        }
-        return errors;
-    }, {});
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-};
-
-const handleSubmit = (e) => {
-    e.preventDefault();
-    if (validateForm()) {
-        const formData = new FormData();
-        formData.append("userId", userDetails?.user_id);
-        formData.append("email", userDetails?.email);
-        formData.append("vehicle_id", vehicleId);
-        formData.append("vehicle_name", vehicleName);
-        formData.append("vehicle_model", modelName);
-        formData.append("description", description);
-        formData.append("engine", engine);
-        formData.append("horse_power", horsePower);
-        formData.append("max_speed", maxSpeed);
-        formData.append("price", price);
-        formData.append("best_feature", feature);
-        formData.append("status", isActive === true ? 1 : 0);
-        if (vehicleType) {
-            formData.append("vehicle_type", vehicleType.value);
-        }
-        if (file) {
-            formData.append("cover_image", file);
-        }
-        if (galleryFiles.length > 0) {
-            galleryFiles.forEach((galleryFile) => {
-                formData.append("vehicle_gallery", galleryFile);
-            });
-        }
-        postRequestWithTokenAndFile('ev-guide-update', formData, async (response) => {
-            if (response.status === 1) {
-                toast(response.message || response.message[0], {type:'success'})
-                setTimeout(() => {
-                    navigate('/ev-guide-list');
-                }, 1000);
-            } else {
-                toast(response.message || response.message[0], {type:'error'})
-                console.log('Error in ev-guide-update API:', response);
-            }
-        } )
-    } else {
-        toast.error("Some fields are missing");
-    }
-};
-
-const fetchDetails = () => {
-    const obj = {
-        userId     : userDetails?.user_id,
-        email      : userDetails?.email,
-        vehicle_id : vehicleId
-    };
-    postRequestWithToken('ev-guide-details', obj, (response) => {
-        
-        if (response.code === 200) {
-            const data = response?.data || {};
-
-            setDetails(data);
-            setModelName(data?.vehicle_model || "");
-            // setChargingFor(data?.charging_for || []);
-            setVehicleType(data?.vehicle_type || []);
-            setVehicleName(data?.vehicle_name || "");
-            setDescription(data?.description || "");
-            setFeature(data?.best_feature || "");
-            setEngine(data?.engine || "");
-            setHorsePower(data?.horse_power || "");
-            setMaxSpeed(data?.max_speed || "");
-            setFile(data?.image || "");
-            setGalleryFiles(response?.gallery_data || []);
-            setPrice(data?.price)
-            setIsActive(data?.status === 1 ? true : false)
-
-            const initialVehicleType = data.vehicle_type ? { label: data.vehicle_type, value: data.vehicle_type } : null;
-            setVehicleType(initialVehicleType);
-
+    const handleFileChange = (event) => {
+        const selectedFile = event.target.files[0];
+        if (selectedFile && selectedFile.type.startsWith('image/')) {
+            setFile(selectedFile);
+            setErrors((prev) => ({ ...prev, file: "" }));
         } else {
-            console.error('Error in ev-guide-details API', response);
+            alert('Please upload a valid image file.');
         }
-    });
-};
+    };
 
-useEffect(() => {
-    if (!userDetails || !userDetails.access_token) {
-        navigate('/login');
-        return;
+    const handleRemoveImage = () => setFile(null);
+
+    const handleGalleryChange = (event) => {
+        const selectedFiles = Array.from(event.target.files);
+        const validFiles = selectedFiles.filter(file => file.type.startsWith('image/'));
+
+        if (validFiles.length !== selectedFiles.length) {
+            alert('Please upload only valid image files.');
+            return;
+        }
+
+        setGalleryFiles((prevFiles) => [...prevFiles, ...validFiles]);
+        setErrors((prev) => ({ ...prev, gallery: "" }));
+    };
+
+    const handleRemoveGalleryImage = (index) => {
+        setGalleryFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
+    };
+
+    const validateForm = () => {
+        const fields = [
+            { name: "modelName", value: modelName, errorMessage: "Model Name is required." },
+            { name: "vehicleName", value: vehicleName, errorMessage: "Vehicle Name is required." },
+            { name: "vehicleType", value: vehicleType, errorMessage: "Vehicle Type is required." },
+            { name: "engine", value: engine, errorMessage: "Engine is required." },
+            { name: "horsePower", value: horsePower, errorMessage: "Horse Power is required." },
+            { name: "maxSpeed", value: maxSpeed, errorMessage: "Max Speed is required." },
+            { name: "price", value: price, errorMessage: "Price is required." },
+            { name: "description", value: description, errorMessage: "Description is required." },
+            { name: "feature", value: feature, errorMessage: "Best Feature is required." },
+            // { name: "file", value: file, errorMessage: "Image is required." },
+            // { name: "gallery", value: galleryFiles, errorMessage: "Vehicle Gallery is required.", isArray: true },
+        ];
+
+        const newErrors = fields.reduce((errors, { name, value, errorMessage, isArray }) => {
+            if ((isArray && (!value || value.length === 0)) || (!isArray && !value)) {
+                errors[name] = errorMessage;
+            }
+            return errors;
+        }, {});
+
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (validateForm()) {
+            const formData = new FormData();
+            formData.append("userId", userDetails?.user_id);
+            formData.append("email", userDetails?.email);
+            formData.append("vehicle_id", vehicleId);
+            formData.append("vehicle_name", vehicleName);
+            formData.append("vehicle_model", modelName);
+            formData.append("description", description);
+            formData.append("engine", engine);
+            formData.append("horse_power", horsePower);
+            formData.append("max_speed", maxSpeed);
+            formData.append("price", price);
+            formData.append("best_feature", feature);
+            formData.append("status", isActive === true ? 1 : 0);
+            if (vehicleType) {
+                formData.append("vehicle_type", vehicleType.value);
+            }
+            if (file) {
+                formData.append("cover_image", file);
+            }
+            if (galleryFiles.length > 0) {
+                galleryFiles.forEach((galleryFile) => {
+                    formData.append("vehicle_gallery", galleryFile);
+                });
+            }
+            postRequestWithTokenAndFile('ev-guide-update', formData, async (response) => {
+                if (response.status === 1) {
+                    toast(response.message || response.message[0], { type: 'success' })
+                    setTimeout(() => {
+                        navigate('/ev-guide-list');
+                    }, 1000);
+                } else {
+                    toast(response.message || response.message[0], { type: 'error' })
+                    console.log('Error in ev-guide-update API:', response);
+                }
+            })
+        } else {
+            toast.error("Some fields are missing");
+        }
+    };
+
+    const fetchDetails = () => {
+        const obj = {
+            userId: userDetails?.user_id,
+            email: userDetails?.email,
+            vehicle_id: vehicleId
+        };
+        postRequestWithToken('ev-guide-details', obj, (response) => {
+
+            if (response.code === 200) {
+                const data = response?.data || {};
+
+                setDetails(data);
+                setModelName(data?.vehicle_model || "");
+                // setChargingFor(data?.charging_for || []);
+                setVehicleType(data?.vehicle_type || []);
+                setVehicleName(data?.vehicle_name || "");
+                setDescription(data?.description || "");
+                setFeature(data?.best_feature || "");
+                setEngine(data?.engine || "");
+                setHorsePower(data?.horse_power || "");
+                setMaxSpeed(data?.max_speed || "");
+                setFile(data?.image || "");
+                setGalleryFiles(response?.gallery_data || []);
+                setPrice(data?.price)
+                setIsActive(data?.status === 1 ? true : false)
+
+                const initialVehicleType = data.vehicle_type ? { label: data.vehicle_type, value: data.vehicle_type } : null;
+                setVehicleType(initialVehicleType);
+
+            } else {
+                console.error('Error in ev-guide-details API', response);
+            }
+        });
+    };
+
+    useEffect(() => {
+        if (!userDetails || !userDetails.access_token) {
+            navigate('/login');
+            return;
+        }
+        fetchDetails();
+    }, []);
+
+
+    const handleCancel = () => {
+        navigate('/ev-guide-list')
     }
-    fetchDetails();
-}, []);
 
+    const [isActive, setIsActive] = useState(false);
 
-const handleCancel = () => {
-    navigate('/ev-guide-list')
-}
+    const handleToggle = () => {
+        setIsActive((prevState) => !prevState);
+    };
 
-const [isActive, setIsActive] = useState(false);
+    return (
+        <div className={styles.addShopContainer}>
+            <ToastContainer />
+            <div className={styles.addHeading}>Edit EV Guide</div>
+            <div className={styles.addShopFormSection}>
+                <form className={styles.formSection} onSubmit={handleSubmit}>
+                    <div className={styles.row}>
+                        <div className={styles.addShopInputContainer}>
+                            <label className={styles.addShopLabel} htmlFor="modelName">Model Name</label>
+                            <input type="text" id="modelName"
+                                placeholder="Model Name"
+                                className={styles.inputField}
+                                value={modelName}
+                                onChange={(e) => setModelName(e.target.value)}
+                            />
+                            {errors.modelName && <p className="error">{errors.modelName}</p>}
+                        </div>
+                        <div className={styles.addShopInputContainer}>
+                            <label className={styles.addShopLabel} htmlFor="contactNo">Vehicle Name</label>
+                            <input type="text"
+                                id="vehicleName"
+                                placeholder="Vehicle Name"
+                                className={styles.inputField}
+                                value={vehicleName}
+                                onChange={(e) => setVehicleName(e.target.value)}
+                            />
+                            {errors.vehicleName && <p className="error">{errors.vehicleName}</p>}
+                        </div>
+                    </div>
+                    <div className={styles.row}>
+                        <div className={styles.addShopInputContainer}>
+                            <label className={styles.addShopLabel} htmlFor="vehicleType">Vehicle Type</label>
+                            <Select
+                                options={typeOpetions}
+                                value={vehicleType}
+                                onChange={handleVehicleType}
+                                placeholder="Select"
+                                isClearable
+                                className={styles.addShopSelect}
+                            />
+                            {errors.vehicleType && <p className="error">{errors.vehicleType}</p>}
+                        </div>
+                        <div className={styles.addShopInputContainer}>
+                            <label className={styles.addShopLabel} htmlFor="email">Engine</label>
+                            <input type="text"
+                                id="engine"
+                                placeholder="Engine"
+                                className={styles.inputField}
+                                value={engine}
+                                onChange={(e) => setEngine(e.target.value)}
+                            />
+                            {errors.engine && <p className="error">{errors.engine}</p>}
+                        </div>
+                    </div>
+                    <div className={styles.locationRow}>
+                        <div className={styles.addShopInputContainer}>
+                            <label className={styles.addShopLabel} htmlFor="email">Horse Power</label>
+                            <input
+                                type="text"
+                                id="horsePower"
+                                placeholder="Horse Power"
+                                className={styles.inputField}
+                                value={horsePower}
+                                onChange={(e) => setHorsePower(e.target.value)}
+                            />
+                            {errors.horsePower && <p className="error">{errors.horsePower}</p>}
+                        </div>
+                        <div className={styles.addShopInputContainer}>
+                            <label className={styles.addShopLabel} htmlFor="email">Max Speed</label>
+                            <input
+                                type="text"
+                                id="maxSpeed"
+                                placeholder="Max Speed"
+                                className={styles.inputField}
+                                value={maxSpeed}
+                                onChange={(e) => setMaxSpeed(e.target.value)}
+                            />
+                            {errors.maxSpeed && <p className="error">{errors.maxSpeed}</p>}
+                        </div>
+                        <div className={styles.addShopInputContainer}>
+                            <label className={styles.addShopLabel} htmlFor="email">Price</label>
+                            <input
+                                type="text"
+                                id="price"
+                                placeholder="Price"
+                                className={styles.inputField}
+                                value={price}
+                                onChange={(e) => setPrice(e.target.value)}
+                            />
+                            {errors.price && <p className="error">{errors.price}</p>}
+                        </div>
+                    </div>
+                    <div className={styles.row}>
+                        <div className={styles.addShopInputContainer}>
+                            <label className={styles.addShopLabel} htmlFor="modelName">Description</label>
+                            <input
+                                type="text"
+                                id="description"
+                                placeholder="Description"
+                                className={styles.inputField}
+                                value={description}
+                                onChange={(e) => setDescription(e.target.value)}
+                            />
+                            {errors.description && <p className="error">{errors.description}</p>}
+                        </div>
 
-const handleToggle = () => {
-    setIsActive(!isActive);
-};
+                    </div>
+                    <div className={styles.row}>
+                        <div className={styles.addShopInputContainer}>
+                            <label className={styles.addShopLabel} htmlFor="modelName">Best Feature</label>
+                            <input
+                                type="text"
+                                id="feature"
+                                placeholder="Best Feature"
+                                className={styles.inputField}
+                                value={feature}
+                                onChange={(e) => setFeature(e.target.value)}
+                            />
+                            {errors.feature && <p className="error">{errors.feature}</p>}
+                        </div>
 
-  return (
-    <div className={styles.addShopContainer}>
-         <ToastContainer />
-      <div className={styles.addHeading}>Edit EV Guide</div>
-      <div className={styles.addShopFormSection}>
-        <form className={styles.formSection} onSubmit={handleSubmit}>
-          <div className={styles.row}>
-            <div className={styles.addShopInputContainer}>
-              <label className={styles.addShopLabel} htmlFor="modelName">Model Name</label>
-              <input type="text" id="modelName" 
-                placeholder="Model Name" 
-                className={styles.inputField} 
-                value={modelName}
-                onChange={(e) => setModelName(e.target.value)}
-                />
-                {errors.modelName && <p className="error">{errors.modelName}</p>}
-            </div>
-            <div className={styles.addShopInputContainer}>
-              <label className={styles.addShopLabel} htmlFor="contactNo">Vehicle Name</label>
-              <input type="text" 
-              id="vehicleName" 
-              placeholder="Vehicle Name" 
-              className={styles.inputField} 
-              value={vehicleName}
-                onChange={(e) => setVehicleName(e.target.value)}
-              />
-              {errors.vehicleName && <p className="error">{errors.vehicleName}</p>}
-            </div>
-          </div>
-          <div className={styles.row}>
-            <div className={styles.addShopInputContainer}>
-                <label className={styles.addShopLabel} htmlFor="vehicleType">Vehicle Type</label>
-                <Select
-                    options={typeOpetions}
-                    value={vehicleType}
-                    onChange={handleVehicleType}
-                    placeholder="Select"
-                    isClearable
-                    className={styles.addShopSelect}
-                />
-                {errors.vehicleType && <p className="error">{errors.vehicleType}</p>}
-            </div>
-            <div className={styles.addShopInputContainer}>
-              <label className={styles.addShopLabel} htmlFor="email">Engine</label>
-              <input type="text"
-               id="engine" 
-               placeholder="Engine" 
-               className={styles.inputField} 
-               value={engine}
-                onChange={(e) => setEngine(e.target.value)}
-               />
-               {errors.engine && <p className="error">{errors.engine}</p>}
-            </div>
-          </div>
-          <div className={styles.locationRow}>
-            <div className={styles.addShopInputContainer}>
-              <label className={styles.addShopLabel} htmlFor="email">Horse Power</label>
-              <input 
-              type="text"
-               id="horsePower" 
-               placeholder="Horse Power" 
-               className={styles.inputField} 
-               value={horsePower}
-                onChange={(e) => setHorsePower(e.target.value)}
-               />
-               {errors.horsePower && <p className="error">{errors.horsePower}</p>}
-            </div>
-            <div className={styles.addShopInputContainer}>
-              <label className={styles.addShopLabel} htmlFor="email">Max Speed</label>
-              <input 
-              type="text" 
-              id="maxSpeed" 
-              placeholder="Max Speed" 
-              className={styles.inputField}
-              value={maxSpeed}
-                onChange={(e) => setMaxSpeed(e.target.value)}
-               />
-               {errors.maxSpeed && <p className="error">{errors.maxSpeed}</p>}
-            </div>
-            <div className={styles.addShopInputContainer}>
-              <label className={styles.addShopLabel} htmlFor="email">Price</label>
-              <input 
-              type="text" 
-              id="price" 
-              placeholder="Price" 
-              className={styles.inputField}
-              value={price}
-                onChange={(e) => setPrice(e.target.value)}
-               />
-               {errors.price && <p className="error">{errors.price}</p>}
-            </div>
-          </div>
-          <div className={styles.row}>
-            <div className={styles.addShopInputContainer}>
-              <label className={styles.addShopLabel} htmlFor="modelName">Description</label>
-              <input 
-              type="text" 
-              id="description" 
-              placeholder="Description" 
-              className={styles.inputField} 
-              value={description}
-                onChange={(e) => setDescription(e.target.value)}
-              />
-              {errors.description && <p className="error">{errors.description}</p>}
-            </div>
-            
-          </div>
-          <div className={styles.row}>
-            <div className={styles.addShopInputContainer}>
-              <label className={styles.addShopLabel} htmlFor="modelName">Best Feature</label>
-              <input 
-              type="text" 
-              id="feature" 
-              placeholder="Best Feature" 
-              className={styles.inputField} 
-              value={feature}
-                onChange={(e) => setFeature(e.target.value)}
-              />
-              {errors.feature && <p className="error">{errors.feature}</p>}
-            </div>
-            
-          </div>
-          <div className={styles.toggleContainer}>
+                    </div>
+                    {/* <div className={styles.toggleContainer}>
                         <label className={styles.statusLabel}>Status</label>
                         <div className={styles.toggleSwitch} onClick={handleToggle}>
                             <span className={`${styles.toggleLabel} ${!isActive ? styles.inactive : ''}`}>
@@ -324,6 +324,23 @@ const handleToggle = () => {
                             </div>
                             <span className={`${styles.toggleLabel} ${isActive ? styles.active : ''}`}>
                                 Available
+                            </span>
+                        </div>
+                    </div> */}
+                    <div className={styles.toggleContainer}>
+                        <label className={styles.statusLabel}>Status</label>
+                        <div className={styles.toggleSwitch} onClick={handleToggle}>
+                            <div
+                                className={`${styles.toggleButton} ${isActive ? styles.activeToggle : styles.inactiveToggle
+                                    }`}
+                            >
+                                <div className={styles.slider}></div>
+                            </div>
+                            <span
+                                className={`${styles.toggleText} ${isActive ? styles.activeText : styles.inactiveText
+                                    }`}
+                            >
+                                {isActive ? 'Occupied' : 'Available'}
                             </span>
                         </div>
                     </div>
@@ -385,20 +402,20 @@ const handleToggle = () => {
                                     {Array.isArray(galleryFiles) && galleryFiles.length > 0 ? (
                                         galleryFiles.map((file, index) => (
                                             <div className={styles.imageContainer} key={index}>
-                                            <img
-                                                key={index}
-                                                src={
-                                                    typeof file === 'string'
-                                                        ? `${process.env.REACT_APP_SERVER_URL}uploads/vehicle-image/${file}`
-                                                        : URL.createObjectURL(file)
-                                                }
-                                                alt={`Preview ${index + 1}`}
-                                                className={styles.previewImage}
-                                            />
-                                            <button type="button" className={styles.removeButton} onClick={() => handleRemoveGalleryImage(index)}>
-                                            <AiOutlineClose size={20} style={{ padding: '2px' }} />
-                                        </button>
-                                        </div>
+                                                <img
+                                                    key={index}
+                                                    src={
+                                                        typeof file === 'string'
+                                                            ? `${process.env.REACT_APP_SERVER_URL}uploads/vehicle-image/${file}`
+                                                            : URL.createObjectURL(file)
+                                                    }
+                                                    alt={`Preview ${index + 1}`}
+                                                    className={styles.previewImage}
+                                                />
+                                                <button type="button" className={styles.removeButton} onClick={() => handleRemoveGalleryImage(index)}>
+                                                    <AiOutlineClose size={20} style={{ padding: '2px' }} />
+                                                </button>
+                                            </div>
                                         ))
                                     ) : (
                                         <p>No images available</p>
@@ -408,14 +425,14 @@ const handleToggle = () => {
                         </div>
                         {errors.gallery && <p className="error">{errors.gallery}</p>}
                     </div>
-            <div className={styles.editButton}>
-                <button className={styles.editCancelBtn} onClick={() => handleCancel()}>Cancel</button>
-                <button type="submit" className={styles.editSubmitBtn}>Submit</button>
+                    <div className={styles.editButton}>
+                        <button className={styles.editCancelBtn} onClick={() => handleCancel()}>Cancel</button>
+                        <button type="submit" className={styles.editSubmitBtn}>Submit</button>
+                    </div>
+                </form>
             </div>
-        </form>
-      </div>
-    </div>
-  );
+        </div>
+    );
 };
 
 export default EditEvGuide;

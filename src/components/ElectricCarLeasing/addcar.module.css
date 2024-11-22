@@ -329,13 +329,12 @@ background-color: #242424;
   }
 /* Container for toggle switch */
 .toggleContainer {
-  width: 300px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background-color: #242424;
+  width: 220px;
+  display: flex; 
+  gap: 20px;
   padding: 18px 10px;
   border-radius: 14px;
+  background-color: #242424;
   border: 1px solid #00ffc3;
 }
 
@@ -350,55 +349,57 @@ background-color: #242424;
   display: flex;
   align-items: center;
   cursor: pointer;
-  border-radius: 20px;
-  padding: 5px;
+  gap: 10px; /* Space between the slider and text */
 }
 
-/* Toggle labels for Un-active and Active */
-.toggleLabel {
-  color: #00ffc3;
-  font-size: 12px;
-  padding: 0 6px;
-}
-
-.toggleLabel.active {
-  color: #00ffc3;
-}
-
-.toggleLabel.inactive {
-  color: #828282;
-}
-
-/* Toggle button container */
+/* Toggle button area */
 .toggleButton {
   position: relative;
-  border: 2px solid #00ffc3;
-  background-color: #242424;
+  border: 2px solid;
   border-radius: 6px;
   width: 60px;
-  height: 28px;
-  margin: 0 6px;
-  transition: background-color 0.3s ease;
+  height: 34px;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+.toggleButton.activeToggle {
+  border-color: #00ffc3;
 }
 
-/* Active state background */
-.toggleButton.active {
-  border: 2px solid #00ffc3;
+.toggleButton.inactiveToggle {
+  border-color: #ffffff;
 }
 
-/* Slider inside the button */
 .slider {
   position: absolute;
   top: 50%;
-  left: 0px;
-  width: 26px;
-  height: 26px;
-  background-color: #00ffc3;
-  border-radius: 4px;
+  left: 0px; 
+  width: 28px;
+  height: 30px;
+  background-color: #ffffff;
+  border-radius: 0px;
   transform: translateY(-50%);
-  transition: all 0.3s ease;
+  transition: left 0.3s ease, background-color 0.3s ease; 
 }
 
-.toggleButton.active .slider {
-  left: 30px;
+.toggleButton.activeToggle .slider {
+  left: 28px;
+  background-color: #00ffc3;
+}
+
+.toggleButton.inactiveToggle .slider {
+  background-color: #ffffff; 
+}
+
+.toggleText {
+  font-size: 14px;
+  transition: color 0.3s ease;
+}
+
+.toggleText.activeText {
+  color: #00ffc3; 
+}
+
+.toggleText.inactiveText {
+  color: #ffffff; 
+  width: 60px;
 }
