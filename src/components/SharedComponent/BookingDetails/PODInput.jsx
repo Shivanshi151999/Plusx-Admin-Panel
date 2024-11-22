@@ -16,10 +16,8 @@ const PODInput = () => {
     // Pagination state
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 3;
-
     // Calculate total pages
     const totalPages = Math.ceil(data.length / itemsPerPage);
-
     // Get paginated data
     const paginatedData = data.slice(
         (currentPage - 1) * itemsPerPage,

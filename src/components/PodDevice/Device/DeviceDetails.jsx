@@ -9,38 +9,39 @@ import moment from 'moment';
 // import { toast, ToastContainer } from "react-toastify";
 import { useNavigate, useParams } from 'react-router-dom';
 import BookingDetailsButtons from '../../SharedComponent/BookingDetails/BookingDetailsButtons.jsx';
-    const statusMapping = {
-        '1' : 'In Use',
-        '0' : 'Available',
-        '2' : 'Used'
-    };
+import BookingStatusSection from '../../SharedComponent/BookingDetails/BookingStatusSection.jsx';
+const statusMapping = {
+    '1': 'In Use',
+    '0': 'Available',
+    '2': 'Used'
+};
 
 const DeviceDetails = () => {
-    const userDetails                       = JSON.parse(sessionStorage.getItem('userDetails'));
-    const navigate                          = useNavigate()
-    const { deviceId }                      = useParams()
+    const userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
+    const navigate = useNavigate()
+    const { deviceId } = useParams()
     const [deviceDetails, setDeviceDetails] = useState({})
     // Static data for the table
-    const [currentPage, setCurrentPage]         = useState(1);
-    const [totalPages, setTotalPages]           = useState(1);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
     const [deviceBrandList, setdeviceBrandList] = useState([])
-    
+
     const handlePageChange = (pageNumber) => {
         console.log(pageNumber)
         setCurrentPage(pageNumber);
     };
     const fetchBrandList = (page) => {
         const obj = {
-            userId  : userDetails?.user_id,
-            email   : userDetails?.email,
-            page_no : page,
+            userId: userDetails?.user_id,
+            email: userDetails?.email,
+            page_no: page,
             deviceId,
         };
         postRequestWithToken('device-brand-list', obj, async (response) => {
             if (response.code === 200) {
                 setdeviceBrandList(response?.data);
                 setTotalPages(response?.total_page || 1);
-            
+
             } else {
                 console.log('error in charger-booking-list api', response);
             }
@@ -49,22 +50,22 @@ const DeviceDetails = () => {
 
     const fetchDetails = () => {
         const obj = {
-            userId     : userDetails?.user_id,
-            email      : userDetails?.email,
-            device_id  : deviceId
+            userId: userDetails?.user_id,
+            email: userDetails?.email,
+            device_id: deviceId
         };
         postRequestWithToken('pod-device-details', obj, (response) => {
-            
+
             if (response.status === 1) {
                 const data = response?.data || {};
-                
+
                 setDeviceDetails(data);
-        
+
                 // const formattedDate = moment(data?.date_of_manufacturing).format('DD-MM-YYYY');
                 // setDateOfManufacturing(formattedDate);
                 // setIsActive(data?.status === '1' ? true : false)
-                
-                
+
+
 
             } else {
                 console.error('Error in electric-bike-detail API', response);
@@ -77,20 +78,20 @@ const DeviceDetails = () => {
             return;
         }
         fetchDetails();
-    }, []); 
+    }, []);
     useEffect(() => {
         fetchBrandList(currentPage);
-    }, [currentPage]); 
-    
+    }, [currentPage]);
+
     const headerTitles = {
-        bookingIdTitle       : "Device ID",
-        customerDetailsTitle : "Modal Name",
-        driverDetailsTitle   : "Capacity",
+        bookingIdTitle: "Device ID",
+        customerDetailsTitle: "Modal Name",
+        driverDetailsTitle: "Capacity",
     };
     const sectionTitles1 = {
-        bookingStatus : "Inverter",
-        price         : "Charger",
-        serviceName   : "Status",
+        bookingStatus: "Inverter",
+        price: "Charger",
+        serviceName: "Status",
     }
     const sectionTitles2 = {
         vehicle: "Current",
@@ -99,22 +100,22 @@ const DeviceDetails = () => {
     }
     // , , , , , 
     const content = {
-        bookingId    : deviceId,
-        createdAt    : moment(deviceDetails?.date_of_manufacturing).format('DD MMM YYYY'),
-        customerName : deviceDetails?.design_model,
-        driverName   : deviceDetails?.capacity,
+        bookingId: deviceId,
+        createdAt: moment(deviceDetails?.date_of_manufacturing).format('DD MMM YYYY'),
+        customerName: deviceDetails?.design_model,
+        driverName: deviceDetails?.capacity,
     };
     const sectionContent1 = {
-        bookingStatus : deviceDetails?.inverter,
-        serviceName   : statusMapping[deviceDetails?.status] || deviceDetails?.status, 
-        price         : deviceDetails?.charger,
+        bookingStatus: deviceDetails?.inverter,
+        serviceName: statusMapping[deviceDetails?.status] || deviceDetails?.status,
+        price: deviceDetails?.charger,
     }
     const sectionContent2 = {
-        vehicle        : deviceDetails?.current,
-        serviceType    : deviceDetails?.voltage,
-        serviceFeature : deviceDetails?.percentage,
+        vehicle: deviceDetails?.current,
+        serviceType: deviceDetails?.voltage,
+        serviceFeature: deviceDetails?.percentage,
     }
-    
+
     return (
         <div className='main-container'>
             <BookingDetailsHeader content={content} titles={headerTitles} sectionContent={sectionContent1}
@@ -124,13 +125,13 @@ const DeviceDetails = () => {
                 <BookingLeftDetails titles={sectionTitles1} content={sectionContent1}
                     sectionTitles2={sectionTitles2} sectionContent2={sectionContent2}
                     type='PODDeviceDetails' />
-                {/* { deviceBrandList.length > 0 &&  */}
-                    <BookingDetailsButtons
-                    deviceId={deviceId} 
+                <BookingStatusSection />
+                <BookingDetailsButtons
+                    deviceId={deviceId}
                     deviceBrandList={deviceBrandList}
                     currentPage={currentPage}
                     totalPages={totalPages}
-                    onPageChange={handlePageChange}/>
+                    onPageChange={handlePageChange} />
                 {/* } */}
             </div>
         </div>

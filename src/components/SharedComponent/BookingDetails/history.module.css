@@ -235,3 +235,130 @@
     text-overflow: ellipsis;
     cursor: pointer;
 }
+
+/* Start the sttaus toogle button container */
+.bookingStatusHead{
+    font-size: 28px;
+    font-weight: 600;
+    color: #00ffc3;
+}
+/* .bookingStatusContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    font-family: Arial, sans-serif;
+  }
+  .radioSection{
+    border: 1px solid #00ffc3;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
+  }
+  .statusOptions {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 20px;
+  }
+  
+  .statusOption {
+    background-color: #000000;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    padding: 14px;
+    border: 1px solid #00ffc3;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+  .statusOption span.radio {
+    width: 16px;
+    height: 16px;
+    border: 2px solid #aaa;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+  }
+  
+  .statusOption.active span.radio {
+    border-color: #00ffc3; 
+    background-color:#00ffc3;
+  }
+  
+  .statusOption span {
+    font-size: 18px;
+    font-weight: 500;
+    color: #ffffff;
+  }
+  
+  .statusOption.active {
+    color: #00ffc3;
+  } */
+.bookingStatusHead {
+    font-size: 24px;
+    font-weight: 550;
+    margin-bottom: 10px;
+}
+
+.statusOptions {
+    display: flex;
+    gap: 10px;
+}
+
+.statusOption {
+    gap: 10px;
+    background-color: #000000;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border: 2px solid #ccc; /* Default border */
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.statusOption.active {
+    border-color: #00ffc3; /* Green border when active */
+}
+.statusHead{
+    font-size: 16px;
+    font-weight: 500;
+    color: #fff;
+}
+
+.radioSection {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border: 2px solid #ccc;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+/* When the section and radio are active */
+.radioSectionActive {
+    border-color: #00ffc3; /* Green border for radio section */
+}
+
+.radio {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background-color: #ffffff;
+    transition: all 0.3s ease;
+}
+
+.radioActive {
+    background-color: #00ffc3; /* Fill radio button when active */
+}
+
+
+  
