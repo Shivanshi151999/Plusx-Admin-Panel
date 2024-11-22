@@ -4,7 +4,7 @@ import BrandingHistory from './BrandHistory';
 import PODChargeHistory from './PODChargeHistory';
 import PODZoneHistory from './PODZoneHistory';
 
-const BookingDetailsButtons = () => {
+const BookingDetailsButtons = ({deviceId, deviceBrandList, currentPage, totalPages, onPageChange}) => {
     const [activeSection, setActiveSection] = useState('brandingHistory');
 
     return (
@@ -34,7 +34,15 @@ const BookingDetailsButtons = () => {
             </button>
         </div>
         <div className={styles.sectionContent}>
-            {activeSection === 'brandingHistory' && <BrandingHistory />}
+            {activeSection === 'brandingHistory' && 
+                <BrandingHistory 
+                    deviceId={deviceId} 
+                    deviceBrandList={deviceBrandList}
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={onPageChange} 
+                />
+            }
             {activeSection === 'podChargeHistory' && <PODChargeHistory />}
             {activeSection === 'podZoneHistory' && <PODZoneHistory />}
         </div>

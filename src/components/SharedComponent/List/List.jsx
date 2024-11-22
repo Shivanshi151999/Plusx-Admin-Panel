@@ -97,6 +97,8 @@ const List = ({ list, tableHeaders, listData, keyMapping, pageHeading, onDeleteS
     const handleDeviceEdit = (id) => navigate(`/pod-device/edit-device/${id}`)
     // 
      
+
+    
     return (
         <div className={styles.containerCharger}>
              <ToastContainer />

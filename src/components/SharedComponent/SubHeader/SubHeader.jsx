@@ -142,6 +142,7 @@ const SubHeader = ({ heading, fetchFilteredData, dynamicFilters, filterValues,
             "Add POD List",
             "POD Brand List",
             "POD Device List",
+            "POD Area List"
         ].includes(heading);
 
     return (

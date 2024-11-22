@@ -5,18 +5,19 @@ import UploadIcon from '../../../assets/images/uploadicon.svg';
 import { postRequestWithTokenAndFile, getRequestWithToken } from '../../../api/Requests';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Select from 'react-select';
 import InputMask from 'react-input-mask';
 
 const AddPodBrand = () => {
     const userDetails                         = JSON.parse(sessionStorage.getItem('userDetails'));
     const navigate                            = useNavigate()
+    const { deviceId }                        = useParams()
     const [file, setFile]                     = useState();
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
     const [brandName, setBrandName]     = useState("");
-    const [deviceId, setDeviceId]       = useState("");
+    // const [deviceId, setDeviceId]       = useState("");
     const [description, setDescription] = useState("");
     const [startDate, setStartDate]     = useState("");
     const [endDate, setEndDate]         = useState("");
@@ -128,18 +129,18 @@ const AddPodBrand = () => {
         }
     };
     useEffect(() => {
-        const obj = {
-            userId  : userDetails?.user_id,
-            email   : userDetails?.email,
-        };
-        getRequestWithToken('all-pod-device', obj, (response) => {
-            if (response.code === 200) {
-                setDeviceOptions(response?.data || []);  
-                console.log(response.data);
-            } else {
-                console.log('error in brand-list API', response);
-            }
-        });
+        // const obj = {
+        //     userId  : userDetails?.user_id,
+        //     email   : userDetails?.email,
+        // };
+        // getRequestWithToken('all-pod-device', obj, (response) => {
+        //     if (response.code === 200) {
+        //         setDeviceOptions(response?.data || []);  
+        //         console.log(response.data);
+        //     } else {
+        //         console.log('error in brand-list API', response);
+        //     }
+        // });
 
         if (!userDetails || !userDetails.access_token) {
             navigate('/login');
@@ -168,7 +169,7 @@ const AddPodBrand = () => {
                             />
                             {errors.brandName && <p className="error">{errors.brandName}</p>}
                         </div>
-                        <div className={styles.inputGroup}>
+                        {/* <div className={styles.inputGroup}>
                             <label className={styles.label}>Device Id</label>
                             <div className={styles.selectContainer}>
                                 <Select
@@ -181,7 +182,7 @@ const AddPodBrand = () => {
                                 />
                             </div>
                             { errors.deviceId && ( <p className="error"> {errors.deviceId} </p> ) }
-                        </div>
+                        </div> */}
                     </div>
                     <div className={styles.row}>
                         <div className={styles.inputGroup}>
