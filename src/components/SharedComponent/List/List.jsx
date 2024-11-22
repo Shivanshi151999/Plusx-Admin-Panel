@@ -5,18 +5,11 @@ import Cancel from '../../../assets/images/Cancel.svg';
 import Delete from '../../../assets/images/Delete.svg';
 import View from '../../../assets/images/ViewEye.svg'
 import { useNavigate } from 'react-router-dom';
-import { toast, ToastContainer } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
-import { postRequestWithToken } from '../../../api/Requests';
-const List = ({ list, tableHeaders, listData, keyMapping, pageHeading, onDeleteSlot, onBookingConfirm }) => {
-    const userDetails    = JSON.parse(sessionStorage.getItem('userDetails'));
+
+const List = ({ list, tableHeaders, listData, keyMapping, pageHeading, onDeleteSlot }) => {
     const navigate = useNavigate()
 
     const handleSignupDetails = (id) => navigate(`/rider-details/${id}`)
-
-    const handleBookingDetails = (id) => navigate(`/portable-charger/charger-booking-details/${id}`)
-
-    const handlePDBookingDetails = (id) => navigate(`/pick-and-drop/booking-details/${id}`)
 
     const handleChargerInstallationDetails = (id) => navigate(`/charger-installation-details/${id}`)
 
@@ -29,7 +22,6 @@ const List = ({ list, tableHeaders, listData, keyMapping, pageHeading, onDeleteS
     const handleRsaDetails = (id) => navigate(`/edit-emergency-team/${id}`)
 
     const viewRsaDetails = (id) => navigate(`/emergency-team-details/${id}`)
-
 
     const handlePublicChargerStationDetails = (id) => navigate(`/public-charger-station-details/${id}`)
 
