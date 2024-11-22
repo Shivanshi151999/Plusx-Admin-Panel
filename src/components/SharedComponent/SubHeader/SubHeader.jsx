@@ -15,7 +15,7 @@ import { postRequestWithToken } from '../../../api/Requests';
 
 const SubHeader = ({ heading, fetchFilteredData, dynamicFilters, filterValues, 
                      addButtonProps, searchTerm, count, modalTitle, setRefresh,apiEndPoint, 
-                     nameKey  }) => {
+                     nameKey }) => {
 
     const userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
 
@@ -94,13 +94,13 @@ const SubHeader = ({ heading, fetchFilteredData, dynamicFilters, filterValues,
 
     const cardArray = [ "Offer List", "Subscription List", "Coupon List", "Register Interest List", "Ev Buy & Sell List",
                         "Ev Specialized Shop List", "Ev Insurance List", "Ev Discussion Board List", "Ev Rider Clubs List",
-                        "EV Guide List", "Electric Bikes Leasing List", "Electric Cars Leasing List",]
+                        "EV Guide List", "Electric Bikes Leasing List", "Electric Cars Leasing List", "Public Chargers List"]
 
     const showCard = cardArray.includes(heading);
         
     const headingArray = [  "App Signup List", "Drivers List", "Portable Charger Booking List", "Portable Charger List",
                             "Portable Charger Invoice List", "Portable Charger Slot List", "Pick & Drop Booking List",
-                            "Pick & Drop Invoice List", "Pick & Drop Time Slot List", "Public Chargers List", "Charger Installation List",
+                            "Pick & Drop Invoice List", "Pick & Drop Time Slot List", "Charger Installation List",
                             "EV Pre-Sale Testing Booking List", "Time Slot List", "Ev Road Assistance Invoice List", "Ev Specialized Shop Service List",
                             "Ev Specialized Shop Brand List", "Ev Road Assitance Booking List", "Add POD List", "POD Brand List", "POD Device List","POD Area List"]
 
@@ -121,7 +121,9 @@ const SubHeader = ({ heading, fetchFilteredData, dynamicFilters, filterValues,
                 <div className={styles.subHeaderButtonSection}>
                     {shouldShowAddButton && (
                         (heading === "Ev Specialized Shop Brand List" || heading === "Ev Specialized Shop Service List") ? (
-                            <div className={styles.addButtonSection} onClick={handleAddClick}>
+                            <div className={styles.addButtonSection} 
+                            onClick={handleAddClick}
+                            >
                                 <div className={styles.addButtonImg}>
                                     <img src={Plus} alt='plus' />
                                 </div>

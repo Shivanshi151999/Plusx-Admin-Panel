@@ -45,6 +45,7 @@ const ServiceList = () => {
     const handleEditClick = (serviceId, name) => {
         setSelectedServiceId(serviceId);
         setName(name)
+        console.log(serviceId,name);
         setShowPopup(true); 
       };
     
@@ -76,7 +77,9 @@ const ServiceList = () => {
                 toast(response.message, {type:'success'})
                     setTimeout(() => {
                         fetchList(currentPage, filters);
-                    }, 1500);
+                        
+                        // setRefresh(prev => !prev);
+                    }, 1000);
                 setShowPopup(false);
                 setSelectedServiceId(null);
                 setName(null)
@@ -98,7 +101,8 @@ const ServiceList = () => {
             };
             postRequestWithToken('shop-service-delete', obj, async (response) => {
                 if (response.code === 200) {
-                    setRefresh(prev => !prev);
+                    fetchList(currentPage, filters);
+                    // setRefresh(prev => !prev);
                     toast(response.message, { type: "success" });
                 } else {
                     toast(response.message, { type: 'error' });
@@ -111,7 +115,7 @@ const ServiceList = () => {
     const fetchList = (page, appliedFilters = {}) => {
         const obj = {
             userId : userDetails?.user_id,
-            email : userDetails?.email,
+            email   : userDetails?.email,
             page_no : page,
             ...appliedFilters,
         }

@@ -17,6 +17,7 @@ const StationList = () => {
     const [stationList, setStationList] = useState([])
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const [totalCount, setTotalCount] = useState(1)
     const [filters, setFilters] = useState({});
     const searchTerm = [
         {
@@ -42,6 +43,7 @@ const StationList = () => {
             if (response.code === 200) {
                 setStationList(response?.data)
                 setTotalPages(response?.total_page || 1);
+                setTotalCount(response?.total || 1)
             } else {
                 // toast(response.message, {type:'error'})
                 console.log('error in public-charger-station-list api', response);
@@ -72,6 +74,7 @@ const StationList = () => {
                 fetchFilteredData={fetchFilteredData}
                 dynamicFilters={dynamicFilters} filterValues={filters}
                 searchTerm = {searchTerm}
+                count = {totalCount}
             />
             {stationList.length === 0 ? (
                <div className='errorContainer'>No data available</div>

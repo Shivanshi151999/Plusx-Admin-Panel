@@ -269,7 +269,7 @@ const BookingList = () => {
             {
                 key: 'action',
                 label: 'Action',
-                relatedKeys: ['status'], 
+                relatedKeys: ['order_status'], 
                 format: (data, key, relatedKeys) => {
                     const isCancelable = data[relatedKeys[0]] !== 'C'; 
             
