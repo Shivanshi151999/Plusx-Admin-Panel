@@ -88,7 +88,7 @@ const SubHeader = ({ heading, fetchFilteredData, dynamicFilters, filterValues,
     const shouldShowAddButtonArr = ["App Signup List", "Portable Charger Booking List", "Pick & Drop Booking List", "Portable Charger Invoice List",
                                     "Pick & Drop Invoice List", "Charger Installation List", "Ev Road Assitance Booking List","Road Assistance Invoice List", 
                                     "Board List", "Insurance List", "Buy Sell List", "Interest List","Subscription List", "EV Pre-Sale Testing Booking List",
-                                    "Ev Road Assistance Invoice List", "Ev Discussion Board List","Ev Insurance List", "Ev Buy Sell List", "Register Interest List"] ;
+                                    "Ev Road Assistance Invoice List", "Ev Discussion Board List","Ev Insurance List", "Ev Buy & Sell List", "Register Interest List"] ;
         
     const shouldShowAddButton = !shouldShowAddButtonArr.includes(heading);
 
