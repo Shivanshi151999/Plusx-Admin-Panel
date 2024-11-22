@@ -317,7 +317,7 @@
     display: flex;
     align-items: center;
     padding: 10px;
-    border: 2px solid #ccc; /* Default border */
+    border: 2px solid #4E4E4E; /* Default border */
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -329,7 +329,7 @@
 .statusHead{
     font-size: 16px;
     font-weight: 500;
-    color: #fff;
+    color: #4e4e4e;
 }
 
 .radioSection {
@@ -338,7 +338,7 @@
     justify-content: center;
     width: 30px;
     height: 30px;
-    border: 2px solid #ccc;
+    border: 2px solid #4E4E4E;
     border-radius: 6px;
     transition: all 0.3s ease;
 }
@@ -347,12 +347,15 @@
 .radioSectionActive {
     border-color: #00ffc3; /* Green border for radio section */
 }
+.statusHeadActive{
+    color: #ffffff;
+}
 
 .radio {
     width: 14px;
     height: 14px;
     border-radius: 50%;
-    background-color: #ffffff;
+    background-color: #4e4e4e;
     transition: all 0.3s ease;
 }
 

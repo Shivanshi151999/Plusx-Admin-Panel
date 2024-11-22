@@ -35,7 +35,11 @@ const BookingStatusSection = () => {
                                 }`}
                             ></span>
                         </span>
-                        <span className={styles.statusHead}>{status}</span>
+                        <span className={`${styles.statusHead} ${
+                                    selectedStatus === status
+                                        ? styles.statusHeadActive
+                                        : ""
+                                }`}>{status}</span>
                     </div>
                 ))}
             </div>
