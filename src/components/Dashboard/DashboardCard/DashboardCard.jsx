@@ -62,14 +62,14 @@ const DashboardCard = ({ details }) => {
       title: "Pick & Drop off Bookings",
       route: "/pick-and-drop/booking-list",
     },
-    {
-      icon: PublicChargersImage,
-      count:
-        details?.find((item) => item.module === "Total Public Chargers")
-          ?.count || 0,
-      title: "Total Public Chargers",
-      route: "/public-charger-station-list",
-    },
+    // {
+    //   icon: PublicChargersImage,
+    //   count:
+    //     details?.find((item) => item.module === "Total Public Chargers")
+    //       ?.count || 0,
+    //   title: "Total Public Chargers",
+    //   route: "/public-charger-station-list",
+    // },
     // {
     //   icon: ElectricBikeLeasingImage,
     //   count:
