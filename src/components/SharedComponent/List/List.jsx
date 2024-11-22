@@ -97,7 +97,6 @@ const List = ({ list, tableHeaders, listData, keyMapping, pageHeading, onDeleteS
     
     return (
         <div className={styles.containerCharger}>
-             <ToastContainer />
             <table className={styles.table}>
                 <thead>
                     <tr>

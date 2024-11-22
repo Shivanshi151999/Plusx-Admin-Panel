@@ -86,7 +86,6 @@ const Login = () => {
                     <div className={styles.formImgSection}>
                         <PanelLogo />
                     </div>
-                    <ToastContainer />
                     <form className={styles.formContainer} onSubmit={handleSubmit}>
                         <div className={styles.formFiled}>
                             <label className={styles.formLabel}>Username</label>
