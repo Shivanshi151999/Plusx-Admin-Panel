@@ -23,16 +23,17 @@ const addButtonProps = {
 
 const ServiceList = () => {
     const userDetails = JSON.parse(sessionStorage.getItem('userDetails')); 
-    const navigate = useNavigate()
-    const [serviceList, setServiceList] = useState([])
-    const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(1);
-    const [totalCount, setTotalCount] = useState(1)
-    const [filters, setFilters] = useState({});
-    const [refresh, setRefresh] = useState(false)
+    const navigate    = useNavigate()
+
+    const [serviceList, setServiceList]              = useState([])
+    const [currentPage, setCurrentPage]              = useState(1);
+    const [totalPages, setTotalPages]                = useState(1);
+    const [totalCount, setTotalCount]                = useState(1)
+    const [filters, setFilters]                      = useState({});
+    const [refresh, setRefresh]                      = useState(false)
     const [selectedServiceId, setSelectedServiceId]  = useState(null);
-    const [showPopup, setShowPopup] = useState(false);
-    const [name, setName] = useState("");
+    const [showPopup, setShowPopup]                  = useState(false);
+    const [name, setName]                            = useState("");
     const searchTerm = [
         {
             label: 'search', 
@@ -44,7 +45,6 @@ const ServiceList = () => {
     const handleEditClick = (serviceId, name) => {
         setSelectedServiceId(serviceId);
         setName(name)
-        console.log(serviceId,name);
         setShowPopup(true); 
       };
     

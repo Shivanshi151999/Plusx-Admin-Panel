@@ -1,6 +1,8 @@
 import React from 'react';
 import styles from '../details.module.css';
 import moment from 'moment';
+
+
 const BookingDetailsHeader = ({ content, titles, sectionContent, type }) => {
     
     return (
@@ -74,7 +76,6 @@ const BookingDetailsHeader = ({ content, titles, sectionContent, type }) => {
                         <span className={styles.infoHeading}>{titles.feeDetailsTitle}</span>
                         <span className={styles.infoHeadText}>Price: {content.price}</span>
                         <span className={styles.infoText}>Charging Point: {content.chargingPoint}</span>
-                        <span className={styles.infoText}>Status: {content.status}</span>
                     </div>
                     </div>
                 </div>

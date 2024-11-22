@@ -138,6 +138,7 @@ const StationDetails = () => {
   const sectionTitles2 = {
     chargingFor: "Charger For",
     slotDate: "Slot Date",
+    status : "Status"
   }
   const sectionTitles4 = {
     description: "Description"
@@ -154,7 +155,7 @@ const StationDetails = () => {
     stationName: bookingDetails?.station_name,
     price: bookingDetails?.price,
     chargingPoint: bookingDetails?.charging_point,
-    status: bookingDetails?.status === 1 ? "Active" : "Un-Active",
+    // status: bookingDetails?.status === 1 ? "Active" : "Un-Active",
   };
 
   const sectionContent1 = {
@@ -168,6 +169,7 @@ const StationDetails = () => {
   const sectionContent2 = {
     chargingFor: bookingDetails?.charging_for,
     slotDate: moment(bookingDetails?.slot_date_time).format('DD MMM YYYY h:mm A'),
+    status: bookingDetails?.status === 1 ? "Active" : "Un-Active",
   }
   const sectionContent4 = {
     description: bookingDetails?.description,

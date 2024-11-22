@@ -61,9 +61,9 @@ const SignupList = () => {
         const confirmDelete = window.confirm("Are you sure you want to delete this?");
         if (confirmDelete) {
             const obj = { 
-                userId : userDetails?.user_id,
-                email : userDetails?.email,
-                rider_id: riderId 
+                userId   : userDetails?.user_id,
+                email    : userDetails?.email,
+                rider_id : riderId 
             };
             postRequestWithToken('delete-rider', obj, async (response) => {
                 if (response.code === 200) {
@@ -79,9 +79,9 @@ const SignupList = () => {
 
     const dynamicFilters = [
         {
-            label: 'Location', 
-            name: 'emirates', 
-            type: 'select', 
+            label : 'Location', 
+            name  : 'emirates', 
+            type  : 'select', 
             options: [
                 { value: '', label: 'Select Location' },
                 ...emiratesList.map(emirate => ({
@@ -91,13 +91,13 @@ const SignupList = () => {
             ]
         },
         {
-            label: 'Device By', 
-            name: 'addedFrom', 
-            type: 'select', 
+            label : 'Device By', 
+            name  : 'addedFrom', 
+            type  : 'select', 
             options: [
-                { value: '', label: 'Select Device' },
+                { value: '',        label: 'Select Device' },
                 { value: 'Android', label: 'Android' },
-                { value: 'iOS', label: 'iOS' }
+                { value: 'iOS',     label: 'iOS' }
             ]
         },
         
@@ -105,9 +105,9 @@ const SignupList = () => {
     
     const searchTerm = [
         {
-            label: 'search', 
-            name: 'search_text', 
-            type: 'text'
+            label : 'search', 
+            name  : 'search_text', 
+            type  : 'text'
         }
     ]
 
@@ -115,9 +115,9 @@ const SignupList = () => {
         <div className='main-container'>
             <ToastContainer/>
             <SubHeader heading = "App Signup List" 
-            fetchFilteredData={fetchFilteredData} 
-            dynamicFilters={dynamicFilters} filterValues={filters}
-            searchTerm = {searchTerm}
+            fetchFilteredData  = {fetchFilteredData} 
+            dynamicFilters     = {dynamicFilters} filterValues={filters}
+            searchTerm         = {searchTerm}
             />
             {signupList.length === 0 ? (
                 <div className={styles.errorContainer}>No data available</div>
@@ -131,10 +131,10 @@ const SignupList = () => {
                             label: 'Date', 
                             format: (date) => moment(date).format('DD MMM YYYY') 
                         },
-                        { key: 'rider_id', label: 'Customer ID' },
-                        { key: 'rider_name', label: 'Customer Name' },
+                        { key: 'rider_id',    label: 'Customer ID' },
+                        { key: 'rider_name',  label: 'Customer Name' },
                         { key: 'rider_email', label: 'Email' },
-                        { key: 'emirates', label: 'Emirate' },
+                        { key: 'emirates',    label: 'Emirate' },
                     ]}
                     pageHeading="App Signup List"
                     onDeleteSlot={handleDeleteSlot}

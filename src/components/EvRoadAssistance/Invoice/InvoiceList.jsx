@@ -9,12 +9,12 @@ import { useNavigate } from 'react-router-dom';
 
 const RoadAssistanceInvoiceList = () => {
     const userDetails = JSON.parse(sessionStorage.getItem('userDetails')); 
-    const navigate = useNavigate()
+    const navigate    = useNavigate()
     const [invoiceList, setInvoiceList] = useState([])
     const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(1); 
-    const [totalCount, setTotalCount] = useState(1)
-    const [filters, setFilters] = useState({});
+    const [totalPages, setTotalPages]   = useState(1); 
+    const [totalCount, setTotalCount]   = useState(1)
+    const [filters, setFilters]         = useState({});
     const searchTerm = [
         {
             label: 'search', 
@@ -24,8 +24,8 @@ const RoadAssistanceInvoiceList = () => {
     ]
     const fetchList = (page, appliedFilters = {}) => {
         const obj = {
-            userId : userDetails?.user_id,
-            email : userDetails?.email,
+            userId  : userDetails?.user_id,
+            email   : userDetails?.email,
             page_no : page,
             ...appliedFilters,
         }
@@ -71,7 +71,7 @@ const RoadAssistanceInvoiceList = () => {
                <div className='errorContainer'>No data available</div>
             ) : (
         <List 
-        tableHeaders={["Invoice Date", "Invoice ID", "Customer Name", "Amount", "Status", "Action"]}
+          tableHeaders={["Invoice Date", "Invoice ID", "Customer Name", "Amount", "Status", "Action"]}
           listData = {invoiceList}
           keyMapping={[
             { 
@@ -85,7 +85,6 @@ const RoadAssistanceInvoiceList = () => {
                 key: 'riderDetails', 
                 label: 'Customer Name',
                 format: (riderDetails) => {
-                    // Extract the name part before the comma
                     return riderDetails ? riderDetails.split(',')[0] : '';
                 }
             },
