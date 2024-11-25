@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import { APIProvider, Map, MapCameraChangedEvent, AdvancedMarker, Pin, } from "@vis.gl/react-google-maps";
 import style from './Map.module.css';
 
@@ -16,6 +16,7 @@ function MapComponent({ coordinates, location, podLocation }) {
 
   const mapId = "1";
   const mapCenter = coordinates?.lat && coordinates?.lng ? coordinates : center; 
+  const [hoveredMarker, setHoveredMarker] = useState(null);
 
   return (
     <div className={style.map}>
@@ -45,12 +46,35 @@ function MapComponent({ coordinates, location, podLocation }) {
                 "#808080"; 
 
             return (
-                <AdvancedMarker key={item.key} position={item.location}>
+                <AdvancedMarker key={item.podId} 
+                 position={item.location}
+                 onMouseEnter={() => setHoveredMarker(item)} 
+                  onMouseLeave={() => setHoveredMarker(null)}
+                 >
                 <Pin background={backgroundColor} glyphColor={"#000"} borderColor={"#000"} />
                 </AdvancedMarker>
             );
             })}
 
+            {hoveredMarker && (
+              <div
+                className={style.tooltip}
+                style={{
+                  position: "absolute",
+                  top: `${hoveredMarker.location.lat}px`,
+                  left: `${hoveredMarker.location.lng}px`,
+                  background: "white",
+                  padding: "5px",
+                  borderRadius: "5px",
+                  boxShadow: "0px 0px 10px rgba(0,0,0,0.1)",
+                }}
+              >
+                <p>POD ID: {hoveredMarker.podId}</p>
+                <p>Device ID: {hoveredMarker.deviceId}</p>
+                <p>POD Name: {hoveredMarker.podName}</p>
+                <p>Status: {hoveredMarker.status}</p>
+              </div>
+            )}
           </Map>
         </APIProvider>
       </div>
