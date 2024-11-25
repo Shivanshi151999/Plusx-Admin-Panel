@@ -13,3 +13,7 @@
   border: 2px solid red;
   height: 100px !important;
 }
+
+.mapResponsive div {
+  border-radius: 20px !important;
+}

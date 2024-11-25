@@ -7,6 +7,7 @@ import { postRequestWithToken } from '../../../api/Requests';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import MapComponent from "../../Dashboard/Map/Map";
+import NewMapComponent from '../../Dashboard/Map/NewMap'
 
 const Details = () => {
   const userDetails = JSON.parse(sessionStorage.getItem('userDetails')); 
@@ -49,19 +50,19 @@ const Details = () => {
 
 
     //interval api call
-    useEffect(() => {
-      if (!userDetails || !userDetails.access_token) {
-        navigate('/login'); 
-        return; 
-    }
-      const intervalCall = setInterval(() => {
-        fetchDetails();
-      }, 50000);
-      return () => {
-        // clean up
-        clearInterval(intervalCall);
-      };
-    }, []);
+    // useEffect(() => {
+    //   if (!userDetails || !userDetails.access_token) {
+    //     navigate('/login'); 
+    //     return; 
+    // }
+    //   const intervalCall = setInterval(() => {
+    //     fetchDetails();
+    //   }, 50000);
+    //   return () => {
+    //     // clean up
+    //     clearInterval(intervalCall);
+    //   };
+    // }, []);
    
 
   return (
@@ -69,7 +70,8 @@ const Details = () => {
       <EmergencyCards details = {details}/>
       {/* <EmergencyDetails/> */}
       <div className={`col-12`} style={{padding:'20px',}}>
-              <MapComponent className={styles.mapContainer} coordinates={coordinates}/>
+              {/* <MapComponent className={styles.mapContainer} coordinates={coordinates}/> */}
+              <NewMapComponent className={styles.mapContainer} coordinates={coordinates}/>
             </div>
       <EmergencyList history = {history}/>
     </div>
