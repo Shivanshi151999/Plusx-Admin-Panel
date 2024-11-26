@@ -64,7 +64,7 @@ const AddEmergencyTeam = () => {
                 errors[name] = errorMessage;
             } else if (isEmail && !/\S+@\S+\.\S+/.test(value)) {
                 errors[name] = errorMessage;
-            } else if (isMobile && (isNaN(value) || value.length < 10)) {
+            } else if (isMobile && (isNaN(value) || value.length < 9)) {
                 errors[name] = errorMessage;
             } else if (isPasswordMatch && value !== password) {
                 errors[name] = errorMessage;
