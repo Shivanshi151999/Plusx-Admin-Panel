@@ -28,7 +28,8 @@ const BrandHistory = ({ deviceId, deviceBrandList, currentPage, totalPages, onPa
     setModalImage(imageUrl);
     setOpenModal(true);
   };
-  // console.log(brandImagePath)
+  console.log(brandImagePath)
+  
   return (
     <div className={styles.addressListContainer}>
       <div className={styles.brandHistorySection}>
@@ -51,12 +52,12 @@ const BrandHistory = ({ deviceId, deviceBrandList, currentPage, totalPages, onPa
           </tr>
         </thead>
         <tbody>
-          {deviceBrandList.map((vehicle, index) => (
+          {/* {deviceBrandList.map((vehicle, index) => (
             <tr key={index}>
               <td>
                 {vehicle.brand_image && (
                   <img
-                    src={brandImagePath+''+vehicle.brand_image}
+                    src={`${brandImagePath}${vehicle.brand_image}`}
                     alt={vehicle.brand_name}
                     className={styles.brandImage}
                     onClick={(e) => openImageModal(e.target.src)}
@@ -71,7 +72,36 @@ const BrandHistory = ({ deviceId, deviceBrandList, currentPage, totalPages, onPa
                 <div className={styles.tooltip}>{vehicle.description}</div>
               </td>
             </tr>
-          ))}
+          ))} */}
+
+          {deviceBrandList.map((vehicle, index) => {
+              // Log the vehicle data and the full image URL
+              console.log('Vehicle:', vehicle);
+              console.log('Image URL:', `${brandImagePath}${vehicle.brand_image}`);
+
+              return (
+                <tr key={index}>
+                  <td>
+                    {vehicle.brand_image && (
+                      <img
+                        src={`${brandImagePath}${vehicle.brand_image}`}
+                        alt={vehicle.brand_name}
+                        className={styles.brandImage}
+                        onClick={(e) => openImageModal(e.target.src)}
+                      />
+                    )}
+                  </td>
+                  <td>{vehicle.brand_name}</td>
+                  <td>{moment(vehicle.start_date).format('DD MMM YYYY')}</td>
+                  <td>{moment(vehicle.end_date).format('DD MMM YYYY')}</td>
+                  <td className={styles.descriptionCell}>
+                    {vehicle.description}
+                    <div className={styles.tooltip}>{vehicle.description}</div>
+                  </td>
+                </tr>
+              );
+          })}
+
         </tbody>
       </table>
       <Pagination

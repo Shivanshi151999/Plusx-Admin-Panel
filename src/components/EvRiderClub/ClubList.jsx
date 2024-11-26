@@ -6,6 +6,7 @@ import Pagination from '../SharedComponent/Pagination/Pagination'
 import { postRequestWithToken } from '../../api/Requests';
 import moment from 'moment';
 import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 
 const dynamicFilters = [
@@ -96,6 +97,7 @@ const ClubList = () => {
 
     return (
         <div className='main-container'>
+            <ToastContainer />
          <SubHeader heading = "Ev Rider Clubs List"
             fetchFilteredData={fetchFilteredData} 
             dynamicFilters={dynamicFilters} filterValues={filters}

@@ -22,6 +22,7 @@ const PODZoneHistory = ({podId }) => {
     const [selectedArea, setSelectedArea] = useState('');
     const [areaOptions, setAreaOptions]   = useState([]);
     const [errors, setErrors]             = useState({});
+    const [areaName, setAreaName]         = useState('')
    
     const[podSssignAreaList, setPodSssignAreaList] = useState([]);
     const obj = {
@@ -74,10 +75,14 @@ const PODZoneHistory = ({podId }) => {
     const handleAddZoneClick = () => {
         setSelectedArea('');
         setIsModalOpen(true);
+       
     };
 
     const handleCloseModal = () => {
         setIsModalOpen(false);
+        setSelectedArea('');
+        setAreaName('')
+        setErrors({})
     };
 
     // Load Google Maps
@@ -90,9 +95,12 @@ const PODZoneHistory = ({podId }) => {
     
         const index = areaOptions.findIndex((u) => u.value === e.value);
         setSelectedArea(e.value);
+        setAreaName(e)
+        
+        
         setDefaultCoordinates({ lat: areaData[index].latitude, lng: areaData[index].longitude })
     };
-    
+    console.log(areaName);
     const handleSubmit = () => {
         
         if(podId == ''){
@@ -173,7 +181,7 @@ const PODZoneHistory = ({podId }) => {
                 <div className="modalHeading">Add New Zone</div>
                 <div className={styles.modalContainer}>
                     <Select
-                        value={selectedArea}
+                        value={areaName}
                         options={areaOptions}
                         placeholder="Select Area"
                         onChange={handleChange}

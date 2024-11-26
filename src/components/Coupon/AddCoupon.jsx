@@ -94,6 +94,13 @@ const handleSubmit = (e) => {
     }
 };
 
+useEffect(() => {
+  if (!userDetails || !userDetails.access_token) {
+      navigate('/login');
+      return;
+  }
+}, []);
+
 const handleCancel = () => {
     navigate('/coupon-list')
 }
