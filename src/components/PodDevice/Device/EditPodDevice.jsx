@@ -13,11 +13,13 @@ const EditPodDevice = () => {
     const userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
     const navigate    = useNavigate()
     
-    const { deviceId }                                  = useParams();
-    const [modalName, setModalName]                     = useState("");
-    const [capacity, setcapacity]                       = useState("");
-    const [inverter, setInverter]                       = useState("");
-    const [charger, setCharger]                         = useState("");
+    const { podId }                 = useParams();
+    const [podName, setPodName]     = useState("");
+    const [deviceId, setDeviceId]   = useState("");
+    const [modalName, setModalName] = useState("");
+    const [capacity, setcapacity]   = useState("");
+    const [inverter, setInverter]   = useState("");
+    const [charger, setCharger]     = useState("");
     const [dateOfManufacturing, setDateOfManufacturing] = useState("");
     const [errors, setErrors]                           = useState({});  
     
@@ -27,6 +29,18 @@ const EditPodDevice = () => {
     
     const validateForm = () => {
         const fields = [
+            { 
+                name         : "podId", 
+                value        : podId, 
+                errorMessage : "POd Id is required.", 
+                isValid      : val => val.trim() !== "" 
+            },
+            { 
+                name         : "podName", 
+                value        : podName, 
+                errorMessage : "Pod Name is required.", 
+                isValid      : val => val.trim() !== "" 
+            },
             { 
                 name         : "deviceId", 
                 value        : deviceId, 
@@ -83,6 +97,8 @@ const EditPodDevice = () => {
             const formData = new FormData();
             formData.append("userId", "1");
             formData.append("email", "admin@shunyaekai.com");
+            formData.append("podId", podId);
+            formData.append("podName", podName);
             formData.append("deviceId", deviceId);
             formData.append("device_model", modalName);
             formData.append("capacity", capacity);
@@ -108,24 +124,26 @@ const EditPodDevice = () => {
     };
     const fetchDetails = () => {
         const obj = {
-            userId     : userDetails?.user_id,
-            email      : userDetails?.email,
-            device_id  : deviceId
+            userId  : userDetails?.user_id,
+            email   : userDetails?.email,
+            pod_id  : podId
         };
         postRequestWithToken('pod-device-details', obj, (response) => {
             
             if (response.status === 1) {
                 const data = response?.data || {};
                 
-                setModalName(data?.design_model || "");
-                setcapacity(data?.capacity || "");
-                setInverter(data?.inverter || "");
-                setCharger(data?.charger || "");
+                setPodName(data?.pod_name);
+                setDeviceId(data?.device_id);
+                setModalName(data?.design_model);
+                setcapacity(data?.capacity);
+                setInverter(data?.inverter);
+                setCharger(data?.charger); 
                 
                 const formattedDate = moment(data?.date_of_manufacturing).format('DD-MM-YYYY');
                 setDateOfManufacturing(formattedDate);
-                // setIsActive(data?.status === '1' ? true : false)
-                
+
+                // setIsActive(data?.status === '1' ? true : false)               
                 // status, current, voltage, percentage
 
             } else {
@@ -149,10 +167,28 @@ const EditPodDevice = () => {
                     <ToastContainer />
                     <div className={styles.row}>
                         <div className={styles.inputGroup}>
+                            <label className={styles.label}>POD Id</label>
+                            <input className={styles.inputCharger} type="text" placeholder="Device Id"
+                                value={podId}
+                                readonly
+                            />
+                            {errors.podId && podId =='' && <p className="error">{errors.podId}</p>}
+                        </div>
+                        <div className={styles.inputGroup}>
+                            <label className={styles.label}>POD Name</label>
+                            <input className={styles.inputCharger} type="text" placeholder="Modal Name V1, V2"
+                                value={podName}
+                                onChange={(e) => setPodName(e.target.value) }
+                            />
+                            {errors.podName && podName =='' && <p className="error">{errors.podName}</p>}
+                        </div>  
+                    </div>
+                    <div className={styles.row}>
+                        <div className={styles.inputGroup}>
                             <label className={styles.label}>Device Id</label>
                             <input className={styles.inputCharger} type="text" placeholder="Device Id"
                                 value={deviceId}
-                                readonly
+                                onChange={(e) => setDeviceId(e.target.value) }
                             />
                             {errors.deviceId && deviceId =='' && <p className="error">{errors.deviceId}</p>}
                         </div>

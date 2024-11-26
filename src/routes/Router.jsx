@@ -102,6 +102,10 @@ import DeviceDetails  from "../components/PodDevice/Device/DeviceDetails.jsx";
 import PodBrandList from "../components/PodDevice/Brand/BrandList.jsx";
 import AddPodBrand from "../components/PodDevice/Brand/AddBrand.jsx";
 
+import PodAreaList from "../components/PodDevice/Area/PodAreaList.jsx";
+import AddPodArea from "../components/PodDevice/Area/AddPodArea.jsx";
+import EditPodArea from "../components/PodDevice/Area/EditPodArea.jsx";
+
 const router = createBrowserRouter([
     {
         path    : "/login",
@@ -489,62 +493,70 @@ const router = createBrowserRouter([
                 element: <EditCoupon />,
             },
 
-        //Register Interest
-        {
-            path: "/interest-list",
-            element: <InterestList />,
-        },
-        // Start the Add POD Brand Route
-        {
-            path:"/add-brand-form",
-            element:<AddBrandForm/>
-        },
-        {
-            path:"/edit-brand-form",
-            element:<EditBrandForm/>
-        },
-        //Subscription
-        {
-            path: "/subscription-list",
-            element: <SubscriptionList />,
-        },
-        {
-            path: "/subscription-details/:subId",
-            element: <SubscriptionDetails />,
-        },
-        {
-            path: "/pod-device",
-            // element: <ShopList />,
-            children: [
-                {
-                    path: "device-list",
-                    element: <PodDeviceList />,
-                },
-                {
-                    path: "add-device",
-                    element: <AddPodDevice />,  
-                },
-                {
-                    path: "edit-device/:deviceId",
-                    element: <EditPodDevice />,  
-                }, {
-                    path: "device-details/:deviceId",
-                    element: <DeviceDetails />,  
-                },
-                {
-                    path    : "area-list",
-                    element : <EvPreSaleBookingDetails />,
-                },
-                {
-                    path    : "brand-list",
-                    element : <PodBrandList />,
-                },
-                {
-                    path    : "add-brand",
-                    element : <AddPodBrand />,
-                },
-            ],
-        },
+            //Register Interest
+            {
+                path: "/interest-list",
+                element: <InterestList />,
+            },
+            // Start the Add POD Brand Route
+            {
+                path:"/add-brand-form",
+                element:<AddBrandForm/>
+            },
+            {
+                path:"/edit-brand-form",
+                element:<EditBrandForm/>
+            },
+            //Subscription
+            {
+                path: "/subscription-list",
+                element: <SubscriptionList />,
+            },
+            {
+                path: "/subscription-details/:subId",
+                element: <SubscriptionDetails />,
+            },
+            {
+                path: "/pod-device",
+                // element: <ShopList />,
+                children: [
+                    {
+                        path: "device-list",
+                        element: <PodDeviceList />,
+                    },
+                    {
+                        path: "add-device",
+                        element: <AddPodDevice />,  
+                    },
+                    {
+                        path: "edit-device/:podId",
+                        element: <EditPodDevice />,  
+                    }, {
+                        path: "device-details/:podId",
+                        element: <DeviceDetails />,  
+                    },
+                    {
+                        path    : "area-list",
+                        element : <PodAreaList />,
+                    },
+                    {
+                        path    : "brand-list",
+                        element : <PodBrandList />,
+                    },
+                    {
+                        path    : "add-brand/:deviceId",
+                        element : <AddPodBrand />,
+                    },
+                    {
+                        path    : "add-area",
+                        element : <AddPodArea />,
+                    },
+                    {
+                        path    : "edit-area/:areaId",
+                        element : <EditPodArea />,
+                    },
+                ],
+            },
         ],
     },
     {

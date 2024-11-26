@@ -6,7 +6,7 @@ import PODOutput from './PODOutput';
 import PODBookingList from './PODBookingList';
 import PODZoneHistory from './PODZoneHistory';
 
-const BookingDetailsButtons = ({ deviceId, deviceBrandList, currentPage, totalPages, onPageChange }) => {
+const BookingDetailsButtons = ({ deviceId, deviceBrandList, currentPage, totalPages, onPageChange, brandImagePath }) => {
     const [activeSection, setActiveSection] = useState('brandingHistory');
 
     return (
@@ -52,11 +52,16 @@ const BookingDetailsButtons = ({ deviceId, deviceBrandList, currentPage, totalPa
                         currentPage={currentPage}
                         totalPages={totalPages}
                         onPageChange={onPageChange}
+                        brandImagePath={brandImagePath}
                     />
                 }
                 {activeSection === 'podInputHistory' && <PODInput />}
                 {activeSection === 'podOutputHistory' && <PODOutput />}
-                {activeSection === 'podZoneHistory' && <PODZoneHistory />}
+                {activeSection === 'podZoneHistory' && 
+                    <PODZoneHistory 
+                        podId={deviceId}
+                    />
+                }
                 {activeSection === 'podBookingList' && <PODBookingList />}
             </div>
         </div>

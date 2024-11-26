@@ -6,45 +6,73 @@ import Modal from './ModalAssign';
 import Add from '../../../assets/images/Plus.svg';
 import Select from 'react-select';
 import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
-
-const PODZoneHistory = ({
-    deviceBrandList = [],
-    initialPage = 1,
-    itemsPerPage = 5, 
-    defaultCoordinates = { lat: 25.276987, lng: 55.296249 },
-}) => {
-    const toggleDropdown = () => {
-        setIsDropdownOpen(!isDropdownOpen);
+import { getRequestWithToken } from '../../../api/Requests';
+import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import moment from 'moment';
+const PODZoneHistory = ({podId }) => {
+   
+    const userDetails                                 = JSON.parse(sessionStorage.getItem('userDetails'));
+    const [defaultCoordinates, setDefaultCoordinates] = useState({ lat: 25.276987, lng: 55.296249 });
+    const navigate                                    = useNavigate()
+    const [areaData, setAreadata]         = useState([]);
+    const [currentPage, setCurrentPage]   = useState(1);
+    const [totalPages, setTotalPages]     = useState(1);
+    const [isModalOpen, setIsModalOpen]   = useState(false);
+    const [selectedArea, setSelectedArea] = useState('');
+    const [areaOptions, setAreaOptions]   = useState([]);
+    const [errors, setErrors]             = useState({});
+   
+    const[podSssignAreaList, setPodSssignAreaList] = useState([]);
+    const obj = {
+        userId : userDetails?.user_id,
+        email  : userDetails?.email,
     };
-
-    const [currentPage, setCurrentPage] = useState(initialPage);
-    const [totalPages, setTotalPages] = useState(1);
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const options = [
-        { value: 'Dubai', label: 'Dubai' },
-        { value: 'Abu Dhabi', label: 'Abu Dhabi' },
-        { value: 'Ajman', label: 'Ajman' },
-        { value: 'Umm Al Qaiwain', label: 'Umm Al Qaiwain' },
-    ];
-
-    // Assuming `staticVehicleList` is defined somewhere in your code
-    const staticVehicleList = []; // Placeholder, replace with your actual data
+    const getAllArea = () => {
+        let AreaObj = {
+            ...obj,
+            podId : podId, 
+            page_no : currentPage
+        }
+        getRequestWithToken('pod-assign-area-list', AreaObj, (response) => {
+            if (response.code === 200) {
+                
+                setPodSssignAreaList(response?.data || []);  
+                
+            } else {
+                console.log('error in area-list API', response);
+            }
+        });
+    }
 
     useEffect(() => {
-        setTotalPages(Math.ceil(staticVehicleList.length / itemsPerPage));
-    }, [staticVehicleList, itemsPerPage]);
-
-    const currentItems = staticVehicleList.slice(
-        (currentPage - 1) * itemsPerPage,
-        currentPage * itemsPerPage
-    );
-
+        
+        getRequestWithToken('all-pod-area', obj, (response) => {
+            if (response.code === 200) {
+                // console.log(response.code)
+                setAreadata(response?.data || []);  
+                let area_options = response?.data.map((zone) => ({
+                    value : zone.area_id,
+                    label : zone.area_name,
+                }));
+                setAreaOptions(area_options)
+            } else {
+                console.log('error in brand-list API', response);
+            }
+        });
+        if (!userDetails || !userDetails.access_token) {
+            navigate('/login');
+            return;
+        }
+        getAllArea();
+        // 
+    }, []);
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
-
+    
     const handleAddZoneClick = () => {
+        setSelectedArea('');
         setIsModalOpen(true);
     };
 
@@ -56,12 +84,53 @@ const PODZoneHistory = ({
     const { isLoaded } = useJsApiLoader({
         googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
     });
-
     if (!isLoaded) return <div>Loading...</div>;
+
+    const handleChange = (e) => {
+    
+        const index = areaOptions.findIndex((u) => u.value === e.value);
+        setSelectedArea(e.value);
+        setDefaultCoordinates({ lat: areaData[index].latitude, lng: areaData[index].longitude })
+    };
+    
+    const handleSubmit = () => {
+        
+        if(podId == ''){
+            
+            toast("POD ID is required.", {type:'error'});
+
+        } else if(selectedArea == ''){
+            errors.selectedArea = "Please Select Area!";
+        } else {
+
+            const formData = new FormData();
+            formData.append("userId", "1");
+            formData.append("email", "admin@shunyaekai.com");
+            
+            formData.append("podId", podId);
+            formData.append("selectedArea", selectedArea);
+
+            getRequestWithToken('pod-assign-area', formData, async (response) => {
+                if (response.code === 200) {
+                    toast(response.message[0], { type: "success" });
+                    setTimeout(() => {
+                        handleCloseModal();
+                        getAllArea();
+                        setSelectedArea('')
+                    }, 2000);
+                } else {
+                    toast(response.message, {type:'error'})
+                    console.log('error in add-brand api', response);
+                }
+            })
+
+        }
+    };
 
     return (
         <div className={styles.addressListContainer}>
             <div className={styles.brandHistorySection}>
+                <ToastContainer />
                 <span className={styles.sectionTitle}>POD Zone List</span>
                 <button
                     className={styles.brandHistoryButton}
@@ -75,18 +144,16 @@ const PODZoneHistory = ({
                 <thead>
                     <tr>
                         <th>Zone ID</th>
-                        <th>Assigned Date</th>
                         <th>Area Name</th>
-                        <th>Status</th>
+                        <th>Assigned Date</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {currentItems.map((vehicle, index) => (
+                    {podSssignAreaList.map((area, index) => (
                         <tr key={index}>
-                            <td>{vehicle.vehicle_type}</td>
-                            <td>{vehicle.vehicle_number}</td>
-                            <td>{vehicle.vehicle_type}</td>
-                            <td>{vehicle.vehicle_number}</td>
+                            <td>{area.area_id}</td>
+                            <td>{area.area_name}</td>
+                            <td>{moment(area.created_at).format('DD MMM YYYY HH:mm:ss') }</td>
                         </tr>
                     ))}
                 </tbody>
@@ -100,21 +167,21 @@ const PODZoneHistory = ({
                 isOpen={isModalOpen}
                 onClose={handleCloseModal}
                 buttonName="Add"
-                onAssign={() => {
-                    console.log('Add Zone action');
-                    handleCloseModal();
-                }}
+                onAssign={() => {  handleSubmit(); }}
             >
                 <div className="modalHeading">Add New Zone</div>
                 <div className={styles.modalContainer}>
                     <Select
-                        options={options}
+                        value={selectedArea}
+                        options={areaOptions}
                         placeholder="Select Area"
+                        onChange={handleChange}
                     />
+                    {errors.selectedArea && selectedArea == '' && <p className="error">{errors.selectedArea}</p>}
                     <GoogleMap
                         mapContainerClassName={styles.mapResponsive}
                         center={defaultCoordinates}
-                        zoom={12}
+                        zoom={15}
                     >
                         <Marker position={defaultCoordinates} />
                     </GoogleMap>

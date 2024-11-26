@@ -12,11 +12,13 @@ const AddPodDevice = () => {
     const userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
     const navigate    = useNavigate()
     
-    const [deviceId, setDeviceId]                     = useState("");
-    const [modalName, setModalName]                     = useState("");
-    const [capacity, setcapacity]                       = useState("");
-    const [inverter, setInverter]                       = useState("");
-    const [charger, setCharger]                         = useState("");
+    const [podId, setPodId]         = useState("");
+    const [podName, setPodName]     = useState("");
+    const [deviceId, setDeviceId]   = useState("");
+    const [modalName, setModalName] = useState("");
+    const [capacity, setcapacity]   = useState("");
+    const [inverter, setInverter]   = useState("");
+    const [charger, setCharger]     = useState("");
     const [dateOfManufacturing, setDateOfManufacturing] = useState("");
     const [errors, setErrors]                           = useState({});  
     
@@ -25,6 +27,18 @@ const AddPodDevice = () => {
     };
     const validateForm = () => {
         const fields = [
+            { 
+                name         : "podId", 
+                value        : podId, 
+                errorMessage : "POd Id is required.", 
+                isValid      : val => val.trim() !== "" 
+            },
+            { 
+                name         : "podName", 
+                value        : podName, 
+                errorMessage : "Pod Name is required.", 
+                isValid      : val => val.trim() !== "" 
+            },
             { 
                 name         : "deviceId", 
                 value        : deviceId, 
@@ -81,6 +95,9 @@ const AddPodDevice = () => {
             const formData = new FormData();
             formData.append("userId", "1");
             formData.append("email", "admin@shunyaekai.com");
+            formData.append("podId", podId);
+            formData.append("podName", podName);
+
             formData.append("deviceId", deviceId);
             formData.append("device_model", modalName);
             formData.append("capacity", capacity);
@@ -119,8 +136,26 @@ const AddPodDevice = () => {
                     <ToastContainer />
                     <div className={styles.row}>
                         <div className={styles.inputGroup}>
-                            <label className={styles.label}>Device Id</label>
-                            <input className={styles.inputCharger} type="text" placeholder="Device Id"
+                            <label className={styles.label}>POD ID</label>
+                            <input className={styles.inputCharger} type="text" placeholder="Device ID"
+                                value={podId}
+                                onChange={(e) => setPodId(e.target.value) }
+                            />
+                            {errors.podId && podId =='' && <p className="error">{errors.podId}</p>}
+                        </div>
+                        <div className={styles.inputGroup}>
+                            <label className={styles.label}>POD Name</label>
+                            <input className={styles.inputCharger} type="text" placeholder="POD Name"
+                                value={podName}
+                                onChange={(e) => setPodName(e.target.value) }
+                            />
+                            {errors.podName && podName =='' && <p className="error">{errors.podName}</p>}
+                        </div>  
+                    </div>
+                    <div className={styles.row}>
+                        <div className={styles.inputGroup}>
+                            <label className={styles.label}>Device ID</label>
+                            <input className={styles.inputCharger} type="text" placeholder="Device ID"
                                 value={deviceId}
                                 onChange={(e) =>
                                     setDeviceId(e.target.value)
@@ -141,7 +176,7 @@ const AddPodDevice = () => {
                     </div>
                     <div className={styles.row}>
                         <div className={styles.inputGroup}>
-                            <label className={styles.label}>Capacity</label>
+                            <label className={styles.label}>Capacity (KW)</label>
                             <input
                                 className={styles.inputCharger}
                                 type="text"

@@ -66,6 +66,7 @@ const PodAreaList = () => {
         <div className='main-container'>
             <SubHeader
                 heading="POD Area List"
+                fetchFilteredData={fetchFilteredData}
                 addButtonProps={addButtonProps}
                 filterValues={filters}
                 searchTerm = {searchTerm}

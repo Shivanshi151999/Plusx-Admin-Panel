@@ -1,13 +1,20 @@
 import React, { useState } from "react";
 import styles from "./history.module.css";
 
-const BookingStatusSection = () => {
+const statusMapping = {
+    '0': 'Under Maintenance',
+    '1': 'In Use',
+    '2': 'In Service'
+};
+
+const BookingStatusSection = ({deviceId, podStatus}) => {
+    
     const [selectedStatus, setSelectedStatus] = useState("In Use");
 
     const handleStatusChange = (status) => {
         setSelectedStatus(status);
     };
-
+    // //statusMapping[deviceDetails?.status] || deviceDetails?.status,
     return (
         <div className={styles.bookingStatusContainer}>
             <div className={styles.bookingStatusHead}>Status</div>

@@ -154,7 +154,7 @@ const BookingDetailsHeader = ({ content, titles, sectionContent, type }) => {
                 )}
 
                 { (type === 'PODDeviceDetails' ) && (
-                    <div className="col-xl-3 col-lg-6 col-12">
+                    <><div className="col-xl-3 col-lg-6 col-12">
                         <div className={styles.detailsHeaderSection}>
                         <div className={styles.detailsImageSection}>
                             {/* <img src={Email} alt="Email" /> */}
@@ -162,10 +162,21 @@ const BookingDetailsHeader = ({ content, titles, sectionContent, type }) => {
                         <div className={styles.infoBlock}>
                             <span className={styles.infoHeading}>{titles.driverDetailsTitle}</span>
                             <span className={styles.infoHeadText}>{content.driverName}</span>
-                            <span className={styles.infoText}>{content.driverContact}</span>
                         </div>
                         </div>
                     </div>
+                    <div className="col-xl-3 col-lg-6 col-12">
+                        <div className={styles.detailsHeaderSection}>
+                        <div className={styles.detailsImageSection}>
+                            {/* <img src={Email} alt="Email" /> */}
+                        </div>
+                        <div className={styles.infoBlock}>
+                            <span className={styles.infoHeading}>{titles.podTemp}</span>
+                            <span className={styles.infoHeadText}>{content.podTemp}</span>
+                        </div>
+                        </div>
+                    </div>
+                    </>
                 )}
 
             </div>

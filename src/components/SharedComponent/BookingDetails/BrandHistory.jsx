@@ -8,8 +8,9 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
 
-const BrandHistory = ({ deviceId, deviceBrandList, currentPage, totalPages, onPageChange }) => {
-  const [paginatedData, setPaginatedData] = useState(deviceBrandList || []);
+const BrandHistory = ({ deviceId, deviceBrandList, currentPage, totalPages, onPageChange, brandImagePath }) => {
+  
+  const [paginatedData, setPaginatedData] = useState(deviceBrandList);
   const [openModal, setOpenModal] = useState(false);
   const [modalImage, setModalImage] = useState('');
 
@@ -27,7 +28,7 @@ const BrandHistory = ({ deviceId, deviceBrandList, currentPage, totalPages, onPa
     setModalImage(imageUrl);
     setOpenModal(true);
   };
-
+  // console.log(brandImagePath)
   return (
     <div className={styles.addressListContainer}>
       <div className={styles.brandHistorySection}>
@@ -50,12 +51,12 @@ const BrandHistory = ({ deviceId, deviceBrandList, currentPage, totalPages, onPa
           </tr>
         </thead>
         <tbody>
-          {paginatedData.map((vehicle, index) => (
+          {deviceBrandList.map((vehicle, index) => (
             <tr key={index}>
               <td>
                 {vehicle.brand_image && (
                   <img
-                    src={vehicle.brand_image}
+                    src={brandImagePath+''+vehicle.brand_image}
                     alt={vehicle.brand_name}
                     className={styles.brandImage}
                     onClick={() => openImageModal(vehicle.brand_image)}

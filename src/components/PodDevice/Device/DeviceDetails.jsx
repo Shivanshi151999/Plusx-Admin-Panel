@@ -10,24 +10,20 @@ import moment from 'moment';
 import { useNavigate, useParams } from 'react-router-dom';
 import BookingDetailsButtons from '../../SharedComponent/BookingDetails/BookingDetailsButtons.jsx';
 import BookingStatusSection from '../../SharedComponent/BookingDetails/BookingStatusSection.jsx';
-const statusMapping = {
-    '1': 'In Use',
-    '0': 'Available',
-    '2': 'Used'
-};
-
+    
 const DeviceDetails = () => {
-    const userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
-    const navigate = useNavigate()
-    const { deviceId } = useParams()
+    const userDetails                       = JSON.parse(sessionStorage.getItem('userDetails'));
+    const navigate                          = useNavigate()
+    const { podId }                      = useParams()
     const [deviceDetails, setDeviceDetails] = useState({})
     // Static data for the table
-    const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(1);
-    const [deviceBrandList, setdeviceBrandList] = useState([])
+    const [currentPage, setCurrentPage]         = useState(1);
+    const [totalPages, setTotalPages]           = useState(1);
+    const [deviceBrandList, setdeviceBrandList] = useState([]);
+    const [brandImagePath, setBrandImagePath] = useState('');
 
     const handlePageChange = (pageNumber) => {
-        console.log(pageNumber)
+        
         setCurrentPage(pageNumber);
     };
     const fetchBrandList = (page) => {
@@ -35,15 +31,16 @@ const DeviceDetails = () => {
             userId: userDetails?.user_id,
             email: userDetails?.email,
             page_no: page,
-            deviceId,
+            podId,
         };
         postRequestWithToken('device-brand-list', obj, async (response) => {
             if (response.code === 200) {
                 setdeviceBrandList(response?.data);
+                setBrandImagePath(response?.base_url)
                 setTotalPages(response?.total_page || 1);
 
             } else {
-                console.log('error in charger-booking-list api', response);
+                // console.log('error in charger-booking-list api', response);
             }
         });
     };
@@ -52,7 +49,7 @@ const DeviceDetails = () => {
         const obj = {
             userId: userDetails?.user_id,
             email: userDetails?.email,
-            device_id: deviceId
+            pod_id: podId
         };
         postRequestWithToken('pod-device-details', obj, (response) => {
 
@@ -65,10 +62,8 @@ const DeviceDetails = () => {
                 // setDateOfManufacturing(formattedDate);
                 // setIsActive(data?.status === '1' ? true : false)
 
-
-
             } else {
-                console.error('Error in electric-bike-detail API', response);
+                // console.error('Error in electric-bike-detail API', response);
             }
         });
     };
@@ -82,40 +77,50 @@ const DeviceDetails = () => {
     useEffect(() => {
         fetchBrandList(currentPage);
     }, [currentPage]);
-
     const headerTitles = {
-        bookingIdTitle: "Device ID",
-        customerDetailsTitle: "Modal Name",
-        driverDetailsTitle: "Capacity",
+        bookingIdTitle       : "Current",
+        customerDetailsTitle : "Voltage",
+        driverDetailsTitle   : "Percentage",
+        podTemp              : "Temperature",
     };
     const sectionTitles1 = {
-        bookingStatus: "Inverter",
-        price: "Charger",
-        serviceName: "Status",
+        bookingStatus : "POD Id",
+        price         : "Pod Name",
+        serviceName   : "Device Id",
+        // design_model  : "Modal",
     }
     const sectionTitles2 = {
-        vehicle: "Current",
-        serviceType: "Voltage",
-        serviceFeature: "Percentage",
+        vehicle        : "Modal",
+        serviceType    : "Capacity",
+        serviceFeature : "Inverter",
     }
-    // , , , , , 
     const content = {
-        bookingId: deviceId,
-        createdAt: moment(deviceDetails?.date_of_manufacturing).format('DD MMM YYYY'),
-        customerName: deviceDetails?.design_model,
-        driverName: deviceDetails?.capacity,
+        bookingId    : deviceDetails?.current +" Volt",
+        createdAt    : '',
+        customerName : deviceDetails?.voltage +" V", 
+        driverName   : deviceDetails.percentage ? deviceDetails.percentage.toFixed(2)+" %" : '', 
+        podTemp   : deviceDetails?.temp1 +" C", 
     };
     const sectionContent1 = {
-        bookingStatus: deviceDetails?.inverter,
-        serviceName: statusMapping[deviceDetails?.status] || deviceDetails?.status,
-        price: deviceDetails?.charger,
+        bookingStatus : deviceDetails?.pod_id,
+        serviceName   : deviceDetails?.pod_name,  
+        price         : deviceDetails?.device_id,
+        // design_model  : deviceDetails?.design_model,
     }
     const sectionContent2 = {
-        vehicle: deviceDetails?.current,
-        serviceType: deviceDetails?.voltage,
-        serviceFeature: deviceDetails?.percentage,
+        vehicle        : deviceDetails?.design_model,
+        serviceType    : deviceDetails?.capacity,
+        serviceFeature : deviceDetails?.inverter,
     }
-
+    const sectionTitles3 = {
+        charger               : "Charger",
+        date_of_manufacturing : "Date Of Manufacturing",
+    }
+    const sectionContent3 = {
+        charger  : deviceDetails?.charger,
+        date_of_manufacturing : moment(deviceDetails?.date_of_manufacturing).format('DD MMMM YYYY'),
+    }
+    
     return (
         <div className='main-container'>
             <BookingDetailsHeader content={content} titles={headerTitles} sectionContent={sectionContent1}
@@ -124,15 +129,21 @@ const DeviceDetails = () => {
             <div className={styles.bookingDetailsSection}>
                 <BookingLeftDetails titles={sectionTitles1} content={sectionContent1}
                     sectionTitles2={sectionTitles2} sectionContent2={sectionContent2}
-                    type='PODDeviceDetails' />
-                <BookingStatusSection />
+                    sectionTitles3={sectionTitles3} sectionContent3={sectionContent3}
+                    type='PODDeviceDetails'
+                />
+                <BookingStatusSection
+                    deviceId={podId}
+                    podStatus={deviceDetails?.status}
+                />
                 <BookingDetailsButtons
-                    deviceId={deviceId}
+                    deviceId={podId}
                     deviceBrandList={deviceBrandList}
                     currentPage={currentPage}
                     totalPages={totalPages}
-                    onPageChange={handlePageChange} />
-                {/* } */}
+                    onPageChange={handlePageChange}
+                    brandImagePath={brandImagePath} 
+                />
             </div>
         </div>
     )
