@@ -100,7 +100,8 @@ const PODZoneHistory = ({podId }) => {
             toast("POD ID is required.", {type:'error'});
 
         } else if(selectedArea == ''){
-            errors.selectedArea = "Please Select Area!";
+           
+            setErrors((prev) => ({ ...prev, selectedArea: "Please Select Area!" }));
         } else {
 
             const formData = new FormData();

@@ -59,7 +59,7 @@ const BrandHistory = ({ deviceId, deviceBrandList, currentPage, totalPages, onPa
                     src={brandImagePath+''+vehicle.brand_image}
                     alt={vehicle.brand_name}
                     className={styles.brandImage}
-                    onClick={() => openImageModal(vehicle.brand_image)}
+                    onClick={(e) => openImageModal(e.target.src)}
                   />
                 )}
               </td>
