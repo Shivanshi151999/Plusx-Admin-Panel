@@ -19,13 +19,13 @@ const addButtonProps = {
 
 const SubscriptionList = () => {
     const userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
-    const navigate = useNavigate()
-    const [clubList, setClubList] = useState([])
+    const navigate    = useNavigate()
+    const [clubList, setClubList]       = useState([])
     const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(1);
-    const [totalCount, setTotalCount] = useState(1)
-    const [filters, setFilters] = useState({});
-    const [refresh, setRefresh]           = useState(false)
+    const [totalPages, setTotalPages]   = useState(1);
+    const [totalCount, setTotalCount]   = useState(1)
+    const [filters, setFilters]         = useState({});
+    const [refresh, setRefresh]         = useState(false)
     const searchTerm = [
         {
             label: 'search', 
@@ -36,9 +36,9 @@ const SubscriptionList = () => {
 
     const fetchList = (page, appliedFilters = {}) => {
         const obj = {
-            userId: userDetails?.user_id,
-            email: userDetails?.email,
-            page_no: page,
+            userId  : userDetails?.user_id,
+            email   : userDetails?.email,
+            page_no : page,
             ...appliedFilters,
         }
 

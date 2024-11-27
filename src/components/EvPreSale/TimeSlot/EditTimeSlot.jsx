@@ -16,9 +16,9 @@ import moment from 'moment';
 dayjs.extend(isSameOrAfter);
 
 const EditEvPreSaleTimeSlot = () => {
-    const userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
+    const userDetails  = JSON.parse(sessionStorage.getItem('userDetails'));
     const { slotDate } = useParams();
-    const navigate = useNavigate();
+    const navigate     = useNavigate();
 
     const [startDate, setStartDate] = useState(null);
     const [startTime, setStartTime] = useState(null);
@@ -36,36 +36,26 @@ const EditEvPreSaleTimeSlot = () => {
 
     const fetchDetails = () => {
         const obj = {
-            userId: userDetails?.user_id,
-            email: userDetails?.email,
-            slot_date: slotDate
+            userId    : userDetails?.user_id,
+            email     : userDetails?.email,
+            slot_date : slotDate
         };
 
         postRequestWithToken('ev-pre-sale-time-slot-details', obj, (response) => {
             if (response.code === 200) {
-                const data = response.data || {};
-                // setSlotDetails(data);
-                // setStartDate(data.slot_date);
-                // setStartTime(moment(data.start_time, 'HH:mm:ss').format('HH:mm'));
-                // setEndTime(moment(data.end_time, 'HH:mm:ss').format('HH:mm'));
-                // setBookingLimit(data.booking_limit || "");
-                // setIsActive(data.status)
-
                 const slots = response.data || [];
             if (slots.length > 0) {
                 setTimeSlots(
                     slots.map(slot => ({
-                        slotId: slot.slot_id,
-                        startTime: moment(slot.start_time, 'HH:mm:ss').format('HH:mm'),
-                        endTime: moment(slot.end_time, 'HH:mm:ss').format('HH:mm'),
-                        bookingLimit: slot.booking_limit.toString(),
-                        remainingLimit: slot.booking_limit.toString()- slot.slot_booking_count.toString(),
-                        id: slot.id,
-                        // status: setIsActive(slot.status)
-                        status: slot.status === 1,
+                        slotId         : slot.slot_id,
+                        startTime      : moment(slot.start_time, 'HH:mm:ss').format('HH:mm'),
+                        endTime        : moment(slot.end_time, 'HH:mm:ss').format('HH:mm'),
+                        bookingLimit   : slot.booking_limit.toString(),
+                        remainingLimit : slot.booking_limit.toString()- slot.slot_booking_count.toString(),
+                        id             : slot.id,
+                        status         : slot.status === 1,
                     }))
                 );
-
                     // Set the date state using the first slot's date
                     setDate(new Date(slots[0].slot_date));
                     setStartDate(new Date(slots[0].slot_date)); // If this is used elsewhere
@@ -95,12 +85,6 @@ const EditEvPreSaleTimeSlot = () => {
         return isValidTime || value === '' ? value : null;
     };
 
-    // const handleStartTimeChange = (e) => {
-    //     const formattedTime = e.target.value;
-    //     setStartTime(formattedTime);
-    //     setErrors((prev) => ({ ...prev, startTime: "" }));
-    // };
-
     const handleStartTimeChange = (index, newTime) => {
         const validatedTime = handleTimeInput({ target: { value: newTime } });
         const newTimeSlots = [...timeSlots];
@@ -108,26 +92,12 @@ const EditEvPreSaleTimeSlot = () => {
         setTimeSlots(newTimeSlots);
     };
 
-    // const handleEndTimeChange = (e) => {
-    //     const formattedTime = e.target.value;
-    //     setEndTime(formattedTime);
-    //     setErrors((prev) => ({ ...prev, endTime: "" }));
-    // };
-
     const handleEndTimeChange = (index, newTime) => {
         const validatedTime = handleTimeInput({ target: { value: newTime } });
         const newTimeSlots = [...timeSlots];
         newTimeSlots[index].endTime = validatedTime === '' ? null : validatedTime;
         setTimeSlots(newTimeSlots);
     };
-
-    // const handleBookingLimitChange = (e) => {
-    //     const value = e.target.value;
-    //     if (/^\d{0,4}$/.test(value)) {
-    //         setBookingLimit(value);
-    //         setErrors((prev) => ({ ...prev, bookingLimit: "" }));
-    //     }
-    // };
 
     const handleBookingLimitChange = (index, e) => {
         const value = e.target.value;
@@ -199,22 +169,16 @@ const EditEvPreSaleTimeSlot = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (validateForm()) {
-            const slot_id = timeSlots.map(slot => slot.slotId);
-            const slot_date = dayjs(date).format("DD-MM-YYYY");
-            const id = timeSlots.map(slot => slot.id);
-            const start_time = timeSlots.map(slot => slot.startTime);
-            const end_time = timeSlots.map(slot => slot.endTime);
+            const slot_id       = timeSlots.map(slot => slot.slotId);
+            const slot_date     = dayjs(date).format("DD-MM-YYYY");
+            const id            = timeSlots.map(slot => slot.id);
+            const start_time    = timeSlots.map(slot => slot.startTime);
+            const end_time      = timeSlots.map(slot => slot.endTime);
             const booking_limit = timeSlots.map(slot => slot.bookingLimit);
-            const status = timeSlots.map(slot => (slot.status ? 1 : 0));
+            const status        = timeSlots.map(slot => (slot.status ? 1 : 0));
             const obj = {
-                userId: userDetails?.user_id,
-                email: userDetails?.email,
-                // slot_id: slotId,
-                // status: isActive ? "1" : "0",
-                // slot_date: moment(startDate).format('DD-MM-YYYY'),
-                // start_time: startTime,
-                // end_time: endTime,
-                // booking_limit: bookingLimit
+                userId : userDetails?.user_id,
+                email  : userDetails?.email,
                 slot_id,
                 id,
                 slot_date,

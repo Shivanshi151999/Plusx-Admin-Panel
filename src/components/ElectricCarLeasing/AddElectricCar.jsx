@@ -162,6 +162,13 @@ const handleCancel = () => {
     navigate('/electric-car-list')
 }
 
+useEffect(() => {
+    if (!userDetails || !userDetails.access_token) {
+        navigate('/login');
+        return;
+    }
+}, []);
+
   return (
     <div className={styles.addShopContainer}>
          <ToastContainer />
