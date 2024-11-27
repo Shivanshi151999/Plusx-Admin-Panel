@@ -17,7 +17,7 @@ dayjs.extend(isSameOrAfter);
 
 const EditEvPreSaleTimeSlot = () => {
     const userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
-    const { slotId } = useParams();
+    const { slotDate } = useParams();
     const navigate = useNavigate();
 
     const [startDate, setStartDate] = useState(null);
@@ -27,7 +27,7 @@ const EditEvPreSaleTimeSlot = () => {
 
     const [date, setDate] = useState(new Date()); // Separate state for the date
     const [timeSlots, setTimeSlots] = useState([
-        { id: "", startTime: null, endTime: null, bookingLimit: "", remainingLimit: "", status: "" }
+        { id: "", slotId: "", startTime: null, endTime: null, bookingLimit: "", remainingLimit: "", status: "" }
     ]);
 
 
@@ -38,7 +38,7 @@ const EditEvPreSaleTimeSlot = () => {
         const obj = {
             userId: userDetails?.user_id,
             email: userDetails?.email,
-            slot_id: slotId
+            slot_date: slotDate
         };
 
         postRequestWithToken('ev-pre-sale-time-slot-details', obj, (response) => {
@@ -55,6 +55,7 @@ const EditEvPreSaleTimeSlot = () => {
             if (slots.length > 0) {
                 setTimeSlots(
                     slots.map(slot => ({
+                        slotId: slot.slot_id,
                         startTime: moment(slot.start_time, 'HH:mm:ss').format('HH:mm'),
                         endTime: moment(slot.end_time, 'HH:mm:ss').format('HH:mm'),
                         bookingLimit: slot.booking_limit.toString(),
@@ -198,6 +199,7 @@ const EditEvPreSaleTimeSlot = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (validateForm()) {
+            const slot_id = timeSlots.map(slot => slot.slotId);
             const slot_date = dayjs(date).format("DD-MM-YYYY");
             const id = timeSlots.map(slot => slot.id);
             const start_time = timeSlots.map(slot => slot.startTime);
@@ -207,12 +209,13 @@ const EditEvPreSaleTimeSlot = () => {
             const obj = {
                 userId: userDetails?.user_id,
                 email: userDetails?.email,
-                slot_id: slotId,
+                // slot_id: slotId,
                 // status: isActive ? "1" : "0",
                 // slot_date: moment(startDate).format('DD-MM-YYYY'),
                 // start_time: startTime,
                 // end_time: endTime,
                 // booking_limit: bookingLimit
+                slot_id,
                 id,
                 slot_date,
                 start_time,
@@ -266,6 +269,7 @@ const EditEvPreSaleTimeSlot = () => {
                                 onChange={(date) => setDate(date)}
                                 minDate={new Date()}
                                 maxDate={new Date().setDate(new Date().getDate() + 14)}
+                                readOnly
                             />
                             <img className={styles.datePickerImg} src={Calendar} alt="calendar" />
                         </div>

@@ -93,13 +93,13 @@ const TimeSlotList = () => {
         setCurrentPage(pageNumber);
     };
 
-    const handleDeleteSlot = (slotId) => {
+    const handleDeleteSlot = (slotDate) => {
         const confirmDelete = window.confirm("Are you sure you want to delete this slot?");
         if (confirmDelete) {
             const obj = {
                 userId: userDetails?.user_id,
                 email: userDetails?.email,
-                slot_id: slotId
+                slot_date: slotDate
             };
             postRequestWithToken('pick-and-drop-delete-slot', obj, async (response) => {
                 if (response.code === 200) {
@@ -113,7 +113,7 @@ const TimeSlotList = () => {
         }
     };
 
-    const handlePickDropEditTimeSlot = (id) => navigate(`/pick-and-drop/edit-time-slot/${id}`)
+    const handlePickDropEditTimeSlot = (slotDate) => navigate(`/pick-and-drop/edit-time-slot/${slotDate}`)
 
     return (
         <div className='main-container'>
@@ -193,12 +193,12 @@ const TimeSlotList = () => {
                                                 <img
                                                     src={Edit}
                                                     alt="edit"
-                                                    onClick={() => handlePickDropEditTimeSlot(group.slots[0]?.slot_id)}
+                                                    onClick={() => handlePickDropEditTimeSlot(group.slots[0]?.slot_date)}
                                                 />
                                                 <img
                                                     src={Delete}
                                                     alt="delete"
-                                                    onClick={() => handleDeleteSlot(group.slots[0]?.slot_id)}
+                                                    onClick={() => handleDeleteSlot(group.slots[0]?.slot_date)}
                                                 />
                                             </div>
                                             </div>

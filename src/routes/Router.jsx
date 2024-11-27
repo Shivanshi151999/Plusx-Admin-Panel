@@ -176,7 +176,7 @@ const router = createBrowserRouter([
                         element: <AddPortableChargerTimeSlot />,
                     },
                     {
-                        path: "edit-time-slot/:slotId",
+                        path: "edit-time-slot/:slotDate",
                         element: <EditPortableChargerTimeSlot />,
                     },
                 ],
@@ -247,7 +247,7 @@ const router = createBrowserRouter([
                         element: <AddPickAndDropTimeSlot />,
                     },
                     {
-                        path: "edit-time-slot/:slotId",
+                        path: "edit-time-slot/:slotDate",
                         element: <EditPickAndDropTimeSlot />,
                     },
                 ],
@@ -352,7 +352,7 @@ const router = createBrowserRouter([
                         element: <AddPortableChargerTimeSlot />,
                     },
                     {
-                        path: "edit-time-slot/:slotId",
+                        path: "edit-time-slot/:slotDate",
                         element: <EditPortableChargerTimeSlot />,
                     },
                 ],
@@ -449,7 +449,7 @@ const router = createBrowserRouter([
                         element: <AddEvPreSaleTimeSlot />,
                     },
                     {
-                        path: "edit-time-slot/:slotId",
+                        path: "edit-time-slot/:slotDate",
                         element: <EditEvPreSaleTimeSlot />,
                     },
                 ],
