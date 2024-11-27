@@ -28,7 +28,7 @@ const StationList = () => {
     ]
     const addButtonProps = {
         heading: "Add Public Charger",
-        link: "/add-charger-station"
+        link: "/public-charger-station/add-charger-station"
     };
 
     const fetchList = (page, appliedFilters = {}) => {

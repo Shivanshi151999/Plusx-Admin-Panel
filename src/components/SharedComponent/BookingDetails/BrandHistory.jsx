@@ -13,7 +13,8 @@ const BrandHistory = ({ deviceId, deviceBrandList, currentPage, totalPages, onPa
   const [paginatedData, setPaginatedData] = useState(deviceBrandList);
   const [openModal, setOpenModal] = useState(false);
   const [modalImage, setModalImage] = useState('');
-
+  console.log('deviceBrandList:', deviceBrandList);
+  console.log('brandImagePath:', brandImagePath);
   const handlePageChange = (newPage) => {
     console.log('Page changed to:', newPage);
     onPageChange(newPage);
@@ -25,6 +26,7 @@ const BrandHistory = ({ deviceId, deviceBrandList, currentPage, totalPages, onPa
   };
 
   const openImageModal = (imageUrl) => {
+    console.log('imageUrl:', imageUrl);
     setModalImage(imageUrl);
     setOpenModal(true);
   };
@@ -116,4 +118,4 @@ const BrandHistory = ({ deviceId, deviceBrandList, currentPage, totalPages, onPa
   );
 };
 
-export default BrandHistory;
+export default BrandHistory;  

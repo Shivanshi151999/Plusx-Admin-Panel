@@ -4,14 +4,6 @@ import style from './Map.module.css';
 
 const center = { lat: 25.2048, lng: 55.2708 };
 const googleMapApiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
-
-// const location = [
-//   { key: "1", location: {lat: 25.20707635425504, lng: 55.27097166137693 } },
-//   { key: "2", location: {lat: 25.20906873599594, lng: 55.26959837036131 } },
-//   { key: "3", location: {lat: 25.211320136647174, lng: 55.26811779098509 } },
-//   { key: "4", location: {lat: 25.21049975436963, lng: 55.27375042991636 } },
-// ];
-
 function MapComponent({ coordinates, location, podLocation }) {  
 
   const mapId = "1";
@@ -50,6 +42,7 @@ function MapComponent({ coordinates, location, podLocation }) {
                  position={item.location}
                  onMouseEnter={() => setHoveredMarker(item)} 
                   onMouseLeave={() => setHoveredMarker(null)}
+                  className={style.makerSection}
                  >
                 <Pin background={backgroundColor} glyphColor={"#000"} borderColor={"#000"} />
                 </AdvancedMarker>
@@ -58,16 +51,7 @@ function MapComponent({ coordinates, location, podLocation }) {
 
             {hoveredMarker && (
               <div
-                className={style.tooltip}
-                style={{
-                  position: "absolute",
-                  top: `${hoveredMarker.location.lat}px`,
-                  left: `${hoveredMarker.location.lng}px`,
-                  background: "white",
-                  padding: "5px",
-                  borderRadius: "5px",
-                  boxShadow: "0px 0px 10px rgba(0,0,0,0.1)",
-                }}
+                className={style.hoverTooltip}
               >
                 <p>POD ID: {hoveredMarker.podId}</p>
                 <p>Device ID: {hoveredMarker.deviceId}</p>

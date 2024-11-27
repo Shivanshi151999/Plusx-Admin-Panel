@@ -90,6 +90,7 @@ import AddPod from "../components/PortableCharger/AddPod/AddPod.js";
 import AddPodForm from "../components/PortableCharger/AddPod/AddPodForm.js";
 import EditPodForm from "../components/PortableCharger/AddPod/EditPodForm.js";
 import AddPODDetails from "../components/PortableCharger/AddPod/AddPODDetails.js";
+import PublicChargeStation from "../components/PublicChargerStation/index.jsx";
 
 import AddBrandForm from "../components/PortableCharger/AddPod/AddBrandForm.jsx";
 import EditBrandForm from "../components/PortableCharger/AddPod/EditBrandForm.jsx";
@@ -143,6 +144,7 @@ const router = createBrowserRouter([
                 path: "/edit-emergency-team/:rsaId",
                 element: <EditEmergencyTeam />,
             },
+            // Start the portable charger routes
             {
                 path: "/portable-charger",
                 element: <PortableCharger />,
@@ -181,6 +183,7 @@ const router = createBrowserRouter([
                     },
                 ],
             },
+            // End the portable charger routes
             // app signup list
             {
                 path: "/invoice",
@@ -189,14 +192,6 @@ const router = createBrowserRouter([
             {
                 path: "/invoice/:invoiceId",
                 element: <InvoiceDetails />,
-            },
-            {
-                path: "/add-charger-station",
-                element: <AddChargerStation />,
-            },
-            {
-                path: "/edit-charger-station/:stationId",
-                element: <EditPublicChargerStation />,
             },
             {
                 path:"/addpod-form",
@@ -218,6 +213,7 @@ const router = createBrowserRouter([
                 path: "/edit-charger/:chargerId",
                 element: <EditPortableCharger />,
             },
+            // Start the pick&drop container
             {
                 path: "/pick-and-drop",
                 element: <PickAndDrop />,
@@ -252,14 +248,29 @@ const router = createBrowserRouter([
                     },
                 ],
             },
+            // End the pick&drop container
             //public charger station
             {
-                path: "/public-charger-station-list",
-                element: <PublicChargerStationList />,
-            },
-            {
-                path: "/public-charger-station-details/:stationId",
-                element: <PublicChargerStationDetails />,
+                path: "/public-charger-station",
+                element: <PublicChargeStation/>,
+                children: [
+                    {
+                        path: "public-charger-station-list",
+                        element: <PublicChargerStationList/>,
+                    },
+                    {
+                        path: "public-charger-station-details/:stationId",
+                        element: <PublicChargerStationDetails/>,
+                    },
+                    {
+                        path: "add-charger-station",
+                        element: <AddChargerStation />,
+                    },
+                    {
+                        path: "edit-charger-station/:stationId",
+                        element: <EditPublicChargerStation />,
+                    },
+                ],
             },
             //charger installation
             {

@@ -1,26 +1,67 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styles from "./header.module.css";
 import Notification from "../../../assets/images/Notification.svg";
-import ProfileIcon from "../../../assets/images/Profile.svg";
+import DefaultProfileIcon from "../../../assets/images/Profile.svg";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { FaRegUser } from "react-icons/fa";
 import { RiLogoutCircleLine } from "react-icons/ri";
+import { CgProfile } from "react-icons/cg";
 
 const Header = () => {
   const navigate = useNavigate();
   const [isNotificationOpen, setNotificationOpen] = useState(false);
   const [isProfileOpen, setProfileOpen] = useState(false);
+  const [userImage, setUserImage] = useState(DefaultProfileIcon);
+  const [notifications, setNotifications] = useState([
+    { id: 1, text: "Thank You for Your Booking! Our portable charger service for your EV." },
+    { id: 2, text: "Your order is confirmed. We will notify you once it's shipped." },
+    { id: 3, text: "New message received from your supplier." },
+    // Add more notifications as needed
+  ]);
+
+  // Refs to track dropdown containers
+  const notificationRef = useRef(null);
+  const profileRef = useRef(null);
+
+  useEffect(() => {
+    const userDetails = JSON.parse(sessionStorage.getItem("userDetails"));
+    if (userDetails?.image) {
+      const baseUrl = userDetails?.base_url;
+      const img = userDetails?.image;
+      const imgPath = `${baseUrl}${img}`;
+      setUserImage(imgPath);
+    }
+  }, []);
+
+  // Click outside handler
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        notificationRef.current &&
+        !notificationRef.current.contains(event.target)
+      ) {
+        setNotificationOpen(false);
+      }
+      if (profileRef.current && !profileRef.current.contains(event.target)) {
+        setProfileOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   // Toggle functions
   const toggleNotification = () => {
     setNotificationOpen(!isNotificationOpen);
-    setProfileOpen(false); // Close profile dropdown if open
+    setProfileOpen(false);
   };
 
   const toggleProfile = () => {
     setProfileOpen(!isProfileOpen);
-    setNotificationOpen(false); // Close notification dropdown if open
+    setNotificationOpen(false);
   };
 
   const handleLogout = () => {
@@ -30,81 +71,31 @@ const Header = () => {
 
   return (
     <div className={styles.headerContainer}>
-      {/* Notification Section */}
       <div
         className={styles.notificationContainer}
         onClick={toggleNotification}
+        ref={notificationRef} // Attach ref to notification container
       >
         <img src={Notification} alt="Notification" />
         {isNotificationOpen && (
           <div className={styles.notificationDropdown}>
             <div className={styles.notificationSection}>
-              <div className={styles.notificationContent}>
-                <div className={styles.notificationBox}>P</div>
-                <div className={styles.notificationText}>
-                  Thank You for Your Booking! our portable charger service for
-                  your EV.
+              {notifications.map((notification) => (
+                <div className={styles.notificationContent} key={notification.id}>
+                  <div className={styles.notificationContentsection}>
+                    <div className={styles.notificationTitle}>Portable Charger</div>
+                    <div className={styles.notificationText}>{notification.text}</div>
+                  </div>
+                  <div className={styles.notificationDate}>
+                   <span className={styles.notificationTime}>11:55AM <br/>12-12-2024</span>
+                  </div>
                 </div>
-              </div>
-              <div className={styles.notificationContent}>
-                <div className={styles.notificationBox}>P</div>
-                <div className={styles.notificationText}>
-                  Thank You for Your Booking! our portable charger service for
-                  your EV.
-                </div>
-              </div>
-              <div className={styles.notificationContent}>
-                <div className={styles.notificationBox}>P</div>
-                <div className={styles.notificationText}>
-                  Thank You for Your Booking! our portable charger service for
-                  your EV.
-                </div>
-              </div>
-              <div className={styles.notificationContent}>
-                <div className={styles.notificationBox}>P</div>
-                <div className={styles.notificationText}>
-                  Thank You for Your Booking! our portable charger service for
-                  your EV.
-                </div>
-              </div>
-              <div className={styles.notificationContent}>
-                <div className={styles.notificationBox}>P</div>
-                <div className={styles.notificationText}>
-                  Thank You for Your Booking! our portable charger service for
-                  your EV.
-                </div>
-              </div>
-              <div className={styles.notificationContent}>
-                <div className={styles.notificationBox}>P</div>
-                <div className={styles.notificationText}>
-                  Thank You for Your Booking! our portable charger service for
-                  your EV.
-                </div>
-              </div>
-              <div className={styles.notificationContent}>
-                <div className={styles.notificationBox}>P</div>
-                <div className={styles.notificationText}>
-                  Thank You for Your Booking! our portable charger service for
-                  your EV.
-                </div>
-              </div>
-              <div className={styles.notificationContent}>
-                <div className={styles.notificationBox}>P</div>
-                <div className={styles.notificationText}>
-                  Thank You for Your Booking! our portable charger service for
-                  your EV.
-                </div>
-              </div>
-              <div className={styles.notificationContent}>
-                <div className={styles.notificationBox}>P</div>
-                <div className={styles.notificationText}>
-                  Thank You for Your Booking! our portable charger service for
-                  your EV.
-                </div>
-              </div>
+              ))}
             </div>
             <div className={styles.notificationBottomSection}>
-              <div className={styles.notificationCount}>12 Notifications</div>
+              <div className={styles.notificationCount}>
+                {notifications.length} Notifications
+              </div>
               <Link to="">
                 <div className={styles.notificationAllList}>See All</div>
               </Link>
@@ -114,22 +105,26 @@ const Header = () => {
       </div>
 
       {/* Profile Section */}
-      <div className={styles.profileContainer} onClick={toggleProfile}>
-        <img src={ProfileIcon} alt="Profile Icon" />
+      <div
+        className={styles.profileContainer}
+        onClick={toggleProfile}
+        ref={profileRef}
+      >
+        <img src={userImage} className={styles.profileImage} />
         {/* Profile Dialog Section */}
         {isProfileOpen && (
           <div className={styles.profileDropdown}>
             <div
               className={`${styles.profileDropdownOption} ${styles.profileDropdownOptionSelected}`}
             >
-              <FaRegUser />
+              <RiLogoutCircleLine className={styles.ImgContainer} />
               <p>Profile</p>
             </div>
             <div
-              className={`${styles.profileDropdownOption}`}
+              className={`${styles.profileDropdownsOption}`}
               onClick={handleLogout}
             >
-              <RiLogoutCircleLine />
+              <CgProfile className={styles.ImgContainer} />
               <p>Logout</p>
             </div>
           </div>

@@ -368,4 +368,9 @@ table{
 .listAction img{
   width: 24px;
 }
+.linkSection{
+  font-weight: 600;
+  color:  #00ffc3 !important;
+  font-size: 16px;
+}
 /* End the table Section */

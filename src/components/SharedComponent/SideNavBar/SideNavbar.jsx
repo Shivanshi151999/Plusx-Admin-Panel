@@ -149,7 +149,7 @@ const SideNavbar = () => {
                         toggleDropdown={toggleDropdown}
                         checkedItems={checkedItems.pickAndDrop}
                     />
-                    <SideBarLinkItem label="Public Chargers Station" path="/public-charger-station-list" />
+                    <SideBarLinkItem label="Public Chargers Station" path="/public-charger-station/public-charger-station-list" />
                     <SideBarLinkItem label="Electric Car Leasing" path="/electric-car-list" />
                     <SideBarLinkItem label="Electric Bike Leasing" path="/electric-bike-list" />
                     <SideBarLinkItem label="EV Guide" path="/ev-guide-list" />

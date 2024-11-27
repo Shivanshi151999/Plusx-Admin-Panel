@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { postRequestWithTokenAndFile, postRequestWithToken } from '../../api/Requests';
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-
+import ReactInputMask from "react-input-mask"
 const AddChargerStation = () => {
     const userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
     const navigate = useNavigate();
@@ -457,9 +457,9 @@ const AddChargerStation = () => {
                                         <span className={styles.dayLabel}>{day}</span>
 
                                         <label htmlFor={`${day}OpenTime`} className={styles.inputLabel}>
-                                            Open Time
-                                            <input
-                                                type="text"
+                                        <span className={styles.openSection}> Open Time</span>
+                                            <ReactInputMask
+                                                 mask="99:99"
                                                 id={`${day}OpenTime`}
                                                 placeholder="Enter time"
                                                 className={styles.timeField}
@@ -471,9 +471,10 @@ const AddChargerStation = () => {
 
 
                                         <label htmlFor={`${day}CloseTime`} className={styles.inputLabel}>
-                                            Close Time
-                                            <input
-                                                type="text"
+                                        <span className={styles.openSection}> Close Time</span>
+                                           
+                                            <ReactInputMask
+                                                mask="99:99"
                                                 id={`${day}CloseTime`}
                                                 placeholder="Enter time"
                                                 className={styles.timeField}

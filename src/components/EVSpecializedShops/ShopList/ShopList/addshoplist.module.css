@@ -14,11 +14,14 @@
     flex-direction: column;
     row-gap: 20px;
     justify-content: start;
+    position: relative;
+    top: -32px;
 }
 .mainAddSection{
   width: 100%;
   display: flex;
   justify-content: end;
+  column-gap: 10px;
 }
 .shoplistContainer {
   background-color: #242424;
@@ -201,7 +204,7 @@
   font-weight: 600;
   display: flex;
   color: #000000;
-  padding: 6px 20px;
+  padding: 6px 12px;
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -214,11 +217,9 @@
   background-color: #000000;
   color: #ffffff;
 }
-
-.addButton img {
-  width: 16px;
+.addButton:hover .imageShopList {
+  filter: brightness(0) invert(1);
 }
-
 .addButton span {
   font-size: 18px;
   font-weight: 600;
@@ -259,7 +260,7 @@
 
 .timeField {
   outline: none;
-  width: 80%;
+  width: 90%;
   background-color: #242424;
   padding: 10px;
   border: none;
@@ -308,7 +309,9 @@
   display: flex;
   gap: 20px;
 }
-
+.openSection{
+  width: 100px;
+}
 .fileUpload {
   display: flex;
   flex-direction: column;
@@ -596,4 +599,33 @@ height: 150px; */
 
 .checkboxInput:checked+.checkmark::after {
   display: block;
+}
+/* Style the bremove button in form list */
+.formRemoveButton {
+  background-color: #000000;
+  border: 1px solid #00ffc3 !important;
+  background-color: #ffffff;
+  font-weight: 600;
+  display: flex;
+  color: #000000;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  column-gap: 10px;
+}
+.formRemoveButton:hover {
+  background-color: #000000;
+  color: #ffffff;
+}
+.formRemoveButton:hover .imageShopList {
+  filter: brightness(0) invert(1);
+}
+.imageShopList{
+  width:20px
+}
+.addSpan{
+  font-size: 16px;
 }

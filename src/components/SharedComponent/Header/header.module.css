@@ -19,7 +19,9 @@
   height: auto;
   cursor: pointer;
 }
-
+.notificationhead{
+  padding: 0px !important;
+}
 .notificationContainer,
 .profileContainer {
   position: relative;
@@ -31,12 +33,11 @@
   top: 32px;
   right: 0;
   color: #ffffff;
-  background: linear-gradient(rgb(42, 42, 42), rgb(0, 0, 0));
-  border: 1px solid #00ffc3;
+background-color: #000000;
   width: 400px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   z-index: 1;
-  border-radius: 2px;
+  border-radius: 6px;
   display: flex;
   flex-direction: column;
   row-gap: 10px;
@@ -45,7 +46,7 @@
 
 .notificationBox {
   width: 50px;
-  height: 34px;
+  height: 40px;
   border-radius: 50%;
   background-color: #00ffc3;
   box-shadow: #00ffc3 0px 2px 14px 0px;
@@ -61,15 +62,44 @@
   row-gap: 14px;
   height: 340px;
   overflow: scroll;
-  padding: 10px 14px;
+  padding: 16px 14px;
 }
 
 .notificationSection::-webkit-scrollbar {
   display: none;
 }
+.notificationContentsection{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.notificationTitle{
+  font-size: 14px;
+  color: #00ffc3;
+}
+.notificationText{
+  width: 100%;
+  font-size: 12px;
+  color: #ffffff;
+}
+.notificationDate{
+  width: 80px;
+  text-align: center;
+}
+.notificationTime{
+  color: #ffffff;
+  font-size: 11px;
+}
+.ImgContainer{
+  border: 1px solid #ffffff;
+  width: 26px;
+  height: 26px;
+  padding: 4px;
+  border-radius: 4px;
+}
 
 .notificationBottomSection {
-  border-top: 1px solid #00ffc3;
+  border-top: 1px solid #ffffff;
   display: flex;
   justify-content: space-between;
   padding: 10px 14px;
@@ -96,25 +126,20 @@ a {
 .notificationContent {
   display: flex;
   align-items: center;
-  column-gap: 20px;
+  column-gap: 10px;
 }
 
 .profileDropdown {
   position: absolute;
   top: 34px;
   right: 0;
-  background: linear-gradient(rgb(42, 42, 42), rgb(0, 0, 0));
-  border: 1px solid #00ffc3;
-  padding: 10px 14px;
-  width: 140px;
+  background: #000000;
+  width: 160px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   z-index: 1;
-  border-radius: 2px;
+  border-radius: 6px;
   color: #ffffff;
-}
-
-.profileDropdownOption:hover {
-  color: #00ffc3;
+  padding: 12px 20px;
 }
 
 .profileDropdownOption {
@@ -122,20 +147,32 @@ a {
   justify-content: start;
   align-items: center;
   column-gap: 8px;
+  padding: 0px 0px 10px 0px;
+  border-bottom: 1px solid white;
 }
-
-.profileDropdownOptionSelected {
+.profileDropdownsOption{
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  column-gap: 8px;
+  padding: 10px 0px 0px 0px;
+}
+.profileDropdownOption:hover{
   color: #00ffc3;
-}
+  }
+  .profileDropdownOption:hover .ImgContainer {
+    border-color: #00ffc3; 
+  }
+.profileDropdownsOption:hover{
+  color: #00ffc3;
 
+}
+.profileDropdownsOption:hover .ImgContainer {
+  border-color: #00ffc3; 
+}
 .notificationDropdown p,
 .profileDropdown p {
   margin: 0;
   padding: 4px 0;
   cursor: pointer;
 }
-
-/* .notificationDropdown p:hover,
-.profileDropdown p:hover {
-    background-color: #f0f0f0;
-} */

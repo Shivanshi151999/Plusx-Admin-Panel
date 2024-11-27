@@ -14,6 +14,7 @@ const Login = () => {
     const [password, setPassword]               = useState("");
     const [errors, setErrors]                   = useState({ username: '', password: '' });
     const [loading, setLoading]                 = useState(false);
+    const [baseUrl, setBaseUrl]               = useState("");
 
     const togglePasswordVisibility = () => {
         if (password.length > 0) {
@@ -52,7 +53,8 @@ const Login = () => {
                         email        : response.userDetails.email,
                         phone        : response.userDetails.phone,
                         image        : response.userDetails.image,
-                        access_token : response.Token 
+                        access_token : response.Token ,
+                        base_url     : response.base_url 
                     };
                     sessionStorage.setItem('userDetails', JSON.stringify(userDetails));
                     

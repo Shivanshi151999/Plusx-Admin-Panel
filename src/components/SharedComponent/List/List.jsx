@@ -23,9 +23,9 @@ const List = ({ list, tableHeaders, listData, keyMapping, pageHeading, onDeleteS
 
     const viewRsaDetails = (id) => navigate(`/emergency-team-details/${id}`)
 
-    const handlePublicChargerStationDetails = (id) => navigate(`/public-charger-station-details/${id}`)
+    const handlePublicChargerStationDetails = (id) => navigate(`/public-charger-station/public-charger-station-details/${id}`)
 
-    const handleEditChargerDetails = (id) => navigate(`/edit-charger-station/${id}`)
+    const handleEditChargerDetails = (id) => navigate(`/public-charger-station/edit-charger-station/${id}`)
 
     const handlePortableInvoice = (id) => navigate(`/invoice/${id}`)
 

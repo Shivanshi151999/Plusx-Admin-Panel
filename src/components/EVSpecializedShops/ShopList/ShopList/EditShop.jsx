@@ -10,7 +10,9 @@ import UploadIcon from "../../../../assets/images/uploadicon.svg";
 import { postRequestWithTokenAndFile, postRequestWithToken } from '../../../../api/Requests';
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-
+import Add from '../../../../assets/images/Plus.svg'
+import Remove from '../../../../assets/images/remove.svg'
+import ReactInputMask from "react-input-mask"
 const EditShopListForm = () => {
   const navigate = useNavigate();
   const { shopId } = useParams()
@@ -70,7 +72,10 @@ const EditShopListForm = () => {
       { address: "", location: "", area_name: "", latitude: "", longitude: "" },
     ]);
   };
-
+  const handleRemoveClick = (index) => {
+    const updatedAddresses = addresses.filter((_, i) => i !== index);
+    setAddresses(updatedAddresses);
+  };
   const handleAddressInputChange = (index, field, value) => {
     if (field === "location") {
 
@@ -554,8 +559,19 @@ const EditShopListForm = () => {
                 onClick={handleAddClick}
                 disabled={loading}
               >
-                {loading ? "Loading..." : "Add"}
+                <img className={styles.imageShopList} src={Add} alt="add" />
+               <span className={styles.addSpan}>Add</span> 
               </button>
+              {addresses.length > 1 && (
+               <button
+               type="button"
+               className={styles.formRemoveButton}
+               onClick={() => handleRemoveClick(addresses.length - 1)} 
+             >
+               <img className={styles.imageShopList} src={Remove} alt="add" />
+               <span className={styles.removesection}>Remove</span>
+             </button>
+              )}
             </div>
 
             {addresses.map((addr, index) => (
@@ -699,9 +715,9 @@ const EditShopListForm = () => {
                         <span className={styles.dayLabel}>{day}</span>
 
                         <label htmlFor={`${day}OpenTime`} className={styles.inputLabel}>
-                          Open Time
-                          <input
-                            type="text"
+                        <span className={styles.openSection}> Open Time</span>
+                          <ReactInputMask
+                            mask="99:99"
                             id={`${day}OpenTime`}
                             placeholder="Enter time"
                             className={styles.timeField}
@@ -713,9 +729,10 @@ const EditShopListForm = () => {
 
 
                         <label htmlFor={`${day}CloseTime`} className={styles.inputLabel}>
-                          Close Time
-                          <input
-                            type="text"
+                        <span className={styles.openSection}> Close Time</span>
+                         
+                          <ReactInputMask
+                             mask="99:99"
                             id={`${day}CloseTime`}
                             placeholder="Enter time"
                             className={styles.timeField}
