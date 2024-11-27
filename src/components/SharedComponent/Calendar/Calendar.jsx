@@ -50,12 +50,9 @@ const App = ({ handleDateChange }) => (
         if (!value || value.length === 0) return '';
         const [start, end] = value;
         // console.log('value',value);
-        
         const today = format(new Date(), 'dd-MM-yyyy');
         const formattedStart = format(start, 'dd-MM-yyyy');
-        console.log('formattedStart',formattedStart);
         const formattedEnd = format(end, 'dd-MM-yyyy');
-        console.log('formattedEnd',formattedEnd);
         return (formattedStart === today && formattedEnd === today) 
           ? 'Today' 
           : `${formattedStart} - ${formattedEnd}`;
