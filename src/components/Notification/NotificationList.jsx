@@ -11,14 +11,14 @@ import { useNavigate } from 'react-router-dom';
 
 
 const NotificationList = () => {
-    const userDetails                     = JSON.parse(sessionStorage.getItem('userDetails')); 
-    const navigate                        = useNavigate()
+    const userDetails                           = JSON.parse(sessionStorage.getItem('userDetails')); 
+    const navigate                              = useNavigate()
     const [notifications, setNotifications]     = useState([]);
-    const [currentPage, setCurrentPage]   = useState(1);
-    const [totalPages, setTotalPages]     = useState(1);
-    const [filters, setFilters]           = useState({start_date: null,end_date: null});
-    const [refresh, setRefresh]           = useState(false)
-    const [emiratesList, setEmiratesList] = useState([]);
+    const [currentPage, setCurrentPage]         = useState(1);
+    const [totalPages, setTotalPages]           = useState(1);
+    const [filters, setFilters]                 = useState({start_date: null,end_date: null});
+    const [refresh, setRefresh]                 = useState(false)
+    const [emiratesList, setEmiratesList]       = useState([]);
     
     const fetchList = (page, appliedFilters = {}) => {
         const obj = {
@@ -137,7 +137,7 @@ const NotificationList = () => {
                         // { key: 'emirates',    label: 'Emirate' },
                     ]}
                     pageHeading="Notification List"
-                    onDeleteSlot={handleDeleteSlot}
+                    // onDeleteSlot={handleDeleteSlot}
                 />
             )}
             <Pagination 

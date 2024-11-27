@@ -96,6 +96,34 @@ const Header = () => {
     navigate("/login");
   };
 
+  const extractIdFromUrl = (hrefUrl) => {
+    const parts = hrefUrl.split("/");
+    return parts[1] || ""; 
+  };
+
+  const handleNavigate = (module, hrefUrl) => {
+    const extractedId = extractIdFromUrl(hrefUrl);
+
+    switch (module) {
+      case "Discussion Board":
+        navigate(`/discussion-board-details/${extractedId}`);
+        break;
+
+      case "Orders":
+        navigate(`/order-details/${extractedId}`);
+        break;
+
+      case "Notifications":
+        navigate(`/notifications/${extractedId}`);
+        break;
+
+      default:
+        console.log("Unhandled module:", module, hrefUrl);
+    }
+  };
+
+
+
   return (
     <div className={styles.headerContainer}>
       <div
@@ -108,20 +136,19 @@ const Header = () => {
           <div className={styles.notificationDropdown}>
             <div className={styles.notificationSection}>
   
-              {notifications.slice(0, 3).map((notification) => {
+              {notifications.slice(0, 5).map((notification) => {
                 const formattedTime = moment(notification.created_at).format('hh:mm A');
                 const formattedDate = moment(notification.created_at).format('DD-MM-YYYY');
 
                 return (
-                  <div className={styles.notificationContent} key={notification.id}>
+                  <div className={styles.notificationContent} key={notification.id} onClick={() => handleNavigate(notification.module_name, notification.href_url)}>
                     <div className={styles.notificationContentsection}>
                       <div className={styles.notificationTitle}>{notification.heading}</div>
                       <div className={styles.notificationText}>{notification.description}</div>
                     </div>
                     <div className={styles.notificationDate}>
                       <span className={styles.notificationTime}>
-                        {formattedTime} <br />
-                        {formattedDate}
+                        {formattedTime} <br /> {formattedDate}
                       </span>
                     </div>
                   </div>
