@@ -41,7 +41,7 @@ const BookingDetailsAccordion = ({history, rsa, imageUrl, fieldMapping, title })
     const handleAccordionToggle = (key) => {
         setActiveKey(activeKey === key ? null : key);
     };
-    console.log(sections)
+    
     return (
         <div className={styles.accordionContainer}>
             <div className={styles.header}>

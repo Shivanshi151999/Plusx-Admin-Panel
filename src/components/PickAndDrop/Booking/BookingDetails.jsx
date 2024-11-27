@@ -73,14 +73,14 @@ const PickAndDropBookingDetails = () => {
         slotDate: "Slot Date & Time",
         vehicle_data: "Vehicle",
     }
-    let rsa_data = bookingDetails?.rsa_data.split(",") || [];
+    let rsa_data = bookingDetails?.rsa_data?.split(",") || [];
     const content = {
         bookingId: bookingDetails?.request_id,
         createdAt: moment(bookingDetails?.created_at).format('DD MMM YYYY h:mm A'),
         customerName: bookingDetails?.name,
         customerContact: `${bookingDetails?.country_code} ${bookingDetails?.contact_no}`,
-        driverName: rsa_data ? rsa_data[0] : '',
-        driverContact: rsa_data ? rsa_data[1] : '',
+        driverName: rsa_data ? rsa_data[0] : '-',
+        driverContact: rsa_data ? rsa_data[1] : '-',
 
     };
     const sectionContent1 = {

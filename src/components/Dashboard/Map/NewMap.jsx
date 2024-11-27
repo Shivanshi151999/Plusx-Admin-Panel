@@ -32,10 +32,11 @@ function MapComponent({ coordinates, location, podLocation }) {
             {podLocation?.map((item) => {
             
             const backgroundColor =
-                item.status === 1 ? "#00FF00" : // Green for status 1
-                item.status === 2 ? "#FFFF00" : // Yellow for status 2
-                item.status === 3 ? "#FF0000" : // Red for status 3
+                item.status === 0 ? "#FFFF00" : // Green for status 0
+                item.status === 1 ? "#00FF00" : // Yellow for status 1
+                item.status === 2 ? "#FF0000" : // Red for status 2
                 "#808080"; 
+
 
             return (
                 <AdvancedMarker key={item.podId} 
@@ -56,7 +57,12 @@ function MapComponent({ coordinates, location, podLocation }) {
                 <p>POD ID: {hoveredMarker.podId}</p>
                 <p>Device ID: {hoveredMarker.deviceId}</p>
                 <p>POD Name: {hoveredMarker.podName}</p>
-                <p>Status: {hoveredMarker.status}</p>
+                <p>Status: {
+                  hoveredMarker.status === 0 ? 'Under Maintenance' :
+                  hoveredMarker.status === 1 ? 'In Use' :
+                  hoveredMarker.status === 2 ? 'In Service' :
+                  'Unknown'
+                }</p>
               </div>
             )}
           </Map>

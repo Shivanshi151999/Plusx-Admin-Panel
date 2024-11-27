@@ -3,7 +3,7 @@ import styles from '../details.module.css';
 import moment from 'moment';
 
 
-const BookingDetailsHeader = ({ content, titles, sectionContent, type }) => {
+const BookingDetailsHeader = ({ content, titles, sectionContent1, type }) => {
     
     return (
         <div className={styles.infoCard}>
@@ -35,7 +35,7 @@ const BookingDetailsHeader = ({ content, titles, sectionContent, type }) => {
                 </div>
                 )}
 
-                { (type === 'portableChargerBooking' || type === 'pickAndDropBooking') && sectionContent?.bookingStatus !== 'Booking Confirmed' && (
+                { (type === 'portableChargerBooking' || type === 'pickAndDropBooking') && sectionContent1?.bookingStatus !== 'Booking Confirmed' && (
                 <div className="col-xl-3 col-lg-6 col-12">
                     <div className={styles.detailsHeaderSection}>
                     <div className={styles.detailsImageSection}>
