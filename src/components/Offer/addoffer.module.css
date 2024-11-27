@@ -244,8 +244,6 @@ background-color: #242424;
 
 .imageContainer {
   position: relative;
-  /* width: 150px;
-  height: 150px; */
   overflow: hidden;
   border-radius: 8px;
 }

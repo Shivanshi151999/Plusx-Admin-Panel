@@ -43,7 +43,7 @@ const App = ({ handleDateChange }) => (
     <DateRangePicker
       ranges={predefinedRanges}
       // defaultValue={[new Date(), new Date()]} 
-      placeholder="Select Date Range"
+      placeholder="Select Date"
       placement="bottomEnd"
       onChange={handleDateChange}
       renderValue={(value) => {

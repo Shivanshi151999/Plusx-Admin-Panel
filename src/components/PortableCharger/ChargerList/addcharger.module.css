@@ -140,12 +140,14 @@
     background-color: #000000;
     color: #ffffff;
   }
+  /* Start the file upload section code */
   .fileUpload {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-top: 20px;
     cursor: pointer;
+    /* width: 50%; */
 }
 
 .fileLabel {
@@ -158,7 +160,7 @@
 .fileDropZone {
     position: relative;
     width: 100%;
-    height: 250px;
+    padding: 40px;
     border-radius: 14px;
 background-color: #242424;
     display: flex;
@@ -181,19 +183,27 @@ background-color: #242424;
 }
 
 .uploadIcon {
-    width: 80px;
-    height: 80px;
+    width: 60px;
+    height: 60px;
 }
 
 .imageContainer {
-    position: absolute;
-    display: inline-block;
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
 }
 
 .previewImage {
-  width: 200px;
+  width: 100%;
   height: 200px;
     object-fit: cover;
+    top: 50%;
+    transform: translate(0, 0%);
+    position: relative;
+    max-width: 100%;
+    max-height: 100%;
+    background-color: #FFF;
+    transition: border-color .15s linear;
 }
 
 .removeButton {
@@ -208,7 +218,7 @@ background-color: #242424;
     border-radius: 4px;
     font-size: 4px;
 }
-
+/* End the file upload section */
 /* Container for toggle switch */
 /* Container for the toggle */
 .toggleContainer {
