@@ -13,8 +13,7 @@ const BrandHistory = ({ deviceId, deviceBrandList, currentPage, totalPages, onPa
   const [paginatedData, setPaginatedData] = useState(deviceBrandList);
   const [openModal, setOpenModal] = useState(false);
   const [modalImage, setModalImage] = useState('');
-  console.log('deviceBrandList:', deviceBrandList);
-  console.log('brandImagePath:', brandImagePath);
+  
   const handlePageChange = (newPage) => {
     console.log('Page changed to:', newPage);
     onPageChange(newPage);
@@ -30,7 +29,6 @@ const BrandHistory = ({ deviceId, deviceBrandList, currentPage, totalPages, onPa
     setModalImage(imageUrl);
     setOpenModal(true);
   };
-  console.log(brandImagePath)
   
   return (
     <div className={styles.addressListContainer}>
@@ -77,9 +75,6 @@ const BrandHistory = ({ deviceId, deviceBrandList, currentPage, totalPages, onPa
           ))} */}
 
           {deviceBrandList.map((vehicle, index) => {
-              // Log the vehicle data and the full image URL
-              console.log('Vehicle:', vehicle);
-              console.log('Image URL:', `${brandImagePath}${vehicle.brand_image}`);
 
               return (
                 <tr key={index}>
