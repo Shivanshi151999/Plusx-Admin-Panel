@@ -106,6 +106,7 @@ import AddPodBrand from "../components/PodDevice/Brand/AddBrand.jsx";
 import PodAreaList from "../components/PodDevice/Area/PodAreaList.jsx";
 import AddPodArea from "../components/PodDevice/Area/AddPodArea.jsx";
 import EditPodArea from "../components/PodDevice/Area/EditPodArea.jsx";
+import NotificationList from "../components/Notification/NotificationList.jsx";
 
 const router = createBrowserRouter([
     {
@@ -567,6 +568,11 @@ const router = createBrowserRouter([
                         element : <EditPodArea />,
                     },
                 ],
+            },
+            //Notification
+            {
+                path: "/notification-list",
+                element: <NotificationList />,
             },
         ],
     },

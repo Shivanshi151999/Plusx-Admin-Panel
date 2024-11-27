@@ -571,7 +571,7 @@ const EditPublicChargerStation = () => {
                             <input
                                 type="file"
                                 id="coverFileUpload"
-                                accept="image/*"
+                                accept=".jpeg,.jpg"
                                 onChange={handleFileChange}
                                 style={{ display: 'none' }}
                             />
@@ -608,7 +608,7 @@ const EditPublicChargerStation = () => {
                             <input
                                 type="file"
                                 id="galleryFileUpload"
-                                accept="image/*"
+                                accept=".jpeg,.jpg"
                                 multiple
                                 onChange={handleGalleryChange}
                                 style={{ display: 'none' }}

@@ -202,7 +202,7 @@ const handleToggle = () => {
                             <input
                                 type="file"
                                 id="coverFileUpload"
-                                accept="image/*"
+                                accept=".jpeg,.jpg"
                                 onChange={handleFileChange}
                                 style={{ display: 'none' }}
                             />
