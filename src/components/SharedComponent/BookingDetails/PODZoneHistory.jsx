@@ -113,8 +113,8 @@ const PODZoneHistory = ({podId }) => {
         } else {
 
             const formData = new FormData();
-            formData.append("userId", "1");
-            formData.append("email", "admin@shunyaekai.com");
+            formData.append("userId", userDetails?.user_id);
+            formData.append("email", userDetails?.email);
             
             formData.append("podId", podId);
             formData.append("selectedArea", selectedArea);
@@ -131,8 +131,7 @@ const PODZoneHistory = ({podId }) => {
                     toast(response.message, {type:'error'})
                     console.log('error in add-brand api', response);
                 }
-            })
-
+            });
         }
     };
 
