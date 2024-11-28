@@ -62,21 +62,39 @@ const EditEmergencyTeam = () => {
             // { name: "confirmPassword", value: confirmPassword, errorMessage: "Passwords do not match.", isPasswordMatch: true },
             // { name: "file", value: file, errorMessage: "Image is required." }
         ];
+
+        if (password || confirmPassword) {
+            if (!password) {
+                fields.push({ name: "password", value: password, errorMessage: "Password is required." });
+            }
+            if (!confirmPassword) {
+                fields.push({ name: "confirmPassword", value: confirmPassword, errorMessage: "Confirm Password is required." });
+            }
+            if (password && confirmPassword && password !== confirmPassword) {
+                fields.push({ name: "confirmPassword", value: confirmPassword, errorMessage: "Passwords do not match." });
+            }
+        }
+        
     
         const newErrors = fields.reduce((errors, { name, value, errorMessage, isEmail, isMobile, isPasswordMatch }) => {
             if (!value) {
                 errors[name] = errorMessage;
             } else if (isEmail && !/\S+@\S+\.\S+/.test(value)) {
                 errors[name] = errorMessage;
-            } else if (isMobile && (isNaN(value) || value.length < 10)) {
+            } else if (isMobile && (isNaN(value) || value.length < 9)) {
                 errors[name] = errorMessage;
+                toast('Mobile No should be valid', {type:'error'})
             }
-            //  else if (isPasswordMatch && value !== password) {
-            //     errors[name] = errorMessage;
-            // }
+             else if (password && isPasswordMatch && value !== password) {
+                errors[name] = errorMessage;
+                toast('Passwords do not match.', {type:'error'})
+            }
             return errors;
         }, {});
-    
+        if (password && confirmPassword && password !== confirmPassword) {
+            newErrors["confirmPassword"] = "Passwords do not match.";
+            // toast("Passwords do not match.", { type: 'error' });
+        }
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
@@ -102,19 +120,20 @@ const EditEmergencyTeam = () => {
             }
 
             postRequestWithTokenAndFile('rsa-update', formData, async (response) => {
-                if (response.status === 1) {
+                if (response.code === 200) {
                     toast(response.message || response.message[0], {type:'success'})
                     setTimeout(() => {
                         navigate('/rider-list')
                     }, 1000);
                 } else {
+                    toast(response.message[0] || response.message, {type:'error'})
                     console.log('error in rsa-update api', response);
                 }
             });
 
         } else {
             console.log("Form validation failed.");
-            toast.error("Some fields are missing");
+            // toast.error("Some fields are missing");
         }
     };
 
@@ -134,12 +153,13 @@ const EditEmergencyTeam = () => {
                 setMobileNo(data?.mobile || "");
                 // setServiceType(data?.booking_type || "");
                 // setPassword(data?.password || "");
-                // setConfirmPassword(data?.confirm_passwprd || "");
+                // setConfirmPassword(data?.password || "");
                 setFile(data?.profile_img || "")
                 const initialType = data.booking_type ? { label: data.booking_type, value: data.booking_type } : null;
                 setServiceType(initialType);
 
             } else {
+                
                 console.log('error in rsa-details API', response);
             }
         });
@@ -286,3 +306,4 @@ const EditEmergencyTeam = () => {
 
 
 export default EditEmergencyTeam;
+

@@ -66,8 +66,10 @@ const AddEmergencyTeam = () => {
                 errors[name] = errorMessage;
             } else if (isMobile && (isNaN(value) || value.length < 9)) {
                 errors[name] = errorMessage;
+                toast('Mobile No should be valid', {type:'error'})
             } else if (isPasswordMatch && value !== password) {
                 errors[name] = errorMessage;
+                toast('Passwords do not match.', {type:'error'})
             }
             return errors;
         }, {});
@@ -104,6 +106,7 @@ const AddEmergencyTeam = () => {
                         navigate('/rider-list')
                     }, 1000);
                 } else {
+                    toast(response.message[0] || response.message, {type:'error'})
                     console.log('error in rider-list api', response);
                 }
             });

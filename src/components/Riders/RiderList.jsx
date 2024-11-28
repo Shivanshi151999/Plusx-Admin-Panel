@@ -4,6 +4,7 @@ import SubHeader from '../SharedComponent/SubHeader/SubHeader'
 import Pagination from '../SharedComponent/Pagination/Pagination'
 import { postRequestWithToken } from '../../api/Requests';
 import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 import styles from './addemergency.module.css'
 
@@ -92,6 +93,7 @@ const RiderList = () => {
 
     return (
         <div className='main-container'>
+            <ToastContainer />
          <SubHeader heading = "Drivers List" 
          addButtonProps={addButtonProps}
          fetchFilteredData={fetchFilteredData} 

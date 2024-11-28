@@ -43,38 +43,6 @@ const AddPortableCharger = () => {
         setIsDropdownOpen(!isDropdownOpen);
     };
 
-    // const validateForm = () => {
-    //     const newErrors = {};
-    //     let formIsValid = true;
-
-    //     if (!chargerName) {
-    //         newErrors.chargerName = "Charger Name is required.";
-    //         formIsValid = false;
-    //     }
-
-    //     if (!chargerPrice || isNaN(chargerPrice) || chargerPrice <= 0) {
-    //         newErrors.chargerPrice = "Please enter a valid Charger Price.";
-    //         formIsValid = false;
-    //     }
-
-    //     if (!chargerType) {
-    //         newErrors.chargerType = "Charger Type is required.";
-    //         formIsValid = false;
-    //     }
-
-    //     if (!chargerFeature) {
-    //         newErrors.chargerFeature = "Charger Feature is required.";
-    //         formIsValid = false;
-    //     }
-
-    //     if (!file) {
-    //         newErrors.file = "Image is required.";
-    //         formIsValid = false;
-    //     }
-
-    //     setErrors(newErrors);
-    //     return formIsValid;
-    // };
 
     const validateForm = () => {
         const fields = [
@@ -155,7 +123,7 @@ const AddPortableCharger = () => {
                                     setChargerName(e.target.value.slice(0, 50))
                                 }
                             />
-                            {errors.chargerName && <p className="error">{errors.chargerName}</p>}
+                            {errors.chargerName && chargerName == '' && <p className="error">{errors.chargerName}</p>}
                         </div>
                         <div className={styles.inputGroup}>
                             <label className={styles.label}>Charger Price</label>
@@ -169,7 +137,7 @@ const AddPortableCharger = () => {
                                     setChargerPrice(priceValue.slice(0, 5));
                                 }}
                             />
-                            {errors.chargerPrice && <p className="error">{errors.chargerPrice}</p>}
+                            {errors.chargerPrice && chargerPrice == '' &&  <p className="error">{errors.chargerPrice}</p>}
                         </div>
                         <div className={styles.inputGroup}>
                             <label className={styles.label}>Charger Type</label>
@@ -183,7 +151,7 @@ const AddPortableCharger = () => {
                                     placeholder="Select"
                                 />
                             </div>
-                            {errors.chargerType && (
+                            {errors.chargerType &&  chargerType == '' && (
                                 <p className="error">
                                     {errors.chargerType}
                                 </p>
@@ -200,7 +168,7 @@ const AddPortableCharger = () => {
                                 value={chargerFeature}
                                 onChange={(e) => setChargerFeature(e.target.value)}
                             />
-                            {errors.chargerFeature && <p className="error">{errors.chargerFeature}</p>}
+                            {errors.chargerFeature &&  chargerFeature == '' && <p className="error">{errors.chargerFeature}</p>}
                         </div>
                     </div>
 
