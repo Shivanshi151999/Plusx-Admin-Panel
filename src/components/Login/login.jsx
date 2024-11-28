@@ -6,6 +6,9 @@ import { postRequest } from '../../api/Requests';
 import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import io from 'socket.io-client';
+
+const socket = io(process.env.REACT_APP_SERVER_URL);
 
 const Login = () => {
     const navigate = useNavigate()
@@ -61,6 +64,18 @@ const Login = () => {
                     setTimeout(() => {
                         navigate('/')
                     }, 1000);
+
+                    if (Notification.permission !== 'granted') {
+                        Notification.requestPermission();
+                      }
+                  
+                      socket.on('desktop-notification', (data) => {
+                        if (Notification.permission === 'granted') {
+                          new Notification(data.title, {
+                            body: data.message,
+                          });
+                        }
+                      });
                 } else {
                     toast(response.message, {type:'error'})
                     setLoading(false);

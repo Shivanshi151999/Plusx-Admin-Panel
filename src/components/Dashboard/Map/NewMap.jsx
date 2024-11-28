@@ -7,6 +7,7 @@ const googleMapApiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 function MapComponent({ coordinates, location, podLocation }) {  
 
   const mapId = "1";
+  const defaultCenter = { lat: 25.2048, lng: 55.2708 };
   const mapCenter = coordinates?.lat && coordinates?.lng ? coordinates : center; 
   const [hoveredMarker, setHoveredMarker] = useState(null);
 
@@ -23,13 +24,26 @@ function MapComponent({ coordinates, location, podLocation }) {
           >
             {!location?.length && <AdvancedMarker position={mapCenter} />}
             {/* <AdvancedMarker position={mapCenter} /> */}
-            {location?.map((item) => (
+            {/* {location?.map((item) => (
               <AdvancedMarker key={item.key} position={item.location}>
                 <Pin background={"#FBBC04"} glyphColor={"#000"}borderColor={"#000"} />
               </AdvancedMarker>
-            ))}
+            ))} */}
+            {location?.map((item) => {
+              // If lat or lng are null, fallback to default center
+              const markerPosition = item.location?.lat && item.location?.lng
+                ? item.location
+                : defaultCenter;
 
-            {podLocation?.map((item) => {
+              return (
+                <AdvancedMarker key={item.key} position={markerPosition}>
+                  <Pin background={"#FBBC04"} glyphColor={"#000"} borderColor={"#000"} />
+                </AdvancedMarker>
+              );
+            })}
+
+
+            {/* {podLocation?.map((item) => {
             
             const backgroundColor =
                 item.status === 0 ? "#FFFF00" : // Green for status 0
@@ -48,6 +62,31 @@ function MapComponent({ coordinates, location, podLocation }) {
                 <Pin background={backgroundColor} glyphColor={"#000"} borderColor={"#000"} />
                 </AdvancedMarker>
             );
+            })} */}
+
+              {podLocation?.map((item) => {
+              // If lat or lng are null, fallback to default center
+              const markerPosition = item.location?.lat && item.location?.lng
+                ? item.location
+                : defaultCenter;
+
+              const backgroundColor =
+                item.status === 0 ? "#FFFF00" :
+                item.status === 1 ? "#00FF00" :
+                item.status === 2 ? "#FF0000" :
+                "#808080"; 
+
+              return (
+                <AdvancedMarker
+                  key={item.podId}
+                  position={markerPosition}
+                  onMouseEnter={() => setHoveredMarker(item)} 
+                  onMouseLeave={() => setHoveredMarker(null)}
+                  className={style.makerSection}
+                >
+                  <Pin background={backgroundColor} glyphColor={"#000"} borderColor={"#000"} />
+                </AdvancedMarker>
+              );
             })}
 
             {hoveredMarker && (

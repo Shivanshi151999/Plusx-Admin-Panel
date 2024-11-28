@@ -18,6 +18,7 @@ const StationList = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [totalCount, setTotalCount] = useState(1)
+    const [refresh, setRefresh] = useState(false)
     const [filters, setFilters] = useState({});
     const searchTerm = [
         {
@@ -67,6 +68,30 @@ const StationList = () => {
         setCurrentPage(1);
     };
 
+    const handleDeleteSlot = (stationId) => {
+        const confirmDelete = window.confirm("Are you sure you want to delete this?");
+        if (confirmDelete) {
+            const obj = { 
+                userId     : userDetails?.user_id,
+                email      : userDetails?.email,
+                station_id : stationId 
+            };
+            postRequestWithToken('public-chargers-delete', obj, async (response) => {
+                if (response.code === 200) {
+                    setRefresh(prev => !prev);
+                    toast(response.message[0], { type: "success" });
+
+                    setTimeout(() => {
+                        fetchList(currentPage);
+                    }, 1000);
+                } else {
+                    toast(response.message, { type: 'error' });
+                    console.log('error in delete-charger-slot api', response);
+                }
+            });
+        }
+    };
+
     return (
         <div className='main-container'>
             <SubHeader heading="Public Chargers List"
@@ -97,6 +122,7 @@ const StationList = () => {
                     },
                 ]}
                 pageHeading="Public Chargers List"
+                onDeleteSlot={handleDeleteSlot}
             />
         )}
             <Pagination

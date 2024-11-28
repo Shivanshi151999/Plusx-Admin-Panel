@@ -74,6 +74,7 @@ const handleSubmit = (e) => {
           
         formData.append("expiry_date", formattedExpiryDate);
         formData.append("user_per_user", perCustomer);
+        formData.append("status", '1');
         if (serviceType) {
             formData.append("service_type", serviceType.value);
         }

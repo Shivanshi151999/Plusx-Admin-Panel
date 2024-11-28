@@ -175,7 +175,7 @@ const List = ({ list, tableHeaders, listData, keyMapping, pageHeading, onDeleteS
                                         <>
                                             <img src={View} alt="view" onClick={() => handlePublicChargerStationDetails(data.station_id)} />
                                             <img src={Edit} alt='edit' onClick={() => handleEditChargerDetails(data.station_id)} />
-                                            <img src={Delete} alt='delete' />
+                                            <img src={Delete} alt='delete' onClick={() => onDeleteSlot(data.station_id)}/>
                                         </>
                                     )}
 

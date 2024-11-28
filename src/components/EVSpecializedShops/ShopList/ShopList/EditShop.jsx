@@ -275,7 +275,7 @@ const EditShopListForm = () => {
       formData.append("store_email", email);
       formData.append("store_website", website);
       formData.append("description", description);
-
+      formData.append("status", isActive === true ? 1 : 0);
       addressArray.forEach(item => formData.append("address[]", item));
       areaNameArray.forEach(item => formData.append("area_name[]", item));
       locationArray.forEach(item => formData.append("location[]", item?.value));
@@ -402,17 +402,17 @@ const EditShopListForm = () => {
         setDetails(data);
         setShopName(data?.shop_name || "");
         setContact(data?.contact_no || "");
-        setEmail(data?.shop_email || "");
-        setWebsite(data?.shop_website || "");
+        setEmail(data?.store_email || "");
+        setWebsite(data?.store_website || "");
         setArea(data?.area || "");
         setMapLocation(data?.address || "");
         setLatitude(data?.latitude || "");
         setLongitude(data?.longitude || "");
         setDescription(data?.description || "");
         setFile(data?.cover_image || "");
-        setGalleryFiles(response?.shop_gallery || []);
+        setGalleryFiles(response?.galleryData || []);
         setIsAlwaysOpen(data?.always_open === 1 ? true : false);
-
+        setIsActive(data?.status === 1 ? true : false)
         const initialSelectedBrands = (data?.brands.split(", ") || []).map(item => ({
           label: item,
           value: item
@@ -453,6 +453,7 @@ const EditShopListForm = () => {
   const handleToggle = () => {
     setIsActive((prevState) => !prevState);
   };
+console.log(isActive);
 
   return (
 
