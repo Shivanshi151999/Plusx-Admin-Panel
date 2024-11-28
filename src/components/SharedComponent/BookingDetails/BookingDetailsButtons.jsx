@@ -55,7 +55,7 @@ const BookingDetailsButtons = ({ deviceId, deviceBrandList, currentPage, totalPa
                         brandImagePath={brandImagePath}
                     />
                 }
-                {activeSection === 'podInputHistory' && <PODInput />}
+                {activeSection === 'podInputHistory' && <PODInput podId={deviceId} />}
                 {activeSection === 'podOutputHistory' && <PODOutput />}
                 {activeSection === 'podZoneHistory' && 
                     <PODZoneHistory 

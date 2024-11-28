@@ -11,15 +11,15 @@ import AddDriver from '../../../assets/images/AddDriver.svg';
 import { useNavigate } from 'react-router-dom';
 
     const statusMapping = {
+        '0' : 'Under Maintenance',
         '1' : 'In Use',
-        '0' : 'Available',
-        '2' : 'Used'
+        '2' : 'In Service'
     };
     const searchTerm = [
         {
-            label: 'search', 
-            name: 'search_text', 
-            type: 'text'
+            label : 'search', 
+            name  : 'search_text', 
+            type  : 'text'
         }
     ]
 
@@ -77,12 +77,13 @@ const PodDeviceList = () => {
                 <div className={styles.errorContainer}>No data available</div>
             ) : (
             <List
-                tableHeaders={[ "Device ID", "Modal Name", "Capacity", "Inverter", "Charger", "Status", "Action"]}
+                tableHeaders={[ "POD ID", "POD Name", "Device ID", "Modal Name", "Inverter", "Charger", "Status", "Action"]}
                 listData={chargerBookingList}
                 keyMapping={[
+                    { key: 'pod_id', label: 'POD ID' },
+                    { key: 'pod_name', label: 'POD Name' },
                     { key: 'device_id', label: 'Device ID' },
                     { key: 'design_model', label: 'Modal Name' },
-                    { key: 'capacity', label: 'Capacity' },
                     { key: 'inverter', label: 'Inverter' },
                     { key: 'charger', label: 'Charger' },
                     { key: 'status', label: 'Status', format: (status) => statusMapping[status] || status },

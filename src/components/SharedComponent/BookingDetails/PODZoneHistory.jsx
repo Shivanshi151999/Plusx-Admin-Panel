@@ -75,9 +75,7 @@ const PODZoneHistory = ({podId }) => {
     const handleAddZoneClick = () => {
         setSelectedArea('');
         setIsModalOpen(true);
-       
     };
-
     const handleCloseModal = () => {
         setIsModalOpen(false);
         setSelectedArea('');

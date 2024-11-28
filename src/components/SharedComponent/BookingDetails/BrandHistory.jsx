@@ -15,7 +15,7 @@ const BrandHistory = ({ deviceId, deviceBrandList, currentPage, totalPages, onPa
   const [modalImage, setModalImage] = useState('');
   
   const handlePageChange = (newPage) => {
-    console.log('Page changed to:', newPage);
+    // console.log('Page changed to:', newPage);
     onPageChange(newPage);
   };
 
