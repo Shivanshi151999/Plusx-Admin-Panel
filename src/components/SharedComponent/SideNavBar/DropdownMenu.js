@@ -26,6 +26,6 @@ export const menuItems = {
     podDevice : [
         { id: "deviceList", label: "Device List", path: "/pod-device/device-list" },
         { id: "areaList", label: "Area List", path: "/pod-device/area-list" },
-        { id: "brandList", label: "Brand List", path: "/pod-device/brand-list" },
+        // { id: "brandList", label: "Brand List", path: "/pod-device/brand-list" },
     ],
 };

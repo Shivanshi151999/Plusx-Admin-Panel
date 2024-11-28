@@ -56,13 +56,13 @@ const BookingDetailsButtons = ({ deviceId, deviceBrandList, currentPage, totalPa
                     />
                 }
                 {activeSection === 'podInputHistory' && <PODInput podId={deviceId} />}
-                {activeSection === 'podOutputHistory' && <PODOutput />}
+                {activeSection === 'podOutputHistory' && <PODOutput podId={deviceId} />}
                 {activeSection === 'podZoneHistory' && 
                     <PODZoneHistory 
                         podId={deviceId}
                     />
                 }
-                {activeSection === 'podBookingList' && <PODBookingList />}
+                {activeSection === 'podBookingList' && <PODBookingList podId={deviceId} />}
             </div>
         </div>
     );

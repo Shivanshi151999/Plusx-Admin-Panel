@@ -7,6 +7,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 import InputMask from 'react-input-mask';
+import Delete from '../../../assets/images/Delete.svg'
+import Add from '../../../assets/images/Add.svg';
 
 const AddPodDevice = () => {
     const userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
@@ -20,7 +22,13 @@ const AddPodDevice = () => {
     const [inverter, setInverter]   = useState("");
     const [charger, setCharger]     = useState("");
     const [dateOfManufacturing, setDateOfManufacturing] = useState("");
-    const [errors, setErrors]                           = useState({});  
+    const [errors, setErrors]                           = useState({});
+    const [bateryerrors, setBateryerrors]               = useState([]);  
+
+    const [deviceBatteryData, setDeviceBatteryData] = useState([
+        { batteryId : '', capacity : '' }
+    ]);
+
     
     const backButtonClick = () => {
         navigate('/pod-device/device-list')
@@ -51,12 +59,12 @@ const AddPodDevice = () => {
                 errorMessage : "Modal Name is required.", 
                 isValid      : val => val.trim() !== "" 
             },
-            { 
-                name         : "capacity", 
-                value        : capacity, 
-                errorMessage : "Capacity is required.", 
-                isValid      : val => val.trim() !== "" 
-            },
+            // { 
+            //     name         : "capacity", 
+            //     value        : capacity, 
+            //     errorMessage : "Capacity is required.", 
+            //     isValid      : val => val.trim() !== "" 
+            // },
             { 
                 name         : "inverter", 
                 value        : inverter, 
@@ -75,8 +83,15 @@ const AddPodDevice = () => {
                 errorMessage : "Date Of Manufacturing is required.", 
                 isValid      : val => val.trim() !== "" 
             }
-        ]; //
-    
+        ]
+        deviceBatteryData.forEach((slot, index) => { // batteryId : null,  
+            const slotErrors = {};
+            if (!slot.batteryId) slotErrors.batteryId = "Battery Id is required";
+            if (!slot.capacity) slotErrors.capacity   = "Capacity is required";
+            
+            bateryerrors[index] = slotErrors;
+        });
+        setBateryerrors(bateryerrors);
         const newErrors = fields.reduce((errors, { name, value, errorMessage, isValid }) => {
             if (!isValid(value)) {
                 errors[name] = errorMessage;
@@ -85,10 +100,12 @@ const AddPodDevice = () => {
         }, {});
     
         setErrors(newErrors);
-        return Object.keys(newErrors).length === 0;
+        return Object.keys(newErrors).length === 0 || Object.keys(bateryerrors).length === 0;
     };
     
     const handleSubmit = (e) => {
+        console.log(errors); 
+        // return;
         e.preventDefault();
         if (validateForm()) {
 
@@ -104,6 +121,10 @@ const AddPodDevice = () => {
             formData.append("charger", charger);
             formData.append("inverter", inverter);  
             formData.append("date_of_manufacturing", dateOfManufacturing);
+
+            // const start_time = deviceBatteryData.map(slot => slot.startTime);
+            // const capacity = deviceBatteryData.map(slot => slot.endTime);
+
 
             postRequestWithToken('pod-device-add', formData, async (response) => {
                 if (response.code === 200) {
@@ -128,10 +149,33 @@ const AddPodDevice = () => {
         }
     }, []); 
 
+    const handleBatteryChange = (index, e) => {
+        const value = e.target.value;
+        
+        const newBattery = [...deviceBatteryData];
+        newBattery[index].batteryId = value;
+        setDeviceBatteryData(newBattery);
+    };
+    const handleBatteryCapacityChange = (index, e) => {
+        const value = e.target.value;
+        
+        const newCapacity = [...deviceBatteryData];
+        newCapacity[index].capacity = value;
+        setDeviceBatteryData(newCapacity);
+    };
+    const addTimeSlot = () => {
+        setDeviceBatteryData([...deviceBatteryData, { batteryId: '', capacity: '' }]);
+    };
+    const removeTimeSlot = (index) => {
+        const newBatteryData = deviceBatteryData.filter((_, i) => i !== index);
+        setDeviceBatteryData(newBatteryData);
+    };
+
     return (
         <div className={styles.containerCharger}>
             <h2 className={styles.title}>Add Device</h2>
             <div className={styles.chargerSection}>
+                
                 <form className={styles.form} onSubmit={handleSubmit}>
                     <ToastContainer />
                     <div className={styles.row}>
@@ -175,7 +219,7 @@ const AddPodDevice = () => {
                         </div>  
                     </div>
                     <div className={styles.row}>
-                        <div className={styles.inputGroup}>
+                        {/* <div className={styles.inputGroup}>
                             <label className={styles.label}>Capacity (KW)</label>
                             <input
                                 className={styles.inputCharger}
@@ -187,7 +231,7 @@ const AddPodDevice = () => {
                                 }}
                             />
                             {errors.capacity && capacity =='' && <p className="error">{errors.capacity}</p>}
-                        </div>
+                        </div> */}
                         <div className={styles.inputGroup}>
                             <label className={styles.label}> Inverter </label>
                             <input
@@ -242,10 +286,47 @@ const AddPodDevice = () => {
                                 placeholder="DD-MM-YYYY"
                                 className={styles.inputCharger}
                             />
-                            {errors.dateOfManufacturing && <p className="error">{errors.dateOfManufacturing}</p>}
+                            {errors.dateOfManufacturing && dateOfManufacturing =='' && <p className="error">{errors.dateOfManufacturing}</p>}
                         </div>
                     </div>
+                    <div className={styles.slotHeaderSection}>
+                        <h2 className={styles.title}>Add Battery Detail</h2>
+                        <button type="button" className={styles.buttonSec} onClick={addTimeSlot}>
+                            <img src={Add} alt="Add" className={styles.addImg} />
+                            <span className={styles.addContent}>Add</span>
+                        </button>
+                    </div>
+                    { deviceBatteryData.map((slot, index) => (
+                        <div key={index} className={styles.row}>
+                            <div className={styles.inputGroup}>
+                                <label className={styles.label}>Battery ID </label>
+                                <input
+                                    className={styles.inputCharger}
+                                    value={slot.batteryId}
+                                    onChange={(e) => handleBatteryChange(index, e)}
+                                    placeholder="Battery ID"
+                                />
+                                {bateryerrors[index]?.batteryId && slot.batteryId == '' && <span className="error">{bateryerrors[index].batteryId}</span>}
+                            </div>
 
+                            <div className={styles.inputGroup}>
+                                <label className={styles.label}>Capacity </label>
+                                <input
+                                    className={styles.inputCharger}
+                                    value={slot.capacity}
+                                    onChange={(e) => handleBatteryCapacityChange(index, e)}
+                                    placeholder="Capacity"
+                                />
+                                {bateryerrors[index]?.capacity && slot.capacity == '' && <span className="error">{bateryerrors[index].capacity}</span>}
+                            </div>
+
+                            {deviceBatteryData.length > 1 && (
+                                <button type="button" className={styles.buttonContainer} onClick={() => removeTimeSlot(index)}>
+                                    <img className={styles.removeContent} src={Delete} alt="delete" />
+                                </button>
+                            )}
+                        </div>
+                    ))}
                     <div className={styles.actions}>
                         <button onClick={backButtonClick} className={styles.cancelBtn} type="button">Cancel</button>
                         <button className={styles.submitBtn} type="submit">Submit</button>

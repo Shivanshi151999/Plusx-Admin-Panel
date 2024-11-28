@@ -14,7 +14,7 @@ import BookingStatusSection from '../../SharedComponent/BookingDetails/BookingSt
 const DeviceDetails = () => {
     const userDetails                       = JSON.parse(sessionStorage.getItem('userDetails'));
     const navigate                          = useNavigate()
-    const { podId }                      = useParams()
+    const { podId }                         = useParams()
     const [deviceDetails, setDeviceDetails] = useState({})
     // Static data for the table
     const [currentPage, setCurrentPage]         = useState(1);

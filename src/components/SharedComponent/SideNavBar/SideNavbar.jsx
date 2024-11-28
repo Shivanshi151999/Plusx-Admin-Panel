@@ -28,7 +28,7 @@ const SideNavbar = () => {
         podDevice : {
             deviceList : false,
             areaList   : false,
-            brandList  : false,
+            // brandList  : false,
         },
     });
 
@@ -93,7 +93,7 @@ const SideNavbar = () => {
         
         podDevice: location.pathname.includes("/pod-device")
             ? prevState.podDevice
-            : { deviceList: false, areaList: false, brandList: false },
+            : { deviceList: false, areaList: false },  // , brandList: false
         }));
         const dropdownPaths = [
             "/portable-charger",

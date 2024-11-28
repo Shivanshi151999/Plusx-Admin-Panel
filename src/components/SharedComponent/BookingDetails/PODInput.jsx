@@ -6,10 +6,9 @@ import { getRequestWithToken } from '../../../api/Requests';
 import moment from 'moment';
 const PODInput = ({podId}) => {
 
-    const userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
-    const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages]   = useState(1);
-    
+    const userDetails                          = JSON.parse(sessionStorage.getItem('userDetails'));
+    const [currentPage, setCurrentPage]        = useState(1);
+    const [totalPages, setTotalPages]          = useState(1);
     const[podInputHistory, setPodInputHistory] = useState([]);
     
     useEffect(() => {
@@ -19,7 +18,7 @@ const PODInput = ({podId}) => {
             podId   : podId, 
             page_no : currentPage
         }
-        getRequestWithToken('all-pod-input-history', AreaObj, (response) => {
+        getRequestWithToken('pod-output-history', AreaObj, (response) => {
             if (response.code === 200) {
                 // console.log(response.code)
                 setPodInputHistory(response?.data || []);  
@@ -38,28 +37,15 @@ const PODInput = ({podId}) => {
     const columns = [
         { label : 'Date', field: 'date' },
         { label : 'Time', field: 'time' },
-        { label : 'Killowatt', field: 'killowatt' },
+        { label : 'Kilowatt', field: 'kilowatt' },
     ];
-
-    const data = [
-        { date: "11-12-2024", time: '11:14 AM', killowatt: '50' },
-        { date: "11-12-2024", time: '11:14 AM', killowatt: '50' },
-        { date: "11-12-2024", time: '11:14 AM', killowatt: '50' },
-        { date: "11-12-2024", time: '11:14 AM', killowatt: '50' },
-    ];
-    // {
-    //     "booking_id": "PCB0196",
-    //     "start_charging_level": 9.989999771118164,
-    //     "end_charging_level": 9.989999771118164,
-    //     "date_time": "2024-11-27T05:13:29.000Z"
-    // }
     var tableVal = []
     podInputHistory.map((item) =>{ 
         // console.log( 'item', item.end_charging_level - item.start_charging_level );  //;
         tableVal.push({ 
             date      : moment(item.date_time).format('DD-MM-YYYY'), 
-            time      : moment(item.date_time).format('HH:mm:ss'), 
-            killowatt : ( item.end_charging_level - item.start_charging_level ) * 0.25 +' kw'
+            time      : moment(item.date_time).format('HH:mm A'), 
+            kilowatt : ( item.end_charging_level - item.start_charging_level ) * 0.25 +' kw'
         });
     });
     // console.log(tableVal)

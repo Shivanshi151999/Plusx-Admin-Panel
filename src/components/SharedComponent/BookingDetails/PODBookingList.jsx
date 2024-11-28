@@ -1,46 +1,60 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import GenericTable from './GenericTable';
 import Pagination from '../Pagination/Pagination';
 import styles from './history.module.css';
+import { getRequestWithToken } from '../../../api/Requests';
+import moment from 'moment';
 
-const PODBookingList = () => {
-    // Mock data
-    const data = [
-        { id: 1, name: 'Input 1', description: 'Description 1' },
-        { id: 2, name: 'Input 2', description: 'Description 2' },
-    ];
+const PODBookingList = ({podId}) => {
+    const userDetails                            = JSON.parse(sessionStorage.getItem('userDetails'));
+    const [currentPage, setCurrentPage]          = useState(1);
+    const [totalPages, setTotalPages]            = useState(1);
+    const[podOutputHistory, setPodOutputHistory] = useState([]);
 
-    // Pagination state
-    const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 3;
+    useEffect(() => {
+        let AreaObj = {
+            userId  : userDetails?.user_id,
+            email   : userDetails?.email,
+            podId   : podId, 
+            page_no : currentPage
+        }
+        getRequestWithToken('pod-output-history', AreaObj, (response) => {
+            if (response.code === 200) {
+                // console.log(response.code)
+                setPodOutputHistory(response?.data || []);  
+                setTotalPages(response?.total_page || 1);
+            } else {
+                console.log('error in brand-list API', response);
+            }
+        });
+    }, [currentPage]);
 
-    // Calculate total pages
-    const totalPages = Math.ceil(data.length / itemsPerPage);
-
-    // Get paginated data
-    const paginatedData = data.slice(
-        (currentPage - 1) * itemsPerPage,
-        currentPage * itemsPerPage
-    );
-
+    const itemsPerPage  = 3;
     // Handle page change
     const handlePageChange = (page) => {
         setCurrentPage(page);
     };
-
     // Table columns
     const columns = [
-        { label: 'ID', field: 'id' },
-        { label: 'Name', field: 'name' },
-        { label: 'Description', field: 'description' },
+        { label : 'Booking ID', field: 'booiking_id' },
+        { label : 'Order Date', field: 'order_date' },
+        { label : 'Kilowatt', field: 'kilowatt' },
     ];
-
+    var tableVal = []
+    podOutputHistory.map((item) =>{ 
+        // console.log( 'item', item.end_charging_level - item.start_charging_level );  //;
+        tableVal.push({ 
+            booiking_id : item.booking_id, 
+            order_date  : moment(item.date_time).format('DD-MM-YYYY HH:mm A'), 
+            kilowatt    : ( item.end_charging_level - item.start_charging_level ) * 0.25 +' kw'
+        });
+    });
     return (
         <div className={styles.addressListContainer}>
             <div className={styles.brandHistorySection}>
                 <span className={styles.sectionTitle}>POD Booking List</span>
             </div>
-            <GenericTable columns={columns} data={paginatedData} />
+            <GenericTable columns={columns} data={tableVal} />
             <Pagination
                 currentPage={currentPage}
                 totalPages={totalPages}
