@@ -14,14 +14,14 @@ const dynamicFilters = [
 ]
 
 const OfferList = () => {
-    const userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
-    const navigate = useNavigate()
-    const [carList, setCarList] = useState([])
+    const userDetails                   = JSON.parse(sessionStorage.getItem('userDetails'));
+    const navigate                      = useNavigate()
+    const [carList, setCarList]         = useState([])
     const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(1);
-    const [totalCount, setTotalCount] = useState(1)
-    const [filters, setFilters] = useState({});
-    const [refresh, setRefresh] = useState(false)
+    const [totalPages, setTotalPages]   = useState(1);
+    const [totalCount, setTotalCount]   = useState(1)
+    const [filters, setFilters]         = useState({});
+    const [refresh, setRefresh]         = useState(false)
     const searchTerm = [
         {
             label: 'search',
@@ -37,9 +37,9 @@ const OfferList = () => {
 
     const fetchList = (page, appliedFilters = {}) => {
         const obj = {
-            userId: userDetails?.user_id,
-            email: userDetails?.email,
-            page_no: page,
+            userId  : userDetails?.user_id,
+            email   : userDetails?.email,
+            page_no :  page,
             ...appliedFilters,
         }
 
@@ -75,9 +75,9 @@ const OfferList = () => {
         const confirmDelete = window.confirm("Are you sure you want to delete this?");
         if (confirmDelete) {
             const obj = {
-                userId: userDetails?.user_id,
-                email: userDetails?.email,
-                offer_id: offerId,
+                userId   : userDetails?.user_id,
+                email    : userDetails?.email,
+                offer_id : offerId,
             };
             postRequestWithToken('delete-offer', obj, async (response) => {
                 if (response.code === 200) {
