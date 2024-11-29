@@ -10,8 +10,8 @@ const Custommodal = ({ isOpen, onClose, driverList, onSelectDriver, bookingId, o
   if (!isOpen) return null;
 
   const getStatusLabel = (status) => {
-    if (status === 0) return "De-Active";
-    if (status === 1 || status === 3) return "Un-Available";
+    if (status === 0) return "In-Active";
+    if (status === 1) return "Un-Available";
     if (status === 2) return "Available";
     return "Unknown";
 };
@@ -50,8 +50,8 @@ const Custommodal = ({ isOpen, onClose, driverList, onSelectDriver, bookingId, o
             Close
           </button>
           <button className={styles.assignBtn} 
-          // onClick={() => alert('Assigned!')}
           onClick={onAssignDriver}
+          disabled={!selectedDriver}
           >
             Assign
           </button>

@@ -199,9 +199,9 @@ const ChargerBookingList = () => {
                 toast(response.message || response.message[0], {type:'success'})
                 setTimeout(() => {
                     fetchList(currentPage, filters);
-                }, 2000);
+                }, 1000);
             } else {
-                toast(response.message[0], {type:'error'})
+                toast(response.message || response.message[0], {type:'error'})
                 // alert(response.message || response.message[0])
                 console.log('error in/charger-booking-assign api', response);
             }

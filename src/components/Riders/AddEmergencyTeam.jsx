@@ -17,7 +17,7 @@ const AddEmergencyTeam = () => {
     const [mobileNo, setMobileNo]               = useState("");
     const [serviceType, setServiceType]         = useState(null);
     const [password, setPassword]               = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState(null);
     const [errors, setErrors]                   = useState({});
     const [loading, setLoading]                 = useState(false);
 
@@ -43,6 +43,14 @@ const AddEmergencyTeam = () => {
             alert('Please upload a valid image file.');
         }
     };
+    const clearError = (fieldName) => {
+        setErrors((prevErrors) => {
+            const updatedErrors = { ...prevErrors };
+            delete updatedErrors[fieldName];
+            return updatedErrors;
+        });
+    };
+    
 
     const handleRemoveImage = () => {
         setFile(null);
@@ -67,10 +75,13 @@ const AddEmergencyTeam = () => {
                 errors[name] = errorMessage;
             } else if (isMobile && (isNaN(value) || value.length < 9)) {
                 errors[name] = errorMessage;
-                toast('Mobile No should be valid', {type:'error'})
+                
             } else if (isPasswordMatch && value !== password) {
                 errors[name] = errorMessage;
-                toast('Passwords do not match.', {type:'error'})
+               
+            } else if (name === 'password' && value.length < 6) {
+                errors[name] = "Password should be at least 6 characters long.";
+                
             }
             return errors;
         }, {});
@@ -117,7 +128,7 @@ const AddEmergencyTeam = () => {
             });
 
         } else {
-            console.log("Form validation failed.");
+            console.log("Form validation failed.", errors);
             toast.error("Some fields are missing");
             setLoading(false);
         }
@@ -144,9 +155,11 @@ const AddEmergencyTeam = () => {
                                 type="text"
                                 placeholder="Driver Name"
                                 value={rsaName}
-                                onChange={(e) => setRsaName(e.target.value.slice(0, 50))}
+                                onChange={(e) => {setRsaName(e.target.value.slice(0, 50))
+                                    clearError("rsaName");
+                                }}
                             />
-                            {errors.rsaName && <p className="error">{errors.rsaName}</p>}
+                            {errors.rsaName && rsaName == '' && <p className="error">{errors.rsaName}</p>}
                         </div>
                         <div className={styles.addShopInputContainer}>
                             <label className={styles.addShopLabel}>Email ID</label>
@@ -157,7 +170,7 @@ const AddEmergencyTeam = () => {
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value.slice(0, 50))}
                             />
-                            {errors.email && <p className="error">{errors.email}</p>}
+                            {errors.email && email == '' && <p className="error">{errors.email}</p>}
                         </div>
                     </div>
                     <div className={styles.row}>
@@ -168,9 +181,9 @@ const AddEmergencyTeam = () => {
                                 type="text"
                                 placeholder="Mobile No"
                                 value={mobileNo}
-                                onChange={(e) => setMobileNo(e.target.value.slice(0, 20))}
+                                onChange={(e) => setMobileNo(e.target.value.slice(0, 12))}
                             />
-                            {errors.mobileNo && <p className="error">{errors.mobileNo}</p>}
+                            {errors.mobileNo && mobileNo.length < 9 &&   <p className="error">{errors.mobileNo}</p>}
                         </div>
                         <div className={styles.addShopInputContainer}>
                             <label className={styles.addShopLabel}>Service Type</label>
@@ -185,7 +198,7 @@ const AddEmergencyTeam = () => {
                                 />
 
                             </div>
-                            {errors.serviceType && <p className="error">{errors.serviceType}</p>}
+                            {errors.serviceType && serviceType == null && <p className="error">{errors.serviceType}</p>}
                         </div>
                     </div>
                     <div className={styles.row}>
@@ -198,7 +211,7 @@ const AddEmergencyTeam = () => {
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                             />
-                            {errors.password && <p className="error">{errors.password}</p>}
+                            {errors.password && password.length < 6 &&  <p className="error">{errors.password}</p>}
                         </div>
                         <div className={styles.addShopInputContainer}>
                             <label className={styles.addShopLabel}>Confirm Password</label>
@@ -209,7 +222,7 @@ const AddEmergencyTeam = () => {
                                 value={confirmPassword}
                                 onChange={(e) => setConfirmPassword(e.target.value)}
                             />
-                            {errors.confirmPassword && <p className="error">{errors.confirmPassword}</p>}
+                            {errors.confirmPassword && confirmPassword != password && <p className="error">{errors.confirmPassword}</p>}
                         </div>
                     </div>
 

@@ -10,6 +10,7 @@ import ModalAssign from '../../SharedComponent/BookingDetails/ModalAssign.jsx'
 import { postRequestWithToken } from '../../../api/Requests';
 import moment from 'moment';
 import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -194,11 +195,12 @@ const BookingList = () => {
             if (response.code === 200) {
                 
                 setIsModalOpen(false);
-                alert(response.message || response.message[0])
-                fetchList(currentPage, filters);
+                toast(response.message || response.message[0], {type:'success'})
+                setTimeout(() => {
+                    fetchList(currentPage, filters);
+                }, 1000);
             } else {
-                // toast(response.message, {type:'error'})
-                alert(response.message || response.message[0])
+                toast(response.message, {type:'error'})
                 console.log('error in /pick-and-drop-assign api', response);
             }
         })
@@ -207,6 +209,7 @@ const BookingList = () => {
 
     return (
         <div className='main-container'>
+            <ToastContainer />
          <SubHeader heading = "Pick & Drop Booking List"
          fetchFilteredData={fetchFilteredData} 
          dynamicFilters={dynamicFilters} filterValues={filters}
