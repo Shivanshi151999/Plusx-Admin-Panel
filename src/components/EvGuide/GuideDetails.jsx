@@ -3,6 +3,7 @@ import styles from './evguide.module.css'
 import BookingDetailsHeader from '../SharedComponent/Details/BookingDetails/BookingDetailsHeader'
 import BookingDetailsSection from '../SharedComponent/Details/BookingDetails/BookingDetailsSection'
 import BookingImageSection from '../SharedComponent/Details/BookingDetails/BookingImageSection'
+import BookingMultipleImages from '../SharedComponent/Details/BookingDetails/BookingMultipleImages.jsx';
 import { postRequestWithToken } from '../../api/Requests';
 import BookingLeftDetails from '../SharedComponent/BookingDetails/BookingLeftDetails.jsx'
 import { useParams } from 'react-router-dom';
@@ -190,6 +191,10 @@ const GuideDetails = () => {
           type='evGuide' />
 
         <BookingImageSection
+          titles={imageTitles} content={imageContent}
+          type='evGuide'
+        />
+        <BookingMultipleImages
           titles={imageTitles} content={imageContent}
           type='evGuide'
         />

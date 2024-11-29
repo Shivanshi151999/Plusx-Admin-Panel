@@ -384,6 +384,7 @@ const EditPublicChargerStation = () => {
                             <label className={styles.addShopLabel} htmlFor="shopName">Station Name</label>
                             <input
                                 type="text"
+                                 autoComplete="off"
                                 id="shopName"
                                 placeholder="Shop Name"
                                 className={styles.inputField}
@@ -430,6 +431,7 @@ const EditPublicChargerStation = () => {
 
                             <input
                                 type="text"
+                                 autoComplete="off"
                                 id="chargingPoint"
                                 placeholder="Charging Point"
                                 className={styles.inputField}
@@ -478,6 +480,7 @@ const EditPublicChargerStation = () => {
                             <label className={styles.addShopLabel} htmlFor="latitude">Latitude</label>
                             <input type="text"
                                 id="latitude"
+                                 autoComplete="off"
                                 placeholder="Latitude"
                                 className={styles.inputField}
                                 value={latitude}
@@ -494,6 +497,7 @@ const EditPublicChargerStation = () => {
                         <div className={styles.addShopInputContainer}>
                             <label className={styles.addShopLabel} htmlFor="longitude">Longitude</label>
                             <input type="text"
+                             autoComplete="off"
                                 id="longitude"
                                 placeholder="Longitude"
                                 className={styles.inputField}
@@ -651,6 +655,7 @@ const EditPublicChargerStation = () => {
 
                                     {Array.isArray(galleryFiles) && galleryFiles.length > 0 ? (
                                         galleryFiles.map((file, index) => (
+                                            <div className={styles.imageContainer} key={index}>
                                             <img
                                                 key={index}
                                                 src={
@@ -661,6 +666,10 @@ const EditPublicChargerStation = () => {
                                                 alt={`Preview ${index + 1}`}
                                                 className={styles.previewImage}
                                             />
+                                            <button type="button" className={styles.removeButton} onClick={() => handleRemoveGalleryImage(index)}>
+                                                    <AiOutlineClose size={20} style={{ padding: '2px' }} />
+                                                </button>
+                                            </div>
                                         ))
                                     ) : (
                                         <p>No images available</p>

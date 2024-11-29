@@ -333,6 +333,7 @@ const AddChargerStation = () => {
                             <label className={styles.addShopLabel} htmlFor="shopName">Station Name</label>
                             <input
                                 type="text"
+                                autoComplete="off"
                                 id="shopName"
                                 placeholder="Shop Name"
                                 className={styles.inputField}
@@ -379,6 +380,7 @@ const AddChargerStation = () => {
 
                             <input
                                 type="text"
+                                 autoComplete="off"
                                 id="chargingPoint"
                                 placeholder="Charging Point"
                                 className={styles.inputField}
@@ -427,6 +429,7 @@ const AddChargerStation = () => {
                             <label className={styles.addShopLabel} htmlFor="latitude">Latitude</label>
                             <input type="text"
                                 id="latitude"
+                                 autoComplete="off"
                                 placeholder="Latitude"
                                 className={styles.inputField}
                                 value={latitude}
@@ -445,6 +448,7 @@ const AddChargerStation = () => {
                             <label className={styles.addShopLabel} htmlFor="longitude">Longitude</label>
                             <input type="text"
                                 id="longitude"
+                                 autoComplete="off"
                                 placeholder="Longitude"
                                 className={styles.inputField}
                                 value={longitude}
@@ -476,6 +480,7 @@ const AddChargerStation = () => {
                             <label className={styles.checkboxLabel}>
                                 <input
                                     className={styles.checkboxInput}
+                                     autoComplete="off"
                                     type="checkbox"
                                     id="alwaysOpen"
                                     checked={isAlwaysOpen}

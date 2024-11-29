@@ -3,6 +3,7 @@ import styles from './shop.module.css'
 import BookingDetailsHeader from '../../../SharedComponent/Details/BookingDetails/BookingDetailsHeader'
 import BookingDetailsSection from '../../../SharedComponent/Details/BookingDetails/BookingDetailsSection'
 import BookingImageSection from '../../../SharedComponent/Details/BookingDetails/BookingImageSection'
+import BookingMultipleImages from '../../../SharedComponent/Details/BookingDetails/BookingMultipleImages.jsx';
 import { postRequestWithToken } from '../../../../api/Requests';
 import BookingLeftDetails from '../../../SharedComponent/BookingDetails/BookingLeftDetails.jsx'
 import AddressList from '../../../SharedComponent/Details/AddressList.jsx'
@@ -240,6 +241,10 @@ const ShopDetails = () => {
         <AddressList className={styles.shopDetailsList} addressList={address} /> 
         <BookingImageSection
           titles={imageTitles} content={imageContent}
+          type='publicChargingStation'
+        />
+        <BookingMultipleImages
+        titles={imageTitles} content={imageContent}
           type='publicChargingStation'
         />
       </div>

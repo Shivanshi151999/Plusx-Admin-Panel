@@ -198,9 +198,8 @@ const StationDetails = () => {
           type='publicChargingStation'
         />
         <BookingMultipleImages
-      //  title={imageTitles.galleryImages} 
-      //  content={imageGallery} 
-      //  baseUrl={baseUrl} 
+       titles={imageTitles} content={imageContent}
+          type='publicChargingStation'
         />
       </div>
     </div>

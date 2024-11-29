@@ -1,14 +1,15 @@
 /* start the details header section */
-.infoCard{
+.infoCard {
   padding: 20px;
   background-color: #242424;
   color: white;
   font-family: "Inter", sans-serif !important;
 }
+
 /* .imageMainContainer{
   margin-top: 40px;
 } */
-.detailsHeaderSection{
+.detailsHeaderSection {
   display: flex;
   align-items: center;
   column-gap: 12px;
@@ -17,19 +18,23 @@
   border-radius: 14px;
   cursor: pointer;
 }
-.detailsHeaderSection:hover, 
+
+.detailsHeaderSection:hover,
 .detailsHeaderSection:hover .infoHeadText {
-    background-color: #00ffc3;
-    color: #000000;
+  background-color: #00ffc3;
+  color: #000000;
 }
-.detailsHeaderSection:hover .detailsImageSection img  {
+
+.detailsHeaderSection:hover .detailsImageSection img {
   filter: brightness(0) saturate(100%);
 }
-.detailsImageSection img{
+
+.detailsImageSection img {
   width: 40px;
   height: auto;
 }
-.infoBlock{
+
+.infoBlock {
   display: flex;
   flex-direction: column;
   justify-content: start;
@@ -39,52 +44,60 @@
   word-break: break-all;
   max-width: 100%;
 }
-.infoHeadText{
+
+.infoHeadText {
   display: block;
   white-space: normal;
   text-overflow: ellipsis;
   overflow: hidden;
   font-size: 15px;
   line-height: 16px;
-  color: #00ffc3;  
+  color: #00ffc3;
   text-transform: capitalize;
 }
-.infoText{
+
+.infoText {
   display: block;
   white-space: normal;
   text-overflow: ellipsis;
   overflow: hidden;
   font-size: 15px;
   line-height: 16px;
-  text-transform: capitalize; 
+  text-transform: capitalize;
 }
-.sectionsTitle{
+
+.sectionsTitle {
   font-size: 18px;
   font-weight: 600;
   color: #ffffff;
 }
+
 /* end the details header section */
 /* start the details section */
-.infoSection{
+.infoSection {
   padding: 20px;
   border-radius: 14px;
   background-color: #000000;
   color: white;
   font-family: "Inter", sans-serif !important;
 }
-.Detailshead{
+
+.Detailshead {
   font-size: 18px;
   font-weight: 600;
   color: #00ffc3;
 }
+
 /* end the details section */
 /* start the list section */
-.detailsListSection{
-background-color: #242424;
+.detailsListSection {
+  background-color: #242424;
 }
+
 .table>thead {
   vertical-align: top !important;
 }
+
 .addressListContainer {
   display: flex;
   background-color: #242424;
@@ -95,93 +108,131 @@ background-color: #242424;
   align-items: start;
 }
 
-.secondTitle{
+.secondTitle {
   color: #ffffff;
   font-size: 22px;
   font-weight: 600;
 }
+
 .sectionTitle {
   color: #00ffc3;
   font-size: 22px;
   font-weight: 600;
 }
+
 .customTable {
   background-color: #000 !important;
-  border-radius: 14px !important; 
-  overflow: hidden; 
+  border-radius: 14px !important;
+  overflow: hidden;
   padding: 12px !important;
 }
+
 .customTable thead {
-  background-color: #000000;  
+  background-color: #000000;
   border-bottom: #000 !important;
 }
+
 .customTable th {
-  color: #00ffc3!important;
+  color: #00ffc3 !important;
   background-color: #000000 !important;
   font-size: 13px !important;
   font-weight: 400 !important;
-  padding: 10px!important;
+  padding: 10px !important;
   text-align: left;
 }
+
 .customTable td {
   color: #ffffff !important;
   background-color: #000000 !important;
   padding: 12px 10px !important;
   font-size: 13px !important;
 }
+
 .customTable {
-  border-collapse: separate;  
+  border-collapse: separate;
   border-spacing: 0;
   border-radius: 8px;
 }
 
 /* start the list section */
-.editContent{
+.editContent {
   display: flex;
   column-gap: 10px;
   cursor: pointer;
 }
-.editContent img{
+
+.editContent img {
   width: 26px;
 }
+
 /* Start the image section */
-.galleryImages{
+.galleryImages {
   width: 300px;
   height: auto;
   margin-top: 10px;
   display: flex;
   gap: 24px;
 }
-.galleryImage{
+
+.galleryImage {
   width: 100%;
   border-radius: 8px;
   height: auto;
 }
-.ImageMainSection{
+
+.ImageMainSection {
   display: flex;
   flex-direction: column;
 }
-.infoContainer{
-  margin-top: 40px;
+
+.infoContainer {
   padding: 20px;
-    border-radius: 14px;
-    background-color: #000000;
-    color: white;
-    font-family: "Inter", sans-serif !important;
+  border-radius: 14px;
+  background-color: #000000;
+  color: white;
+  font-family: "Inter", sans-serif !important;
 }
+
 /* Style the multiple image container  */
-.customImageContainer{
-  padding: 20px;
-    border-radius: 14px;
-    background-color: #000000;
-    color: white;
-    font-family: "Inter", sans-serif !important;
+.multipleImageMainSection {
+  display: flex;
+  flex-direction: column;
 }
-.customGalleryImages{
-  width: 300px;
-    height: auto;
-    margin-top: 10px;
-    display: flex;
-    gap: 24px;
+
+.multipleinfoContainer {
+  position: relative;
+  padding: 20px;
+  border-radius: 14px;
+  background-color: #000000;
+  color: white;
+  font-family: "Inter", sans-serif !important;
+}
+.multiplegalleryImages {
+  width: 100%;
+  height: auto;
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.gallerymultipleImage {
+  border-radius: 8px;
+  height: 200px;
+}
+.removeButton {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: red;
+  color: white;
+  border: none;
+  padding: 5px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.removeButton:hover {
+  background: darkred;
 }
 /* End the multiple image container */

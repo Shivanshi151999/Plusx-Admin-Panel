@@ -163,6 +163,7 @@ const EditPortableCharger = () => {
                             <label className={styles.label}>Charger Name</label>
                             <input
                                 className={styles.inputCharger}
+                                autoComplete='off'
                                 type="text"
                                 placeholder="Super Charger"
                                 value={chargerName}
@@ -174,6 +175,7 @@ const EditPortableCharger = () => {
                             <label className={styles.label}>Charger Price</label>
                             <input
                                 className={styles.inputCharger}
+                                autoComplete='off'
                                 type="text"
                                 placeholder="AED 150"
                                 value={chargerPrice}
@@ -212,6 +214,7 @@ const EditPortableCharger = () => {
                             <input
                                 className={styles.inputCharger}
                                 type="text"
+                                autoComplete='off'
                                 placeholder="For AED 150 Per Charger"
                                 value={chargerFeature}
                                 onChange={(e) => setChargerFeature(e.target.value)}

@@ -242,6 +242,7 @@ const EditPickAndDropTimeSlot = () => {
                                 <input
                                     className={styles.inputCharger}
                                     type="text"
+                                    autoComplete='off'
                                     placeholder="Enter Booking Limit"
                                     maxLength="4"
                                     value={slot.bookingLimit}
@@ -255,6 +256,7 @@ const EditPickAndDropTimeSlot = () => {
                                 <input
                                     className={styles.inputCharger}
                                     type="text"
+                                    autoComplete='off'
                                     placeholder="Enter Available Limit"
                                     maxLength="4"
                                     value={slot.remainingLimit}

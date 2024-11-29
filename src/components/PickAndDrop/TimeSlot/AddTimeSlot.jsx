@@ -254,6 +254,7 @@ const AddPickAndDropTimeSlot = () => {
                                 <input
                                     className={styles.inputCharger}
                                     type="text"
+                                    autoComplete='off'
                                     placeholder="Enter Booking Limit"
                                     maxLength="4"
                                     value={slot.bookingLimit}

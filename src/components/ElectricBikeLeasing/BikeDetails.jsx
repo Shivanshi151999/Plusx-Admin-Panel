@@ -3,6 +3,7 @@ import styles from './electricbike.module.css'
 import BookingDetailsHeader from '../SharedComponent/Details/BookingDetails/BookingDetailsHeader'
 import BookingDetailsSection from '../SharedComponent/Details/BookingDetails/BookingDetailsSection'
 import BookingImageSection from '../SharedComponent/Details/BookingDetails/BookingImageSection'
+import BookingMultipleImages from '../SharedComponent/Details/BookingDetails/BookingMultipleImages.jsx';
 import { postRequestWithToken } from '../../api/Requests';
 import BookingLeftDetails from '../SharedComponent/BookingDetails/BookingLeftDetails.jsx'
 import { useParams } from 'react-router-dom';
@@ -120,6 +121,9 @@ const ElectricBikeDetails = () => {
           titles={imageTitles} content={imageContent}
           type='electricBikeLeasing'
         />
+         <BookingMultipleImages 
+          titles={imageTitles} content={imageContent}
+          type='electricBikeLeasing'/>
       </div>
     </div>
   )

@@ -55,7 +55,7 @@ const EditEmergencyTeam = () => {
 
     const validateForm = () => {
         const fields = [
-            { name: "rsaName", value: rsaName, errorMessage: "RSA Name is required." },
+            { name: "rsaName", value: rsaName, errorMessage: "Driver Name is required." },
             { name: "email", value: email, errorMessage: "Please enter a valid Email ID.", isEmail: true },
             { name: "mobileNo", value: mobileNo, errorMessage: "Please enter a valid Mobile No.", isMobile: true },
             { name: "serviceType", value: serviceType, errorMessage: "Service Type is required." },
@@ -194,6 +194,7 @@ const EditEmergencyTeam = () => {
                             <input
                                 className={styles.inputField}
                                 type="text"
+                                autoComplete='off'
                                 placeholder="Driver Name"
                                 value={rsaName}
                                 onChange={(e) => setRsaName(e.target.value.slice(0, 50))}
@@ -205,6 +206,7 @@ const EditEmergencyTeam = () => {
                             <input
                                 className={styles.inputField}
                                 type="email"
+                                autoComplete='off'
                                 placeholder="Email ID"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value.slice(0, 50))}
@@ -218,6 +220,7 @@ const EditEmergencyTeam = () => {
                             <input
                                 className={styles.inputField}
                                 type="text"
+                                autoComplete='off'
                                 placeholder="Mobile No"
                                 value={mobileNo}
                                 onChange={(e) => {
@@ -249,6 +252,7 @@ const EditEmergencyTeam = () => {
                             <input
                                 className={styles.inputField}
                                 type="password"
+                                autoComplete='off'
                                 placeholder="Password"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
@@ -260,6 +264,7 @@ const EditEmergencyTeam = () => {
                             <input
                                 className={styles.inputField}
                                 type="password"
+                                autoComplete='off'
                                 placeholder="Confirm Password"
                                 value={confirmPassword}
                                 onChange={(e) => setConfirmPassword(e.target.value)}
@@ -274,6 +279,7 @@ const EditEmergencyTeam = () => {
                             <input
                                 type="file"
                                 id="fileUpload"
+                                autoComplete='off'
                                 accept=".jpeg,.jpg"
                                 onChange={handleFileChange}
                                 style={{ display: 'none' }}

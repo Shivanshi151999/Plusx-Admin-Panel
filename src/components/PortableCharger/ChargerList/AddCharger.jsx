@@ -123,6 +123,7 @@ const AddPortableCharger = () => {
                             <input
                                 className={styles.inputCharger}
                                 type="text"
+                                autoComplete='off'
                                 placeholder="Super Charger"
                                 value={chargerName}
                                 onChange={(e) =>
@@ -136,6 +137,7 @@ const AddPortableCharger = () => {
                             <input
                                 className={styles.inputCharger}
                                 type="text"
+                                autoComplete='off'
                                 placeholder="AED 150"
                                 value={chargerPrice}
                                 onChange={(e) => {
@@ -170,6 +172,7 @@ const AddPortableCharger = () => {
                             <input
                                 className={styles.inputCharger}
                                 type="text"
+                                autoComplete='off'
                                 placeholder="For AED 150 Per Charger"
                                 value={chargerFeature}
                                 onChange={(e) => setChargerFeature(e.target.value)}
