@@ -65,17 +65,17 @@ const Login = () => {
                         navigate('/')
                     }, 1000);
 
-                    if (Notification.permission !== 'granted') {
-                        Notification.requestPermission();
-                      }
+                    // if (Notification.permission !== 'granted') {
+                    //     Notification.requestPermission();
+                    //   }
                   
-                      socket.on('desktop-notification', (data) => {
-                        if (Notification.permission === 'granted') {
-                          new Notification(data.title, {
-                            body: data.message,
-                          });
-                        }
-                      });
+                    //   socket.on('desktop-notification', (data) => {
+                    //     if (Notification.permission === 'granted') {
+                    //       new Notification(data.title, {
+                    //         body: data.message,
+                    //       });
+                    //     }
+                    //   });
                 } else {
                     toast(response.message, {type:'error'})
                     setLoading(false);

@@ -62,6 +62,30 @@ const DashboardCard = ({ details }) => {
       title: "Pick & Drop off Bookings",
       route: "/pick-and-drop/booking-list",
     },
+    {
+      icon: EVRoadAssitanceImage,
+      count:
+        details?.find((item) => item.module === "EV Road Assistance")?.count ||
+        0,
+      title: "EV Road Assistance",
+      route: "/ev-road-assistance/booking-list",
+    },
+    {
+      icon: ChargerInstallationImage,
+      count:
+        details?.find((item) => item.module === "Charger Installation Bookings")
+          ?.count || 0,
+      title: "Charger Installation Bookings",
+      route: "/charger-installation/charger-installation-list",
+    },
+    {
+      icon: EVPreSalesImage,
+      count:
+        details?.find((item) => item.module === "Pre-Sale Testing Bookings")
+          ?.count || 0,
+      title: "EV Pre-Sales Testing Bookings",
+      route: "/ev-pre-sales-testing/pre-sales-list",
+    },
     // {
     //   icon: PublicChargersImage,
     //   count:
@@ -93,22 +117,7 @@ const DashboardCard = ({ details }) => {
     //   title: "Total EV Guide",
     //   route: "/ev-guide-list",
     // },
-    {
-      icon: EVRoadAssitanceImage,
-      count:
-        details?.find((item) => item.module === "EV Road Assistance")?.count ||
-        0,
-      title: "EV Road Assistance",
-      route: "/ev-road-assistance/booking-list",
-    },
-    {
-      icon: ChargerInstallationImage,
-      count:
-        details?.find((item) => item.module === "Charger Installation Bookings")
-          ?.count || 0,
-      title: "Charger Installation Bookings",
-      route: "/charger-installation/charger-installation-list",
-    },
+    
     // {
     //   icon: EVRiderClubImage,
     //   count:
@@ -133,14 +142,7 @@ const DashboardCard = ({ details }) => {
     //   title: "Total EV Insurance",
     //   route: "/ev-insurance-list",
     // },
-    {
-      icon: EVPreSalesImage,
-      count:
-        details?.find((item) => item.module === "Pre-Sale Testing Bookings")
-          ?.count || 0,
-      title: "EV Pre-Sales Testing Bookings",
-      route: "/ev-pre-sales-testing/pre-sales-list",
-    },
+    
     // {
     //   icon: EVSpecializedShopsImage,
     //   count:

@@ -15,18 +15,13 @@ const Header = () => {
   const [isNotificationOpen, setNotificationOpen] = useState(false);
   const [isProfileOpen, setProfileOpen] = useState(false);
   const [userImage, setUserImage] = useState(DefaultProfileIcon);
-  const [notifications, setNotifications] = useState([
-    { id: 1, text: "Thank You for Your Booking! Our portable charger service for your EV." },
-    { id: 2, text: "Your order is confirmed. We will notify you once it's shipped." },
-    { id: 3, text: "New message received from your supplier." },
-    // Add more notifications as needed
-  ]);
+  const [notifications, setNotifications] = useState([]);
   const [totalPages, setTotalPages]  = useState(1);
   const [totalCount, setTotalCount]  = useState(1)
 
   // Refs to track dropdown containers
   const notificationRef = useRef(null);
-  const profileRef = useRef(null);
+  const profileRef      = useRef(null);
 
   const fetchList = (page =1, appliedFilters = {}) => {
     const obj = {
