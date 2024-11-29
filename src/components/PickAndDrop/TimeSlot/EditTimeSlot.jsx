@@ -23,7 +23,8 @@ const EditPickAndDropTimeSlot = () => {
     const [startDate, setStartDate] = useState(null);
     const [errors, setErrors]       = useState({});    
     const [date, setDate]           = useState(new Date()); 
-    const [timeSlots, setTimeSlots] = useState([{ id: "", slotId: "", startTime: null, endTime: null, bookingLimit: "", remainingLimit: "", status: "" }]);  
+    const [timeSlots, setTimeSlots] = useState([{ id: "", slotId: "", startTime: null, endTime: null, bookingLimit: "", remainingLimit: "", status: "" }]); 
+    const [loading, setLoading]     = useState(false); 
 
     const fetchDetails = () => {
         const obj = {
@@ -129,6 +130,8 @@ const EditPickAndDropTimeSlot = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        setLoading(true);
+
         if (validateForm()) {
             const slot_id       = timeSlots.map(slot => slot.slotId);
             const slot_date     = dayjs(date).format("DD-MM-YYYY"); 
@@ -154,12 +157,16 @@ const EditPickAndDropTimeSlot = () => {
                     toast(response.message || response.message[0], { type: "success" });
                    
                     setTimeout(() => {
+                        setLoading(false);
                         navigate('/pick-and-drop/time-slot-list');
                     },2000)
                 } else {
                     console.log('error in charger-edit-time-slot API', response);
+                    setLoading(false);
                 }
             });
+        }  else {
+            setLoading(false);
         }
     };
 
@@ -283,7 +290,16 @@ const EditPickAndDropTimeSlot = () => {
 
                     <div className={styles.actions}>
                         <button className={styles.cancelBtn} type="button" onClick={handleCancel}>Cancel</button>
-                        <button className={styles.submitBtn} type="submit">Submit</button>
+                        <button disabled={loading} className={styles.submitBtn} type="submit">
+                            {loading ? (
+                                <>
+                                    <span className="spinner-border spinner-border-sm me-2"></span>
+                                    Submit...
+                                </>
+                            ) : (
+                                "Submit"
+                            )}
+                        </button>
                     </div>
                 </form >
             </div>

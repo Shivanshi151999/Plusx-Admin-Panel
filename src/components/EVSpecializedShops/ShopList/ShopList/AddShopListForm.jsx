@@ -37,7 +37,7 @@ const AddShopListForm = () => {
   const [latitude, setLatitude] = useState()
   const [longitude, setLongitude] = useState()
   const [addresses, setAddresses] = useState([{ address: "", location: "", area_name: "", latitude: "", longitude: "" }])
-
+  const [loader, setLoader] = useState(false);
 
   const [loading, setLoading] = useState(false);
   const handleLocationChange = (selectedOption) => {
@@ -249,6 +249,8 @@ const AddShopListForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setLoader(true);
+
     if (validateForm()) {
       const formattedData = isAlwaysOpen ? { always_open: 1, days: [] }
         : Object.entries(timeSlots).reduce((acc, [day, times]) => {
@@ -328,18 +330,20 @@ const AddShopListForm = () => {
         if (response.status === 1) {
           toast(response.message || response.message[0], { type: 'success' })
           setTimeout(() => {
+            setLoader(false);
             navigate('/ev-specialized/shop-list');
           }, 1000);
         } else {
           toast(response.message || response.message[0], { type: 'error' })
           console.log('Error in shop-add API:', response);
+          setLoader(false);
         }
       })
       // toast.success("Shop details submitted successfully!");
     } else {
       toast.error("Some fields are missing");
+      setLoader(false);
     }
-
   };
 
   const fetchDetails = () => {
@@ -745,7 +749,16 @@ const AddShopListForm = () => {
 
             <div className={styles.editButton}>
               <button className={styles.editCancelBtn} onClick={() => handleCancel()}>Cancel</button>
-              <button type="submit" className={styles.editSubmitBtn}>Submit</button>
+              <button disabled={loader} type="submit" className={styles.editSubmitBtn}>
+                {loader ? (
+                      <>
+                          <span className="spinner-border spinner-border-sm me-2"></span>
+                          Submit...
+                      </>
+                  ) : (
+                      "Submit"
+                  )}
+              </button>
             </div>
           </form>
         </div>

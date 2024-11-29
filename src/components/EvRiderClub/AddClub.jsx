@@ -26,6 +26,7 @@ const AddClub = () => {
   const [location, setLocation]         = useState([])
   const [category, setCategory]         = useState([])
   const [ageGroup, setAgeGroup]         = useState([])
+  const [loading, setLoading]           = useState(false);
 
   const contractDropdownRef = useRef(null);
   const featureDropdownRef = useRef(null)
@@ -97,6 +98,8 @@ const validateForm = () => {
 
 const handleSubmit = (e) => {
     e.preventDefault();
+    setLoading(true);
+
     if (validateForm()) {
         const formData = new FormData();
         formData.append("userId", userDetails?.user_id);
@@ -129,15 +132,18 @@ const handleSubmit = (e) => {
             if (response.status === 1) {
                 toast(response.message || response.message[0], {type:'success'})
                 setTimeout(() => {
+                    setLoading(false);
                     navigate('/ev-rider-club/club-list');
                 }, 1000);
             } else {
                 toast(response.message || response.message[0], {type:'error'})
                 console.log('Error in add-club API:', response);
+                setLoading(false);
             }
         } )
     } else {
         toast.error("Some fields are missing");
+        setLoading(false);
     }
 };
 
@@ -368,7 +374,16 @@ useEffect(() => {
             </div>
             <div className={styles.editButton}>
                 <button className={styles.editCancelBtn} onClick={() => handleCancel()}>Cancel</button>
-                <button type="submit" className={styles.editSubmitBtn}>Submit</button>
+                <button disabled={loading} type="submit" className={styles.editSubmitBtn}>
+                {loading ? (
+                      <>
+                          <span className="spinner-border spinner-border-sm me-2"></span>
+                          Submit...
+                      </>
+                  ) : (
+                      "Submit"
+                  )}
+                </button>
             </div>
         </form>
       </div>

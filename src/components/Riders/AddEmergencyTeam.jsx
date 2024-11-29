@@ -19,6 +19,7 @@ const AddEmergencyTeam = () => {
     const [password, setPassword]               = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [errors, setErrors]                   = useState({});
+    const [loading, setLoading]                 = useState(false);
 
     const typeOpetions = [
         // { value: "", label: "Select Vehicle Type" },
@@ -80,6 +81,8 @@ const AddEmergencyTeam = () => {
     
     const handleSubmit = (e) => {
         e.preventDefault();
+        setLoading(true);
+
         if (validateForm()) {
 
             const formData = new FormData();
@@ -103,17 +106,20 @@ const AddEmergencyTeam = () => {
                 if (response.code === 200) {
                     toast(response.message || response.message[0], {type:'success'})
                     setTimeout(() => {
+                        setLoading(false);
                         navigate('/drivers/driver-list')
                     }, 1000);
                 } else {
                     toast(response.message[0] || response.message, {type:'error'})
                     console.log('error in rider-list api', response);
+                    setLoading(false);
                 }
             });
 
         } else {
             console.log("Form validation failed.");
             toast.error("Some fields are missing");
+            setLoading(false);
         }
     };
 
@@ -242,7 +248,16 @@ const AddEmergencyTeam = () => {
                         {errors.file && <p className="error">{errors.file}</p>}
                     </div>
                     <div className={styles.editButton}>
-                        <button className={styles.editSubmitBtn} type="submit">Add</button>
+                        <button disabled={loading} className={styles.editSubmitBtn} type="submit">
+                        {loading ? (
+                            <>
+                                <span className="spinner-border spinner-border-sm me-2"></span>
+                                Add...
+                            </>
+                        ) : (
+                            "Add"
+                        )}
+                        </button>
                     </div>
                 </form>
             </div >

@@ -32,6 +32,7 @@ const EditPublicChargerStation = () => {
     const [isAlwaysOpen, setIsAlwaysOpen]   = useState(false);
     const [status, setStatus]               = useState(true)
     const [openDays, setOpenDays]           = useState()
+    const [loading, setLoading]             = useState(false);
 
     const [timeSlots, setTimeSlots] = useState({
         Monday    : { open: '', close: '', openMandatory: false, closeMandatory: false },
@@ -161,6 +162,7 @@ const EditPublicChargerStation = () => {
     };
     const handleSubmit = (e) => {
         e.preventDefault();
+        setLoading(true);
 
         if (validateForm()) {
             const formattedData = isAlwaysOpen ? { always_open: 1, days: [] }
@@ -230,15 +232,18 @@ const EditPublicChargerStation = () => {
             
                     toast(response.message || response.message[0], {type:'success'})
                     setTimeout(() => {
+                        setLoading(false);
                         navigate('/public-charger-station/public-charger-station-list');
                     }, 1000);
                 } else {
                     toast(response.message || response.message[0], {type:'error'})
                     console.log('Error in public-charger-add-station API:', response);
+                    setLoading(false);
                 }
             });
         } else {
             toast.error("Some fields are missing");
+            setLoading(false);
         }
     };
 
@@ -649,7 +654,16 @@ const EditPublicChargerStation = () => {
 
                     <div className={styles.editButton}>
                         <button className={styles.editCancelBtn} onClick={() => handleCancel()}>Cancel</button>
-                        <button type="submit" className={styles.editSubmitBtn}>Submit</button>
+                        <button disabled={loading} type="submit" className={styles.editSubmitBtn}>
+                            {loading ? (
+                                <>
+                                    <span className="spinner-border spinner-border-sm me-2"></span>
+                                    Submit...
+                                </>
+                            ) : (
+                                "Submit"
+                            )}
+                        </button>
                     </div>
                 </form>
             </div>

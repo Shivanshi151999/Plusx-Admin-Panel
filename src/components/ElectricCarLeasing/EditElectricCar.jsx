@@ -25,6 +25,7 @@ const EditElectricCar = () => {
     const [carType, setCarType] = useState(null);
     const [contract, setContract] = useState([])
     const [feature, setFeature] = useState([])
+    const [loading, setLoading] = useState(false);
 
     const contractDropdownRef = useRef(null);
     const featureDropdownRef = useRef(null);
@@ -115,6 +116,8 @@ const EditElectricCar = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        setLoading(true);
+
         if (validateForm()) {
             const formData = new FormData();
             formData.append("userId", userDetails?.user_id);
@@ -151,15 +154,18 @@ const EditElectricCar = () => {
                 if (response.status === 1) {
                     toast(response.message || response.message[0], { type: 'success' })
                     setTimeout(() => {
+                        setLoading(false);
                         navigate('/electric-car-leasing/electric-car-list');
                     }, 1000);
                 } else {
                     toast(response.message || response.message[0], { type: 'error' })
                     console.log('Error in electric-car-edit API:', response);
+                    setLoading(false);
                 }
             })
         } else {
             toast.error("Some fields are missing");
+            setLoading(false);
         }
     };
 
@@ -449,7 +455,16 @@ const EditElectricCar = () => {
                     </div>
                     <div className={styles.editButton}>
                         <button className={styles.editCancelBtn} onClick={() => handleCancel()}>Cancel</button>
-                        <button type="submit" className={styles.editSubmitBtn}>Submit</button>
+                        <button disabled={loading} type="submit" className={styles.editSubmitBtn}>
+                            {loading ? (
+                                <>
+                                    <span className="spinner-border spinner-border-sm me-2"></span>
+                                    Submit...
+                                </>
+                            ) : (
+                                "Submit"
+                            )}
+                        </button>
                     </div>
                 </form>
             </div>

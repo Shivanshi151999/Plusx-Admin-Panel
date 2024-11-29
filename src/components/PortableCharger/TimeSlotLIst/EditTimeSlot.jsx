@@ -32,6 +32,7 @@ const EditPortableChargerTimeSlot = () => {
 
     const [errors, setErrors] = useState({});
     const [slotDetails, setSlotDetails] = useState();
+    const [loading, setLoading]      = useState(false);
 
     const fetchDetails = () => {
         const obj = {
@@ -202,6 +203,8 @@ const EditPortableChargerTimeSlot = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        setLoading(true);
+
         if (validateForm()) {
             const slot_id = timeSlots.map(slot => slot.slotId);
             const slot_date = dayjs(date).format("DD-MM-YYYY");
@@ -233,13 +236,17 @@ const EditPortableChargerTimeSlot = () => {
                 if (response.code === 200) {
                     toast(response.message || response.message, { type: "success" });
                     setTimeout(() => {
+                        setLoading(false);
                         navigate('/portable-charger/charger-booking-time-slot-list');
                     }, 2000)
 
                 } else {
                     console.log('error in charger-edit-time-slot API', response);
+                    setLoading(false);
                 }
             });
+        } else {
+            setLoading(false);
         }
     };
 
@@ -370,7 +377,16 @@ const EditPortableChargerTimeSlot = () => {
 
                 <div className={styles.actions}>
                     <button className={styles.cancelBtn} type="button" onClick={handleCancel}>Cancel</button>
-                    <button className={styles.submitBtn} type="submit">Submit</button>
+                    <button disabled={loading} className={styles.submitBtn} type="submit">
+                        {loading ? (
+                            <>
+                                <span className="spinner-border spinner-border-sm me-2"></span>
+                                Submit...
+                            </>
+                        ) : (
+                            "Submit"
+                        )}
+                    </button>
                 </div>
             </form >
         </div>

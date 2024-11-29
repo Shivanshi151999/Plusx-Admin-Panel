@@ -13,9 +13,10 @@ const AddOffer = () => {
   const navigate                        = useNavigate()
   const [file, setFile]                 = useState(null);
   const [errors, setErrors]             = useState({});
-  const [couponName, setCouponName]     = useState()
-  const [expiryDate, setExpiry]         = useState()
-  const [url, setUrl]                   = useState()
+  const [couponName, setCouponName]     = useState();
+  const [expiryDate, setExpiry]         = useState();
+  const [url, setUrl]                   = useState();
+  const [loading, setLoading]           = useState(false);
 
     const handleFileChange = (event) => {
       const selectedFile = event.target.files[0];
@@ -52,6 +53,8 @@ const validateForm = () => {
 
 const handleSubmit = (e) => {
     e.preventDefault();
+    setLoading(true);
+
     if (validateForm()) {
         const formData = new FormData();
         formData.append("userId", userDetails?.user_id);
@@ -73,15 +76,18 @@ const handleSubmit = (e) => {
             if (response.status === 1) {
                 toast(response.message || response.message[0], {type:'success'})
                 setTimeout(() => {
+                    setLoading(false);
                     navigate('/offer/offer-list');
                 }, 1500);
             } else {
                 toast(response.message || response.message[0], {type:'error'})
                 console.log('Error in add-coupan API:', response);
+                setLoading(false);
             }
         } )
     } else {
       toast.error("Some fields are missing");
+      setLoading(false);
     }
 };
 
@@ -188,7 +194,16 @@ useEffect(() => {
           
             <div className={styles.editButton}>
                 <button className={styles.editCancelBtn} onClick={() => handleCancel()}>Cancel</button>
-                <button type="submit" className={styles.editSubmitBtn}>Submit</button>
+                <button disabled={loading} type="submit" className={styles.editSubmitBtn}>
+                {loading ? (
+                      <>
+                          <span className="spinner-border spinner-border-sm me-2"></span>
+                          Submit...
+                      </>
+                  ) : (
+                      "Submit"
+                  )}
+                </button>
             </div>
         </form>
       </div>

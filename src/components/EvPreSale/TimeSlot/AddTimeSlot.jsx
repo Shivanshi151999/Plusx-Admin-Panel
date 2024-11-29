@@ -32,7 +32,8 @@ const AddEvPreSaleTimeSlot = () => {
         { startTime: null, endTime: null, bookingLimit: "" }
     ]);
     const [startDate, setStartDate] = useState(new Date());
-    const [errors, setErrors] = useState([]);
+    const [errors, setErrors]       = useState([]);
+    const [loading, setLoading]     = useState(false);
 
     const handleCancel = () => {
         navigate('/ev-pre-sales-testing/time-slot-list')
@@ -151,6 +152,8 @@ const AddEvPreSaleTimeSlot = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        setLoading(true);
+
         if (validateForm()) {
             const slot_date = dayjs(date).format("DD-MM-YYYY");
             const start_time = timeSlots.map(slot => slot.startTime);
@@ -177,15 +180,18 @@ const AddEvPreSaleTimeSlot = () => {
                 if (response.code === 200) {
                     toast(response.message[0], { type: "success" });
                     setTimeout(() => {
+                        setLoading(false);
                         navigate('/ev-pre-sales-testing/time-slot-list')
                     }, 2000)
                 } else {
                     toast(response.message || response.message[0], { type: "error" });
                     console.log('error in ev-pre-sale-add-time-slot-list api', response);
+                    setLoading(false);
                 }
             })
         } else {
             console.log('error');
+            setLoading(false);
         }
     };
 
@@ -276,7 +282,16 @@ const AddEvPreSaleTimeSlot = () => {
 
                 <div className={styles.actions}>
                     <button className={styles.cancelBtn} type="button" onClick={handleCancel}>Cancel</button>
-                    <button className={styles.submitBtn} type="submit">Submit</button>
+                    <button disabled={loading} className={styles.submitBtn} type="submit">
+                    {loading ? (
+                      <>
+                          <span className="spinner-border spinner-border-sm me-2"></span>
+                          Submit...
+                      </>
+                        ) : (
+                            "Submit"
+                    )}
+                    </button>
                 </div>
             </form >
         </div>

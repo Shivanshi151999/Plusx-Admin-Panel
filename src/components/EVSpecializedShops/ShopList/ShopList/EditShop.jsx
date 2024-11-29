@@ -41,6 +41,7 @@ const EditShopListForm = () => {
   const [latitude, setLatitude] = useState()
   const [longitude, setLongitude] = useState()
   const [addresses, setAddresses] = useState([{ address: "", location: "", area_name: "", latitude: "", longitude: "" }])
+  const [btnLoader, setBtnLoader] = useState(false);
 
   const [loading, setLoading] = useState(false);
   const handleLocationChange = (selectedOption) => {
@@ -243,6 +244,8 @@ const EditShopListForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setBtnLoader(true);
+
     if (validateForm()) {
       const formattedData = isAlwaysOpen ? { always_open: 1, days: [] }
         : Object.entries(timeSlots).reduce((acc, [day, times]) => {
@@ -320,16 +323,19 @@ const EditShopListForm = () => {
         if (response.status === 1) {
           toast(response.message || response.message[0], { type: 'success' })
           setTimeout(() => {
+            setBtnLoader(false);
             navigate('/ev-specialized/shop-list');
           }, 1000);
         } else {
           toast(response.message || response.message[0], { type: 'error' })
           console.log('Error in shop-add API:', response);
+          setBtnLoader(false);
         }
       })
       // toast.success("Shop details submitted successfully!");
     } else {
       toast.error("Validation error");
+      setBtnLoader(false);
     }
 
   };
@@ -849,7 +855,16 @@ console.log(isActive);
 
             <div className={styles.editButton}>
               <button className={styles.editCancelBtn} onClick={() => handleCancel()}>Cancel</button>
-              <button type="submit" className={styles.editSubmitBtn}>Submit</button>
+              <button disabled={btnLoader} type="submit" className={styles.editSubmitBtn}>
+                {btnLoader ? (
+                    <>
+                        <span className="spinner-border spinner-border-sm me-2"></span>
+                        Submit...
+                    </>
+                ) : (
+                    "Submit"
+                )}
+              </button>
             </div>
           </form>
         </div>

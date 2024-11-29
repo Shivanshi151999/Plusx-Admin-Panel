@@ -33,6 +33,7 @@ const EditEvPreSaleTimeSlot = () => {
 
     const [errors, setErrors] = useState({});
     const [slotDetails, setSlotDetails] = useState();
+    const [loading, setLoading] = useState(false);
 
     const fetchDetails = () => {
         const obj = {
@@ -168,6 +169,8 @@ const EditEvPreSaleTimeSlot = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        setLoading(true);
+
         if (validateForm()) {
             const slot_id       = timeSlots.map(slot => slot.slotId);
             const slot_date     = dayjs(date).format("DD-MM-YYYY");
@@ -193,12 +196,16 @@ const EditEvPreSaleTimeSlot = () => {
                     toast(response.message || response.message[0], { type: "success" });
 
                     setTimeout(() => {
+                        setLoading(false);
                         navigate('/ev-pre-sales-testing/time-slot-list');
                     }, 2000)
                 } else {
                     console.log('error in ev-pre-sale-edit-time-slot-list API', response);
+                    setLoading(false);
                 }
             });
+        } else {
+            setLoading(false);
         }
     };
 
@@ -314,7 +321,16 @@ const EditEvPreSaleTimeSlot = () => {
                 ))}
                 <div className={styles.actions}>
                     <button className={styles.cancelBtn} type="button" onClick={handleCancel}>Cancel</button>
-                    <button className={styles.submitBtn} type="submit">Submit</button>
+                    <button disabled={loading} className={styles.submitBtn} type="submit">
+                        {loading ? (
+                                <>
+                                    <span className="spinner-border spinner-border-sm me-2"></span>
+                                    Submit...
+                                </>
+                            ) : (
+                                "Submit"
+                            )}
+                    </button>
                 </div>
             </form>
         </div>

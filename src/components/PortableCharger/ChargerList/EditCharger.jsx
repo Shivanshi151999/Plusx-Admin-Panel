@@ -22,6 +22,7 @@ const EditPortableCharger = () => {
     const [chargerType, setChargerType] = useState("");
     const [chargerFeature, setChargerFeature] = useState("");
     const [errors, setErrors] = useState({});
+    const [loading, setLoading] = useState(false);
 
     const handleFileChange = (event) => {
         const selectedFile = event.target.files[0];
@@ -73,6 +74,8 @@ const EditPortableCharger = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        setLoading(true);
+
         if (validateForm()) {
 
             const formData = new FormData();
@@ -95,15 +98,18 @@ const EditPortableCharger = () => {
                     toast(response.message[0], { type: "success" });
 
                     setTimeout(() => {
+                        setLoading(false);
                         navigate('/portable-charger/charger-list')
                     }, 2000);
                 } else {
                     toast(response.message[0], { type: 'error' })
                     console.log('error in edit-charger api', response);
+                    setLoading(false);
                 }
             });
         } else {
             console.log("Form validation failed.");
+            setLoading(false);
         }
     };
     const fetchDetails = () => {
@@ -272,7 +278,16 @@ const EditPortableCharger = () => {
                     </div>
                     <div className={styles.actions}>
                         <button onClick={backButtonClick} className={styles.cancelBtn} type="button">Cancel</button>
-                        <button className={styles.submitBtn} type="submit">Submit</button>
+                        <button disabled={loading} className={styles.submitBtn} type="submit">
+                            {loading ? (
+                                <>
+                                    <span className="spinner-border spinner-border-sm me-2"></span>
+                                    Submit...
+                                </>
+                            ) : (
+                                "Submit"
+                            )}
+                        </button>
                     </div>
                 </form>
             </div>

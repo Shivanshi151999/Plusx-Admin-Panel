@@ -18,6 +18,7 @@ const AddPortableCharger = () => {
     const [chargerType, setChargerType] = useState("");
     const [chargerFeature, setChargerFeature] = useState("");
     const [errors, setErrors] = useState({});
+    const [loading, setLoading]           = useState(false);
     const options = [
         { value: 'On Demand Service', label: 'On Demand Service' },
         { value: 'Scheduled Service', label: 'Scheduled Service' },
@@ -67,6 +68,8 @@ const AddPortableCharger = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        setLoading(true);
+
         if (validateForm()) {
 
             const formData = new FormData();
@@ -85,16 +88,19 @@ const AddPortableCharger = () => {
                 if (response.code === 200) {
                     toast(response.message[0], { type: "success" });
                     setTimeout(() => {
+                        setLoading(false);
                         navigate('/portable-charger/charger-list')
                     }, 2000);
                 } else {
                     toast(response.message, {type:'error'})
                     console.log('error in add-charger api', response);
+                    setLoading(false);
                 }
             })
 
         } else {
             console.log("Form validation failed.");
+            setLoading(false);
         }
     };
     useEffect(() => {
@@ -208,7 +214,16 @@ const AddPortableCharger = () => {
                     </div>
                     <div className={styles.actions}>
                         <button onClick={backButtonClick} className={styles.cancelBtn} type="button">Cancel</button>
-                        <button className={styles.submitBtn} type="submit">Submit</button>
+                        <button disabled={loading} className={styles.submitBtn} type="submit">
+                        {loading ? (
+                            <>
+                                <span className="spinner-border spinner-border-sm me-2"></span>
+                                Submit...
+                            </>
+                            ) : (
+                                "Submit"
+                        )}
+                        </button>
                     </div>
                 </form>
             </div>
