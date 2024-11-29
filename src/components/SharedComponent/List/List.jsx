@@ -9,25 +9,25 @@ import { useNavigate } from 'react-router-dom';
 const List = ({ list, tableHeaders, listData, keyMapping, pageHeading, onDeleteSlot }) => {
     const navigate = useNavigate()
 
-    const handleSignupDetails = (id) => navigate(`/rider-details/${id}`)
+    const handleSignupDetails = (id) => navigate(`/app-signup/rider-details/${id}`)
 
-    const handleChargerInstallationDetails = (id) => navigate(`/charger-installation-details/${id}`)
+    const handleChargerInstallationDetails = (id) => navigate(`/charger-installation/charger-installation-details/${id}`)
 
     const handleChargerEditTimeSlot = (id) => navigate(`/portable-charger/edit-time-slot/${id}`)
 
-    const handleChargerDetails = (id) => navigate(`/edit-charger/${id}`)
+    const handleChargerDetails = (id) => navigate(`/portable-charger/edit-charger/${id}`)
 
     const handlePickDropEditTimeSlot = (id) => navigate(`/pick-and-drop/edit-time-slot/${id}`)
 
-    const handleRsaDetails = (id) => navigate(`/edit-emergency-team/${id}`)
+    const handleRsaDetails = (id) => navigate(`/drivers/edit-driver/${id}`)
 
-    const viewRsaDetails = (id) => navigate(`/emergency-team-details/${id}`)
+    const viewRsaDetails = (id) => navigate(`/drivers/drivers-details/${id}`)
 
     const handlePublicChargerStationDetails = (id) => navigate(`/public-charger-station/public-charger-station-details/${id}`)
 
     const handleEditChargerDetails = (id) => navigate(`/public-charger-station/edit-charger-station/${id}`)
 
-    const handlePortableInvoice = (id) => navigate(`/invoice/${id}`)
+    const handlePortableInvoice = (id) => navigate(`/portable-charger/invoice/${id}`)
 
     const handlePickAndDropInvoiceDetails = (id) => navigate(`/pick-and-drop/invoice-details/${id}`)
     //AddPodList
@@ -35,16 +35,16 @@ const List = ({ list, tableHeaders, listData, keyMapping, pageHeading, onDeleteS
     const handleAddPodDetails = (id) => navigate(`/addpod-details`)
 
     //EvGuide
-    const handleEvGuideDetails = (id) => navigate(`/ev-guide-details/${id}`)
-    const handleEvGuideEdit = (id) => navigate(`/edit-ev-guide/${id}`)
+    const handleEvGuideDetails = (id) => navigate(`/ev-guide/ev-guide-details/${id}`)
+    const handleEvGuideEdit = (id) => navigate(`/ev-guide/edit-ev-guide/${id}`)
 
     //ElectricCar
-    const handleEditElectricCar = (id) => navigate(`/edit-electric-car/${id}`)
-    const handleElectricCarDetails = (id) => navigate(`/electric-car-details/${id}`)
+    const handleEditElectricCar = (id) => navigate(`/electric-car-leasing/edit-electric-car/${id}`)
+    const handleElectricCarDetails = (id) => navigate(`/electric-car-leasing/electric-car-details/${id}`)
 
     //ElectricBike
-    const handleEditElectricBike = (id) => navigate(`/edit-electric-bike/${id}`)
-    const handleElectricBikeDetails = (id) => navigate(`/electric-bike-details/${id}`)
+    const handleEditElectricBike = (id) => navigate(`/electric-bike-leasing/edit-electric-bike/${id}`)
+    const handleElectricBikeDetails = (id) => navigate(`/electric-bike-leasing/electric-bike-details/${id}`)
 
     //EvRoadAssistance
     const handleRoadAssistanceBookingDetails = (id) => navigate(`/ev-road-assistance/booking-details/${id}`)
@@ -52,29 +52,29 @@ const List = ({ list, tableHeaders, listData, keyMapping, pageHeading, onDeleteS
     // 
 
     //EvRoadAssistance
-    const handleRiderClubEdit = (id) => navigate(`/edit-club/${id}`)
-    const handleRiderClubDetails = (id) => navigate(`/club-details/${id}`)
+    const handleRiderClubEdit = (id) => navigate(`/ev-rider-club/edit-club/${id}`)
+    const handleRiderClubDetails = (id) => navigate(`/ev-rider-club/club-details/${id}`)
 
     //DiscussionBoard
-    const handleBoardDetails = (id) => navigate(`/discussion-board-details/${id}`)
+    const handleBoardDetails = (id) => navigate(`/discussion-board/discussion-board-details/${id}`)
 
     //EvInsurance
-    const handleInsuranceDetails = (id) => navigate(`/ev-insurance-details/${id}`)
+    const handleInsuranceDetails = (id) => navigate(`/ev-insurance/ev-insurance-details/${id}`)
 
     //EvPreSale
     const handlePreSaleBookingDetails = (id) => navigate(`/ev-pre-sales-testing/pre-sales-details/${id}`)
 
     //EvBuySell
-    const handleBuySellDetails = (id) => navigate(`/ev-buy-sell-details/${id}`)
+    const handleBuySellDetails = (id) => navigate(`/ev-buy-sell/ev-buy-sell-details/${id}`)
 
     //Subscription
-    const handleSubscriptionDetails = (id) => navigate(`/subscription-details/${id}`)
+    const handleSubscriptionDetails = (id) => navigate(`/subscription/subscription-details/${id}`)
 
     //Coupon
-    const handleCouponEdit = (id) => navigate(`/edit-coupon/${id}`)
+    const handleCouponEdit = (id) => navigate(`/coupon/edit-coupon/${id}`)
 
     //Coupon
-    const handleOfferEdit = (id) => navigate(`/edit-offer/${id}`)
+    const handleOfferEdit = (id) => navigate(`/offer/edit-offer/${id}`)
 
     //Shop
     const handleShopDetails = (id) => navigate(`/ev-specialized/shop-details/${id}`)
@@ -301,9 +301,7 @@ const List = ({ list, tableHeaders, listData, keyMapping, pageHeading, onDeleteS
                         </tr>
                     ))}
                 </tbody>
-            </table>
-
-          
+            </table>          
         </div>
     );
 };

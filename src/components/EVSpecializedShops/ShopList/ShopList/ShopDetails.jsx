@@ -237,7 +237,7 @@ const ShopDetails = () => {
           type='portableChargerBooking'
         />
 
-        <AddressList addressList={address}/> 
+        <AddressList className={styles.shopDetailsList} addressList={address} /> 
         <BookingImageSection
           titles={imageTitles} content={imageContent}
           type='publicChargingStation'

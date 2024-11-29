@@ -73,7 +73,7 @@ const AddChargerStation = () => {
     };
 
     const handleCancel = () => {
-        navigate('/public-charger-station-list')
+        navigate('/public-charger-station/public-charger-station-list')
     }
 
     const brandDropdownRef = useRef(null);
@@ -241,7 +241,7 @@ const AddChargerStation = () => {
                 if (response.status === 1) {
                     toast(response.message || response.message[0], {type:'success'})
                     setTimeout(() => {
-                        navigate('/public-charger-station-list');
+                        navigate('/public-charger-station/public-charger-station-list');
                     }, 1000);
                 } else {
                     toast(response.message || response.message[0], {type:'error'})

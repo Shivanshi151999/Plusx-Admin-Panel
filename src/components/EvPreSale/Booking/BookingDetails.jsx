@@ -90,7 +90,7 @@ const EvPreSaleBookingDetails = () => {
           href={`https://www.google.com/maps?q=${bookingDetails?.pickup_latitude},${bookingDetails?.pickup_longitude}`}
           target="_blank"
           rel="noopener noreferrer"
-          style={{ textDecoration: 'none', color: 'inherit' }}
+        className='linkSection'
       >
           {bookingDetails?.pickup_address || 'View on Map'}
       </a>

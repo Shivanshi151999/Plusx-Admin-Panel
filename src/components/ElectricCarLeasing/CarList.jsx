@@ -34,7 +34,7 @@ const CarList = () => {
 
     const addButtonProps = {
         heading: "Add Electric Car", 
-        link: "/add-electric-car"
+        link: "/electric-car-leasing/add-electric-car"
     };
 
     const fetchList = (page, appliedFilters = {}) => {

@@ -289,11 +289,11 @@ const AddPodDevice = () => {
                             {errors.dateOfManufacturing && dateOfManufacturing =='' && <p className="error">{errors.dateOfManufacturing}</p>}
                         </div>
                     </div>
-                    <div className={styles.slotHeaderSection}>
-                        <h2 className={styles.title}>Add Battery Detail</h2>
-                        <button type="button" className={styles.buttonSec} onClick={addTimeSlot}>
-                            <img src={Add} alt="Add" className={styles.addImg} />
-                            <span className={styles.addContent}>Add</span>
+                    <div className={styles.mainAddSection}>
+                        <span className={styles.batteryBattle}>Add Battery Detail</span>
+                        <button type="button"  className={styles.addButton} onClick={addTimeSlot}>
+                            <img className={styles.imageShopList} src={Add} alt="add" />
+                            <span className={styles.addSpan}>Add</span> 
                         </button>
                     </div>
                     { deviceBatteryData.map((slot, index) => (

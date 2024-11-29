@@ -121,7 +121,7 @@ const handleSubmit = (e) => {
             if (response.status === 1) {
                 toast(response.message || response.message[0], {type:'success'})
                 setTimeout(() => {
-                    navigate('/ev-guide-list');
+                    navigate('/ev-guide/ev-guide-list');
                 }, 1000);
             } else {
                 toast(response.message || response.message[0], {type:'error'})
@@ -134,7 +134,7 @@ const handleSubmit = (e) => {
 };
 
 const handleCancel = () => {
-    navigate('/ev-guide-list')
+    navigate('/ev-guide/ev-guide-list')
 }
 
 useEffect(() => {

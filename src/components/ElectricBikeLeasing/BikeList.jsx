@@ -31,7 +31,7 @@ const BikeList = () => {
 
     const addButtonProps = {
         heading: "Add Electric Bike", 
-        link: "/add-electric-bike"
+        link: "/electric-bike-leasing/add-electric-bike"
     };
 
     const fetchList = (page, appliedFilters = {}) => {

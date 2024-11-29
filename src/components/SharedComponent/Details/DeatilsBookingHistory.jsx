@@ -113,7 +113,8 @@ const DeatilsBookingHistory = ({ title, headers, bookingData, bookingType, charg
           </tr>
         </thead>
         <tbody>
-          {currentItems.map((booking, index) => (
+        {currentItems.length > 0 ? (
+    currentItems.map((booking, index) => (
             <tr key={index}>
               <td>{booking.datetime}</td>
               <td>{booking.id}</td>
@@ -147,7 +148,14 @@ const DeatilsBookingHistory = ({ title, headers, bookingData, bookingType, charg
                 </div>
               </td>
             </tr>
-          ))}
+        ))
+      ) : (
+        <tr>
+          <td colSpan={headers.length} className={styles.noData}>
+            No data available
+          </td>
+        </tr>
+      )}
         </tbody>
       </table>
 

@@ -27,7 +27,7 @@ const ChargerList = () => {
     ]
     const addButtonProps = {
         heading: "Add Charger", 
-        link: "/add-charger"
+        link: "/portable-charger/add-charger"
     };
     const fetchChargers = (page, appliedFilters = {}) => {
         const obj = {

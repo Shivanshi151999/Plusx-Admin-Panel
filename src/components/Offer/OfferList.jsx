@@ -32,7 +32,7 @@ const OfferList = () => {
 
     const addButtonProps = {
         heading: "Add Offer",
-        link: "/add-offer"
+        link: "/offer/add-offer"
     };
 
     const fetchList = (page, appliedFilters = {}) => {

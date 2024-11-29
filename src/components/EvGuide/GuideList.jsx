@@ -14,7 +14,7 @@ const dynamicFilters = [
 ]
 const addButtonProps = {
     heading: "Add",
-    link: "/add-ev-guide"
+    link: "/ev-guide/add-ev-guide"
 };
 
 const GuideList = () => {

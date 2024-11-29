@@ -2,7 +2,7 @@ body{
     font-family: "Inter", sans-serif !important;
 }
 .container-fluid{
-    padding: 20px;
+    padding: 20px !important;
     background-color: #242424;
     color: white;
     font-family: "Inter", sans-serif !important;
@@ -374,3 +374,8 @@ table{
   font-size: 16px;
 }
 /* End the table Section */
+/* Style the details container */
+.Details-container-section{
+  padding: 20px;
+}
+/* End the details Container */

@@ -73,7 +73,7 @@ const handleSubmit = (e) => {
             if (response.status === 1) {
                 toast(response.message || response.message[0], {type:'success'})
                 setTimeout(() => {
-                    navigate('/offer-list');
+                    navigate('/offer/offer-list');
                 }, 1500);
             } else {
                 toast(response.message || response.message[0], {type:'error'})
@@ -86,7 +86,7 @@ const handleSubmit = (e) => {
 };
 
 const handleCancel = () => {
-    navigate('/offer-list')
+    navigate('/offer/offer-list')
 }
 
 useEffect(() => {

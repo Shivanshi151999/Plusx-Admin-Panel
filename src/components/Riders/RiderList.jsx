@@ -33,7 +33,7 @@ const RiderList = () => {
 
     const addButtonProps = {
         heading: "Add Driver", 
-        link: "/add-emergency-team"
+        link: "/drivers/add-driver"
     };
 
     const fetchList = (page, appliedFilters = {}) => {

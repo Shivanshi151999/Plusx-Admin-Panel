@@ -1,15 +1,12 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-
 import style from "./sidenavbar.module.css";
 
-function SideBarLinkItem({ path, label }) {
+function SideBarLinkItem({ path, label, isActive }) {
   return (
     <NavLink
       to={path}
-      className={({ isActive }) =>
-        isActive ? `${style.menuItem} ${style.active}` : style.menuItem
-      }
+      className={`${style.menuItem} ${isActive ? style.active : ""}`}
     >
       <li>{label}</li>
     </NavLink>
@@ -17,3 +14,4 @@ function SideBarLinkItem({ path, label }) {
 }
 
 export default SideBarLinkItem;
+

@@ -151,7 +151,7 @@ const EditElectricBike = () => {
                 if (response.status === 1) {
                     toast(response.message || response.message[0], { type: 'success' })
                     setTimeout(() => {
-                        navigate('/electric-bike-list');
+                        navigate('/electric-bike-leasing/electric-bike-list');
                     }, 1000);
                 } else {
                     toast(response.message || response.message[0], { type: 'error' })
@@ -207,7 +207,7 @@ const EditElectricBike = () => {
     }, []);
 
     const handleCancel = () => {
-        navigate('/electric-car-list')
+        navigate('/electric-bike-leasing/electric-bike-list')
     }
 
     const [isActive, setIsActive] = useState(false);

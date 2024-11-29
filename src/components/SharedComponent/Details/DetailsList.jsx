@@ -33,7 +33,8 @@ const DetailsList = ({ addressList }) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {currentItems?.map((address, index) => (
+                {currentItems && currentItems.length > 0 ? (
+                        currentItems.map((address, index) => (
                         <tr key={index}>
                             <td>{address.building_name}</td>
                             <td>{address.street}</td>
@@ -42,7 +43,12 @@ const DetailsList = ({ addressList }) => {
                             <td>{address.nick_name}</td>
                             <td>{address.emirate}</td>
                         </tr>
-                    ))}
+                    ))
+                ) : (
+                    <tr>
+                        <td colSpan="6" className={styles.noData}>No Data Available</td>
+                    </tr>
+                )}
                 </tbody>
             </table>
             <Pagination 

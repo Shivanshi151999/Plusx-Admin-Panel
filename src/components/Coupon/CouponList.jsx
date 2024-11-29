@@ -32,7 +32,7 @@ const CouponList = () => {
 
     const addButtonProps = {
         heading: "Add Coupon",
-        link: "/add-coupon"
+        link: "/coupon/add-coupon"
     };
 
     const fetchList = (page, appliedFilters = {}) => {

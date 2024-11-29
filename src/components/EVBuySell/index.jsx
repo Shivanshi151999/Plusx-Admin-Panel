@@ -1,19 +1,12 @@
-import React from 'react'
-import styles from './evbuysell.module.css'
-import EditHeader from '../SharedComponent/Edit/EditHeader'
-import EditContentSection from '../SharedComponent/Edit/EditContentSection'
-import EditFeature from '../SharedComponent/Edit/EditFeature'
-import EditImage from '../SharedComponent/Edit/EditImage'
+import React from "react";
+import { Outlet } from "react-router-dom";
 
-const index = () => {
+const EvBuySell = () => {
   return (
-    <div className='main-container'>
-    <EditHeader />
-      <EditContentSection />
-      <EditFeature />
-      {/* <EditImage /> */}
-      </div>
-  )
-}
+    <div>
+      <Outlet />
+    </div>
+  );
+};
 
-export default index
+export default EvBuySell;

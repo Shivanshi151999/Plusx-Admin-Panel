@@ -129,11 +129,6 @@ const DiscussionBoardDetails = () => {
         //   sectionTitles3={sectionTitles3} sectionContent3={sectionContent3}
           sectionTitles4={sectionTitles4} sectionContent4={sectionContent4}
           type='evGuide' />
-
-        {/* <BookingImageSection
-          titles={imageTitles} content={imageContent}
-          type='evGuide'
-        /> */}
          <CommentAccordion history={comments} title='Comments' />
       </div>
     </div>

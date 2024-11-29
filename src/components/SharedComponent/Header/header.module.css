@@ -15,9 +15,10 @@
 }
 
 .profileContainer img {
-  width: 26px;
+  width: 30px;
   height: auto;
   cursor: pointer;
+  border-radius: 50%;
 }
 .notificationhead{
   padding: 0px !important;

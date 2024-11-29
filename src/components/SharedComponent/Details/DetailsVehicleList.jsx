@@ -38,7 +38,8 @@ const DetailsVehicleList = ({ vehicleList }) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {currentItems?.map((vehicle, index) => (
+                {currentItems && currentItems.length > 0 ? (
+                    currentItems?.map((vehicle, index) => (
                         <tr key={index}>
                             <td>{vehicle.vehicle_type}</td>
                             <td>{vehicle.vehicle_number}</td>
@@ -52,7 +53,12 @@ const DetailsVehicleList = ({ vehicleList }) => {
                             <td>{vehicle.vehicle_specification}</td>
                             <td>{vehicle.emirates}</td>
                         </tr>
-                    ))}
+                     ))
+                    ) : (
+                        <tr>
+                            <td colSpan="6" className={styles.noData}>No Data Available</td>
+                        </tr>
+                    )}
                 </tbody>
             </table>
             <Pagination 

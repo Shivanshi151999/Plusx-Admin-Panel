@@ -37,7 +37,7 @@ const DashboardCard = ({ details }) => {
       icon: AppSignUpImage,
       count: details?.find((item) => item.module === "App Sign Up")?.count || 0,
       title: "App Sign Up",
-      route: "/app-signup-list",
+      route: "/app-signup/app-signup-list",
     },
     {
       icon: NoOfRegsDriverImage,
@@ -45,7 +45,7 @@ const DashboardCard = ({ details }) => {
         details?.find((item) => item.module === "No. of Regs. Drivers")
           ?.count || 0,
       title: "Active Drivers",
-      route: "/rider-list",
+      route: "/drivers/driver-list",
     },
     {
       icon: PODBooking,
@@ -107,7 +107,7 @@ const DashboardCard = ({ details }) => {
         details?.find((item) => item.module === "Charger Installation Bookings")
           ?.count || 0,
       title: "Charger Installation Bookings",
-      route: "/charger-installation-list",
+      route: "/charger-installation/charger-installation-list",
     },
     // {
     //   icon: EVRiderClubImage,

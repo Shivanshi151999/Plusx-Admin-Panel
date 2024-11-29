@@ -1,7 +1,7 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 
-const Riders = () => {
+const ChargerInstallationList = () => {
   return (
     <div>
       <Outlet />
@@ -9,4 +9,6 @@ const Riders = () => {
   );
 };
 
-export default Riders;
+export default ChargerInstallationList;
+
+

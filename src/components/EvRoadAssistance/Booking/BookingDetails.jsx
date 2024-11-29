@@ -108,7 +108,7 @@ const RoadAssistanceBookingDetails = () => {
                     sectionTitles2={sectionTitles2} sectionContent2={sectionContent2}
                     // sectionTitles3={sectionTitles3} sectionContent3={sectionContent3}
                     type='evRoadAssitanceBooking' />
-                <BookingDetailsAccordion history={history} rsa={content} />
+                {/* <BookingDetailsAccordion history={history} rsa={content} /> */}
             </div>
         </div>
     )

@@ -103,7 +103,7 @@ const AddEmergencyTeam = () => {
                 if (response.code === 200) {
                     toast(response.message || response.message[0], {type:'success'})
                     setTimeout(() => {
-                        navigate('/rider-list')
+                        navigate('/drivers/driver-list')
                     }, 1000);
                 } else {
                     toast(response.message[0] || response.message, {type:'error'})
@@ -132,11 +132,11 @@ const AddEmergencyTeam = () => {
                 <form className={styles.formSection} onSubmit={handleSubmit}>
                     <div className={styles.row}>
                         <div className={styles.addShopInputContainer}>
-                            <label className={styles.addShopLabel} htmlFor="shopName">RSA Name</label>
+                            <label className={styles.addShopLabel} htmlFor="shopName">Driver Name</label>
                             <input
                                 className={styles.inputField}
                                 type="text"
-                                placeholder="RSA Name"
+                                placeholder="Driver Name"
                                 value={rsaName}
                                 onChange={(e) => setRsaName(e.target.value.slice(0, 50))}
                             />

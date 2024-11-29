@@ -5,7 +5,7 @@ import store from "../store/store.js";
 import Dashboard from "../components/Dashboard/index.jsx";
 import PortableCharger from "../components/PortableCharger/index.jsx";
 import AppSignupList from "../components/AppSignUp/AppSignupList.js";
-import AppSignup from "../components/AppSignUp/index.jsx";
+import AppSignupDetails from "../components/AppSignUp/AppSignupDetails.jsx";
 import EmergencyTeam from "../components/Riders/EmergencyDetails/Details.jsx";
 import Layout from "../components/SharedComponent/Layout.jsx";
 import ChargerList from "../components/PortableCharger/ChargerList/ChargerList.jsx";
@@ -23,7 +23,6 @@ import PickAndDropTimeSlotList from "../components/PickAndDrop/TimeSlot/TimeSlot
 import PublicChargerStationList from "../components/PublicChargerStation/StationList.jsx";
 import PublicChargerStationDetails from "../components/PublicChargerStation/StationDetails.jsx";
 import ChargerInstallationList from "../components/ChargerInstallationList/ChargerInstallationList.jsx";
-import EVBuySell from "../components/EVBuySell/index.jsx";
 import ChargerInstallationDetails from "../components/ChargerInstallationList/ChargerInstallationDetails.jsx";
 import AddCharger from "../components/PortableCharger/ChargerList/AddCharger.jsx";
 import AddShopListForm from "../components/EVSpecializedShops/ShopList/ShopList/AddShopListForm.jsx";
@@ -87,13 +86,20 @@ import EditEvPreSaleTimeSlot from "../components/EvPreSale/TimeSlot/EditTimeSlot
 import ShopDetails from "../components/EVSpecializedShops/ShopList/ShopList/ShopDetails.jsx";
 import EditShopListForm from "../components/EVSpecializedShops/ShopList/ShopList/EditShop.jsx";
 import AddPod from "../components/PortableCharger/AddPod/AddPod.js";
-import AddPodForm from "../components/PortableCharger/AddPod/AddPodForm.js";
-import EditPodForm from "../components/PortableCharger/AddPod/EditPodForm.js";
-import AddPODDetails from "../components/PortableCharger/AddPod/AddPODDetails.js";
 import PublicChargeStation from "../components/PublicChargerStation/index.jsx";
-
-import AddBrandForm from "../components/PortableCharger/AddPod/AddBrandForm.jsx";
-import EditBrandForm from "../components/PortableCharger/AddPod/EditBrandForm.jsx";
+import ChargerInstallation from "../components/ChargerInstallationList/index.jsx";
+import ElectricCarLeasing from "../components/ElectricCarLeasing/index.jsx";
+import ElectricBikeLeasing from "../components/ElectricBikeLeasing/index.jsx";
+import EvGuide from "../components/EvGuide/index.jsx";
+import EvRiderClub from "../components/EvRiderClub/index.jsx";
+import DiscussionBoard from "../components/DiscussionBoard/index.jsx";
+import EvInsurance from "../components/EvInsurance/index.jsx";
+import EvBuySell from "../components/EVBuySell/index.jsx";
+import Offer from "../components/Offer/index.jsx";
+import Coupon from "../components/Coupon/index.jsx";
+import Subscription from "../components/Subscription/index.jsx";
+import AppSignUp from "../components/AppSignUp/index.jsx";
+import Riders from "../components/Riders/index.jsx";
 
 import PodDeviceList from "../components/PodDevice/Device/deviceList.jsx";
 import AddPodDevice from "../components/PodDevice/Device/AddPodDevice.jsx";
@@ -108,6 +114,7 @@ import AddPodArea from "../components/PodDevice/Area/AddPodArea.jsx";
 import EditPodArea from "../components/PodDevice/Area/EditPodArea.jsx";
 import NotificationList from "../components/Notification/NotificationList.jsx";
 
+
 const router = createBrowserRouter([
     {
         path    : "/login",
@@ -121,30 +128,45 @@ const router = createBrowserRouter([
                 index: true,
                 element: <Dashboard />,
             },
-            {
-                path: "/app-signup-list",
-                element: <AppSignupList />,
+             //App Signup
+             {
+                path: "/app-signup",
+                element: <AppSignUp/>,
+                children: [
+                    {
+                        path: "app-signup-list",
+                        element: <AppSignupList />,
+                    },
+                    {
+                        path: "rider-details/:riderId",
+                        element: <AppSignupDetails/>,
+                    },
+                ],
             },
-            {
-                path: "/rider-details/:riderId",
-                element: <AppSignup />,
+              //Rider Section
+              {
+                path: "/drivers",
+                element: <Riders/>,
+                children: [
+                    {
+                        path: "driver-list",
+                        element: <RiderList />,
+                    },
+                    {
+                        path: "drivers-details/:rsaId",
+                        element: <EmergencyTeam />,
+                    },
+                    {
+                        path: "add-driver",
+                        element: <AddEmergencyTeam />,
+                    },
+                    {
+                        path: "edit-driver/:rsaId",
+                        element: <EditEmergencyTeam />,
+                    },
+                ],
             },
-            {
-                path: "/rider-list",
-                element: <RiderList />,
-            },
-            {
-                path: "/emergency-team-details/:rsaId",
-                element: <EmergencyTeam />,
-            },
-            {
-                path: "/add-emergency-team",
-                element: <AddEmergencyTeam />,
-            },
-            {
-                path: "/edit-emergency-team/:rsaId",
-                element: <EditEmergencyTeam />,
-            },
+            
             // Start the portable charger routes
             {
                 path: "/portable-charger",
@@ -157,6 +179,14 @@ const router = createBrowserRouter([
                     {
                         path: "charger-list",
                         element: <ChargerList />,
+                    },
+                    {
+                        path: "add-charger",
+                        element: <AddCharger />,
+                    },
+                    {
+                        path: "edit-charger/:chargerId",
+                        element: <EditPortableCharger />,
                     },
                     {
                         path: "charger-booking-list",
@@ -182,38 +212,13 @@ const router = createBrowserRouter([
                         path: "edit-time-slot/:slotDate",
                         element: <EditPortableChargerTimeSlot />,
                     },
+                    {
+                        path: "invoice/:invoiceId",
+                        element: <InvoiceDetails />,
+                    },
                 ],
             },
             // End the portable charger routes
-            // app signup list
-            {
-                path: "/invoice",
-                element: <Invoice />,
-            },
-            {
-                path: "/invoice/:invoiceId",
-                element: <InvoiceDetails />,
-            },
-            {
-                path:"/addpod-form",
-                element:<AddPodForm/>
-            },
-            {
-                path:"/editpod-form",
-                element:<EditPodForm/>
-            },
-            {
-                path:"/addpod-details",
-                element:<AddPODDetails/>
-            },
-            {
-                path: "/add-charger",
-                element: <AddCharger />,
-            },
-            {
-                path: "/edit-charger/:chargerId",
-                element: <EditPortableCharger />,
-            },
             // Start the pick&drop container
             {
                 path: "/pick-and-drop",
@@ -275,63 +280,89 @@ const router = createBrowserRouter([
             },
             //charger installation
             {
-                path: "/charger-installation-list",
-                element: <ChargerInstallationList />,
+                path: "/charger-installation",
+                element: <ChargerInstallation/>,
+                children: [
+                    {
+                        path: "charger-installation-list",
+                        element: <ChargerInstallationList />,
+                    },
+                    {
+                        path: "charger-installation-details/:requestId",
+                        element: <ChargerInstallationDetails />,
+                    },
+                ],
             },
-            {
-                path: "/charger-installation-details/:requestId",
-                element: <ChargerInstallationDetails />,
-            },
+           
             //Electric Car Leasing
             {
-                path: "/electric-car-list",
-                element: <CarList />,
+                path: "/electric-car-leasing",
+                element: <ElectricCarLeasing/>,
+                children: [
+                    {
+                        path: "electric-car-list",
+                        element: <CarList />,
+                    },
+                    {
+                        path: "add-electric-car",
+                        element: <AddElectricCar />,
+                    },
+                    {
+                        path: "edit-electric-car/:rentalId",
+                        element: <EditElectricCar />,
+                    },
+                    {
+                        path: "electric-car-details/:rentalId",
+                        element: <ElectricCarDetails />,
+                    },
+                ],
             },
-            {
-                path: "/add-electric-car",
-                element: <AddElectricCar />,
-            },
-            {
-                path: "/edit-electric-car/:rentalId",
-                element: <EditElectricCar />,
-            },
-            {
-                path: "/electric-car-details/:rentalId",
-                element: <ElectricCarDetails />,
-            },
+           
             //Electric Bilke Leasing
             {
-                path: "/electric-bike-list",
-                element: <BikeList />,
-            },
-            {
-                path: "/add-electric-bike",
-                element: <AddElectricBike />,
-            },
-            {
-                path: "/edit-electric-bike/:rentalId",
-                element: <EditElectricBike />,
-            },
-            {
-                path: "/electric-bike-details/:rentalId",
-                element: <ElectricBikeDetails />,
+                path: "/electric-bike-leasing",
+                element: <ElectricBikeLeasing/>,
+                children: [
+                    {
+                        path: "electric-bike-list",
+                        element: <BikeList />,
+                    },
+                    {
+                        path: "add-electric-bike",
+                        element: <AddElectricBike />,
+                    },
+                    {
+                        path: "edit-electric-bike/:rentalId",
+                        element: <EditElectricBike />,
+                    },
+                    {
+                        path: "electric-bike-details/:rentalId",
+                        element: <ElectricBikeDetails />,
+                    },
+                ],
             },
             //Ev Guide
             {
-                path: "/ev-guide-list",
-                element: <GuideList />,
-            },
-            {
-                path: "/ev-guide-details/:vehicleId",
-                element: <GuideDetails />,
-            },
-            {
-                path: "/add-ev-guide",
-                element: <AddEvGuide />,
-            },
-            {
-                path: "/edit-ev-guide/:vehicleId",
-                element: <EditEvGuide />,
+                path: "/ev-guide",
+                element: <EvGuide/>,
+                children: [
+                    {
+                        path: "ev-guide-list",
+                        element: <GuideList />,
+                    },
+                    {
+                        path: "ev-guide-details/:vehicleId",
+                        element: <GuideDetails />,
+                    },
+                    {
+                        path: "add-ev-guide",
+                        element: <AddEvGuide />,
+                    },
+                    {
+                        path: "edit-ev-guide/:vehicleId",
+                        element: <EditEvGuide />,
+                    },
+                ],
             },
 
             //road assistance
@@ -372,41 +403,59 @@ const router = createBrowserRouter([
 
             //Ev Rider Club
             {
-                path: "/club-list",
-                element: <ClubList />,
+                path: "/ev-rider-club",
+                element: <EvRiderClub/>,
+                children: [
+                    {
+                        path: "club-list",
+                        element: <ClubList />,
+                    },
+                    {
+                        path: "add-club",
+                        element: <AddClub />,
+                    },
+                    {
+                        path: "edit-club/:clubId",
+                        element: <EditClub />,
+                    },
+                    {
+                        path: "club-details/:clubId",
+                        element: <ClubDetails />,
+                    },
+                ],
             },
-            {
-                path: "/add-club",
-                element: <AddClub />,
-            },
-            {
-                path: "/edit-club/:clubId",
-                element: <EditClub />,
-            },
-            {
-                path: "/club-details/:clubId",
-                element: <ClubDetails />,
-            },
-
             //DiscussionBoard
             {
-                path: "/discussion-board-list",
-                element: <DiscussionBoardList />,
-            },
-            {
-                path: "/discussion-board-details/:boardId",
-                element: <DiscussionBoardDetails />,
+                path: "/discussion-board",
+                element: <DiscussionBoard/>,
+                children: [
+                    {
+                        path: "discussion-board-list",
+                        element: <DiscussionBoardList />,
+                    },
+                    {
+                        path: "discussion-board-details/:boardId",
+                        element: <DiscussionBoardDetails />,
+                    },
+                ],
             },
 
             //EvInsurance
             {
-                path: "/ev-insurance-list",
-                element: <InsuranceList />,
+                path: "/ev-insurance",
+                element: <EvInsurance/>,
+                children: [
+                    {
+                        path: "ev-insurance-list",
+                        element: <InsuranceList />,
+                    },
+                    {
+                        path: "ev-insurance-details/:insuranceId",
+                        element: <InsuranceDetails />,
+                    },
+                ],
             },
-            {
-                path: "/ev-insurance-details/:insuranceId",
-                element: <InsuranceDetails />,
-            },
+           
             //ev-specialized
             {
                 path: "/ev-specialized",
@@ -470,64 +519,83 @@ const router = createBrowserRouter([
             //EvBuySell
             {
                 path: "/ev-buy-sell",
-                element: <BuySellList />,
+                element: <EvBuySell/>,
+                children: [
+                    {
+                        path: "ev-buy-list",
+                        element: <BuySellList />,
+                    },
+                    {
+                        path: "ev-buy-sell-details/:sellId",
+                        element: <BuySellDetails />,
+                    },
+                ],
             },
-            {
-                path: "/ev-buy-sell-details/:sellId",
-                element: <BuySellDetails />,
-            },
+            
+           
 
             //Offer
             {
-                path: "/offer-list",
-                element: <OfferList />,
-            },
-            {
-                path: "/add-offer",
-                element: <AddOffer />,
-            },
-            {
-                path: "/edit-offer/:offerId",
-                element: <EditOffer />,
+                path: "/offer",
+                element: <Offer/>,
+                children: [
+                    {
+                        path: "offer-list",
+                        element: <OfferList />,
+                    },
+                    {
+                        path: "add-offer",
+                        element: <AddOffer />,
+                    },
+                    {
+                        path: "edit-offer/:offerId",
+                        element: <EditOffer />,
+                    },
+                ],
             },
 
             //Coupon
             {
-                path: "/coupon-list",
-                element: <CouponList />,
+                path: "/coupon",
+                element: <Coupon/>,
+                children: [
+                    {
+                        path: "coupon-list",
+                        element: <CouponList />,
+                    },
+                    {
+                        path: "add-coupon",
+                        element: <AddCoupon />,
+                    },
+                    {
+                        path: "edit-coupon/:couponId",
+                        element: <EditCoupon />,
+                    },
+                ],
             },
-            {
-                path: "/add-coupon",
-                element: <AddCoupon />,
-            },
-            {
-                path: "/edit-coupon/:couponId",
-                element: <EditCoupon />,
-            },
+           
 
             //Register Interest
             {
                 path: "/interest-list",
                 element: <InterestList />,
             },
-            // Start the Add POD Brand Route
-            {
-                path:"/add-brand-form",
-                element:<AddBrandForm/>
-            },
-            {
-                path:"/edit-brand-form",
-                element:<EditBrandForm/>
-            },
             //Subscription
             {
-                path: "/subscription-list",
-                element: <SubscriptionList />,
+                path: "/subscription",
+                element: <Subscription/>,
+                children: [
+                    {
+                        path: "subscription-list",
+                        element: <SubscriptionList />,
+                    },
+                    {
+                        path: "subscription-details/:subId",
+                        element: <SubscriptionDetails />,
+                    },
+                ],
             },
-            {
-                path: "/subscription-details/:subId",
-                element: <SubscriptionDetails />,
-            },
+            // Add POD Section
             {
                 path: "/pod-device",
                 // element: <ShopList />,
@@ -568,6 +636,11 @@ const router = createBrowserRouter([
                         element : <EditPodArea />,
                     },
                 ],
+            },
+            // Invoice Section
+            {
+                path: "/invoice",
+                element: <Invoice />,
             },
             //Notification
             {

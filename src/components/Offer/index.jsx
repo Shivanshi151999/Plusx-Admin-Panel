@@ -1,7 +1,7 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 
-const Riders = () => {
+const Offer = () => {
   return (
     <div>
       <Outlet />
@@ -9,4 +9,4 @@ const Riders = () => {
   );
 };
 
-export default Riders;
+export default Offer;

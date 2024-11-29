@@ -15,7 +15,7 @@ const dynamicFilters = [
 
 const addButtonProps = {
     heading: "Add Club", 
-    link: "/add-club"
+    link: "/ev-rider-club/add-club"
 };
 
 const ClubList = () => {

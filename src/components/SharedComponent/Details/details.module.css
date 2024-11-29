@@ -5,9 +5,9 @@
   color: white;
   font-family: "Inter", sans-serif !important;
 }
-.imageMainContainer{
+/* .imageMainContainer{
   margin-top: 40px;
-}
+} */
 .detailsHeaderSection{
   display: flex;
   align-items: center;
@@ -86,7 +86,6 @@ background-color: #242424;
   vertical-align: top !important;
 }
 .addressListContainer {
-  padding: 20px;
   display: flex;
   background-color: #242424;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -177,9 +176,6 @@ background-color: #242424;
     background-color: #000000;
     color: white;
     font-family: "Inter", sans-serif !important;
-}
-.customImageMainSection{
-  margin-top: 40px;
 }
 .customGalleryImages{
   width: 300px;

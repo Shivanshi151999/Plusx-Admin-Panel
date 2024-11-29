@@ -230,7 +230,7 @@ const EditPublicChargerStation = () => {
             
                     toast(response.message || response.message[0], {type:'success'})
                     setTimeout(() => {
-                        navigate('/public-charger-station-list');
+                        navigate('/public-charger-station/public-charger-station-list');
                     }, 1000);
                 } else {
                     toast(response.message || response.message[0], {type:'error'})
@@ -326,7 +326,7 @@ const EditPublicChargerStation = () => {
     }, []);
 
     const handleCancel = () => {
-        navigate('/public-charger-station-list')
+        navigate('/public-charger-station/public-charger-station-list')
     }
 
     const [isActive, setIsActive] = useState(false);
