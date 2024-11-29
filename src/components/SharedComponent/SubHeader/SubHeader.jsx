@@ -77,7 +77,7 @@ const SubHeader = ({ heading, fetchFilteredData, dynamicFilters, filterValues,
                                          "Register Interest List","Ev Buy & Sell List","Portable Charger List",'Ev Specialized Shop List', 
                                          "Ev Specialized Shop Service List", "Ev Specialized Shop Brand List","Ev Insurance List" ,
                                          "Ev Discussion Board List", "Ev Rider Clubs List" , "Charger Installation List", "Notification List",
-                                         "Electric Cars Leasing List", "Electric Bikes Leasing List"
+                                         "Electric Cars Leasing List", "Electric Bikes Leasing List", "EV Guide List"
                                       ]
     const shouldShowFilterButton = !shouldShowFilterButtonArr.includes(heading)
 

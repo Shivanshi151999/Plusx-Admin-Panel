@@ -112,6 +112,7 @@ const RoadAssistanceBookingList = () => {
             setShowPopup(false);
             setSelectedBookingId(null);
             setSelectedRiderId(null)
+            setReason("");
         } else {
             toast(response.message, {type:'error'})
             console.log('error in charger-booking-list api', response);
@@ -216,9 +217,9 @@ const RoadAssistanceBookingList = () => {
         const confirmBooking = window.confirm("Are you sure to confirm order ?");
         if (confirmBooking) {
             const obj = { 
-                userId : userDetails?.user_id,
-                email : userDetails?.email,
-                reuest_id: requestId 
+                userId     : userDetails?.user_id,
+                email      : userDetails?.email,
+                request_id : requestId 
             };
             postRequestWithToken('ev-road-assistance-confirm-booking', obj, async (response) => {
                 if (response.code === 200) {
@@ -262,7 +263,8 @@ const RoadAssistanceBookingList = () => {
                                 label: 'Action',
                                 relatedKeys: ['order_status'], 
                                 format: (data, key, relatedKeys) => {
-                                    const isCancelable = data[relatedKeys[0]] !== 'C'; 
+                                    const isAssignable= data[relatedKeys[0]] !== 'C'; 
+                                    const isCancelable = data[relatedKeys[0]] == 'BD'; 
                             
                                     return (
                                         <div className="editButtonSection">
@@ -273,15 +275,31 @@ const RoadAssistanceBookingList = () => {
                                                 onClick={() => handleRoadAssistanceBookingDetails(data.request_id)}
                                             className="viewButton"
                                             />
-                                        
-                                        {isCancelable && (
+                                            {isAssignable && (
                                             <>
                                                 <img 
                                                     src={AddDriver} 
                                                     alt="Add Driver" 
                                                     className="viewButton" 
-                                                    onClick={(e) => handleConfirm(data.request_id)}
+                                                    // onClick={(e) => handleConfirm(data.request_id)}
                                                 />
+                                                {/* <img 
+                                                    src={Cancel} 
+                                                    alt="Cancel" 
+                                                    onClick={() => handleCancelClick(data.request_id, data.rider_id)} 
+                                                    className="viewButton" 
+                                                /> */}
+                                            </>
+                                        )}
+                                        
+                                        {isCancelable && (
+                                            <>
+                                                {/* <img 
+                                                    src={AddDriver} 
+                                                    alt="Add Driver" 
+                                                    className="viewButton" 
+                                                    // onClick={(e) => handleConfirm(data.request_id)}
+                                                /> */}
                                                 <img 
                                                     src={Cancel} 
                                                     alt="Cancel" 
@@ -290,6 +308,9 @@ const RoadAssistanceBookingList = () => {
                                                 />
                                             </>
                                         )}
+
+                                        
+
 
                                         </div>
                                     );

@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import Select from "react-select";
+import { GoogleMap, useJsApiLoader, useLoadScript, Marker } from "@react-google-maps/api";
 import UploadIcon from '../../assets/images/uploadicon.svg';
 import { AiOutlineClose } from 'react-icons/ai';
 import styles from './addcharger.module.css';
@@ -9,23 +10,23 @@ import { postRequestWithTokenAndFile, postRequestWithToken } from '../../api/Req
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import ReactInputMask from "react-input-mask"
-const AddChargerStation = () => {
-    const userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
-    const navigate = useNavigate();
-    const [file, setFile] = useState(null);
-    const [galleryFiles, setGalleryFiles] = useState([]);
-    const [errors, setErrors] = useState({});
-    const [selectedBrands, setSelectedBrands] = useState([]);
-    const [selectedType, setSelectedType] = useState([])
 
-    const [stationName, setStationName] = useState()
-    const [chargingFor, setChargingFor] = useState([])
-    const [chargingType, setChargingType] = useState()
-    const [chargingPoint, setChargingPoint] = useState()
-    const [description, setDescription] = useState()
-    const [address, setAddress] = useState()
-    const [latitude, setLatitude] = useState()
-    const [longitude, setLongitude] = useState()
+const AddChargerStation = () => {
+    const userDetails                         = JSON.parse(sessionStorage.getItem('userDetails'));
+    const navigate                            = useNavigate();
+    const [file, setFile]                     = useState(null);
+    const [galleryFiles, setGalleryFiles]     = useState([]);
+    const [errors, setErrors]                 = useState({});
+    const [selectedBrands, setSelectedBrands] = useState([]);
+    const [selectedType, setSelectedType]     = useState([])
+    const [stationName, setStationName]       = useState('')
+    const [chargingFor, setChargingFor]       = useState([])
+    const [chargingType, setChargingType]     = useState('')
+    const [chargingPoint, setChargingPoint]   = useState('')
+    const [description, setDescription] = useState('')
+    const [address, setAddress] = useState('')
+    const [latitude, setLatitude] = useState('')
+    const [longitude, setLongitude] = useState('')
     const [open, setOpen] = useState(false)
     const [isAlwaysOpen, setIsAlwaysOpen] = useState(false);
     const [loading, setLoading]           = useState(false);
@@ -41,6 +42,10 @@ const AddChargerStation = () => {
         Saturday: { open: '', close: '', openMandatory: false, closeMandatory: false },
         Sunday: { open: '', close: '', openMandatory: false, closeMandatory: false },
     });
+
+    const { isLoaded } = useJsApiLoader({
+        googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY
+      });
 
 
     const handleTimeChange = (day, timeType) => (event) => {
@@ -131,6 +136,23 @@ const AddChargerStation = () => {
         setGalleryFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
     };
 
+    const handleOnBlur = (value) => {
+        const currentAddress = value
+    
+        const geocoder = new window.google.maps.Geocoder();
+        geocoder.geocode({ address: currentAddress }, (results, status) => {
+          if (status === 'OK' && results[0]) {
+            const lat = results[0].geometry.location.lat();
+            const lng = results[0].geometry.location.lng();
+    
+            setLatitude(lat)
+            setLongitude(lng)
+          } else {
+           
+          }
+        });
+      };
+
 
     useEffect(() => {
         return () => {
@@ -159,6 +181,14 @@ const AddChargerStation = () => {
             }
             return errors;
         }, {});
+
+        const hasValidTimeSlot = Object.values(timeSlots).some(
+            (times) => times.open && times.close
+        );
+    
+        if (!isAlwaysOpen && !hasValidTimeSlot) {
+            newErrors["timeSlots"] = "Either select 'Always Open' or fill at least one time slot.";
+        }
     
         // Validate time slots only if not always open
         if (!isAlwaysOpen) {
@@ -293,6 +323,7 @@ const AddChargerStation = () => {
     }, []);
     return (
         <div className={styles.addShopContainer}>
+            
             <div className={styles.addHeading}>Add Public Chargers</div>
             <div className={styles.addShopFormSection}>
                 <ToastContainer />
@@ -308,7 +339,7 @@ const AddChargerStation = () => {
                                 value={stationName}
                                 onChange={(e) => setStationName(e.target.value)}
                             />
-                            {errors.stationName && <p className={styles.error} style={{ color: 'red' }}>{errors.stationName}</p>}
+                            {errors.stationName && stationName == '' && <p className={styles.error} style={{ color: 'red' }}>{errors.stationName}</p>}
                         </div>
                         <div className={styles.addShopInputContainer}>
                             <label className={styles.addShopLabel} htmlFor="availableBrands">Charging For</label>
@@ -322,7 +353,7 @@ const AddChargerStation = () => {
                                     closeOnChangedValue={false}
                                     closeOnSelect={false}
                                 />
-                                {errors.chargingFor && <p className={styles.error} style={{ color: 'red' }}>{errors.chargingFor}</p>}
+                                {errors.chargingFor && selectedBrands.length == 0 && <p className={styles.error} style={{ color: 'red' }}>{errors.chargingFor}</p>}
                             </div>
                         </div>
                     </div>
@@ -340,7 +371,7 @@ const AddChargerStation = () => {
                                     placeholder="Select Service"
                                     isClearable={true}
                                 />
-                                {errors.chargerType && <p className={styles.error} style={{ color: 'red' }}>{errors.chargerType}</p>}
+                                {errors.chargerType && (!selectedType || selectedType.length === 0) && <p className={styles.error} style={{ color: 'red' }}>{errors.chargerType}</p>}
                             </div>
                         </div>
                         <div className={styles.addShopInputContainer}>
@@ -360,7 +391,7 @@ const AddChargerStation = () => {
                                     }
                                 }}
                             />
-                            {errors.chargingPoint && <p className={styles.error} style={{ color: 'red' }}>{errors.chargingPoint}</p>}
+                            {errors.chargingPoint && chargingPoint == '' && <p className={styles.error} style={{ color: 'red' }}>{errors.chargingPoint}</p>}
                         </div>
                     </div>
                     <div className={styles.row}>
@@ -374,7 +405,7 @@ const AddChargerStation = () => {
                                 value={description}
                                 onChange={(e) => setDescription(e.target.value)}
                             />
-                            {errors.description && <p className={styles.error} style={{ color: 'red' }}>{errors.description}</p>}
+                            {errors.description && description == '' && <p className={styles.error} style={{ color: 'red' }}>{errors.description}</p>}
                         </div>
                         <div className={styles.addShopInputContainer}>
                             <label className={styles.addShopLabel} htmlFor="fullAddress">Full Address</label>
@@ -385,8 +416,9 @@ const AddChargerStation = () => {
                                 rows="4"
                                 value={address}
                                 onChange={(e) => setAddress(e.target.value)}
+                                onBlur={(e) => handleOnBlur(e.target.value)}
                             />
-                            {errors.address && <p className={styles.error} style={{ color: 'red' }}>{errors.address}</p>}
+                            {errors.address && address == '' && <p className={styles.error} style={{ color: 'red' }}>{errors.address}</p>}
                         </div>
                     </div>
                     <div className={styles.locationRow}>
@@ -407,7 +439,7 @@ const AddChargerStation = () => {
                                 }}
                                 
                             />
-                            {errors.latitude && <p className={styles.error} style={{ color: 'red' }}>{errors.latitude}</p>}
+                            {errors.latitude && latitude == '' && <p className={styles.error} style={{ color: 'red' }}>{errors.latitude}</p>}
                         </div>
                         <div className={styles.addShopInputContainer}>
                             <label className={styles.addShopLabel} htmlFor="longitude">Longitude</label>
@@ -424,7 +456,7 @@ const AddChargerStation = () => {
                                     }
                                 }}
                             />
-                            {errors.longitude && <p className={styles.error} style={{ color: 'red' }}>{errors.longitude}</p>}
+                            {errors.longitude && longitude == '' &&  <p className={styles.error} style={{ color: 'red' }}>{errors.longitude}</p>}
                         </div>
                         <div className={styles.addShopInputContainer}>
                             <label className={styles.addShopLabel} htmlFor="location">Price</label>
@@ -436,7 +468,7 @@ const AddChargerStation = () => {
                                 isClearable
                                 className={styles.addShopSelect}
                             />
-                            {errors.price && <p className={styles.error} style={{ color: 'red' }}>{errors.price}</p>}
+                            {errors.price && price == null &&<p className={styles.error} style={{ color: 'red' }}>{errors.price}</p>}
                         </div>
                     </div>
                     <div className={styles.scheduleSection}>
@@ -494,6 +526,7 @@ const AddChargerStation = () => {
                             </div>
 
                         )}
+                         {errors.timeSlots && <p className={styles.error} style={{ color: 'red' }}>{errors.timeSlots}</p>}
                     </div>
                     {/* <div className={styles.row}> */}
                         <div className={styles.fileUpload}>

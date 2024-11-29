@@ -43,13 +43,7 @@ const AddEmergencyTeam = () => {
             alert('Please upload a valid image file.');
         }
     };
-    const clearError = (fieldName) => {
-        setErrors((prevErrors) => {
-            const updatedErrors = { ...prevErrors };
-            delete updatedErrors[fieldName];
-            return updatedErrors;
-        });
-    };
+    
     
 
     const handleRemoveImage = () => {
@@ -156,7 +150,7 @@ const AddEmergencyTeam = () => {
                                 placeholder="Driver Name"
                                 value={rsaName}
                                 onChange={(e) => {setRsaName(e.target.value.slice(0, 50))
-                                    clearError("rsaName");
+                                   
                                 }}
                             />
                             {errors.rsaName && rsaName == '' && <p className="error">{errors.rsaName}</p>}
@@ -181,7 +175,10 @@ const AddEmergencyTeam = () => {
                                 type="text"
                                 placeholder="Mobile No"
                                 value={mobileNo}
-                                onChange={(e) => setMobileNo(e.target.value.slice(0, 12))}
+                                onChange={(e) => {
+                                    const value = e.target.value.replace(/\D/g, '');
+                                    setMobileNo(value.slice(0, 12)); 
+                                }}
                             />
                             {errors.mobileNo && mobileNo.length < 9 &&   <p className="error">{errors.mobileNo}</p>}
                         </div>

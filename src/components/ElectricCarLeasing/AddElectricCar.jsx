@@ -15,18 +15,18 @@ const AddElectricCar = () => {
   const [file, setFile]                 = useState(null);
   const [galleryFiles, setGalleryFiles] = useState([]);
   const [errors, setErrors]             = useState({});
-  const [carName, setCarName]           = useState();
-  const [availableOn, setAvailableOn]   = useState();
-  const [description, setDescription]   = useState();
-  const [url, setUrl]                   = useState();
-  const [price, setPrice]               = useState();
+  const [carName, setCarName]           = useState('');
+  const [availableOn, setAvailableOn]   = useState('');
+  const [description, setDescription]   = useState('');
+  const [url, setUrl]                   = useState('');
+  const [price, setPrice]               = useState('');
   const [carType, setCarType]           = useState(null);
   const [contract, setContract]         = useState([]);
   const [feature, setFeature]           = useState([]);
   const [loading, setLoading]           = useState(false);
 
   const contractDropdownRef = useRef(null);
-  const featureDropdownRef = useRef(null);
+  const featureDropdownRef  = useRef(null);
 
     const typeOpetions = [
         // { value: "", label: "Select Vehicle Type" },
@@ -190,7 +190,7 @@ useEffect(() => {
                 value={carName}
                 onChange={(e) => setCarName(e.target.value)}
                 />
-                {errors.carName && <p className="error">{errors.carName}</p>}
+                {errors.carName && carName == '' && <p className="error">{errors.carName}</p>}
             </div>
             <div className={styles.addShopInputContainer}>
               <label className={styles.addShopLabel} htmlFor="contactNo">Available On</label>
@@ -201,7 +201,7 @@ useEffect(() => {
               value={availableOn}
                 onChange={(e) => setAvailableOn(e.target.value)}
               />
-              {errors.availableOn && <p className="error">{errors.availableOn}</p>}
+              {errors.availableOn && availableOn == '' && <p className="error">{errors.availableOn}</p>}
             </div>
           </div>
          
@@ -216,7 +216,7 @@ useEffect(() => {
                     isClearable
                     className={styles.addShopSelect}
                 />
-                {errors.carType && <p className="error">{errors.carType}</p>}
+                {errors.carType && (!carType || carType.length === 0) && <p className="error">{errors.carType}</p>}
             </div>
             <div className={styles.addShopInputContainer}>
               <label className={styles.addShopLabel} htmlFor="email">Price</label>
@@ -225,9 +225,16 @@ useEffect(() => {
                placeholder="Price" 
                className={styles.inputField} 
                value={price}
-                onChange={(e) => setPrice(e.target.value)}
+                // onChange={(e) => setPrice(e.target.value)}
+                onChange={(e) => {
+                    const value = e.target.value;
+                    const numberPattern = /^\d{0,7}$/;
+                    if (numberPattern.test(value)) {
+                        setPrice(value);
+                    }
+                }}
                />
-               {errors.price && <p className="error">{errors.price}</p>}
+               {errors.price && price == '' && <p className="error">{errors.price}</p>}
             </div>
           </div>
           <div className={styles.locationRow}>
@@ -243,7 +250,7 @@ useEffect(() => {
                             closeOnChangedValue={false}
                             closeOnSelect={false}
                         />
-                        {errors.contract && <p className="error">{errors.contract}</p>}
+                        {errors.contract && (!contract || contract.length === 0) && <p className="error">{errors.contract}</p>}
                     </div>
                 </div>
 
@@ -259,7 +266,7 @@ useEffect(() => {
                             closeOnChangedValue={false}
                             closeOnSelect={false}
                         />
-                        {errors.feature && <p className="error">{errors.feature}</p>}
+                        {errors.feature && (!feature || feature.length === 0) && <p className="error">{errors.feature}</p>}
                     </div>
                 </div>
             
@@ -275,22 +282,22 @@ useEffect(() => {
               value={description}
                 onChange={(e) => setDescription(e.target.value)}
               />
-              {errors.description && <p className="error">{errors.description}</p>}
+              {errors.description && description == '' && <p className="error">{errors.description}</p>}
             </div>
             
           </div>
           <div className={styles.row}>
             <div className={styles.addShopInputContainer}>
-              <label className={styles.addShopLabel} htmlFor="modelName">Lease URL</label>
+              <label className={styles.addShopLabel} htmlFor="modelName">URL</label>
               <input 
               type="text" 
               id="feature" 
-              placeholder="Lease URL" 
+              placeholder="URL" 
               className={styles.inputField} 
               value={url}
                 onChange={(e) => setUrl(e.target.value)}
               />
-              {errors.url && <p className="error">{errors.url}</p>}
+              {errors.url && url == '' && <p className="error">{errors.url}</p>}
             </div>
             
           </div>

@@ -17,14 +17,14 @@ const AddEvGuide = () => {
   const [file, setFile]                 = useState(null);
   const [galleryFiles, setGalleryFiles] = useState([]);
   const [errors, setErrors]             = useState({});
-  const [modelName, setModelName]       = useState()
-  const [vehicleName, setVehicleName]   = useState()
-  const [engine, setEngine]             = useState()
-  const [horsePower, setHorsePower]     = useState()
-  const [maxSpeed, setMaxSpeed]         = useState()
-  const [price, setPrice]               = useState()
-  const [description, setDescription]   = useState()
-  const [feature, setFeature]           = useState()
+  const [modelName, setModelName]       = useState('')
+  const [vehicleName, setVehicleName]   = useState('')
+  const [engine, setEngine]             = useState('')
+  const [horsePower, setHorsePower]     = useState('')
+  const [maxSpeed, setMaxSpeed]         = useState('')
+  const [price, setPrice]               = useState('')
+  const [description, setDescription]   = useState('')
+  const [feature, setFeature]           = useState('')
   const [vehicleType, setVehicleType]   = useState(null);
   const [loading, setLoading]           = useState(false);
 
@@ -165,7 +165,7 @@ useEffect(() => {
                 value={modelName}
                 onChange={(e) => setModelName(e.target.value)}
                 />
-                {errors.modelName && <p className="error">{errors.modelName}</p>}
+                {errors.modelName && modelName == '' && <p className="error">{errors.modelName}</p>}
             </div>
             <div className={styles.addShopInputContainer}>
               <label className={styles.addShopLabel} htmlFor="contactNo">Vehicle Name</label>
@@ -176,7 +176,7 @@ useEffect(() => {
               value={vehicleName}
                 onChange={(e) => setVehicleName(e.target.value)}
               />
-              {errors.vehicleName && <p className="error">{errors.vehicleName}</p>}
+              {errors.vehicleName && vehicleName == '' && <p className="error">{errors.vehicleName}</p>}
             </div>
           </div>
           <div className={styles.row}>
@@ -190,7 +190,7 @@ useEffect(() => {
                     isClearable
                     className={styles.addShopSelect}
                 />
-                {errors.vehicleType && <p className="error">{errors.vehicleType}</p>}
+                {errors.vehicleType && vehicleType == null && <p className="error">{errors.vehicleType}</p>}
             </div>
             <div className={styles.addShopInputContainer}>
               <label className={styles.addShopLabel} htmlFor="email">Engine</label>
@@ -201,7 +201,7 @@ useEffect(() => {
                value={engine}
                 onChange={(e) => setEngine(e.target.value)}
                />
-               {errors.engine && <p className="error">{errors.engine}</p>}
+               {errors.engine && engine == '' && <p className="error">{errors.engine}</p>}
             </div>
           </div>
           <div className={styles.locationRow}>
@@ -215,8 +215,8 @@ useEffect(() => {
                value={horsePower}
                 onChange={(e) => setHorsePower(e.target.value)}
                />
-               {errors.horsePower && <p className="error">{errors.horsePower}</p>}
-            </div>
+               {errors.horsePower && horsePower == '' && <p className="error">{errors.horsePower}</p>}
+            </div> 
             <div className={styles.addShopInputContainer}>
               <label className={styles.addShopLabel} htmlFor="email">Max Speed</label>
               <input 
@@ -227,7 +227,7 @@ useEffect(() => {
               value={maxSpeed}
                 onChange={(e) => setMaxSpeed(e.target.value)}
                />
-               {errors.maxSpeed && <p className="error">{errors.maxSpeed}</p>}
+               {errors.maxSpeed && maxSpeed == '' && <p className="error">{errors.maxSpeed}</p>}
             </div>
             <div className={styles.addShopInputContainer}>
               <label className={styles.addShopLabel} htmlFor="email">Price</label>
@@ -239,7 +239,7 @@ useEffect(() => {
               value={price}
                 onChange={(e) => setPrice(e.target.value)}
                />
-               {errors.price && <p className="error">{errors.price}</p>}
+               {errors.price && price == '' && <p className="error">{errors.price}</p>}
             </div>
           </div>
           <div className={styles.row}>
@@ -253,7 +253,7 @@ useEffect(() => {
               value={description}
                 onChange={(e) => setDescription(e.target.value)}
               />
-              {errors.description && <p className="error">{errors.description}</p>}
+              {errors.description && description == '' && <p className="error">{errors.description}</p>}
             </div>
             
           </div>
@@ -268,7 +268,7 @@ useEffect(() => {
               value={feature}
                 onChange={(e) => setFeature(e.target.value)}
               />
-              {errors.feature && <p className="error">{errors.feature}</p>}
+              {errors.feature && feature == '' && <p className="error">{errors.feature}</p>}
             </div>
             
           </div>

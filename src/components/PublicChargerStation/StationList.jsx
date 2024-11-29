@@ -5,8 +5,10 @@ import styles from './publiccharger.module.css'
 import Pagination from '../SharedComponent/Pagination/Pagination'
 import { postRequestWithToken } from '../../api/Requests';
 import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 import Loader from "../SharedComponent/Loader/Loader";
+
 
 const dynamicFilters = [
     // { label: 'Name', name: 'search', type: 'text' },
@@ -87,8 +89,8 @@ const StationList = () => {
             };
             postRequestWithToken('public-chargers-delete', obj, async (response) => {
                 if (response.code === 200) {
-                    setRefresh(prev => !prev);
-                    toast(response.message[0], { type: "success" });
+                    // setRefresh(prev => !prev);
+                    toast(response.message, { type: "success" });
 
                     setTimeout(() => {
                         fetchList(currentPage);
@@ -103,6 +105,7 @@ const StationList = () => {
 
     return (
         <div className='main-container'>
+            <ToastContainer />
             <SubHeader heading="Public Chargers List"
                 addButtonProps={addButtonProps}
                 fetchFilteredData={fetchFilteredData}

@@ -10,25 +10,25 @@ import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
 const EditElectricCar = () => {
-    const userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
-    const navigate = useNavigate()
-    const { rentalId } = useParams()
-    const [details, setDetails] = useState()
-    const [file, setFile] = useState(null);
+    const userDetails                     = JSON.parse(sessionStorage.getItem('userDetails'));
+    const navigate                        = useNavigate()
+    const { rentalId }                    = useParams()
+    const [details, setDetails]           = useState()
+    const [file, setFile]                 = useState(null);
     const [galleryFiles, setGalleryFiles] = useState([]);
-    const [errors, setErrors] = useState({});
-    const [carName, setCarName] = useState()
-    const [availableOn, setAvailableOn] = useState()
-    const [description, setDescription] = useState()
-    const [url, setUrl] = useState()
-    const [price, setPrice] = useState()
-    const [carType, setCarType] = useState(null);
-    const [contract, setContract] = useState([])
-    const [feature, setFeature] = useState([])
-    const [loading, setLoading] = useState(false);
+    const [errors, setErrors]             = useState({});
+    const [carName, setCarName]           = useState('')
+    const [availableOn, setAvailableOn]   = useState('')
+    const [description, setDescription]   = useState('')
+    const [url, setUrl]                   = useState('')
+    const [price, setPrice]               = useState('')
+    const [carType, setCarType]           = useState(null);
+    const [contract, setContract]         = useState([])
+    const [feature, setFeature]           = useState([])
+    const [loading, setLoading]           = useState(false);
 
     const contractDropdownRef = useRef(null);
-    const featureDropdownRef = useRef(null);
+    const featureDropdownRef  = useRef(null);
 
     const typeOpetions = [
         // { value: "", label: "Select Vehicle Type" },
@@ -171,9 +171,9 @@ const EditElectricCar = () => {
 
     const fetchDetails = () => {
         const obj = {
-            userId: userDetails?.user_id,
-            email: userDetails?.email,
-            rental_id: rentalId
+            userId   : userDetails?.user_id,
+            email     : userDetails?.email,
+            rental_id : rentalId
         };
         postRequestWithToken('electric-car-detail', obj, (response) => {
 
@@ -182,10 +182,8 @@ const EditElectricCar = () => {
                 setDetails(data);
                 setCarName(data?.car_name || "");
                 setAvailableOn(data?.available_on || "");
-                // setCarType(data?.car_type || []);
                 setContract(data?.contract || "");
                 setDescription(data?.description || "");
-                // setFeature(data?.feature || []);
                 setUrl(data?.lease_url || "");
                 setFile(data?.image || "");
                 setGalleryFiles(response?.galleryData || []);
@@ -237,7 +235,7 @@ const EditElectricCar = () => {
                                 value={carName}
                                 onChange={(e) => setCarName(e.target.value)}
                             />
-                            {errors.carName && <p className="error">{errors.carName}</p>}
+                            {errors.carName && carName == '' && <p className="error">{errors.carName}</p>}
                         </div>
                         <div className={styles.addShopInputContainer}>
                             <label className={styles.addShopLabel} htmlFor="contactNo">Available On</label>
@@ -248,7 +246,7 @@ const EditElectricCar = () => {
                                 value={availableOn}
                                 onChange={(e) => setAvailableOn(e.target.value)}
                             />
-                            {errors.availableOn && <p className="error">{errors.availableOn}</p>}
+                            {errors.availableOn && availableOn == '' && <p className="error">{errors.availableOn}</p>}
                         </div>
                     </div>
 
@@ -263,7 +261,7 @@ const EditElectricCar = () => {
                                 isClearable
                                 className={styles.addShopSelect}
                             />
-                            {errors.carType && <p className="error">{errors.carType}</p>}
+                            {errors.carType && (!carType || carType.length === 0) && <p className="error">{errors.carType}</p>}
                         </div>
                         <div className={styles.addShopInputContainer}>
                             <label className={styles.addShopLabel} htmlFor="email">Price</label>
@@ -272,9 +270,16 @@ const EditElectricCar = () => {
                                 placeholder="Price"
                                 className={styles.inputField}
                                 value={price}
-                                onChange={(e) => setPrice(e.target.value)}
+                                // onChange={(e) => setPrice(e.target.value)}
+                                onChange={(e) => {
+                                    const value = e.target.value;
+                                    const numberPattern = /^\d{0,7}$/;
+                                    if (numberPattern.test(value)) {
+                                        setPrice(value);
+                                    }
+                                }}
                             />
-                            {errors.price && <p className="error">{errors.price}</p>}
+                            {errors.price && price == '' && <p className="error">{errors.price}</p>}
                         </div>
                     </div>
                     <div className={styles.locationRow}>
@@ -290,7 +295,7 @@ const EditElectricCar = () => {
                                     closeOnChangedValue={false}
                                     closeOnSelect={false}
                                 />
-                                {errors.contract && <p className="error">{errors.contract}</p>}
+                                {errors.contract && (!contract || contract.length === 0) && <p className="error">{errors.contract}</p>}
                             </div>
                         </div>
 
@@ -306,7 +311,7 @@ const EditElectricCar = () => {
                                     closeOnChangedValue={false}
                                     closeOnSelect={false}
                                 />
-                                {errors.feature && <p className="error">{errors.feature}</p>}
+                                {errors.feature && (!feature || feature.length === 0) && <p className="error">{errors.feature}</p>}
                             </div>
                         </div>
 
@@ -322,7 +327,7 @@ const EditElectricCar = () => {
                                 value={description}
                                 onChange={(e) => setDescription(e.target.value)}
                             />
-                            {errors.description && <p className="error">{errors.description}</p>}
+                            {errors.description && description == '' && <p className="error">{errors.description}</p>}
                         </div>
 
                     </div>
@@ -337,24 +342,10 @@ const EditElectricCar = () => {
                                 value={url}
                                 onChange={(e) => setUrl(e.target.value)}
                             />
-                            {errors.url && <p className="error">{errors.url}</p>}
+                            {errors.url && url == '' && <p className="error">{errors.url}</p>}
                         </div>
 
                     </div>
-                    {/* <div className={styles.toggleContainer}>
-                        <label className={styles.statusLabel}>Status</label>
-                        <div className={styles.toggleSwitch} onClick={handleToggle}>
-                            <span className={`${styles.toggleLabel} ${!isActive ? styles.inactive : ''}`}>
-                                Active
-                            </span>
-                            <div className={`${styles.toggleButton} ${isActive ? styles.active : ''}`}>
-                                <div className={styles.slider}></div>
-                            </div>
-                            <span className={`${styles.toggleLabel} ${isActive ? styles.active : ''}`}>
-                                Inactive
-                            </span>
-                        </div>
-                    </div> */}
                      <div className={styles.toggleContainer}>
                         <label className={styles.statusLabel}>Status</label>
                         <div className={styles.toggleSwitch} onClick={handleToggle}>

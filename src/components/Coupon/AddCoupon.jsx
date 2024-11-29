@@ -11,16 +11,16 @@ import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
 const AddCoupon = () => {
-  const userDetails                     = JSON.parse(sessionStorage.getItem('userDetails')); 
-  const navigate                        = useNavigate()
-  const [errors, setErrors]             = useState({});
-  const [couponName, setCouponName]       = useState()
-  const [couponCode, setCouponCode]   = useState()
-  const [couponPercentage, setCouponPercentage]   = useState()
-  const [expiryDate, setExpiry]         = useState()
-  const [perCustomer, setPerCustomer]               = useState()
-  const [serviceType, setServiceType]   = useState(null);
-  const [loading, setLoading]           = useState(false);
+  const userDetails                               = JSON.parse(sessionStorage.getItem('userDetails')); 
+  const navigate                                  = useNavigate()
+  const [errors, setErrors]                       = useState({});
+  const [couponName, setCouponName]               = useState('')
+  const [couponCode, setCouponCode]               = useState('')
+  const [couponPercentage, setCouponPercentage]   = useState('')
+  const [expiryDate, setExpiry]                   = useState('')
+  const [perCustomer, setPerCustomer]             = useState('')
+  const [serviceType, setServiceType]             = useState(null);
+  const [loading, setLoading]                     = useState(false);
 
     const typeOpetions = [
         // { value: "", label: "Select Vehicle Type" },
@@ -58,58 +58,58 @@ const validateForm = () => {
 };
 
 
-const handleSubmit = (e) => {
-    e.preventDefault();
-    setLoading(true);
-    if (validateForm()) {
-        const formData = new FormData();
-        formData.append("userId", userDetails?.user_id);
-        formData.append("email", userDetails?.email);
-        formData.append("coupan_name", couponName);
-        formData.append("coupan_code", couponCode);
-        formData.append("coupan_percentage", couponPercentage);
-        const convertToDateFormat = (date) => {
-            const [day, month, year] = date.split('-');
-            return `${year}-${month}-${day}`;
-          };
-        const formattedExpiryDate = convertToDateFormat(expiryDate);
-          
-        formData.append("expiry_date", formattedExpiryDate);
-        formData.append("user_per_user", perCustomer);
-        formData.append("status", '1');
-        if (serviceType) {
-            formData.append("service_type", serviceType.value);
-        }
-      
-        postRequestWithToken('add-coupan', formData, async (response) => {
-            if (response.status === 1) {
-                toast(response.message || response.message[0], {type:'success'})
-                setTimeout(() => {
-                    setLoading(false);
-                    navigate('/coupon/coupon-list');
-                }, 1000);
-            } else {
-                toast(response.message || response.message[0], {type:'error'})
-                console.log('Error in add-coupan API:', response);
-                setLoading(false);
-            }
-        } )
-    } else {
-      toast.error("Some fields are missing");
-      setLoading(false);
+  const handleSubmit = (e) => {
+      e.preventDefault();
+      setLoading(true);
+      if (validateForm()) {
+          const formData = new FormData();
+          formData.append("userId", userDetails?.user_id);
+          formData.append("email", userDetails?.email);
+          formData.append("coupan_name", couponName);
+          formData.append("coupan_code", couponCode);
+          formData.append("coupan_percentage", couponPercentage);
+          const convertToDateFormat = (date) => {
+              const [day, month, year] = date.split('-');
+              return `${year}-${month}-${day}`;
+            };
+          const formattedExpiryDate = convertToDateFormat(expiryDate);
+            
+          formData.append("expiry_date", formattedExpiryDate);
+          formData.append("user_per_user", perCustomer);
+          formData.append("status", '1');
+          if (serviceType) {
+              formData.append("service_type", serviceType.value);
+          }
+        
+          postRequestWithToken('add-coupan', formData, async (response) => {
+              if (response.status === 1) {
+                  toast(response.message || response.message[0], {type:'success'})
+                  setTimeout(() => {
+                      setLoading(false);
+                      navigate('/coupon/coupon-list');
+                  }, 1000);
+              } else {
+                  toast(response.message || response.message[0], {type:'error'})
+                  console.log('Error in add-coupan API:', response);
+                  setLoading(false);
+              }
+          } )
+      } else {
+        toast.error("Some fields are missing");
+        setLoading(false);
+      }
+  };
+
+  useEffect(() => {
+    if (!userDetails || !userDetails.access_token) {
+        navigate('/login');
+        return;
     }
-};
+  }, []);
 
-useEffect(() => {
-  if (!userDetails || !userDetails.access_token) {
-      navigate('/login');
-      return;
+  const handleCancel = () => {
+      navigate('/coupon/coupon-list')
   }
-}, []);
-
-const handleCancel = () => {
-    navigate('/coupon/coupon-list')
-}
 
   return (
     <div className={styles.addShopContainer}>
@@ -126,7 +126,7 @@ const handleCancel = () => {
                 value={couponName}
                 onChange={(e) => setCouponName(e.target.value)}
                 />
-                {errors.couponName && <p className="error">{errors.couponName}</p>}
+                {errors.couponName && couponName == '' && <p className="error">{errors.couponName}</p>}
             </div>
             <div className={styles.addShopInputContainer}>
               <label className={styles.addShopLabel} htmlFor="couponCode">Coupon Code</label>
@@ -137,7 +137,7 @@ const handleCancel = () => {
               value={couponCode}
                 onChange={(e) => setCouponCode(e.target.value)}
               />
-              {errors.couponCode && <p className="error">{errors.couponCode}</p>}
+              {errors.couponCode && couponCode == '' && <p className="error">{errors.couponCode}</p>}
             </div>
           </div>
          
@@ -152,7 +152,7 @@ const handleCancel = () => {
                     isClearable
                     className={styles.addShopSelect}
                 />
-                {errors.serviceType && <p className="error">{errors.serviceType}</p>}
+                {errors.serviceType && serviceType == null &&  <p className="error">{errors.serviceType}</p>}
             </div>
             <div className={styles.addShopInputContainer}>
               <label className={styles.addShopLabel} htmlFor="perCustomer">Usage Per Customer</label>
@@ -161,9 +161,15 @@ const handleCancel = () => {
                placeholder="Usage Per Customer" 
                className={styles.inputField} 
                value={perCustomer}
-                onChange={(e) => setPerCustomer(e.target.value)}
+                // onChange={(e) => setPerCustomer(e.target.value)}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  if (/^\d{0,5}$/.test(value)) { 
+                      setPerCustomer(value);
+                  }
+                }}
                />
-               {errors.perCustomer && <p className="error">{errors.perCustomer}</p>}
+               {errors.perCustomer && perCustomer == '' && <p className="error">{errors.perCustomer}</p>}
             </div>
           </div>
          
@@ -176,68 +182,56 @@ const handleCancel = () => {
               placeholder="Coupon Percentage" 
               className={styles.inputField} 
               value={couponPercentage}
-                // onChange={(e) => setCouponPercentage(e.target.value)}
-                onChange={(e) => {
-                    const value = e.target.value;
-                    // Regular expression to allow only numbers and one decimal point
-                    const decimalPattern = /^\d*\.?\d*$/;
-              
-                    // Allow value if it matches the pattern (only numbers and one decimal point)
-                    if (decimalPattern.test(value)) {
-                      setCouponPercentage(value);
-                      // Clear error if the format is correct
-                      if (errors.couponPercentage) {
+              onChange={(e) => {
+                const value = e.target.value;
+                const decimalPattern = /^\d{0,3}(\.\d{0,3})?$/;
+                if (decimalPattern.test(value)) {
+                    setCouponPercentage(value);
+                    if (errors.couponPercentage) {
                         setErrors((prevErrors) => ({ ...prevErrors, couponPercentage: "" }));
-                      }
-                    } else {
-                      // Set error message if format is incorrect
-                      setErrors((prevErrors) => ({
-                        ...prevErrors,
-                        couponPercentage: "Only numbers and decimal point are allowed",
-                      }));
                     }
-                  }}
+                } else {
+                    setErrors((prevErrors) => ({
+                        ...prevErrors,
+                        couponPercentage: "Only up to 3 digits before and after the decimal are allowed.",
+                    }));
+                }
+              }}
               />
-              {errors.couponPercentage && <p className="error">{errors.couponPercentage}</p>}
+              {errors.couponPercentage && couponPercentage == '' && <p className="error">{errors.couponPercentage}</p>}
             </div>
-            
 
-<div className={styles.addShopInputContainer}>
-  <label className={styles.addShopLabel} htmlFor="expiryDate">Expiry Date</label>
-  <InputMask
-    mask="99-99-9999"
-    value={expiryDate}
-    onChange={(e) => {
-      setExpiry(e.target.value);
-      // Clear error if the format is correct
-      if (errors.expiryDate && e.target.value.length === 10) {
-        setErrors((prevErrors) => ({ ...prevErrors, expiryDate: "" }));
-      }
-    }}
-    onBlur={() => {
-      // Validate the date format when the user leaves the input
-      if (expiryDate.length === 10) {
-        const [day, month, year] = expiryDate.split('-');
-        const isValidDate =
-          !isNaN(Date.parse(`${year}-${month}-${day}`)) &&
-          day <= 31 && month <= 12; // Basic day/month range check
-        if (!isValidDate) {
-          setErrors((prevErrors) => ({
-            ...prevErrors,
-            expiryDate: "Invalid date in DD-MM-YYYY format",
-          }));
-        }
-      }
-    }}
-    placeholder="DD-MM-YYYY"
-    className={styles.inputField}
-  />
-  {errors.expiryDate && <p className="error">{errors.expiryDate}</p>}
-</div>
-
+          <div className={styles.addShopInputContainer}>
+            <label className={styles.addShopLabel} htmlFor="expiryDate">Expiry Date</label>
+            <InputMask
+              mask="99-99-9999"
+              value={expiryDate}
+              onChange={(e) => {
+                setExpiry(e.target.value);
+                if (errors.expiryDate && e.target.value.length === 10) {
+                  setErrors((prevErrors) => ({ ...prevErrors, expiryDate: "" }));
+                }
+              }}
+              onBlur={() => {
+                if (expiryDate.length === 10) {
+                  const [day, month, year] = expiryDate.split('-');
+                  const isValidDate =
+                    !isNaN(Date.parse(`${year}-${month}-${day}`)) &&
+                    day <= 31 && month <= 12; 
+                  if (!isValidDate) {
+                    setErrors((prevErrors) => ({
+                      ...prevErrors,
+                      expiryDate: "Invalid date in DD-MM-YYYY format",
+                    }));
+                  }
+                }
+              }}
+              placeholder="DD-MM-YYYY"
+              className={styles.inputField}
+            />
+            {errors.expiryDate && expiryDate == '' &&  <p className="error">{errors.expiryDate}</p>}
           </div>
-          
-          
+          </div>
             <div className={styles.editButton}>
                 <button className={styles.editCancelBtn} onClick={() => handleCancel()}>Cancel</button>
                 <button disabled={loading} type="submit" className={styles.editSubmitBtn}>

@@ -185,6 +185,7 @@ const ChargerBookingList = () => {
     const closeModal = () => {
         setIsModalOpen(false);
         setSelectedBookingId(null);
+        setSelectedRiderId(null)
     };
 
     const handleDriverSelect = (driver) => {
@@ -201,7 +202,8 @@ const ChargerBookingList = () => {
         }
         postRequestWithToken('/charger-booking-assign', obj, async(response) => {
             if (response.code === 200) {
-                
+                setSelectedBookingId(null);
+                setSelectedRiderId(null)
                 setIsModalOpen(false);
                 toast(response.message || response.message[0], {type:'success'})
                 setTimeout(() => {

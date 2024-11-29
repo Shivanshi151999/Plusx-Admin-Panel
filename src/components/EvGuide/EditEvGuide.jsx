@@ -12,23 +12,23 @@ import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
 const EditEvGuide = () => {
-    const userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
-    const navigate = useNavigate()
-    const { vehicleId } = useParams()
-    const [details, setDetails] = useState()
-    const [file, setFile] = useState(null);
+    const userDetails                     = JSON.parse(sessionStorage.getItem('userDetails'));
+    const navigate                        = useNavigate()
+    const { vehicleId }                   = useParams()
+    const [details, setDetails]           = useState()
+    const [file, setFile]                 = useState(null);
     const [galleryFiles, setGalleryFiles] = useState([]);
-    const [errors, setErrors] = useState({});
-    const [modelName, setModelName] = useState()
-    const [vehicleName, setVehicleName] = useState()
-    const [engine, setEngine] = useState()
-    const [horsePower, setHorsePower] = useState()
-    const [maxSpeed, setMaxSpeed] = useState()
-    const [price, setPrice] = useState()
-    const [description, setDescription] = useState()
-    const [feature, setFeature] = useState()
-    const [vehicleType, setVehicleType] = useState(null);
-    const [loading, setLoading] = useState(false);
+    const [errors, setErrors]             = useState({});
+    const [modelName, setModelName]       = useState('')
+    const [vehicleName, setVehicleName]   = useState('')
+    const [engine, setEngine]             = useState('')
+    const [horsePower, setHorsePower]     = useState('')
+    const [maxSpeed, setMaxSpeed]         = useState('')
+    const [price, setPrice]               = useState('')
+    const [description, setDescription]   = useState('')
+    const [feature, setFeature]           = useState('')
+    const [vehicleType, setVehicleType]   = useState(null);
+    const [loading, setLoading]           = useState(false);
 
     const typeOpetions = [
         // { value: "", label: "Select Vehicle Type" },
@@ -156,7 +156,6 @@ const EditEvGuide = () => {
 
                 setDetails(data);
                 setModelName(data?.vehicle_model || "");
-                // setChargingFor(data?.charging_for || []);
                 setVehicleType(data?.vehicle_type || []);
                 setVehicleName(data?.vehicle_name || "");
                 setDescription(data?.description || "");
@@ -212,7 +211,7 @@ const EditEvGuide = () => {
                                 value={modelName}
                                 onChange={(e) => setModelName(e.target.value)}
                             />
-                            {errors.modelName && <p className="error">{errors.modelName}</p>}
+                            {errors.modelName && modelName == '' && <p className="error">{errors.modelName}</p>}
                         </div>
                         <div className={styles.addShopInputContainer}>
                             <label className={styles.addShopLabel} htmlFor="contactNo">Vehicle Name</label>
@@ -223,7 +222,7 @@ const EditEvGuide = () => {
                                 value={vehicleName}
                                 onChange={(e) => setVehicleName(e.target.value)}
                             />
-                            {errors.vehicleName && <p className="error">{errors.vehicleName}</p>}
+                            {errors.vehicleName && vehicleName == '' && <p className="error">{errors.vehicleName}</p>}
                         </div>
                     </div>
                     <div className={styles.row}>
@@ -237,7 +236,7 @@ const EditEvGuide = () => {
                                 isClearable
                                 className={styles.addShopSelect}
                             />
-                            {errors.vehicleType && <p className="error">{errors.vehicleType}</p>}
+                            {errors.vehicleType && vehicleType == null && <p className="error">{errors.vehicleType}</p>}
                         </div>
                         <div className={styles.addShopInputContainer}>
                             <label className={styles.addShopLabel} htmlFor="email">Engine</label>
@@ -248,7 +247,7 @@ const EditEvGuide = () => {
                                 value={engine}
                                 onChange={(e) => setEngine(e.target.value)}
                             />
-                            {errors.engine && <p className="error">{errors.engine}</p>}
+                            {errors.engine && engine == '' && <p className="error">{errors.engine}</p>}
                         </div>
                     </div>
                     <div className={styles.locationRow}>
@@ -262,7 +261,7 @@ const EditEvGuide = () => {
                                 value={horsePower}
                                 onChange={(e) => setHorsePower(e.target.value)}
                             />
-                            {errors.horsePower && <p className="error">{errors.horsePower}</p>}
+                            {errors.horsePower && horsePower == '' && <p className="error">{errors.horsePower}</p>}
                         </div>
                         <div className={styles.addShopInputContainer}>
                             <label className={styles.addShopLabel} htmlFor="email">Max Speed</label>
@@ -274,7 +273,7 @@ const EditEvGuide = () => {
                                 value={maxSpeed}
                                 onChange={(e) => setMaxSpeed(e.target.value)}
                             />
-                            {errors.maxSpeed && <p className="error">{errors.maxSpeed}</p>}
+                            {errors.maxSpeed && maxSpeed == '' && <p className="error">{errors.maxSpeed}</p>}
                         </div>
                         <div className={styles.addShopInputContainer}>
                             <label className={styles.addShopLabel} htmlFor="email">Price</label>
@@ -286,7 +285,7 @@ const EditEvGuide = () => {
                                 value={price}
                                 onChange={(e) => setPrice(e.target.value)}
                             />
-                            {errors.price && <p className="error">{errors.price}</p>}
+                            {errors.price && price == '' && <p className="error">{errors.price}</p>}
                         </div>
                     </div>
                     <div className={styles.row}>
@@ -300,7 +299,7 @@ const EditEvGuide = () => {
                                 value={description}
                                 onChange={(e) => setDescription(e.target.value)}
                             />
-                            {errors.description && <p className="error">{errors.description}</p>}
+                            {errors.description && description == '' && <p className="error">{errors.description}</p>}
                         </div>
 
                     </div>
@@ -315,24 +314,10 @@ const EditEvGuide = () => {
                                 value={feature}
                                 onChange={(e) => setFeature(e.target.value)}
                             />
-                            {errors.feature && <p className="error">{errors.feature}</p>}
+                            {errors.feature && feature == '' && <p className="error">{errors.feature}</p>}
                         </div>
 
                     </div>
-                    {/* <div className={styles.toggleContainer}>
-                        <label className={styles.statusLabel}>Status</label>
-                        <div className={styles.toggleSwitch} onClick={handleToggle}>
-                            <span className={`${styles.toggleLabel} ${!isActive ? styles.inactive : ''}`}>
-                                Occupied
-                            </span>
-                            <div className={`${styles.toggleButton} ${isActive ? styles.active : ''}`}>
-                                <div className={styles.slider}></div>
-                            </div>
-                            <span className={`${styles.toggleLabel} ${isActive ? styles.active : ''}`}>
-                                Available
-                            </span>
-                        </div>
-                    </div> */}
                     <div className={styles.toggleContainer}>
                         <label className={styles.statusLabel}>Status</label>
                         <div className={styles.toggleSwitch} onClick={handleToggle}>

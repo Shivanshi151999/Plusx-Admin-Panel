@@ -23,9 +23,6 @@ const EditCoupon = () => {
     const [serviceType, setServiceType] = useState(null);
     const [loading, setLoading] = useState(false);
 
-    const contractDropdownRef = useRef(null);
-    const featureDropdownRef = useRef(null);
-
     const typeOpetions = [
         // { value: "", label: "Select Vehicle Type" },
         { value: "Charger Installation", label: "Charger Installation" },
@@ -164,7 +161,7 @@ const EditCoupon = () => {
                                 value={couponName}
                                 onChange={(e) => setCouponName(e.target.value)}
                             />
-                            {errors.couponName && <p className={styles.error} style={{ color: 'red' }}>{errors.couponName}</p>}
+                            {errors.couponName && couponName == '' && <p className={styles.error} style={{ color: 'red' }}>{errors.couponName}</p>}
                         </div>
                         <div className={styles.addShopInputContainer}>
                             <label className={styles.addShopLabel} htmlFor="couponCode">Coupon Code</label>
@@ -176,7 +173,7 @@ const EditCoupon = () => {
                                 onChange={(e) => setCouponCode(e.target.value)}
                                 disabled
                             />
-                            {errors.couponCode && <p className={styles.error} style={{ color: 'red' }}>{errors.couponCode}</p>}
+                            {errors.couponCode && couponCode == '' && <p className={styles.error} style={{ color: 'red' }}>{errors.couponCode}</p>}
                         </div>
                     </div>
 
@@ -191,7 +188,7 @@ const EditCoupon = () => {
                                 isClearable
                                 className={styles.addShopSelect}
                             />
-                            {errors.serviceType && <p className={styles.error} style={{ color: 'red' }}>{errors.serviceType}</p>}
+                            {errors.serviceType && serviceType == null && <p className={styles.error} style={{ color: 'red' }}>{errors.serviceType}</p>}
                         </div>
                         <div className={styles.addShopInputContainer}>
                             <label className={styles.addShopLabel} htmlFor="perCustomer">Usage Per Customer</label>
@@ -200,9 +197,15 @@ const EditCoupon = () => {
                                 placeholder="Usage Per Customer"
                                 className={styles.inputField}
                                 value={perCustomer}
-                                onChange={(e) => setPerCustomer(e.target.value)}
+                                // onChange={(e) => setPerCustomer(e.target.value)}
+                                onChange={(e) => {
+                                    const value = e.target.value;
+                                    if (/^\d{0,5}$/.test(value)) { 
+                                        setPerCustomer(value);
+                                    }
+                                }}
                             />
-                            {errors.perCustomer && <p className={styles.error} style={{ color: 'red' }}>{errors.perCustomer}</p>}
+                            {errors.perCustomer && perCustomer == '' && <p className={styles.error} style={{ color: 'red' }}>{errors.perCustomer}</p>}
                         </div>
                     </div>
 
@@ -215,11 +218,9 @@ const EditCoupon = () => {
                                 placeholder="Coupon Percentage"
                                 className={styles.inputField}
                                 value={couponPercentage}
-                                // onChange={(e) => setCouponPercentage(e.target.value)}
                                 onChange={(e) => {
                                     const value = e.target.value;
-                                    const decimalPattern = /^\d*\.?\d*$/;
-
+                                    const decimalPattern = /^\d{0,3}(\.\d{0,3})?$/;
                                     if (decimalPattern.test(value)) {
                                         setCouponPercentage(value);
                                         if (errors.couponPercentage) {
@@ -228,12 +229,12 @@ const EditCoupon = () => {
                                     } else {
                                         setErrors((prevErrors) => ({
                                             ...prevErrors,
-                                            couponPercentage: "Only numbers and decimal point are allowed",
+                                            couponPercentage: "Only up to 3 digits before and after the decimal are allowed.",
                                         }));
                                     }
-                                }}
+                                  }}
                             />
-                            {errors.couponPercentage && <p className={styles.error} style={{ color: 'red' }}>{errors.couponPercentage}</p>}
+                            {errors.couponPercentage && couponPercentage == '' && <p className={styles.error} style={{ color: 'red' }}>{errors.couponPercentage}</p>}
                         </div>
 
 
@@ -244,22 +245,20 @@ const EditCoupon = () => {
                                 value={expiryDate}
                                 onChange={(e) => {
                                     setExpiry(e.target.value);
-                                    // Clear error if the format is correct
                                     if (errors.expiryDate && e.target.value.length === 10) {
                                         setErrors((prevErrors) => ({ ...prevErrors, expiryDate: "" }));
                                     }
                                 }}
                                 onBlur={() => {
-                                    // Validate the date format when the user leaves the input
                                     if (expiryDate.length === 10) {
                                         const [day, month, year] = expiryDate.split('-');
                                         const isValidDate =
                                             !isNaN(Date.parse(`${year}-${month}-${day}`)) &&
-                                            day <= 31 && month <= 12; // Basic day/month range check
+                                            day <= 31 && month <= 12; 
                                         if (!isValidDate) {
                                             setErrors((prevErrors) => ({
                                                 ...prevErrors,
-                                                expiryDate: "Invalid date in DD-MM-YYYY format",
+                                                expiryDate: "",
                                             }));
                                         }
                                     }
@@ -267,7 +266,7 @@ const EditCoupon = () => {
                                 placeholder="DD-MM-YYYY"
                                 className={styles.inputField}
                             />
-                            {errors.expiryDate && <p className={styles.error} style={{ color: 'red' }}>{errors.expiryDate}</p>}
+                            {errors.expiryDate && expiryDate == '' && <p className={styles.error} style={{ color: 'red' }}>{errors.expiryDate}</p>}
                         </div>
 
                     </div>

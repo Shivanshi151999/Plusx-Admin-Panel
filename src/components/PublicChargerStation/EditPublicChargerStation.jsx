@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import Select from "react-select";
+import { GoogleMap, useJsApiLoader, useLoadScript, Marker } from "@react-google-maps/api";
 import UploadIcon from '../../assets/images/uploadicon.svg';
 import { AiOutlineClose } from 'react-icons/ai';
 import styles from './addcharger.module.css';
@@ -8,6 +9,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { postRequestWithTokenAndFile, postRequestWithToken } from '../../api/Requests';
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import ReactInputMask from "react-input-mask"
 
 const EditPublicChargerStation = () => {
     const {stationId} = useParams()
@@ -43,6 +45,11 @@ const EditPublicChargerStation = () => {
         Saturday  : { open: '', close: '', openMandatory: false, closeMandatory: false },
         Sunday    : { open: '', close: '', openMandatory: false, closeMandatory: false },
     });
+
+    const { isLoaded } = useJsApiLoader({
+        googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY
+      });
+
     const handleTimeChange = (day, timeType) => (event) => {
 
         const value = event.target.value.replace(/[^0-9:-]/g, '');
@@ -116,6 +123,24 @@ const EditPublicChargerStation = () => {
     const handleRemoveGalleryImage = (index) => {
         setGalleryFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
     };
+
+    const handleOnBlur = (value) => {
+        const currentAddress = value
+    
+        const geocoder = new window.google.maps.Geocoder();
+        geocoder.geocode({ address: currentAddress }, (results, status) => {
+          if (status === 'OK' && results[0]) {
+            const lat = results[0].geometry.location.lat();
+            const lng = results[0].geometry.location.lng();
+    
+            setLatitude(lat)
+            setLongitude(lng)
+          } else {
+           
+          }
+        });
+      };
+
     useEffect(() => {
         return () => {
             galleryFiles.forEach((image) => URL.revokeObjectURL(image));
@@ -144,6 +169,14 @@ const EditPublicChargerStation = () => {
             }
             return errors;
         }, {});
+
+        const hasValidTimeSlot = Object.values(timeSlots).some(
+            (times) => times.open && times.close
+        );
+    
+        if (!isAlwaysOpen && !hasValidTimeSlot) {
+            newErrors["timeSlots"] = "Either select 'Always Open' or fill at least one time slot.";
+        }
     
         // Validate time slots only if not always open
         if (!isAlwaysOpen) {
@@ -357,7 +390,7 @@ const EditPublicChargerStation = () => {
                                 value={stationName}
                                 onChange={(e) => setStationName(e.target.value)}
                             />
-                            {errors.stationName && <p className="error">{errors.stationName}</p>}
+                            {errors.stationName && stationName == '' && <p className="error">{errors.stationName}</p>}
                         </div>
                         <div className={styles.addShopInputContainer}>
                             <label className={styles.addShopLabel} htmlFor="availableBrands">Charging For</label>
@@ -371,7 +404,7 @@ const EditPublicChargerStation = () => {
                                     closeOnChangedValue={false}
                                     closeOnSelect={false}
                                 />
-                                {errors.chargingFor && <p className="error">{errors.chargingFor}</p>}
+                                {errors.chargingFor && selectedBrands.length == 0 && <p className="error">{errors.chargingFor}</p>}
                             </div>
                         </div>
                     </div>
@@ -389,7 +422,7 @@ const EditPublicChargerStation = () => {
                                     placeholder="Select Service"
                                     isClearable={true}
                                 />
-                                {errors.chargerType && <p className="error">{errors.chargerType}</p>}
+                                {errors.chargerType && (!selectedType || selectedType.length === 0) && <p className="error">{errors.chargerType}</p>}
                             </div>
                         </div>
                         <div className={styles.addShopInputContainer}>
@@ -409,7 +442,7 @@ const EditPublicChargerStation = () => {
                                     }
                                 }}
                             />
-                            {errors.chargingPoint && <p className="error">{errors.chargingPoint}</p>}
+                            {errors.chargingPoint && chargingPoint == '' && <p className="error">{errors.chargingPoint}</p>}
                         </div>
                     </div>
                     <div className={styles.row}>
@@ -423,7 +456,7 @@ const EditPublicChargerStation = () => {
                                 value={description}
                                 onChange={(e) => setDescription(e.target.value)}
                             />
-                            {errors.description && <p className="error">{errors.description}</p>}
+                            {errors.description && description == '' && <p className="error">{errors.description}</p>}
                         </div>
                         <div className={styles.addShopInputContainer}>
                             <label className={styles.addShopLabel} htmlFor="fullAddress">Full Address</label>
@@ -434,8 +467,9 @@ const EditPublicChargerStation = () => {
                                 rows="4"
                                 value={address}
                                 onChange={(e) => setAddress(e.target.value)}
+                                onBlur={(e) => handleOnBlur(e.target.value)}
                             />
-                            {errors.address && <p className="error">{errors.address}</p>}
+                            {errors.address && address == '' && <p className="error">{errors.address}</p>}
                         </div>
                     </div>
                     <div className={styles.locationRow}>
@@ -455,7 +489,7 @@ const EditPublicChargerStation = () => {
                                     }
                                 }}
                             />
-                            {errors.latitude && <p className="error">{errors.latitude}</p>}
+                            {errors.latitude && latitude == '' && <p className="error">{errors.latitude}</p>}
                         </div>
                         <div className={styles.addShopInputContainer}>
                             <label className={styles.addShopLabel} htmlFor="longitude">Longitude</label>
@@ -472,7 +506,7 @@ const EditPublicChargerStation = () => {
                                     }
                                 }}
                             />
-                            {errors.longitude && <p className="error">{errors.longitude}</p>}
+                            {errors.longitude && longitude == '' &&  <p className="error">{errors.longitude}</p>}
                         </div>
                         <div className={styles.addShopInputContainer}>
                             <label className={styles.addShopLabel} htmlFor="location">Price</label>
@@ -484,7 +518,7 @@ const EditPublicChargerStation = () => {
                                 isClearable
                                 className={styles.addShopSelect}
                             />
-                            {errors.price && <p className="error">{errors.price}</p>}
+                            {errors.price && price == null && <p className="error">{errors.price}</p>}
                         </div>
                     </div>
                     <div className={styles.scheduleSection}>
@@ -511,8 +545,8 @@ const EditPublicChargerStation = () => {
 
                                         <label htmlFor={`${day}OpenTime`} className={styles.inputLabel}>
                                             Open Time
-                                            <input
-                                                type="text"
+                                            <ReactInputMask
+                                                 mask="99:99"
                                                 id={`${day}OpenTime`}
                                                 placeholder="Enter time"
                                                 className={styles.timeField}
@@ -524,8 +558,8 @@ const EditPublicChargerStation = () => {
 
                                         <label htmlFor={`${day}CloseTime`} className={styles.inputLabel}>
                                             Close Time
-                                            <input
-                                                type="text"
+                                             <ReactInputMask
+                                                mask="99:99"
                                                 id={`${day}CloseTime`}
                                                 placeholder="Enter time"
                                                 className={styles.timeField}
@@ -538,21 +572,9 @@ const EditPublicChargerStation = () => {
                                 ))}
                             </div>
                         )}
+                        {errors.timeSlots && <p className={styles.error} style={{ color: 'red' }}>{errors.timeSlots}</p>}
                     </div>
-                    {/* <div className={styles.toggleContainer}>
-                        <label className={styles.statusLabel}>Status</label>
-                        <div className={styles.toggleSwitch} onClick={handleToggle}>
-                            <span className={`${styles.toggleLabel} ${!isActive ? styles.inactive : ''}`}>
-                                Occupied
-                            </span>
-                            <div className={`${styles.toggleButton} ${isActive ? styles.active : ''}`}>
-                                <div className={styles.slider}></div>
-                            </div>
-                            <span className={`${styles.toggleLabel} ${isActive ? styles.active : ''}`}>
-                                Available
-                            </span>
-                        </div>
-                    </div> */}
+                    
                     <div className={styles.toggleContainer}>
                         <label className={styles.statusLabel}>Status</label>
                         <div className={styles.toggleSwitch} onClick={handleToggle}>

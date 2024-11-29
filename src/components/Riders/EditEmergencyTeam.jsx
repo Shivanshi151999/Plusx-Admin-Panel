@@ -220,7 +220,10 @@ const EditEmergencyTeam = () => {
                                 type="text"
                                 placeholder="Mobile No"
                                 value={mobileNo}
-                                onChange={(e) => setMobileNo(e.target.value.slice(0, 12))}
+                                onChange={(e) => {
+                                    const value = e.target.value.replace(/\D/g, '');
+                                    setMobileNo(value.slice(0, 12)); 
+                                }}
                             />
                             {errors.mobileNo && mobileNo.length < 9 && <p className="error">{errors.mobileNo}</p>}
                         </div>
