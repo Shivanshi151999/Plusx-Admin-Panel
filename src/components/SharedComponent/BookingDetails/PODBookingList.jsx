@@ -9,7 +9,7 @@ const PODBookingList = ({podId}) => {
     const userDetails                            = JSON.parse(sessionStorage.getItem('userDetails'));
     const [currentPage, setCurrentPage]          = useState(1);
     const [totalPages, setTotalPages]            = useState(1);
-    const[podOutputHistory, setPodOutputHistory] = useState([]);
+    const[podBookingHistory, setPodBookingHistory] = useState([]);
 
     useEffect(() => {
         let AreaObj = {
@@ -18,10 +18,10 @@ const PODBookingList = ({podId}) => {
             podId   : podId, 
             page_no : currentPage
         }
-        getRequestWithToken('pod-output-history', AreaObj, (response) => {
+        getRequestWithToken('pod-booking-history', AreaObj, (response) => {
             if (response.code === 200) {
                 // console.log(response.code)
-                setPodOutputHistory(response?.data || []);  
+                setPodBookingHistory(response?.data || []);  
                 setTotalPages(response?.total_page || 1);
             } else {
                 console.log('error in brand-list API', response);
@@ -36,16 +36,18 @@ const PODBookingList = ({podId}) => {
     };
     // Table columns
     const columns = [
-        { label : 'Booking ID', field: 'booiking_id' },
-        { label : 'Order Date', field: 'order_date' },
-        { label : 'Kilowatt', field: 'kilowatt' },
+        { label : 'Booking ID', field : 'booiking_id' },
+        { label : 'Start Date', field : 'start_date' },
+        { label : 'End Date',   field : 'end_date' },
+        { label : 'Kilowatt',   field : 'kilowatt' },
     ];
     var tableVal = []
-    podOutputHistory.map((item) =>{ 
+    podBookingHistory.map((item) =>{ 
         // console.log( 'item', item.end_charging_level - item.start_charging_level );  //;
         tableVal.push({ 
             booiking_id : item.booking_id, 
-            order_date  : moment(item.date_time).format('DD-MM-YYYY HH:mm A'), 
+            start_date  : moment(item.start_time).format('DD-MM-YYYY HH:mm A'), 
+            end_date    : moment(item.end_time).format('DD-MM-YYYY HH:mm A'), 
             kilowatt    : ( item.end_charging_level - item.start_charging_level ) * 0.25 +' kw'
         });
     });

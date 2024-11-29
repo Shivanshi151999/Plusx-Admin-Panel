@@ -18,7 +18,6 @@ const AddPodDevice = () => {
     const [podName, setPodName]     = useState("");
     const [deviceId, setDeviceId]   = useState("");
     const [modalName, setModalName] = useState("");
-    const [capacity, setcapacity]   = useState("");
     const [inverter, setInverter]   = useState("");
     const [charger, setCharger]     = useState("");
     const [dateOfManufacturing, setDateOfManufacturing] = useState("");
@@ -29,7 +28,6 @@ const AddPodDevice = () => {
         { batteryId : '', capacity : '' }
     ]);
 
-    
     const backButtonClick = () => {
         navigate('/pod-device/device-list')
     };
@@ -109,24 +107,23 @@ const AddPodDevice = () => {
         e.preventDefault();
         if (validateForm()) {
 
-            const formData = new FormData();
-            formData.append("userId", "1");
-            formData.append("email", "admin@shunyaekai.com");
-            formData.append("podId", podId);
-            formData.append("podName", podName);
+            const battery_ids = deviceBatteryData.map(slot => slot.batteryId);
+            const capacities  = deviceBatteryData.map(slot => slot.capacity);
 
-            formData.append("deviceId", deviceId);
-            formData.append("device_model", modalName);
-            formData.append("capacity", capacity);
-            formData.append("charger", charger);
-            formData.append("inverter", inverter);  
-            formData.append("date_of_manufacturing", dateOfManufacturing);
-
-            // const start_time = deviceBatteryData.map(slot => slot.startTime);
-            // const capacity = deviceBatteryData.map(slot => slot.endTime);
-
-
-            postRequestWithToken('pod-device-add', formData, async (response) => {
+            const obj = {
+                userId : userDetails?.user_id,
+                email  : userDetails?.email,
+                podId,
+                podName,
+                deviceId,
+                device_model : modalName,
+                charger,
+                inverter,
+                date_of_manufacturing : dateOfManufacturing,
+                battery_ids,
+                capacities
+            };
+            postRequestWithToken('pod-device-add', obj, async (response) => {
                 if (response.code === 200) {
                     toast(response.message[0], { type: "success" });
                     setTimeout(() => {
