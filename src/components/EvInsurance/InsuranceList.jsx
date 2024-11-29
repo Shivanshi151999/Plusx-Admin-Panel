@@ -8,6 +8,7 @@ import { postRequestWithToken } from '../../api/Requests';
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
+import Loader from "../SharedComponent/Loader/Loader";
 
 const dynamicFilters = [
     // { label: 'Car Name', name: 'search_text', type: 'text' },
@@ -17,14 +18,15 @@ const dynamicFilters = [
 ]
 
 const InsuranceList = () => {
-    const userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
-    const navigate = useNavigate()
-    const [carList, setCarList] = useState([])
-    const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(1);
-    const [totalCount, setTotalCount] = useState(1)
-    const [filters, setFilters] = useState({});
-    const [refresh, setRefresh] = useState(false)
+    const userDetails                    = JSON.parse(sessionStorage.getItem('userDetails'));
+    const navigate                       = useNavigate();
+    const [carList, setCarList]          = useState([]);
+    const [currentPage, setCurrentPage]  = useState(1);
+    const [totalPages, setTotalPages]    = useState(1);
+    const [totalCount, setTotalCount]    = useState(1)
+    const [filters, setFilters]          = useState({start_date: null,end_date: null});
+    const [refresh, setRefresh]          = useState(false);
+    const [loading, setLoading]          = useState(false);
     const searchTerm = [
         {
             label: 'search',
@@ -39,6 +41,12 @@ const InsuranceList = () => {
     };
 
     const fetchList = (page, appliedFilters = {}) => {
+        if (page === 1 && Object.keys(appliedFilters).length === 0) {
+            setLoading(false);
+        } else {
+            setLoading(true);
+        } 
+
         const obj = {
             userId: userDetails?.user_id,
             email: userDetails?.email,
@@ -55,6 +63,7 @@ const InsuranceList = () => {
                 // toast(response.message, {type:'error'})
                 console.log('error in ev-insurance-list api', response);
             }
+            setLoading(false);
         })
     }
 
@@ -106,36 +115,41 @@ const InsuranceList = () => {
                 searchTerm={searchTerm}
                 count = {totalCount}
             />
-             {carList?.length === 0 ? (
-                <div className='errorContainer'>No data available</div>
-            ) : (
-            <List
-                tableHeaders={["Date", "Insurance ID", "Owner Name", "Vehicle", "Regs. Place", "Country", "Action"]}
-                listData={carList}
-                keyMapping={[
-                    {
-                        key: 'created_at',
-                        label: 'Date',
-                        format: (date) => moment(date).format('DD MMM YYYY')
-                    },
-                    { key: 'insurance_id', label: 'Insurance ID' },
-                    { key: 'owner_name', label: 'Owner Name' },
-                    {
-                        key: 'vehicle',
-                        label: 'Vehicle',
-                    },
-                    { key: 'registration_place', label: 'Regs. Place' },
-                    { key: 'country', label: 'Country' },
-                ]}
-                pageHeading="Insurance List"
-                onDeleteSlot={handleDeleteSlot}
-            />
+
+            {loading ? <Loader /> : 
+                carList?.length === 0 ? (
+                    <div className='errorContainer'>No data available</div>
+                ) : (
+                <>
+                    <List
+                        tableHeaders={["Date", "Insurance ID", "Owner Name", "Vehicle", "Regs. Place", "Country", "Action"]}
+                        listData={carList}
+                        keyMapping={[
+                            {
+                                key: 'created_at',
+                                label: 'Date',
+                                format: (date) => moment(date).format('DD MMM YYYY')
+                            },
+                            { key: 'insurance_id', label: 'Insurance ID' },
+                            { key: 'owner_name', label: 'Owner Name' },
+                            {
+                                key: 'vehicle',
+                                label: 'Vehicle',
+                            },
+                            { key: 'registration_place', label: 'Regs. Place' },
+                            { key: 'country', label: 'Country' },
+                        ]}
+                        pageHeading="Insurance List"
+                        onDeleteSlot={handleDeleteSlot}
+                    />
+                    
+                    <Pagination
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                        onPageChange={handlePageChange}
+                    />
+                </>
             )}
-            <Pagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={handlePageChange}
-            />
         </div>
     );
 };

@@ -8,6 +8,7 @@ import moment from 'moment';
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
+import Loader from "../SharedComponent/Loader/Loader";
 
 const dynamicFilters = [
 ]
@@ -18,14 +19,15 @@ const addButtonProps = {
 };
 
 const SubscriptionList = () => {
-    const userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
-    const navigate    = useNavigate()
-    const [clubList, setClubList]       = useState([])
-    const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages]   = useState(1);
-    const [totalCount, setTotalCount]   = useState(1)
-    const [filters, setFilters]         = useState({});
-    const [refresh, setRefresh]         = useState(false)
+    const userDetails                    = JSON.parse(sessionStorage.getItem('userDetails'));
+    const navigate                       = useNavigate();
+    const [clubList, setClubList]        = useState([]);
+    const [currentPage, setCurrentPage]  = useState(1);
+    const [totalPages, setTotalPages]    = useState(1);
+    const [totalCount, setTotalCount]    = useState(1);
+    const [filters, setFilters]          = useState({start_date: null,end_date: null});
+    const [refresh, setRefresh]          = useState(false);
+    const [loading, setLoading]          = useState(false);
     const searchTerm = [
         {
             label: 'search', 
@@ -35,6 +37,12 @@ const SubscriptionList = () => {
     ]
 
     const fetchList = (page, appliedFilters = {}) => {
+        if (page === 1 && Object.keys(appliedFilters).length === 0) {
+            setLoading(false);
+        } else {
+            setLoading(true);
+        } 
+
         const obj = {
             userId  : userDetails?.user_id,
             email   : userDetails?.email,
@@ -56,6 +64,7 @@ const SubscriptionList = () => {
                 // toast(response.message, {type:'error'})
                 console.log('error in subscription-list api', response);
             }
+            setLoading(false);
         })
     }
 
@@ -102,46 +111,51 @@ const SubscriptionList = () => {
     return (
         <div className='main-container'>
             <ToastContainer />
-         <SubHeader heading = "Subscription List"
-            fetchFilteredData={fetchFilteredData} 
-            dynamicFilters={dynamicFilters} filterValues={filters}
-            addButtonProps={addButtonProps}
-            searchTerm = {searchTerm}
-            count = {totalCount}
-         /> 
-        {clubList?.length === 0 ? (
-                <div className='errorContainer'>No data available</div>
-            ) : (
-                <List
-                    tableHeaders={["Subscription ID", "Customer Name", "Amount", "Booking Limit", "Booking Remaining", "Expiry Date", "Action"]}
-                    listData={clubList}
-                    keyMapping={[
-                        // { 
-                        //     key: 'created_at', 
-                        //     label: 'Date', 
-                        //     format: (date) => moment(date).format('DD MMM YYYY') 
-                        // },
-                        { key: 'subscription_id', label: 'Subscription ID' }, 
-                        { key: 'rider_name', label: 'Customer Name' }, 
-                        // { key: 'amount', label: 'Amount' }, 
-                        { 
-                            key: 'amount', 
-                            label: 'Amount', 
-                            format: (amount) => (amount ? `AED ${amount}` : '') 
-                        },
-                        { key: 'booking_limit', label: 'Booking Limit' }, 
-                        { key: 'remaining_booking', label: 'Booking Remaining' }, 
-                        { key: 'expiry_date', label: 'Expiry Date' }, 
-                    ]}
-                    pageHeading="Subscription List"
-                    onDeleteSlot={handleDeleteSlot}
-                />
+            <SubHeader heading = "Subscription List"
+                fetchFilteredData={fetchFilteredData} 
+                dynamicFilters={dynamicFilters} filterValues={filters}
+                addButtonProps={addButtonProps}
+                searchTerm = {searchTerm}
+                count = {totalCount}
+            /> 
+
+            {loading ? <Loader /> : 
+                    clubList?.length === 0 ? (
+                    <div className='errorContainer'>No data available</div>
+                    ) : (
+                    <>
+                        <List
+                            tableHeaders={["Subscription ID", "Customer Name", "Amount", "Booking Limit", "Booking Remaining", "Expiry Date", "Action"]}
+                            listData={clubList}
+                            keyMapping={[
+                                // { 
+                                //     key: 'created_at', 
+                                //     label: 'Date', 
+                                //     format: (date) => moment(date).format('DD MMM YYYY') 
+                                // },
+                                { key: 'subscription_id', label: 'Subscription ID' }, 
+                                { key: 'rider_name', label: 'Customer Name' }, 
+                                // { key: 'amount', label: 'Amount' }, 
+                                { 
+                                    key: 'amount', 
+                                    label: 'Amount', 
+                                    format: (amount) => (amount ? `AED ${amount}` : '') 
+                                },
+                                { key: 'booking_limit', label: 'Booking Limit' }, 
+                                { key: 'remaining_booking', label: 'Booking Remaining' }, 
+                                { key: 'expiry_date', label: 'Expiry Date' }, 
+                            ]}
+                            pageHeading="Subscription List"
+                            onDeleteSlot={handleDeleteSlot}
+                        />
+                
+                        <Pagination
+                            currentPage={currentPage}
+                            totalPages={totalPages}
+                            onPageChange={handlePageChange}
+                        />
+                    </>
             )}
-            <Pagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={handlePageChange}
-            />
         </div>
     );
 };

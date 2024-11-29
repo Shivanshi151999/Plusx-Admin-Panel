@@ -8,20 +8,22 @@ import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
+import Loader from "../SharedComponent/Loader/Loader";
 
 const dynamicFilters = [
     // { label: 'Bike Name', name: 'search_text', type: 'text' }
 ]
 
 const CouponList = () => {
-    const userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
-    const navigate = useNavigate()
-    const [carList, setCarList] = useState([])
-    const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(1);
-    const [totalCount, setTotalCount] = useState(1)
-    const [filters, setFilters] = useState({});
-    const [refresh, setRefresh] = useState(false)
+    const userDetails                    = JSON.parse(sessionStorage.getItem('userDetails'));
+    const navigate                       = useNavigate();
+    const [carList, setCarList]          = useState([]);
+    const [currentPage, setCurrentPage]  = useState(1);
+    const [totalPages, setTotalPages]    = useState(1);
+    const [totalCount, setTotalCount]    = useState(1);
+    const [filters, setFilters]          = useState({start_date: null,end_date: null});
+    const [refresh, setRefresh]          = useState(false)
+    const [loading, setLoading]          = useState(false);
     const searchTerm = [
         {
             label: 'search',
@@ -36,6 +38,12 @@ const CouponList = () => {
     };
 
     const fetchList = (page, appliedFilters = {}) => {
+        if (page === 1 && Object.keys(appliedFilters).length === 0) {
+            setLoading(false);
+        } else {
+            setLoading(true);
+        } 
+
         const obj = {
             userId: userDetails?.user_id,
             email: userDetails?.email,
@@ -52,6 +60,7 @@ const CouponList = () => {
                 // toast(response.message, {type:'error'})
                 console.log('error in coupon-list api', response);
             }
+            setLoading(false);
         })
     }
 
@@ -104,32 +113,37 @@ const CouponList = () => {
                 searchTerm={searchTerm}
                 count = {totalCount}
             />
-            <List
-                tableHeaders={["Coupon ID", "Coupon Name", "Coupon Code", "Service Name", "Per User", "Coupon %", "End Date", "Status", "Action"]}
-                listData={carList}
-                keyMapping={[
-                    { key: 'id', label: 'Coupon ID' },
-                    { key: 'coupan_name', label: 'Coupon Name' },
-                    { key: 'coupan_code', label: 'Coupon Code' },
-                    {
-                        key: 'booking_for',
-                        label: 'Service Name',
-                    },
-                    { key: 'user_per_user', label: 'Per User' },
-                    { key: 'coupan_percentage', label: 'Coupon %' },
-                    // { key: 'end_date', label: 'End Date' },
-                    { key: 'end_date', label: 'End Date', format: (date) => moment(date).format('DD MMM YYYY') },
-                    { key: 'status', label: 'Status', format: (status) => (status === "1" ? "Active" : "Inactive") }
-                ]}
-                pageHeading="Coupon List"
-                onDeleteSlot={handleDeleteSlot}
-            />
+            
+            {loading ? <Loader /> : 
+                <>
+                    <List
+                        tableHeaders={["Coupon ID", "Coupon Name", "Coupon Code", "Service Name", "Per User", "Coupon %", "End Date", "Status", "Action"]}
+                        listData={carList}
+                        keyMapping={[
+                            { key: 'id', label: 'Coupon ID' },
+                            { key: 'coupan_name', label: 'Coupon Name' },
+                            { key: 'coupan_code', label: 'Coupon Code' },
+                            {
+                                key: 'booking_for',
+                                label: 'Service Name',
+                            },
+                            { key: 'user_per_user', label: 'Per User' },
+                            { key: 'coupan_percentage', label: 'Coupon %' },
+                            // { key: 'end_date', label: 'End Date' },
+                            { key: 'end_date', label: 'End Date', format: (date) => moment(date).format('DD MMM YYYY') },
+                            { key: 'status', label: 'Status', format: (status) => (status === "1" ? "Active" : "Inactive") }
+                        ]}
+                        pageHeading="Coupon List"
+                        onDeleteSlot={handleDeleteSlot}
+                    />
 
-            <Pagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={handlePageChange}
-            />
+                    <Pagination
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                        onPageChange={handlePageChange}
+                    />
+                </>
+            }
         </div>
     );
 };

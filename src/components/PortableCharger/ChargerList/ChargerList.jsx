@@ -7,16 +7,18 @@ import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 import { getRequestWithToken, postRequestWithToken } from '../../../api/Requests';
+import Loader from "../../SharedComponent/Loader/Loader";
 
 const ChargerList = () => {
-    const userDetails = JSON.parse(sessionStorage.getItem('userDetails')); 
-    const navigate = useNavigate()
+    const userDetails                   = JSON.parse(sessionStorage.getItem('userDetails')); 
+    const navigate                      = useNavigate();
     const [chargerList, setChargerList] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(1);
-    const [totalCount, setTotalCount] = useState(1)
-    const [refresh, setRefresh] = useState(false)
-    const [filters, setFilters] = useState({});
+    const [totalPages, setTotalPages]   = useState(1);
+    const [totalCount, setTotalCount]   = useState(1);
+    const [filters, setFilters]         = useState({start_date: null,end_date: null});
+    const [refresh, setRefresh]         = useState(false);
+    const [loading, setLoading]         = useState(false);
     
     const searchTerm = [
         {
@@ -30,6 +32,12 @@ const ChargerList = () => {
         link: "/portable-charger/add-charger"
     };
     const fetchChargers = (page, appliedFilters = {}) => {
+        if (page === 1 && Object.keys(appliedFilters).length === 0) {
+            setLoading(false);
+        } else {
+            setLoading(true);
+        } 
+
         const obj = {
             userId : userDetails?.user_id,
             email : userDetails?.email,
@@ -45,6 +53,7 @@ const ChargerList = () => {
             } else {
                 console.log('error in charger-list API', response);
             }
+            setLoading(false);
         });
     };
 
@@ -92,38 +101,43 @@ const ChargerList = () => {
     return (
         <div className='main-container'>
             <SubHeader heading = "Portable Charger List" 
-            addButtonProps={addButtonProps}
-            filterValues={filters}
-            fetchFilteredData={fetchFilteredData} 
-            searchTerm = {searchTerm}
-            count = {totalCount}
+                addButtonProps={addButtonProps}
+                filterValues={filters}
+                fetchFilteredData={fetchFilteredData} 
+                searchTerm = {searchTerm}
+                count = {totalCount}
             />
             <ToastContainer />
-            {chargerList.length === 0 ? (
-                <div className={styles.errorContainer}>No data available</div>
-            ) : (
-            <List
-                tableHeaders={["Charger ID", "Charger Name", "Charger Price", "Status", "Action"]}
-                listData={chargerList}
-                keyMapping={[
-                    { key: 'charger_id', label: 'Booking ID' }, 
-                    { key: 'charger_name', label: 'Charger Name' }, 
-                    { 
-                        key: 'charger_price', 
-                        label: 'Charger Price', 
-                        format: (price) => (price ? `AED ${price}` : '') 
-                    },
-                    { key: 'status', label: 'Status', format: (status) => (status === 1 ? "Active" : "Inactive") } 
-                ]}
-                pageHeading="Portable Charger List"
-                onDeleteSlot={handleDeleteSlot}
-            />
+
+            {loading ? <Loader /> :
+                chargerList.length === 0 ? (
+                    <div className={styles.errorContainer}>No data available</div>
+                ) : (
+                <>  
+                    <List
+                        tableHeaders={["Charger ID", "Charger Name", "Charger Price", "Status", "Action"]}
+                        listData={chargerList}
+                        keyMapping={[
+                            { key: 'charger_id', label: 'Booking ID' }, 
+                            { key: 'charger_name', label: 'Charger Name' }, 
+                            { 
+                                key: 'charger_price', 
+                                label: 'Charger Price', 
+                                format: (price) => (price ? `AED ${price}` : '') 
+                            },
+                            { key: 'status', label: 'Status', format: (status) => (status === 1 ? "Active" : "Inactive") } 
+                        ]}
+                        pageHeading="Portable Charger List"
+                        onDeleteSlot={handleDeleteSlot}
+                    />
+                    
+                    <Pagination 
+                        currentPage={currentPage} 
+                        totalPages={totalPages} 
+                        onPageChange={handlePageChange} 
+                    />
+                </>
             )}
-            <Pagination 
-                currentPage={currentPage} 
-                totalPages={totalPages} 
-                onPageChange={handlePageChange} 
-            />
         </div>
     );
 };

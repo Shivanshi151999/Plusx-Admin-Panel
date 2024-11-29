@@ -9,16 +9,18 @@ import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
+import Loader from "../../SharedComponent/Loader/Loader";
 
 const EvPreSaleSlotList = () => {
-    const userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
-    const navigate = useNavigate()
-    const [timeSlotList, setTimeSlotList] = useState([])
-    const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(1);
-    const [totalCount, setTotalCount] = useState(1)
-    const [refresh, setRefresh] = useState(false)
-    const [filters, setFilters] = useState({});
+    const userDetails                     = JSON.parse(sessionStorage.getItem('userDetails'));
+    const navigate                        = useNavigate();
+    const [timeSlotList, setTimeSlotList] = useState([]);
+    const [currentPage, setCurrentPage]   = useState(1);
+    const [totalPages, setTotalPages]     = useState(1);
+    const [totalCount, setTotalCount]     = useState(1)
+    const [refresh, setRefresh]           = useState(false);
+    const [filters, setFilters]           = useState({start_date: null,end_date: null});
+    const [loading, setLoading]           = useState(false);
 
     const searchTerm = [
         {
@@ -52,6 +54,12 @@ const EvPreSaleSlotList = () => {
     console.log(groupedData);
 
     const fetchList = (page, appliedFilters = {}) => {
+        if (page === 1 && Object.keys(appliedFilters).length === 0) {
+            setLoading(false);
+        } else {
+            setLoading(true);
+        } 
+
         const obj = {
             userId: userDetails?.user_id,
             email: userDetails?.email,
@@ -73,6 +81,7 @@ const EvPreSaleSlotList = () => {
                 // toast(response.message, {type:'error'})
                 console.log('error in ev-pre-sale-time-slot-list api', response);
             }
+            setLoading(false);
         })
     }
 
@@ -126,71 +135,75 @@ const EvPreSaleSlotList = () => {
                 count={totalCount}
             />
 
-            {timeSlotList.length === 0 ? (
-                <div className='errorContainer'>No data available</div>
-            ) : (
-                <div className={styles.TimeslotcontainerCharger}>
+            {loading ? <Loader /> :
+                timeSlotList.length === 0 ? (
+                    <div className='errorContainer'>No data available</div>
+                ) : (
+                <>
+                    <div className={styles.TimeslotcontainerCharger}>
 
-                    <table className={styles.table}>
-                        <thead>
-                            <tr>
-                                <th>Slot ID</th>
-                                <th>Timing</th>
-                                <th>Booking Limit</th>
-                                <th>Total Booking</th>
-                                <th>Remaining Booking</th>
-                                <th>Status</th>
+                        <table className={styles.table}>
+                            <thead>
+                                <tr>
+                                    <th>Slot ID</th>
+                                    <th>Timing</th>
+                                    <th>Booking Limit</th>
+                                    <th>Total Booking</th>
+                                    <th>Remaining Booking</th>
+                                    <th>Status</th>
 
-                            </tr>
-                        </thead>
-                        {/* <tbody> */}
-
-                        {groupedData.map((group, index) => (
-                            <React.Fragment key={index} className={styles.groupContainer}>
-                                <tr className={styles.dateRow}>
-                                    <td className={styles.listSpan}>
-                                        <div className={styles.timeSlotContent}>
-                                            <span>Date: {group.slot_date}</span>
-                                            <div className={styles.editContent}>
-                                                <img src={Edit} alt='edit' onClick={() => handlePickDropEditTimeSlot(group.slots[0]?.slot_date)} />
-                                                <img src={Delete} alt='delete' onClick={() => handleDeleteSlot(group.slots[0]?.slot_date)} />
-                                            </div>
-                                        </div>
-                                    </td>
                                 </tr>
-                                <tbody className={styles.timeSlotGroup} >
-                                    {group.slots.map((slot, slotIndex) => (
-                                        <tr key={slotIndex} style={{ padding: "10px" }} >
-                                            <td>{slot.slot_id}</td>
-                                            <td>
-                                                {slot.timing ? (() => {
-                                                    const [startTime, endTime] = slot.timing.split(' - ');
-                                                    const formattedStart = moment(startTime, 'HH:mm:ss').format('HH:mm');
-                                                    const formattedEnd = moment(endTime, 'HH:mm:ss').format('HH:mm');
-                                                    return `${formattedStart} - ${formattedEnd}`;
-                                                })() : 'N/A'}
-                                            </td>
-                                            <td>{slot.booking_limit || '0'}</td>
-                                            <td>{slot.slot_booking_count || '0'}</td>
-                                            <td>{slot.remaining_booking || '0'}</td>
-                                            <td>{slot.status === 1 ? "Active" : "Inactive"}</td>
+                            </thead>
+                            {/* <tbody> */}
 
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </React.Fragment>
-                        ))}
+                            {groupedData.map((group, index) => (
+                                <React.Fragment key={index} className={styles.groupContainer}>
+                                    <tr className={styles.dateRow}>
+                                        <td className={styles.listSpan}>
+                                            <div className={styles.timeSlotContent}>
+                                                <span>Date: {group.slot_date}</span>
+                                                <div className={styles.editContent}>
+                                                    <img src={Edit} alt='edit' onClick={() => handlePickDropEditTimeSlot(group.slots[0]?.slot_date)} />
+                                                    <img src={Delete} alt='delete' onClick={() => handleDeleteSlot(group.slots[0]?.slot_date)} />
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tbody className={styles.timeSlotGroup} >
+                                        {group.slots.map((slot, slotIndex) => (
+                                            <tr key={slotIndex} style={{ padding: "10px" }} >
+                                                <td>{slot.slot_id}</td>
+                                                <td>
+                                                    {slot.timing ? (() => {
+                                                        const [startTime, endTime] = slot.timing.split(' - ');
+                                                        const formattedStart = moment(startTime, 'HH:mm:ss').format('HH:mm');
+                                                        const formattedEnd = moment(endTime, 'HH:mm:ss').format('HH:mm');
+                                                        return `${formattedStart} - ${formattedEnd}`;
+                                                    })() : 'N/A'}
+                                                </td>
+                                                <td>{slot.booking_limit || '0'}</td>
+                                                <td>{slot.slot_booking_count || '0'}</td>
+                                                <td>{slot.remaining_booking || '0'}</td>
+                                                <td>{slot.status === 1 ? "Active" : "Inactive"}</td>
 
-                        {/* </tbody> */}
-                    </table>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </React.Fragment>
+                            ))}
 
-                </div>
+                            {/* </tbody> */}
+                        </table>
+
+                    </div>
+                    
+                    <Pagination
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                        onPageChange={handlePageChange}
+                    />
+                </>
             )}
-            <Pagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={handlePageChange}
-            />
         </div>
     );
 };

@@ -8,19 +8,26 @@ import moment from 'moment';
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
-
+import Loader from "../SharedComponent/Loader/Loader";
 
 const SignupList = () => {
     const userDetails                     = JSON.parse(sessionStorage.getItem('userDetails')); 
-    const navigate                        = useNavigate()
+    const navigate                        = useNavigate();
     const [signupList, setSignupList]     = useState([]);
     const [currentPage, setCurrentPage]   = useState(1);
     const [totalPages, setTotalPages]     = useState(1);
     const [filters, setFilters]           = useState({start_date: null,end_date: null});
-    const [refresh, setRefresh]           = useState(false)
+    const [refresh, setRefresh]           = useState(false);
     const [emiratesList, setEmiratesList] = useState([]);
+    const [loading, setLoading]           = useState(false);
     
     const fetchChargers = (page, appliedFilters = {}) => {
+        if (page === 1 && Object.keys(appliedFilters).length === 0) {
+            setLoading(false);
+        } else {
+            setLoading(true);
+        } 
+
         const obj = {
             userId  : userDetails?.user_id,
             email   : userDetails?.email,
@@ -37,6 +44,7 @@ const SignupList = () => {
                 toast(response.message || response.message[0], { type: 'error' });
                 console.log('error in rider-list API', response);
             }
+            setLoading(false);
         });
     };
 
@@ -114,37 +122,42 @@ const SignupList = () => {
     return (
         <div className='main-container'>
             <ToastContainer/>
-            <SubHeader heading = "App Signup List" 
-            fetchFilteredData  = {fetchFilteredData} 
-            dynamicFilters     = {dynamicFilters} filterValues={filters}
-            searchTerm         = {searchTerm}
+            <SubHeader 
+                heading            = "App Signup List" 
+                fetchFilteredData  = {fetchFilteredData} 
+                dynamicFilters     = {dynamicFilters} filterValues={filters}
+                searchTerm         = {searchTerm}
             />
-            {signupList.length === 0 ? (
-                <div className={styles.errorContainer}>No data available</div>
-            ) : (
-                <List
-                    tableHeaders={["Date", "Customer ID", "Customer Name", "Email", "Emirate", "Action"]}
-                    listData={signupList}
-                    keyMapping={[
-                        { 
-                            key: 'created_at', 
-                            label: 'Date', 
-                            format: (date) => moment(date).format('DD MMM YYYY') 
-                        },
-                        { key: 'rider_id',    label: 'Customer ID' },
-                        { key: 'rider_name',  label: 'Customer Name' },
-                        { key: 'rider_email', label: 'Email' },
-                        { key: 'emirates',    label: 'Emirate' },
-                    ]}
-                    pageHeading="App Signup List"
-                    onDeleteSlot={handleDeleteSlot}
-                />
-            )}
-            <Pagination 
-                currentPage={currentPage} 
-                totalPages={totalPages} 
-                onPageChange={handlePageChange} 
-            />
+
+            {loading ? <Loader /> :
+                signupList.length === 0 ? 
+                    <div className={styles.errorContainer}>No data available</div>
+                : <>
+                    <List
+                        tableHeaders={["Date", "Customer ID", "Customer Name", "Email", "Emirate", "Action"]}
+                        listData={signupList}
+                        keyMapping={[
+                            { 
+                                key: 'created_at', 
+                                label: 'Date', 
+                                format: (date) => moment(date).format('DD MMM YYYY') 
+                            },
+                            { key: 'rider_id',    label: 'Customer ID' },
+                            { key: 'rider_name',  label: 'Customer Name' },
+                            { key: 'rider_email', label: 'Email' },
+                            { key: 'emirates',    label: 'Emirate' },
+                        ]}
+                        pageHeading="App Signup List"
+                        onDeleteSlot={handleDeleteSlot}
+                    />
+                    
+                    <Pagination 
+                        currentPage={currentPage} 
+                        totalPages={totalPages} 
+                        onPageChange={handlePageChange} 
+                    />
+                </> 
+            }
         </div>
     );
 };

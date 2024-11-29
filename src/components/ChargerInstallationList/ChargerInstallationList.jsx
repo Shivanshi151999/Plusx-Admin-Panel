@@ -5,7 +5,8 @@ import Pagination from '../SharedComponent/Pagination/Pagination'
 import { getRequestWithToken, postRequestWithToken } from '../../api/Requests';
 import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
-import styles from './chargerinstallation.module.css'
+import styles from './chargerinstallation.module.css';
+import Loader from "../SharedComponent/Loader/Loader";
 
 const statusMapping = {
     'P': 'Placed',
@@ -20,11 +21,12 @@ const statusMapping = {
 
 const ChargerInstallationList = () => {
     const userDetails                                           = JSON.parse(sessionStorage.getItem('userDetails')); 
-    const navigate                                              = useNavigate()
-    const [chargerInstallationList, setChargerInstallationList] = useState([])
+    const navigate                                              = useNavigate();
+    const [chargerInstallationList, setChargerInstallationList] = useState([]);
     const [currentPage, setCurrentPage]                         = useState(1);
     const [totalPages, setTotalPages]                           = useState(1);
-    const [filters, setFilters]                                 = useState({});
+    const [filters, setFilters]                                 = useState({start_date: null,end_date: null});
+    const [loading, setLoading]                                 = useState(false);
     
     const searchTerm = [
         {
@@ -35,6 +37,12 @@ const ChargerInstallationList = () => {
     ]
 
     const fetchList = (page, appliedFilters = {}) => {
+        if (page === 1 && Object.keys(appliedFilters).length === 0) {
+            setLoading(false);
+        } else {
+            setLoading(true);
+        } 
+
         const obj = {
             userId  : userDetails?.user_id,
             email   : userDetails?.email,
@@ -49,6 +57,7 @@ const ChargerInstallationList = () => {
                 // toast(response.message, {type:'error'})
                 console.log('error in charger-installation-list api', response);
             }
+            setLoading(false);
         })
     }
 
@@ -72,36 +81,41 @@ const ChargerInstallationList = () => {
     return (
         <div className='main-container'>
             <SubHeader heading = "Charger Installation List"
-            filterValues={filters}
-            fetchFilteredData={fetchFilteredData} 
-            searchTerm = {searchTerm}
+                filterValues={filters}
+                fetchFilteredData={fetchFilteredData} 
+                searchTerm = {searchTerm}
             />
-             {chargerInstallationList.length === 0 ? (
-               <div className='errorContainer'>No data available</div>
-            ) : (
-            <List 
-                tableHeaders={["Date","Request ID", "Customer Name", "Service Type", "Vehicle Model",  "Status", "Action"]}
-                listData = {chargerInstallationList}
-                keyMapping = {[
-                    { 
-                        key: 'created_at', 
-                        label: 'Date & Time', 
-                        format: (date) => moment(date).format('DD MMM YYYY') 
-                    },
-                    { key: 'request_id', label: 'Station Name' }, 
-                    { key: 'name', label: 'Customer Name' }, 
-                    { key: 'service_type', label: 'Charging Type' },
-                    { key: 'vehicle_model', label: 'Vehicle Model' },
-                    { 
-                        key    : 'order_status', 
-                        label  : 'Status', 
-                        format : (status) => statusMapping[status] || status 
-                    },
-                ]}
-                pageHeading = "Charger Installation List"
-            />
+
+            {loading ? <Loader /> :
+                chargerInstallationList.length === 0 ? (
+                <div className='errorContainer'>No data available</div>
+                ) : (
+                <>
+                    <List 
+                        tableHeaders={["Date","Request ID", "Customer Name", "Service Type", "Vehicle Model",  "Status", "Action"]}
+                        listData = {chargerInstallationList}
+                        keyMapping = {[
+                            { 
+                                key: 'created_at', 
+                                label: 'Date & Time', 
+                                format: (date) => moment(date).format('DD MMM YYYY') 
+                            },
+                            { key: 'request_id', label: 'Station Name' }, 
+                            { key: 'name', label: 'Customer Name' }, 
+                            { key: 'service_type', label: 'Charging Type' },
+                            { key: 'vehicle_model', label: 'Vehicle Model' },
+                            { 
+                                key    : 'order_status', 
+                                label  : 'Status', 
+                                format : (status) => statusMapping[status] || status 
+                            },
+                        ]}
+                        pageHeading = "Charger Installation List"
+                    />
+                    
+                    <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
+                </>
             )}
-            <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
         </div>
     );
 };

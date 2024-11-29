@@ -6,15 +6,17 @@ import { getRequestWithToken, postRequestWithToken } from '../../../api/Requests
 import moment from 'moment';
 import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from 'react-router-dom';
+import Loader from "../../SharedComponent/Loader/Loader";
 
 const RoadAssistanceInvoiceList = () => {
-    const userDetails = JSON.parse(sessionStorage.getItem('userDetails')); 
-    const navigate    = useNavigate()
-    const [invoiceList, setInvoiceList] = useState([])
+    const userDetails                   = JSON.parse(sessionStorage.getItem('userDetails')); 
+    const navigate                      = useNavigate();
+    const [invoiceList, setInvoiceList] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages]   = useState(1); 
-    const [totalCount, setTotalCount]   = useState(1)
-    const [filters, setFilters]         = useState({});
+    const [totalCount, setTotalCount]   = useState(1);
+    const [filters, setFilters]         = useState({start_date: null,end_date: null});
+    const [loading, setLoading]         = useState(false);
     const searchTerm = [
         {
             label: 'search', 
@@ -23,6 +25,12 @@ const RoadAssistanceInvoiceList = () => {
         }
     ]
     const fetchList = (page, appliedFilters = {}) => {
+        if (page === 1 && Object.keys(appliedFilters).length === 0) {
+            setLoading(false);
+        } else {
+            setLoading(true);
+        } 
+
         const obj = {
             userId  : userDetails?.user_id,
             email   : userDetails?.email,
@@ -39,6 +47,7 @@ const RoadAssistanceInvoiceList = () => {
                 // toast(response.message, {type:'error'})
                 console.log('error in ev-road-assistance-invoice-list api', response);
             }
+            setLoading(false);
         })
     }
 
@@ -61,49 +70,54 @@ const RoadAssistanceInvoiceList = () => {
 
     return (
         <div className='main-container'>
-         <SubHeader heading = "Ev Road Assistance Invoice List"
-            filterValues={filters}
-            fetchFilteredData={fetchFilteredData} 
-            searchTerm = {searchTerm}
-            count = {totalCount}
-         />
-           {invoiceList.length === 0 ? (
-               <div className='errorContainer'>No data available</div>
-            ) : (
-        <List 
-          tableHeaders={["Invoice Date", "Invoice ID", "Customer Name", "Amount", "Status", "Action"]}
-          listData = {invoiceList}
-          keyMapping={[
-            { 
-                key: 'invoice_date', 
-                label: 'Invoice Date', 
-                format: (date) => moment(date).format('DD MMM YYYY ') 
-            } ,
-            { key: 'invoice_id', label: 'Invoice ID' }, 
-            // { key: 'riderDetails', label: 'Customer Name' },
-            { 
-                key: 'riderDetails', 
-                label: 'Customer Name',
-                format: (riderDetails) => {
-                    return riderDetails ? riderDetails.split(',')[0] : '';
-                }
-            },
-            { 
-                key: 'amount', 
-                label: 'Amount', 
-                format: (amount) => (amount ? `AED ${amount}` : amount) 
-            },
-            { key: 'payment_status', label: 'Status', format: (status) => (status === "succeeded" ? "Completed" : "") }
-           
-        ]}
-        pageHeading="Road Assistance Invoice List"
-          />
-    )}
-           <Pagination 
-            currentPage={currentPage} 
-            totalPages={totalPages} 
-            onPageChange={handlePageChange} 
+            <SubHeader heading = "Ev Road Assistance Invoice List"
+               filterValues={filters}
+               fetchFilteredData={fetchFilteredData} 
+               searchTerm = {searchTerm}
+               count = {totalCount}
             />
+
+            {loading ? <Loader /> : 
+                invoiceList.length === 0 ? (
+                    <div className='errorContainer'>No data available</div>
+                    ) : (
+                <>
+                    <List 
+                    tableHeaders={["Invoice Date", "Invoice ID", "Customer Name", "Amount", "Status", "Action"]}
+                    listData = {invoiceList}
+                    keyMapping={[
+                        { 
+                            key: 'invoice_date', 
+                            label: 'Invoice Date', 
+                            format: (date) => moment(date).format('DD MMM YYYY ') 
+                        } ,
+                        { key: 'invoice_id', label: 'Invoice ID' }, 
+                        // { key: 'riderDetails', label: 'Customer Name' },
+                        { 
+                            key: 'riderDetails', 
+                            label: 'Customer Name',
+                            format: (riderDetails) => {
+                                return riderDetails ? riderDetails.split(',')[0] : '';
+                            }
+                        },
+                        { 
+                            key: 'amount', 
+                            label: 'Amount', 
+                            format: (amount) => (amount ? `AED ${amount}` : amount) 
+                        },
+                        { key: 'payment_status', label: 'Status', format: (status) => (status === "succeeded" ? "Completed" : "") }
+                    
+                    ]}
+                    pageHeading="Road Assistance Invoice List"
+                    />
+            
+                    <Pagination 
+                        currentPage={currentPage} 
+                        totalPages={totalPages} 
+                        onPageChange={handlePageChange} 
+                    />
+                </>
+            )}
         </div>
     );
 };

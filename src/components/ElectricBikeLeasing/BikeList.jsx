@@ -7,20 +7,22 @@ import { postRequestWithToken } from '../../api/Requests';
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
+import Loader from "../SharedComponent/Loader/Loader";
 
 const dynamicFilters = [
     // { label: 'Bike Name', name: 'search_text', type: 'text' }
 ]
 
 const BikeList = () => {
-    const userDetails = JSON.parse(sessionStorage.getItem('userDetails')); 
-    const navigate = useNavigate()
-    const [carList, setCarList] = useState([])
+    const userDetails                   = JSON.parse(sessionStorage.getItem('userDetails')); 
+    const navigate                      = useNavigate();
+    const [carList, setCarList]         = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(1);
-    const [totalCount, setTotalCount] = useState(1)
-    const [filters, setFilters] = useState({});
-    const [refresh, setRefresh] = useState(false)
+    const [totalPages, setTotalPages]   = useState(1);
+    const [totalCount, setTotalCount]   = useState(1);
+    const [filters, setFilters]         = useState({start_date: null,end_date: null});
+    const [refresh, setRefresh]         = useState(false);
+    const [loading, setLoading]         = useState(false);
     const searchTerm = [
         {
             label: 'search', 
@@ -35,6 +37,12 @@ const BikeList = () => {
     };
 
     const fetchList = (page, appliedFilters = {}) => {
+        if (page === 1 && Object.keys(appliedFilters).length === 0) {
+            setLoading(false);
+        } else {
+            setLoading(true);
+        } 
+
         const obj = {
             userId : userDetails?.user_id,
             email : userDetails?.email,
@@ -51,6 +59,7 @@ const BikeList = () => {
                 // toast(response.message, {type:'error'})
                 console.log('error in electric-bikes-list api', response);
             }
+            setLoading(false);
         })
     }
 
@@ -95,39 +104,44 @@ const BikeList = () => {
     return (
         <div className='main-container'>
             <ToastContainer />
-         <SubHeader heading = "Electric Bikes Leasing List" 
-            addButtonProps={addButtonProps}
-            fetchFilteredData={fetchFilteredData} 
-            dynamicFilters={dynamicFilters} filterValues={filters}
-            searchTerm = {searchTerm}
-            count = {totalCount}
-         />
-          {carList.length === 0 ? (
-               <div className='errorContainer'>No data available</div>
-            ) : (
-        <List 
-          tableHeaders={["ID", "Bike Name", "Available On", "Bike Type", "Price", "Contract", "Action"]}
-          listData = {carList}
-          keyMapping={[
-            { key: 'rental_id', label: 'ID' }, 
-            { key: 'bike_name', label: 'Bike Name' },
-            { 
-                key: 'available_on', 
-                label: 'Available On',  
-            },
-            { key: 'bike_type', label: 'Bike Type' },
-            { key: 'price', label: 'Price' },
-            { key: 'contract', label: 'Contract' },
-        ]}
-        pageHeading="Electric Bikes Leasing List"
-        onDeleteSlot={handleDeleteSlot}
-          />
-    )}
-        <Pagination 
-          currentPage={currentPage} 
-          totalPages={totalPages} 
-          onPageChange={handlePageChange} 
-        />
+            <SubHeader heading = "Electric Bikes Leasing List" 
+                addButtonProps={addButtonProps}
+                fetchFilteredData={fetchFilteredData} 
+                dynamicFilters={dynamicFilters} filterValues={filters}
+                searchTerm = {searchTerm}
+                count = {totalCount}
+            />
+
+            {loading ? <Loader /> :
+                carList.length === 0 ? (
+                <div className='errorContainer'>No data available</div>
+                ) : (
+                <>
+                    <List 
+                    tableHeaders={["ID", "Bike Name", "Available On", "Bike Type", "Price", "Contract", "Action"]}
+                    listData = {carList}
+                    keyMapping={[
+                        { key: 'rental_id', label: 'ID' }, 
+                        { key: 'bike_name', label: 'Bike Name' },
+                        { 
+                            key: 'available_on', 
+                            label: 'Available On',  
+                        },
+                        { key: 'bike_type', label: 'Bike Type' },
+                        { key: 'price', label: 'Price' },
+                        { key: 'contract', label: 'Contract' },
+                    ]}
+                    pageHeading="Electric Bikes Leasing List"
+                    onDeleteSlot={handleDeleteSlot}
+                    />
+                    
+                    <Pagination 
+                    currentPage={currentPage} 
+                    totalPages={totalPages} 
+                    onPageChange={handlePageChange} 
+                    />
+                </>
+            )}
         </div>
     );
 };

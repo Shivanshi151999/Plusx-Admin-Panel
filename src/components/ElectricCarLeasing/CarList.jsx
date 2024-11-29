@@ -7,6 +7,7 @@ import { postRequestWithToken } from '../../api/Requests';
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
+import Loader from "../SharedComponent/Loader/Loader";
 
 const dynamicFilters = [
     // { label: 'Car Name', name: 'search_text', type: 'text' },
@@ -16,14 +17,15 @@ const dynamicFilters = [
 ]
 
 const CarList = () => {
-    const userDetails = JSON.parse(sessionStorage.getItem('userDetails')); 
-    const navigate = useNavigate()
-    const [carList, setCarList] = useState([])
+    const userDetails                   = JSON.parse(sessionStorage.getItem('userDetails')); 
+    const navigate                      = useNavigate();
+    const [carList, setCarList]         = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(1);
-    const [totalCount, setTotalCount] = useState(1)
-    const [filters, setFilters] = useState({});
-    const [refresh, setRefresh] = useState(false)
+    const [totalPages, setTotalPages]   = useState(1);
+    const [totalCount, setTotalCount]   = useState(1);
+    const [filters, setFilters]         = useState({start_date: null,end_date: null});
+    const [refresh, setRefresh]         = useState(false);
+    const [loading, setLoading]         = useState(false);
     const searchTerm = [
         {
             label: 'search', 
@@ -38,6 +40,12 @@ const CarList = () => {
     };
 
     const fetchList = (page, appliedFilters = {}) => {
+        if (page === 1 && Object.keys(appliedFilters).length === 0) {
+            setLoading(false);
+        } else {
+            setLoading(true);
+        } 
+
         const obj = {
             userId : userDetails?.user_id,
             email : userDetails?.email,
@@ -54,6 +62,7 @@ const CarList = () => {
                 // toast(response.message, {type:'error'})
                 console.log('error in electric-cars-list api', response);
             }
+            setLoading(false);
         })
     }
 
@@ -98,39 +107,44 @@ const CarList = () => {
     return (
         <div className='main-container'>
             <ToastContainer />
-         <SubHeader heading = "Electric Cars Leasing List" 
-            addButtonProps={addButtonProps}
-            fetchFilteredData={fetchFilteredData} 
-            dynamicFilters={dynamicFilters} filterValues={filters}
-            searchTerm = {searchTerm}
-            count = {totalCount}
-         />
-         {carList.length === 0 ? (
-               <div className='errorContainer'>No data available</div>
-            ) : (
-        <List 
-        tableHeaders={["Car ID", "Car Name", "Available On", "Car Type", "Price", "Contract", "Action"]}
-          listData = {carList}
-          keyMapping={[
-            { key: 'rental_id', label: 'Car ID' }, 
-            { key: 'car_name', label: 'Car Name' },
-            { 
-                key: 'available_on', 
-                label: 'Available On',  
-            },
-            { key: 'car_type', label: 'Car Type' },
-            { key: 'price', label: 'Price' },
-            { key: 'contract', label: 'Contract' },
-        ]}
-        pageHeading="Electric Cars Leasing List"
-        onDeleteSlot={handleDeleteSlot}
-          />
-    )}
-        <Pagination 
-          currentPage={currentPage} 
-          totalPages={totalPages} 
-          onPageChange={handlePageChange} 
-        />
+            <SubHeader heading = "Electric Cars Leasing List" 
+                addButtonProps={addButtonProps}
+                fetchFilteredData={fetchFilteredData} 
+                dynamicFilters={dynamicFilters} filterValues={filters}
+                searchTerm = {searchTerm}
+                count = {totalCount}
+            />
+
+            {loading ? <Loader /> :
+                carList.length === 0 ? (
+                    <div className='errorContainer'>No data available</div>
+                    ) : (
+                <>
+                    <List 
+                        tableHeaders={["Car ID", "Car Name", "Available On", "Car Type", "Price", "Contract", "Action"]}
+                        listData = {carList}
+                        keyMapping={[
+                        { key: 'rental_id', label: 'Car ID' }, 
+                        { key: 'car_name', label: 'Car Name' },
+                        { 
+                            key: 'available_on', 
+                            label: 'Available On',  
+                        },
+                        { key: 'car_type', label: 'Car Type' },
+                        { key: 'price', label: 'Price' },
+                        { key: 'contract', label: 'Contract' },
+                        ]}
+                        pageHeading="Electric Cars Leasing List"
+                        onDeleteSlot={handleDeleteSlot}
+                    />
+                    
+                    <Pagination 
+                    currentPage={currentPage} 
+                    totalPages={totalPages} 
+                    onPageChange={handlePageChange} 
+                    />
+                </>
+            )}
         </div>
     );
 };

@@ -6,20 +6,22 @@ import Pagination from '../SharedComponent/Pagination/Pagination'
 import { postRequestWithToken } from '../../api/Requests';
 import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from 'react-router-dom';
+import Loader from "../SharedComponent/Loader/Loader";
 
 const dynamicFilters = [
     // { label: 'Name', name: 'search', type: 'text' },
 ]
 
 const StationList = () => {
-    const userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
-    const navigate = useNavigate()
-    const [stationList, setStationList] = useState([])
+    const userDetails                   = JSON.parse(sessionStorage.getItem('userDetails'));
+    const navigate                      = useNavigate();
+    const [stationList, setStationList] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(1);
-    const [totalCount, setTotalCount] = useState(1)
-    const [refresh, setRefresh] = useState(false)
-    const [filters, setFilters] = useState({});
+    const [totalPages, setTotalPages]   = useState(1);
+    const [totalCount, setTotalCount]   = useState(1);
+    const [filters, setFilters]         = useState({start_date: null,end_date: null});
+    const [refresh, setRefresh]         = useState(false);
+    const [loading, setLoading]         = useState(false);
     const searchTerm = [
         {
             label: 'search', 
@@ -33,6 +35,12 @@ const StationList = () => {
     };
 
     const fetchList = (page, appliedFilters = {}) => {
+        if (page === 1 && Object.keys(appliedFilters).length === 0) {
+            setLoading(false);
+        } else {
+            setLoading(true);
+        } 
+
         const obj = {
             userId: userDetails?.user_id,
             email: userDetails?.email,
@@ -49,6 +57,7 @@ const StationList = () => {
                 // toast(response.message, {type:'error'})
                 console.log('error in public-charger-station-list api', response);
             }
+            setLoading(false);
         })
     }   
 
@@ -101,35 +110,40 @@ const StationList = () => {
                 searchTerm = {searchTerm}
                 count = {totalCount}
             />
-            {stationList.length === 0 ? (
-               <div className='errorContainer'>No data available</div>
-            ) : (
-            <List
-                tableHeaders={["Station Name", "Charging For", "Charging Type", "Price", "Address", "Action"]}
-                listData={stationList}
-                keyMapping={[
-                    { key: 'station_name', label: 'Station Name' },
-                    { key: 'charging_for', label: 'Charging For' },
-                    { key: 'charger_type', label: 'Charging Type' },
-                    {
-                        key: 'price',
-                        label: 'Price',
-                        format: (price) => (price ? `AED ${price}` : '')
-                    },
-                    {
-                        key: 'address',
-                        label: 'Address',
-                    },
-                ]}
-                pageHeading="Public Chargers List"
-                onDeleteSlot={handleDeleteSlot}
-            />
-        )}
-            <Pagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={handlePageChange}
-            />
+
+            {loading ? <Loader /> :
+                stationList.length === 0 ? (
+                   <div className='errorContainer'>No data available</div>
+                ) : (
+                <>
+                    <List
+                        tableHeaders={["Station Name", "Charging For", "Charging Type", "Price", "Address", "Action"]}
+                        listData={stationList}
+                        keyMapping={[
+                            { key: 'station_name', label: 'Station Name' },
+                            { key: 'charging_for', label: 'Charging For' },
+                            { key: 'charger_type', label: 'Charging Type' },
+                            {
+                                key: 'price',
+                                label: 'Price',
+                                format: (price) => (price ? `AED ${price}` : '')
+                            },
+                            {
+                                key: 'address',
+                                label: 'Address',
+                            },
+                        ]}
+                        pageHeading="Public Chargers List"
+                        onDeleteSlot={handleDeleteSlot}
+                    />
+                    
+                    <Pagination
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                        onPageChange={handlePageChange}
+                    />
+                </>
+            )}
         </div>
     );
 };

@@ -8,6 +8,7 @@ import { postRequestWithToken } from '../../../api/Requests';
 import moment from 'moment';
 import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from 'react-router-dom';
+import Loader from "../../SharedComponent/Loader/Loader";
 
 const statusMapping = {
     'CNF': 'Booking Confirmed',
@@ -40,16 +41,17 @@ const dynamicFilters = [
 ]
 
 const EvPreSaleBookingList = () => {
-    const userDetails = JSON.parse(sessionStorage.getItem('userDetails')); 
-    const navigate = useNavigate()
-    const [chargerBookingList, setChargerBookingList] = useState([])
-    const [rsaList, setRsaList] = useState([])
-    const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(1);
-    const [filters, setFilters] = useState({});
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [selectedBookingId, setSelectedBookingId] = useState(null);
-    const [selectedDriverId, setSelectedDriverId] = useState(null);
+    const userDetails                                 = JSON.parse(sessionStorage.getItem('userDetails')); 
+    const navigate                                    = useNavigate();
+    const [chargerBookingList, setChargerBookingList] = useState([]);
+    const [rsaList, setRsaList]                       = useState([]);                              
+    const [currentPage, setCurrentPage]               = useState(1);
+    const [totalPages, setTotalPages]                 = useState(1);
+    const [filters, setFilters]                       = useState({start_date: null,end_date: null});
+    const [isModalOpen, setIsModalOpen]               = useState(false);
+    const [selectedBookingId, setSelectedBookingId]   = useState(null);
+    const [selectedDriverId, setSelectedDriverId]     = useState(null);
+    const [loading, setLoading]                       = useState(false);
     const searchTerm = [
         {
             label: 'search', 
@@ -59,6 +61,12 @@ const EvPreSaleBookingList = () => {
     ]
 
     const fetchList = (page, appliedFilters = {}) => {
+        if (page === 1 && Object.keys(appliedFilters).length === 0) {
+            setLoading(false);
+        } else {
+            setLoading(true);
+        } 
+
         const obj = {
             userId : userDetails?.user_id,
             email : userDetails?.email,
@@ -75,6 +83,7 @@ const EvPreSaleBookingList = () => {
                 // toast(response.message, {type:'error'})
                 console.log('error in ev-pre-sale-list api', response);
             }
+            setLoading(false);
         })
 
         postRequestWithToken('rsa-list', obj, async(response) => {
@@ -144,37 +153,41 @@ const EvPreSaleBookingList = () => {
 
     return (
         <div className='main-container'>
-         <SubHeader heading = "EV Pre-Sale Testing Booking List"
-         fetchFilteredData={fetchFilteredData} 
-         dynamicFilters={dynamicFilters} filterValues={filters}
-         searchTerm = {searchTerm}
-         />
-         {chargerBookingList.length === 0 ? (
-                <div className='errorContainer'>No data available</div>
-            ) : (
-        <List 
-        tableHeaders={["Date", "Booking ID", "Owner Name", "Vehicle", "Action"]}
-          listData = {chargerBookingList}
-          keyMapping={[
-            { 
-                key: 'created_at', 
-                label: 'Invoice Date', 
-                format: (date) => moment(date).format('DD MMM YYYY ') 
-            } ,
-            { key: 'booking_id', label: 'ID' }, 
-            
-            { key: 'owner_name', label: 'Owner Name' }, 
-            { key: 'vehicle_data', label: 'Vehicle' }, 
-            
-        ]}
-        pageHeading="EV Pre-Sale Testing Booking List"
-          />
-        )}
-        <Pagination 
-          currentPage={currentPage} 
-          totalPages={totalPages} 
-          onPageChange={handlePageChange} 
-        />
+            <SubHeader heading = "EV Pre-Sale Testing Booking List"
+                fetchFilteredData={fetchFilteredData} 
+                dynamicFilters={dynamicFilters} filterValues={filters}
+                searchTerm = {searchTerm}
+            />
+
+            {loading ? <Loader /> : 
+                chargerBookingList.length === 0 ? (
+                        <div className='errorContainer'>No data available</div>
+                    ) : (
+                    <>
+                        <List 
+                            tableHeaders={["Date", "Booking ID", "Owner Name", "Vehicle", "Action"]}
+                            listData = {chargerBookingList}
+                            keyMapping={[
+                            { 
+                                key: 'created_at', 
+                                label: 'Invoice Date', 
+                                format: (date) => moment(date).format('DD MMM YYYY ') 
+                            } ,
+                            { key: 'booking_id', label: 'ID' }, 
+                            
+                            { key: 'owner_name', label: 'Owner Name' }, 
+                            { key: 'vehicle_data', label: 'Vehicle' }, 
+                            ]}
+                            pageHeading="EV Pre-Sale Testing Booking List"
+                        />
+                        
+                        <Pagination 
+                        currentPage={currentPage} 
+                        totalPages={totalPages} 
+                        onPageChange={handlePageChange} 
+                        />
+                    </>
+            )}
 
              <Custommodal
                 isOpen={isModalOpen}

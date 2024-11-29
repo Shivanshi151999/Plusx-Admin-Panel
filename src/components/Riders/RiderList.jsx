@@ -6,7 +6,8 @@ import { postRequestWithToken } from '../../api/Requests';
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
-import styles from './addemergency.module.css'
+import styles from './addemergency.module.css';
+import Loader from "../SharedComponent/Loader/Loader";
 
 const dynamicFilters = [
     // { label: 'RSA ID', name: 'rsa_id', type: 'text' },
@@ -16,13 +17,14 @@ const dynamicFilters = [
 ]
 
 const RiderList = () => {
-    const userDetails = JSON.parse(sessionStorage.getItem('userDetails')); 
-    const navigate = useNavigate()
-    const [rsaList, setRsaList] = useState([]);
+    const userDetails                   = JSON.parse(sessionStorage.getItem('userDetails')); 
+    const navigate                      = useNavigate();
+    const [rsaList, setRsaList]         = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(1);
-    const [filters, setFilters] = useState({});
-    const [refresh, setRefresh] = useState(false)
+    const [totalPages, setTotalPages]   = useState(1);
+    const [filters, setFilters]         = useState({start_date: null,end_date: null});
+    const [refresh, setRefresh]         = useState(false);
+    const [loading, setLoading]         = useState(false);
     const searchTerm = [
         {
             label: 'search', 
@@ -37,6 +39,12 @@ const RiderList = () => {
     };
 
     const fetchList = (page, appliedFilters = {}) => {
+        if (page === 1 && Object.keys(appliedFilters).length === 0) {
+            setLoading(false);
+        } else {
+            setLoading(true);
+        } 
+
         const obj = {
             userId : userDetails?.user_id,
             email : userDetails?.email,
@@ -52,6 +60,7 @@ const RiderList = () => {
                 // toast(response.message, {type:'error'})
                 console.log('error in public-charger-station-list api', response);
             }
+            setLoading(false);
         })
     }
 
@@ -94,48 +103,52 @@ const RiderList = () => {
     return (
         <div className='main-container'>
             <ToastContainer />
-         <SubHeader heading = "Drivers List" 
-         addButtonProps={addButtonProps}
-         fetchFilteredData={fetchFilteredData} 
-         dynamicFilters={dynamicFilters} filterValues={filters}
-         searchTerm = {searchTerm}
-         />
-           {rsaList.length === 0 ? (
-                <div className={styles.errorContainer}>No data available</div>
-            ) : (
-        <List 
-        tableHeaders={["ID", "Driver Name", "Driver Email", "Service Type", "Status", "Action"]}
-          listData = {rsaList}
-          keyMapping={[
-            { key: 'rsa_id', label: 'ID' }, 
-            { key: 'rsa_name', label: 'RSA Name' },
-            { key: 'email', label: '"RSA Email' },
-            { 
-                key: 'booking_type', 
-                label: 'Service Type', 
-                
-            },
-            { 
-                key: 'status', 
-                label: 'Status',
-                format: (status) => {
-                    if (status === 0) return "Inactive";
-                    if (status === 1 || status === 3) return "Un-Available";
-                    if (status === 2) return "Available";
-                    return "Unknown";
-                }
-            },
-        ]}
-        pageHeading="Emergency Team List"
-        onDeleteSlot={handleDeleteSlot}
-          />
-    )}
+            <SubHeader heading = "Drivers List" 
+            addButtonProps={addButtonProps}
+            fetchFilteredData={fetchFilteredData} 
+            dynamicFilters={dynamicFilters} filterValues={filters}
+            searchTerm = {searchTerm}
+            />
+
+            {loading ? <Loader /> :
+                rsaList.length === 0 ? (
+                    <div className={styles.errorContainer}>No data available</div>
+                ) : (
+                <>
+                    <List 
+                    tableHeaders={["ID", "Driver Name", "Driver Email", "Service Type", "Status", "Action"]}
+                    listData = {rsaList}
+                    keyMapping={[
+                        { key: 'rsa_id', label: 'ID' }, 
+                        { key: 'rsa_name', label: 'RSA Name' },
+                        { key: 'email', label: '"RSA Email' },
+                        { 
+                            key: 'booking_type', 
+                            label: 'Service Type', 
+                            
+                        },
+                        { 
+                            key: 'status', 
+                            label: 'Status',
+                            format: (status) => {
+                                if (status === 0) return "Inactive";
+                                if (status === 1 || status === 3) return "Un-Available";
+                                if (status === 2) return "Available";
+                                return "Unknown";
+                            }
+                        },
+                        ]}
+                        pageHeading="Emergency Team List"
+                        onDeleteSlot={handleDeleteSlot}
+                    />
            
-        <Pagination 
-          currentPage={currentPage} 
-          totalPages={totalPages} 
-          onPageChange={handlePageChange} 
-        />
+                    <Pagination 
+                    currentPage={currentPage} 
+                    totalPages={totalPages} 
+                    onPageChange={handlePageChange} 
+                    />
+                 </>
+            )}
         </div>
     );
 };

@@ -2,8 +2,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  position: fixed;
+  /* height: 100vh;
+  position: fixed; */
+  height: 70%;
+  position: unset;
   top: 0;
   left: 0;
   width: 100%;

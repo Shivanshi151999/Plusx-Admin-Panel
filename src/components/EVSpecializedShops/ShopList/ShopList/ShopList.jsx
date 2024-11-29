@@ -7,7 +7,7 @@ import { postRequestWithToken } from '../../../../api/Requests';
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
-
+import Loader from "../../../SharedComponent/Loader/Loader";
 
 const dynamicFilters = [
     // { label: 'Shop Name', name: 'search', type: 'text' },
@@ -19,14 +19,15 @@ const addButtonProps = {
 };
 
 const ShopList = () => {
-    const userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
-    const navigate = useNavigate()
-    const [shopList, setShopList] = useState([])
-    const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(1);
-    const [totalCount, setTotalCount] = useState(1)
-    const [filters, setFilters] = useState({});
-    const [refresh, setRefresh]           = useState(false)
+    const userDetails                     = JSON.parse(sessionStorage.getItem('userDetails'));
+    const navigate                        = useNavigate();
+    const [shopList, setShopList]         = useState([]);
+    const [currentPage, setCurrentPage]   = useState(1);
+    const [totalPages, setTotalPages]     = useState(1);
+    const [totalCount, setTotalCount]     = useState(1);
+    const [filters, setFilters]           = useState({start_date: null,end_date: null});
+    const [loading, setLoading]           = useState(false);
+    const [refresh, setRefresh]           = useState(false);
     const searchTerm = [
         {
             label: 'search', 
@@ -36,6 +37,12 @@ const ShopList = () => {
     ]
 
     const fetchList = (page, appliedFilters = {}) => {
+        if (page === 1 && Object.keys(appliedFilters).length === 0) {
+            setLoading(false);
+        } else {
+            setLoading(true);
+        } 
+
         const obj = {
             userId: userDetails?.user_id,
             email: userDetails?.email,
@@ -52,6 +59,7 @@ const ShopList = () => {
                 // toast(response.message, {type:'error'})
                 console.log('error in shop-list api', response);
             }
+            setLoading(false);
         })
     }
 
@@ -105,27 +113,32 @@ const ShopList = () => {
                 searchTerm = {searchTerm}
                 count = {totalCount}
             />
-            {shopList?.length === 0 ? (
-                <div className='errorContainer'>No data available</div>
-            ) : (
-                <List
-                    tableHeaders={["ID", "Shop Name", "Location", "Action"]}
-                    listData={shopList}
-                    keyMapping={[
-                        { key: 'shop_id', label: 'ID' },
-                        { key: 'shop_name', label: 'Shop Name' },
-                        { key: 'location', label: 'Location' },
 
-                    ]}
-                    pageHeading="Shop List"
-                    onDeleteSlot={handleDeleteSlot}
-                />
+            {loading ? <Loader /> : 
+                shopList?.length === 0 ? (
+                    <div className='errorContainer'>No data available</div>
+                ) : (
+                <>
+                    <List
+                        tableHeaders={["ID", "Shop Name", "Location", "Action"]}
+                        listData={shopList}
+                        keyMapping={[
+                            { key: 'shop_id', label: 'ID' },
+                            { key: 'shop_name', label: 'Shop Name' },
+                            { key: 'location', label: 'Location' },
+
+                        ]}
+                        pageHeading="Shop List"
+                        onDeleteSlot={handleDeleteSlot}
+                    />
+                    
+                    <Pagination
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                        onPageChange={handlePageChange}
+                    />
+                </>
             )}
-            <Pagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={handlePageChange}
-            />
         </div>
     );
 };

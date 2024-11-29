@@ -12,8 +12,7 @@ import moment from 'moment';
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
-
-
+import Loader from "../../SharedComponent/Loader/Loader";
 
 const statusMapping = {
     'CNF': 'Booking Confirmed',
@@ -49,17 +48,18 @@ const dynamicFilters = [
 ]
 
 const BookingList = () => {
-    const userDetails = JSON.parse(sessionStorage.getItem('userDetails')); 
-    const navigate = useNavigate()
-    const [chargerBookingList, setChargerBookingList] = useState([])
-    const [rsaList, setRsaList] = useState([])
-    const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(1);
-    const [filters, setFilters] = useState({});
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [selectedBookingId, setSelectedBookingId] = useState(null);
-    const [selectedDriverId, setSelectedDriverId] = useState(null);
-    const [selectedRiderId, setSelectedRiderId]   = useState(null);
+    const userDetails                                 = JSON.parse(sessionStorage.getItem('userDetails')); 
+    const navigate                                    = useNavigate();
+    const [chargerBookingList, setChargerBookingList] = useState([]);
+    const [rsaList, setRsaList]                       = useState([]);
+    const [currentPage, setCurrentPage]               = useState(1);
+    const [totalPages, setTotalPages]                 = useState(1);
+    const [filters, setFilters]                       = useState({start_date: null,end_date: null});
+    const [isModalOpen, setIsModalOpen]               = useState(false);
+    const [selectedBookingId, setSelectedBookingId]   = useState(null);
+    const [selectedDriverId, setSelectedDriverId]     = useState(null);
+    const [selectedRiderId, setSelectedRiderId]       = useState(null);
+    const [loading, setLoading]                       = useState(false);
     const searchTerm = [
         {
             label: 'search', 
@@ -123,6 +123,12 @@ const BookingList = () => {
   };
 
     const fetchList = (page, appliedFilters = {}) => {
+        if (page === 1 && Object.keys(appliedFilters).length === 0) {
+            setLoading(false);
+        } else {
+            setLoading(true);
+        } 
+
         const obj = {
             userId : userDetails?.user_id,
             email : userDetails?.email,
@@ -139,6 +145,7 @@ const BookingList = () => {
                 // toast(response.message, {type:'error'})
                 console.log('error in pick-and-drop-booking-list api', response);
             }
+            setLoading(false);
         })
 
         postRequestWithToken('rsa-list', obj, async(response) => {
@@ -209,105 +216,110 @@ const BookingList = () => {
 
     return (
         <div className='main-container'>
-            <ToastContainer />
-         <SubHeader heading = "Pick & Drop Booking List"
-         fetchFilteredData={fetchFilteredData} 
-         dynamicFilters={dynamicFilters} filterValues={filters}
-         searchTerm = {searchTerm}
-         />
-         {chargerBookingList.length === 0 ? (
-                <div className='errorContainer'>No data available</div>
-            ) : (
-        <List 
-        tableHeaders={["Date", "Booking ID", "Customer Name", "Price", "Status", "Driver Assign", "Action",""]}
-          listData = {chargerBookingList}
-          keyMapping={[
-            { 
-                key: 'created_at', 
-                label: 'Invoice Date', 
-                format: (date) => moment(date).format('DD MMM YYYY ') 
-            } ,
-            { key: 'request_id', label: 'ID' }, 
-            // { 
-            //     key: 'name', 
-            //     label: 'Name',
-            //     relatedKeys: ['country_code', 'contact_no'], 
-            //     format: (data, key, relatedKeys) => (
-            //         <>
-            //             {data[key]}<br />
-            //             {relatedKeys.map((relatedKey) => data[relatedKey]).join(" ")}
-            //         </>
-            //     )
-            // }, 
-            { key: 'name', label: 'Customer Name' }, 
-            { 
-                key: 'price', 
-                label: 'Price', 
-                format: (price) => (price ? `AED ${price}` : 'AED 0') 
-            },
-            
-            {   key: 'order_status',
-                label: 'Status',
-                format: (status) => statusMapping[status] || status 
+            <ToastContainer/>
+            <SubHeader heading = "Pick & Drop Booking List"
+                fetchFilteredData={fetchFilteredData} 
+                dynamicFilters={dynamicFilters} filterValues={filters}
+                searchTerm = {searchTerm}
+            />
 
-            },
-           
-            {
-                key: 'driver_assign',
-                label: 'Driver Assign',
-                relatedKeys: ['order_status'], 
-                format: (data, key, relatedKeys) => {
-                    const isBookingConfirmed = data[relatedKeys[0]] === 'CNF'; 
-                    
-                    return isBookingConfirmed ? (
-                        <img 
-                            src={AddDriver} 
-                            className={"logo"} 
-                            onClick={() => openModal(data.request_id)} 
-                            alt="Assign Driver" 
+            {loading ? <Loader /> :
+                chargerBookingList.length === 0 ? (
+                        <div className='errorContainer'>No data available</div>
+                    ) : (
+                    <>
+                        <List 
+                            tableHeaders={["Date", "Booking ID", "Customer Name", "Price", "Status", "Driver Assign", "Action",""]}
+                            listData = {chargerBookingList}
+                            keyMapping={[
+                                { 
+                                    key: 'created_at', 
+                                    label: 'Invoice Date', 
+                                    format: (date) => moment(date).format('DD MMM YYYY ') 
+                                } ,
+                                { key: 'request_id', label: 'ID' }, 
+                                // { 
+                                //     key: 'name', 
+                                //     label: 'Name',
+                                //     relatedKeys: ['country_code', 'contact_no'], 
+                                //     format: (data, key, relatedKeys) => (
+                                //         <>
+                                //             {data[key]}<br />
+                                //             {relatedKeys.map((relatedKey) => data[relatedKey]).join(" ")}
+                                //         </>
+                                //     )
+                                // }, 
+                                { key: 'name', label: 'Customer Name' }, 
+                                { 
+                                    key: 'price', 
+                                    label: 'Price', 
+                                    format: (price) => (price ? `AED ${price}` : 'AED 0') 
+                                },
+                                
+                                {   key: 'order_status',
+                                    label: 'Status',
+                                    format: (status) => statusMapping[status] || status 
+
+                                },
+                            
+                                {
+                                    key: 'driver_assign',
+                                    label: 'Driver Assign',
+                                    relatedKeys: ['order_status'], 
+                                    format: (data, key, relatedKeys) => {
+                                        const isBookingConfirmed = data[relatedKeys[0]] === 'CNF'; 
+                                        
+                                        return isBookingConfirmed ? (
+                                            <img 
+                                                src={AddDriver} 
+                                                className={"logo"} 
+                                                onClick={() => openModal(data.request_id)} 
+                                                alt="Assign Driver" 
+                                            />
+                                        ) : null;
+                                    }
+                                },
+                                {
+                                    key: 'action',
+                                    label: 'Action',
+                                    relatedKeys: ['order_status'], 
+                                    format: (data, key, relatedKeys) => {
+                                        const isCancelable = data[relatedKeys[0]] !== 'C'; 
+                                
+                                        return (
+                                            <div className="editButtonSection">
+                                                {/* View Button (Always Displayed) */}
+                                                <img 
+                                                    src={View} 
+                                                    alt="view" 
+                                                    onClick={() => handlePDBookingDetails(data.request_id)} 
+                                                    className="viewButton" 
+                                                />
+                                
+                                                {/* Cancel Button (Displayed Conditionally) */}
+                                                {isCancelable && (
+                                                    <img 
+                                                        src={Cancel} 
+                                                        alt="cancel" 
+                                                        onClick={() => handleCancelClick(data.request_id, data.rider_id)} 
+                                                        className="viewButton" 
+                                                    />
+                                                )}
+                                            </div>
+                                        );
+                                    }
+                                }
+                            ]}
+                            pageHeading="Pick & Drop Booking List"
                         />
-                    ) : null;
-                }
-            },
-            {
-                key: 'action',
-                label: 'Action',
-                relatedKeys: ['order_status'], 
-                format: (data, key, relatedKeys) => {
-                    const isCancelable = data[relatedKeys[0]] !== 'C'; 
-            
-                    return (
-                        <div className="editButtonSection">
-                            {/* View Button (Always Displayed) */}
-                            <img 
-                                src={View} 
-                                alt="view" 
-                                onClick={() => handlePDBookingDetails(data.request_id)} 
-                                className="viewButton" 
-                            />
-            
-                            {/* Cancel Button (Displayed Conditionally) */}
-                            {isCancelable && (
-                                <img 
-                                    src={Cancel} 
-                                    alt="cancel" 
-                                    onClick={() => handleCancelClick(data.request_id, data.rider_id)} 
-                                    className="viewButton" 
-                                />
-                            )}
-                        </div>
-                    );
-                }
-            }
-        ]}
-        pageHeading="Pick & Drop Booking List"
-          />
-        )}
-        <Pagination 
-          currentPage={currentPage} 
-          totalPages={totalPages} 
-          onPageChange={handlePageChange} 
-        />
+                        
+                        <Pagination 
+                        currentPage={currentPage} 
+                        totalPages={totalPages} 
+                        onPageChange={handlePageChange} 
+                        />
+                    </>
+            )}
 
              <Custommodal
                 isOpen={isModalOpen}

@@ -15,6 +15,7 @@ import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 import Custommodal from '../../SharedComponent/CustomModal/CustomModal.jsx';
+import Loader from "../../SharedComponent/Loader/Loader";
 
 const statusMapping = {
     'BD' : 'Booking Done',
@@ -58,15 +59,15 @@ const RoadAssistanceBookingList = () => {
     const [rsaList, setRsaList]                       = useState([])
     const [currentPage, setCurrentPage]               = useState(1);
     const [totalPages, setTotalPages]                 = useState(1);
-    const [filters, setFilters]                       = useState({});
+    const [filters, setFilters]                       = useState({start_date: null,end_date: null});
     const [isModalOpen, setIsModalOpen]               = useState(false);
     const [selectedBookingId, setSelectedBookingId]   = useState(null);
     const [selectedDriverId, setSelectedDriverId]     = useState(null);
     const [selectedRiderId, setSelectedRiderId]       = useState(null);
-    const [refresh, setRefresh]           = useState(false)
-
-    const [showPopup, setShowPopup] = useState(false);
-    const [reason, setReason] = useState("");
+    const [refresh, setRefresh]                       = useState(false)
+    const [showPopup, setShowPopup]                   = useState(false);
+    const [reason, setReason]                         = useState("");
+    const [loading, setLoading]                       = useState(false);
 
   const handleCancelClick = (bookingId, riderId) => {
     setSelectedBookingId(bookingId);
@@ -120,6 +121,12 @@ const RoadAssistanceBookingList = () => {
   };
 
     const fetchList = (page, appliedFilters = {}) => {
+        if (page === 1 && Object.keys(appliedFilters).length === 0) {
+            setLoading(false);
+        } else {
+            setLoading(true);
+        } 
+
         const obj = {
             userId: userDetails?.user_id,
             email: userDetails?.email,
@@ -135,6 +142,7 @@ const RoadAssistanceBookingList = () => {
             } else {
                 console.log('error in ev-road-assistance-booking-list', response);
             }
+            setLoading(false);
         });
         obj.service_type = 'Portable Charger'
 
@@ -234,85 +242,90 @@ const RoadAssistanceBookingList = () => {
                 searchTerm = {searchTerm}
             />
             <ToastContainer />
-            {chargerBookingList.length === 0 ? (
-                <div className='errorContainer'>No data available</div>
-            ) : (
-            <List
-                tableHeaders={["Date","Order ID", "Customer Name", "Price",  "Status", "Action",""]}
-                listData={chargerBookingList}
-                keyMapping={[
-                    { key: 'created_at', label: 'Date & Time', format: (date) => moment(date).format('DD MMM YYYY') },
-                    { key: 'request_id', label: 'Order ID' },
-                    { key: 'name', label: 'Customer Name' },
-                    { key: 'price', label: 'Price', format: (price) => (price ? `AED ${price}` : '') },
-                    { key: 'order_status', label: 'Status', format: (status) => statusMapping[status] || status },
-                    {
-                        key: 'action',
-                        label: 'Action',
-                        relatedKeys: ['order_status'], 
-                        format: (data, key, relatedKeys) => {
-                            const isCancelable = data[relatedKeys[0]] !== 'C'; 
-                    
-                            return (
-                                <div className="editButtonSection">
-                                    {/* View Button (Always Displayed) */}
-                                    <img 
-                                        src={View} 
-                                        alt="view" 
-                                        onClick={() => handleRoadAssistanceBookingDetails(data.request_id)}
-                                       className="viewButton"
-                                    />
-                                   
-                                   {isCancelable && (
-                                    <>
-                                        <img 
-                                            src={AddDriver} 
-                                            alt="Add Driver" 
-                                            className="viewButton" 
-                                            onClick={(e) => handleConfirm(data.request_id)}
-                                        />
-                                        <img 
-                                            src={Cancel} 
-                                            alt="Cancel" 
-                                            onClick={() => handleCancelClick(data.request_id, data.rider_id)} 
-                                            className="viewButton" 
-                                        />
-                                    </>
-                                )}
 
-                                </div>
-                            );
-                        }
-                    }
-                    // {
-                    //     key: 'driver_assign',
-                    //     label: 'Driver Assign',
-                    //     relatedKeys: ['status'], 
-                    //     format: (data, key, relatedKeys) => {
-                    //         const isBookingConfirmed = data[relatedKeys[0]] === 'BD'; 
+            {loading ? <Loader /> :          
+                chargerBookingList.length === 0 ? (
+                    <div className='errorContainer'>No data available</div>
+                ) : (
+                <>
+                    <List
+                        tableHeaders={["Date","Order ID", "Customer Name", "Price",  "Status", "Action",""]}
+                        listData={chargerBookingList}
+                        keyMapping={[
+                            { key: 'created_at', label: 'Date & Time', format: (date) => moment(date).format('DD MMM YYYY') },
+                            { key: 'request_id', label: 'Order ID' },
+                            { key: 'name', label: 'Customer Name' },
+                            { key: 'price', label: 'Price', format: (price) => (price ? `AED ${price}` : '') },
+                            { key: 'order_status', label: 'Status', format: (status) => statusMapping[status] || status },
+                            {
+                                key: 'action',
+                                label: 'Action',
+                                relatedKeys: ['order_status'], 
+                                format: (data, key, relatedKeys) => {
+                                    const isCancelable = data[relatedKeys[0]] !== 'C'; 
                             
-                    //         return isBookingConfirmed ? (
-                    //             <img 
-                    //                 src={AddDriver} 
-                    //                 className={"logo"} 
-                    //                 onClick={() => openModal(data.booking_id)} 
-                    //                 alt="Assign Driver" 
-                    //             />
-                    //         ) : null;
-                    //     }
-                    // }
+                                    return (
+                                        <div className="editButtonSection">
+                                            {/* View Button (Always Displayed) */}
+                                            <img 
+                                                src={View} 
+                                                alt="view" 
+                                                onClick={() => handleRoadAssistanceBookingDetails(data.request_id)}
+                                            className="viewButton"
+                                            />
+                                        
+                                        {isCancelable && (
+                                            <>
+                                                <img 
+                                                    src={AddDriver} 
+                                                    alt="Add Driver" 
+                                                    className="viewButton" 
+                                                    onClick={(e) => handleConfirm(data.request_id)}
+                                                />
+                                                <img 
+                                                    src={Cancel} 
+                                                    alt="Cancel" 
+                                                    onClick={() => handleCancelClick(data.request_id, data.rider_id)} 
+                                                    className="viewButton" 
+                                                />
+                                            </>
+                                        )}
+
+                                        </div>
+                                    );
+                                }
+                            }
+                            // {
+                            //     key: 'driver_assign',
+                            //     label: 'Driver Assign',
+                            //     relatedKeys: ['status'], 
+                            //     format: (data, key, relatedKeys) => {
+                            //         const isBookingConfirmed = data[relatedKeys[0]] === 'BD'; 
+                                    
+                            //         return isBookingConfirmed ? (
+                            //             <img 
+                            //                 src={AddDriver} 
+                            //                 className={"logo"} 
+                            //                 onClick={() => openModal(data.booking_id)} 
+                            //                 alt="Assign Driver" 
+                            //             />
+                            //         ) : null;
+                            //     }
+                            // }
+                            
+                            
+                        ]}
+                        pageHeading="Ev Road Assitance Booking List"
+                        onBookingConfirm={handleConfirm}
+                    />
                     
-                    
-                ]}
-                pageHeading="Ev Road Assitance Booking List"
-                onBookingConfirm={handleConfirm}
-            />
-        )}
-            <Pagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={handlePageChange}
-            />
+                    <Pagination
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                        onPageChange={handlePageChange}
+                    />
+                </>
+            )}
 
             <Custommodal
                 isOpen={isModalOpen}

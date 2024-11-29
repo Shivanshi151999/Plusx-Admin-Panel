@@ -11,6 +11,7 @@ import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 import ModalAssign from '../../../SharedComponent/BookingDetails/ModalAssign'
+import Loader from "../../../SharedComponent/Loader/Loader";
 
 const dynamicFilters = [
     // { label: 'Service Name', name: 'search', type: 'text' },
@@ -22,18 +23,18 @@ const addButtonProps = {
 };
 
 const ServiceList = () => {
-    const userDetails = JSON.parse(sessionStorage.getItem('userDetails')); 
-    const navigate    = useNavigate()
-
-    const [serviceList, setServiceList]              = useState([])
+    const userDetails                                = JSON.parse(sessionStorage.getItem('userDetails')); 
+    const navigate                                   = useNavigate();
+    const [serviceList, setServiceList]              = useState([]);
     const [currentPage, setCurrentPage]              = useState(1);
     const [totalPages, setTotalPages]                = useState(1);
-    const [totalCount, setTotalCount]                = useState(1)
-    const [filters, setFilters]                      = useState({});
-    const [refresh, setRefresh]                      = useState(false)
+    const [totalCount, setTotalCount]                = useState(1);
+    const [filters, setFilters]                      = useState({start_date: null,end_date: null});
+    const [refresh, setRefresh]                      = useState(false);
     const [selectedServiceId, setSelectedServiceId]  = useState(null);
     const [showPopup, setShowPopup]                  = useState(false);
     const [name, setName]                            = useState("");
+    const [loading, setLoading]                      = useState(false);
     const searchTerm = [
         {
             label: 'search', 
@@ -113,6 +114,12 @@ const ServiceList = () => {
     };
 
     const fetchList = (page, appliedFilters = {}) => {
+        if (page === 1 && Object.keys(appliedFilters).length === 0) {
+            setLoading(false);
+        } else {
+            setLoading(true);
+        }
+
         const obj = {
             userId : userDetails?.user_id,
             email   : userDetails?.email,
@@ -129,6 +136,7 @@ const ServiceList = () => {
                 // toast(response.message, {type:'error'})
                 console.log('error in shop-service-list api', response);
             }
+            setLoading(false);
         })
     }
 
@@ -152,70 +160,75 @@ const ServiceList = () => {
     return (
         <div className='main-container'>
             <ToastContainer />
-         <SubHeader heading = "Ev Specialized Shop Service List"
-            fetchFilteredData={fetchFilteredData} 
-            dynamicFilters={dynamicFilters} filterValues={filters}
-            addButtonProps={addButtonProps}
-            searchTerm = {searchTerm}
-            count = {totalCount}
-            modalTitle = 'Shop Service'
-            setRefresh = {setRefresh}
-            apiEndPoint = 'shop-service-create'
-            nameKey = 'service_name'
-            fetchList = {fetchList}
-         />
-           {serviceList?.length === 0 ? (
-                <div className='errorContainer'>No data available</div>
-            ) : (
-        <List 
-        tableHeaders={["Service ID", "Service Name", "Created Time", "Action",""]}
-          listData = {serviceList}
-          keyMapping={[
-            { key: 'service_id', label: 'Service ID' }, 
-            { key: 'service_name', label: 'Service Name' }, 
-            { 
-                key: 'created_at', 
-                label: 'Created Time', 
-                format: (date) => moment(date).format('DD MMM YYYY h:mm A') 
-            } ,
-            {
-                key: 'action',
-                label: 'Action',
-                relatedKeys: ['service_id'], 
-                format: (data, relatedKeys) => {
-                    return (
-                      
-                        <div className='listAction'>
-                            <img 
-                                src={Edit} 
-                                alt="edit" 
-                                onClick={() => {
-                                    handleEditClick(data.service_id, data.service_name);
-                                }} 
-                            />
-                            <img 
-                                src={Delete} 
-                                alt="delete" 
-                                onClick={() => {
-                                    handleDeleteBrand(data.service_id);
-                                }} 
-                                
-                            />
-                            </div>
-                       
-                    );
-                }
-            }
-            
-        ]}
-        pageHeading="Shop Service List"
-          />
-    )}
-        <Pagination 
-          currentPage={currentPage} 
-          totalPages={totalPages} 
-          onPageChange={handlePageChange} 
-        />
+            <SubHeader heading = "Ev Specialized Shop Service List"
+                fetchFilteredData={fetchFilteredData} 
+                dynamicFilters={dynamicFilters} filterValues={filters}
+                addButtonProps={addButtonProps}
+                searchTerm = {searchTerm}
+                count = {totalCount}
+                modalTitle = 'Shop Service'
+                setRefresh = {setRefresh}
+                apiEndPoint = 'shop-service-create'
+                nameKey = 'service_name'
+                fetchList = {fetchList}
+            />
+
+            {loading ? <Loader /> : 
+                serviceList?.length === 0 ? (
+                    <div className='errorContainer'>No data available</div>
+                ) : (
+                <>
+                    <List 
+                        tableHeaders={["Service ID", "Service Name", "Created Time", "Action",""]}
+                        listData = {serviceList}
+                        keyMapping={[
+                            { key: 'service_id', label: 'Service ID' }, 
+                            { key: 'service_name', label: 'Service Name' }, 
+                            { 
+                                key: 'created_at', 
+                                label: 'Created Time', 
+                                format: (date) => moment(date).format('DD MMM YYYY h:mm A') 
+                            } ,
+                            {
+                                key: 'action',
+                                label: 'Action',
+                                relatedKeys: ['service_id'], 
+                                format: (data, relatedKeys) => {
+                                    return (
+                                    
+                                        <div className='listAction'>
+                                            <img 
+                                                src={Edit} 
+                                                alt="edit" 
+                                                onClick={() => {
+                                                    handleEditClick(data.service_id, data.service_name);
+                                                }} 
+                                            />
+                                            <img 
+                                                src={Delete} 
+                                                alt="delete" 
+                                                onClick={() => {
+                                                    handleDeleteBrand(data.service_id);
+                                                }} 
+                                                
+                                            />
+                                            </div>
+                                    
+                                    );
+                                }
+                            }
+                        
+                        ]}
+                        pageHeading="Shop Service List"
+                    />
+                    
+                    <Pagination 
+                    currentPage={currentPage} 
+                    totalPages={totalPages} 
+                    onPageChange={handlePageChange} 
+                    />
+                </>
+            )}
 
             {showPopup && (
                 <ModalAssign
@@ -232,10 +245,8 @@ const ServiceList = () => {
                         rows="4"
                         value={name} 
                         onChange={handleNameChange}
-                                
                     />
                 </ModalAssign>
-                
             )}
         </div>
     );
