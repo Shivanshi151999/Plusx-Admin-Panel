@@ -28,10 +28,10 @@ const AddShopListForm = () => {
   const [mapLocation, setMapLocation] = useState("");
   const [showMap, setShowMap] = useState(false);
   const [center, setCenter] = useState({ lat: 0, lng: 0 });
-  const [shopName, setShopName] = useState()
-  const [contact, setContact] = useState()
-  const [website, setWebsite] = useState()
-  const [email, setEmail] = useState()
+  const [shopName, setShopName] = useState('')
+  const [contact, setContact] = useState('')
+  const [website, setWebsite] = useState('')
+  const [email, setEmail] = useState('')
   const [description, setDescription] = useState('')
   const [area, setArea] = useState()
   const [latitude, setLatitude] = useState()
@@ -139,8 +139,8 @@ const AddShopListForm = () => {
     Saturday: { open: '', close: '', openMandatory: false, closeMandatory: false },
     Sunday: { open: '', close: '', openMandatory: false, closeMandatory: false },
   });
-  const [errors, setErrors] = useState({});
-  const [file, setFile] = useState(null);
+  const [errors, setErrors]             = useState({});
+  const [file, setFile]                 = useState(null);
   const [galleryFiles, setGalleryFiles] = useState([]);
 
   // Dropdown references
@@ -219,18 +219,55 @@ const AddShopListForm = () => {
 
   const validateForm = () => {
     const fields = [
-      { name: "shopName", value: shopName, errorMessage: "Shop Name is required." },
-      { name: "contactNo", value: contact, errorMessage: "Contact No is required." },
-      { name: "file", value: file, errorMessage: "Image is required." },
+      { name: "shopName",  value: shopName, errorMessage: "Shop name is required." },
+      { name: "contactNo", value: contact, errorMessage: "Please enter a valid contact no.", isMobile: true },
+      { name: "brands",    value: brands, errorMessage: "Brand is required.", isArray: true },
+      { name: "services",  value: services, errorMessage: "Service is required.", isArray: true },
+      { name: "email",     value: email, errorMessage: "Please enter a valid email.", isEmail: true },
+      // { name: "file",      value: file, errorMessage: "Image is required." },
     ];
 
-    const newErrors = fields.reduce((errors, { name, value, errorMessage, isArray }) => {
-      if ((isArray && (!value || value.length === 0)) || (!isArray && !value)) {
+    const newErrors = fields.reduce((errors, { name, value, errorMessage, isMobile, isArray, isEmail }) => {
+      if (!value && !isEmail) {
+        // Field is required (except email)
         errors[name] = errorMessage;
-      }
+      } else if (isMobile && (isNaN(value) || value.length < 9 || value.length > 12)) {
+        // Validate mobile number
+        errors[name] = errorMessage;
+      } else if (isEmail && value && !/^[\w.%+-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/.test(value)) {
+        // Validate email format if a value exists
+        errors[name] = errorMessage;
+      } else  if ((isArray && (!value || value.length === 0)) || (!isArray && !value)) {
+        errors[name] = errorMessage;
+    }
       return errors;
     }, {});
 
+    addresses.forEach((addr, index) => {
+      if (!addr.address.trim()) {
+        newErrors[`address_${index}`] = "Address is required.";
+      }
+      if (!addr.location) {
+        newErrors[`location_${index}`] = "Location is required.";
+      }
+      if (!addr.area_name) {
+        newErrors[`area_name_${index}`] = "Area name is required.";
+      }
+      if (!addr.latitude) {
+        newErrors[`latitude_${index}`] = "Latitude is required.";
+      }
+      if (!addr.longitude) {
+        newErrors[`longitude_${index}`] = "Longitude is required.";
+      }
+    });
+
+    const hasValidTimeSlot = Object.values(timeSlots).some(
+      (times) => times.open && times.close
+  );
+
+    if (!isAlwaysOpen && !hasValidTimeSlot) {
+      newErrors["timeSlots"] = "Either select 'Always Open' or fill at least one time slot.";
+  }
     // Validate time slots only if not always open
     if (!isAlwaysOpen) {
       Object.entries(timeSlots).forEach(([day, times]) => {
@@ -348,9 +385,9 @@ const AddShopListForm = () => {
 
   const fetchDetails = () => {
     const obj = {
-      userId: userDetails?.user_id,
-      email: userDetails?.email,
-      shop_id: ''
+      userId  : userDetails?.user_id,
+      email   : userDetails?.email,
+      shop_id : ''
     };
 
     postRequestWithToken('shop-data', obj, (response) => {
@@ -409,7 +446,7 @@ const AddShopListForm = () => {
                   value={shopName}
                   onChange={(e) => setShopName(e.target.value)}
                 />
-                {errors.shopName && <p className={styles.error} style={{ color: 'red' }}>{errors.shopName}</p>}
+                {errors.shopName && shopName == '' && <p className={styles.error} style={{ color: 'red' }}>{errors.shopName}</p>}
               </div>
               <div className={styles.addShopInputContainer}>
                 <label htmlFor="contactNo" className={styles.addShopLabel}>Contact No</label>
@@ -419,14 +456,19 @@ const AddShopListForm = () => {
                   className={styles.inputField}
                   value={contact}
                   // onChange={(e) => setContact(e.target.value)}
-                  onChange={(e) => setContact(e.target.value)}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    if (/^\d{0,12}$/.test(value)) {
+                      setContact(value);
+                    }
+                  }}
                   onKeyPress={(e) => {
                     if (!/[0-9]/.test(e.key)) {
                       e.preventDefault();
                     }
                   }}
                 />
-                {errors.contactNo && <p className={styles.error} style={{ color: 'red' }}>{errors.contactNo}</p>}
+                {errors.contactNo && contact.length < 9 && <p className={styles.error} style={{ color: 'red' }}>{errors.contactNo}</p>}
               </div>
             </div>
             <div className={styles.row}>
@@ -439,18 +481,19 @@ const AddShopListForm = () => {
                   value={website}
                   onChange={(e) => setWebsite(e.target.value)}
                 />
-                {errors.shopName && <p className={styles.error} style={{ color: 'red' }}>{errors.shopName}</p>}
+                {errors.website && <p className={styles.error} style={{ color: 'red' }}>{errors.shopName}</p>}
               </div>
               <div className={styles.addShopInputContainer}>
                 <label htmlFor="email" className={styles.addShopLabel}>Email</label>
-                <input type="text" id="contactNo"
-                autoComplete="off"
+                <input  id="contactNo"
                   placeholder="Email"
+                  autoComplete="off"
+                  type="email"
                   className={styles.inputField}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
-                {errors.email && <p className={styles.error} style={{ color: 'red' }}>{errors.email}</p>}
+                {errors.email && email == '' && <p className={styles.error} style={{ color: 'red' }}>{errors.email}</p>}
               </div>
             </div>
 
@@ -464,7 +507,7 @@ const AddShopListForm = () => {
                   labelledBy="Select Brands"
                   className={styles.addShopSelect}
                 />
-                {errors.brands && <p className={styles.error} style={{ color: 'red' }}>{errors.brands}</p>}
+                {errors.brands && (!brands || brands.length === 0) && <p className={styles.error} style={{ color: 'red' }}>{errors.brands}</p>}
               </div>
               <div className={styles.addShopInputContainer}>
                 <label htmlFor="services" className={styles.addShopLabel}>Services</label>
@@ -475,7 +518,7 @@ const AddShopListForm = () => {
                   labelledBy="Select Services"
                   className={styles.addShopSelect}
                 />
-                {errors.services && <p className={styles.error} style={{ color: 'red' }}>{errors.services}</p>}
+                {errors.services && (!services || services.length === 0) && <p className={styles.error} style={{ color: 'red' }}>{errors.services}</p>}
               </div>
             </div>
 
@@ -542,8 +585,8 @@ const AddShopListForm = () => {
                           // onBlur={handleOnBlur}
                           onBlur={() => handleOnBlur(index)}
                         />
-                        {/* {errors.mapLocation && <p className={styles.error} style={{ color: 'red' }}>{errors.mapLocation}</p>}
-                  */}
+                        {errors[`address_${index}`] && addr.address === "" &&  <p className={styles.error}>{errors[`address_${index}`]}</p>}
+                    
 
                         {errors[`mapLocation_${index}`] && (
                           <p className={styles.error} style={{ color: "red" }}>
@@ -567,7 +610,7 @@ const AddShopListForm = () => {
                       placeholder="Select Location"
                       isClearable={true}
                     />
-                    {errors.location && <p className={styles.error} style={{ color: 'red' }}>{errors.location}</p>}
+                    {errors[`location_${index}`] && addr.location === "" &&  <p className={styles.error}>{errors[`location_${index}`]}</p>}
                   </div>
                 </div>
                 <div className={styles.row}>
@@ -584,7 +627,7 @@ const AddShopListForm = () => {
                         handleAddressInputChange(index, "area_name", e.target.value)
                       }
                     />
-                    {errors.area && <p className={styles.error} style={{ color: 'red' }}>{errors.area}</p>}
+                    {errors[`area_name_${index}`] && addr.area_name === "" && <p className={styles.error}>{errors[`area_name_${index}`]}</p>}
                   </div>
                   <div className={styles.addShopInputContainer}>
                     <label htmlFor="latitude" className={styles.addShopLabel}>Latitude</label>
@@ -599,7 +642,7 @@ const AddShopListForm = () => {
                         handleAddressInputChange(index, "latitude", e.target.value)
                       }
                     />
-                    {errors.latitude && <p className={styles.error} style={{ color: 'red' }}>{errors.latitude}</p>}
+                    {errors[`latitude_${index}`] && addr.latitude === "" && <p className={styles.error}>{errors[`latitude_${index}`]}</p>}
                   </div>
                   <div className={styles.addShopInputContainer}>
                     <label htmlFor="longitude" className={styles.addShopLabel}>Longitude</label>
@@ -614,7 +657,7 @@ const AddShopListForm = () => {
                         handleAddressInputChange(index, "longitude", e.target.value)
                       }
                     />
-                    {errors.longitude && <p className={styles.error} style={{ color: 'red' }}>{errors.longitude}</p>}
+                    {errors[`longitude_${index}`] && addr.longitude === "" && <p className={styles.error}>{errors[`longitude_${index}`]}</p>}
                   </div>
                 </div>
               </div>
@@ -692,6 +735,7 @@ const AddShopListForm = () => {
                     ))}
                   </div>
                 )}
+                {errors.timeSlots && <p className={styles.error} style={{ color: 'red' }}>{errors.timeSlots}</p>}
               </div>
             </div>
             <div className={styles.fileUpload}>

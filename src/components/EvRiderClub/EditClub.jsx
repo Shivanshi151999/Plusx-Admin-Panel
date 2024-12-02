@@ -10,27 +10,27 @@ import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
 const EditClub = () => {
-    const { clubId } = useParams()
-    const userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
-    const navigate = useNavigate()
-    const [file, setFile] = useState(null);
-    const [galleryFiles, setGalleryFiles] = useState([]);
-    const [errors, setErrors] = useState({});
-    const [clubName, setClubName] = useState()
-    const [noOfMembers, setNoOfMembers] = useState('')
-    const [description, setDescription] = useState()
-    const [preference, setPreference] = useState('')
-    const [url, setUrl] = useState('')
+    const { clubId }                            = useParams()
+    const userDetails                           = JSON.parse(sessionStorage.getItem('userDetails'));
+    const navigate                              = useNavigate()
+    const [file, setFile]                       = useState(null);
+    const [galleryFiles, setGalleryFiles]       = useState([]);
+    const [errors, setErrors]                   = useState({});
+    const [clubName, setClubName]               = useState('')
+    const [noOfMembers, setNoOfMembers]         = useState('')
+    const [description, setDescription]         = useState()
+    const [preference, setPreference]           = useState('')
+    const [url, setUrl]                         = useState('')
     const [locationOptions, setLocationOptions] = useState([])
     const [categoryOptions, setCategoryOptions] = useState([])
-    const [ageOptions, setAgeOptions] = useState([])
-    const [location, setLocation] = useState([])
-    const [category, setCategory] = useState([])
-    const [ageGroup, setAgeGroup] = useState([])
-    const [loading, setLoading]   = useState(false);
+    const [ageOptions, setAgeOptions]           = useState([])
+    const [location, setLocation]               = useState([])
+    const [category, setCategory]               = useState([])
+    const [ageGroup, setAgeGroup]               = useState([])
+    const [loading, setLoading]                 = useState(false);
 
     const contractDropdownRef = useRef(null);
-    const featureDropdownRef = useRef(null)
+    const featureDropdownRef  = useRef(null)
 
     const handleLocation = (selectedOption) => {
         setLocation(selectedOption)
@@ -81,8 +81,8 @@ const EditClub = () => {
             { name: "ageGroup", value: ageGroup, errorMessage: "Age Group is required.", isArray: true },
             { name: "description", value: description, errorMessage: "Description is required." },
             { name: "url", value: url, errorMessage: "Club URL is required." },
-            { name: "file", value: file, errorMessage: "Image is required." },
-            { name: "gallery", value: galleryFiles, errorMessage: "Club Gallery is required.", isArray: true },
+            // { name: "file", value: file, errorMessage: "Image is required." },
+            // { name: "gallery", value: galleryFiles, errorMessage: "Club Gallery is required.", isArray: true },
         ];
 
         const newErrors = fields.reduce((errors, { name, value, errorMessage, isArray }) => {
@@ -155,9 +155,9 @@ const EditClub = () => {
 
     const fetchDetails = () => {
         const obj = {
-            userId: userDetails?.user_id,
-            email: userDetails?.email,
-            club_id: clubId
+            userId  : userDetails?.user_id,
+            email   : userDetails?.email,
+            club_id : clubId
         };
 
         postRequestWithToken('club-data', obj, (response) => {
@@ -243,7 +243,7 @@ const EditClub = () => {
                                 value={clubName}
                                 onChange={(e) => setClubName(e.target.value)}
                             />
-                            {errors.clubName && <p className="error">{errors.clubName}</p>}
+                            {errors.clubName && clubName == '' &&  <p className="error">{errors.clubName}</p>}
                         </div>
 
                         <div className={styles.addShopInputContainer}>
@@ -256,7 +256,7 @@ const EditClub = () => {
                                 isClearable
                                 className={styles.addShopSelect}
                             />
-                            {errors.location && <p className="error">{errors.location}</p>}
+                            {errors.location && (!location || location.length === 0) && <p className="error">{errors.location}</p>}
                         </div>
 
                         <div className={styles.addShopInputContainer}>
@@ -267,9 +267,15 @@ const EditClub = () => {
                                 placeholder="No of Members"
                                 className={styles.inputField}
                                 value={noOfMembers}
-                                onChange={(e) => setNoOfMembers(e.target.value)}
+                                // onChange={(e) => setNoOfMembers(e.target.value)}
+                                onChange={(e) => {
+                                    const value = e.target.value;
+                                    if (/^\d{0,5}$/.test(value)) {
+                                      setNoOfMembers(value);
+                                    }
+                                  }}
                             />
-                            {errors.noOfMembers && <p className="error">{errors.noOfMembers}</p>}
+                            {errors.noOfMembers && noOfMembers == '' && <p className="error">{errors.noOfMembers}</p>}
                         </div>
                     </div>
                     <div className={styles.row}>
@@ -284,7 +290,7 @@ const EditClub = () => {
                                 value={description}
                                 onChange={(e) => setDescription(e.target.value)}
                             />
-                            {errors.description && <p className="error">{errors.description}</p>}
+                            {errors.description && description == '' &&  <p className="error">{errors.description}</p>}
                         </div>
 
                     </div>
@@ -299,7 +305,7 @@ const EditClub = () => {
                                 value={url}
                                 onChange={(e) => setUrl(e.target.value)}
                             />
-                            {errors.url && <p className="error">{errors.url}</p>}
+                            {errors.url && url == '' && <p className="error">{errors.url}</p>}
                         </div>
                         <div className={styles.addShopInputContainer}>
                             <label className={styles.addShopLabel} htmlFor="vehicleType">Category</label>
@@ -314,7 +320,7 @@ const EditClub = () => {
                                     closeOnChangedValue={false}
                                     closeOnSelect={false}
                                 />
-                                {errors.category && <p className="error">{errors.category}</p>}
+                                {errors.category && (!category || category.length === 0) && <p className="error">{errors.category}</p>}
                             </div>
                         </div>
 
@@ -332,7 +338,7 @@ const EditClub = () => {
                                     closeOnChangedValue={false}
                                     closeOnSelect={false}
                                 />
-                                {errors.ageGroup && <p className="error">{errors.ageGroup}</p>}
+                                {errors.ageGroup && (!ageGroup || ageGroup.length === 0) && <p className="error">{errors.ageGroup}</p>}
                             </div>
 
                         </div>
@@ -347,7 +353,7 @@ const EditClub = () => {
                                 value={preference}
                                 onChange={(e) => setPreference(e.target.value)}
                             />
-                            {errors.preference && <p className="error">{errors.preference}</p>}
+                            {errors.preference && preference == '' && <p className="error">{errors.preference}</p>}
                         </div>
                     </div>
                     <div className={styles.toggleContainer}>
