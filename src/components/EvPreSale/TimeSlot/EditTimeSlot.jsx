@@ -274,6 +274,7 @@ const EditEvPreSaleTimeSlot = () => {
                         <div className={styles.inputGroup}>
                             <label className={styles.label}>Booking Limit</label>
                             <input
+                            autoComplete="off"
                                 className={styles.inputCharger}
                                 type="text"
                                 placeholder="Enter Booking Limit"
@@ -285,6 +286,7 @@ const EditEvPreSaleTimeSlot = () => {
                         <div className={styles.inputGroup}>
                             <label className={styles.label}>Available Limit</label>
                             <input
+                            autoComplete="off"
                                 className={styles.inputCharger}
                                 type="text"
                                 placeholder="Enter Available Limit"

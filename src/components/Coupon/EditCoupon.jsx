@@ -156,6 +156,7 @@ const EditCoupon = () => {
                         <div className={styles.addShopInputContainer}>
                             <label className={styles.addShopLabel} htmlFor="modelName">Coupon Name</label>
                             <input type="text" id="couponName"
+                            autoComplete="off"
                                 placeholder="Coupon Name"
                                 className={styles.inputField}
                                 value={couponName}
@@ -166,6 +167,7 @@ const EditCoupon = () => {
                         <div className={styles.addShopInputContainer}>
                             <label className={styles.addShopLabel} htmlFor="couponCode">Coupon Code</label>
                             <input type="text"
+                            autoComplete="off"
                                 id="couponCode"
                                 placeholder="Coupon Code"
                                 className={styles.inputField}
@@ -193,6 +195,7 @@ const EditCoupon = () => {
                         <div className={styles.addShopInputContainer}>
                             <label className={styles.addShopLabel} htmlFor="perCustomer">Usage Per Customer</label>
                             <input type="text"
+                            autoComplete="off"
                                 id="perCustomer"
                                 placeholder="Usage Per Customer"
                                 className={styles.inputField}
@@ -214,6 +217,7 @@ const EditCoupon = () => {
                             <label className={styles.addShopLabel} htmlFor="couponPercentage">Coupon Percentage</label>
                             <input
                                 type="text"
+                                autoComplete="off"
                                 id="couponPercentage"
                                 placeholder="Coupon Percentage"
                                 className={styles.inputField}

@@ -206,6 +206,7 @@ const EditEvGuide = () => {
                         <div className={styles.addShopInputContainer}>
                             <label className={styles.addShopLabel} htmlFor="modelName">Model Name</label>
                             <input type="text" id="modelName"
+                            autoComplete="off"
                                 placeholder="Model Name"
                                 className={styles.inputField}
                                 value={modelName}
@@ -216,6 +217,7 @@ const EditEvGuide = () => {
                         <div className={styles.addShopInputContainer}>
                             <label className={styles.addShopLabel} htmlFor="contactNo">Vehicle Name</label>
                             <input type="text"
+                            autoComplete="off"
                                 id="vehicleName"
                                 placeholder="Vehicle Name"
                                 className={styles.inputField}
@@ -241,6 +243,7 @@ const EditEvGuide = () => {
                         <div className={styles.addShopInputContainer}>
                             <label className={styles.addShopLabel} htmlFor="email">Engine</label>
                             <input type="text"
+                            autoComplete="off"
                                 id="engine"
                                 placeholder="Engine"
                                 className={styles.inputField}
@@ -254,6 +257,7 @@ const EditEvGuide = () => {
                         <div className={styles.addShopInputContainer}>
                             <label className={styles.addShopLabel} htmlFor="email">Horse Power</label>
                             <input
+                            autoComplete="off"
                                 type="text"
                                 id="horsePower"
                                 placeholder="Horse Power"
@@ -266,6 +270,7 @@ const EditEvGuide = () => {
                         <div className={styles.addShopInputContainer}>
                             <label className={styles.addShopLabel} htmlFor="email">Max Speed</label>
                             <input
+                            autoComplete="off"
                                 type="text"
                                 id="maxSpeed"
                                 placeholder="Max Speed"
@@ -278,6 +283,7 @@ const EditEvGuide = () => {
                         <div className={styles.addShopInputContainer}>
                             <label className={styles.addShopLabel} htmlFor="email">Price</label>
                             <input
+                            autoComplete="off"
                                 type="text"
                                 id="price"
                                 placeholder="Price"
@@ -291,7 +297,8 @@ const EditEvGuide = () => {
                     <div className={styles.row}>
                         <div className={styles.addShopInputContainer}>
                             <label className={styles.addShopLabel} htmlFor="modelName">Description</label>
-                            <input
+                            <textarea
+                            autoComplete="off"
                                 type="text"
                                 id="description"
                                 placeholder="Description"
@@ -307,6 +314,7 @@ const EditEvGuide = () => {
                         <div className={styles.addShopInputContainer}>
                             <label className={styles.addShopLabel} htmlFor="modelName">Best Feature</label>
                             <input
+                            autoComplete="off"
                                 type="text"
                                 id="feature"
                                 placeholder="Best Feature"

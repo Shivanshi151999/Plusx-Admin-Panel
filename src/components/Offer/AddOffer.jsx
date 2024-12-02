@@ -112,6 +112,7 @@ useEffect(() => {
             <div className={styles.addShopInputContainer}>
               <label className={styles.addShopLabel} htmlFor="modelName">Offer Name</label>
               <input type="text" id="couponName" 
+              autoComplete="off"
                 placeholder="Coupon Name" 
                 className={styles.inputField} 
                 value={couponName}
@@ -155,6 +156,7 @@ useEffect(() => {
             <div className={styles.addShopInputContainer}>
               <label className={styles.addShopLabel} htmlFor="url">Offer URL</label>
               <input type="text"
+              autoComplete="off"
                id="url" 
                placeholder="Offer URL" 
                className={styles.inputField} 

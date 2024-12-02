@@ -403,6 +403,7 @@ const AddShopListForm = () => {
               <div className={styles.addShopInputContainer}>
                 <label htmlFor="shopName" className={styles.addShopLabel}>Shop Name</label>
                 <input type="text" id="shopName"
+                autoComplete="off"
                   placeholder="Shop Name"
                   className={styles.inputField}
                   value={shopName}
@@ -413,6 +414,7 @@ const AddShopListForm = () => {
               <div className={styles.addShopInputContainer}>
                 <label htmlFor="contactNo" className={styles.addShopLabel}>Contact No</label>
                 <input type="text" id="contactNo"
+                autoComplete="off"
                   placeholder="Contact No"
                   className={styles.inputField}
                   value={contact}
@@ -431,6 +433,7 @@ const AddShopListForm = () => {
               <div className={styles.addShopInputContainer}>
                 <label htmlFor="website" className={styles.addShopLabel}>Website</label>
                 <input type="text" id="website"
+                autoComplete="off"
                   placeholder="Website"
                   className={styles.inputField}
                   value={website}
@@ -441,6 +444,7 @@ const AddShopListForm = () => {
               <div className={styles.addShopInputContainer}>
                 <label htmlFor="email" className={styles.addShopLabel}>Email</label>
                 <input type="text" id="contactNo"
+                autoComplete="off"
                   placeholder="Email"
                   className={styles.inputField}
                   value={email}
@@ -481,7 +485,8 @@ const AddShopListForm = () => {
                   <label htmlFor="description" className={styles.addShopLabel}>
                     Description
                   </label>
-                  <input
+                  <textarea
+                  autoComplete="off"
                     type="text"
                     id="description"
                     placeholder="Description"
@@ -525,6 +530,7 @@ const AddShopListForm = () => {
                           Full Address
                         </label>
                         <input
+                        autoComplete="off"
                           type="text"
                           id="mapLocation"
                           placeholder="Enter Address"
@@ -568,6 +574,7 @@ const AddShopListForm = () => {
                   <div className={styles.addShopInputContainer}>
                     <label htmlFor="area" className={styles.addShopLabel}>Area</label>
                     <input type="text" id="area"
+                    autoComplete="off"
                       placeholder="Area"
                       className={styles.inputField}
                       // value={area}
@@ -582,6 +589,7 @@ const AddShopListForm = () => {
                   <div className={styles.addShopInputContainer}>
                     <label htmlFor="latitude" className={styles.addShopLabel}>Latitude</label>
                     <input type="text" id="latitude"
+                    autoComplete="off"
                       placeholder="Latitide"
                       className={styles.inputField}
                       // value={latitude || ''}
@@ -596,6 +604,7 @@ const AddShopListForm = () => {
                   <div className={styles.addShopInputContainer}>
                     <label htmlFor="longitude" className={styles.addShopLabel}>Longitude</label>
                     <input type="text" id="longitude"
+                    autoComplete="off"
                       placeholder="Longitude"
                       className={styles.inputField}
                       // value={longitude || ''}

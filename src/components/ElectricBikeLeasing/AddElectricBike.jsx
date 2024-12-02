@@ -185,7 +185,8 @@ useEffect(() => {
             <div className={styles.addShopInputContainer}>
               <label className={styles.addShopLabel} htmlFor="modelName">Bike Name</label>
               <input type="text" id="carName" 
-                placeholder="Bike Name" 
+                placeholder="Bike Name"
+                autoComplete="off" 
                 className={styles.inputField} 
                 value={carName}
                 onChange={(e) => setCarName(e.target.value)}
@@ -196,6 +197,7 @@ useEffect(() => {
               <label className={styles.addShopLabel} htmlFor="contactNo">Available On</label>
               <input type="text" 
               id="availableOn" 
+              autoComplete="off"
               placeholder="Available On" 
               className={styles.inputField} 
               value={availableOn}
@@ -222,6 +224,7 @@ useEffect(() => {
               <label className={styles.addShopLabel} htmlFor="email">Price</label>
               <input type="text"
                id="engine" 
+               autoComplete="off"
                placeholder="Price" 
                className={styles.inputField} 
                value={price}
@@ -274,8 +277,9 @@ useEffect(() => {
           <div className={styles.row}>
             <div className={styles.addShopInputContainer}>
               <label className={styles.addShopLabel} htmlFor="modelName">Description</label>
-              <input 
+              <textarea
               type="text" 
+              autoComplete="off"
               id="description" 
               placeholder="Description" 
               className={styles.inputField} 
@@ -291,6 +295,7 @@ useEffect(() => {
               <label className={styles.addShopLabel} htmlFor="modelName">URL</label>
               <input 
               type="text" 
+              autoComplete="off"
               id="feature" 
               placeholder="URL" 
               className={styles.inputField} 
@@ -306,6 +311,7 @@ useEffect(() => {
                 <div className={styles.fileDropZone}>
                     <input
                         type="file"
+                        autoComplete="off"
                         id="coverFileUpload"
                         accept=".jpeg,.jpg"
                         onChange={handleFileChange}
@@ -333,6 +339,7 @@ useEffect(() => {
                     <input
                         type="file"
                         id="galleryFileUpload"
+                        autoComplete="off"
                         // accept="image/*"
                         accept=".jpeg,.jpg"
                         multiple

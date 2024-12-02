@@ -205,6 +205,7 @@ useEffect(() => {
             <div className={styles.addShopInputContainer}>
               <label className={styles.addShopLabel} htmlFor="modelName">Club Name</label>
               <input type="text" id="clubName" 
+              autoComplete="off"
                 placeholder="Club Name" 
                 className={styles.inputField} 
                 value={clubName}
@@ -229,6 +230,7 @@ useEffect(() => {
             <div className={styles.addShopInputContainer}>
               <label className={styles.addShopLabel} htmlFor="noOfMembers">No of Members</label>
               <input type="text" 
+              autoComplete="off"
               id="noOfMembers" 
               placeholder="No of Members" 
               className={styles.inputField} 
@@ -241,7 +243,8 @@ useEffect(() => {
           <div className={styles.row}>
             <div className={styles.addShopInputContainer}>
               <label className={styles.addShopLabel} htmlFor="modelName">Description</label>
-              <input 
+              <textarea
+              autoComplete="off"
               type="text" 
               id="description" 
               placeholder="Description" 
@@ -257,6 +260,7 @@ useEffect(() => {
           <div className={styles.addShopInputContainer}>
               <label className={styles.addShopLabel} htmlFor="url">Club URL</label>
               <input type="text"
+              autoComplete="off"
                id="url" 
                placeholder="Club URL" 
                className={styles.inputField} 
@@ -303,6 +307,7 @@ useEffect(() => {
                 <div className={styles.addShopInputContainer}>
                         <label className={styles.addShopLabel} htmlFor="preference">Preference</label>
                         <input 
+                        autoComplete="off"
                         type="text" 
                         id="preference" 
                         placeholder="Preference" 

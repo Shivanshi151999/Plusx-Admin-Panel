@@ -122,7 +122,7 @@ const SideNavbar = () => {
         }
         return location.pathname.startsWith(route);
     };
-    
+
     return (
         <div className={`${styles.sidebar} ${isSidebarOpen ? styles.sidebarOpen : styles.sidebarClosed}`} >
             <div className={styles.hamburger} onClick={toggleSidebar}>
@@ -136,7 +136,7 @@ const SideNavbar = () => {
                     </NavLink>
                 </div>
                 <ul className={styles.menuList}>
-                    <SideBarLinkItem label="Dashboard" path="/" isActive={isActive("/")}/>
+                    <SideBarLinkItem label="Dashboard" path="/" isActive={isActive("/")} />
                     <SideBarLinkItem label="App Sign Up List" path="/app-signup/app-signup-list" isActive={isActive("/app-signup")} />
                     <SideBarLinkItem label="Drivers" path="/drivers/driver-list" isActive={isActive("/drivers")} />
                     <SidebarDropdown
@@ -196,8 +196,8 @@ const SideNavbar = () => {
                         checkedItems={checkedItems.evSpecializedShops}
                     />
                     <SideBarLinkItem label="EV Buy & Sell" path="/ev-buy-sell/ev-buy-list" isActive={isActive("/ev-buy-sell")} />
-                    <SideBarLinkItem label="Offer" path="/offer/offer-list" isActive={isActive("/offer")}/>
-                    <SideBarLinkItem label="Register Interest" path="/interest-list" />
+                    <SideBarLinkItem label="Offer" path="/offer/offer-list" isActive={isActive("/offer")} />
+                    <SideBarLinkItem label="Register Interest" path="/interest-list" isActive={isActive("/interest-list")} />
                     <SideBarLinkItem label="Coupon" path="/coupon/coupon-list" isActive={isActive("/coupon")} />
                     <SideBarLinkItem label="Subscription Package" path="/subscription/subscription-list" isActive={isActive("/subscription")} />
 

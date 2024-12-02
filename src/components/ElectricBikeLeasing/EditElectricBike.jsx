@@ -230,6 +230,7 @@ const EditElectricBike = () => {
                         <div className={styles.addShopInputContainer}>
                             <label className={styles.addShopLabel} htmlFor="modelName">Bike Name</label>
                             <input type="text" id="carName"
+                            autoComplete="off"
                                 placeholder="Bike Name"
                                 className={styles.inputField}
                                 value={carName}
@@ -240,6 +241,7 @@ const EditElectricBike = () => {
                         <div className={styles.addShopInputContainer}>
                             <label className={styles.addShopLabel} htmlFor="contactNo">Available On</label>
                             <input type="text"
+                            autoComplete="off"
                                 id="availableOn"
                                 placeholder="Available On"
                                 className={styles.inputField}
@@ -266,6 +268,7 @@ const EditElectricBike = () => {
                         <div className={styles.addShopInputContainer}>
                             <label className={styles.addShopLabel} htmlFor="email">Price</label>
                             <input type="text"
+                            autoComplete="off"
                                 id="engine"
                                 placeholder="Price"
                                 className={styles.inputField}
@@ -319,7 +322,8 @@ const EditElectricBike = () => {
                     <div className={styles.row}>
                         <div className={styles.addShopInputContainer}>
                             <label className={styles.addShopLabel} htmlFor="modelName">Description</label>
-                            <input
+                            <textarea
+                            autoComplete="off"
                                 type="text"
                                 id="description"
                                 placeholder="Description"
@@ -335,6 +339,7 @@ const EditElectricBike = () => {
                         <div className={styles.addShopInputContainer}>
                             <label className={styles.addShopLabel} htmlFor="modelName">URL</label>
                             <input
+                            autoComplete="off"
                                 type="text"
                                 id="feature"
                                 placeholder="URL"

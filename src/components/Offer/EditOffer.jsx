@@ -148,7 +148,8 @@ const handleToggle = () => {
           <div className={styles.row}>
             <div className={styles.addShopInputContainer}>
               <label className={styles.addShopLabel} htmlFor="modelName">Offer Name</label>
-              <input type="text" id="couponName" 
+              <input type="text" id="couponName"
+              autoComplete="off" 
                 placeholder="Offer Name" 
                 className={styles.inputField} 
                 value={couponName}
@@ -192,6 +193,7 @@ const handleToggle = () => {
             <div className={styles.addShopInputContainer}>
               <label className={styles.addShopLabel} htmlFor="url">Offer URL</label>
               <input type="text"
+              autoComplete="off"
                id="url" 
                placeholder="Offer URL" 
                className={styles.inputField} 

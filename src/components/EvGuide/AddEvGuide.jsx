@@ -160,6 +160,7 @@ useEffect(() => {
             <div className={styles.addShopInputContainer}>
               <label className={styles.addShopLabel} htmlFor="modelName">Model Name</label>
               <input type="text" id="modelName" 
+               autoComplete="off"
                 placeholder="Model Name" 
                 className={styles.inputField} 
                 value={modelName}
@@ -170,6 +171,7 @@ useEffect(() => {
             <div className={styles.addShopInputContainer}>
               <label className={styles.addShopLabel} htmlFor="contactNo">Vehicle Name</label>
               <input type="text" 
+               autoComplete="off"
               id="vehicleName" 
               placeholder="Vehicle Name" 
               className={styles.inputField} 
@@ -195,6 +197,7 @@ useEffect(() => {
             <div className={styles.addShopInputContainer}>
               <label className={styles.addShopLabel} htmlFor="email">Engine</label>
               <input type="text"
+               autoComplete="off"
                id="engine" 
                placeholder="Engine" 
                className={styles.inputField} 
@@ -208,6 +211,7 @@ useEffect(() => {
             <div className={styles.addShopInputContainer}>
               <label className={styles.addShopLabel} htmlFor="email">Horse Power</label>
               <input 
+               autoComplete="off"
               type="text"
                id="horsePower" 
                placeholder="Horse Power" 
@@ -220,6 +224,7 @@ useEffect(() => {
             <div className={styles.addShopInputContainer}>
               <label className={styles.addShopLabel} htmlFor="email">Max Speed</label>
               <input 
+               autoComplete="off"
               type="text" 
               id="maxSpeed" 
               placeholder="Max Speed" 
@@ -232,6 +237,7 @@ useEffect(() => {
             <div className={styles.addShopInputContainer}>
               <label className={styles.addShopLabel} htmlFor="email">Price</label>
               <input 
+               autoComplete="off"
               type="text" 
               id="price" 
               placeholder="Price" 
@@ -245,7 +251,7 @@ useEffect(() => {
           <div className={styles.row}>
             <div className={styles.addShopInputContainer}>
               <label className={styles.addShopLabel} htmlFor="modelName">Description</label>
-              <input 
+              <textarea
               type="text" 
               id="description" 
               placeholder="Description" 
@@ -261,7 +267,8 @@ useEffect(() => {
             <div className={styles.addShopInputContainer}>
               <label className={styles.addShopLabel} htmlFor="modelName">Best Feature</label>
               <input 
-              type="text" 
+              type="text"
+              autoComplete="off" 
               id="feature" 
               placeholder="Best Feature" 
               className={styles.inputField} 
