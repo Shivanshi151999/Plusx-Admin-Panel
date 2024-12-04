@@ -9,6 +9,7 @@ import BookingLeftDetails from '../SharedComponent/BookingDetails/BookingLeftDet
 import { useParams } from 'react-router-dom';
 import moment from 'moment';
 import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 
 const statusMapping = {
@@ -90,7 +91,8 @@ const StationDetails = () => {
   const navigate = useNavigate()
   const { stationId } = useParams()
   const [bookingDetails, setBookingDetails] = useState()
-  const [imageGallery, setImageGallery] = useState()
+  const [imageGallery, setImageGallery] = useState();
+  const [imageGalleryId, setImageGalleryId] = useState();
   const [baseUrl, setBaseUrl] = useState()
 
 
@@ -105,6 +107,7 @@ const StationDetails = () => {
       if (response.code === 200) {
         setBookingDetails(response?.data || {});
         setImageGallery(response.gallery_data)
+        setImageGalleryId(response.gallery_id)
         setBaseUrl(response.base_url)
       } else {
         console.log('error in public-charger-station-details API', response);
@@ -119,6 +122,28 @@ const StationDetails = () => {
     }
     fetchDetails();
   }, []);
+
+  const handleDeleteGalleryImage = (galleryId) => {
+    const confirmDelete = window.confirm("Please confirm: Do you want to delete this item?");
+    if (confirmDelete) {
+        const obj = { 
+            userId     : userDetails?.user_id,
+            email      : userDetails?.email,
+            gallery_id : galleryId 
+        };
+        postRequestWithToken('chargers-gallery-del', obj, async (response) => {
+            if (response.code === 200) {
+                toast(response.message, { type: "success" });
+
+                setTimeout(() => {
+                  fetchDetails();
+                }, 1000);
+            } else {
+                toast(response.message, { type: 'error' });
+            }
+        });
+    }
+};
 
   const headerTitles = {
     bookingIdTitle: "Service ID",
@@ -177,12 +202,14 @@ const StationDetails = () => {
   const imageContent = {
     coverImage: bookingDetails?.station_image,
     galleryImages: imageGallery,
+    galleryImagesId: imageGalleryId,
     baseUrl: baseUrl,
     slotDate: moment(bookingDetails?.slot_date_time).format('DD MMM YYYY h:mm A'),
   }
 
   return (
     <div className='main-container'>
+      <ToastContainer />
       <BookingDetailsHeader
         content={content} titles={headerTitles}
         type='publicChargingStation'
@@ -198,8 +225,8 @@ const StationDetails = () => {
           type='publicChargingStation'
         />
         <BookingMultipleImages
-       titles={imageTitles} content={imageContent}
-          type='publicChargingStation'
+          titles={imageTitles} content={imageContent}
+          type='publicChargingStation' onDeleteImage={handleDeleteGalleryImage}
         />
       </div>
     </div>

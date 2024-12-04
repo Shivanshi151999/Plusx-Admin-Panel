@@ -1,8 +1,19 @@
 import React from 'react'
 import styles from '../details.module.css'
+import { AiOutlineClose } from 'react-icons/ai';
 
-const BookingMultipleImages = ({ titles, content, type }) => {
+const BookingMultipleImages = ({ titles, content, type, onDeleteImage }) => {
   const baseUrl = content.baseUrl;
+  
+  const galleryImagesWithIds =
+  Array.isArray(content?.galleryImages) && Array.isArray(content?.galleryImagesId)
+    ? content.galleryImages.map((image, index) => ({
+        image,
+        id: content.galleryImagesId[index],
+      }))
+    : []; 
+
+
   return (
     <div className={styles.multipleImageMainSection}>
       <div className={styles.multipleimageMainContainer}>
@@ -13,14 +24,47 @@ const BookingMultipleImages = ({ titles, content, type }) => {
               <div className={styles.multiplemultipleinfoBlock}>
                 <span className={styles.multiplemultipleinfoHeading}>{titles.galleryImages}</span>
                 <div className={styles.multiplegalleryImages}>
-                  {content.galleryImages.map((image, index) => (
-                    <img
-                      key={index}
-                      src={`${baseUrl}${image}`}
-                      alt={`Gallery Image ${index + 1}`}
-                      className={styles.gallerymultipleImage}
-                    />  
-                  ))}
+                  {/* {content.galleryImages.map((image, index) => (
+                    <div className={styles.imageContainer}  key={index}>
+                      <img
+                        key={index}
+                        src={`${baseUrl}${image}`}
+                        alt={`Gallery img ${index + 1}`}
+                        className={styles.gallerymultipleImage}
+                      />  
+                      <button type="button" className={styles.galleryImagesCloseButton}>
+                        <AiOutlineClose size={20} style={{ padding: '2px' }} />
+                      </button>
+                    </div>
+                  ))}*/}
+
+                  {galleryImagesWithIds.length > 0 ? (
+                    galleryImagesWithIds.map(({ image, id }, index) => (
+                      <div className={styles.imageContainer} key={index}>
+                        <img
+                          src={`${baseUrl}${image}`}
+                          alt={`Gallery img ${index + 1}`}
+                          className={styles.gallerymultipleImage}
+                        />
+                        <button type="button" className={styles.galleryImagesCloseButton} onClick={() => onDeleteImage(id)}>
+                          <AiOutlineClose size={20} style={{ padding: '2px' }} />
+                        </button>
+                      </div>
+                    ))
+                  ) : (
+                    content.galleryImages.map((image, index) => (
+                      <div className={styles.imageContainer} key={index}>
+                        <img
+                          src={`${baseUrl}${image}`}
+                          alt={`Gallery img ${index + 1}`}
+                          className={styles.gallerymultipleImage}
+                        />
+                        <button type="button" className={styles.galleryImagesCloseButton}>
+                          <AiOutlineClose size={20} style={{ padding: '2px' }} />
+                        </button>
+                      </div>
+                    ))
+                  )}
                 </div>
               </div>
             </div>
@@ -35,7 +79,7 @@ const BookingMultipleImages = ({ titles, content, type }) => {
                     <img
                       key={index}
                       src={`${baseUrl}${image}`}
-                      alt={`Gallery Image ${index + 1}`}
+                      alt={`Gallery img ${index + 1}`}
                      className={styles.gallerymultipleImage}
                     />
                   ))}
@@ -53,7 +97,7 @@ const BookingMultipleImages = ({ titles, content, type }) => {
                     <img
                       key={index}
                       src={`${baseUrl}${image}`}
-                      alt={`Gallery Image ${index + 1}`}
+                      alt={`Gallery img ${index + 1}`}
                      className={styles.gallerymultipleImage}
                     />
                   ))}
@@ -71,7 +115,7 @@ const BookingMultipleImages = ({ titles, content, type }) => {
                     <img
                       key={index}
                       src={`${baseUrl}${image}`}
-                      alt={`Gallery Image ${index + 1}`}
+                      alt={`Gallery img ${index + 1}`}
                      className={styles.gallerymultipleImage}
                     />
                   ))}
@@ -89,7 +133,7 @@ const BookingMultipleImages = ({ titles, content, type }) => {
                     <img
                       key={index}
                       src={`${baseUrl}${image}`}
-                      alt={`Gallery Image ${index + 1}`}
+                      alt={`Gallery img ${index + 1}`}
                      className={styles.gallerymultipleImage}
                     />
                   ))}
@@ -123,7 +167,7 @@ const BookingMultipleImages = ({ titles, content, type }) => {
                     <img
                       key={index}
                       src={`${baseUrl}${image}`}
-                      alt={`Gallery Image ${index + 1}`}
+                      alt={`Gallery img ${index + 1}`}
                      className={styles.gallerymultipleImage}
                     />
                   ))}
@@ -143,7 +187,7 @@ const BookingMultipleImages = ({ titles, content, type }) => {
                     <img
                       key={index}
                       src={`${baseUrl}${image}`}
-                      alt={`Tyre Image ${index + 1}`}
+                      alt={`Tyre img ${index + 1}`}
                      className={styles.gallerymultipleImage}
                     />
                   ))}
@@ -162,7 +206,7 @@ const BookingMultipleImages = ({ titles, content, type }) => {
                     <img
                       key={index}
                       src={`${baseUrl}${image}`}
-                      alt={`Other Image ${index + 1}`}
+                      alt={`Other img ${index + 1}`}
                      className={styles.gallerymultipleImage}
                     />
                   ))}
