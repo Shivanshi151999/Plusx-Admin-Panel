@@ -6,9 +6,9 @@ import { postRequest } from '../../api/Requests';
 import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import io from 'socket.io-client';
+// import io from 'socket.io-client';
 
-const socket = io(process.env.REACT_APP_SERVER_URL);
+// const socket = io(process.env.REACT_APP_SERVER_URL);
 
 const Login = () => {
     const navigate = useNavigate()

@@ -13,9 +13,9 @@ const AddOffer = () => {
   const navigate                        = useNavigate()
   const [file, setFile]                 = useState(null);
   const [errors, setErrors]             = useState({});
-  const [couponName, setCouponName]     = useState();
-  const [expiryDate, setExpiry]         = useState();
-  const [url, setUrl]                   = useState();
+  const [couponName, setCouponName]     = useState('');
+  const [expiryDate, setExpiry]         = useState('');
+  const [url, setUrl]                   = useState('');
   const [loading, setLoading]           = useState(false);
 
     const handleFileChange = (event) => {
@@ -34,7 +34,7 @@ const AddOffer = () => {
 const validateForm = () => {
     const fields = [
         { name: "couponName", value: couponName, errorMessage: "Offer Name is required." },
-        // { name: "url", value: url, errorMessage: "URL is required." },
+        { name: "url", value: url, errorMessage: "URL is required." },
         { name: "expiryDate", value: expiryDate, errorMessage: "Expiry Date is required."},
         { name: "file", value: file, errorMessage: "Image is required." },
     ];
@@ -118,7 +118,7 @@ useEffect(() => {
                 value={couponName}
                 onChange={(e) => setCouponName(e.target.value)}
                 />
-                {errors.couponName && <p className="error">{errors.couponName}</p>}
+                {errors.couponName && couponName == '' && <p className="error">{errors.couponName}</p>}
             </div>
              <div className={styles.addShopInputContainer}>
                   <label className={styles.addShopLabel} htmlFor="expiryDate">Expiry Date</label>
@@ -148,7 +148,7 @@ useEffect(() => {
                     placeholder="DD-MM-YYYY"
                     className={styles.inputField}
                   />
-                  {errors.expiryDate && <p className="error">{errors.expiryDate}</p>}
+                  {errors.expiryDate && expiryDate == '' && <p className="error">{errors.expiryDate}</p>}
                 </div>
           </div>
          
@@ -163,7 +163,7 @@ useEffect(() => {
                value={url}
                 onChange={(e) => setUrl(e.target.value)}
                />
-               {errors.url && <p className="error">{errors.url}</p>}
+               {errors.url && url == '' && <p className="error">{errors.url}</p>}
             </div>
           </div>
          

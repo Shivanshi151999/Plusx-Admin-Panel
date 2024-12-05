@@ -18,9 +18,9 @@ const EditOffer = () => {
   const [details, setDetails]           = useState();
   const [file, setFile]                 = useState(null);
   const [errors, setErrors]             = useState({});
-  const [couponName, setCouponName]     = useState();
-  const [expiryDate, setExpiry]         = useState();
-  const [url, setUrl]                   = useState();
+  const [couponName, setCouponName]     = useState('');
+  const [expiryDate, setExpiry]         = useState('');
+  const [url, setUrl]                   = useState('');
   const [loading, setLoading]           = useState(false);
 
   const handleFileChange = (event) => {
@@ -155,7 +155,7 @@ const handleToggle = () => {
                 value={couponName}
                 onChange={(e) => setCouponName(e.target.value)}
                 />
-                {errors.couponName && <p className={styles.error} style={{ color: 'red' }}>{errors.couponName}</p>}
+                {errors.couponName && couponName == '' && <p className={styles.error} style={{ color: 'red' }}>{errors.couponName}</p>}
             </div>
              <div className={styles.addShopInputContainer}>
                   <label className={styles.addShopLabel} htmlFor="expiryDate">Expiry Date</label>
@@ -185,7 +185,7 @@ const handleToggle = () => {
                     placeholder="DD-MM-YYYY"
                     className={styles.inputField}
                   />
-                  {errors.expiryDate && <p className={styles.error} style={{ color: 'red' }}>{errors.expiryDate}</p>}
+                  {errors.expiryDate && expiryDate == '' && <p className={styles.error} style={{ color: 'red' }}>{errors.expiryDate}</p>}
                 </div>
           </div>
          
@@ -200,7 +200,7 @@ const handleToggle = () => {
                value={url}
                 onChange={(e) => setUrl(e.target.value)}
                />
-               {errors.url && <p className={styles.error} style={{ color: 'red' }}>{errors.url}</p>}
+               {errors.url && url == '' && <p className={styles.error} style={{ color: 'red' }}>{errors.url}</p>}
             </div>
           </div>
          
