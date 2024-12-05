@@ -63,7 +63,7 @@ const PodDeviceList = () => {
     };
     const addButtonProps = {
         heading: "Add Device", 
-        link: "/pod-device/add-device"
+        link: "/portable-charger/add-device"
     };
     return (
         <div className='main-container'>
@@ -80,13 +80,13 @@ const PodDeviceList = () => {
                 tableHeaders={[ "POD ID", "POD Name", "Device ID", "Modal Name", "Inverter", "Charger", "Status", "Action"]}
                 listData={chargerBookingList}
                 keyMapping={[
-                    { key: 'pod_id', label: 'POD ID' },
-                    { key: 'pod_name', label: 'POD Name' },
-                    { key: 'device_id', label: 'Device ID' },
-                    { key: 'design_model', label: 'Modal Name' },
-                    { key: 'inverter', label: 'Inverter' },
-                    { key: 'charger', label: 'Charger' },
-                    { key: 'status', label: 'Status', format: (status) => statusMapping[status] || status },
+                    { key : 'pod_id', label: 'POD ID' },
+                    { key : 'pod_name', label: 'POD Name' },
+                    { key : 'device_id', label: 'Device ID' },
+                    { key : 'design_model', label: 'Modal Name' },
+                    { key : 'inverter', label: 'Inverter' },
+                    { key : 'charger', label: 'Charger' },
+                    { key : 'status', label: 'Status', format: (status) => statusMapping[status] || status },
                 ]}
                 pageHeading="POD Device List"
             />

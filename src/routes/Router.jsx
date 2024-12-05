@@ -144,7 +144,7 @@ const router = createBrowserRouter([
                 ],
             },
               //Rider Section
-              {
+            {
                 path: "/drivers",
                 element: <Riders/>,
                 children: [
@@ -216,6 +216,43 @@ const router = createBrowserRouter([
                         path: "invoice/:invoiceId",
                         element: <InvoiceDetails />,
                     },
+                    // Pod Device Route
+                    {
+                        path: "device-list",
+                        element: <PodDeviceList />,
+                    },
+                    {
+                        path: "add-device",
+                        element: <AddPodDevice />,  
+                    },
+                    {
+                        path: "edit-device/:podId",
+                        element: <EditPodDevice />,  
+                    }, {
+                        path: "device-details/:podId",
+                        element: <DeviceDetails />,  
+                    },
+                    {
+                        path    : "area-list",
+                        element : <PodAreaList />,
+                    },
+                    {
+                        path    : "brand-list",
+                        element : <PodBrandList />,
+                    },
+                    {
+                        path    : "add-brand/:deviceId",
+                        element : <AddPodBrand />,
+                    },
+                    {
+                        path    : "add-area",
+                        element : <AddPodArea />,
+                    },
+                    {
+                        path    : "edit-area/:areaId",
+                        element : <EditPodArea />,
+                    },
+                    // End Pod Device Route
                 ],
             },
             // End the portable charger routes
@@ -600,41 +637,7 @@ const router = createBrowserRouter([
                 path: "/pod-device",
                 // element: <ShopList />,
                 children: [
-                    {
-                        path: "device-list",
-                        element: <PodDeviceList />,
-                    },
-                    {
-                        path: "add-device",
-                        element: <AddPodDevice />,  
-                    },
-                    {
-                        path: "edit-device/:podId",
-                        element: <EditPodDevice />,  
-                    }, {
-                        path: "device-details/:podId",
-                        element: <DeviceDetails />,  
-                    },
-                    {
-                        path    : "area-list",
-                        element : <PodAreaList />,
-                    },
-                    {
-                        path    : "brand-list",
-                        element : <PodBrandList />,
-                    },
-                    {
-                        path    : "add-brand/:deviceId",
-                        element : <AddPodBrand />,
-                    },
-                    {
-                        path    : "add-area",
-                        element : <AddPodArea />,
-                    },
-                    {
-                        path    : "edit-area/:areaId",
-                        element : <EditPodArea />,
-                    },
+                    
                 ],
             },
             // Invoice Section

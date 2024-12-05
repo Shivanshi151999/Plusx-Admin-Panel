@@ -20,7 +20,7 @@ const EditPodDevice = () => {
     const [errors, setErrors]       = useState({});  
     const [isActive, setIsActive]   = useState(false);
     const backButtonClick = () => {
-        navigate('/pod-device/area-list')
+        navigate('/portable-charger/area-list')
     };
     
     const validateForm = () => {
@@ -73,7 +73,7 @@ const EditPodDevice = () => {
                 if (response.code === 200) {
                     toast(response.message[0], { type: "success" });
                     setTimeout(() => {
-                        navigate('/pod-device/area-list')
+                        navigate('/portable-charger/area-list')
                     }, 2000);
                 } else {
                     toast(response.message, {type:'error'})

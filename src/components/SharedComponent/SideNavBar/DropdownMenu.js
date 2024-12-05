@@ -4,6 +4,9 @@ export const menuItems = {
         { id: "chargerBooking", label: "Charger Booking", path: "/portable-charger/charger-booking-list" },
         { id: "invoiceList", label: "Invoice List", path: "/portable-charger/charger-booking-invoice-list" },
         { id: "timeSlot", label: "Time Slot", path: "/portable-charger/charger-booking-time-slot-list" },
+
+        { id: "deviceList", label: "Device List", path: "/portable-charger/device-list" },
+        { id: "areaList", label: "Area List", path: "/portable-charger/area-list" },
     ],
     pickAndDrop: [
         { id: "bookingList", label: "Booking List", path: "/pick-and-drop/booking-list" },
@@ -22,10 +25,5 @@ export const menuItems = {
         { id: "shopList", label: "Shop List", path: "/ev-specialized/shop-list" },
         { id: "shopServices", label: "Shop Services", path: "/ev-specialized/service-list" },
         { id: "shopBrands", label: "Shop Brands", path: "/ev-specialized/brand-list" },
-    ],
-    podDevice : [
-        { id: "deviceList", label: "Device List", path: "/pod-device/device-list" },
-        { id: "areaList", label: "Area List", path: "/pod-device/area-list" },
-        // { id: "brandList", label: "Brand List", path: "/pod-device/brand-list" },
     ],
 };

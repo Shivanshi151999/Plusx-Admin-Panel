@@ -8,27 +8,23 @@ import { menuItems } from "./DropdownMenu";
 
 const SideNavbar = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-    const [openDropdown, setOpenDropdown] = useState(null);
-    const [checkedItems, setCheckedItems] = useState({
-        portableCharger: {
-            addPod: false,
-            chargerList: false,
-            chargerBooking: false,
-            invoiceList: false,
-            timeSlot: false,
+    const [openDropdown, setOpenDropdown]   = useState(null);
+    const [checkedItems, setCheckedItems]   = useState({
+        portableCharger : {
+            deviceList     : false,
+            areaList       : false,
+            chargerList    : false,
+            chargerBooking : false,
+            invoiceList    : false,
+            timeSlot       : false,
         },
-        pickAndDrop: { bookingList: false, invoiceList: false, timeSlot: false },
-        evRoadAssistance: { bookingList: false, invoiceList: false },
-        evPreSalesTesting: { testingBooking: false, timeSlot: false },
-        evSpecializedShops: {
-            shopList: false,
-            shopServices: false,
-            shopBrands: false,
-        },
-        podDevice: {
-            deviceList: false,
-            areaList: false,
-            // brandList  : false,
+        pickAndDrop        : { bookingList    : false, invoiceList : false, timeSlot : false },
+        evRoadAssistance   : { bookingList    : false, invoiceList : false },
+        evPreSalesTesting  : { testingBooking : false, timeSlot    : false },
+        evSpecializedShops : {
+            shopList     : false,
+            shopServices : false,
+            shopBrands   : false,
         },
     });
 
@@ -70,16 +66,16 @@ const SideNavbar = () => {
 
     useEffect(() => {
         setCheckedItems((prevState) => ({
-            portableCharger: location.pathname.includes("/portable-charger")
-                ? prevState.portableCharger
+            portableCharger: location.pathname.includes("/portable-charger") ? prevState.portableCharger
                 : {
-                    chargerList: false,
-                    chargerBooking: false,
-                    invoiceList: false,
-                    timeSlot: false,
+                    chargerList    : false,
+                    chargerBooking : false,
+                    invoiceList    : false,
+                    timeSlot       : false,
+                    deviceList     : false, 
+                    areaList       : false
                 },
-            pickAndDrop: location.pathname.includes("/pick-and-drop")
-                ? prevState.pickAndDrop
+            pickAndDrop: location.pathname.includes("/pick-and-drop") ? prevState.pickAndDrop
                 : { bookingList: false, invoiceList: false, timeSlot: false },
             evRoadAssistance: location.pathname.includes("/ev-road-assistance")
                 ? prevState.evRoadAssistance
@@ -90,10 +86,6 @@ const SideNavbar = () => {
             evSpecializedShops: location.pathname.includes("/ev-specialized")
                 ? prevState.evSpecializedShops
                 : { shopList: false, shopServices: false, shopBrands: false },
-
-            podDevice: location.pathname.includes("/pod-device")
-                ? prevState.podDevice
-                : { deviceList: false, areaList: false },  // , brandList: false
         }));
         const dropdownPaths = [
             "/portable-charger",
@@ -101,7 +93,6 @@ const SideNavbar = () => {
             "/ev-road-assistance",
             "/ev-pre-sales-testing",
             "/ev-specialized",
-            "/pod-device"
         ];
         if (!dropdownPaths.some((path) => location.pathname.includes(path))) {
             sessionStorage.removeItem("checkedItems");
@@ -201,16 +192,6 @@ const SideNavbar = () => {
                     <SideBarLinkItem label="Coupon" path="/coupon/coupon-list" isActive={isActive("/coupon")} />
                     <SideBarLinkItem label="Subscription Package" path="/subscription/subscription-list" isActive={isActive("/subscription")} />
 
-                    <SidebarDropdown
-                        menuName="POD Device"
-                        menuItems={menuItems.podDevice}
-                        openDropdown={openDropdown}
-                        handleItemClick={(id, e) =>
-                            handleItemClicked("podDevice", id, e)
-                        }
-                        toggleDropdown={toggleDropdown}
-                        checkedItems={checkedItems.podDevice}
-                    />
                 </ul>
             </div>
         </div>

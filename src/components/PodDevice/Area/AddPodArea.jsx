@@ -18,7 +18,7 @@ const AddPodArea = () => {
     const [errors, setErrors]       = useState({});  
     
     const backButtonClick = () => {
-        navigate('/pod-device/area-list')
+        navigate('/portable-charger/area-list')
     };
     const validateForm = () => {
         const fields = [
@@ -69,7 +69,7 @@ const AddPodArea = () => {
                 if (response.code === 200) {
                     toast(response.message[0], { type: "success" });
                     setTimeout(() => {
-                        navigate('/pod-device/area-list')
+                        navigate('/portable-charger/area-list')
                     }, 2000);
                 } else {
                     toast(response.message, {type:'error'})

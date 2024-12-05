@@ -48,13 +48,19 @@ const PODInput = ({podId}) => {
             kilowatt : ( item.end_charging_level - item.start_charging_level ) * 0.25 +' kw'
         });
     });
-    // console.log(tableVal)
+    console.log(tableVal.length)
     return (
         <div className={styles.addressListContainer}>
             <div className={styles.brandHistorySection}>
                 <span className={styles.sectionTitle}>POD Input List</span>
             </div>
-            <GenericTable columns={columns} data={tableVal} />
+            { tableVal.length == 0 ? (
+                    <div className={styles.errorContainer}>No data available</div>
+                ) : (
+                <>  
+                    <GenericTable columns={columns} data={tableVal} />
+                </>
+            )}
             <Pagination
                 currentPage={currentPage}
                 totalPages={totalPages}

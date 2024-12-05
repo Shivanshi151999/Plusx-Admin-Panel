@@ -20,7 +20,11 @@ const DeviceDetails = () => {
     const [currentPage, setCurrentPage]         = useState(1);
     const [totalPages, setTotalPages]           = useState(1);
     const [deviceBrandList, setdeviceBrandList] = useState([]);
-    const [brandImagePath, setBrandImagePath] = useState('');
+    const [brandImagePath, setBrandImagePath]   = useState('');
+
+    const [deviceBatteryData, setDeviceBatteryData] = useState([
+        { id : '', batteryId : '', capacity : '' }
+    ]);
 
     const handlePageChange = (pageNumber) => {
         
@@ -47,9 +51,9 @@ const DeviceDetails = () => {
 
     const fetchDetails = () => {
         const obj = {
-            userId: userDetails?.user_id,
-            email: userDetails?.email,
-            pod_id: podId
+            userId : userDetails?.user_id,
+            email  : userDetails?.email,
+            pod_id : podId
         };
         postRequestWithToken('pod-device-details', obj, (response) => {
 
@@ -57,11 +61,7 @@ const DeviceDetails = () => {
                 const data = response?.data || {};
 
                 setDeviceDetails(data);
-
-                // const formattedDate = moment(data?.date_of_manufacturing).format('DD-MM-YYYY');
-                // setDateOfManufacturing(formattedDate);
-                // setIsActive(data?.status === '1' ? true : false)
-
+                setDeviceBatteryData(response?.batteryData);
             } else {
                 // console.error('Error in electric-bike-detail API', response);
             }
@@ -76,36 +76,38 @@ const DeviceDetails = () => {
     }, []);
     useEffect(() => {
         fetchBrandList(currentPage);
+
     }, [currentPage]);
+
     const headerTitles = {
         bookingIdTitle       : "Current",
         customerDetailsTitle : "Voltage",
         driverDetailsTitle   : "Percentage",
         podTemp              : "Temperature",
     };
+    const content = {  
+        bookingId    : deviceBatteryData[0].current+" Volt", 
+        createdAt    : '',        
+        customerName : deviceBatteryData[0].voltage +" V",
+        driverName   : deviceBatteryData[0].percentage ? deviceBatteryData[0].percentage.toFixed(2)+" %" : '',
+        podTemp      : deviceBatteryData[0].temp1 +" C", 
+    };
     const sectionTitles1 = {
-        bookingStatus : "POD Id",
+        bookingStatus : "POD ID",
         price         : "Pod Name",
-        serviceName   : "Device Id",
+        serviceName   : "Device ID",
         // design_model  : "Modal",
     }
-    const sectionTitles2 = {
-        vehicle        : "Modal",
-        serviceType    : "Capacity",
-        serviceFeature : "Inverter",
-    }
-    const content = {
-        bookingId    : deviceDetails?.current +" Volt",
-        createdAt    : '',
-        customerName : deviceDetails?.voltage +" V", 
-        driverName   : deviceDetails.percentage ? deviceDetails.percentage.toFixed(2)+" %" : '', 
-        podTemp   : deviceDetails?.temp1 +" C", 
-    };
     const sectionContent1 = {
         bookingStatus : deviceDetails?.pod_id,
         serviceName   : deviceDetails?.pod_name,  
         price         : deviceDetails?.device_id,
         // design_model  : deviceDetails?.design_model,
+    }
+    const sectionTitles2 = {
+        vehicle        : "Modal",
+        serviceType    : "Capacity",
+        serviceFeature : "Inverter",
     }
     const sectionContent2 = {
         vehicle        : deviceDetails?.design_model,
@@ -117,14 +119,14 @@ const DeviceDetails = () => {
         date_of_manufacturing : "Date Of Manufacturing",
     }
     const sectionContent3 = {
-        charger  : deviceDetails?.charger,
+        charger               : deviceDetails?.charger,
         date_of_manufacturing : moment(deviceDetails?.date_of_manufacturing).format('DD MMMM YYYY'),
     }
     
     return (
         <div className='main-container'>
             <BookingDetailsHeader content={content} titles={headerTitles} sectionContent={sectionContent1}
-                type='PODDeviceDetails'
+                type='PODDeviceDetails'  deviceBatteryData={deviceBatteryData}
             />
             <div className={styles.bookingDetailsSection}>
                 <BookingLeftDetails titles={sectionTitles1} content={sectionContent1}

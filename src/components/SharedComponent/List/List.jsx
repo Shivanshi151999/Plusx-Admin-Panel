@@ -81,10 +81,10 @@ const List = ({ list, tableHeaders, listData, keyMapping, pageHeading, onDeleteS
     const handleShopEditDetails = (id) => navigate(`/ev-specialized/edit-shop/${id}`)
     
     // POD Device
-    const handleDeviceDetails = (id) => navigate(`/pod-device/device-details/${id}`)  
-    const handleDeviceEdit = (id) => navigate(`/pod-device/edit-device/${id}`)
+    const handleDeviceDetails = (id) => navigate(`/portable-charger/device-details/${id}`)  
+    const handleDeviceEdit = (id) => navigate(`/portable-charger/edit-device/${id}`)
     // POD Area
-    const handleAreaEdit = (id) => navigate(`/pod-device/edit-area/${id}`)
+    const handleAreaEdit = (id) => navigate(`/portable-charger/edit-area/${id}`)
     
     return (
         <div className={styles.containerCharger}>

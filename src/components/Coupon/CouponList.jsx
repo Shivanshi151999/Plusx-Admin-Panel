@@ -115,7 +115,9 @@ const CouponList = () => {
             />
             
             {loading ? <Loader /> : 
-                <>
+                carList.length === 0 ? 
+                    <div className={styles.errorContainer}>No data available</div>
+                : <>
                     <List
                         tableHeaders={["Coupon ID", "Coupon Name", "Coupon Code", "Service Name", "Per User", "Coupon %", "End Date", "Status", "Action"]}
                         listData={carList}

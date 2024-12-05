@@ -19,7 +19,7 @@ const searchTerm = [
 ]
 
 const PodAreaList = () => {
-    const userDetails                                 = JSON.parse(sessionStorage.getItem('userDetails'));
+    const userDetails                   = JSON.parse(sessionStorage.getItem('userDetails'));
     const navigate                      = useNavigate();
     const [areaList, setAreaList]       = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -60,7 +60,7 @@ const PodAreaList = () => {
     };
     const addButtonProps = {
         heading : "Add Area", 
-        link    : "/pod-device/add-area"
+        link    : "/portable-charger/add-area"
     };
     return (
         <div className='main-container'>

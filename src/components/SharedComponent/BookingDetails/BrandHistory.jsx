@@ -21,7 +21,7 @@ const BrandHistory = ({ deviceId, deviceBrandList, currentPage, totalPages, onPa
 
   const navigate = useNavigate();
   const addBrandHref = () => {
-    navigate(`/pod-device/add-brand/${deviceId}`);
+    navigate(`/portable-charger/add-brand/${deviceId}`);
   };
 
   const openImageModal = (imageUrl) => {

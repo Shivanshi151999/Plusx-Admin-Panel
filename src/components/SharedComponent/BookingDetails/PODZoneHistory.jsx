@@ -155,13 +155,20 @@ const PODZoneHistory = ({podId }) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {podSssignAreaList.map((area, index) => (
-                        <tr key={index}>
-                            <td>{area.area_id}</td>
-                            <td>{area.area_name}</td>
-                            <td>{moment(area.created_at).format('DD MMM YYYY HH:mm:ss') }</td>
-                        </tr>
-                    ))}
+                    { podSssignAreaList.length == 0 ? (
+                            <div className={styles.errorContainer}>No data available</div>
+                        ) : (
+                        <>  
+                            {podSssignAreaList.map((area, index) => (
+                                <tr key={index}>
+                                    <td>{area.area_id}</td>
+                                    <td>{area.area_name}</td>
+                                    <td>{moment(area.created_at).format('DD MMM YYYY HH:mm:ss') }</td>
+                                </tr>
+                            ))}
+                        </>
+                    )}
+                    
                 </tbody>
             </table>
             <Pagination

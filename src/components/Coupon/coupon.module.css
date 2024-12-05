@@ -7,6 +7,14 @@
 .electricBikeSection::-webkit-scrollbar{
     display: none;
 }
+.errorContainer{
+  padding: 20px;
+  background-color: #000;
+  color: #00ffc3;
+  margin: 20px;
+  border-radius: 20px;
+  font-size: 18px;
+}
 .stationContainer{
     background-color: #242424;
     height: 94.2vh;

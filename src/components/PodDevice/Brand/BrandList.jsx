@@ -25,7 +25,7 @@ const PodBrandList = () => {
     }]
     const addButtonProps = {
         heading : "Add Brand", 
-        link    : "/pod-device/add-brand"
+        link    : "/portable-charger/add-brand"
     };
     const fetchChargers = (page, appliedFilters = {}) => {
         const obj = {

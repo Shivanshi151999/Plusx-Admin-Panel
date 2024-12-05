@@ -44,8 +44,8 @@ export const getRequestWithToken = async (URL, requestData, callback) => {
             data    : requestData,
             // withCredentials : true,
             headers : {
-                access_token: userDetails.access_token,
-                "userId"     :  userDetails.user_id,
+                "accesstoken"  : userDetails.access_token,
+                "userId"       :  userDetails.user_id,
                 "Content-Type" : "application/json"
             } 
         });
@@ -71,7 +71,7 @@ export const postRequestWithToken = async (URL, requestData, callback) => {
             data    : requestData,
             withCredentials: true,
             headers : {
-                access_token: userDetails.access_token,
+                "accesstoken": userDetails.access_token,
                 "userId"     :  userDetails.user_id,
                 "Content-Type" : "application/json"
             } 
@@ -98,7 +98,7 @@ export const postRequestWithTokenAndFile = async (URL, requestData, callback) =>
             data    : requestData,
             withCredentials: true,
             headers : {
-                access_token: userDetails.access_token,
+                "accesstoken": userDetails.access_token,
                 "userId"     :  userDetails.user_id,
                 "Content-Type" : "multipart/form-data"
             }

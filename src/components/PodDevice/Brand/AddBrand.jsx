@@ -23,7 +23,7 @@ const AddPodBrand = () => {
     const [endDate, setEndDate]         = useState("");
     const [errors, setErrors]           = useState({});
 
-    const [deviceOptions, setDeviceOptions] = useState([]);  //all-pod-device
+    const [deviceOptions, setDeviceOptions] = useState([]);
 
     const handleFileChange = (event) => {
         const selectedFile = event.target.files[0];
@@ -35,7 +35,7 @@ const AddPodBrand = () => {
         }
     };
     const backButtonClick = () => {
-        navigate('/pod-device/brand-list')
+        navigate('/portable-charger/brand-list')
     };
     const handleRemoveImage = () => {
         setFile(null);
@@ -115,7 +115,7 @@ const AddPodBrand = () => {
                 if (response.code === 200) {
                     toast(response.message[0], { type: "success" });
                     setTimeout(() => {
-                        navigate('/pod-device/brand-list')
+                        navigate('/portable-charger/brand-list')
                     }, 2000);
                 } else {
                     toast(response.message, {type:'error'})
