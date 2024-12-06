@@ -61,6 +61,10 @@ const PodDeviceList = () => {
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
+    const fetchFilteredData = (newFilters = {}) => {
+        setFilters(newFilters);  
+        setCurrentPage(1); 
+    };
     const addButtonProps = {
         heading: "Add Device", 
         link: "/portable-charger/add-device"
@@ -72,6 +76,7 @@ const PodDeviceList = () => {
                 addButtonProps={addButtonProps}
                 filterValues={filters}
                 searchTerm = {searchTerm}
+                fetchFilteredData  = {fetchFilteredData} 
             />
             {chargerBookingList.length === 0 ? (
                 <div className={styles.errorContainer}>No data available</div>
