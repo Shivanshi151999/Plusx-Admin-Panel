@@ -18,7 +18,7 @@ import Custommodal from '../../SharedComponent/CustomModal/CustomModal.jsx';
 import Loader from "../../SharedComponent/Loader/Loader";
 
 const statusMapping = {
-    'CNF' : 'Booking Confirmed',
+    'CNF': 'Booking Confirmed',
     'A'  : 'Assigned',
     'ER' : 'Enroute',
     'RL' : 'POD Reached at Location',
@@ -48,9 +48,9 @@ const dynamicFilters = [
 ];
 const searchTerm = [
     {
-        label: 'search', 
-        name: 'search_text', 
-        type: 'text'
+        label : 'search', 
+        name  : 'search_text', 
+        type  : 'text'
     }
 ]
 
@@ -74,7 +74,6 @@ const ChargerBookingList = () => {
   const handleCancelClick = (bookingId, riderId) => {
     setSelectedBookingId(bookingId);
     setSelectedRiderId(riderId)
-    console.log(bookingId,riderId);
     setShowPopup(true); 
   };
 
@@ -94,7 +93,7 @@ const ChargerBookingList = () => {
         toast("Please enter a reason for cancellation.", {type:'error'})
         return;
       }
-    console.log("Canceling item with ID:", selectedBookingId, selectedDriverId);
+    
     const obj = {
         userId     : userDetails?.user_id,
         email      : userDetails?.email,
@@ -130,10 +129,9 @@ const ChargerBookingList = () => {
         } 
 
         const obj = {
-            userId: userDetails?.user_id,
-            email: userDetails?.email,
-            page_no: page,
-            // service_type: 'Portable Charger',
+            userId  : userDetails?.user_id,
+            email   : userDetails?.email,
+            page_no : page,
             ...appliedFilters,
         };
 
@@ -147,14 +145,18 @@ const ChargerBookingList = () => {
             }
             setLoading(false);
         });
-        obj.service_type = 'Portable Charger'
 
-        postRequestWithToken('rsa-list', obj, async(response) => {
+        const rsaObj = {
+            userId       : obj.userId,
+            email        : obj.email,
+            page_no      : obj.page_no,
+            service_type : 'Portable Charger',
+        };
+    
+        postRequestWithToken('rsa-list', rsaObj, async(response) => {
             if (response.code === 200) {
-                setRsaList(response?.data)
-                // setTotalPages(response?.total_page || 1); 
+                setRsaList(response?.data) 
             } else {
-                // toast(response.message, {type:'error'})
                 console.log('error in rsa-listt api', response);
             }
         })
@@ -189,16 +191,15 @@ const ChargerBookingList = () => {
     };
 
     const handleDriverSelect = (driver) => {
-        console.log(`Driver selected: ${driver}`);
         setSelectedDriverId(driver);
     };
 
     const assignDriver = () => {
         const obj = {
-            userId: userDetails?.user_id,
-            email: userDetails?.email,
-            rsa_id: selectedDriverId, 
-            booking_id: selectedBookingId
+            userId     : userDetails?.user_id,
+            email      : userDetails?.email,
+            rsa_id     : selectedDriverId, 
+            booking_id : selectedBookingId
         }
         postRequestWithToken('/charger-booking-assign', obj, async(response) => {
             if (response.code === 200) {

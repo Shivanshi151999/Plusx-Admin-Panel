@@ -16,19 +16,16 @@ import Loader from "../../SharedComponent/Loader/Loader";
 
 const statusMapping = {
     'CNF': 'Booking Confirmed',
-    'A': 'Assigned',
-    'RL': 'POD Reached at Location',
-    'CS': 'Charging Started',
-    'CC': 'Charging Completed',
-    'PU': 'POD Picked Up',
-    'WC': 'Work Completed',
-    'C': 'Cancel'
+    'A'  : 'Assigned',
+    'RL' : 'POD Reached at Location',
+    'CS' : 'Charging Started',
+    'CC ': 'Charging Completed',
+    'PU' : 'POD Picked Up',
+    'WC' : 'Work Completed',
+    'C'  : 'Cancel'
 };
 
 const dynamicFilters = [
-    // { label: 'Booking ID', name: 'request_id', type: 'text' },
-    // { label: 'Name', name: 'name', type: 'text' },
-    // { label: 'Mobile', name: 'contact_no', type: 'text' },
     {
         label: 'Status', 
         name: 'order_status', 
@@ -62,9 +59,9 @@ const BookingList = () => {
     const [loading, setLoading]                       = useState(false);
     const searchTerm = [
         {
-            label: 'search', 
-            name: 'search_text', 
-            type: 'text'
+            label : 'search', 
+            name  : 'search_text', 
+            type  : 'text'
         }
     ]
 
@@ -76,7 +73,6 @@ const BookingList = () => {
   const handleCancelClick = (bookingId, riderId) => {
     setSelectedBookingId(bookingId);
     setSelectedRiderId(riderId)
-    console.log(bookingId,riderId);
     setShowPopup(true); 
   };
 
@@ -96,7 +92,7 @@ const BookingList = () => {
         toast("Please enter a reason for cancellation.", {type:'error'})
         return;
       }
-    console.log("Canceling item with ID:", selectedBookingId, selectedDriverId);
+   
     const obj = {
         userId     : userDetails?.user_id,
         email      : userDetails?.email,
@@ -130,9 +126,8 @@ const BookingList = () => {
         } 
 
         const obj = {
-            userId : userDetails?.user_id,
-            email : userDetails?.email,
-            service_type: 'Valet Charging',
+            userId  : userDetails?.user_id,
+            email   : userDetails?.email,
             page_no : page,
             ...appliedFilters,
         }
@@ -147,8 +142,13 @@ const BookingList = () => {
             }
             setLoading(false);
         })
-
-        postRequestWithToken('rsa-list', obj, async(response) => {
+        const rsaObj = {
+            userId       : obj.userId,
+            email        : obj.email,
+            page_no      : obj.page_no,
+            service_type : 'Valet Charging',
+        };
+        postRequestWithToken('rsa-list', rsaObj, async(response) => {
             if (response.code === 200) {
                 setRsaList(response?.data)
                 setTotalPages(response?.total_page || 1); 
@@ -187,16 +187,15 @@ const BookingList = () => {
     };
 
     const handleDriverSelect = (driver) => {
-        console.log(`Driver selected: ${driver}`);
         setSelectedDriverId(driver);
     };
 
     const assignDriver = () => {
         const obj = {
-            userId: userDetails?.user_id,
-            email: userDetails?.email,
-            rsa_id: selectedDriverId, 
-            booking_id: selectedBookingId
+            userId     : userDetails?.user_id,
+            email      : userDetails?.email,
+            rsa_id     : selectedDriverId, 
+            booking_id : selectedBookingId
         }
         postRequestWithToken('/pick-and-drop-assign', obj, async(response) => {
             if (response.code === 200) {
@@ -238,17 +237,6 @@ const BookingList = () => {
                                     format: (date) => moment(date).format('DD MMM YYYY ') 
                                 } ,
                                 { key: 'request_id', label: 'ID' }, 
-                                // { 
-                                //     key: 'name', 
-                                //     label: 'Name',
-                                //     relatedKeys: ['country_code', 'contact_no'], 
-                                //     format: (data, key, relatedKeys) => (
-                                //         <>
-                                //             {data[key]}<br />
-                                //             {relatedKeys.map((relatedKey) => data[relatedKey]).join(" ")}
-                                //         </>
-                                //     )
-                                // }, 
                                 { key: 'name', label: 'Customer Name' }, 
                                 { 
                                     key: 'price', 
