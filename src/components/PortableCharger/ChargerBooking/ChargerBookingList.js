@@ -24,8 +24,8 @@ const statusMapping = {
     'RL' : 'POD Reached at Location',
     'CS' : 'Charging Started',
     'CC' : 'Charging Completed',
-    'PU' : 'POD Picked Up',
-    'C'  : 'Cancel'
+    'PU' : 'Completed',
+    'C'  : 'Cancelled'
 };
 
 const dynamicFilters = [
@@ -42,7 +42,7 @@ const dynamicFilters = [
             { value : 'CS',  label : 'Charging Started' },
             { value : 'CC',  label : 'Charging Completed' },
             { value : 'PU',  label : 'POD Picked Up' },
-            { value : 'C',   label : 'Cancel' },
+            { value : 'C',   label : 'Cancelled' },
         ]
     },
 ];

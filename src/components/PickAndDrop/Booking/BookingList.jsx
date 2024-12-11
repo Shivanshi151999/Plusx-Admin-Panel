@@ -22,7 +22,7 @@ const statusMapping = {
     'CC ': 'Charging Completed',
     'PU' : 'POD Picked Up',
     'WC' : 'Work Completed',
-    'C'  : 'Cancel'
+    'C'  : 'Cancelled'
 };
 
 const dynamicFilters = [
@@ -39,7 +39,7 @@ const dynamicFilters = [
             { value: 'CC', label: 'Charging Completed' },
             { value: 'DO', label: 'Drop Off' },
             { value: 'WC', label: 'Work Completed' },
-            { value: 'C', label: 'Cancel' },
+            { value: 'C', label: 'Cancelled' },
         ]
     },
 ]
@@ -272,8 +272,8 @@ const BookingList = () => {
                                     label: 'Action',
                                     relatedKeys: ['order_status'], 
                                     format: (data, key, relatedKeys) => {
-                                        const isCancelable = data[relatedKeys[0]] !== 'C'; 
-                                
+                                        const isCancelable = !['C', 'WC'].includes(data[relatedKeys[0]]);
+
                                         return (
                                             <div className="editButtonSection">
                                                 {/* View Button (Always Displayed) */}
