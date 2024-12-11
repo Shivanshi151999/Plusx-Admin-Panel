@@ -84,9 +84,9 @@ const EditElectricBike = () => {
         setErrors((prev) => ({ ...prev, gallery: "" }));
     };
 
-    const handleRemoveGalleryImage = (index) => {
-        setGalleryFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
-    };
+    // const handleRemoveGalleryImage = (index) => {
+    //     setGalleryFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
+    // };
 
     const validateForm = () => {
         const fields = [
@@ -436,9 +436,9 @@ const EditElectricBike = () => {
                                                     alt={`Preview ${index + 1}`}
                                                     className={styles.previewImage}
                                                 />
-                                                <button type="button" className={styles.removeButton} onClick={() => handleRemoveGalleryImage(index)}>
+                                                {/* <button type="button" className={styles.removeButton} onClick={() => handleRemoveGalleryImage(index)}>
                                                     <AiOutlineClose size={20} style={{ padding: '2px' }} />
-                                                </button>
+                                                </button> */}
                                             </div>
                                         ))
                                     ) : (
