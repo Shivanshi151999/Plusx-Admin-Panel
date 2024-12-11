@@ -13,11 +13,11 @@ const BookingMultipleImages = ({ titles, content, type, onDeleteImage }) => {
       }))
     : []; 
 
-
   return (
     <div className={styles.multipleImageMainSection}>
       <div className={styles.multipleimageMainContainer}>
         <div className={styles.multipleinfoContainer}>
+
           {/* Display gallery images only if it's an array */}
           {Array.isArray(content.galleryImages) && (
             <div className="col-12">
@@ -76,12 +76,14 @@ const BookingMultipleImages = ({ titles, content, type, onDeleteImage }) => {
                 <span className={styles.multipleinfoHeading}>{titles.vehicleRegImages}</span>
                 <div className={styles.multiplegalleryImages}>
                   {content.vehicleRegImages.map((image, index) => (
-                    <img
-                      key={index}
-                      src={`${baseUrl}${image}`}
-                      alt={`Gallery img ${index + 1}`}
-                     className={styles.gallerymultipleImage}
-                    />
+                     <div className={styles.imageContainer} key={index}>
+                        <img
+                          key={index}
+                          src={`${baseUrl}${image}`}
+                          alt={`Gallery img ${index + 1}`}
+                        className={styles.gallerymultipleImage}
+                        />
+                      </div>
                   ))}
                 </div>
               </div>
@@ -94,12 +96,14 @@ const BookingMultipleImages = ({ titles, content, type, onDeleteImage }) => {
                 <span className={styles.multipleinfoHeading}>{titles.carImages}</span>
                 <div className={styles.multiplegalleryImages}>
                   {content.carImages.map((image, index) => (
-                    <img
-                      key={index}
-                      src={`${baseUrl}${image}`}
-                      alt={`Gallery img ${index + 1}`}
-                     className={styles.gallerymultipleImage}
-                    />
+                    <div className={styles.imageContainer} key={index}>
+                      <img
+                        key={index}
+                        src={`${baseUrl}${image}`}
+                        alt={`Gallery img ${index + 1}`}
+                      className={styles.gallerymultipleImage}
+                      />
+                    </div>
                   ))}
                 </div>
               </div>
@@ -112,12 +116,14 @@ const BookingMultipleImages = ({ titles, content, type, onDeleteImage }) => {
                 <span className={styles.multipleinfoHeading}>{titles.licenseImages}</span>
                 <div className={styles.multiplegalleryImages}>
                   {content.licenseImages.map((image, index) => (
-                    <img
-                      key={index}
-                      src={`${baseUrl}${image}`}
-                      alt={`Gallery img ${index + 1}`}
-                     className={styles.gallerymultipleImage}
-                    />
+                    <div className={styles.imageContainer} key={index}>
+                      <img
+                        key={index}
+                        src={`${baseUrl}${image}`}
+                        alt={`Gallery img ${index + 1}`}
+                      className={styles.gallerymultipleImage}
+                      />
+                    </div>
                   ))}
                 </div>
               </div>
@@ -130,12 +136,14 @@ const BookingMultipleImages = ({ titles, content, type, onDeleteImage }) => {
                 <span className={styles.multipleinfoHeading}>{titles.typeImages}</span>
                 <div className={styles.multiplegalleryImages}>
                   {content.typeImages.map((image, index) => (
-                    <img
-                      key={index}
-                      src={`${baseUrl}${image}`}
-                      alt={`Gallery img ${index + 1}`}
-                     className={styles.gallerymultipleImage}
-                    />
+                    <div className={styles.imageContainer} key={index}>
+                      <img
+                        key={index}
+                        src={`${baseUrl}${image}`}
+                        alt={`Gallery img ${index + 1}`}
+                      className={styles.gallerymultipleImage}
+                      />
+                    </div>
                   ))}
                 </div>
               </div>
@@ -157,39 +165,41 @@ const BookingMultipleImages = ({ titles, content, type, onDeleteImage }) => {
             </div>
           )}
 
-
           {Array.isArray(content.emiratesImages) && (
             <div className="col-12">
               <div className={styles.multipleinfoBlock}>
                 <span className={styles.multipleinfoHeading}>{titles.emiratesImages}</span>
                 <div className={styles.multiplegalleryImages}>
                   {content.emiratesImages.map((image, index) => (
-                    <img
-                      key={index}
-                      src={`${baseUrl}${image}`}
-                      alt={`Gallery img ${index + 1}`}
-                     className={styles.gallerymultipleImage}
-                    />
+                    <div className={styles.imageContainer} key={index}>
+                      <img
+                        key={index}
+                        src={`${baseUrl}${image}`}
+                        alt={`Gallery img ${index + 1}`}
+                      className={styles.gallerymultipleImage}
+                      />
+                    </div>
                   ))}
                 </div>
               </div>
             </div>
           )}
 
-
           {/* Conditionally render Tyre Images section if content.tyreImages is an array */}
           {Array.isArray(content.tyreImages) && content.tyreImages.length > 0 && (
             <div className="col-12">
               <div className={styles.multipleinfoBlock}>
-                <span className={styles.multipleinfoHeading}>Tyre Images</span>
+                <span className={styles.multipleinfoHeading}>{titles.tyreImages}</span>
                 <div className={styles.multiplegalleryImages}>
                   {content.tyreImages.map((image, index) => (
-                    <img
-                      key={index}
-                      src={`${baseUrl}${image}`}
-                      alt={`Tyre img ${index + 1}`}
-                     className={styles.gallerymultipleImage}
-                    />
+                    <div className={styles.imageContainer} key={index}>
+                      <img
+                        key={index}
+                        src={`${baseUrl}${image}`}
+                        alt={`Tyre img ${index + 1}`}
+                      className={styles.gallerymultipleImage}
+                      />
+                    </div>
                   ))}
                 </div>
               </div>
@@ -203,21 +213,24 @@ const BookingMultipleImages = ({ titles, content, type, onDeleteImage }) => {
                 <span className={styles.multipleinfoHeading}>Other Images</span>
                 <div className={styles.multiplegalleryImages}>
                   {content.otherImages.map((image, index) => (
-                    <img
-                      key={index}
-                      src={`${baseUrl}${image}`}
-                      alt={`Other img ${index + 1}`}
-                     className={styles.gallerymultipleImage}
-                    />
+                    <div className={styles.imageContainer} key={index}>
+                      <img
+                        key={index}
+                        src={`${baseUrl}${image}`}
+                        alt={`Other img ${index + 1}`}
+                      className={styles.gallerymultipleImage}
+                      />
+                    </div>
                   ))}
                 </div>
               </div>
             </div>
           )}
+
         </div>
       </div>
     </div>
   )
 }
 
-export default BookingMultipleImages
+export default BookingMultipleImages;

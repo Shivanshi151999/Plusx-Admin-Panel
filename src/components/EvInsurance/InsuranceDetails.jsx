@@ -1,23 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import styles from './insurance.module.css'
-import BookingDetailsHeader from '../SharedComponent/Details/BookingDetails/BookingDetailsHeader'
-import BookingDetailsSection from '../SharedComponent/Details/BookingDetails/BookingDetailsSection'
-import BookingImageSection from '../SharedComponent/Details/BookingDetails/BookingImageSection'
+import styles from './insurance.module.css';
+import BookingDetailsHeader from '../SharedComponent/Details/BookingDetails/BookingDetailsHeader';
+// import BookingDetailsSection from '../SharedComponent/Details/BookingDetails/BookingDetailsSection';
+// import BookingImageSection from '../SharedComponent/Details/BookingDetails/BookingImageSection';
 import BookingMultipleImages from '../SharedComponent/Details/BookingDetails/BookingMultipleImages.jsx';
 import { postRequestWithToken } from '../../api/Requests';
 import BookingLeftDetails from '../SharedComponent/BookingDetails/BookingLeftDetails.jsx'
 import { useParams } from 'react-router-dom';
 import moment from 'moment';
-import { toast, ToastContainer } from "react-toastify";
+// import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from 'react-router-dom';
 
 const InsuranceDetails = () => {
-  const userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
-  const navigate = useNavigate()
-  const { insuranceId } = useParams()
-  const [bookingDetails, setBookingDetails] = useState()
-  const [imageGallery, setImageGallery] = useState()
-  const [baseUrl, setBaseUrl] = useState()
+  const userDetails                         = JSON.parse(sessionStorage.getItem('userDetails'));
+  const navigate                            = useNavigate();
+  const { insuranceId }                     = useParams();
+  const [bookingDetails, setBookingDetails] = useState();
+  const [imageGallery, setImageGallery]     = useState();
+  const [baseUrl, setBaseUrl]               = useState();
 
 
   const fetchDetails = () => {
@@ -121,34 +121,79 @@ const InsuranceDetails = () => {
   //   baseUrl: baseUrl,
   // }
 
-  const imageTitles = {
+  // const imageTitles = {
+  //   vehicleRegImages: "Vehicle Registration Images",
+  //   carImages: "Car Images",
+  //   typeImages: "Car Tyre Images",
+  //   licenseImages: "Vehicle Driving Licence",
+  //   emiratesImages: "Emirates Id",
+  // };
+
+  // const imageContent = {
+  //   vehicleRegImages: imageGallery?.vehicleRegImages,
+  //   carImages: imageGallery?.carImages,
+  //   typeImages: imageGallery?.tyreImages,
+  //   licenseImages: imageGallery?.licenseImages,
+  //   emiratesImages: imageGallery?.emiratesImages,
+  //   baseUrl,
+  // };
+
+
+  // const imageTitles1 = {
+  //   coverImage: "Vehicle Driving Licence",
+  //   galleryImages: "Emirates Id",
+  // }
+
+  // const imageContent1 = {
+  //   coverImages: bookingDetails?.image,
+  //   galleryImages: imageGallery,
+  //   baseUrl: baseUrl,
+  // }
+
+  const imageTitles1 = {
     vehicleRegImages: "Vehicle Registration Images",
-    carImages: "Car Images",
-    typeImages: "Car Tyre Images",
-    licenseImages: "Vehicle Driving Licence",
-    emiratesImages: "Emirates Id",
   };
 
-  const imageContent = {
+  const imageContent1 = {
     vehicleRegImages: imageGallery?.vehicleRegImages,
-    carImages: imageGallery?.carImages,
-    typeImages: imageGallery?.tyreImages,
-    licenseImages: imageGallery?.licenseImages,
-    emiratesImages: imageGallery?.emiratesImages,
     baseUrl,
   };
 
+  const imageTitles2 = {
+    carImages: "Car Images",
+  };
 
-  const imageTitles1 = {
-    coverImage: "Vehicle Driving Licence",
-    galleryImages: "Emirates Id",
-  }
+  const imageContent2 = {
+    carImages: imageGallery?.carImages,
+    baseUrl,
+  };
 
-  const imageContent1 = {
-    coverImages: bookingDetails?.image,
-    galleryImages: imageGallery,
-    baseUrl: baseUrl,
-  }
+  const imageTitles3 = {
+    tyreImages: "Car Tyre Images",
+  };
+
+  const imageContent3 = {
+    tyreImages: imageGallery?.tyreImages,
+    baseUrl,
+  };
+
+  const imageTitles4 = {
+    licenseImages: "Vehicle Driving Licence",
+  };
+
+  const imageContent4 = {
+    licenseImages: imageGallery?.licenseImages,
+    baseUrl,
+  };
+
+  const imageTitles5 = {
+    emiratesImages: "Emirates Id",
+  };
+
+  const imageContent5 = {
+    emiratesImages: imageGallery?.emiratesImages,
+    baseUrl,
+  };
 
   return (
     <div className='main-container'>
@@ -162,15 +207,31 @@ const InsuranceDetails = () => {
           sectionTitles3={sectionTitles3} sectionContent3={sectionContent3}
           sectionTitles4={sectionTitles4} sectionContent4={sectionContent4}
           type='evGuide' />
+        <BookingMultipleImages
+          titles={imageTitles1} content={imageContent1}
+          type='evGuide'
+        />
+        <BookingMultipleImages
+          titles={imageTitles2} content={imageContent2}
+          type='evGuide'
+        />
+        <BookingMultipleImages
+          titles={imageTitles3} content={imageContent3}
+          type='evGuide'
+        />
+        <BookingMultipleImages
+          titles={imageTitles4} content={imageContent4}
+          type='evGuide'
+        />
+        <BookingMultipleImages
+          titles={imageTitles5} content={imageContent5}
+          type='evGuide'
+        />
 
         {/* <BookingImageSection
           titles={imageTitles} content={imageContent}
           type='evGuide'
         /> */}
-        <BookingMultipleImages
-          titles={imageTitles} content={imageContent}
-          type='evGuide'
-        />
         {/* <BookingImageSection
           titles={imageTitles1} content={imageContent1}
           type='evGuide'
