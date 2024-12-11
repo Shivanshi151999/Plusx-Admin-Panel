@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import styles from './shop.module.css'
-import BookingDetailsHeader from '../../../SharedComponent/Details/BookingDetails/BookingDetailsHeader'
-import BookingDetailsSection from '../../../SharedComponent/Details/BookingDetails/BookingDetailsSection'
-import BookingImageSection from '../../../SharedComponent/Details/BookingDetails/BookingImageSection'
+import styles from './shop.module.css';
+import BookingDetailsHeader from '../../../SharedComponent/Details/BookingDetails/BookingDetailsHeader';
+// import BookingDetailsSection from '../../../SharedComponent/Details/BookingDetails/BookingDetailsSection';
+import BookingImageSection from '../../../SharedComponent/Details/BookingDetails/BookingImageSection';
 import BookingMultipleImages from '../../../SharedComponent/Details/BookingDetails/BookingMultipleImages.jsx';
 import { postRequestWithToken } from '../../../../api/Requests';
-import BookingLeftDetails from '../../../SharedComponent/BookingDetails/BookingLeftDetails.jsx'
+import BookingLeftDetails from '../../../SharedComponent/BookingDetails/BookingLeftDetails.jsx';
 import AddressList from '../../../SharedComponent/Details/AddressList.jsx'
 import { useParams } from 'react-router-dom';
 import moment from 'moment';
 import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 
 const formatTime = (timeStr) => {
@@ -100,12 +101,13 @@ const formatToAmPm = (time) => {
   
 const ShopDetails = () => {
   const userDetails                         = JSON.parse(sessionStorage.getItem('userDetails'));
-  const navigate                            = useNavigate()
-  const { shopId }                          = useParams()
-  const [bookingDetails, setBookingDetails] = useState()
-  const [address, setAddress]               = useState()
-  const [imageGallery, setImageGallery]     = useState()
-  const [baseUrl, setBaseUrl]               = useState()
+  const navigate                            = useNavigate();
+  const { shopId }                          = useParams();
+  const [bookingDetails, setBookingDetails] = useState();
+  const [address, setAddress]               = useState();
+  const [imageGallery, setImageGallery]     = useState();
+  const [imageGalleryId, setImageGalleryId] = useState();
+  const [baseUrl, setBaseUrl]               = useState();
 
 
   const fetchDetails = () => {
@@ -119,6 +121,7 @@ const ShopDetails = () => {
       if (response.code === 200) {
         setBookingDetails(response?.shop || {});
         setImageGallery(response?.shop?.shop_gallery)
+        setImageGalleryId(response.galleryId)
         setBaseUrl(response.base_url)
 
         postRequestWithToken('shop-view', obj, (response) => {
@@ -217,13 +220,37 @@ const ShopDetails = () => {
     galleryImages : "Station Gallery",
   }
   const imageContent = {
-    coverImage    : bookingDetails?.cover_image,
-    galleryImages : imageGallery,
-    baseUrl       : baseUrl,
+    coverImage     : bookingDetails?.cover_image,
+    galleryImages  : imageGallery,
+    galleryImagesId: imageGalleryId,
+    baseUrl        : baseUrl,
   }
+
+  const handleRemoveGalleryImage = (galleryId) => {
+    const confirmDelete = window.confirm("Do you want to delete this item?");
+    if (confirmDelete) {
+        const obj = { 
+            userId     : userDetails?.user_id,
+            email      : userDetails?.email,
+            gallery_id : galleryId 
+        };
+        postRequestWithToken('shop-gallery-delete', obj, async (response) => {
+            if (response.code === 200) {
+                toast(response.message, { type: "success" });
+
+                setTimeout(() => {
+                  fetchDetails();
+                }, 1000);
+            } else {
+                toast(response.message, { type: 'error' });
+            }
+        });
+    }
+};
 
   return (
     <div className='main-container'>
+       <ToastContainer />
       <BookingDetailsHeader
         content={content} titles={headerTitles}
         type='shop'
@@ -245,7 +272,7 @@ const ShopDetails = () => {
         />
         <BookingMultipleImages
         titles={imageTitles} content={imageContent}
-          type='publicChargingStation'
+          type='publicChargingStation' onRemoveImage={handleRemoveGalleryImage}
         />
       </div>
     </div>

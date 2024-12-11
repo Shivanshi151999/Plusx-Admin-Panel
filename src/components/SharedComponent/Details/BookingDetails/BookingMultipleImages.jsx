@@ -2,7 +2,7 @@ import React from 'react'
 import styles from '../details.module.css'
 import { AiOutlineClose } from 'react-icons/ai';
 
-const BookingMultipleImages = ({ titles, content, type, onDeleteImage }) => {
+const BookingMultipleImages = ({ titles, content, type, onRemoveImage }) => {
   const baseUrl = content.baseUrl;
   
   const galleryImagesWithIds =
@@ -37,7 +37,7 @@ const BookingMultipleImages = ({ titles, content, type, onDeleteImage }) => {
                       </button>
                     </div>
                   ))}*/}
-
+                  
                   {galleryImagesWithIds.length > 0 ? (
                     galleryImagesWithIds.map(({ image, id }, index) => (
                       <div className={styles.imageContainer} key={index}>
@@ -46,7 +46,7 @@ const BookingMultipleImages = ({ titles, content, type, onDeleteImage }) => {
                           alt={`Gallery img ${index + 1}`}
                           className={styles.gallerymultipleImage}
                         />
-                        <button type="button" className={styles.galleryImagesCloseButton} onClick={() => onDeleteImage(id)}>
+                        <button type="button" className={styles.galleryImagesCloseButton} onClick={() => onRemoveImage(id)}>
                           <AiOutlineClose size={20} style={{ padding: '2px' }} />
                         </button>
                       </div>

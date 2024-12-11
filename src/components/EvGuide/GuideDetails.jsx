@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import styles from './evguide.module.css'
-import BookingDetailsHeader from '../SharedComponent/Details/BookingDetails/BookingDetailsHeader'
-import BookingDetailsSection from '../SharedComponent/Details/BookingDetails/BookingDetailsSection'
-import BookingImageSection from '../SharedComponent/Details/BookingDetails/BookingImageSection'
+import styles from './evguide.module.css';
+import BookingDetailsHeader from '../SharedComponent/Details/BookingDetails/BookingDetailsHeader';
+// import BookingDetailsSection from '../SharedComponent/Details/BookingDetails/BookingDetailsSection'
+import BookingImageSection from '../SharedComponent/Details/BookingDetails/BookingImageSection';
 import BookingMultipleImages from '../SharedComponent/Details/BookingDetails/BookingMultipleImages.jsx';
 import { postRequestWithToken } from '../../api/Requests';
-import BookingLeftDetails from '../SharedComponent/BookingDetails/BookingLeftDetails.jsx'
+import BookingLeftDetails from '../SharedComponent/BookingDetails/BookingLeftDetails.jsx';
 import { useParams } from 'react-router-dom';
-import moment from 'moment';
+// import moment from 'moment';
 import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 
 const statusMapping = {
@@ -86,12 +87,13 @@ const getFormattedOpeningHours = (details) => {
 
 
 const GuideDetails = () => {
-  const userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
-  const navigate = useNavigate()
-  const { vehicleId } = useParams()
-  const [bookingDetails, setBookingDetails] = useState()
-  const [imageGallery, setImageGallery] = useState()
-  const [baseUrl, setBaseUrl] = useState()
+  const userDetails                         = JSON.parse(sessionStorage.getItem('userDetails'));
+  const navigate                            = useNavigate();
+  const { vehicleId }                       = useParams();
+  const [bookingDetails, setBookingDetails] = useState();
+  const [imageGallery, setImageGallery]     = useState();
+  const [imageGalleryId, setImageGalleryId] = useState();
+  const [baseUrl, setBaseUrl]               = useState();
 
 
   const fetchDetails = () => {
@@ -105,6 +107,7 @@ const GuideDetails = () => {
       if (response.code === 200) {
         setBookingDetails(response?.data || {});
         setImageGallery(response.gallery_data)
+        setImageGalleryId(response.gallery_id)
         setBaseUrl(response.base_url)
       } else {
         console.log('error in ev-guide-details API', response);
@@ -174,11 +177,35 @@ const GuideDetails = () => {
   const imageContent = {
     coverImage: bookingDetails?.image,
     galleryImages: imageGallery,
+    galleryImagesId: imageGalleryId,
     baseUrl: baseUrl,
   }
 
+  const handleRemoveGalleryImage = (galleryId) => {
+    const confirmDelete = window.confirm("Do you want to delete this item?");
+    if (confirmDelete) {
+        const obj = { 
+            userId     : userDetails?.user_id,
+            email      : userDetails?.email,
+            gallery_id : galleryId 
+        };
+        postRequestWithToken('ev-guide-gallery-delete', obj, async (response) => {
+            if (response.code === 200) {
+                toast(response.message, { type: "success" });
+
+                setTimeout(() => {
+                  fetchDetails();
+                }, 1000);
+            } else {
+                toast(response.message, { type: 'error' });
+            }
+        });
+    }
+};
+
   return (
     <div className='main-container'>
+      <ToastContainer />
       <BookingDetailsHeader
         content={content} titles={headerTitles}
         type='evGuide'
@@ -196,7 +223,7 @@ const GuideDetails = () => {
         />
         <BookingMultipleImages
           titles={imageTitles} content={imageContent}
-          type='evGuide'
+          type='evGuide' onRemoveImage={handleRemoveGalleryImage}
         />
       </div>
     </div>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styles from './publiccharger.module.css'
 import BookingDetailsHeader from '../SharedComponent/Details/BookingDetails/BookingDetailsHeader'
-import BookingDetailsSection from '../SharedComponent/Details/BookingDetails/BookingDetailsSection'
+// import BookingDetailsSection from '../SharedComponent/Details/BookingDetails/BookingDetailsSection'
 import BookingImageSection from '../SharedComponent/Details/BookingDetails/BookingImageSection'
 import BookingMultipleImages from '../SharedComponent/Details/BookingDetails/BookingMultipleImages.jsx';
 import { postRequestWithToken } from '../../api/Requests';
@@ -123,8 +123,8 @@ const StationDetails = () => {
     fetchDetails();
   }, []);
 
-  const handleDeleteGalleryImage = (galleryId) => {
-    const confirmDelete = window.confirm("Please confirm: Do you want to delete this item?");
+  const handleRemoveGalleryImage = (galleryId) => {
+    const confirmDelete = window.confirm("Do you want to delete this item?");
     if (confirmDelete) {
         const obj = { 
             userId     : userDetails?.user_id,
@@ -226,7 +226,7 @@ const StationDetails = () => {
         />
         <BookingMultipleImages
           titles={imageTitles} content={imageContent}
-          type='publicChargingStation' onDeleteImage={handleDeleteGalleryImage}
+          type='publicChargingStation' onRemoveImage={handleRemoveGalleryImage}
         />
       </div>
     </div>

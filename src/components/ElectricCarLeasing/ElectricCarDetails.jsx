@@ -1,24 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import styles from './electriccar.module.css'
 import BookingDetailsHeader from '../SharedComponent/Details/BookingDetails/BookingDetailsHeader'
-import BookingDetailsSection from '../SharedComponent/Details/BookingDetails/BookingDetailsSection'
+// import BookingDetailsSection from '../SharedComponent/Details/BookingDetails/BookingDetailsSection'
 import BookingImageSection from '../SharedComponent/Details/BookingDetails/BookingImageSection'
 import BookingMultipleImages from '../SharedComponent/Details/BookingDetails/BookingMultipleImages.jsx';
 import { postRequestWithToken } from '../../api/Requests';
 import BookingLeftDetails from '../SharedComponent/BookingDetails/BookingLeftDetails.jsx'
 import { useParams } from 'react-router-dom';
-import moment from 'moment';
+// import moment from 'moment';
 import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 
 
 const ElectricCarDetails = () => {
-  const userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
-  const navigate = useNavigate()
-  const { rentalId } = useParams()
-  const [bookingDetails, setBookingDetails] = useState()
-  const [imageGallery, setImageGallery] = useState()
-  const [baseUrl, setBaseUrl] = useState()
+  const userDetails                         = JSON.parse(sessionStorage.getItem('userDetails'));
+  const navigate                            = useNavigate();
+  const { rentalId }                        = useParams();
+  const [bookingDetails, setBookingDetails] = useState();
+  const [imageGallery, setImageGallery]     = useState();
+  const [imageGalleryId, setImageGalleryId] = useState();
+  const [baseUrl, setBaseUrl]               = useState();
 
 
   const fetchDetails = () => {
@@ -32,6 +34,7 @@ const ElectricCarDetails = () => {
       if (response.code === 200) {
         setBookingDetails(response?.car || {});
         setImageGallery(response.galleryData)
+        setImageGalleryId(response.galleryId)
         setBaseUrl(response.base_url)
       } else {
         console.log('error in electric-car-detail API', response);
@@ -101,11 +104,35 @@ const ElectricCarDetails = () => {
   const imageContent = {
     coverImage: bookingDetails?.image,
     galleryImages: imageGallery,
+    galleryImagesId: imageGalleryId,
     baseUrl: baseUrl,
   }
 
+  const handleRemoveGalleryImage = (galleryId) => {
+    const confirmDelete = window.confirm("Do you want to delete this item?");
+    if (confirmDelete) {
+        const obj = { 
+            userId     : userDetails?.user_id,
+            email      : userDetails?.email,
+            gallery_id : galleryId 
+        };
+        postRequestWithToken('electric-car-gallery-delete', obj, async (response) => {
+            if (response.code === 200) {
+                toast(response.message, { type: "success" });
+
+                setTimeout(() => {
+                  fetchDetails();
+                }, 1000);
+            } else {
+                toast(response.message, { type: 'error' });
+            }
+        });
+    }
+};
+
   return (
     <div className='main-container'>
+      <ToastContainer />
       <BookingDetailsHeader
         content={content} titles={headerTitles}
         type='electricCarLeasing'
@@ -123,7 +150,7 @@ const ElectricCarDetails = () => {
         />
         <BookingMultipleImages 
           titles={imageTitles} content={imageContent}
-          type='evGuide'/>
+          type='evGuide' onRemoveImage={handleRemoveGalleryImage}/>
       </div>
     </div>
   )
