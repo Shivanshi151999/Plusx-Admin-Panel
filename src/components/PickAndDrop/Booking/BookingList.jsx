@@ -32,7 +32,7 @@ const dynamicFilters = [
         type: 'select', 
         options: [
             { value: '', label: 'Select Status' },
-            { value: 'CNF', label: 'Confirmed' },
+            { value: 'CNF', label: 'Booking Confirmed' },
             { value: 'A', label: 'Assigned' },
             { value: 'VP', label: 'Vehicle Pickup' },
             { value: 'RS', label: 'Reached Charging Spot' },
