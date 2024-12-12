@@ -71,7 +71,7 @@ const PickAndDropBookingDetails = () => {
     }
     const sectionTitles3 = {
         slotDate: "Slot Date & Time",
-        vehicle_data: "Vehicle",
+        // vehicle_data: "Vehicle",
     }
     let rsa_data = bookingDetails?.rsa_data?.split(",") || [];
     const content = {
@@ -86,7 +86,7 @@ const PickAndDropBookingDetails = () => {
     const sectionContent1 = {
         bookingStatus: statusMapping[bookingDetails?.order_status] || bookingDetails?.order_status,
         price: bookingDetails?.price ? `${bookingDetails?.price} AED` : '',
-        vehicle: bookingDetails?.vehicle_make,
+        vehicle: bookingDetails?.vehicle_data,
     }
     const sectionContent2 = {
         parking: bookingDetails?.parking_number,
@@ -105,7 +105,7 @@ const PickAndDropBookingDetails = () => {
     }
     const sectionContent3 = {
         slotDate: moment(bookingDetails?.slot_date_time).format('DD MMM YYYY h:mm A'),
-        vehicle_data: bookingDetails?.vehicle_data,
+        // vehicle_data: bookingDetails?.vehicle_data,
     }
     return (
         <div className='main-container'>
