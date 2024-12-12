@@ -60,12 +60,12 @@ const ElectricBikeDetails = () => {
   };
 
   const sectionTitles1 = {
-    bikeType     : "Bike Type",
+    bikeType    : "Bike Type",
     availableOn : "Available On",
     contract    : "Contract",
   }
   const sectionContent1 = {
-    bikeType     : bookingDetails?.bike_type,
+    bikeType    : bookingDetails?.bike_type,
     availableOn : bookingDetails?.available_on,
     contract    : bookingDetails?.contract,
 

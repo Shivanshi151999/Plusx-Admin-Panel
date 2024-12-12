@@ -44,8 +44,8 @@ const BikeList = () => {
         } 
 
         const obj = {
-            userId : userDetails?.user_id,
-            email : userDetails?.email,
+            userId  : userDetails?.user_id,
+            email   : userDetails?.email,
             page_no : page,
             ...appliedFilters,
         }
@@ -83,9 +83,9 @@ const BikeList = () => {
         const confirmDelete = window.confirm("Are you sure you want to delete this?");
         if (confirmDelete) {
             const obj = { 
-                userId : userDetails?.user_id,
-                email : userDetails?.email,
-                rental_id: rentalId 
+                userId    : userDetails?.user_id,
+                email     : userDetails?.email,
+                rental_id : rentalId 
             };
             postRequestWithToken('electric-bike-delete', obj, async (response) => {
                 if (response.code === 200) {

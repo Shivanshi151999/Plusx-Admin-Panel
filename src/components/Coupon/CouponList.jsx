@@ -45,9 +45,9 @@ const CouponList = () => {
         } 
 
         const obj = {
-            userId: userDetails?.user_id,
-            email: userDetails?.email,
-            page_no: page,
+            userId  : userDetails?.user_id,
+            email   : userDetails?.email,
+            page_no : page,
             ...appliedFilters,
         }
 
@@ -84,10 +84,9 @@ const CouponList = () => {
         const confirmDelete = window.confirm("Are you sure you want to delete this?");
         if (confirmDelete) {
             const obj = { 
-                userId : userDetails?.user_id,
-                email : userDetails?.email,
-                // coupon_id: couponId ,
-                coupan_code: code
+                userId      : userDetails?.user_id,
+                email       : userDetails?.email,
+                coupan_code : code
             };
             postRequestWithToken('delete-coupan', obj, async (response) => {
                 if (response.code === 200) {
@@ -131,7 +130,6 @@ const CouponList = () => {
                             },
                             { key: 'user_per_user', label: 'Per User' },
                             { key: 'coupan_percentage', label: 'Coupon %' },
-                            // { key: 'end_date', label: 'End Date' },
                             { key: 'end_date', label: 'End Date', format: (date) => moment(date).format('DD MMM YYYY') },
                             { key: 'status', label: 'Status', format: (status) => (status === "1" ? "Active" : "Inactive") }
                         ]}

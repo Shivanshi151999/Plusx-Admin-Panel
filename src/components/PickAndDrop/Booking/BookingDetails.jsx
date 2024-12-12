@@ -11,32 +11,31 @@ import { useNavigate } from 'react-router-dom';
 
 const statusMapping = {
     'CNF': 'Booking Confirmed',
-    'A': 'Assigned',
-    'RL': 'POD Reached at Location',
-    'CS': 'Charging Started',
-    'CC': 'Charging Completed',
-    'PU': 'POD Picked Up',
-    'WC': 'Work Completed',
-    'C': 'Cancel'
+    'A'  : 'Assigned',
+    'RL' : 'POD Reached at Location',
+    'CS' : 'Charging Started',
+    'CC' : 'Charging Completed',
+    'PU' : 'POD Picked Up',
+    'WC' : 'Work Completed',
+    'C'  : 'Cancel'
 };
 
 const PickAndDropBookingDetails = () => {
-    const userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
-    const navigate = useNavigate()
-    const { requestId } = useParams()
+    const userDetails                         = JSON.parse(sessionStorage.getItem('userDetails'));
+    const navigate                            = useNavigate()
+    const { requestId }                       = useParams()
     const [bookingDetails, setBookingDetails] = useState()
-    const [history, setHistory] = useState([])
-    const [imageUrl, setImageUrl] = useState('')
+    const [history, setHistory]               = useState([])
+    const [imageUrl, setImageUrl]             = useState('')
 
     const fetchDetails = () => {
         const obj = {
-            userId: userDetails?.user_id,
-            email: userDetails?.email,
-            request_id: requestId
+            userId     : userDetails?.user_id,
+            email      : userDetails?.email,
+            request_id : requestId
         };
 
         postRequestWithToken('pick-and-drop-booking-details', obj, (response) => {
-
             if (response.code === 200) {
                 setBookingDetails(response?.data[0] || {});
                 setHistory(response?.history)
@@ -55,19 +54,19 @@ const PickAndDropBookingDetails = () => {
     }, []);
 
     const headerTitles = {
-        bookingIdTitle: "Booking ID",
-        customerDetailsTitle: "Customer Details",
-        driverDetailsTitle: "Driver Details",
+        bookingIdTitle       : "Booking ID",
+        customerDetailsTitle : "Customer Details",
+        driverDetailsTitle   : "Driver Details",
     };
     const sectionTitles1 = {
-        bookingStatus: "Booking Status",
-        price: "Price",
-        vehicle: "Vehicle",
+        bookingStatus : "Booking Status",
+        price         : "Price",
+        vehicle       : "Vehicle",
     }
     const sectionTitles2 = {
-        parking: "Parking Number",
-        parkingFloor: "Parking Floor",
-        address: "Address",
+        parking      : "Parking Number",
+        parkingFloor : "Parking Floor",
+        address      : "Address",
     }
     const sectionTitles3 = {
         slotDate: "Slot Date & Time",
@@ -75,22 +74,22 @@ const PickAndDropBookingDetails = () => {
     }
     let rsa_data = bookingDetails?.rsa_data?.split(",") || [];
     const content = {
-        bookingId: bookingDetails?.request_id,
-        createdAt: moment(bookingDetails?.created_at).format('DD MMM YYYY h:mm A'),
-        customerName: bookingDetails?.name,
-        customerContact: `${bookingDetails?.country_code} ${bookingDetails?.contact_no}`,
-        driverName: rsa_data ? rsa_data[0] : '-',
-        driverContact: rsa_data ? rsa_data[1] : '-',
+        bookingId       : bookingDetails?.request_id,
+        createdAt       : moment(bookingDetails?.created_at).format('DD MMM YYYY h:mm A'),
+        customerName    : bookingDetails?.name,
+        customerContact : `${bookingDetails?.country_code} ${bookingDetails?.contact_no}`,
+        driverName      : rsa_data ? rsa_data[0] : '-',
+        driverContact   : rsa_data ? rsa_data[1] : '-',
 
     };
     const sectionContent1 = {
-        bookingStatus: statusMapping[bookingDetails?.order_status] || bookingDetails?.order_status,
-        price: bookingDetails?.price ? `${bookingDetails?.price} AED` : '',
-        vehicle: bookingDetails?.vehicle_data,
+        bookingStatus : statusMapping[bookingDetails?.order_status] || bookingDetails?.order_status,
+        price         : bookingDetails?.price ? `${bookingDetails?.price} AED` : '',
+        vehicle       : bookingDetails?.vehicle_data,
     }
     const sectionContent2 = {
-        parking: bookingDetails?.parking_number,
-        parkingFloor: bookingDetails?.parking_floor,
+        parking      : bookingDetails?.parking_number,
+        parkingFloor : bookingDetails?.parking_floor,
         // address: bookingDetails?.pickup_address,
         address: (
             <a

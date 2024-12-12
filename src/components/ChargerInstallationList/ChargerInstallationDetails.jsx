@@ -22,17 +22,18 @@ const statusMapping = {
 };
 
 const ChargerInstallationDetails = () => {
-    const { requestId } = useParams()
-    const navigate = useNavigate()
+    const userDetails                         = JSON.parse(sessionStorage.getItem('userDetails'));
+    const { requestId }                       = useParams()
+    const navigate                            = useNavigate()
     const [bookingDetails, setBookingDetails] = useState()
-    const [history, setHistory] = useState([])
-    const userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
+    const [history, setHistory]               = useState([])
+    
 
     const fetchDetails = () => {
         const obj = {
-            userId: userDetails?.user_id,
-            email: userDetails?.email,
-            request_id: requestId
+            userId     : userDetails?.user_id,
+            email      : userDetails?.email,
+            request_id : requestId
         };
         postRequestWithToken('charger-installation-details', obj, (response) => {
             if (response.code === 200) {
@@ -52,49 +53,49 @@ const ChargerInstallationDetails = () => {
     }, []);
 
     const headerTitles = {
-        bookingIdTitle: "Service ID",
-        customerDetailsTitle: "Customer Details",
+        bookingIdTitle       : "Service ID",
+        customerDetailsTitle : "Customer Details",
     };
     const sectionTitles1 = {
-        serviceType: "Service Type",
-        chargerFor: "Charger For",
-        noOfCharger: "No of Charger",
+        serviceType : "Service Type",
+        chargerFor  : "Charger For",
+        noOfCharger : "No of Charger",
     }
     const sectionTitles2 = {
-        bookingStatus: "Satus",
-        vehicleModel: "Satus",
-        companyName: "Company Name",
+        bookingStatus : "Satus",
+        vehicleModel  : "Satus",
+        companyName   : "Company Name",
     }
     const sectionTitles3 = {
-        residentType: "Resident Type",
-        address: "Address",
-        region: "Region Specification",
+        residentType : "Resident Type",
+        address      : "Address",
+        region       : "Region Specification",
     }
     const sectionTitles4 = {
     description: "Description",
     }
     const content = {
-        bookingId: bookingDetails?.request_id,
-        createdAt: moment(bookingDetails?.created_at).format('DD MMM YYYY h:mm A'),
-        customerName: bookingDetails?.name,
-        customerContact: `${bookingDetails?.country_code} ${bookingDetails?.contact_no}`,
-        driverName: bookingDetails?.driver?.rsa_name,
-        driverContact: `${bookingDetails?.driver?.country_code} ${bookingDetails?.driver?.mobile}`,
+        bookingId       : bookingDetails?.request_id,
+        createdAt       : moment(bookingDetails?.created_at).format('DD MMM YYYY h:mm A'),
+        customerName    : bookingDetails?.name,
+        customerContact : `${bookingDetails?.country_code} ${bookingDetails?.contact_no}`,
+        driverName      : bookingDetails?.driver?.rsa_name,
+        driverContact   : `${bookingDetails?.driver?.country_code} ${bookingDetails?.driver?.mobile}`,
     };
     const sectionContent1 = {
-        serviceType: bookingDetails?.service_type,
-        chargerFor: bookingDetails?.charger_for,
-        noOfCharger: bookingDetails?.no_of_charger,
+        serviceType : bookingDetails?.service_type,
+        chargerFor  : bookingDetails?.charger_for,
+        noOfCharger : bookingDetails?.no_of_charger,
     }
     const sectionContent2 = {
-        bookingStatus: statusMapping[bookingDetails?.order_status] || bookingDetails?.order_status,
-        vehicleModel: bookingDetails?.vehicle_model,
-        companyName: bookingDetails?.company_name,
+        bookingStatus : statusMapping[bookingDetails?.order_status] || bookingDetails?.order_status,
+        vehicleModel  : bookingDetails?.vehicle_model,
+        companyName   : bookingDetails?.company_name,
     }
     const sectionContent3 = {
-        residentType: bookingDetails?.resident_type,
-        address: bookingDetails?.address,
-        region: bookingDetails?.region_specification,
+        residentType : bookingDetails?.resident_type,
+        address      : bookingDetails?.address,
+        region       : bookingDetails?.region_specification,
        
     }
     const sectionContent4 = {

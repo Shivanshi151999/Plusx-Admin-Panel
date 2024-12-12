@@ -7,42 +7,39 @@ import DetailsBookingHistory from '../SharedComponent/Details/DeatilsBookingHist
 import DetailsVehicleList from '../SharedComponent/Details/DetailsVehicleList'
 import { getRequestWithToken, postRequestWithToken } from '../../api/Requests';
 import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
 
   const statusMapping = {
     'CNF': 'Booking Confirmed',
-    'A': 'Assigned',
-    'RL': 'POD Reached at Location',
-    'CS': 'Charging Started',
-    'CC': 'Charging Completed',
-    'PU': 'POD Picked Up',
-    'WC': 'Work Completed',
-    'C': 'Cancel'
+    'A'  : 'Assigned',
+    'RL' : 'POD Reached at Location',
+    'CS' : 'Charging Started',
+    'CC' : 'Charging Completed',
+    'PU' : 'POD Picked Up',
+    'WC' : 'Work Completed',
+    'C'  : 'Cancel'
   };
 
 const AppSignupDetails = () => {
-  const {riderId} = useParams()
-  const [riderDetails, setRiderDetails] = useState()
-  const [riderAddressList, setRiderAddressList] = useState([])
-  const [vehicleList, setVehicleList] = useState([])
+  const userDetails                                           = JSON.parse(sessionStorage.getItem('userDetails'));
+  const navigate                                              = useNavigate()
+  const {riderId}                                             = useParams()
+  const [riderDetails, setRiderDetails]                       = useState()
+  const [riderAddressList, setRiderAddressList]               = useState([])
+  const [vehicleList, setVehicleList]                         = useState([])
   const [portableChargerBookings, setPortableChargerBookings] = useState([])
-  const [pickAndDropBookings, setPickAndDropBookings] = useState([])
+  const [pickAndDropBookings, setPickAndDropBookings]         = useState([])
+  const [chargerRsaList, setChargerRsaList]                   = useState([])
+  const [valetRsaList, setValetRsaList]                       = useState([])
 
-  const [chargerRsaList, setChargerRsaList] = useState([])
-  const [valetRsaList, setValetRsaList] = useState([])
-
-  const portableChargerHeaders = [
-    'Date','Booking ID', 'Price',  'Status', 'Assigned Driver', 'Vehicle Type', 'Action' 
-  ];
-
-  const pickAndDropHeaders = [
-    'Date','Booking ID',  'Price',  'Status', 'Assigned Driver','Vehicle Type',  'Action'
-  ];
+  const portableChargerHeaders = ['Date','Booking ID', 'Price',  'Status', 'Assigned Driver', 'Vehicle Type', 'Action' ];
+  const pickAndDropHeaders     = ['Date','Booking ID',  'Price',  'Status', 'Assigned Driver','Vehicle Type',  'Action'];
 
   const fetchDetails = () => {
     const obj = {
-        userId: "1",
-        email: "admin@shunyaekai.com",
+        userId  : userDetails?.user_id,
+        email   : userDetails?.email,
         riderId : riderId
     };
 
@@ -57,7 +54,7 @@ const AppSignupDetails = () => {
             console.log('error in rider-details API', response);
         }
     });
-obj.service_type = 'Portable Charger'
+    obj.service_type = 'Portable Charger'
     postRequestWithToken('rsa-list', obj, async(response) => {
       if (response.code === 200) {
         setChargerRsaList(response?.data)
@@ -80,8 +77,13 @@ obj.service_type = 'Portable Charger'
 };
 
   useEffect(() => {
+    if (!userDetails || !userDetails.access_token) {
+      navigate('/login');
+      return;
+  }
     fetchDetails();
   }, []);
+
   return (
     <div className='main-container'>
       <DetailsHeader headerDetails = {riderDetails}/>
@@ -96,14 +98,14 @@ obj.service_type = 'Portable Charger'
         bookingData={portableChargerBookings.map((booking) => {
           const vehicle = vehicleList.find(v => v.vehicle_id === booking.vehicle_id);
           return {
-              id: booking.booking_id,
-              rsa_name: booking.rsa_name,
-              service_name: booking.service_name,
-              service_type: booking.service_type,
-              price: `AED ${booking.service_price || 'AED 0'}`,
-              datetime: moment(booking.created_at).format('DD MMM YYYY'),
-              status: statusMapping[booking.order_status] || '',
-              vehicle_type: vehicle ? vehicle.vehicle_type : '', 
+              id           : booking.booking_id,
+              rsa_name     : booking.rsa_name,
+              service_name : booking.service_name,
+              service_type : booking.service_type,
+              price        : `AED ${booking.service_price || 'AED 0'}`,
+              datetime     : moment(booking.created_at).format('DD MMM YYYY'),
+              status       : statusMapping[booking.order_status] || '',
+              vehicle_type : vehicle ? vehicle.vehicle_type : '', 
           };
       })}
         bookingType="portableCharger"
@@ -116,12 +118,12 @@ obj.service_type = 'Portable Charger'
         bookingData={pickAndDropBookings.map((booking) => {
           const vehicle = vehicleList.find(v => v.vehicle_id === booking.vehicle_id);
           return {
-              id: booking.request_id,
-              rsa_name: booking.rsa_name,
-              price: `AED ${booking.price || 'AED 0'}`,
-              datetime: moment(booking.created_at).format('DD MMM YYYY'),
-              status: statusMapping[booking.order_status] || '',
-              vehicle_type: vehicle ? vehicle.vehicle_type : '', 
+              id           : booking.request_id,
+              rsa_name     : booking.rsa_name,
+              price        : `AED ${booking.price || 'AED 0'}`,
+              datetime     : moment(booking.created_at).format('DD MMM YYYY'),
+              status       : statusMapping[booking.order_status] || '',
+              vehicle_type : vehicle ? vehicle.vehicle_type : '', 
           };
       })}
         bookingType="pickAndDrop"

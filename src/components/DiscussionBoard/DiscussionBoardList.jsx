@@ -44,9 +44,9 @@ const DiscussionBoardList = () => {
         } 
 
         const obj = {
-            userId: userDetails?.user_id,
-            email: userDetails?.email,
-            page_no: page,
+            userId  : userDetails?.user_id,
+            email   : userDetails?.email,
+            page_no : page,
             ...appliedFilters,
         }
 
@@ -84,9 +84,9 @@ const DiscussionBoardList = () => {
         const confirmDelete = window.confirm("Are you sure you want to delete this?");
         if (confirmDelete) {
             const obj = {
-                userId: userDetails?.user_id,
-                email: userDetails?.email,
-                board_id: clubId
+                userId   : userDetails?.user_id,
+                email    : userDetails?.email,
+                board_id : clubId
             };
             postRequestWithToken('discussion-board-delete', obj, async (response) => {
                 if (response.code === 200) {

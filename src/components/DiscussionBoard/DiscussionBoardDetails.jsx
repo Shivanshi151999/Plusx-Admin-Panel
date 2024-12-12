@@ -20,13 +20,13 @@ const DiscussionBoardDetails = () => {
   const [bookingDetails, setBookingDetails] = useState()
   const [imageGallery, setImageGallery]     = useState()
   const [baseUrl, setBaseUrl]               = useState()
-  const [comments, setComments] = useState([])
+  const [comments, setComments]             = useState([])
 
 
   const fetchDetails = () => {
     const obj = {
-      userId  : userDetails?.user_id,
-      email   : userDetails?.email,
+      userId   : userDetails?.user_id,
+      email    : userDetails?.email,
       board_id : boardId
     };
 
@@ -59,7 +59,7 @@ const DiscussionBoardDetails = () => {
   }, []);
 
   const headerTitles = {
-    bookingIdTitle      : "Board ID",
+    bookingIdTitle       : "Board ID",
     customerDetailsTitle : "Customer Details",
   };
   const content = {
@@ -70,34 +70,15 @@ const DiscussionBoardDetails = () => {
   };
 
   const sectionTitles1 = {
-    title : "Title",
-    views  : "Views",
-    comments   : "Comments",
+    title    : "Title",
+    views    : "Views",
+    comments : "Comments",
   }
   const sectionContent1 = {
-    title : bookingDetails?.blog_title,
-    views  : bookingDetails?.view_count,
-    comments   : bookingDetails?.comment_count,
-
+    title    : bookingDetails?.blog_title,
+    views    : bookingDetails?.view_count,
+    comments : bookingDetails?.comment_count,
   }
-
-//   const sectionTitles2 = {
-//     category : "Category",
-//     ageGroup : "Age Group",
-//     clubUrl  : "Club URL"
-//   }
-//   const sectionContent2 = {
-//     category : bookingDetails?.category,
-//     ageGroup : bookingDetails?.age_group,
-//     leaseUrl : bookingDetails?.url_link
-//   }
-
-//   const sectionTitles3 = {
-//    status: 'Status'
-//   }
-//   const sectionContent3 = {
-//     status: bookingDetails?.status === 1 ? 'Active' : "Inactive"
-//   }
 
   const sectionTitles4 = {
     description: "Description"
@@ -125,8 +106,6 @@ const DiscussionBoardDetails = () => {
       />
       <div className={styles.ChargerDetailsSection}>
         <BookingLeftDetails titles={sectionTitles1} content={sectionContent1}
-        //   sectionTitles2={sectionTitles2} sectionContent2={sectionContent2}
-        //   sectionTitles3={sectionTitles3} sectionContent3={sectionContent3}
           sectionTitles4={sectionTitles4} sectionContent4={sectionContent4}
           type='evGuide' />
          <CommentAccordion history={comments} title='Comments' />
