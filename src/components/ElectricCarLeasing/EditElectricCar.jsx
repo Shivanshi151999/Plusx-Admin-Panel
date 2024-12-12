@@ -148,7 +148,6 @@ const EditElectricCar = () => {
                     formData.append("rental_gallery", galleryFile);
                 });
             }
-            console.log('isActive', isActive);
 
             postRequestWithTokenAndFile('electric-car-edit', formData, async (response) => {
                 if (response.status === 1) {

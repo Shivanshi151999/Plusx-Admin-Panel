@@ -51,7 +51,6 @@ const EvPreSaleSlotList = () => {
     };
 
     const groupedData = groupBySlotDate(timeSlotList);
-    console.log(groupedData);
 
     const fetchList = (page, appliedFilters = {}) => {
         if (page === 1 && Object.keys(appliedFilters).length === 0) {

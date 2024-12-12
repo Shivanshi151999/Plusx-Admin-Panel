@@ -77,7 +77,6 @@ const AddShopListForm = () => {
   };
   const handleAddressInputChange = (index, field, value) => {
     if (field === "location") {
-      console.log("location", value);
 
       value = value?.label || "";
     }

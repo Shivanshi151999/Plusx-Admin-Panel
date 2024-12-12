@@ -100,35 +100,6 @@ const AddEvPreSaleTimeSlot = () => {
         setTimeSlots(newTimeSlots);
     };
 
-    // const validateForm = () => {
-    //     const newErrors = timeSlots.map((slot) => {
-    //         const errors = {};
-
-    //         if (!slot.date) {
-    //             errors.date = "Date is required";
-    //         }
-
-    //         if (!slot.startTime) {
-    //             errors.startTime = "Start time is required";
-    //         }
-    //         console.log('endTime', slot.endTime);
-
-    //         if (!slot.endTime) {
-    //             errors.endTime = "End time is required";
-    //         }
-
-    //         if (!slot.bookingLimit) {
-    //             errors.bookingLimit = "Booking limit is required";
-    //         } else if (isNaN(slot.bookingLimit) || slot.bookingLimit <= 0) {
-    //             errors.bookingLimit = "Booking limit must be a positive number";
-    //         }
-
-    //         return errors;
-    //     });
-
-    //     setErrors(newErrors);
-    //     return newErrors.every((error) => Object.keys(error).length === 0);
-    // };
 
     const validateForm = () => {
         const errors = [];

@@ -148,7 +148,6 @@ const EditElectricBike = () => {
                     formData.append("rental_gallery", galleryFile);
                 });
             }
-            console.log('isActive', isActive);
 
             postRequestWithTokenAndFile('electric-bike-edit', formData, async (response) => {
                 if (response.status === 1) {

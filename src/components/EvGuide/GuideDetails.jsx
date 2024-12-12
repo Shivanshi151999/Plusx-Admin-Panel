@@ -1,89 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import styles from './evguide.module.css';
 import BookingDetailsHeader from '../SharedComponent/Details/BookingDetails/BookingDetailsHeader';
-// import BookingDetailsSection from '../SharedComponent/Details/BookingDetails/BookingDetailsSection'
 import BookingImageSection from '../SharedComponent/Details/BookingDetails/BookingImageSection';
 import BookingMultipleImages from '../SharedComponent/Details/BookingDetails/BookingMultipleImages.jsx';
 import { postRequestWithToken } from '../../api/Requests';
 import BookingLeftDetails from '../SharedComponent/BookingDetails/BookingLeftDetails.jsx';
 import { useParams } from 'react-router-dom';
-// import moment from 'moment';
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
-
-const statusMapping = {
-  'CNF': 'Booking Confirmed',
-  'A': 'Assigned',
-  'RL': 'POD Reached at Location',
-  'CS': 'Charging Started',
-  'CC': 'Charging Completed',
-  'PU': 'POD Picked Up',
-  'WC': 'Work Completed',
-  'C': 'Cancel'
-};
-
-
-const formatTime = (timeStr) => {
-  if (timeStr === "Closed") return "Closed";
-  const [start, end] = timeStr?.split('-');
-
-  const format12Hour = (time) => {
-    const [hour, minute] = time?.split(':');
-    const date = new Date();
-    date.setHours(hour);
-    date.setMinutes(minute);
-    
-    // Format the time to always show two digits for minute and ensure AM/PM
-    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }).replace(':', ':'); 
-  };
-
-  return `${format12Hour(start)} - ${format12Hour(end)}`;
-};
-
-const getFormattedOpeningHours = (details) => {
-  if (details?.always_open === 1) {
-    return "Always Open";
-  }
-
-  if (!details?.open_days || !details?.open_timing) {
-    return "No opening hours available";
-  }
-
-  const days = details?.open_days.split('_').map((day) => {
-    // Capitalize the first letter of each day
-    return day.charAt(0).toUpperCase() + day.slice(1).toLowerCase();
-  });
-
-  const timings = details?.open_timing.split('_').map(formatTime);
-
-  // Check if all the timings are the same
-  const allSameTimings = timings.every(time => time === timings[0]);
-
-  if (allSameTimings) {
-    // If all days have the same timings, return a consolidated range for the whole week
-    return `${days[0]}-${days[days.length - 1]}: ${timings[0]}`;
-  }
-
-  // Otherwise, show each day with its corresponding timings
-  const formattedOpeningHours = [];
-  let i = 0;
-  while (i < days.length) {
-    let startDay = days[i];
-    let currentTiming = timings[i];
-    let j = i;
-
-    while (j < days.length - 1 && timings[j + 1] === currentTiming) {
-      j++;
-    }
-
-    const dayRange = startDay + (i === j ? "" : `-${days[j]}`);
-    formattedOpeningHours.push(`${dayRange}: ${currentTiming}`);
-    i = j + 1;
-  }
-
-  return formattedOpeningHours.join(', ');
-};
 
 
 const GuideDetails = () => {
@@ -124,12 +49,12 @@ const GuideDetails = () => {
   }, []);
 
   const headerTitles = {
-    bookingIdTitle: "Vehicle ID",
-    stationDetailsTitle: "Vehicle Name",
+    bookingIdTitle      : "Vehicle ID",
+    stationDetailsTitle : "Vehicle Name",
   };
   const content = {
-    bookingId: bookingDetails?.vehicle_id,
-    stationName: bookingDetails?.vehicle_name,
+    bookingId   : bookingDetails?.vehicle_id,
+    stationName : bookingDetails?.vehicle_name,
   };
 
   const sectionTitles1 = {
@@ -138,21 +63,21 @@ const GuideDetails = () => {
     engine      : "Engine",
   }
   const sectionContent1 = {
-    vehicleType: bookingDetails?.vehicle_type,
-    modelName: bookingDetails?.vehicle_model,
-    engine: bookingDetails?.engine,
+    vehicleType : bookingDetails?.vehicle_type,
+    modelName   : bookingDetails?.vehicle_model,
+    engine      : bookingDetails?.engine,
 
   }
 
   const sectionTitles2 = {
-    horsePower: "Horse Power",
-    maxSpeed: "Max Speed",
-    status : "Status"
+    horsePower : "Horse Power",
+    maxSpeed   : "Max Speed",
+    status     : "Status"
   }
   const sectionContent2 = {
-    horsePower: bookingDetails?.horse_power,
-    maxSpeed: bookingDetails?.max_speed,
-    status: bookingDetails?.status === 1 ? 'Active' : "Inactive"
+    horsePower : bookingDetails?.horse_power,
+    maxSpeed   : bookingDetails?.max_speed,
+    status     : bookingDetails?.status === 1 ? 'Active' : "Inactive"
   }
 
   const sectionTitles3 = {
@@ -170,15 +95,15 @@ const GuideDetails = () => {
   }
 
   const imageTitles = {
-    coverImage: "Cover Gallery",
-    galleryImages: "Vehicle Gallery",
+    coverImage    : "Cover Gallery",
+    galleryImages : "Vehicle Gallery",
   }
 
   const imageContent = {
-    coverImage: bookingDetails?.image,
-    galleryImages: imageGallery,
-    galleryImagesId: imageGalleryId,
-    baseUrl: baseUrl,
+    coverImage      : bookingDetails?.image,
+    galleryImages   : imageGallery,
+    galleryImagesId : imageGalleryId,
+    baseUrl         : baseUrl,
   }
 
   const handleRemoveGalleryImage = (galleryId) => {

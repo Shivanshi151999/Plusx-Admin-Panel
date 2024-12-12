@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from './shop.module.css';
 import BookingDetailsHeader from '../../../SharedComponent/Details/BookingDetails/BookingDetailsHeader';
-// import BookingDetailsSection from '../../../SharedComponent/Details/BookingDetails/BookingDetailsSection';
 import BookingImageSection from '../../../SharedComponent/Details/BookingDetails/BookingImageSection';
 import BookingMultipleImages from '../../../SharedComponent/Details/BookingDetails/BookingMultipleImages.jsx';
 import { postRequestWithToken } from '../../../../api/Requests';
@@ -12,24 +11,6 @@ import moment from 'moment';
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
-
-const formatTime = (timeStr) => {
-  if (timeStr === "Closed") return "Closed";
-  const [start, end] = timeStr?.split('-');
-
-  const format12Hour = (time) => {
-    const [hour, minute] = time?.split(':');
-    const date = new Date();
-    date.setHours(hour);
-    date.setMinutes(minute);
-    
-    // Format the time to always show two digits for minute and ensure AM/PM
-    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }).replace(':', ':'); 
-  };
-
-  return `${format12Hour(start)} - ${format12Hour(end)}`;
-};
-
 
 const getFormattedOpeningHours = (details) => {
   if (details?.always_open === 1) {
@@ -161,30 +142,22 @@ const ShopDetails = () => {
 
   const sectionTitles1 = {
     openingDetails : "Opening Details",
-    email  : "Email",
-    brands   : "Brands",
-    // address        : "Address",
-    // location       : "Location",
+    email          : "Email",
+    brands         : "Brands",
   }
   const sectionContent1 = {
     openingDetails : getFormattedOpeningHours(bookingDetails),
-    email  : bookingDetails?.store_email,
-    brands   : bookingDetails?.brands,
-    // address        : bookingDetails?.address,
-    // location       : bookingDetails?.location,
+    email          : bookingDetails?.store_email,
+    brands         : bookingDetails?.brands,
   }
 
   const sectionTitles2 = {
-    // latitude  : "Latitude",
-    // longitude : "Longitude",
     services : "Services",
-    status : "Status"
-    // estYear   : "Established Year"
+    status   : "Status"
   }
   const sectionContent2 = {
     services : bookingDetails?.services,
-    status : bookingDetails?.status === 1 ? 'Active' : 'Inactive'
-    // estYear   : bookingDetails?.establishment_year
+    status    : bookingDetails?.status === 1 ? 'Active' : 'Inactive'
   }
 
   const sectionTitles3 = {

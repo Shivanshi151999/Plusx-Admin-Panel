@@ -3,12 +3,10 @@ import List from '../../SharedComponent/List/List';
 import styles from './chargerbooking.module.css'
 import SubHeader from '../../SharedComponent/SubHeader/SubHeader';
 import Pagination from '../../SharedComponent/Pagination/Pagination';
-import { getRequestWithToken, postRequestWithToken } from '../../../api/Requests';
+import { postRequestWithToken } from '../../../api/Requests';
 import moment from 'moment'; 
 import AddDriver from '../../../assets/images/AddDriver.svg';
-import Edit from '../../../assets/images/Pen.svg';
 import Cancel from '../../../assets/images/Cancel.svg';
-import Delete from '../../../assets/images/Delete.svg';
 import View from '../../../assets/images/ViewEye.svg'
 import ModalAssign from '../../SharedComponent/BookingDetails/ModalAssign.jsx'
 import { toast, ToastContainer } from "react-toastify";
