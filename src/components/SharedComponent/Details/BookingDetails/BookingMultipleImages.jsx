@@ -59,9 +59,9 @@ const BookingMultipleImages = ({ titles, content, type, onRemoveImage }) => {
                           alt={`Gallery img ${index + 1}`}
                           className={styles.gallerymultipleImage}
                         />
-                        <button type="button" className={styles.galleryImagesCloseButton}>
+                        {/* <button type="button" className={styles.galleryImagesCloseButton}>
                           <AiOutlineClose size={20} style={{ padding: '2px' }} />
-                        </button>
+                        </button> */}
                       </div>
                     ))
                   )}
@@ -210,7 +210,7 @@ const BookingMultipleImages = ({ titles, content, type, onRemoveImage }) => {
           {Array.isArray(content.otherImages) && content.otherImages.length > 0 && (
             <div className="col-12">
               <div className={styles.multipleinfoBlock}>
-                <span className={styles.multipleinfoHeading}>Other Images</span>
+                <span className={styles.multipleinfoHeading}>{titles.otherImages}</span>
                 <div className={styles.multiplegalleryImages}>
                   {content.otherImages.map((image, index) => (
                     <div className={styles.imageContainer} key={index}>

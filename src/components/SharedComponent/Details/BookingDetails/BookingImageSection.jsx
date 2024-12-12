@@ -18,7 +18,7 @@ const BookingImageSection = ({ titles, content, type }) => {
                     <img
                       key={index}
                       src={`${baseUrl}${image}`}
-                      alt={`Cover Image ${index + 1}`}
+                      alt={`Cover Img ${index + 1}`}
                       className={styles.galleryImage}
                     />
                   ))}

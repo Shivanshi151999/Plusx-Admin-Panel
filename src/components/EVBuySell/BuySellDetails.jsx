@@ -1,23 +1,26 @@
 import React, { useEffect, useState } from 'react';
-import styles from './evbuysell.module.css'
-import BookingDetailsHeader from '../SharedComponent/Details/BookingDetails/BookingDetailsHeader'
-import BookingDetailsSection from '../SharedComponent/Details/BookingDetails/BookingDetailsSection'
-import BookingImageSection from '../SharedComponent/Details/BookingDetails/BookingImageSection'
-import { postRequestWithToken } from '../../api/Requests';
-import BookingLeftDetails from '../SharedComponent/BookingDetails/BookingLeftDetails.jsx'
-import { useParams } from 'react-router-dom';
-import moment from 'moment';
-import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
+import BookingDetailsHeader from '../SharedComponent/Details/BookingDetails/BookingDetailsHeader';
+import BookingMultipleImages from '../SharedComponent/Details/BookingDetails/BookingMultipleImages.jsx';
+import BookingLeftDetails from '../SharedComponent/BookingDetails/BookingLeftDetails.jsx'
+import { postRequestWithToken } from '../../api/Requests';
+// import { toast, ToastContainer } from "react-toastify";
+// import BookingDetailsSection from '../SharedComponent/Details/BookingDetails/BookingDetailsSection';
+// import BookingImageSection from '../SharedComponent/Details/BookingDetails/BookingImageSection';
+// import moment from 'moment';
+
+import styles from './evbuysell.module.css';
+import 'react-toastify/dist/ReactToastify.css';
 
 const BuySellDetails = () => {
-  const userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
-  const navigate = useNavigate()
-  const { sellId } = useParams()
-  const [bookingDetails, setBookingDetails] = useState()
-  const [imageGallery, setImageGallery] = useState()
-  const [baseUrl, setBaseUrl] = useState()
+  const userDetails                          = JSON.parse(sessionStorage.getItem('userDetails'));
+  const navigate                             = useNavigate();
+  const { sellId }                           = useParams();
+  const [bookingDetails, setBookingDetails]  = useState();
+  const [imageGallery, setImageGallery]      = useState();
+  const [baseUrl, setBaseUrl]                = useState();
 
 
   const fetchDetails = () => {
@@ -33,16 +36,16 @@ const BuySellDetails = () => {
         // setImageGallery(response.galleryData)
 
         const carImages = response?.data?.car_images ? response.data.car_images.split('*') : [];
-      const carTyreImages = response?.data?.car_tyre_image ? response.data.car_tyre_image.split('*') : [];
-      const otherImages = response?.data?.other_images ? response.data.other_images.split('*') : [];
-
+        const carTyreImages = response?.data?.car_tyre_image ? response.data.car_tyre_image.split('*') : [];
+        const otherImages = response?.data?.other_images ? response.data.other_images.split('*') : [];
       
-      setImageGallery({
-        coverImages: carImages,               
-        galleryImages: carImages,            
-        tyreImages: carTyreImages,            
-        otherImages: otherImages              
-      });
+        setImageGallery({
+          coverImages: carImages,               
+          galleryImages: carImages,            
+          tyreImages: carTyreImages,            
+          otherImages: otherImages              
+        });
+
         setBaseUrl(response.base_url)
       } else {
         console.log('error in buy-sell-detail API', response);
@@ -135,10 +138,10 @@ const BuySellDetails = () => {
     description: bookingDetails?.description,
   }
 
-  const imageTitles = {
-    coverImage    : "Cover Gallery",
-    galleryImages : "Vehicle Gallery",
-  }
+  // const imageTitles = {
+  //   coverImage    : "Cover Gallery",
+  //   galleryImages : "Vehicle Gallery",
+  // }
 
   // const imageContent = {
   //   coverImage: bookingDetails?.image,
@@ -146,14 +149,37 @@ const BuySellDetails = () => {
   //   baseUrl: baseUrl,
   // }
 
-  const imageContent = {
-    coverImages: imageGallery?.coverImages,         
-    galleryImages: imageGallery?.galleryImages,     
-    tyreImages: imageGallery?.tyreImages,          
-    otherImages: imageGallery?.otherImages,         
-    baseUrl: baseUrl,
-  };
+  // const imageContent = {
+  //   coverImages: imageGallery?.coverImages,         
+  //   galleryImages: imageGallery?.galleryImages,     
+  //   tyreImages: imageGallery?.tyreImages,          
+  //   otherImages: imageGallery?.otherImages,         
+  //   baseUrl: baseUrl,
+  // };
   
+  const imageTitles1 = {
+    galleryImages: "Car Images",
+  };
+  const imageContent1 = {
+    galleryImages: imageGallery?.galleryImages,
+    baseUrl,
+  };
+
+  const imageTitles2 = {
+    tyreImages: "Car Tyre Images",
+  };
+  const imageContent2 = {
+    tyreImages: imageGallery?.tyreImages,
+    baseUrl,
+  };
+
+  const imageTitles3 = {
+    otherImages: "Other Images",
+  };
+  const imageContent3 = {
+    otherImages: imageGallery?.otherImages,
+    baseUrl,
+  };
 
   return (
     <div className='main-container'>
@@ -168,15 +194,23 @@ const BuySellDetails = () => {
           sectionTitles5={sectionTitles5} sectionContent5={sectionContent5}
           sectionTitles6={sectionTitles6} sectionContent6={sectionContent6}
           sectionTitles4={sectionTitles4} sectionContent4={sectionContent4}
-          type='evGuide' />
-
-        <BookingImageSection
-          titles={imageTitles} content={imageContent}
-          type='evGuide'
+          type='buySell' 
+        />
+        <BookingMultipleImages
+          titles={imageTitles1} content={imageContent1}
+          type='buySell'
+        />
+        <BookingMultipleImages
+          titles={imageTitles2} content={imageContent2}
+          type='buySell'
+        />
+        <BookingMultipleImages
+          titles={imageTitles3} content={imageContent3}
+          type='buySell'
         />
       </div>
     </div>
   )
 }
 
-export default BuySellDetails
+export default BuySellDetails;
