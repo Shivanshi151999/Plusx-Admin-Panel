@@ -354,8 +354,8 @@ const AddChargerStation = () => {
                                     closeOnChangedValue={false}
                                     closeOnSelect={false}
                                 />
-                                {errors.chargingFor && selectedBrands.length == 0 && <p className={styles.error} style={{ color: 'red' }}>{errors.chargingFor}</p>}
                             </div>
+                            {errors.chargingFor && selectedBrands.length == 0 && <p className={styles.error} style={{ color: 'red' }}>{errors.chargingFor}</p>}
                         </div>
                     </div>
                     <div className={styles.row}>
@@ -372,8 +372,8 @@ const AddChargerStation = () => {
                                     placeholder="Select Service"
                                     isClearable={true}
                                 />
-                                {errors.chargerType && (!selectedType || selectedType.length === 0) && <p className={styles.error} style={{ color: 'red' }}>{errors.chargerType}</p>}
                             </div>
+                            {errors.chargerType && (!selectedType || selectedType.length === 0) && <p className={styles.error} style={{ color: 'red' }}>{errors.chargerType}</p>}
                         </div>
                         <div className={styles.addShopInputContainer}>
                             <label className={styles.addShopLabel} htmlFor="email">Charging Point</label>

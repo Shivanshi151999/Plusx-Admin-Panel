@@ -213,7 +213,7 @@ const AddPortableCharger = () => {
                                 </div>
                             )}
                         </div>
-                        {errors.file && <p className="error">{errors.file}</p>}
+                        {errors.file && <p className="error mt-2">{errors.file}</p>}
                     </div>
                     <div className={styles.actions}>
                         <button onClick={backButtonClick} className={styles.cancelBtn} type="button">Cancel</button>

@@ -191,7 +191,7 @@ useEffect(() => {
                         </div>
                     )}
                 </div>
-                {errors.file && <p className="error">{errors.file}</p>}
+                {errors.file && <p className="error mt-2">{errors.file}</p>}
             </div>
           
             <div className={styles.editButton}>

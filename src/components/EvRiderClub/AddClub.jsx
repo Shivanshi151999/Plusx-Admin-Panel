@@ -288,8 +288,8 @@ useEffect(() => {
                             closeOnChangedValue={false}
                             closeOnSelect={false}
                         />
-                        {errors.category && (!category || category.length === 0) && <p className="error">{errors.category}</p>}
                     </div>
+                    {errors.category && (!category || category.length === 0) && <p className="error">{errors.category}</p>}
             </div>
            
           </div>
@@ -306,10 +306,10 @@ useEffect(() => {
                             closeOnChangedValue={false}
                             closeOnSelect={false}
                         />
-                        {errors.ageGroup && (!ageGroup || ageGroup.length === 0) &&  <p className="error">{errors.ageGroup}</p>}
                     </div>
-                   
+                    {errors.ageGroup && (!ageGroup || ageGroup.length === 0) &&  <p className="error">{errors.ageGroup}</p>}
                 </div>
+                
                 <div className={styles.addShopInputContainer}>
                         <label className={styles.addShopLabel} htmlFor="preference">Preference</label>
                         <input 

@@ -253,8 +253,8 @@ useEffect(() => {
                             closeOnChangedValue={false}
                             closeOnSelect={false}
                         />
-                        {errors.contract && (!contract || contract.length === 0) && <p className="error">{errors.contract}</p>}
                     </div>
+                    {errors.contract && (!contract || contract.length === 0) && <p className="error">{errors.contract}</p>}
                 </div>
 
                 <div className={styles.addShopInputContainer}>
@@ -269,8 +269,8 @@ useEffect(() => {
                             closeOnChangedValue={false}
                             closeOnSelect={false}
                         />
-                        {errors.feature && (!feature || feature.length === 0) && <p className="error">{errors.feature}</p>}
                     </div>
+                    {errors.feature && (!feature || feature.length === 0) && <p className="error">{errors.feature}</p>}
                 </div>
             
           </div>
