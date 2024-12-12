@@ -85,7 +85,7 @@ const PickAndDropBookingDetails = () => {
     };
     const sectionContent1 = {
         bookingStatus: statusMapping[bookingDetails?.order_status] || bookingDetails?.order_status,
-        price: bookingDetails?.price,
+        price: bookingDetails?.price ? `${bookingDetails?.price} AED` : '',
         vehicle: bookingDetails?.vehicle_make,
     }
     const sectionContent2 = {

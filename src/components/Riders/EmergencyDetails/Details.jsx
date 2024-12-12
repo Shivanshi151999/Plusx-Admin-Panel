@@ -8,6 +8,7 @@ import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import MapComponent from "../../Dashboard/Map/Map";
 import NewMapComponent from '../../Dashboard/Map/NewMap'
+import moment from 'moment';
 
 const Details = () => {
   const userDetails = JSON.parse(sessionStorage.getItem('userDetails')); 
@@ -73,7 +74,7 @@ const Details = () => {
               {/* <MapComponent className={styles.mapContainer} coordinates={coordinates}/> */}
               <NewMapComponent className={styles.mapContainer} coordinates={coordinates}/>
             </div>
-      <EmergencyList history = {history}/>
+      <EmergencyList history = {history} bookingType = {details?.booking_type}/>
     </div>
   )
 }
