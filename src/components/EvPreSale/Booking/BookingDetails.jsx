@@ -1,23 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import styles from './booking.module.css'
 import BookingDetailsHeader from '../../SharedComponent/Details/BookingDetails/BookingDetailsHeader'
-import BookingDetailsSection from '../../SharedComponent/Details/BookingDetails/BookingDetailsSection'
-import BookingImageSection from '../../SharedComponent/Details/BookingDetails/BookingImageSection'
 import { postRequestWithToken } from '../../../api/Requests';
 import BookingLeftDetails from '../../SharedComponent/BookingDetails/BookingLeftDetails.jsx'
 import { useParams } from 'react-router-dom';
 import moment from 'moment';
-import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from 'react-router-dom';
 
 
 const EvPreSaleBookingDetails = () => {
-  const userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
-  const navigate = useNavigate()
-  const { bookingId } = useParams()
+  const userDetails                         = JSON.parse(sessionStorage.getItem('userDetails'));
+  const navigate                            = useNavigate()
+  const { bookingId }                       = useParams()
   const [bookingDetails, setBookingDetails] = useState()
-  const [imageGallery, setImageGallery] = useState()
-  const [baseUrl, setBaseUrl] = useState()
+  const [imageGallery, setImageGallery]     = useState()
+  const [baseUrl, setBaseUrl]               = useState()
 
 
   const fetchDetails = () => {
@@ -47,37 +44,37 @@ const EvPreSaleBookingDetails = () => {
   }, []);
 
   const headerTitles = {
-    bookingIdTitle      : "Booking ID",
+    bookingIdTitle       : "Booking ID",
     customerDetailsTitle : "Customer Details",
   };
   const content = {
-    bookingId   : bookingDetails?.booking_id,
-    createdAt   : moment(bookingDetails?.created_at).format('DD MMM YYYY h:mm A'),
-    customerName : bookingDetails?.owner_name,
+    bookingId       : bookingDetails?.booking_id,
+    createdAt       : moment(bookingDetails?.created_at).format('DD MMM YYYY h:mm A'),
+    customerName    : bookingDetails?.owner_name,
     customerContact : `+${bookingDetails?.country_code} ${bookingDetails?.mobile_no}`,
   };
 
   const sectionTitles1 = {
-    dob       : "Date Of Birth",
+    dob     : "Date Of Birth",
     country : "Country",
-    email : "Email",
+    email   : "Email",
   }
   const sectionContent1 = {
-    dob       : bookingDetails?.date_of_birth,
+    dob     : bookingDetails?.date_of_birth,
     country : bookingDetails?.country,
-    email : bookingDetails?.email,
+    email   : bookingDetails?.email,
 
   }
 
   const sectionTitles2 = {
     vehicle : "Vehicle Data",
-    slot      : "Slot Time",
-    reason    : "Reason"
+    slot    : "Slot Time",
+    reason  : "Reason"
   }
   const sectionContent2 = {
     vehicle : bookingDetails?.vehicle_data,
-    slot      : bookingDetails?.slot_date,
-    reason    : bookingDetails?.reason_of_testing
+    slot    : bookingDetails?.slot_date,
+    reason  : bookingDetails?.reason_of_testing
   }
 
   const sectionTitles3 = {

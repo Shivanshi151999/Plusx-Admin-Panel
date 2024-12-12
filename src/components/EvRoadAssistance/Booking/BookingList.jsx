@@ -18,13 +18,13 @@ import Custommodal from '../../SharedComponent/CustomModal/CustomModal.jsx';
 import Loader from "../../SharedComponent/Loader/Loader";
 
 const statusMapping = {
-    'BD' : 'Booking Done',
+    'BD'  : 'Booking Done',
     'CNF' : 'Confirmed',
     'AR'  : 'At Location',
-    'PC' : 'Pickup Completed',
-    'VD' : 'Vehicle Delivered',
-    'C' : 'Cancel',
-    'RA' : 'RSA Accepted',
+    'PC'  : 'Pickup Completed',
+    'VD'  : 'Vehicle Delivered',
+    'C'   : 'Cancel',
+    'RA'  : 'RSA Accepted',
 };
 
 const dynamicFilters = [
@@ -72,7 +72,6 @@ const RoadAssistanceBookingList = () => {
   const handleCancelClick = (bookingId, riderId) => {
     setSelectedBookingId(bookingId);
     setSelectedRiderId(riderId)
-    console.log(bookingId,riderId);
     setShowPopup(true); 
   };
 
@@ -94,7 +93,6 @@ const RoadAssistanceBookingList = () => {
         toast("Please enter a reason for cancellation.", {type:'error'})
         return;
       }
-    console.log("Canceling item with ID:", selectedBookingId, selectedDriverId);
     const obj = {
         userId     : userDetails?.user_id,
         email      : userDetails?.email,
@@ -129,9 +127,9 @@ const RoadAssistanceBookingList = () => {
         } 
 
         const obj = {
-            userId: userDetails?.user_id,
-            email: userDetails?.email,
-            page_no: page,
+            userId  : userDetails?.user_id,
+            email   : userDetails?.email,
+            page_no : page,
             // service_type: 'Portable Charger',
             ...appliedFilters,
         };
@@ -186,16 +184,15 @@ const RoadAssistanceBookingList = () => {
     };
 
     const handleDriverSelect = (driver) => {
-        console.log(`Driver selected: ${driver}`);
         setSelectedDriverId(driver);
     };
 
     const assignDriver = () => {
         const obj = {
-            userId: userDetails?.user_id,
-            email: userDetails?.email,
-            rsa_id: selectedDriverId, 
-            booking_id: selectedBookingId
+            userId     : userDetails?.user_id,
+            email      : userDetails?.email,
+            rsa_id     : selectedDriverId, 
+            booking_id : selectedBookingId
         }
         postRequestWithToken('/charger-booking-assig', obj, async(response) => {
             if (response.code === 200) {

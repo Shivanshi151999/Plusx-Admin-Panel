@@ -45,8 +45,8 @@ const ClubList = () => {
         } 
 
         const obj = {
-            userId : userDetails?.user_id,
-            email : userDetails?.email,
+            userId  : userDetails?.user_id,
+            email   : userDetails?.email,
             page_no : page,
             ...appliedFilters,
         }

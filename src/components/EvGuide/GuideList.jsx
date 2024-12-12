@@ -44,9 +44,9 @@ const GuideList = () => {
         } 
 
         const obj = {
-            userId: userDetails?.user_id,
-            email: userDetails?.email,
-            page_no: page,
+            userId  : userDetails?.user_id,
+            email   : userDetails?.email,
+            page_no : page,
             ...appliedFilters,
         }
 
@@ -84,9 +84,9 @@ const GuideList = () => {
         const confirmDelete = window.confirm("Are you sure you want to delete this?");
         if (confirmDelete) {
             const obj = {
-                userId: userDetails?.user_id,
-                email: userDetails?.email,
-                vehicle_id: vehicleId
+                userId     : userDetails?.user_id,
+                email      : userDetails?.email,
+                vehicle_id : vehicleId
             };
             postRequestWithToken('ev-guide-delete', obj, async (response) => {
                 if (response.code === 200) {
@@ -122,7 +122,6 @@ const GuideList = () => {
                         listData = {vehicleList}
                         keyMapping={[
                             { key: 'vehicle_id', label: 'Vehicle ID' }, 
-                            // { key: 'vehicle_name', label: 'Vehicle / Model Name' }, 
                             { 
                                 key: 'vehicle_name', 
                                 label: 'Vehicle / Model Name',

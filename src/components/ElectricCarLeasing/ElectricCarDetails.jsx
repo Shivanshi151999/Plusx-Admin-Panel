@@ -27,7 +27,7 @@ const ElectricCarDetails = () => {
     const obj = {
       userId     : userDetails?.user_id,
       email      : userDetails?.email,
-      rental_id : rentalId
+      rental_id  : rentalId
     };
 
     postRequestWithToken('electric-car-detail', obj, (response) => {
@@ -102,10 +102,10 @@ const ElectricCarDetails = () => {
   }
 
   const imageContent = {
-    coverImage: bookingDetails?.image,
-    galleryImages: imageGallery,
-    galleryImagesId: imageGalleryId,
-    baseUrl: baseUrl,
+    coverImage      : bookingDetails?.image,
+    galleryImages   : imageGallery,
+    galleryImagesId : imageGalleryId,
+    baseUrl         : baseUrl,
   }
 
   const handleRemoveGalleryImage = (galleryId) => {

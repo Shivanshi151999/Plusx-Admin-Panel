@@ -14,8 +14,8 @@ const dynamicFilters = [
 ]
 
 const addButtonProps = {
-    heading: "Add Club",
-    link: "/add-club"
+    heading : "Add Club",
+    link    : "/add-club"
 };
 
 const SubscriptionList = () => {

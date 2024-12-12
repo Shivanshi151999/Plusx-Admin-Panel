@@ -12,18 +12,18 @@ import { useNavigate } from 'react-router-dom';
 
 
 const SubscriptionDetails = () => {
-  const userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
-  const navigate = useNavigate()
-  const { subId } = useParams()
+  const userDetails                         = JSON.parse(sessionStorage.getItem('userDetails'));
+  const navigate                            = useNavigate()
+  const { subId }                           = useParams()
   const [bookingDetails, setBookingDetails] = useState()
-  const [imageGallery, setImageGallery] = useState()
-  const [baseUrl, setBaseUrl] = useState()
+  const [imageGallery, setImageGallery]     = useState()
+  const [baseUrl, setBaseUrl]               = useState()
 
 
   const fetchDetails = () => {
     const obj = {
-      userId     : userDetails?.user_id,
-      email      : userDetails?.email,
+      userId          : userDetails?.user_id,
+      email           : userDetails?.email,
       subscription_id : subId
     };
 
@@ -47,13 +47,13 @@ const SubscriptionDetails = () => {
   }, []);
 
   const headerTitles = {
-    bookingIdTitle      : "Subscription ID",
+    bookingIdTitle       : "Subscription ID",
     customerDetailsTitle : "Customer Details",
   };
   const content = {
-    bookingId   : bookingDetails?.subscription_id,
-    createdAt   : moment(bookingDetails?.created_at).format('DD MMM YYYY h:mm A'),
-    customerName : bookingDetails?.rider_name,
+    bookingId       : bookingDetails?.subscription_id,
+    createdAt       : moment(bookingDetails?.created_at).format('DD MMM YYYY h:mm A'),
+    customerName    : bookingDetails?.rider_name,
     customerContact : `${bookingDetails?.country_code} ${bookingDetails?.rider_mobile}`,
   };
 

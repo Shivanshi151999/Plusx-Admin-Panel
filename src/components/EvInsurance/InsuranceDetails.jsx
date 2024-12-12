@@ -22,9 +22,9 @@ const InsuranceDetails = () => {
 
   const fetchDetails = () => {
     const obj = {
-      userId: userDetails?.user_id,
-      email: userDetails?.email,
-      insurance_id: insuranceId
+      userId       : userDetails?.user_id,
+      email        : userDetails?.email,
+      insurance_id : insuranceId
     };
 
     postRequestWithToken('ev-insurance-detail', obj, (response) => {
@@ -32,10 +32,10 @@ const InsuranceDetails = () => {
         setBookingDetails(response?.data || {});
         // setImageGallery(response.galleryData)
         const vehicleRegImages = response?.data?.vehicle_registration_img ? response.data?.vehicle_registration_img?.split('*') : [];
-        const carImages = response?.data?.car_images ? response.data?.car_images?.split('*') : [];
-        const carTyreImages = response?.data?.car_type_image ? response.data?.car_type_image?.split('*') : [];
-        const licenseImages = response?.data?.driving_licence ? response.data?.driving_licence?.split('*') : [];
-        const emiratesImages = response?.data?.emirates_id ? response.data?.emirates_id?.split('*') : [];
+        const carImages        = response?.data?.car_images ? response.data?.car_images?.split('*') : [];
+        const carTyreImages    = response?.data?.car_type_image ? response.data?.car_type_image?.split('*') : [];
+        const licenseImages    = response?.data?.driving_licence ? response.data?.driving_licence?.split('*') : [];
+        const emiratesImages   = response?.data?.emirates_id ? response.data?.emirates_id?.split('*') : [];
 
         setImageGallery({
           vehicleRegImages,
@@ -60,40 +60,40 @@ const InsuranceDetails = () => {
   }, []);
 
   const headerTitles = {
-    bookingIdTitle: "Insurance ID",
-    customerDetailsTitle: "Customer Details",
-    driverDetailsTitle: "Vehicle Details",
+    bookingIdTitle       : "Insurance ID",
+    customerDetailsTitle : "Customer Details",
+    driverDetailsTitle   : "Vehicle Details",
   };
   const content = {
-    bookingId: bookingDetails?.insurance_id,
-    createdAt: moment(bookingDetails?.created_at).format('DD MMM YYYY h:mm A'),
-    customerName: bookingDetails?.owner_name,
-    customerContact: `${bookingDetails?.country_code} ${bookingDetails?.mobile_no}`,
-    driverName: bookingDetails?.vehicle,
-    driverContact: '',
+    bookingId       : bookingDetails?.insurance_id,
+    createdAt       : moment(bookingDetails?.created_at).format('DD MMM YYYY h:mm A'),
+    customerName    : bookingDetails?.owner_name,
+    customerContact : `${bookingDetails?.country_code} ${bookingDetails?.mobile_no}`,
+    driverName      : bookingDetails?.vehicle,
+    driverContact   : '',
   };
 
   const sectionTitles1 = {
-    email: "Email",
-    regPlace: "Registration Place",
-    dob: "Date Of Birth",
+    email    : "Email",
+    regPlace : "Registration Place",
+    dob      : "Date Of Birth",
   }
   const sectionContent1 = {
-    email: bookingDetails?.email,
-    regPlace: bookingDetails?.registration_place,
-    dob: bookingDetails?.date_of_birth,
+    email    : bookingDetails?.email,
+    regPlace : bookingDetails?.registration_place,
+    dob      : bookingDetails?.date_of_birth,
 
   }
 
   const sectionTitles2 = {
-    country: "Country",
-    insuranceExpiry: "Insurance Expiry",
-    insuranceType: "Type Of Insurance"
+    country         : "Country",
+    insuranceExpiry : "Insurance Expiry",
+    insuranceType   : "Type Of Insurance"
   }
   const sectionContent2 = {
-    country: bookingDetails?.country,
-    insuranceExpiry: moment(bookingDetails?.insurance_expiry).format('DD MMM YYYY h:mm A'),
-    insuranceType: bookingDetails?.type_of_insurance
+    country         : bookingDetails?.country,
+    insuranceExpiry : moment(bookingDetails?.insurance_expiry).format('DD MMM YYYY h:mm A'),
+    insuranceType   : bookingDetails?.type_of_insurance
   }
 
   const sectionTitles3 = {
@@ -109,46 +109,6 @@ const InsuranceDetails = () => {
   const sectionContent4 = {
     description: bookingDetails?.description,
   }
-
-  // const imageTitles = {
-  //   coverImage    : "Vehicle Registration Images",
-  //   galleryImages : "Car Images",
-  // }
-
-  // const imageContent = {
-  //   coverImage: bookingDetails?.image,
-  //   galleryImages: imageGallery,
-  //   baseUrl: baseUrl,
-  // }
-
-  // const imageTitles = {
-  //   vehicleRegImages: "Vehicle Registration Images",
-  //   carImages: "Car Images",
-  //   typeImages: "Car Tyre Images",
-  //   licenseImages: "Vehicle Driving Licence",
-  //   emiratesImages: "Emirates Id",
-  // };
-
-  // const imageContent = {
-  //   vehicleRegImages: imageGallery?.vehicleRegImages,
-  //   carImages: imageGallery?.carImages,
-  //   typeImages: imageGallery?.tyreImages,
-  //   licenseImages: imageGallery?.licenseImages,
-  //   emiratesImages: imageGallery?.emiratesImages,
-  //   baseUrl,
-  // };
-
-
-  // const imageTitles1 = {
-  //   coverImage: "Vehicle Driving Licence",
-  //   galleryImages: "Emirates Id",
-  // }
-
-  // const imageContent1 = {
-  //   coverImages: bookingDetails?.image,
-  //   galleryImages: imageGallery,
-  //   baseUrl: baseUrl,
-  // }
 
   const imageTitles1 = {
     vehicleRegImages: "Vehicle Registration Images",

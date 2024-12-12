@@ -12,13 +12,13 @@ import Loader from "../../SharedComponent/Loader/Loader";
 
 const statusMapping = {
     'CNF': 'Booking Confirmed',
-    'A': 'Assigned',
-    'RL': 'POD Reached at Location',
-    'CS': 'Charging Started',
-    'CC': 'Charging Completed',
-    'PU': 'POD Picked Up',
-    'WC': 'Work Completed',
-    'C': 'Cancel'
+    'A'  : 'Assigned',
+    'RL' : 'POD Reached at Location',
+    'CS' : 'Charging Started',
+    'CC' : 'Charging Completed',
+    'PU' : 'POD Picked Up',
+    'WC' : 'Work Completed',
+    'C'  : 'Cancel'
 };
 
 const dynamicFilters = [
@@ -68,10 +68,10 @@ const EvPreSaleBookingList = () => {
         } 
 
         const obj = {
-            userId : userDetails?.user_id,
-            email : userDetails?.email,
-            service_type: 'Valet Charging',
-            page_no : page,
+            userId       : userDetails?.user_id,
+            email        : userDetails?.email,
+            service_type : 'Valet Charging',
+            page_no      : page,
             ...appliedFilters,
         }
 
@@ -125,20 +125,18 @@ const EvPreSaleBookingList = () => {
     };
 
     const handleDriverSelect = (driver) => {
-        console.log(`Driver selected: ${driver}`);
         setSelectedDriverId(driver);
     };
 
     const assignDriver = () => {
         const obj = {
-            userId: userDetails?.user_id,
-            email: userDetails?.email,
-            rsa_id: selectedDriverId, 
-            booking_id: selectedBookingId
+            userId     : userDetails?.user_id,
+            email      : userDetails?.email,
+            rsa_id     : selectedDriverId, 
+            booking_id : selectedBookingId
         }
         postRequestWithToken('/pick-and-drop-assign', obj, async(response) => {
             if (response.code === 200) {
-                
                 setIsModalOpen(false);
                 alert(response.message || response.message[0])
                 fetchList(currentPage, filters);

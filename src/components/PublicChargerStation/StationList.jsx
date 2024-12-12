@@ -32,8 +32,8 @@ const StationList = () => {
         }
     ]
     const addButtonProps = {
-        heading: "Add Public Charger",
-        link: "/public-charger-station/add-charger-station"
+        heading : "Add Public Charger",
+        link    : "/public-charger-station/add-charger-station"
     };
 
     const fetchList = (page, appliedFilters = {}) => {
@@ -44,9 +44,9 @@ const StationList = () => {
         } 
 
         const obj = {
-            userId: userDetails?.user_id,
-            email: userDetails?.email,
-            page_no: page,
+            userId  : userDetails?.user_id,
+            email   : userDetails?.email,
+            page_no : page,
             ...appliedFilters,
         }
 

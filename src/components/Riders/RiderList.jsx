@@ -27,15 +27,15 @@ const RiderList = () => {
     const [loading, setLoading]         = useState(false);
     const searchTerm = [
         {
-            label: 'search', 
-            name: 'search_text', 
-            type: 'text'
+            label : 'search', 
+            name  : 'search_text', 
+            type  : 'text'
         }
     ]
 
     const addButtonProps = {
-        heading: "Add Driver", 
-        link: "/drivers/add-driver"
+        heading : "Add Driver", 
+        link    : "/drivers/add-driver"
     };
 
     const fetchList = (page, appliedFilters = {}) => {
@@ -46,8 +46,8 @@ const RiderList = () => {
         } 
 
         const obj = {
-            userId : userDetails?.user_id,
-            email : userDetails?.email,
+            userId  : userDetails?.user_id,
+            email   : userDetails?.email,
             page_no : page,
             ...appliedFilters,
         }
@@ -85,8 +85,8 @@ const RiderList = () => {
         if (confirmDelete) {
             const obj = { 
                 userId : userDetails?.user_id,
-                email : userDetails?.email,
-                rsa_id: rsaId 
+                email  : userDetails?.email,
+                rsa_id : rsaId 
             };
             postRequestWithToken('rsa-delete', obj, async (response) => {
                 if (response.code === 200) {

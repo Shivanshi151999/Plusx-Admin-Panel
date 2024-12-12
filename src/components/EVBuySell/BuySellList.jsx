@@ -123,13 +123,6 @@ const BuySellList = () => {
                             tableHeaders={["Seller Name","Vehicle", "Body Type", "Capacity", "Price", "Region", "Action"]}
                             listData={clubList}
                             keyMapping={[
-                                // { 
-                                //     key: 'created_at', 
-                                //     label: 'Date', 
-                                //     format: (date) => moment(date).format('DD MMM YYYY') 
-                                // },
-                                
-                                // { key: 'rider_data', label: 'Seller Name' }, 
                                 { 
                                     key: 'rider_data', 
                                     label: 'Seller Name', 

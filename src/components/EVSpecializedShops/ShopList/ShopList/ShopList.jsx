@@ -14,8 +14,8 @@ const dynamicFilters = [
 ]
 
 const addButtonProps = {
-    heading: "Add Shop",
-    link: "/ev-specialized/add-shop"
+    heading : "Add Shop",
+    link    : "/ev-specialized/add-shop"
 };
 
 const ShopList = () => {
@@ -44,9 +44,9 @@ const ShopList = () => {
         } 
 
         const obj = {
-            userId: userDetails?.user_id,
-            email: userDetails?.email,
-            page_no: page,
+            userId  : userDetails?.user_id,
+            email   : userDetails?.email,
+            page_no : page,
             ...appliedFilters,
         }
 
@@ -84,9 +84,9 @@ const ShopList = () => {
         const confirmDelete = window.confirm("Are you sure you want to delete this?");
         if (confirmDelete) {
             const obj = { 
-                userId : userDetails?.user_id,
-                email : userDetails?.email,
-                shop_id: shopId 
+                userId  : userDetails?.user_id,
+                email   : userDetails?.email,
+                shop_id : shopId 
             };
             postRequestWithToken('shop-delete', obj, async (response) => {
                 if (response.code === 200) {
