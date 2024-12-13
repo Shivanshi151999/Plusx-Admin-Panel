@@ -90,17 +90,37 @@ const EditPickAndDropTimeSlot = () => {
         setTimeSlots(newTimeSlots);
     };
 
+    // const handleBookingLimitChange = (index, e) => {
+    //     const value = e.target.value;
+    //     if (/^\d{0,4}$/.test(value)) {
+    //         const newTimeSlots = [...timeSlots];
+    //         newTimeSlots[index].bookingLimit = value;
+    //         setTimeSlots(newTimeSlots);
+    //     }
+    // };
+
     const handleBookingLimitChange = (index, e) => {
         const value = e.target.value;
+    
         if (/^\d{0,4}$/.test(value)) {
             const newTimeSlots = [...timeSlots];
-            newTimeSlots[index].bookingLimit = value;
+            const slot         = newTimeSlots[index];
+
+            const bookingLimit     = parseInt(value || "0", 10);
+            const slotBookingCount = parseInt(slot.slotBookingCount || "0", 10); // Parse slotBookingCount safely
+
+            slot.bookingLimit = value;
+    
+            slot.remainingLimit = bookingLimit - slotBookingCount >= 0 
+                                  ? (bookingLimit - slotBookingCount).toString()
+                                  : "0"; //no negative values
+    
             setTimeSlots(newTimeSlots);
         }
     };
 
     const addTimeSlot = () => {
-        setTimeSlots([...timeSlots, { startTime: null, endTime: null, bookingLimit: "" }]);
+        setTimeSlots([...timeSlots, { startTime: null, endTime: null, bookingLimit: "", status: true }]);
     };
 
     const removeTimeSlot = (index) => {
@@ -172,12 +192,18 @@ const EditPickAndDropTimeSlot = () => {
 
     const [isActive, setIsActive] = useState(false);
 
+    // const handleToggle = (index) => {
+    //     setTimeSlots((prevSlots) =>
+    //         prevSlots.map((slot, i) =>
+    //             i === index ? { ...slot, status: slot.status === 1 ? 0 : 1 } : slot
+    //         )
+    //     );
+    // };
+
     const handleToggle = (index) => {
-        setTimeSlots((prevSlots) =>
-            prevSlots.map((slot, i) =>
-                i === index ? { ...slot, status: slot.status === 1 ? 0 : 1 } : slot
-            )
-        );
+        const updatedSlots = [...timeSlots];
+        updatedSlots[index].status = !updatedSlots[index].status; // Toggle status
+        setTimeSlots(updatedSlots);
     };
 
     return (

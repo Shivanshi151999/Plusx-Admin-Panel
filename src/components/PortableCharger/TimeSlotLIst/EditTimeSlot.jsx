@@ -16,61 +16,43 @@ import moment from 'moment';
 dayjs.extend(isSameOrAfter);
 
 const EditPortableChargerTimeSlot = () => {
-    const userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
+    const userDetails  = JSON.parse(sessionStorage.getItem('userDetails'));
     const { slotDate } = useParams();
-    const navigate = useNavigate();
+    const navigate     = useNavigate();
 
     const [startDate, setStartDate] = useState(null);
-    const [startTime, setStartTime] = useState(null);
-    const [endTime, setEndTime] = useState(null);
-    const [bookingLimit, setBookingLimit] = useState("");
-
-    const [date, setDate] = useState(new Date()); // Separate state for the date
-    const [timeSlots, setTimeSlots] = useState([
-        { id: "", slotId: "", startTime: null, endTime: null, bookingLimit: "", remainingLimit: "", status: "" }
-    ]);
-
-    const [errors, setErrors] = useState({});
-    const [slotDetails, setSlotDetails] = useState();
-    const [loading, setLoading]      = useState(false);
+    const [date, setDate]           = useState(new Date()); // Separate state for the date
+    const [timeSlots, setTimeSlots] = useState([{ id: "", slotId: "", startTime: null, endTime: null, bookingLimit: "", remainingLimit: "", status: "" }]);
+    const [errors, setErrors]       = useState({});
+    const [loading, setLoading]     = useState(false);
 
     const fetchDetails = () => {
         const obj = {
-            userId: userDetails?.user_id,
-            email: userDetails?.email,
-            slot_date: slotDate
+            userId    : userDetails?.user_id,
+            email     : userDetails?.email,
+            slot_date : slotDate
         };
 
         postRequestWithToken('charger-slot-details', obj, (response) => {
             if (response.code === 200) {
-                // const data = response?.data || {};
-                // setSlotDetails(data);
-                // setStartDate(data.slot_date);
-                // setStartTime(moment(data.start_time, 'HH:mm:ss').format('HH:mm'));
-                // setEndTime(moment(data.end_time, 'HH:mm:ss').format('HH:mm'));
-                // setBookingLimit(data.booking_limit || "");
-                // setIsActive(data.status)
-
                 const slots = response.data || [];
-            if (slots.length > 0) {
-                setTimeSlots(
-                    slots.map(slot => ({
-                        slotId: slot.slot_id,
-                        startTime: moment(slot.start_time, 'HH:mm:ss').format('HH:mm'),
-                        endTime: moment(slot.end_time, 'HH:mm:ss').format('HH:mm'),
-                        bookingLimit: slot.booking_limit.toString(),
-                        remainingLimit: slot.booking_limit.toString()- slot.slot_booking_count.toString(),
-                        id: slot.id,
-                        // status: setIsActive(slot.status)
-                        status: slot.status === 1,
-                    }))
-                );
-
-                    // Set the date state using the first slot's date
-                    setDate(new Date(slots[0].slot_date));
-                    setStartDate(new Date(slots[0].slot_date)); // If this is used elsewhere
-                    setIsActive(slots[0].status === 1);
-                }
+                if (slots.length > 0) {
+                    setTimeSlots(
+                        slots.map(slot => ({
+                            slotId         : slot.slot_id,
+                            startTime      : moment(slot.start_time, 'HH:mm:ss').format('HH:mm'),
+                            endTime        : moment(slot.end_time, 'HH:mm:ss').format('HH:mm'),
+                            bookingLimit   : slot.booking_limit.toString(),
+                            remainingLimit : slot.booking_limit.toString()- slot.slot_booking_count.toString(),
+                            id             : slot.id,
+                            status         : slot.status === 1,
+                        }))
+                    );
+                        // Set the date state using the first slot's date
+                        setDate(new Date(slots[0].slot_date));
+                        setStartDate(new Date(slots[0].slot_date)); // If this is used elsewhere
+                        setIsActive(slots[0].status === 1);
+                    }
             } else {
                 console.log('error in charger-slot-details API', response);
             }
@@ -95,24 +77,12 @@ const EditPortableChargerTimeSlot = () => {
         return isValidTime || value === '' ? value : null;
     };
 
-    // const handleStartTimeChange = (e) => {
-    //     const formattedTime = e.target.value;
-    //     setStartTime(formattedTime);
-    //     setErrors((prev) => ({ ...prev, startTime: "" }));
-    // };
-
     const handleStartTimeChange = (index, newTime) => {
         const validatedTime = handleTimeInput({ target: { value: newTime } });
         const newTimeSlots = [...timeSlots];
         newTimeSlots[index].startTime = validatedTime === '' ? null : validatedTime;
         setTimeSlots(newTimeSlots);
     };
-
-    // const handleEndTimeChange = (e) => {
-    //     const formattedTime = e.target.value;
-    //     setEndTime(formattedTime);
-    //     setErrors((prev) => ({ ...prev, endTime: "" }));
-    // };
 
     const handleEndTimeChange = (index, newTime) => {
         const validatedTime = handleTimeInput({ target: { value: newTime } });
@@ -121,63 +91,45 @@ const EditPortableChargerTimeSlot = () => {
         setTimeSlots(newTimeSlots);
     };
 
-
-    // const handleBookingLimitChange = (e) => {
+    // const handleBookingLimitChange = (index, e) => {
     //     const value = e.target.value;
     //     if (/^\d{0,4}$/.test(value)) {
-    //         setBookingLimit(value);
-    //         setErrors((prev) => ({ ...prev, bookingLimit: "" }));
+    //         const newTimeSlots = [...timeSlots];
+    //         newTimeSlots[index].bookingLimit = value;
+    //         setTimeSlots(newTimeSlots);
     //     }
     // };
 
     const handleBookingLimitChange = (index, e) => {
         const value = e.target.value;
+    
         if (/^\d{0,4}$/.test(value)) {
             const newTimeSlots = [...timeSlots];
-            newTimeSlots[index].bookingLimit = value;
+            const slot         = newTimeSlots[index];
+
+            const bookingLimit     = parseInt(value || "0", 10);
+            const slotBookingCount = parseInt(slot.slotBookingCount || "0", 10); // Parse slotBookingCount safely
+
+            slot.bookingLimit = value;
+    
+            slot.remainingLimit = bookingLimit - slotBookingCount >= 0 
+                                  ? (bookingLimit - slotBookingCount).toString()
+                                  : "0"; //no negative values
+    
             setTimeSlots(newTimeSlots);
         }
     };
+    
+    
 
     const addTimeSlot = () => {
-        // setTimeSlots([...timeSlots, { date: null, startTime: null, endTime: null, bookingLimit: "" }]);
-        setTimeSlots([...timeSlots, { startTime: null, endTime: null, bookingLimit: "" }]);
+        setTimeSlots([...timeSlots, { startTime: null, endTime: null, bookingLimit: "", status: true }]);
     };
 
     const removeTimeSlot = (index) => {
         const newTimeSlots = timeSlots.filter((_, i) => i !== index);
         setTimeSlots(newTimeSlots);
     };
-
-    // const validateForm = () => {
-    //     let formIsValid = true;
-    //     const newErrors = {};
-    //     const now = dayjs();
-
-    //     if (!startDate) {
-    //         newErrors.startDate = "Date is required";
-    //         formIsValid = false;
-    //     }
-    //     if (!startTime) {
-    //         newErrors.startTime = "Start time is required";
-    //         formIsValid = false;
-    //     }
-    //     if (!endTime) {
-    //         newErrors.endTime = "End time is required";
-    //         formIsValid = false;
-    //     }
-
-    //     if (!bookingLimit) {
-    //         newErrors.bookingLimit = "Booking limit is required";
-    //         formIsValid = false;
-    //     } else if (isNaN(bookingLimit) || bookingLimit <= 0) {
-    //         newErrors.bookingLimit = "Booking limit must be a positive number";
-    //         formIsValid = false;
-    //     }
-
-    //     setErrors(newErrors);
-    //     return formIsValid;
-    // };
 
 
     const validateForm = () => {
@@ -206,23 +158,17 @@ const EditPortableChargerTimeSlot = () => {
         setLoading(true);
 
         if (validateForm()) {
-            const slot_id = timeSlots.map(slot => slot.slotId);
-            const slot_date = dayjs(date).format("DD-MM-YYYY");
-            const id = timeSlots.map(slot => slot.id);
-            const start_time = timeSlots.map(slot => slot.startTime);
-            const end_time = timeSlots.map(slot => slot.endTime);
+            const slot_id       = timeSlots.map(slot => slot.slotId);
+            const slot_date     = dayjs(date).format("DD-MM-YYYY");
+            const id            = timeSlots.map(slot => slot.id);
+            const start_time    = timeSlots.map(slot => slot.startTime);
+            const end_time      = timeSlots.map(slot => slot.endTime);
             const booking_limit = timeSlots.map(slot => slot.bookingLimit);
-            const status = timeSlots.map(slot => (slot.status ? 1 : 0));
+            const status        = timeSlots.map(slot => (slot.status ? 1 : 0));
 
             const obj = {
                 userId: userDetails?.user_id,
                 email: userDetails?.email,
-                // slot_id: slotId,
-                // status: isActive ? "1" : "0",
-                // slot_date: moment(startDate).format('DD-MM-YYYY'),
-                // start_time: startTime,
-                // end_time: endTime,
-                // booking_limit: bookingLimit,
                 id,
                 slot_id,
                 slot_date,
@@ -252,17 +198,20 @@ const EditPortableChargerTimeSlot = () => {
 
     const [isActive, setIsActive] = useState(true);
 
-    // const handleToggle = () => {
-    //     setIsActive(!isActive);
+    // const handleToggle = (index) => {
+    //     setTimeSlots((prevSlots) =>
+    //         prevSlots.map((slot, i) =>
+    //             i === index ? { ...slot, status: slot.status === 1 ? 0 : 1 } : slot
+    //         )
+    //     );
     // };
 
     const handleToggle = (index) => {
-        setTimeSlots((prevSlots) =>
-            prevSlots.map((slot, i) =>
-                i === index ? { ...slot, status: slot.status === 1 ? 0 : 1 } : slot
-            )
-        );
+        const updatedSlots = [...timeSlots];
+        updatedSlots[index].status = !updatedSlots[index].status; // Toggle status
+        setTimeSlots(updatedSlots);
     };
+    
 
 
     return (
@@ -345,7 +294,6 @@ const EditPortableChargerTimeSlot = () => {
                                 disabled
                             // onChange={(e) => handleBookingLimitChange(index, e)}
                             />
-                            {/* {errors[index]?.bookingLimit && <span className="error">{errors[index].bookingLimit}</span>} */}
                         </div>
 
                         <div className={styles.toggleContainer}>

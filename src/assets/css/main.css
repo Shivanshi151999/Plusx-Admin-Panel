@@ -24,6 +24,9 @@ body{
   font-size: 16px !important;
   width: 100% !important;
 }
+.rmsc .dropdown-heading .dropdown-heading-value {
+  width: 0px !important;
+}
 .rmsc .dropdown-heading {
   padding: 0px !important;
   height: 22px !important;

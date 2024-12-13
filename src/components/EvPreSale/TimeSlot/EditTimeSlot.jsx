@@ -21,19 +21,10 @@ const EditEvPreSaleTimeSlot = () => {
     const navigate     = useNavigate();
 
     const [startDate, setStartDate] = useState(null);
-    const [startTime, setStartTime] = useState(null);
-    const [endTime, setEndTime] = useState(null);
-    const [bookingLimit, setBookingLimit] = useState("");
-
-    const [date, setDate] = useState(new Date()); // Separate state for the date
-    const [timeSlots, setTimeSlots] = useState([
-        { id: "", slotId: "", startTime: null, endTime: null, bookingLimit: "", remainingLimit: "", status: "" }
-    ]);
-
-
-    const [errors, setErrors] = useState({});
-    const [slotDetails, setSlotDetails] = useState();
-    const [loading, setLoading] = useState(false);
+    const [date, setDate]           = useState(new Date()); // Separate state for the date
+    const [timeSlots, setTimeSlots] = useState([{ id: "", slotId: "", startTime: null, endTime: null, bookingLimit: "", remainingLimit: "", status: "" }]);
+    const [errors, setErrors]       = useState({});
+    const [loading, setLoading]     = useState(false);
 
     const fetchDetails = () => {
         const obj = {
@@ -100,52 +91,42 @@ const EditEvPreSaleTimeSlot = () => {
         setTimeSlots(newTimeSlots);
     };
 
+    // const handleBookingLimitChange = (index, e) => {
+    //     const value = e.target.value;
+    //     if (/^\d{0,4}$/.test(value)) {
+    //         const newTimeSlots = [...timeSlots];
+    //         newTimeSlots[index].bookingLimit = value;
+    //         setTimeSlots(newTimeSlots);
+    //     }
+    // };
+
     const handleBookingLimitChange = (index, e) => {
         const value = e.target.value;
+    
         if (/^\d{0,4}$/.test(value)) {
             const newTimeSlots = [...timeSlots];
-            newTimeSlots[index].bookingLimit = value;
+            const slot         = newTimeSlots[index];
+
+            const bookingLimit     = parseInt(value || "0", 10);
+            const slotBookingCount = parseInt(slot.slotBookingCount || "0", 10); // Parse slotBookingCount safely
+
+            slot.bookingLimit = value;
+    
+            slot.remainingLimit = bookingLimit - slotBookingCount >= 0 
+                                  ? (bookingLimit - slotBookingCount).toString()
+                                  : "0"; //no negative values
+    
             setTimeSlots(newTimeSlots);
         }
     };
 
     const addTimeSlot = () => {
-        // setTimeSlots([...timeSlots, { date: null, startTime: null, endTime: null, bookingLimit: "" }]);
-        setTimeSlots([...timeSlots, { startTime: null, endTime: null, bookingLimit: "" }]);
+        setTimeSlots([...timeSlots, { startTime: null, endTime: null, bookingLimit: "", status: true }]);
     };
     const removeTimeSlot = (index) => {
         const newTimeSlots = timeSlots.filter((_, i) => i !== index);
         setTimeSlots(newTimeSlots);
     };
-    // const validateForm = () => {
-    //     let formIsValid = true;
-    //     const newErrors = {};
-    //     const now = dayjs();
-
-    //     if (!startDate) {
-    //         newErrors.startDate = "Date is required";
-    //         formIsValid = false;
-    //     }
-    //     if (!startTime) {
-    //         newErrors.startTime = "Start time is required";
-    //         formIsValid = false;
-    //     }
-    //     if (!endTime) {
-    //         newErrors.endTime = "End time is required";
-    //         formIsValid = false;
-    //     }
-
-    //     if (!bookingLimit) {
-    //         newErrors.bookingLimit = "Booking limit is required";
-    //         formIsValid = false;
-    //     } else if (isNaN(bookingLimit) || bookingLimit <= 0) {
-    //         newErrors.bookingLimit = "Booking limit must be a positive number";
-    //         formIsValid = false;
-    //     }
-
-    //     setErrors(newErrors);
-    //     return formIsValid;
-    // };
     
     const validateForm = () => {
         const errors = [];
@@ -211,12 +192,19 @@ const EditEvPreSaleTimeSlot = () => {
 
     const [isActive, setIsActive] = useState(true);
 
+    // const handleToggle = (index) => {
+    //     setTimeSlots((prevSlots) =>
+    //         prevSlots.map((slot, i) =>
+    //             i === index ? { ...slot, status: slot.status === 1 ? 0 : 1 } : slot
+    //         )
+    //     );
+    // };
+
+
     const handleToggle = (index) => {
-        setTimeSlots((prevSlots) =>
-            prevSlots.map((slot, i) =>
-                i === index ? { ...slot, status: slot.status === 1 ? 0 : 1 } : slot
-            )
-        );
+        const updatedSlots = [...timeSlots];
+        updatedSlots[index].status = !updatedSlots[index].status; // Toggle status
+        setTimeSlots(updatedSlots);
     };
 
     return (
@@ -295,7 +283,6 @@ const EditEvPreSaleTimeSlot = () => {
                                 disabled
                             // onChange={(e) => handleBookingLimitChange(index, e)}
                             />
-                            {/* {errors[index]?.bookingLimit && <span className="error">{errors[index].bookingLimit}</span>} */}
                         </div>
                         <div className={styles.toggleContainer}>
                             <label className={styles.statusLabel}>Status</label>
