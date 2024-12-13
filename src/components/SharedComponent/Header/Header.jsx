@@ -10,14 +10,14 @@ import {postRequestWithToken } from '../../../api/Requests';
 import moment from 'moment';
 
 const Header = () => {
-  const navigate = useNavigate();
-  const userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
+  const navigate                                  = useNavigate();
+  const userDetails                               = JSON.parse(sessionStorage.getItem('userDetails'));
   const [isNotificationOpen, setNotificationOpen] = useState(false);
-  const [isProfileOpen, setProfileOpen] = useState(false);
-  const [userImage, setUserImage] = useState(DefaultProfileIcon);
-  const [notifications, setNotifications] = useState([]);
-  const [totalPages, setTotalPages]  = useState(1);
-  const [totalCount, setTotalCount]  = useState(1)
+  const [isProfileOpen, setProfileOpen]           = useState(false);
+  const [userImage, setUserImage]                 = useState(DefaultProfileIcon);
+  const [notifications, setNotifications]         = useState([]);
+  const [totalPages, setTotalPages]               = useState(1);
+  const [totalCount, setTotalCount]               = useState(1)
 
   // Refs to track dropdown containers
   const notificationRef = useRef(null);
@@ -25,10 +25,9 @@ const Header = () => {
 
   const fetchList = (page =1, appliedFilters = {}) => {
     const obj = {
-        userId: userDetails?.user_id,
-        email: userDetails?.email,
-        page_no: page,
-        // service_type: 'Portable Charger',
+        userId  : userDetails?.user_id,
+        email   : userDetails?.email,
+        page_no : page,
         ...appliedFilters,
     };
 
@@ -47,7 +46,7 @@ const Header = () => {
     const userDetails = JSON.parse(sessionStorage.getItem("userDetails"));
     if (userDetails?.image) {
       const baseUrl = userDetails?.base_url;
-      const img = userDetails?.image;
+      const img     = userDetails?.image;
       const imgPath = `${baseUrl}${img}`;
       setUserImage(imgPath);
     }
@@ -104,9 +103,13 @@ const Header = () => {
         navigate(`/discussion-board-details/${extractedId}`);
         break;
 
-      case "Orders":
-        navigate(`/order-details/${extractedId}`);
+      case "Charging Installation Service":
+        navigate(`/charger-installation/charger-installation-details/${extractedId}`);
         break;
+      
+      case "Portable Charger Booking":
+        navigate(`/portable-charger/charger-booking-details//${extractedId}`);
+        break;   
 
       case "Notifications":
         navigate(`/notifications/${extractedId}`);
@@ -116,7 +119,6 @@ const Header = () => {
         console.log("Unhandled module:", module, hrefUrl);
     }
   };
-
 
 
   return (

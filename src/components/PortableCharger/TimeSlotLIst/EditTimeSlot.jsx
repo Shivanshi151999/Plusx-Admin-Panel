@@ -91,15 +91,6 @@ const EditPortableChargerTimeSlot = () => {
         setTimeSlots(newTimeSlots);
     };
 
-    // const handleBookingLimitChange = (index, e) => {
-    //     const value = e.target.value;
-    //     if (/^\d{0,4}$/.test(value)) {
-    //         const newTimeSlots = [...timeSlots];
-    //         newTimeSlots[index].bookingLimit = value;
-    //         setTimeSlots(newTimeSlots);
-    //     }
-    // };
-
     const handleBookingLimitChange = (index, e) => {
         const value = e.target.value;
     
@@ -108,17 +99,30 @@ const EditPortableChargerTimeSlot = () => {
             const slot         = newTimeSlots[index];
 
             const bookingLimit     = parseInt(value || "0", 10);
-            const slotBookingCount = parseInt(slot.slotBookingCount || "0", 10); // Parse slotBookingCount safely
+            const slotBookingCount = parseInt(slot.slotBookingCount || "0", 10);
 
             slot.bookingLimit = value;
-    
-            slot.remainingLimit = bookingLimit - slotBookingCount >= 0 
-                                  ? (bookingLimit - slotBookingCount).toString()
-                                  : "0"; //no negative values
-    
+            slot.remainingLimit = bookingLimit - slotBookingCount >= 0 ? (bookingLimit - slotBookingCount).toString(): "0"; //no negative values
             setTimeSlots(newTimeSlots);
         }
     };
+
+    // const handleBookingLimitChange = (index, e) => {
+    //     const value = e.target.value;
+    
+    //     if (/^\d{0,4}$/.test(value)) {
+    //         const newTimeSlots = [...timeSlots];
+    //         const slot = newTimeSlots[index];
+    
+    //         const bookingLimit = parseInt(value || "0", 10);
+    //         const slotBookingCount = parseInt(slot.slotBookingCount || "0", 10); 
+
+    //         slot.bookingLimit = value;
+    //         slot.remainingLimit = Math.max(0, bookingLimit - slotBookingCount).toString();
+    
+    //         setTimeSlots(newTimeSlots);
+    //     }
+    // };
     
     
 
@@ -130,7 +134,6 @@ const EditPortableChargerTimeSlot = () => {
         const newTimeSlots = timeSlots.filter((_, i) => i !== index);
         setTimeSlots(newTimeSlots);
     };
-
 
     const validateForm = () => {
         const errors = [];
@@ -151,7 +154,6 @@ const EditPortableChargerTimeSlot = () => {
         setErrors(errors);
         return !errors.some((error) => Object.keys(error).length > 0);
     };
-
 
     const handleSubmit = (e) => {
         e.preventDefault();
