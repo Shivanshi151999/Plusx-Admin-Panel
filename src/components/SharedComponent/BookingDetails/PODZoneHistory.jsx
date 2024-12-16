@@ -135,8 +135,8 @@ const PODZoneHistory = ({podId }) => {
 
     return (
         <div className={styles.addressListContainer}>
+            <ToastContainer />
             <div className={styles.brandHistorySection}>
-                <ToastContainer />
                 <span className={styles.sectionTitle}>POD Zone List</span>
                 <button
                     className={styles.brandHistoryButton}
@@ -156,7 +156,9 @@ const PODZoneHistory = ({podId }) => {
                 </thead>
                 <tbody>
                     { podSssignAreaList.length == 0 ? (
-                            <div className={styles.errorContainer}>No data available</div>
+                            <tr>
+                                <td colSpan={12}>No data available</td>
+                            </tr>
                         ) : (
                         <>  
                             {podSssignAreaList.map((area, index) => (

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import styles from "./header.module.css";
 import Notification from "../../../assets/images/Notification.svg";
 import DefaultProfileIcon from "../../../assets/images/Profile.svg";
-import { Link } from "react-router-dom";
+import { Link, useLocation  } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { RiLogoutCircleLine } from "react-icons/ri";
 import { CgProfile } from "react-icons/cg";
@@ -17,7 +17,9 @@ const Header = () => {
   const [userImage, setUserImage]                 = useState(DefaultProfileIcon);
   const [notifications, setNotifications]         = useState([]);
   const [totalPages, setTotalPages]               = useState(1);
-  const [totalCount, setTotalCount]               = useState(1)
+  const [totalCount, setTotalCount]               = useState(1);
+  const location                                  = useLocation();
+  const isActive                                  = location.pathname === '/profile';
 
   // Refs to track dropdown containers
   const notificationRef = useRef(null);
@@ -175,12 +177,14 @@ const Header = () => {
         {/* Profile Dialog Section */}
         {isProfileOpen && (
           <div className={styles.profileDropdown}>
-            <div
-              className={`${styles.profileDropdownOption} ${styles.profileDropdownOptionSelected}`}
-            >
-              <RiLogoutCircleLine className={styles.ImgContainer} />
-              <p>Profile</p>
-            </div>
+            <Link to="/profile">
+              <div
+                className={`${styles.profileDropdownOption} ${isActive ? styles.profileDropdownOptionSelected : ''}`}
+              >
+                <RiLogoutCircleLine className={`${styles.ImgContainer} ${isActive ? styles.activeImgBorder : ''}`} />
+                <p>Profile</p>
+              </div>
+            </Link>
             <div
               className={`${styles.profileDropdownsOption}`}
               onClick={handleLogout}

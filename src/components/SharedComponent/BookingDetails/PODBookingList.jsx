@@ -67,13 +67,14 @@ const PODBookingList = ({podId}) => {
             <div className={styles.brandHistorySection}>
                 <span className={styles.sectionTitle}>POD Booking List</span>
             </div>
-            { tableVal.length == 0 ? (
+            {/* { tableVal.length == 0 ? (
                     <div className={styles.errorContainer}>No data available</div>
                 ) : (
                 <>  
                     <GenericTable columns={columns} data={tableVal} firstLink={1} />
                 </>
-            )}
+            )} */}
+            <GenericTable columns={columns} data={tableVal} firstLink={1} />
             <Pagination
                 currentPage={currentPage}
                 totalPages={totalPages}

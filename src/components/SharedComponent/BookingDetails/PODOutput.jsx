@@ -52,13 +52,14 @@ const PODOutput = ({podId}) => {
             <div className={styles.brandHistorySection}>
                 <span className={styles.sectionTitle}>POD Output List</span>
             </div>
-            { tableVal.length == 0 ? (
+            {/* { tableVal.length == 0 ? (
                     <div className={styles.errorContainer}>No data available</div>
                 ) : (
                 <>  
                     <GenericTable columns={columns} data={tableVal} />
                 </>
-            )}
+            )} */}
+            <GenericTable columns={columns} data={tableVal} />
             <Pagination
                 currentPage={currentPage}
                 totalPages={totalPages}

@@ -20,7 +20,7 @@
   cursor: pointer;
   border-radius: 50%;
 }
-.notificationhead{
+.notificationhead {
   padding: 0px !important;
 }
 .notificationContainer,
@@ -34,7 +34,7 @@
   top: 32px;
   right: 0;
   color: #ffffff;
-background-color: #000000;
+  background-color: #000000;
   width: 400px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   z-index: 1;
@@ -69,29 +69,29 @@ background-color: #000000;
 .notificationSection::-webkit-scrollbar {
   display: none;
 }
-.notificationContentsection{
+.notificationContentsection {
   display: flex;
   flex-direction: column;
   width: 100%;
 }
-.notificationTitle{
+.notificationTitle {
   font-size: 14px;
   color: #00ffc3;
 }
-.notificationText{
+.notificationText {
   width: 100%;
   font-size: 12px;
   color: #ffffff;
 }
-.notificationDate{
+.notificationDate {
   width: 80px;
   text-align: center;
 }
-.notificationTime{
+.notificationTime {
   color: #ffffff;
   font-size: 11px;
 }
-.ImgContainer{
+.ImgContainer {
   border: 1px solid #ffffff;
   width: 26px;
   height: 26px;
@@ -151,29 +151,34 @@ a {
   padding: 0px 0px 10px 0px;
   border-bottom: 1px solid white;
 }
-.profileDropdownsOption{
+.profileDropdownsOption {
   display: flex;
   justify-content: start;
   align-items: center;
   column-gap: 8px;
   padding: 10px 0px 0px 0px;
 }
-.profileDropdownOption:hover{
+.profileDropdownOption:hover {
   color: #00ffc3;
-  }
-  .profileDropdownOption:hover .ImgContainer {
-    border-color: #00ffc3; 
-  }
-.profileDropdownsOption:hover{
+}
+.profileDropdownOption:hover .ImgContainer {
+  border-color: #00ffc3;
+}
+.profileDropdownsOption:hover {
   color: #00ffc3;
-
 }
 .profileDropdownsOption:hover .ImgContainer {
-  border-color: #00ffc3; 
+  border-color: #00ffc3;
 }
 .notificationDropdown p,
 .profileDropdown p {
   margin: 0;
   padding: 4px 0;
   cursor: pointer;
+}
+.profileDropdownOptionSelected {
+  color: #00ffc3;
+}
+.activeImgBorder {
+  border: 1px solid #00ffc3;
 }

@@ -2,6 +2,7 @@ import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "../store/store.js";
+
 import Dashboard from "../components/Dashboard/index.jsx";
 import PortableCharger from "../components/PortableCharger/index.jsx";
 import AppSignupList from "../components/AppSignUp/AppSignupList.js";
@@ -112,7 +113,9 @@ import AddPodBrand from "../components/PodDevice/Brand/AddBrand.jsx";
 import PodAreaList from "../components/PodDevice/Area/PodAreaList.jsx";
 import AddPodArea from "../components/PodDevice/Area/AddPodArea.jsx";
 import EditPodArea from "../components/PodDevice/Area/EditPodArea.jsx";
+
 import NotificationList from "../components/Notification/NotificationList.jsx";
+import Profile from "../components/Profile/index.jsx"
 
 
 const router = createBrowserRouter([
@@ -650,6 +653,11 @@ const router = createBrowserRouter([
                 path: "/notification-list",
                 element: <NotificationList />,
             },
+            // Profile
+            {
+                path:"/profile",
+                element:<Profile/>
+            }
         ],
     },
     {
@@ -667,4 +675,4 @@ function Router() {
     );
 }
 export default Router;
-//   
+ 

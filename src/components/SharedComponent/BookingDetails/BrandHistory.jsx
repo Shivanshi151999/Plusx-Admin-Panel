@@ -52,23 +52,13 @@ const BrandHistory = ({ deviceId, deviceBrandList, currentPage, totalPages, onPa
           </tr>
         </thead>
         <tbody>
-            {/* { deviceBrandList.length == 0 ? (
+            { deviceBrandList.length === 0 ? (
                 <tr>
-                    <td colSpan="5" style={{
-                        padding: "20px",
-                        backgroundColor: "#000",
-                        color: '#00ffc3',
-                        margin: '20px 0px',
-                        borderRadius: '20px',
-                        fontSize: '18px',
-                        width: '95% !important',
-                        }}
-                    >No data available</td>
+                    <td colSpan={12}>No data available</td>
                 </tr>
-            ) : (
-            <>   */}
+              ) : (
+              <>  
                 { deviceBrandList.map((vehicle, index) => {
-
                     return (
                         <tr key={index}>
                             <td>
@@ -91,8 +81,8 @@ const BrandHistory = ({ deviceId, deviceBrandList, currentPage, totalPages, onPa
                         </tr>
                     );
                 })}   
-            {/* </>
-            )} */}
+              </>
+            )}
         </tbody>
       </table>
       <Pagination
