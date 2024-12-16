@@ -35,32 +35,27 @@ const PODInput = ({podId}) => {
 
     // Table columns
     const columns = [
-        { label : 'Date', field: 'date' },
-        { label : 'Time', field: 'time' },
-        { label : 'Kilowatt', field: 'kilowatt' },
+        { label : 'Start Date & Time', field: 'start_date' },
+        { label : 'End Date & Time', field: 'end_date' },
+        // { label : 'Time', field: 'time' },
+        { label : 'KW', field: 'kilowatt' },
     ];
     var tableVal = []
     podInputHistory.map((item) =>{ 
         // console.log( 'item', item.end_charging_level - item.start_charging_level );  //;
         tableVal.push({ 
-            date      : moment(item.date_time).format('DD-MM-YYYY'), 
-            time      : moment(item.date_time).format('HH:mm A'), 
-            kilowatt : ( item.end_charging_level - item.start_charging_level ) * 0.25 +' kw'
+            start_date : moment(item.date_time).format('DD-MM-YYYY'), 
+            end_date   : moment(item.date_time).format('HH:mm A'), 
+            kilowatt   : ( item.end_charging_level - item.start_charging_level ) * 0.25 +' kw'
         });
     });
     console.log(tableVal.length)
     return (
         <div className={styles.addressListContainer}>
             <div className={styles.brandHistorySection}>
-                <span className={styles.sectionTitle}>POD Input List</span>
+                <span className={styles.sectionTitle}>POD Charging List</span>
             </div>
-            { tableVal.length == 0 ? (
-                    <div className={styles.errorContainer}>No data available</div>
-                ) : (
-                <>  
-                    <GenericTable columns={columns} data={tableVal} />
-                </>
-            )}
+            <GenericTable columns={columns} data={tableVal} />
             <Pagination
                 currentPage={currentPage}
                 totalPages={totalPages}

@@ -189,6 +189,28 @@ const BookingDetailsHeader = ({ content, titles, sectionContent1, type, deviceBa
                             </div>
                         </div>
                     </div>
+                    <div className="col-xl-3 col-lg-6 col-12">
+                        <div className={styles.detailsHeaderSection}>
+                            <div className={styles.detailsImageSection}>
+                                
+                            </div>
+                            <div className={styles.infoBlock}>
+                                <span className={styles.infoHeading}>{titles.chargingStatus}</span>
+                                <span className={styles.infoHeadText}>{content.chargingStatus}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="col-xl-3 col-lg-6 col-12">
+                        <div className={styles.detailsHeaderSection}>
+                            <div className={styles.detailsImageSection}>
+                                
+                            </div>
+                            <div className={styles.infoBlock}>
+                                <span className={styles.infoHeading}>{titles.lastupdate}</span>
+                                <span className={styles.infoHeadText}>{content.lastupdate}</span>
+                            </div>
+                        </div>
+                    </div>
                     </>
                 )}
             </div>

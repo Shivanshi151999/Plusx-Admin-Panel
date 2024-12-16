@@ -2,7 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './history.module.css';
 
-const GenericTable = ({ columns, data, actions }) => {
+import { useNavigate, Link } from 'react-router-dom';
+const GenericTable = ({ columns, data, actions, firstLink }) => {
+    const navigate = useNavigate();
+    const renderBooking = (e) => {
+        const id = e.target.textContent.trim();
+        navigate(`/portable-charger/charger-booking-details/${id}`); 
+    }
     return (
         <table className={`table ${styles.customTable}`}>
             <thead>
@@ -14,28 +20,48 @@ const GenericTable = ({ columns, data, actions }) => {
                 </tr>
             </thead>
             <tbody>
-                {data.map((row, rowIndex) => (
-                    <tr key={rowIndex}>
-                        {columns.map((col, colIndex) => (
-                            <td key={colIndex}>
-                                {col.render ? col.render(row[col.field], row) : row[col.field]}
-                            </td>
-                        ))}
-                        {actions && (
-                            <td>
-                                {actions.map((action, actionIndex) => (
-                                    <button
-                                        key={actionIndex}
-                                        onClick={() => action.onClick(row)}
-                                        className={styles.actionButton}
-                                    >
-                                        {action.label}
-                                    </button>
-                                ))}
-                            </td>
-                        )}
-                    </tr>
-                ))}
+                { data.length == 0 ? (
+                    <div style={{
+                        padding: "20px",
+                        backgroundColor: "#000",
+                        color: '#00ffc3',
+                        margin: '20px',
+                        borderRadius: '20px',
+                        fontSize: '18px',
+                        width: '95% !important',
+                      }}
+                    >No data available</div>
+                ) : (
+                <>  
+                    {data.map((row, rowIndex) => (
+                        <tr key={rowIndex}>
+                            {columns.map((col, colIndex) => (
+                                <td key={colIndex} id={colIndex}>
+                                    { colIndex == 0 && firstLink ? ( 
+                                        <a onClick={renderBooking} style={{color : "#00ffc3 !important"}}>{row[col.field]} </a> 
+                                    ) : ( 
+                                        <> {col.render ? col.render(row[col.field], row) : row[col.field]} </>
+                                    ) }
+                                    
+                                </td>
+                            ))}
+                            {actions && (
+                                <td>
+                                    {actions.map((action, actionIndex) => (
+                                        <button
+                                            key={actionIndex}
+                                            onClick={() => action.onClick(row)}
+                                            className={styles.actionButton}
+                                        >
+                                            {action.label}
+                                        </button>
+                                    ))}
+                                </td>
+                            )}
+                        </tr>
+                    ))}
+                </>
+                )}
             </tbody>
         </table>
     );

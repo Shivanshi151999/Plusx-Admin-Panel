@@ -3,9 +3,9 @@ import List from '../../SharedComponent/List/List';
 import styles from './chargerbooking.module.css'
 import SubHeader from '../../SharedComponent/SubHeader/SubHeader';
 import Pagination from '../../SharedComponent/Pagination/Pagination';
-import { getRequestWithToken, postRequestWithToken } from '../../../api/Requests';
-
-import AddDriver from '../../../assets/images/AddDriver.svg';
+import {postRequestWithToken } from '../../../api/Requests';
+import moment from "moment-timezone";
+// import AddDriver from '../../../assets/images/AddDriver.svg';
 // import { toast, ToastContainer } from "react-toastify";
 // import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
@@ -69,6 +69,9 @@ const PodDeviceList = () => {
         heading: "Add Device", 
         link: "/portable-charger/add-device"
     };
+    const setdecimal = (floatNo) => {
+        return (floatNo) ? floatNo.toFixed(2) +" %" : '0 %';
+    }
     return (
         <div className='main-container'>
             <SubHeader
@@ -82,15 +85,17 @@ const PodDeviceList = () => {
                 <div className={styles.errorContainer}>No data available</div>
             ) : (
             <List
-                tableHeaders={[ "POD ID", "POD Name", "Device ID", "Modal Name", "Inverter", "Charger", "Status", "Action"]}
+                tableHeaders={[ "POD ID", "POD Name", "Model Name", "Battery","Charger", "Regs Date & Time","Status", "Action"]}  //  "Inverter", 
                 listData={chargerBookingList}
                 keyMapping={[
                     { key : 'pod_id', label: 'POD ID' },
                     { key : 'pod_name', label: 'POD Name' },
-                    { key : 'device_id', label: 'Device ID' },
-                    { key : 'design_model', label: 'Modal Name' },
-                    { key : 'inverter', label: 'Inverter' },
+                    
+                    { key : 'design_model', label: 'Model Name' },
+                    { key : 'avgBattery', label: 'Battery', format : (data) => setdecimal(data) },
+                    // { key : 'inverter', label: 'Inverter' },
                     { key : 'charger', label: 'Charger' },
+                    { key : 'created_at', label: 'Regs Date & Time', format : (date) => moment(date).tz('Asia/Dubai').format('DD-MM-YYYY HH:mm A') },
                     { key : 'status', label: 'Status', format: (status) => statusMapping[status] || status },
                 ]}
                 pageHeading="POD Device List"
@@ -100,6 +105,7 @@ const PodDeviceList = () => {
         </div>
     );
 };
-
+// const currentTime = moment(date).tz('Asia/Dubai').format("YYYY-MM-DD HH:mm:ss");
+//     console.log('currentTime', currentTime)
 
 export default PodDeviceList;

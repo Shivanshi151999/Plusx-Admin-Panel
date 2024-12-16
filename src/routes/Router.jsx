@@ -125,8 +125,8 @@ const router = createBrowserRouter([
         element  : <Layout />,
         children : [
             {
-                index: true,
-                element: <Dashboard />,
+                index   : true,
+                element : <Dashboard />,
             },
              //App Signup
              {

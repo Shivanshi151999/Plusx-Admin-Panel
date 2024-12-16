@@ -52,53 +52,47 @@ const BrandHistory = ({ deviceId, deviceBrandList, currentPage, totalPages, onPa
           </tr>
         </thead>
         <tbody>
-          {/* {deviceBrandList.map((vehicle, index) => (
-            <tr key={index}>
-              <td>
-                {vehicle.brand_image && (
-                  <img
-                    src={`${brandImagePath}${vehicle.brand_image}`}
-                    alt={vehicle.brand_name}
-                    className={styles.brandImage}
-                    onClick={(e) => openImageModal(e.target.src)}
-                  />
-                )}
-              </td>
-              <td>{vehicle.brand_name}</td>
-              <td>{moment(vehicle.start_date).format('DD MMM YYYY')}</td>
-              <td>{moment(vehicle.end_date).format('DD MMM YYYY')}</td>
-              <td className={styles.descriptionCell}>
-                {vehicle.description}
-                <div className={styles.tooltip}>{vehicle.description}</div>
-              </td>
-            </tr>
-          ))} */}
-
-          {deviceBrandList.map((vehicle, index) => {
-
-              return (
-                <tr key={index}>
-                  <td>
-                    {vehicle.brand_image && (
-                      <img
-                        src={`${brandImagePath}${vehicle.brand_image}`}
-                        alt={vehicle.brand_name}
-                        className={styles.brandImage}
-                        onClick={(e) => openImageModal(e.target.src)}
-                      />
-                    )}
-                  </td>
-                  <td>{vehicle.brand_name}</td>
-                  <td>{moment(vehicle.start_date).format('DD MMM YYYY')}</td>
-                  <td>{moment(vehicle.end_date).format('DD MMM YYYY')}</td>
-                  <td className={styles.descriptionCell}>
-                    {vehicle.description}
-                    <div className={styles.tooltip}>{vehicle.description}</div>
-                  </td>
+            {/* { deviceBrandList.length == 0 ? (
+                <tr>
+                    <td colSpan="5" style={{
+                        padding: "20px",
+                        backgroundColor: "#000",
+                        color: '#00ffc3',
+                        margin: '20px 0px',
+                        borderRadius: '20px',
+                        fontSize: '18px',
+                        width: '95% !important',
+                        }}
+                    >No data available</td>
                 </tr>
-              );
-          })}
+            ) : (
+            <>   */}
+                { deviceBrandList.map((vehicle, index) => {
 
+                    return (
+                        <tr key={index}>
+                            <td>
+                                {vehicle.brand_image && (
+                                <img
+                                    src={`${brandImagePath}${vehicle.brand_image}`}
+                                    alt={vehicle.brand_name}
+                                    className={styles.brandImage}
+                                    onClick={(e) => openImageModal(e.target.src)}
+                                />
+                                )}
+                            </td>
+                            <td>{vehicle.brand_name}</td>
+                            <td>{moment(vehicle.start_date).format('DD MMM YYYY')}</td>
+                            <td>{moment(vehicle.end_date).format('DD MMM YYYY')}</td>
+                            <td className={styles.descriptionCell}>
+                                {vehicle.description}
+                                <div className={styles.tooltip}>{vehicle.description}</div>
+                            </td>
+                        </tr>
+                    );
+                })}   
+            {/* </>
+            )} */}
         </tbody>
       </table>
       <Pagination

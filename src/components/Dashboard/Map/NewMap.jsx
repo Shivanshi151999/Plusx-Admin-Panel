@@ -7,7 +7,7 @@ import PodYellowIcon from "../../../assets/images/pod and truck icon filled/Pod 
 import Cancel from "../../../assets/images/Cancel.svg";
 import style from "./Map.module.css";
 
-const center = { lat: 25.2048, lng: 55.2708 };
+const center          = { lat: 25.2048, lng: 55.2708 };
 const googleMapApiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 
 function MapComponent({ coordinates, location, podLocation }) {

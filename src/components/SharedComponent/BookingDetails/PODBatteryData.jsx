@@ -5,10 +5,10 @@ import styles from './history.module.css';
 import { getRequestWithToken } from '../../../api/Requests';
 import moment from 'moment';
 
-const PODBookingList = ({podId}) => {
-    const userDetails                              = JSON.parse(sessionStorage.getItem('userDetails'));
-    const [currentPage, setCurrentPage]            = useState(1);
-    const [totalPages, setTotalPages]              = useState(1);
+const PODBookingList = ({podId, deviceBatteryData}) => {
+    const userDetails                            = JSON.parse(sessionStorage.getItem('userDetails'));
+    const [currentPage, setCurrentPage]          = useState(1);
+    const [totalPages, setTotalPages]            = useState(1);
     const[podBookingHistory, setPodBookingHistory] = useState([]);
 
     useEffect(() => {
@@ -36,31 +36,32 @@ const PODBookingList = ({podId}) => {
     };
     // Table columns
     const columns = [
-        { label : 'Booking ID', field : 'booiking_id' },
-        { label : 'Start Date & Time', field : 'start_date' },
-        { label : 'End Date & Time',   field : 'end_date' },
-        { label : 'KW Consumed',   field : 'kilowatt' },
-        { label : 'Battery',   field : 'battery' },
+        { label : 'Battery ID',     field : 'battery_id' },
+        { label : 'Current',     field : 'current' },
+        { label : 'Voltage Diff',     field : 'cell' },
+        { label : 'Voltage',     field : 'voltage' },
+        { label : 'Percentage',  field : 'percentage' },
+        { label : 'Temperature 1', field : 'temperature1' },
+        { label : 'Temperature 2', field : 'temperature2' },
+        { label : 'Temperature 3', field : 'temperature3' },
+        { label : 'Cycle', field : 'charge_cycle' },
     ];
     var tableVal = []
-    podBookingHistory.map((item) =>{ 
-        // console.log( 'item', item.end_charging_level - item.start_charging_level );  //; 
-
-        var chargingLevels = ['start_charging_level', 'end_charging_level'].map(key => 
-            item[key] ? item[key].split(',').map(Number) : []
-        );
-        var chargingLevelSum = chargingLevels[0].reduce((sum, startLevel, index) => sum + (startLevel - chargingLevels[1][index]), 0);
-
-        var percentage = item.pod_data.reduce((sum, row) => sum + (parseFloat(row.percentage) || 0), 0) ;
-
-        var batteryLength = item.pod_data.length;
-        tableVal.push({ 
-            booiking_id : item.booking_id, 
-            start_date  : moment(item.start_time).format('DD-MM-YYYY HH:mm A'), 
-            end_date    : moment(item.end_time).format('DD-MM-YYYY HH:mm A'), 
-            kilowatt    : chargingLevelSum * 0.25 +' kw',
-            battery    : ( percentage > 0 ) ? ( percentage / batteryLength ).toFixed(2) +" %" : '0 %'
-        });
+    deviceBatteryData.map((item) =>{ 
+        if(item.percentage){
+            tableVal.push({ 
+                battery_id   : item.batteryId,  
+                current      : item.current+" A",
+                cell         : item.cells+" mv",    
+                voltage      : item.voltage +" V", 
+                percentage   : item.percentage ? item.percentage.toFixed(2)+" %" : '',
+                temperature1 : item.temp1 +" C", 
+                temperature2 : item.temp2 +" C",
+                temperature3 : item.temp3 +" C",
+                charge_cycle : item.charge_cycle,
+            });
+        }
+        // 
     });
     return (
         <div className={styles.addressListContainer}>
@@ -71,7 +72,7 @@ const PODBookingList = ({podId}) => {
                     <div className={styles.errorContainer}>No data available</div>
                 ) : (
                 <>  
-                    <GenericTable columns={columns} data={tableVal} firstLink={1} />
+                    <GenericTable columns={columns} data={tableVal} />
                 </>
             )}
             <Pagination

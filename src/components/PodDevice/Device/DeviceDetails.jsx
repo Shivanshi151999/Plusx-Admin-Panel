@@ -5,7 +5,7 @@ import BookingDetailsHeader from '../../SharedComponent/Details/BookingDetails/B
 import BookingLeftDetails from '../../SharedComponent/BookingDetails/BookingLeftDetails.jsx'
 // import BookingDetailsAccordion from '../../SharedComponent/BookingDetails/BookingDetailsAccordion.jsx'
 import { postRequestWithToken } from '../../../api/Requests.js';
-import moment from 'moment';
+import moment from "moment-timezone";
 // import { toast, ToastContainer } from "react-toastify";
 import { useNavigate, useParams } from 'react-router-dom';
 import BookingDetailsButtons from '../../SharedComponent/BookingDetails/BookingDetailsButtons.jsx';
@@ -73,25 +73,40 @@ const DeviceDetails = () => {
             return;
         }
         fetchDetails();
+        const interval = setInterval(fetchDetails, 300000);
+        return () => clearInterval(interval);
     }, []);
     useEffect(() => {
         fetchBrandList(currentPage);
 
     }, [currentPage]);
 
+    const current    = deviceBatteryData.reduce((sum, row) => sum + (parseFloat(row.current) || 0), 0) ;
+    const voltages   = deviceBatteryData.reduce((sum, row) => sum + (parseFloat(row.voltage) || 0), 0) ;
+    const percentage = deviceBatteryData.reduce((sum, row) => sum + (parseFloat(row.percentage) || 0), 0) ;
+
+    const capacityArr = deviceBatteryData.map( obj  => ( obj.current * obj.voltage ).toFixed(2) );
+    const capacity = parseFloat( capacityArr.reduce((sum, row) => sum + ( parseFloat(row) || 0), 0) );
+    const capacityKw = ( capacity / 1000 ) ;
+    const batteryLength = deviceBatteryData.length;
     const headerTitles = {
         bookingIdTitle       : "Current",
-        customerDetailsTitle : "Voltage",
-        driverDetailsTitle   : "Percentage",
-        podTemp              : "Temperature",
+        customerDetailsTitle : "Voltage", 
+        driverDetailsTitle   : "Percentage", 
+        podTemp              : "Charging Speed", 
+        chargingStatus       : 'Charging Status',
+        lastupdate       : 'Last Update',
     };
     const content = {  
-        bookingId    : deviceBatteryData[0].current+" Volt", 
+        bookingId    : ( current ).toFixed(2) +" A", 
         createdAt    : '',        
-        customerName : deviceBatteryData[0].voltage +" V",
-        driverName   : deviceBatteryData[0].percentage ? deviceBatteryData[0].percentage.toFixed(2)+" %" : '',
-        podTemp      : deviceBatteryData[0].temp1 +" C", 
-    };
+        customerName : ( voltages > 0 ) ? ( voltages / batteryLength ).toFixed(2) +" V" : "0 V", 
+        driverName   : ( percentage > 0 ) ? ( percentage / batteryLength ).toFixed(2) +" %" : '0 %',
+        podTemp      : capacityKw.toFixed(2) +" kw", 
+        chargingStatus : ( capacityKw > 0) ? 'Charging' : ( capacityKw <= -0 && capacityKw >= -3 ) ? 'Stand By' : 'Discharging',
+        lastupdate    : moment(deviceBatteryData[batteryLength-1].updated_at).tz('Asia/Dubai').format('DD MMM YYYY HH:mm A'),
+    }; 
+    // console.log(moment().tz('Asia/Dubai').format('DD MMM YYYY HH:mm A'))
     const sectionTitles1 = {
         bookingStatus : "POD ID",
         price         : "Pod Name",
@@ -117,10 +132,12 @@ const DeviceDetails = () => {
     const sectionTitles3 = {
         charger               : "Charger",
         date_of_manufacturing : "Date Of Manufacturing",
+        created_date          : "POD Regs. Date & Time",
     }
     const sectionContent3 = {
         charger               : deviceDetails?.charger,
-        date_of_manufacturing : moment(deviceDetails?.date_of_manufacturing).format('DD MMMM YYYY'),
+        date_of_manufacturing : moment(deviceDetails?.date_of_manufacturing).tz('Asia/Dubai').format('DD MMM YYYY'),
+        created_date          : moment(deviceDetails?.created_at).tz('Asia/Dubai').format('DD MMM YYYY HH:mm A'),
     }
     
     return (
@@ -145,6 +162,7 @@ const DeviceDetails = () => {
                     totalPages={totalPages}
                     onPageChange={handlePageChange}
                     brandImagePath={brandImagePath} 
+                    deviceBatteryData={deviceBatteryData}
                 />
             </div>
         </div>
