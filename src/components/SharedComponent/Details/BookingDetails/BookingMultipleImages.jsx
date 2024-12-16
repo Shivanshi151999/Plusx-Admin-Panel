@@ -18,26 +18,12 @@ const BookingMultipleImages = ({ titles, content, type, onRemoveImage }) => {
       <div className={styles.multipleimageMainContainer}>
         <div className={styles.multipleinfoContainer}>
 
-          {/* Display gallery images only if it's an array */}
+          {/* Display Gallery Images */}
           {Array.isArray(content.galleryImages) && (
             <div className="col-12">
               <div className={styles.multiplemultipleinfoBlock}>
                 <span className={styles.multiplemultipleinfoHeading}>{titles.galleryImages}</span>
-                <div className={styles.multiplegalleryImages}>
-                  {/* {content.galleryImages.map((image, index) => (
-                    <div className={styles.imageContainer}  key={index}>
-                      <img
-                        key={index}
-                        src={`${baseUrl}${image}`}
-                        alt={`Gallery img ${index + 1}`}
-                        className={styles.gallerymultipleImage}
-                      />  
-                      <button type="button" className={styles.galleryImagesCloseButton}>
-                        <AiOutlineClose size={20} style={{ padding: '2px' }} />
-                      </button>
-                    </div>
-                  ))}*/}
-                  
+                <div className={styles.multiplegalleryImages}>                  
                   {galleryImagesWithIds.length > 0 ? (
                     galleryImagesWithIds.map(({ image, id }, index) => (
                       <div className={styles.imageContainer} key={index}>
@@ -51,85 +37,98 @@ const BookingMultipleImages = ({ titles, content, type, onRemoveImage }) => {
                         </button>
                       </div>
                     ))
-                  ) : (
-                    content.galleryImages.map((image, index) => (
-                      <div className={styles.imageContainer} key={index}>
-                        <img
-                          src={`${baseUrl}${image}`}
-                          alt={`Gallery img ${index + 1}`}
-                          className={styles.gallerymultipleImage}
-                        />
-                        {/* <button type="button" className={styles.galleryImagesCloseButton}>
-                          <AiOutlineClose size={20} style={{ padding: '2px' }} />
-                        </button> */}
-                      </div>
-                    ))
+                  ) : 
+                    content.galleryImages.length > 0 ? (
+                      content.galleryImages.map((image, index) => (
+                        <div className={styles.imageContainer} key={index}>
+                          <img
+                            src={`${baseUrl}${image}`}
+                            alt={`Gallery img ${index + 1}`}
+                            className={styles.gallerymultipleImage}
+                          />
+                        </div>
+                      ))
+                    ) : (
+                    <p>No data available</p>
                   )}
                 </div>
               </div>
             </div>
           )}
 
+          {/* Display Vehicle Registered Images */}
           {Array.isArray(content.vehicleRegImages) && (
             <div className="col-12">
               <div className={styles.multipleinfoBlock}>
                 <span className={styles.multipleinfoHeading}>{titles.vehicleRegImages}</span>
                 <div className={styles.multiplegalleryImages}>
-                  {content.vehicleRegImages.map((image, index) => (
-                     <div className={styles.imageContainer} key={index}>
+                  {content.vehicleRegImages.length > 0 ? (
+                    content.vehicleRegImages.map((image, index) => (
+                      <div className={styles.imageContainer} key={index}>
                         <img
-                          key={index}
                           src={`${baseUrl}${image}`}
                           alt={`Gallery img ${index + 1}`}
-                        className={styles.gallerymultipleImage}
+                          className={styles.gallerymultipleImage}
                         />
                       </div>
-                  ))}
+                    ))
+                  ) : (
+                    <p>No data available</p>
+                  )}
                 </div>
               </div>
             </div>
           )}
 
+          {/* Display Car Images */}
           {Array.isArray(content.carImages) && (
             <div className="col-12">
               <div className={styles.multipleinfoBlock}>
                 <span className={styles.multipleinfoHeading}>{titles.carImages}</span>
                 <div className={styles.multiplegalleryImages}>
-                  {content.carImages.map((image, index) => (
-                    <div className={styles.imageContainer} key={index}>
-                      <img
-                        key={index}
-                        src={`${baseUrl}${image}`}
-                        alt={`Gallery img ${index + 1}`}
-                      className={styles.gallerymultipleImage}
-                      />
-                    </div>
-                  ))}
+                  {content.carImages.length > 0 ? (
+                    content.carImages.map((image, index) => (
+                      <div className={styles.imageContainer} key={index}>
+                        <img
+                          src={`${baseUrl}${image}`}
+                          alt={`Gallery img ${index + 1}`}
+                          className={styles.gallerymultipleImage}
+                        />
+                      </div>
+                    ))
+                  ) : (
+                    <p>No data available</p>
+                  )}
                 </div>
               </div>
             </div>
           )}
 
+          {/* Display License Images */}
           {Array.isArray(content.licenseImages) && (
             <div className="col-12">
               <div className={styles.multipleinfoBlock}>
                 <span className={styles.multipleinfoHeading}>{titles.licenseImages}</span>
                 <div className={styles.multiplegalleryImages}>
-                  {content.licenseImages.map((image, index) => (
-                    <div className={styles.imageContainer} key={index}>
-                      <img
-                        key={index}
-                        src={`${baseUrl}${image}`}
-                        alt={`Gallery img ${index + 1}`}
-                      className={styles.gallerymultipleImage}
-                      />
-                    </div>
-                  ))}
+                  {content.licenseImages.length > 0 ? (
+                    content.licenseImages.map((image, index) => (
+                      <div className={styles.imageContainer} key={index}>
+                        <img
+                          src={`${baseUrl}${image}`}
+                          alt={`License img ${index + 1}`}
+                          className={styles.gallerymultipleImage}
+                        />
+                      </div>
+                    ))
+                  ) : (
+                    <p>No data available</p>
+                  )}
                 </div>
               </div>
             </div>
           )}
 
+          {/* Display Car type Images */}
           {Array.isArray(content.typeImages) && content.typeImages.length > 0 ? (
             <div className="col-12">
               <div className={styles.multipleinfoBlock}>
@@ -165,63 +164,73 @@ const BookingMultipleImages = ({ titles, content, type, onRemoveImage }) => {
             </div>
           )}
 
+          {/* Display Emirates Images */}
           {Array.isArray(content.emiratesImages) && (
             <div className="col-12">
               <div className={styles.multipleinfoBlock}>
                 <span className={styles.multipleinfoHeading}>{titles.emiratesImages}</span>
                 <div className={styles.multiplegalleryImages}>
-                  {content.emiratesImages.map((image, index) => (
-                    <div className={styles.imageContainer} key={index}>
-                      <img
-                        key={index}
-                        src={`${baseUrl}${image}`}
-                        alt={`Gallery img ${index + 1}`}
-                      className={styles.gallerymultipleImage}
-                      />
-                    </div>
-                  ))}
+                  {content.emiratesImages.length > 0 ? (
+                    content.emiratesImages.map((image, index) => (
+                      <div className={styles.imageContainer} key={index}>
+                        <img
+                          src={`${baseUrl}${image}`}
+                          alt={`Emirates img ${index + 1}`}
+                          className={styles.gallerymultipleImage}
+                        />
+                      </div>
+                    ))
+                  ) : (
+                    <p>No data available</p>
+                  )}
                 </div>
               </div>
             </div>
           )}
 
-          {/* Conditionally render Tyre Images section if content.tyreImages is an array */}
-          {Array.isArray(content.tyreImages) && content.tyreImages.length > 0 && (
+          {/* Display Car Tyre Images */}
+          {Array.isArray(content.tyreImages) && (
             <div className="col-12">
               <div className={styles.multipleinfoBlock}>
                 <span className={styles.multipleinfoHeading}>{titles.tyreImages}</span>
                 <div className={styles.multiplegalleryImages}>
-                  {content.tyreImages.map((image, index) => (
-                    <div className={styles.imageContainer} key={index}>
-                      <img
-                        key={index}
-                        src={`${baseUrl}${image}`}
-                        alt={`Tyre img ${index + 1}`}
-                      className={styles.gallerymultipleImage}
-                      />
-                    </div>
-                  ))}
+                  {content.tyreImages.length > 0 ? (
+                    content.tyreImages.map((image, index) => (
+                      <div className={styles.imageContainer} key={index}>
+                        <img
+                          src={`${baseUrl}${image}`}
+                          alt={`Tyre img ${index + 1}`}
+                          className={styles.gallerymultipleImage}
+                        />
+                      </div>
+                    ))
+                  ) : (
+                    <p>No data available</p>
+                  )}
                 </div>
               </div>
             </div>
           )}
 
-          {/* Conditionally render Other Images section if content.otherImages is an array */}
-          {Array.isArray(content.otherImages) && content.otherImages.length > 0 && (
+          {/* Display Other Images */}
+          {Array.isArray(content.otherImages) && (
             <div className="col-12">
               <div className={styles.multipleinfoBlock}>
                 <span className={styles.multipleinfoHeading}>{titles.otherImages}</span>
                 <div className={styles.multiplegalleryImages}>
-                  {content.otherImages.map((image, index) => (
-                    <div className={styles.imageContainer} key={index}>
-                      <img
-                        key={index}
-                        src={`${baseUrl}${image}`}
-                        alt={`Other img ${index + 1}`}
-                      className={styles.gallerymultipleImage}
-                      />
-                    </div>
-                  ))}
+                  {content.otherImages.length > 0 ? (
+                    content.otherImages.map((image, index) => (
+                      <div className={styles.imageContainer} key={index}>
+                        <img
+                          src={`${baseUrl}${image}`}
+                          alt={`Other img ${index + 1}`}
+                          className={styles.gallerymultipleImage}
+                        />
+                      </div>
+                    ))
+                  ) : (
+                    <p>No data available</p>
+                  )}
                 </div>
               </div>
             </div>

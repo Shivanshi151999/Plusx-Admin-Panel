@@ -655,8 +655,8 @@ const router = createBrowserRouter([
             },
             // Profile
             {
-                path:"/profile",
-                element:<Profile/>
+                path: "/profile",
+                element: <Profile/>
             }
         ],
     },

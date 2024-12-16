@@ -648,7 +648,7 @@ const EditPublicChargerStation = () => {
                                 <p>Select Files to Upload <br /> or Drag & Drop, Copy & Paste Files</p>
                             </label>
                         </div>
-                        {Array.isArray(galleryFiles) && galleryFiles.length && (
+                        {Array.isArray(galleryFiles) && galleryFiles && (
                             <div className={styles.galleryContainer}>
                                 { galleryFiles.map( (file, index) => (
                                     <div className={styles.imageContainer} key={index}>

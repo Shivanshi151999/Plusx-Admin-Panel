@@ -580,7 +580,7 @@ const AddChargerStation = () => {
                                     <p>Select Files to Upload <br /> or Drag & Drop, Copy & Paste Files</p>
                                 </label>
                             </div>
-                            { galleryFiles.length && (
+                            { galleryFiles && (
                                 <div className={styles.galleryContainer}>
                                     {galleryFiles.map((image, index) => (
                                         <div className={styles.imageContainer} key={index}>
