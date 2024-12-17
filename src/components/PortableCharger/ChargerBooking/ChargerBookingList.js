@@ -267,7 +267,8 @@ const ChargerBookingList = () => {
                                 label: 'Action',
                                 relatedKeys: ['status'], 
                                 format: (data, key, relatedKeys) => {
-                                    const isCancelable = data[relatedKeys[0]] !== 'C'; 
+                                    // const isCancelable = data[relatedKeys[0]] !== 'C'; 
+                                    const isCancelable = !['C', 'PU'].includes(data[relatedKeys[0]]);
                             
                                     return (
                                         <div className="editButtonSection">
