@@ -879,34 +879,34 @@ console.log(isActive);
                   onChange={handleGalleryChange}
                   style={{ display: 'none' }}
                 />
-                {galleryFiles.length === 0 ? (
-                  <label htmlFor="galleryFileUpload" className={styles.fileUploadLabel}>
-                    <img src={UploadIcon} alt="Upload Icon" className={styles.uploadIcon} />
-                    <p>Select Files to Upload <br /> or Drag & Drop, Copy & Paste Files</p>
-                  </label>
-                ) : (
+                <label htmlFor="galleryFileUpload" className={styles.fileUploadLabel}>
+                  <img src={UploadIcon} alt="Upload Icon" className={styles.uploadIcon} />
+                  <p>Select Files to Upload <br /> or Drag & Drop, Copy & Paste Files</p>
+                </label>
+              </div>
+                {galleryFiles && (
                   <div className={styles.galleryContainer}>
-
-
-                    {Array.isArray(galleryFiles) && galleryFiles.length > 0 ? (
+                    {Array.isArray(galleryFiles) && galleryFiles && (
                       galleryFiles.map((file, index) => (
-                        <img
-                          key={index}
-                          src={
-                            typeof file === 'string'
-                              ? `${process.env.REACT_APP_SERVER_URL}uploads/shop-images/${file}`
-                              : URL.createObjectURL(file)
-                          }
-                          alt={`Preview ${index + 1}`}
-                          className={styles.previewImage}
-                        />
+                        <div className={styles.imageContainer} key={index}>
+                          <img
+                            key={index}
+                            src={
+                              typeof file === 'string'
+                                ? `${process.env.REACT_APP_SERVER_URL}uploads/shop-images/${file}`
+                                : URL.createObjectURL(file)
+                            }
+                            alt={`Preview ${index + 1}`}
+                            className={styles.previewImage}
+                          />
+                          <button type="button" className={styles.removeButton} onClick={() => handleRemoveGalleryImage(index)}>
+                              <AiOutlineClose size={20} style={{ padding: '2px' }} />
+                          </button>
+                        </div>
                       ))
-                    ) : (
-                      <p>No images available</p>
                     )}
                   </div>
                 )}
-              </div>
               {errors.gallery && <p className={styles.error} style={{ color: 'red' }}>{errors.gallery}</p>}
             </div>
 

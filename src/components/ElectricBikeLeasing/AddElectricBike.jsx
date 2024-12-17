@@ -5,7 +5,7 @@ import styles from './addbike.module.css';
 import UploadIcon from '../../assets/images/uploadicon.svg';
 import { AiOutlineClose } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
-import { postRequestWithTokenAndFile, postRequestWithToken } from '../../api/Requests';
+import { postRequestWithTokenAndFile } from '../../api/Requests';
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -26,23 +26,24 @@ const AddElectricBike = () => {
   const [loading, setLoading]           = useState(false);
 
   const contractDropdownRef = useRef(null);
-  const featureDropdownRef = useRef(null);
+  const featureDropdownRef  = useRef(null);
 
     const typeOpetions = [
         // { value: "", label: "Select Vehicle Type" },
-        { value: "Lease", label: "Lease" },
-        { value: "Rent", label: "Rent" },
+        { value : "Lease", label  : "Lease" },
+        { value : "Rent",  label  : "Rent" },
     ];
 
     const contractOptions = [
-        { value: "1 Month", label: "1 Month" },
-        { value: "6 Months", label: "6 Months" },
-        { value: "1 Year", label: "1 Year" },
+        { value  : "1 Month",   label  : "1 Month" },
+        { value  : "6 Months",  label  : "6 Months" },
+        { value  : "1 Year",    label  : "1 Year" },
     ];
+
     const featureOptions = [
-        { value: "5 Seater", label: "5 Seater" },
-        { value: "Electric", label: "Electric" },
-        { value: "Fully Automatic", label: "Fully Automatic" },
+        { value  : "5 Seater",        label : "5 Seater" },
+        { value  : "Electric",        label : "Electric" },
+        { value  : "Fully Automatic", label : "Fully Automatic" },
     ];
 
     const handleVehicleType = (selectedOption) => {
@@ -88,15 +89,15 @@ const handleRemoveGalleryImage = (index) => {
 
 const validateForm = () => {
     const fields = [
-        { name: "carName", value: carName, errorMessage: "Bike Name is required." },
-        { name: "availableOn", value: availableOn, errorMessage: "Available On is required." },
-        { name: "carType", value: carType, errorMessage: "Bike Type is required." },
-        { name: "price", value: price, errorMessage: "Price is required." },
-        { name: "contract", value: contract, errorMessage: "Contract is required.", isArray: true},
-        { name: "feature", value: feature, errorMessage: "Feature is required.", isArray: true },
-        { name: "price", value: price, errorMessage: "Price is required." },
-        { name: "description", value: description, errorMessage: "Description is required." },
-        { name: "url", value: url, errorMessage: "Lease URL is required." },
+        { name : "carName",     value : carName,      errorMessage : "Bike Name is required." },
+        { name : "availableOn", value : availableOn,  errorMessage : "Available On is required." },
+        { name : "carType",     value : carType,      errorMessage : "Bike Type is required." },
+        { name : "price",       value : price,        errorMessage : "Price is required." },
+        { name : "contract",    value : contract,     errorMessage : "Contract is required.", isArray: true},
+        { name : "feature",     value : feature,      errorMessage : "Feature is required.", isArray: true },
+        { name : "price",       value : price,        errorMessage : "Price is required." },
+        { name : "description", value : description,  errorMessage : "Description is required." },
+        { name : "url",         value : url,          errorMessage : "Lease URL is required." },
         // { name: "file", value: file, errorMessage: "Image is required." },
         // { name: "gallery", value: galleryFiles, errorMessage: "Vehicle Gallery is required.", isArray: true },
     ];
@@ -191,7 +192,7 @@ useEffect(() => {
                 value={carName}
                 onChange={(e) => setCarName(e.target.value)}
                 />
-                {errors.carName && carName == '' && <p className="error">{errors.carName}</p>}
+                {errors.carName && carName === '' && <p className="error">{errors.carName}</p>}
             </div>
             <div className={styles.addShopInputContainer}>
               <label className={styles.addShopLabel} htmlFor="contactNo">Available On</label>
@@ -203,7 +204,7 @@ useEffect(() => {
               value={availableOn}
                 onChange={(e) => setAvailableOn(e.target.value)}
               />
-              {errors.availableOn && availableOn == '' && <p className="error">{errors.availableOn}</p>}
+              {errors.availableOn && availableOn === '' && <p className="error">{errors.availableOn}</p>}
             </div>
           </div>
          
@@ -237,7 +238,7 @@ useEffect(() => {
                     }
                 }}
                />
-               {errors.price && price == '' && <p className="error">{errors.price}</p>}
+               {errors.price && price === '' && <p className="error">{errors.price}</p>}
             </div>
           </div>
           <div className={styles.locationRow}>
@@ -286,7 +287,7 @@ useEffect(() => {
               value={description}
                 onChange={(e) => setDescription(e.target.value)}
               />
-              {errors.description && description == '' &&  <p className="error">{errors.description}</p>}
+              {errors.description && description === '' &&  <p className="error">{errors.description}</p>}
             </div>
             
           </div>
@@ -302,10 +303,12 @@ useEffect(() => {
               value={url}
                 onChange={(e) => setUrl(e.target.value)}
               />
-              {errors.url && url == '' && <p className="error">{errors.url}</p>}
+              {errors.url && url === '' && <p className="error">{errors.url}</p>}
             </div>
             
           </div>
+
+           {/* Bike Cover Image */}
           <div className={styles.fileUpload}>
                 <label className={styles.fileLabel}>Cover Image</label>
                 <div className={styles.fileDropZone}>
@@ -333,6 +336,8 @@ useEffect(() => {
                 </div>
                 {errors.file && <p className="error">{errors.file}</p>}
             </div>
+
+            {/* Bike Rental Gallery */}
             <div className={styles.fileUpload}>
                 <label className={styles.fileLabel}>Bike Rental Gallery</label>
                 <div className={styles.fileDropZone}>
@@ -346,26 +351,26 @@ useEffect(() => {
                         onChange={handleGalleryChange}
                         style={{ display: 'none' }}
                     />
-                    {galleryFiles.length === 0 ? (
-                        <label htmlFor="galleryFileUpload" className={styles.fileUploadLabel}>
-                            <img src={UploadIcon} alt="Upload Icon" className={styles.uploadIcon} />
-                            <p>Select Files to Upload <br /> or Drag & Drop, Copy & Paste Files</p>
-                        </label>
-                    ) : (
-                        <div className={styles.galleryContainer}>
-                            {galleryFiles.map((image, index) => (
-                                <div className={styles.imageContainer} key={index}>
-                                    <img src={URL.createObjectURL(image)} alt={`Preview ${index}`} className={styles.previewImage} />
-                                    <button type="button" className={styles.removeButton} onClick={() => handleRemoveGalleryImage(index)}>
-                                        <AiOutlineClose size={20} style={{ padding: '2px' }} />
-                                    </button>
-                                </div>
-                            ))}
-                        </div>
-                    )}
+                    <label htmlFor="galleryFileUpload" className={styles.fileUploadLabel}>
+                        <img src={UploadIcon} alt="Upload Icon" className={styles.uploadIcon} />
+                        <p>Select Files to Upload <br /> or Drag & Drop, Copy & Paste Files</p>
+                    </label>
+                </div>
+                {galleryFiles && (
+                    <div className={styles.galleryContainer}>
+                        {galleryFiles.map((image, index) => (
+                            <div className={styles.imageContainer} key={index}>
+                                <img src={URL.createObjectURL(image)} alt={`Preview ${index}`} className={styles.previewImage} />
+                                <button type="button" className={styles.removeButton} onClick={() => handleRemoveGalleryImage(index)}>
+                                    <AiOutlineClose size={20} style={{ padding: '2px' }} />
+                                </button>
+                            </div>
+                        ))}
                     </div>
+                )}
                 {errors.gallery && <p className="error">{errors.gallery}</p>}
             </div>
+            
             <div className={styles.editButton}>
                 <button className={styles.editCancelBtn} onClick={() => handleCancel()}>Cancel</button>
                 <button disabled={loading} type="submit" className={styles.editSubmitBtn}>

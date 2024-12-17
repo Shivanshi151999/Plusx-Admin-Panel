@@ -65,9 +65,9 @@ const EditEvGuide = () => {
         setErrors((prev) => ({ ...prev, gallery: "" }));
     };
 
-    // const handleRemoveGalleryImage = (index) => {
-    //     setGalleryFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
-    // };
+    const handleRemoveGalleryImage = (index) => {
+        setGalleryFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
+    };
 
     const validateForm = () => {
         const fields = [
@@ -389,39 +389,34 @@ const EditEvGuide = () => {
                                 onChange={handleGalleryChange}
                                 style={{ display: 'none' }}
                             />
-                            {galleryFiles.length === 0 ? (
-                                <label htmlFor="galleryFileUpload" className={styles.fileUploadLabel}>
-                                    <img src={UploadIcon} alt="Upload Icon" className={styles.uploadIcon} />
-                                    <p>Select Files to Upload <br /> or Drag & Drop, Copy & Paste Files</p>
-                                </label>
-                            ) : (
-                                <div className={styles.galleryContainer}>
-
-
-                                    {Array.isArray(galleryFiles) && galleryFiles.length > 0 ? (
-                                        galleryFiles.map((file, index) => (
-                                            <div className={styles.imageContainer} key={index}>
-                                                <img
-                                                    key={index}
-                                                    src={
-                                                        typeof file === 'string'
-                                                            ? `${process.env.REACT_APP_SERVER_URL}uploads/vehicle-image/${file}`
-                                                            : URL.createObjectURL(file)
-                                                    }
-                                                    alt={`Preview ${index + 1}`}
-                                                    className={styles.previewImage}
-                                                />
-                                                {/* <button type="button" className={styles.removeButton} onClick={() => handleRemoveGalleryImage(index)}>
-                                                    <AiOutlineClose size={20} style={{ padding: '2px' }} />
-                                                </button> */}
-                                            </div>
-                                        ))
-                                    ) : (
-                                        <p>No images available</p>
-                                    )}
-                                </div>
-                            )}
+                            <label htmlFor="galleryFileUpload" className={styles.fileUploadLabel}>
+                                <img src={UploadIcon} alt="Upload Icon" className={styles.uploadIcon} />
+                                <p>Select Files to Upload <br /> or Drag & Drop, Copy & Paste Files</p>
+                            </label>
                         </div>
+                        {galleryFiles && (
+                            <div className={styles.galleryContainer}>
+                                {Array.isArray(galleryFiles) && galleryFiles && (
+                                    galleryFiles.map((file, index) => (
+                                        <div className={styles.imageContainer} key={index}>
+                                            <img
+                                                key={index}
+                                                src={
+                                                    typeof file === 'string'
+                                                        ? `${process.env.REACT_APP_SERVER_URL}uploads/vehicle-image/${file}`
+                                                        : URL.createObjectURL(file)
+                                                }
+                                                alt={`Preview ${index + 1}`}
+                                                className={styles.previewImage}
+                                            />
+                                            <button type="button" className={styles.removeButton} onClick={() => handleRemoveGalleryImage(index)}>
+                                                <AiOutlineClose size={20} style={{ padding: '2px' }} />
+                                            </button>
+                                        </div>
+                                    ))
+                                )}
+                            </div>
+                        )}
                         {errors.gallery && <p className="error">{errors.gallery}</p>}
                     </div>
                     <div className={styles.editButton}>
