@@ -138,7 +138,7 @@ const Login = () => {
                             Forgot Password?
                         </div>
                         <div className={styles.formButtonSection}>
-                            <button type="submit" className={styles.formButton}>
+                            <button disabled={loading} type="submit" className={styles.formButton}>
                             {loading ? (
                                     <>
                                         <span className="spinner-border spinner-border-sm me-2"></span>

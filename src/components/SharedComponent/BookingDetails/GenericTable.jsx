@@ -23,7 +23,9 @@ const GenericTable = ({ columns, data, actions, firstLink }) => {
             <tbody>
                 { data.length === 0 ? (
                     <tr>
-                        <td colSpan={12}>No data available</td>
+                        <td colSpan={12} className='border-0 p-0'>
+                            <div style={{backgroundColor: "#000000", padding: "10px", borderRadius: "10px"}}> No data available</div>
+                        </td>
                     </tr>
                 ) : (
                 <>  
