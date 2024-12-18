@@ -8,6 +8,7 @@ import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 import Loader from "../../../SharedComponent/Loader/Loader";
+import EmptyList from '../../../SharedComponent/EmptyList/EmptyList';
 
 const dynamicFilters = [
     // { label: 'Shop Name', name: 'search', type: 'text' },
@@ -116,7 +117,10 @@ const ShopList = () => {
 
             {loading ? <Loader /> : 
                 shopList?.length === 0 ? (
-                    <div className='errorContainer'>No data available</div>
+                    <EmptyList
+                        tableHeaders={["ID", "Shop Name", "Location", "Action"]}
+                        message="No data available"
+                    />
                 ) : (
                 <>
                     <List

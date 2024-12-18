@@ -7,6 +7,7 @@ import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
 import styles from './chargerinstallation.module.css';
 import Loader from "../SharedComponent/Loader/Loader";
+import EmptyList from '../SharedComponent/EmptyList/EmptyList';
 
 const statusMapping = {
     'P': 'Placed',
@@ -88,7 +89,10 @@ const ChargerInstallationList = () => {
 
             {loading ? <Loader /> :
                 chargerInstallationList.length === 0 ? (
-                <div className='errorContainer'>No data available</div>
+                    <EmptyList
+                        tableHeaders={["Date","Request ID", "Customer Name", "Service Type", "Vehicle Model",  "Status", "Action"]}
+                        message="No data available"
+                    />
                 ) : (
                 <>
                     <List 

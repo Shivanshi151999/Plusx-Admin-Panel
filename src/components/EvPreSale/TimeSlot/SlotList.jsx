@@ -10,6 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
 import Loader from "../../SharedComponent/Loader/Loader";
+import EmptyList from '../../SharedComponent/EmptyList/EmptyList';
 
 const EvPreSaleSlotList = () => {
     const userDetails                     = JSON.parse(sessionStorage.getItem('userDetails'));
@@ -136,7 +137,10 @@ const EvPreSaleSlotList = () => {
 
             {loading ? <Loader /> :
                 timeSlotList.length === 0 ? (
-                    <div className='errorContainer'>No data available</div>
+                    <EmptyList
+                        tableHeaders={["Slot ID","Timing", "Booking Limit", "Total Booking",  "Remaining Booking", "Status"]}
+                        message="No data available"
+                    />
                 ) : (
                 <>
                     <div className={styles.TimeslotcontainerCharger}>

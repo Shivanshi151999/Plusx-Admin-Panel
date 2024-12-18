@@ -14,6 +14,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 import Custommodal from '../../SharedComponent/CustomModal/CustomModal.jsx';
 import Loader from "../../SharedComponent/Loader/Loader";
+import EmptyList from '../../SharedComponent/EmptyList/EmptyList.jsx';
 
 const statusMapping = {
     'CNF': 'Booking Confirmed',
@@ -231,7 +232,10 @@ const ChargerBookingList = () => {
 
             {loading ? <Loader /> :
                 chargerBookingList.length === 0 ? (
-                    <div className={styles.errorContainer}>No data available</div>
+                    <EmptyList
+                        tableHeaders={["Date","Booking ID", "Customer Name", "Service Name", "Price",  "Status", "Driver Assign", "Action",""]}
+                        message="No data available"
+                    />
                 ) : (
                 <>
                     <List

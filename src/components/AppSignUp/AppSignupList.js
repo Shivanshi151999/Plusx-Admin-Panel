@@ -9,6 +9,7 @@ import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 import Loader from "../SharedComponent/Loader/Loader";
+import EmptyList from '../SharedComponent/EmptyList/EmptyList';
 
 const SignupList = () => {
     const userDetails                     = JSON.parse(sessionStorage.getItem('userDetails')); 
@@ -131,7 +132,10 @@ const SignupList = () => {
 
             {loading ? <Loader /> :
                 signupList.length === 0 ? 
-                    <div className={styles.errorContainer}>No data available</div>
+                    <EmptyList
+                        tableHeaders={["Date", "Customer ID", "Customer Name", "Email", "Emirate", "Action"]}
+                        message="No data available"
+                    />
                 : <>
                     <List
                         tableHeaders={["Date", "Customer ID", "Customer Name", "Email", "Emirate", "Action"]}

@@ -9,6 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
 import Loader from "../SharedComponent/Loader/Loader";
+import EmptyList from '../SharedComponent/EmptyList/EmptyList';
 
 const dynamicFilters = [
     // { label: 'Bike Name', name: 'search_text', type: 'text' }
@@ -115,7 +116,10 @@ const CouponList = () => {
             
             {loading ? <Loader /> : 
                 carList.length === 0 ? 
-                    <div className={styles.errorContainer}>No data available</div>
+                    <EmptyList
+                        tableHeaders={["Coupon ID", "Coupon Name", "Coupon Code", "Service Name", "Per User", "Coupon %", "End Date", "Status", "Action"]}
+                        message="No data available"
+                    />
                 : <>
                     <List
                         tableHeaders={["Coupon ID", "Coupon Name", "Coupon Code", "Service Name", "Per User", "Coupon %", "End Date", "Status", "Action"]}

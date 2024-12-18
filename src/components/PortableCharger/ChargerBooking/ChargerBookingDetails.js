@@ -75,7 +75,7 @@ const ChargerBookingDetails = () => {
         slotDate : "Slot Date",
         slotTime : "Slot Time"
     }
-    let rsa_data = bookingDetails?.rsa_data.split(",") || [];
+    let rsa_data = bookingDetails?.rsa_data?.split(",") || [];
     const content = {
         bookingId       : bookingDetails?.booking_id,
         createdAt       : moment(bookingDetails?.created_at).format('DD MMM YYYY h:mm A'),

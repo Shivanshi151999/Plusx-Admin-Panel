@@ -7,6 +7,7 @@ import moment from 'moment';
 import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from 'react-router-dom';
 import Loader from "../../SharedComponent/Loader/Loader";
+import EmptyList from '../../SharedComponent/EmptyList/EmptyList';
 
 const InvoiceList = () => {
     const userDetails                   = JSON.parse(sessionStorage.getItem('userDetails')); 
@@ -82,7 +83,10 @@ const InvoiceList = () => {
 
             {loading ? <Loader /> :
                 invoiceList.length === 0 ? (
-                        <div className='errorContainer'>No data available</div>
+                    <EmptyList
+                        tableHeaders={["Invoice Date", "Invoice ID", "Customer Name", "Amount", "Status", "Action"]}
+                        message="No data available"
+                    />
                     ) : (
                     <>
                         <List 

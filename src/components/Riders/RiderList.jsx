@@ -8,6 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 import styles from './addemergency.module.css';
 import Loader from "../SharedComponent/Loader/Loader";
+import EmptyList from '../SharedComponent/EmptyList/EmptyList';
 
 const dynamicFilters = [
     // { label: 'RSA ID', name: 'rsa_id', type: 'text' },
@@ -112,7 +113,10 @@ const RiderList = () => {
 
             {loading ? <Loader /> :
                 rsaList.length === 0 ? (
-                    <div className={styles.errorContainer}>No data available</div>
+                    <EmptyList
+                        tableHeaders={["ID", "Driver Name", "Driver Email", "Service Type", "Status", "Action"]}
+                        message="No data available"
+                    />
                 ) : (
                 <>
                     <List 

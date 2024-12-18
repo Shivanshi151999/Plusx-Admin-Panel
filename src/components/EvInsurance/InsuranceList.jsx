@@ -9,6 +9,7 @@ import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 import Loader from "../SharedComponent/Loader/Loader";
+import EmptyList from '../SharedComponent/EmptyList/EmptyList';
 
 const dynamicFilters = [
     // { label: 'Car Name', name: 'search_text', type: 'text' },
@@ -118,7 +119,10 @@ const InsuranceList = () => {
 
             {loading ? <Loader /> : 
                 carList?.length === 0 ? (
-                    <div className='errorContainer'>No data available</div>
+                    <EmptyList
+                        tableHeaders={["Date", "Insurance ID", "Owner Name", "Vehicle", "Regs. Place", "Country", "Action"]}
+                        message="No data available"
+                    />
                 ) : (
                 <>
                     <List

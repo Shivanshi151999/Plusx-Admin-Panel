@@ -10,6 +10,7 @@ import AddDriver from '../../../assets/images/AddDriver.svg';
 // import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
+import EmptyList from '../../SharedComponent/EmptyList/EmptyList';
 const searchTerm = [
     {
         label: 'search', 
@@ -72,21 +73,26 @@ const PodAreaList = () => {
                 searchTerm = {searchTerm}
             />
             {areaList.length === 0 ? (
-                <div className={styles.errorContainer}>No data available</div>
+                <EmptyList
+                    tableHeaders={["Area ID", "Area Name", "Created Date", "Status", "Action"]}
+                    message="No data available"
+                />
             ) : (
-            <List
-                tableHeaders={[ "Area ID", "Area Name", "Created Date", "Status", "Action"]}
-                listData={areaList}
-                keyMapping={[
-                    { key: 'area_id', label: 'Area ID' },
-                    { key: 'area_name', label: 'Area Name' },
-                    { key: 'created_at', label: 'Created Date', format: (date) => moment(date).format('DD MMM YYYY')  },
-                    { key: 'status', label: 'Status', format: (status) => status == 1 ? 'Active' : 'Inactive' },
-                ]}
-                pageHeading="POD Area List"
-            />
-        )}
-            <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
+                <>
+                    <List
+                        tableHeaders={[ "Area ID", "Area Name", "Created Date", "Status", "Action"]}
+                        listData={areaList}
+                        keyMapping={[
+                            { key: 'area_id', label: 'Area ID' },
+                            { key: 'area_name', label: 'Area Name' },
+                            { key: 'created_at', label: 'Created Date', format: (date) => moment(date).format('DD MMM YYYY')  },
+                            { key: 'status', label: 'Status', format: (status) => status == 1 ? 'Active' : 'Inactive' },
+                        ]}
+                        pageHeading="POD Area List"
+                    />
+                    <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
+                </>
+            )}
         </div>
     );
 };

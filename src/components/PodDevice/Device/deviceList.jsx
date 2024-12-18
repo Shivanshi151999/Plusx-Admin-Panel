@@ -9,6 +9,7 @@ import moment from "moment-timezone";
 // import { toast, ToastContainer } from "react-toastify";
 // import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
+import EmptyList from '../../SharedComponent/EmptyList/EmptyList';
 
     const statusMapping = {
         '0' : 'Under Maintenance',
@@ -82,26 +83,32 @@ const PodDeviceList = () => {
                 fetchFilteredData  = {fetchFilteredData} 
             />
             {chargerBookingList.length === 0 ? (
-                <div className={styles.errorContainer}>No data available</div>
+                <EmptyList
+                    tableHeaders={["POD ID", "POD Name", "Model Name", "Battery","Charger", "Regs Date & Time","Status", "Action"]}
+                    message="No data available"
+                />
             ) : (
-            <List
-                tableHeaders={[ "POD ID", "POD Name", "Model Name", "Battery","Charger", "Regs Date & Time","Status", "Action"]}  //  "Inverter", 
-                listData={chargerBookingList}
-                keyMapping={[
-                    { key : 'pod_id', label: 'POD ID' },
-                    { key : 'pod_name', label: 'POD Name' },
-                    
-                    { key : 'design_model', label: 'Model Name' },
-                    { key : 'avgBattery', label: 'Battery', format : (data) => setdecimal(data) },
-                    // { key : 'inverter', label: 'Inverter' },
-                    { key : 'charger', label: 'Charger' },
-                    { key : 'created_at', label: 'Regs Date & Time', format : (date) => moment(date).tz('Asia/Dubai').format('DD-MM-YYYY HH:mm A') },
-                    { key : 'status', label: 'Status', format: (status) => statusMapping[status] || status },
-                ]}
-                pageHeading="POD Device List"
-            />
-        )}
-            <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
+                <>
+                    <List
+                        tableHeaders={[ "POD ID", "POD Name", "Model Name", "Battery","Charger", "Regs Date & Time","Status", "Action"]}  //  "Inverter", 
+                        listData={chargerBookingList}
+                        keyMapping={[
+                            { key : 'pod_id', label: 'POD ID' },
+                            { key : 'pod_name', label: 'POD Name' },
+                            
+                            { key : 'design_model', label: 'Model Name' },
+                            { key : 'avgBattery', label: 'Battery', format : (data) => setdecimal(data) },
+                            // { key : 'inverter', label: 'Inverter' },
+                            { key : 'charger', label: 'Charger' },
+                            { key : 'created_at', label: 'Regs Date & Time', format : (date) => moment(date).tz('Asia/Dubai').format('DD-MM-YYYY HH:mm A') },
+                            { key : 'status', label: 'Status', format: (status) => statusMapping[status] || status },
+                        ]}
+                        pageHeading="POD Device List"
+                    />
+                
+                    <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
+                </>
+            )}
         </div>
     );
 };

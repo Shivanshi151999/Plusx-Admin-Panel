@@ -12,6 +12,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 import ModalAssign from '../../../SharedComponent/BookingDetails/ModalAssign'
 import Loader from "../../../SharedComponent/Loader/Loader";
+import EmptyList from '../../../SharedComponent/EmptyList/EmptyList';
 
 const dynamicFilters = [
     // { label: 'Service Name', name: 'search', type: 'text' },
@@ -175,7 +176,10 @@ const ServiceList = () => {
 
             {loading ? <Loader /> : 
                 serviceList?.length === 0 ? (
-                    <div className='errorContainer'>No data available</div>
+                    <EmptyList
+                        tableHeaders={["Service ID", "Service Name", "Created Time", "Action",""]}
+                        message="No data available"
+                    />
                 ) : (
                 <>
                     <List 

@@ -8,6 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 import { getRequestWithToken, postRequestWithToken } from '../../../api/Requests';
 import Loader from "../../SharedComponent/Loader/Loader";
+import EmptyList from '../../SharedComponent/EmptyList/EmptyList';
 
 const ChargerList = () => {
     const userDetails                   = JSON.parse(sessionStorage.getItem('userDetails')); 
@@ -111,7 +112,10 @@ const ChargerList = () => {
 
             {loading ? <Loader /> :
                 chargerList.length === 0 ? (
-                    <div className={styles.errorContainer}>No data available</div>
+                    <EmptyList
+                        tableHeaders={["Charger ID", "Charger Name", "Charger Price", "Status", "Action"]}
+                        message="No data available"
+                    />
                 ) : (
                 <>  
                     <List

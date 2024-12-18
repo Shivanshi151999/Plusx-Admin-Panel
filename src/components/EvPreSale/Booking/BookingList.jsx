@@ -9,6 +9,7 @@ import moment from 'moment';
 import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from 'react-router-dom';
 import Loader from "../../SharedComponent/Loader/Loader";
+import EmptyList from '../../SharedComponent/EmptyList/EmptyList';
 
 const statusMapping = {
     'CNF': 'Booking Confirmed',
@@ -159,7 +160,10 @@ const EvPreSaleBookingList = () => {
 
             {loading ? <Loader /> : 
                 chargerBookingList.length === 0 ? (
-                        <div className='errorContainer'>No data available</div>
+                        <EmptyList
+                            tableHeaders={["Date", "Booking ID", "Owner Name", "Vehicle", "Action"]}
+                            message="No data available"
+                        />
                     ) : (
                     <>
                         <List 
