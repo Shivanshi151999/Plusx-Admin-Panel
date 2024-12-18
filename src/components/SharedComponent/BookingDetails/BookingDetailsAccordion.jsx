@@ -59,7 +59,7 @@ const BookingDetailsAccordion = ({history, rsa, imageUrl, fieldMapping, title })
                         </Accordion.Header>
                         <Accordion.Body className={styles.accordionBody}>
                             {section.showRSA && section.rsa_name && (
-                                <p><strong>RSA:</strong> {section?.rsa_name}</p>
+                                <p><strong>Driver:</strong> {section?.rsa_name}</p>
                             )}
                             {section.order_status == 'C' && (
                                 <>
@@ -70,7 +70,7 @@ const BookingDetailsAccordion = ({history, rsa, imageUrl, fieldMapping, title })
                             {section.showImage && (
                                 <div>
                                     <p><strong>Image:</strong></p>
-                                    <img src={section?.imageUrl} alt="Image" style={{ maxWidth: '100%', height: 'auto' }} />
+                                    <img src={section?.imageUrl} alt="Img" style={{ maxWidth: '100%', height: 'auto' }} />
                                 </div>
                             )}
                             {section.time && <p className={styles.accodionPTag}> {section.time}</p>}
