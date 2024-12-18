@@ -52,7 +52,7 @@ const EditPortableCharger = () => {
             newErrors.chargerName = "Charger Name is required.";
             formIsValid = false;
         }
-        if (!chargerPrice || isNaN(chargerPrice) || chargerPrice <= 0) {
+        if (!chargerPrice || isNaN(chargerPrice) || chargerPrice < 0) {
             newErrors.chargerPrice = "Please enter a valid Charger Price.";
             formIsValid = false;
         }
@@ -86,7 +86,7 @@ const EditPortableCharger = () => {
             formData.append("charger_price", chargerPrice);
             formData.append("charger_feature", chargerFeature);
             formData.append("charger_type", chargerType);
-            formData.append("status", isActive === true ? 1 : 0);
+            formData.append("status", isActive ? 1 : 0);
 
             // Append new image file if a new file is selected, skip if it's the existing image URL
             if (file instanceof File) {
@@ -246,7 +246,7 @@ const EditPortableCharger = () => {
                                 type="file"
                                 id="fileUpload"
                                 // accept="image/*"
-                                accept=".jpeg,.jpg"
+                                accept=".jpeg,.jpg, .png"
                                 onChange={handleFileChange}
                                 style={{ display: 'none' }}
                             />

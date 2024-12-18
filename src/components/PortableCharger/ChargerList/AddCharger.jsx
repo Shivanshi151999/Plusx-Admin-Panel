@@ -48,7 +48,7 @@ const AddPortableCharger = () => {
     const validateForm = () => {
         const fields = [
             { name: "chargerName", value: chargerName, errorMessage: "Charger Name is required.", isValid: val => val.trim() !== "" },
-            { name: "chargerPrice", value: chargerPrice, errorMessage: "Please enter a valid Charger Price.", isValid: val => val && !isNaN(val) && val > 0 },
+            { name: "chargerPrice", value: chargerPrice, errorMessage: "Please enter a valid Charger Price.", isValid: val => val && !isNaN(val) && val >= 0 },
             { name: "chargerType", value: chargerType, errorMessage: "Charger Type is required.", isValid: val => val.trim() !== "" },
             { name: "chargerFeature", value: chargerFeature, errorMessage: "Charger Feature is required.", isValid: val => val.trim() !== "" },
             { name: "file", value: file, errorMessage: "Image is required.", isValid: val => !!val }
@@ -99,7 +99,7 @@ const AddPortableCharger = () => {
             })
 
         } else {
-            console.log("Form validation failed.");
+            console.log("Form validation failed.", errors);
             setLoading(false);
         }
     };
@@ -187,7 +187,7 @@ const AddPortableCharger = () => {
                             <input
                                 type="file"
                                 id="fileUpload"
-                                 accept=".jpeg,.jpg"
+                                 accept=".jpeg,.jpg, .png"
                                 onChange={handleFileChange}
                                 style={{ display: 'none' }}
                             />
