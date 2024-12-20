@@ -3,7 +3,7 @@ import List from '../../SharedComponent/List/List';
 import styles from './chargerbooking.module.css'
 import SubHeader from '../../SharedComponent/SubHeader/SubHeader';
 import Pagination from '../../SharedComponent/Pagination/Pagination';
-import { postRequestWithToken } from '../../../api/Requests';
+import { postRequestWithToken, postRequest } from '../../../api/Requests';
 import moment from 'moment'; 
 import AddDriver from '../../../assets/images/AddDriver.svg';
 import Cancel from '../../../assets/images/Cancel.svg';
@@ -15,6 +15,8 @@ import { useNavigate } from 'react-router-dom';
 import Custommodal from '../../SharedComponent/CustomModal/CustomModal.jsx';
 import Loader from "../../SharedComponent/Loader/Loader";
 import EmptyList from '../../SharedComponent/EmptyList/EmptyList.jsx';
+import { utils, writeFile } from 'xlsx';
+import axios from 'axios';
 
 const statusMapping = {
     'CNF': 'Booking Confirmed',
@@ -71,6 +73,7 @@ const ChargerBookingList = () => {
     const [showPopup, setShowPopup]                   = useState(false);
     const [reason, setReason]                         = useState("");
     const [loading, setLoading]                       = useState(false);
+    const [downloadClicked, setDownloadClicked]       = useState(false)
 
   const handleCancelClick = (bookingId, riderId) => {
     setSelectedBookingId(bookingId);
@@ -218,6 +221,78 @@ const ChargerBookingList = () => {
             }
         })
     }
+
+    const exportToExcel = () => {
+        // Prepare data for Excel
+        const dataToExport = chargerBookingList.map(item => ({
+            "Date & Time": moment(item.created_at).format('DD MMM YYYY'),
+            "Booking ID": item.booking_id,
+            "Customer Name": item.user_name,
+            "Service Name": item.service_name,
+            "Price": item.service_price ? `AED ${item.service_price}` : '',
+            "Status": statusMapping[item.status] || item.status,
+        }));
+
+        // Create a worksheet
+        const worksheet = utils.json_to_sheet(dataToExport);
+
+        // Create a workbook
+        const workbook = utils.book_new();
+        utils.book_append_sheet(workbook, worksheet, "Charger Booking List");
+
+        // Download the Excel file
+        writeFile(workbook, `Charger_Booking_List_${new Date().toISOString()}.xlsx`);
+    };
+
+    // if(downloadClicked) {
+    //     const obj = {
+    //         start_date: filters.start_date,
+    //         end_date: filters.end_date,
+    //         status: filters.status,
+    //         search_text: filters.search_text,
+    //     }
+    //     const response  = await axios.post(URL, requestData);
+    //     console.log(';objobj',obj);
+        
+    // }
+
+    const handleDownloadClick = async() => {
+        const { start_date, end_date, status, search_text } = filters;
+
+        // Construct the base URL
+        let url = `http://192.168.1.94:3000/admin/pod-booking-list-download`;
+    
+        // Append query parameters only if they are not null or undefined
+        const params = new URLSearchParams();
+        if (start_date) params.append('start_date', start_date);
+        if (end_date) params.append('end_date', end_date);
+        if (status) params.append('status', status);
+        if (search_text) params.append('search_text', search_text);
+    
+        // If any query parameters were added, append them to the URL
+        if (params.toString()) {
+            url += `?${params.toString()}`;
+        }
+    
+        console.error('URL:', url); 
+        try {
+            const response = await axios.get(url,  { responseType: 'blob' });
+    
+
+            const blob = new Blob([response.data], {
+                type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+              });
+        
+              const link = document.createElement('a');
+              link.href = window.URL.createObjectURL(blob);
+              link.download = 'pod_booking_list.xlsx';
+              link.click(); 
+        } catch (error) {
+            console.error('Error downloading file:', error);
+        }
+        
+        
+    }
     return (
         <div className='main-container'>
             <SubHeader
@@ -227,8 +302,13 @@ const ChargerBookingList = () => {
                 filterValues={filters}
                 searchTerm = {searchTerm}
                 count = {totalCount}
+                setDownloadClicked = {setDownloadClicked}
+                handleDownloadClick = {handleDownloadClick}
             />
             <ToastContainer />
+            {/* <button className="export-button" onClick={exportToExcel}>
+                Download Excel
+            </button> */}
 
             {loading ? <Loader /> :
                 chargerBookingList.length === 0 ? (

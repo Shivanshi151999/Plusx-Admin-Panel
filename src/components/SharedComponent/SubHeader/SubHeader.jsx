@@ -3,6 +3,7 @@ import styles from './subheader.module.css';
 import Plus from '../../../assets/images/Plus.svg';
 import Filter from '../../../assets/images/Filter.svg';
 import Search from '../../../assets/images/Search.svg';
+import Download from '../../../assets/images/Download.svg'
 import SearchAccordion from '../Accordion/SearchAccodion';
 import AccordionFilter from '../Accordion/Accordions';
 import { Link } from 'react-router-dom';
@@ -15,7 +16,7 @@ import { postRequestWithToken } from '../../../api/Requests';
 
 const SubHeader = ({ heading, fetchFilteredData, dynamicFilters, filterValues, 
                      addButtonProps, searchTerm, count, modalTitle, setRefresh,apiEndPoint, 
-                     nameKey }) => {
+                     nameKey, setDownloadClicked, handleDownloadClick }) => {
 
     const userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
 
@@ -107,6 +108,14 @@ const SubHeader = ({ heading, fetchFilteredData, dynamicFilters, filterValues,
 
     const showHeading = headingArray.includes(heading);
 
+    // const handleDownloadClick = () => {
+    //     setDownloadClicked(true)
+    //     console.log('filyerValues', filterValues);
+    //     console.log('dynamicFilters', dynamicFilters);
+    //     console.log('fetchFilteredData', fetchFilteredData);
+        
+    // }
+
     return (
         <div className={styles.subHeaderContainer}>
             <div className={styles.headerCharger}>
@@ -161,6 +170,17 @@ const SubHeader = ({ heading, fetchFilteredData, dynamicFilters, filterValues,
                             <div className={styles.addButtonText}>Filter</div>
                         </div>
                     )}
+                    {
+                        heading === 'Portable Charger Booking List' && (
+                            <div className={styles.addButtonSection} onClick={handleDownloadClick}>
+                            <div className={styles.addButtonImg}>
+                                <img src={Download} alt='Filter' />
+                            </div>
+                            <div className={styles.addButtonText} >Download</div>
+                        </div>
+                        )
+                    }
+                    
                 </div>
             </div>
 
@@ -209,3 +229,4 @@ const SubHeader = ({ heading, fetchFilteredData, dynamicFilters, filterValues,
 };
 
 export default SubHeader;
+
