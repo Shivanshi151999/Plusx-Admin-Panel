@@ -69,7 +69,7 @@ const BookingLeftDetails = ({ titles, content, sectionTitles2, sectionContent2, 
                     </div>
                 )}
 
-{shouldRenderSixthSection && (
+                {shouldRenderSixthSection && (
                     <div className={`row ${styles.customRow}`}>
                         {Object.keys(sectionContent6 || {}).length > 0 ? (
                             Object.keys(sectionContent6).map((key) => (
