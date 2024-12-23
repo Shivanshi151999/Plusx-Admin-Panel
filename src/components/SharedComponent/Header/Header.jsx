@@ -181,7 +181,7 @@ const Header = () => {
               <div
                 className={`${styles.profileDropdownOption} ${isActive ? styles.profileDropdownOptionSelected : ''}`}
               >
-                <RiLogoutCircleLine className={`${styles.ImgContainer} ${isActive ? styles.activeImgBorder : ''}`} />
+                <CgProfile className={`${styles.ImgContainer} ${isActive ? styles.activeImgBorder : ''}`}/>
                 <p>Profile</p>
               </div>
             </Link>
@@ -189,7 +189,7 @@ const Header = () => {
               className={`${styles.profileDropdownsOption}`}
               onClick={handleLogout}
             >
-              <CgProfile className={styles.ImgContainer} />
+              <RiLogoutCircleLine className={styles.ImgContainer} />
               <p>Logout</p>
             </div>
           </div>
