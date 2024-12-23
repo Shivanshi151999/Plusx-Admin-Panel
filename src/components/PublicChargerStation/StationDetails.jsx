@@ -110,27 +110,27 @@ const StationDetails = () => {
     fetchDetails();
   }, []);
 
-  const handleRemoveGalleryImage = (galleryId) => {
-    const confirmDelete = window.confirm("Do you want to delete this item?");
-    if (confirmDelete) {
-        const obj = { 
-            userId     : userDetails?.user_id,
-            email      : userDetails?.email,
-            gallery_id : galleryId 
-        };
-        postRequestWithToken('chargers-gallery-del', obj, async (response) => {
-            if (response.code === 200) {
-                toast(response.message, { type: "success" });
+    const handleRemoveGalleryImage = (galleryId) => {
+        const confirmDelete = window.confirm("Do you want to delete this item?");
+        if (confirmDelete) {
+            const obj = { 
+                userId     : userDetails?.user_id,
+                email      : userDetails?.email,
+                gallery_id : galleryId 
+            };
+            postRequestWithToken('chargers-gallery-del', obj, async (response) => {
+                if (response.code === 200) {
+                    toast(response.message, { type: "success" });
 
-                setTimeout(() => {
-                  fetchDetails();
-                }, 1000);
-            } else {
-                toast(response.message, { type: 'error' });
-            }
-        });
-    }
-};
+                    setTimeout(() => {
+                    fetchDetails();
+                    }, 1000);
+                } else {
+                    toast(response.message, { type: 'error' });
+                }
+            });
+        }
+    };
 
   const headerTitles = {
     bookingIdTitle      : "Service ID",
