@@ -173,7 +173,7 @@ const Header = () => {
         onClick={toggleProfile}
         ref={profileRef}
       >
-        <img src={userImage} className={styles.profileImage} />
+        <img src={userImage} className={styles.profileImage} alt='img'/>
         {/* Profile Dialog Section */}
         {isProfileOpen && (
           <div className={styles.profileDropdown}>
@@ -181,7 +181,7 @@ const Header = () => {
               <div
                 className={`${styles.profileDropdownOption} ${isActive ? styles.profileDropdownOptionSelected : ''}`}
               >
-                <RiLogoutCircleLine className={`${styles.ImgContainer} ${isActive ? styles.activeImgBorder : ''}`} />
+                <CgProfile className={`${styles.ImgContainer} ${isActive ? styles.activeImgBorder : ''}`} />
                 <p>Profile</p>
               </div>
             </Link>
@@ -189,7 +189,7 @@ const Header = () => {
               className={`${styles.profileDropdownsOption}`}
               onClick={handleLogout}
             >
-              <CgProfile className={styles.ImgContainer} />
+              <RiLogoutCircleLine className={styles.ImgContainer} />
               <p>Logout</p>
             </div>
           </div>
