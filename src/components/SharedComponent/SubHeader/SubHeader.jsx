@@ -82,7 +82,7 @@ const SubHeader = ({ heading, fetchFilteredData, dynamicFilters, filterValues,
                                       ]
     const shouldShowFilterButton = !shouldShowFilterButtonArr.includes(heading)
 
-    const shouldShowSearchButtonArr = [ "Ev Road Assistance Invoice List" , "Pick & Drop Invoice List", "Portable Charger Invoice List", "Notification List",
+    const shouldShowSearchButtonArr = [ "Ev Road Assistance Invoice List" , "Pick & Drop Invoice List", "Notification List",
                                         "Ev Buy Sell List", "Offer List", "Pick & Drop Time Slot List","Portable Charger Slot List" ,"Time Slot List" 
                                       ]
     const shouldShowSearchButton = !shouldShowSearchButtonArr.includes(heading)
