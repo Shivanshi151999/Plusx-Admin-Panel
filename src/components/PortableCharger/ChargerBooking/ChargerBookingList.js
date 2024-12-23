@@ -263,6 +263,7 @@ const ChargerBookingList = () => {
         // let url = `http://192.168.1.94:3000/admin/pod-booking-list-download`;
         let url = process.env.REACT_APP_SERVER_URL;
     
+        
         // Append query parameters only if they are not null or undefined
         const params = new URLSearchParams();
         if (start_date) params.append('start_date', start_date);
