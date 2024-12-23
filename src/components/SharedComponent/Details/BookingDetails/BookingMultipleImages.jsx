@@ -154,10 +154,10 @@ const BookingMultipleImages = ({ titles, content, type, onRemoveImage }) => {
                 <span className={styles.multipleinfoHeading}>{titles.typeImages}</span>
                 <div className={styles.multiplegalleryImages}>
                   {/* <img
-          src="" 
-          alt="no image"
-         className={styles.gallerymultipleImage}
-        /> */}
+                    src="" 
+                    alt="no image"
+                  className={styles.gallerymultipleImage}
+                  /> */}
                   {/* <p>Image not available</p> */}
                 </div>
               </div>
