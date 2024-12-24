@@ -225,46 +225,13 @@ const ChargerBookingList = () => {
         })
     }
 
-    const exportToExcel = () => {
-        // Prepare data for Excel
-        const dataToExport = chargerBookingList.map(item => ({
-            "Date & Time": moment(item.created_at).format('DD MMM YYYY'),
-            "Booking ID": item.booking_id,
-            "Customer Name": item.user_name,
-            "Service Name": item.service_name,
-            "Price": item.service_price ? `AED ${item.service_price}` : '',
-            "Status": statusMapping[item.status] || item.status,
-        }));
-
-        // Create a worksheet
-        const worksheet = utils.json_to_sheet(dataToExport);
-
-        // Create a workbook
-        const workbook = utils.book_new();
-        utils.book_append_sheet(workbook, worksheet, "Charger Booking List");
-
-        // Download the Excel file
-        writeFile(workbook, `Charger_Booking_List_${new Date().toISOString()}.xlsx`);
-    };
-
-    // if(downloadClicked) {
-    //     const obj = {
-    //         start_date: filters.start_date,
-    //         end_date: filters.end_date,
-    //         status: filters.status,
-    //         search_text: filters.search_text,
-    //     }
-    //     const response  = await axios.post(URL, requestData);
-    //     console.log(';objobj',obj);
-        
-    // }
 
     const handleDownloadClick = async() => {
         const { start_date, end_date, status, search_text } = filters;
+        
 
-        // Construct the base URL
-        // let url = `http://192.168.1.94:3000/admin/pod-booking-list-download`;
-        let url = process.env.REACT_APP_SERVER_URL+'/admin/pod-booking-list-download';
+        // let url = `http://192.168.1.10:3000/admin/pod-booking-list-download`;
+        let url = process.env.REACT_APP_SERVER_URL+'admin/pod-booking-list-download';
     
         // Append query parameters only if they are not null or undefined
         const params = new URLSearchParams();
@@ -272,7 +239,8 @@ const ChargerBookingList = () => {
         if (end_date) params.append('end_date', end_date);
         if (status) params.append('status', status);
         if (search_text) params.append('search_text', search_text);
-        if (scheduleFilters) params.append('scheduleFilters', scheduleFilters);
+        if (scheduleFilters?.start_date) params.append('scheduled_start_date', scheduleFilters.start_date);
+        if (scheduleFilters?.end_date) params.append('scheduled_end_date', scheduleFilters.end_date);
     
         // If any query parameters were added, append them to the URL
         if (params.toString()) {
