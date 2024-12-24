@@ -26,7 +26,8 @@ const Invoice = ({ title, service, details }) => {
                     <div className={styles.invoiceHeading}>{title}</div>
                     <div className={styles.downloadButton} onClick={handleDownload}>
                         <img src={Download} alt="Download" />
-                        <span>Download</span></div>
+                        <span>Download</span>
+                    </div>
                 </div>
                 <div className={styles.container} id="invoiceToDownload">
                     <table className={styles.table} style={{ width: "100%" }}>
@@ -74,47 +75,72 @@ const Invoice = ({ title, service, details }) => {
                                 </td>
                             </tr>
                             <tr>
-                                <td colSpan="2">
-                                    <table style={{ width: '100%', borderSpacing: 0, marginTop:"16px" }}>
-                                        <thead>
-                                            <tr className={styles.serviceHeader}>
-                                                <th>Item Name</th>
-                                                <th>Units</th>
-                                                <th className={styles.amountRightAlign}>Amount</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr className={styles.serviceItem}>
-                                                <td>Dewa Chargers (KW consumed)</td>
-                                                <td>--</td>
-                                                <td className={styles.amountRightAlign}>Unit X 0.48</td>
-                                            </tr>
-                                            <tr className={styles.serviceItem}>
-                                                <td>{service}</td>
-                                                <td></td>
-                                                <td className={styles.amountRightAlign}>{details?.currency?.toUpperCase() || 'AED'} {details?.amount || 40}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </td>
+                                { title == 'Pick And Drop Invoice Details' && (
+                                    <td colSpan="2">
+                                        <table style={{ width: '100%', borderSpacing: 0, marginTop:"16px" }}>
+                                            <thead>
+                                                <tr className={styles.serviceHeader}>
+                                                    <th>Item Name</th>
+                                                    <th className={styles.amountRightAlign}>Amount</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr className={styles.serviceItem}>
+                                                    <td>{service}</td>
+                                                    <td className={styles.amountRightAlign}>{details?.currency?.toUpperCase() || 'AED'} {details?.price || 49}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                )}
+                                { title == 'Portable Charger Invoice Details' && (
+                                    <td colSpan="2">
+                                        <table style={{ width: '100%', borderSpacing: 0, marginTop:"16px" }}>
+                                            <thead>
+                                                <tr className={styles.serviceHeader}>
+                                                    <th>Item Name</th>
+                                                    <th>Unit Price</th>
+                                                    <th>Unit (KW Consumed)</th>
+                                                    <th className={styles.amountRightAlign}>Amount</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr className={styles.serviceItem}>
+                                                    <td>Dewa Charge</td>
+                                                    <td>0.44</td>
+                                                    <td>{details?.kw}</td>
+                                                    <td className={styles.amountRightAlign}>{details?.kw_dewa_amt}</td>
+                                                </tr>
+                                                <tr className={styles.serviceItem}>
+                                                    <td>CPO Charge</td>
+                                                    <td>0.26</td>
+                                                    <td>{details?.kw}</td>
+                                                    <td className={styles.amountRightAlign}>{details?.kw_cpo_amt}</td>
+                                                </tr>
+                                                <tr className={styles.serviceItem}>
+                                                    <td>Delivery Charge</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td className={styles.amountRightAlign}>{details?.delv_charge}</td>
+                                                </tr>
+                                                <tr className={styles.serviceItem}>
+                                                    <td>VAT 5%</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td className={styles.amountRightAlign}>{details?.t_vat_amt}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                )}
                             </tr>
-                            {/* <tr className={styles.serviceItem}>
-                                <td style={{ width: '60%', textAlign: 'left' }}>
-                                    <p className={styles.totalAmountLabel}>VAT:</p>
-                                </td>
-                                <td className={styles.amountRightAlign}>
-                                    <p className={styles.totalAmountValue}>
-                                        AED 0.00
-                                    </p>
-                                </td>
-                            </tr> */}
                             <tr className={styles.serviceItem}>
                                 <td style={{ width: '60%', textAlign: 'left' }}>
                                     <p className={styles.totalAmountLabel}>Total Amount:</p>
                                 </td>
                                 <td className={styles.amountRightAlign}>
                                     <p className={styles.totalAmountValue}>
-                                        {details?.currency?.toUpperCase() || 'AED'} {details?.amount || 40}
+                                        {details?.currency?.toUpperCase() || 'AED'} {details?.price || 0}
                                     </p>
                                 </td>
                             </tr>
