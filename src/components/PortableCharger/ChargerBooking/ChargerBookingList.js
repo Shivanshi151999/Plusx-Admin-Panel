@@ -66,6 +66,7 @@ const ChargerBookingList = () => {
     const [totalPages, setTotalPages]                 = useState(1);
     const [totalCount, setTotalCount]                 = useState(1);
     const [filters, setFilters]                       = useState({start_date: null,end_date: null});
+    const [scheduleFilters, setScheduleFilters]       = useState({start_date: null,end_date: null});
     const [isModalOpen, setIsModalOpen]               = useState(false);
     const [selectedBookingId, setSelectedBookingId]   = useState(null);
     const [selectedDriverId, setSelectedDriverId]     = useState(null);
@@ -125,20 +126,19 @@ const ChargerBookingList = () => {
 
   const handleBookingDetails = (id) => navigate(`/portable-charger/charger-booking-details/${id}`)
 
-    const fetchList = (page, appliedFilters = {}) => {
+    const fetchList = (page, appliedFilters = {}, scheduleFilters = {}) => {
         if (page === 1 && Object.keys(appliedFilters).length === 0) {
             setLoading(false);
         } else {
             setLoading(true);
         } 
-
         const obj = {
             userId  : userDetails?.user_id,
             email   : userDetails?.email,
             page_no : page,
             ...appliedFilters,
+            scheduleFilters,
         };
-
         postRequestWithToken('charger-booking-list', obj, async (response) => {
             if (response.code === 200) {
                 setChargerBookingList(response?.data);
@@ -171,8 +171,8 @@ const ChargerBookingList = () => {
             navigate('/login');
             return;
         }
-        fetchList(currentPage, filters);
-    }, [currentPage, filters]);
+        fetchList(currentPage, filters, scheduleFilters);
+    }, [currentPage, filters, scheduleFilters]);
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -182,7 +182,10 @@ const ChargerBookingList = () => {
         setFilters(newFilters);
         setCurrentPage(1);
     };
-
+    const scheduleFilteredData = (newFilters = {}) => {
+        setScheduleFilters(newFilters);
+        setCurrentPage(1);
+    };
     const openModal = (bookingId) => {
         setSelectedBookingId(bookingId);
         setIsModalOpen(true);
@@ -212,7 +215,7 @@ const ChargerBookingList = () => {
                 setIsModalOpen(false);
                 toast(response.message || response.message[0], {type:'success'})
                 setTimeout(() => {
-                    fetchList(currentPage, filters);
+                    fetchList(currentPage, filters, scheduleFilters);
                 }, 1000);
             } else {
                 toast(response.message || response.message[0], {type:'error'})
@@ -261,51 +264,48 @@ const ChargerBookingList = () => {
 
         // Construct the base URL
         // let url = `http://192.168.1.94:3000/admin/pod-booking-list-download`;
-        let url = process.env.REACT_APP_SERVER_URL;
+        let url = process.env.REACT_APP_SERVER_URL+'/admin/pod-booking-list-download';
     
-        
         // Append query parameters only if they are not null or undefined
         const params = new URLSearchParams();
         if (start_date) params.append('start_date', start_date);
         if (end_date) params.append('end_date', end_date);
         if (status) params.append('status', status);
         if (search_text) params.append('search_text', search_text);
+        if (scheduleFilters) params.append('scheduleFilters', scheduleFilters);
     
         // If any query parameters were added, append them to the URL
         if (params.toString()) {
             url += `?${params.toString()}`;
         }
-    
-        console.error('URL:', url); 
+
         try {
-            const response = await axios.get(url,  { responseType: 'blob' });
-    
+            const response = await axios.get(url, { responseType: 'blob' });
 
             const blob = new Blob([response.data], {
-                type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-              });
-        
-              const link = document.createElement('a');
-              link.href = window.URL.createObjectURL(blob);
-              link.download = 'pod_booking_list.xlsx';
-              link.click(); 
+                type : 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            });
+            const link    = document.createElement('a');
+            link.href     = window.URL.createObjectURL(blob);
+            link.download = 'pod_booking_list.xlsx';
+            link.click(); 
         } catch (error) {
             console.error('Error downloading file:', error);
-        }
-        
-        
+        }      
     }
     return (
         <div className='main-container'>
             <SubHeader
-                heading="Portable Charger Booking List"
-                fetchFilteredData={fetchFilteredData}
-                dynamicFilters={dynamicFilters}
-                filterValues={filters}
-                searchTerm = {searchTerm}
-                count = {totalCount}
-                setDownloadClicked = {setDownloadClicked}
-                handleDownloadClick = {handleDownloadClick}
+                heading             = "Portable Charger Booking List"
+                fetchFilteredData   = {fetchFilteredData}
+                dynamicFilters      = {dynamicFilters}
+                filterValues        = {filters}
+                searchTerm          = {searchTerm}
+                count               = {totalCount}
+                setDownloadClicked  = {setDownloadClicked}
+                handleDownloadClick = {handleDownloadClick}  
+                scheduleDateChange  = { scheduleFilteredData   }
+                scheduleFilters     = {scheduleFilters}
             />
             <ToastContainer />
             {/* <button className="export-button" onClick={exportToExcel}>

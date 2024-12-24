@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Calendar from "../Calendar/Calendar";
 import { format } from 'date-fns';
 
-const AccordionFilter = ({ type, isOpen, fetchFilteredData, dynamicFilters, filterValues }) => {
+const AccordionFilter = ({ type, isOpen, fetchFilteredData, dynamicFilters, filterValues, scheduleDateChange, scheduleFilters }) => {
     const [showContent, setShowContent] = useState(isOpen);
     const [openDropdowns, setOpenDropdowns] = useState({}); // Separate state for each dropdown
 
@@ -30,7 +30,6 @@ const AccordionFilter = ({ type, isOpen, fetchFilteredData, dynamicFilters, filt
     };
 
     const handleDateChange = (range) => {
-        console.log('range',range);
         fetchFilteredData({
             ...filterValues,
             start_date: null,
@@ -45,17 +44,38 @@ const AccordionFilter = ({ type, isOpen, fetchFilteredData, dynamicFilters, filt
             return;
         }
 
-        const [start, end] = range;
+        const [start, end]   = range;
         const formattedStart = format(start, 'yyyy-MM-dd');
-        const formattedEnd = format(end, 'yyyy-MM-dd');
+        const formattedEnd   = format(end, 'yyyy-MM-dd');
         fetchFilteredData({
             ...filterValues,
             start_date: formattedStart,
             end_date: formattedEnd
         });
     };
-
-    
+    const handleScheduleDateChange = (range) => {
+        scheduleDateChange({
+            ...scheduleFilters,
+            start_date : null,
+            end_date   : null,
+        });
+        if (!range || range.length < 2) {
+            scheduleDateChange({
+                ...scheduleFilters,
+                start_date : null,
+                end_date   : null
+            });
+            return;
+        }
+        const [start, end]   = range;
+        const formattedStart = format(start, 'yyyy-MM-dd');
+        const formattedEnd   = format(end, 'yyyy-MM-dd');
+        scheduleDateChange({
+            ...scheduleFilters,
+            start_date: formattedStart,
+            end_date: formattedEnd
+        });
+    };
     const toggleDropdown = (name) => {
         setOpenDropdowns((prev) => ({ ...prev, [name]: !prev[name] }));
     };
@@ -75,8 +95,14 @@ const AccordionFilter = ({ type, isOpen, fetchFilteredData, dynamicFilters, filt
                                 >
                                     <Card.Body>
                                         <form className={styles.filterForm}>
+                                            {type == 'Portable Charger Booking List' && (
+                                                <div className={`col-xl-4 col-lg-6 col-12 ${styles.filterItem}`}>
+                                                    <label className={styles.filterLabel} htmlFor="date_filter">Schedule Date</label>
+                                                    <Calendar handleDateChange={handleScheduleDateChange}/>
+                                                </div> 
+                                            )}
                                             <div className={`col-xl-4 col-lg-6 col-12 ${styles.filterItem}`}>
-                                                <label className={styles.filterLabel} htmlFor="date_filter">Select Date</label>
+                                                <label className={styles.filterLabel} htmlFor="date_filter">Booking Date</label>
                                                 <Calendar handleDateChange={handleDateChange}/>
                                             </div>
                                             {dynamicFilters?.map((filter) => (

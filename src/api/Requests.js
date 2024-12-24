@@ -114,3 +114,22 @@ export const postRequestWithTokenAndFile = async (URL, requestData, callback) =>
 export const checkAuth = async () => {
 }
 
+export const getAddressFromLatLong = (latitude, longitude, callback) => {
+    
+    const apiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY; // Replace with your Google Maps API Key
+    
+    const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${apiKey}`;
+    try {
+        const response = axios.get(url);
+        const results  = response.data.results;
+        
+        if (results.length > 0) {
+            callback( results[0].formatted_address ); // Get the first result's address
+        } else {
+            callback(  "No address found");
+        }
+    } catch (error) {
+        console.log(error)
+        callback(  "No address found");
+    }
+};
