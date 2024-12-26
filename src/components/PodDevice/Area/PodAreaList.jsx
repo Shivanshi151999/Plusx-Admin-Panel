@@ -11,6 +11,8 @@ import AddDriver from '../../../assets/images/AddDriver.svg';
 import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
 import EmptyList from '../../SharedComponent/EmptyList/EmptyList';
+import Loader from "../../SharedComponent/Loader/Loader";
+
 const searchTerm = [
     {
         label: 'search', 
@@ -25,9 +27,16 @@ const PodAreaList = () => {
     const [areaList, setAreaList]       = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages]   = useState(1);
-    const [filters, setFilters]         = useState({});
+    const [filters, setFilters]         = useState({start_date: null,end_date: null}); 
+    const [loading, setLoading]         = useState(false);
 
     const fetchList = (page, appliedFilters = {}) => {
+        if (page === 1 && Object.keys(appliedFilters).length === 0) {
+            setLoading(false);
+        } else {
+            setLoading(true);
+        }
+
         const obj = {
             userId  : userDetails?.user_id,
             email   : userDetails?.email,
@@ -41,6 +50,7 @@ const PodAreaList = () => {
             } else {
                 console.log('error in charger-booking-list api', response);
             }
+            setLoading(false);
         });
     };
 
@@ -72,12 +82,14 @@ const PodAreaList = () => {
                 filterValues={filters}
                 searchTerm = {searchTerm}
             />
-            {areaList.length === 0 ? (
-                <EmptyList
-                    tableHeaders={["Area ID", "Area Name", "Created Date", "Status", "Action"]}
-                    message="No data available"
-                />
-            ) : (
+
+            {loading ? <Loader /> :
+                areaList.length === 0 ? (
+                    <EmptyList
+                        tableHeaders={["Area ID", "Area Name", "Created Date", "Status", "Action"]}
+                        message="No data available"
+                    />
+                ) : (
                 <>
                     <List
                         tableHeaders={[ "Area ID", "Area Name", "Created Date", "Status", "Action"]}

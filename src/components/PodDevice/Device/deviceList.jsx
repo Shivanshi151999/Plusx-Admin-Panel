@@ -10,6 +10,7 @@ import moment from "moment-timezone";
 // import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 import EmptyList from '../../SharedComponent/EmptyList/EmptyList';
+import Loader from "../../SharedComponent/Loader/Loader";
 
     const statusMapping = {
         '0' : 'Under Maintenance',
@@ -28,12 +29,18 @@ const PodDeviceList = () => {
     const userDetails                                 = JSON.parse(sessionStorage.getItem('userDetails'));
     const navigate                                    = useNavigate();
     const [chargerBookingList, setChargerBookingList] = useState([]);
-    
     const [currentPage, setCurrentPage]               = useState(1);
     const [totalPages, setTotalPages]                 = useState(1);
-    const [filters, setFilters]                       = useState({}); 
+    const [filters, setFilters]                       = useState({start_date: null,end_date: null}); 
+    const [loading, setLoading]                       = useState(false);
 
     const fetchList = (page, appliedFilters = {}) => {
+        if (page === 1 && Object.keys(appliedFilters).length === 0) {
+            setLoading(false);
+        } else {
+            setLoading(true);
+        }
+
         const obj = {
             userId  : userDetails?.user_id,
             email   : userDetails?.email,
@@ -48,6 +55,7 @@ const PodDeviceList = () => {
             } else {
                 console.log('error in charger-booking-list api', response);
             }
+            setLoading(false);
         });
     };
 
@@ -82,32 +90,34 @@ const PodDeviceList = () => {
                 searchTerm = {searchTerm}
                 fetchFilteredData  = {fetchFilteredData} 
             />
-            {chargerBookingList.length === 0 ? (
-                <EmptyList
-                    tableHeaders={["POD ID", "POD Name", "Model Name", "Battery","Charger", "Regs Date & Time","Status", "Action"]}
-                    message="No data available"
-                />
-            ) : (
-                <>
-                    <List
-                        tableHeaders={[ "POD ID", "POD Name", "Model Name", "Battery","Charger", "Regs Date & Time","Status", "Action"]}  //  "Inverter", 
-                        listData={chargerBookingList}
-                        keyMapping={[
-                            { key : 'pod_id', label: 'POD ID' },
-                            { key : 'pod_name', label: 'POD Name' },
-                            
-                            { key : 'design_model', label: 'Model Name' },
-                            { key : 'avgBattery', label: 'Battery', format : (data) => setdecimal(data) },
-                            // { key : 'inverter', label: 'Inverter' },
-                            { key : 'charger', label: 'Charger' },
-                            { key : 'created_at', label: 'Regs Date & Time', format : (date) => moment(date).tz('Asia/Dubai').format('DD-MM-YYYY HH:mm A') },
-                            { key : 'status', label: 'Status', format: (status) => statusMapping[status] || status },
-                        ]}
-                        pageHeading="POD Device List"
+
+            {loading ? <Loader /> :
+                chargerBookingList.length === 0 ? (
+                    <EmptyList
+                        tableHeaders={["POD ID", "POD Name", "Model Name", "Battery","Charger", "Regs Date & Time","Status", "Action"]}
+                        message="No data available"
                     />
-                
-                    <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
-                </>
+                ) : (
+                    <>
+                        <List
+                            tableHeaders={[ "POD ID", "POD Name", "Model Name", "Battery","Charger", "Regs Date & Time","Status", "Action"]}  //  "Inverter", 
+                            listData={chargerBookingList}
+                            keyMapping={[
+                                { key : 'pod_id', label: 'POD ID' },
+                                { key : 'pod_name', label: 'POD Name' },
+                                
+                                { key : 'design_model', label: 'Model Name' },
+                                { key : 'avgBattery', label: 'Battery', format : (data) => setdecimal(data) },
+                                // { key : 'inverter', label: 'Inverter' },
+                                { key : 'charger', label: 'Charger' },
+                                { key : 'created_at', label: 'Regs Date & Time', format : (date) => moment(date).tz('Asia/Dubai').format('DD-MM-YYYY HH:mm A') },
+                                { key : 'status', label: 'Status', format: (status) => statusMapping[status] || status },
+                            ]}
+                            pageHeading="POD Device List"
+                        />
+                    
+                        <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
+                    </>
             )}
         </div>
     );
