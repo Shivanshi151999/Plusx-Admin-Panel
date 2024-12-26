@@ -53,7 +53,7 @@ const ChargerBookingDetails = () => {
             return;
         }
         fetchDetails();
-    }, []);
+    }, [bookingId]);
 
     const headerTitles = {
         bookingIdTitle       : "Booking ID",

@@ -110,7 +110,11 @@ const Header = () => {
         break;
       
       case "Portable Charger Booking":
-        navigate(`/portable-charger/charger-booking-details//${extractedId}`);
+        navigate(`/portable-charger/charger-booking-details/${extractedId}`);
+        break;   
+
+      case "Portable Charging":
+        navigate(`/portable-charger/charger-booking-details/${extractedId}`);
         break;   
 
       case "Notifications":
@@ -130,7 +134,13 @@ const Header = () => {
         onClick={toggleNotification}
         ref={notificationRef} // Attach ref to notification container
       >
-        <img src={Notification} alt="Notification" />
+        <div className="position-relative">
+          <img src={Notification} alt="Notification" /> 
+          <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+            {notifications.length}
+          </span>
+        </div>
+         
         {isNotificationOpen && (
           <div className={styles.notificationDropdown}>
             <div className={styles.notificationSection}>

@@ -90,7 +90,6 @@ const EvPreSaleBookingList = () => {
         postRequestWithToken('rsa-list', obj, async(response) => {
             if (response.code === 200) {
                 setRsaList(response?.data)
-                setTotalPages(response?.total_page || 1); 
             } else {
                 // toast(response.message, {type:'error'})
                 console.log('error in public-charger-station-list api', response);
