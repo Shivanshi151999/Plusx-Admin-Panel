@@ -160,11 +160,13 @@ const DeatilsBookingHistory = ({ title, headers, bookingData, bookingType, charg
       </table>
 
       {/* Pagination */}
-      <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={handlePageChange}
-      />
+      {currentItems.length > 0 && 
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
+      }
 
       {/* Custom Modal for Driver Selection */}
       <Custommodal

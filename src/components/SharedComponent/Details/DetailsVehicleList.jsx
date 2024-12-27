@@ -56,16 +56,19 @@ const DetailsVehicleList = ({ vehicleList }) => {
                      ))
                     ) : (
                         <tr>
-                            <td colSpan="6" className={styles.noData}>No Data Available</td>
+                            <td colSpan="12" className={styles.noData}>No Data Available</td>
                         </tr>
                     )}
                 </tbody>
             </table>
-            <Pagination 
+
+            {currentItems.length > 0 && 
+                <Pagination 
                 currentPage={currentPage} 
                 totalPages={totalPages} 
                 onPageChange={handlePageChange} 
             />
+            }            
         </div>
     );
 };
