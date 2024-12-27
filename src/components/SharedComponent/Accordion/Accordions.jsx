@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Calendar from "../Calendar/Calendar";
 import { format } from 'date-fns';
 
-const AccordionFilter = ({ type, isOpen, fetchFilteredData, dynamicFilters, filterValues, scheduleDateChange, scheduleFilters, pageTitle }) => {
+const AccordionFilter = ({ type, isOpen, fetchFilteredData, dynamicFilters, filterValues, scheduleDateChange, scheduleFilters }) => {
     const [showContent, setShowContent] = useState(isOpen);
     const [openDropdowns, setOpenDropdowns] = useState({}); // Separate state for each dropdown
 
