@@ -228,12 +228,6 @@ const ChargerBookingList = () => {
 
     const handleDownloadClick = async() => {
         const { start_date, end_date, status, search_text } = filters;
-
-        // Construct the base URL
-        // let url = `http://192.168.1.94:3000/admin/pod-booking-list-download`;
-        // let url = process.env.REACT_APP_SERVER_URL;
-        // let route 
-    
         
 
         // let url = `http://192.168.1.10:3000/admin/pod-booking-list-download`;
