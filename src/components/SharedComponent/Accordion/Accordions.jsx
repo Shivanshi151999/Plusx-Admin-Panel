@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Calendar from "../Calendar/Calendar";
 import { format } from 'date-fns';
 
-const AccordionFilter = ({ type, isOpen, fetchFilteredData, dynamicFilters, filterValues, scheduleDateChange, scheduleFilters }) => {
+const AccordionFilter = ({ type, isOpen, fetchFilteredData, dynamicFilters, filterValues, scheduleDateChange, scheduleFilters, pageTitle }) => {
     const [showContent, setShowContent] = useState(isOpen);
     const [openDropdowns, setOpenDropdowns] = useState({}); // Separate state for each dropdown
 
@@ -102,7 +102,7 @@ const AccordionFilter = ({ type, isOpen, fetchFilteredData, dynamicFilters, filt
                                                 </div> 
                                             )}
                                             <div className={`col-xl-4 col-lg-6 col-12 ${styles.filterItem}`}>
-                                                <label className={styles.filterLabel} htmlFor="date_filter">Booking Date</label>
+                                                <label className={styles.filterLabel} htmlFor="date_filter">{type.includes('Booking') ? 'Booking Date' : 'Select  Date'}</label>
                                                 <Calendar handleDateChange={handleDateChange}/>
                                             </div>
                                             {dynamicFilters?.map((filter) => (
