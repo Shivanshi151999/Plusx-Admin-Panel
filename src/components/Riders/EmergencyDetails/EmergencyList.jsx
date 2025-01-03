@@ -5,6 +5,9 @@ import Eye from '../../../assets/images/ViewEye.svg'
 import moment from 'moment';
 import Pagination from '../../SharedComponent/Pagination/Pagination';
 import { postRequestWithToken } from '../../../api/Requests'; 
+import SubHeader from '../../SharedComponent/SubHeader/SubHeader'
+import Filter from '../../../assets/images/Filter.svg';
+import AccordionFilter from '../../SharedComponent/Accordion/Accordions';
 
     const pickDropStatusMapping = {
         'CNF': 'Booking Confirmed',
@@ -19,13 +22,14 @@ import { postRequestWithToken } from '../../../api/Requests';
     };
     const EmergencyList = ({rsaId, bookingType}) => {
         
-        const userDetails                           = JSON.parse(sessionStorage.getItem('userDetails')); 
-        const [history, setHistory]                 = useState([]);
-        const [currentPage, setCurrentPage]         = useState(1);
-        const [totalPages, setTotalPages]           = useState(1);
-        const [totalCount, setTotalCount]           = useState(1);
-        const [filters, setFilters]                 = useState({start_date: null,end_date: null});
-        const [scheduleFilters, setScheduleFilters] = useState({start_date: null,end_date: null});
+        const userDetails                                       = JSON.parse(sessionStorage.getItem('userDetails')); 
+        const [history, setHistory]                             = useState([]);
+        const [currentPage, setCurrentPage]                     = useState(1);
+        const [totalPages, setTotalPages]                       = useState(1);
+        const [totalCount, setTotalCount]                       = useState(1);
+        const [filters, setFilters]                             = useState({start_date: null,end_date: null});
+        const [scheduleFilters, setScheduleFilters]             = useState({start_date: null,end_date: null});
+        const [isFilterAccordionOpen, setIsFilterAccordionOpen] = useState(false);
 
         const driverBookingList = (page_no = 1) => {
             const bookingObj = {
@@ -65,9 +69,34 @@ import { postRequestWithToken } from '../../../api/Requests';
             setScheduleFilters(newFilters);
             setCurrentPage(1);
         };
+
+        const toggleFilterAccordion = () => {
+            setIsFilterAccordionOpen((prev)=> !prev);
+        };
         return (
             <div className={styles.addressListContainer}>
-                <span className={styles.sectionTitle}>Booking Details</span>
+                <div className={styles.headerCharger}>
+                    <span className={styles.sectionTitle}>Booking Details</span>
+                    <div className={styles.addButtonSection} onClick={toggleFilterAccordion}>
+                            <div className={styles.addButtonImg}>
+                                <img src={Filter} alt='Filter' />
+                            </div>
+                            <div className={styles.addButtonText}>Filter</div>
+                        </div>
+                </div>
+
+                {isFilterAccordionOpen && (
+                <AccordionFilter
+                    type={"heading"}
+                    isOpen={isFilterAccordionOpen}
+                    fetchFilteredData={fetchFilteredData}
+                    // dynamicFilters={dynamicFilters}
+                    // filterValues={filterValues}
+                    // scheduleDateChange={scheduleDateChange}
+                    // scheduleFilters={scheduleFilters}
+                />
+                )}
+                
                 <table className={`table ${styles.customTable}`}>
                     <thead>
                         <tr>
