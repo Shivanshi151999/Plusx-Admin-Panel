@@ -32,12 +32,15 @@ const BookingDetailsAccordion = ({history, rsa, imageUrl, fieldMapping, title })
         // showInvoice : item?.order_status === 'PU',
 
         showImage    : item?.order_status === 'PU' || item?.order_status === 'WC',
-        imageUrl     : rsa.imageUrl + ''+item?.image,
+        // imageUrl     : rsa.imageUrl + ''+item?.image,
+        imageUrls    : item?.order_status === 'PU' 
+                        ? (Array.isArray(item.images) ? item.images.map(img => rsa.imageUrl + img) : [rsa.imageUrl + item?.image]) 
+                        : [],
         order_status : item?.order_status,
         cancel_by    : item?.cancel_by == 'Admin' ?  'Admin' : rsa?.customerName,
         reason       : item?.reason,
     }));
-    console.log(sections)
+    
     const [activeKey, setActiveKey] = useState("0");
     const handleAccordionToggle = (key) => {
         setActiveKey(activeKey === key ? null : key);
@@ -68,10 +71,20 @@ const BookingDetailsAccordion = ({history, rsa, imageUrl, fieldMapping, title })
                                     <p>Reason : { section?.reason } <br /> </p> 
                                 </>
                             )}
-                            {section.showImage && (
+                            {/* {section.showImage && (
                                 <div>
                                     <p><strong>Image:</strong></p>
-                                    <img src={section?.imageUrl} alt="Img" style={{ maxWidth: '100%', height: 'auto' }} />
+                                    <img src={section?.imageUrl} alt="Img" style={{ maxWidth: '700px', height: '250px', margin: '5px' }} />
+                                </div>
+                            )} */}
+                            {section.showImage && section.imageUrls.length > 0 && (
+                                <div>
+                                    <p><strong>Images:</strong></p>
+                                    <div className={styles.imageContainer}>
+                                        {section.imageUrls.flatMap(url => Array(4).fill(url)).map((url, index) => (
+                                            <img key={index} src={url} alt={`Img${index}`} style={{ maxWidth: '700px', height: '250px', margin: '5px' }} />
+                                        ))}
+                                    </div>
                                 </div>
                             )}
                             {section.time && <p className={styles.accodionPTag}> {section.time}</p>}
