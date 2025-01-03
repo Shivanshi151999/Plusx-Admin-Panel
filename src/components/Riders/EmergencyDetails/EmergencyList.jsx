@@ -16,10 +16,34 @@ import AccordionFilter from '../../SharedComponent/Accordion/Accordions';
         'RL' : 'POD Reached at Location',
         'CS' : 'Charging Started',
         'CC' : 'Charging Completed',
-        'PU' : 'POD Picked Up',
-        // 'PU' : 'Completed',
-        'C'  : 'Cancelled'
+        'PU' : 'Completed',
+        'P'   : 'Open',
+        'VP'  : 'Vehicle Pickup',
+        'RS'  : 'Reached Charging Spot',
+        'WC'  : 'Work Completed',
+        'DO'  : 'Drop Off',
+        'C'   : "Cancelled",
+
     };
+    const dynamicFilters = [
+        {
+            label : 'Status', 
+            name  : 'status', 
+            type  : 'select', 
+            options : [
+                { value : '',    label : 'Select Status' },
+                { value : 'CNF', label : 'Booking Confirmed' },
+                { value : 'A',   label : 'Assigned' },
+                { value : 'ER',  label : 'Enroute' },
+                { value : 'RL',  label : 'POD Reached at Location' },
+                { value : 'CS',  label : 'Charging Started' },
+                { value : 'CC',  label : 'Charging Completed' },
+                { value : 'PU',  label : 'Completed' },
+                { value : 'C',   label : 'Cancelled' },
+            ]
+        },
+    ];
+
     const EmergencyList = ({rsaId, bookingType}) => {
         
         const userDetails                                       = JSON.parse(sessionStorage.getItem('userDetails')); 
@@ -38,13 +62,14 @@ import AccordionFilter from '../../SharedComponent/Accordion/Accordions';
                 rsa_id     : rsaId,
                 driverType : bookingType, 
                 page_no    : page_no,
-
+                ...filters,
+                scheduleFilters,
                 // rsa_id, bookingTypeValue, page_no, order_status, start_date, end_date, search_text = '', scheduleFilters 
     
             };  
             postRequestWithToken('rsa-booking-list', bookingObj, (response) => {
                 if (response.code === 200) {
-                    console.log(response.data)
+                
                     setHistory(response?.data || []);
                     setTotalPages(response?.total_page || 1);
                     // setTotalPages(response?.total_page || 1);
@@ -78,23 +103,23 @@ import AccordionFilter from '../../SharedComponent/Accordion/Accordions';
                 <div className={styles.headerCharger}>
                     <span className={styles.sectionTitle}>Booking Details</span>
                     <div className={styles.addButtonSection} onClick={toggleFilterAccordion}>
-                            <div className={styles.addButtonImg}>
-                                <img src={Filter} alt='Filter' />
-                            </div>
-                            <div className={styles.addButtonText}>Filter</div>
+                        <div className={styles.addButtonImg}>
+                            <img src={Filter} alt='Filter' />
                         </div>
+                        <div className={styles.addButtonText}>Filter</div>
+                    </div>
                 </div>
 
                 {isFilterAccordionOpen && (
-                <AccordionFilter
-                    type={"heading"}
-                    isOpen={isFilterAccordionOpen}
-                    fetchFilteredData={fetchFilteredData}
-                    // dynamicFilters={dynamicFilters}
-                    // filterValues={filterValues}
-                    // scheduleDateChange={scheduleDateChange}
-                    // scheduleFilters={scheduleFilters}
-                />
+                    <AccordionFilter
+                        type={"Driver Details"}
+                        isOpen={isFilterAccordionOpen}
+                        fetchFilteredData={fetchFilteredData}
+                        dynamicFilters={dynamicFilters}
+                        filterValues={filters}
+                        scheduleDateChange={scheduleFilteredData}
+                        scheduleFilters={scheduleFilters}
+                    />
                 )}
                 
                 <table className={`table ${styles.customTable}`}>
@@ -114,7 +139,7 @@ import AccordionFilter from '../../SharedComponent/Accordion/Accordions';
                             history?.map((item, index) => (
                                 <tr key={index}>
                                     <td>{moment(item?.created_at).format('DD MMM YYYY') }</td>
-                                    <td>{moment(item?.slot_date_time).format('DD MMM YYYY') }</td>
+                                    <td>{moment(item?.slot_date).format('DD MMM YYYY') }</td>
                                     <td>{item?.booking_id }</td>
                                     <td>{item?.user_name}</td>
                                     {/* <td>{item?.price ? `${item?.price} AED` : '' }</td> */}

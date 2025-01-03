@@ -95,11 +95,11 @@ const AccordionFilter = ({ type, isOpen, fetchFilteredData, dynamicFilters, filt
                                 >
                                     <Card.Body>
                                         <form className={styles.filterForm}>
-                                            {type == 'Portable Charger Booking List' && (
+                                            { (type == 'Portable Charger Booking List' || type == 'Driver Details') && (
                                                 <div className={`col-xl-4 col-lg-6 col-12 ${styles.filterItem}`}>
                                                     <label className={styles.filterLabel} htmlFor="date_filter">Schedule Date</label>
                                                     <Calendar handleDateChange={handleScheduleDateChange}/>
-                                                </div> 
+                                                </div>  
                                             )}
                                             <div className={`col-xl-4 col-lg-6 col-12 ${styles.filterItem}`}>
                                                 <label className={styles.filterLabel} htmlFor="date_filter">{type.includes('Booking') ? 'Booking Date' : 'Select  Date'}</label>

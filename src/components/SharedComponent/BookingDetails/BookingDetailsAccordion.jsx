@@ -6,7 +6,7 @@ import moment from 'moment';
 
 
 const BookingDetailsAccordion = ({history, rsa, imageUrl, fieldMapping, title }) => {
-
+    
     const statusTitles = {
         P   : 'Open',
         CNF : 'Booking Confirmed',
@@ -32,11 +32,12 @@ const BookingDetailsAccordion = ({history, rsa, imageUrl, fieldMapping, title })
         // showInvoice : item?.order_status === 'PU',
 
         showImage    : item?.order_status === 'PU' || item?.order_status === 'WC',
-        imageUrl     : imageUrl + ''+item?.image,
+        imageUrl     : rsa.imageUrl + ''+item?.image,
         order_status : item?.order_status,
         cancel_by    : item?.cancel_by == 'Admin' ?  'Admin' : rsa?.customerName,
         reason       : item?.reason,
     }));
+    console.log(sections)
     const [activeKey, setActiveKey] = useState("0");
     const handleAccordionToggle = (key) => {
         setActiveKey(activeKey === key ? null : key);
