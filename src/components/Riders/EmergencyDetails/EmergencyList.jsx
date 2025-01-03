@@ -136,7 +136,7 @@ import AccordionFilter from '../../SharedComponent/Accordion/Accordions';
                             ))
                         ) : (
                             <tr>
-                                <td colSpan="5" style={{ textAlign: 'start', padding: '10px' }}>
+                                <td colSpan="6" style={{ textAlign: 'start', padding: '10px' }}>
                                     No data available
                                 </td>
                             </tr>
