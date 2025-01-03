@@ -39,7 +39,6 @@ const ChargerBookingInvoiceList = () => {
             page_no : page,
             ...appliedFilters,
         }
-
         postRequestWithToken('charger-booking-invoice-list', obj, async(response) => {
             if (response.code === 200) {
                 setInvoiceList(response?.data)

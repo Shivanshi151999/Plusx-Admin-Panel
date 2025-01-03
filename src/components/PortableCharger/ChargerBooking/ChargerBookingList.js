@@ -18,17 +18,17 @@ import EmptyList from '../../SharedComponent/EmptyList/EmptyList.jsx';
 import { utils, writeFile } from 'xlsx';
 import axios from 'axios';
 
-const statusMapping = {
-    'CNF': 'Booking Confirmed',
-    'A'  : 'Assigned',
-    'ER' : 'Enroute',
-    'RL' : 'POD Reached at Location',
-    'CS' : 'Charging Started',
-    'CC' : 'Charging Completed',
-    // 'PU' : 'POD Picked Up',
-    'PU' : 'Completed',
-    'C'  : 'Cancelled'
-};
+    const statusMapping = {
+        'CNF': 'Booking Confirmed',
+        'A'  : 'Assigned',
+        'ER' : 'Enroute',
+        'RL' : 'POD Reached at Location',
+        'CS' : 'Charging Started',
+        'CC' : 'Charging Completed',
+        // 'PU' : 'POD Picked Up',
+        'PU' : 'Completed',
+        'C'  : 'Cancelled'
+    };
 
 const dynamicFilters = [
     {

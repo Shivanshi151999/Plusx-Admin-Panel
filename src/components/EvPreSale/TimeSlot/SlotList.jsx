@@ -59,14 +59,12 @@ const EvPreSaleSlotList = () => {
         } else {
             setLoading(true);
         } 
-
         const obj = {
-            userId: userDetails?.user_id,
-            email: userDetails?.email,
-            page_no: page,
+            userId  : userDetails?.user_id,
+            email   : userDetails?.email,
+            page_no : page,
             ...appliedFilters,
         }
-
         postRequestWithToken('ev-pre-sale-time-slot-list', obj, async (response) => {
             if (response.code === 200) {
                 // setTimeSlotList(response?.data)

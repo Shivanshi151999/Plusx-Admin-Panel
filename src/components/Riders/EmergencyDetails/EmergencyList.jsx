@@ -1,23 +1,78 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './emergency.module.css'
 import { Link } from 'react-router-dom';
 import Eye from '../../../assets/images/ViewEye.svg'
 import moment from 'moment';
+import Pagination from '../../SharedComponent/Pagination/Pagination';
+import { postRequestWithToken } from '../../../api/Requests'; 
 
     const pickDropStatusMapping = {
+        'CNF': 'Booking Confirmed',
+        'A'  : 'Assigned',
+        'ER' : 'Enroute',
+        'RL' : 'POD Reached at Location',
+        'CS' : 'Charging Started',
+        'CC' : 'Charging Completed',
         'PU' : 'POD Picked Up',
-        'WC' : 'Work Completed',
-        'C'  : 'Cancel'
+        // 'PU' : 'Completed',
+        'C'  : 'Cancelled'
     };
-    const EmergencyList = ({history, bookingType}) => {
+    const EmergencyList = ({rsaId, bookingType}) => {
+        
+        const userDetails                           = JSON.parse(sessionStorage.getItem('userDetails')); 
+        const [history, setHistory]                 = useState([]);
+        const [currentPage, setCurrentPage]         = useState(1);
+        const [totalPages, setTotalPages]           = useState(1);
+        const [totalCount, setTotalCount]           = useState(1);
+        const [filters, setFilters]                 = useState({start_date: null,end_date: null});
+        const [scheduleFilters, setScheduleFilters] = useState({start_date: null,end_date: null});
 
+        const driverBookingList = (page_no = 1) => {
+            const bookingObj = {
+                userId     : userDetails?.user_id,
+                email      : userDetails?.email,
+                rsa_id     : rsaId,
+                driverType : bookingType, 
+                page_no    : page_no,
+
+                // rsa_id, bookingTypeValue, page_no, order_status, start_date, end_date, search_text = '', scheduleFilters 
+    
+            };  
+            postRequestWithToken('rsa-booking-list', bookingObj, (response) => {
+                if (response.code === 200) {
+                    console.log(response.data)
+                    setHistory(response?.data || []);
+                    setTotalPages(response?.total_page || 1);
+                    // setTotalPages(response?.total_page || 1);
+                } else {
+                    console.log('error in rider-details API', response);
+                }
+            });
+        };
+        useEffect(() => {
+            driverBookingList(currentPage);
+
+        }, [currentPage, filters, scheduleFilters]);
+
+        const handlePageChange = (pageNumber) => {
+            setCurrentPage(pageNumber);
+        };
+        const fetchFilteredData = (newFilters = {}) => {
+            setFilters(newFilters);
+            setCurrentPage(1);
+        };
+        const scheduleFilteredData = (newFilters = {}) => {
+            setScheduleFilters(newFilters);
+            setCurrentPage(1);
+        };
         return (
             <div className={styles.addressListContainer}>
                 <span className={styles.sectionTitle}>Booking Details</span>
                 <table className={`table ${styles.customTable}`}>
                     <thead>
                         <tr>
-                            <th>Date</th>
+                            <th>Booking Date</th>
+                            <th>Schedule Date</th>
                             <th>Booking ID</th>
                             <th>Customer Name</th>
                             {/* <th>Price</th> */}
@@ -30,18 +85,19 @@ import moment from 'moment';
                             history?.map((item, index) => (
                                 <tr key={index}>
                                     <td>{moment(item?.created_at).format('DD MMM YYYY') }</td>
-                                    <td>{item?.request_id }</td>
+                                    <td>{moment(item?.slot_date_time).format('DD MMM YYYY') }</td>
+                                    <td>{item?.booking_id }</td>
                                     <td>{item?.user_name}</td>
                                     {/* <td>{item?.price ? `${item?.price} AED` : '' }</td> */}
-                                    <td>{pickDropStatusMapping[item?.order_status] || 'Confirmed'}</td>
+                                    <td>{pickDropStatusMapping[item?.status] || 'Confirmed'}</td>
                                     <td>
                                         <div className={styles.editContent}>
                                             {bookingType === 'Valet Charging' ? (
-                                                    <Link to={`/pick-and-drop/booking-details/${item?.request_id}`}>
+                                                    <Link to={`/pick-and-drop/booking-details/${item?.booking_id}`}>
                                                         <img src={Eye} alt="View" />
                                                     </Link>
                                                 ) : (
-                                                    <Link to={`/portable-charger/charger-booking-details/${item?.request_id}`}>
+                                                    <Link to={`/portable-charger/charger-booking-details/${item?.booking_id}`}>
                                                         <img src={Eye} alt="View" />
                                                     </Link>
                                                 )}
@@ -58,6 +114,7 @@ import moment from 'moment';
                         )}
                     </tbody>
                 </table>
+                <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
             </div>
         );
     };

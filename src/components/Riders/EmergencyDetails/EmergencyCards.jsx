@@ -6,9 +6,9 @@ import Email from '../../../assets/images/Email.svg';
 
 const EmergencyCards = ({ details, baseUrl}) => {
     const infoData = [
-        { icon: Person, label: 'Driver Name', value: details?.rsa_name, image: details?.profile_img },
-        { icon: Mobile, label: 'Mobile No', value: `${details?.country_code} ${details?.mobile}` },
-        { icon: Email, label: 'Email', value: details?.email },
+        { icon : Person, label : 'Driver Name', value: details?.rsa_name, image: details?.profile_img },
+        { icon : Mobile, label : 'Mobile No', value: `${details?.country_code} ${details?.mobile}` },
+        { icon : Email,  label : 'Email', value: details?.email },
     ];
 
     return (

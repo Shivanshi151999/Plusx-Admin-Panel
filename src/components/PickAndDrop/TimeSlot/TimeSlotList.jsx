@@ -224,10 +224,10 @@ const TimeSlotList = () => {
                                                 <tr key={slotIndex} className={styles.slotRow}>
                                                     <td>{slot.slot_id}</td>
                                                     <td>
-                                                        {slot.timing ? (() => {
-                                                            const [startTime, endTime] = slot.timing.split(' - ');
-                                                            const formattedStart = moment(startTime, 'HH:mm:ss').format('HH:mm');
-                                                            const formattedEnd = moment(endTime, 'HH:mm:ss').format('HH:mm');
+                                                        {slot.start_time && slot.end_time ? (() => {
+                                                            // const [startTime, endTime] = slot.timing.split(' - ');
+                                                            const formattedStart = moment(slot.start_time, 'HH:mm:ss').format('HH:mm');
+                                                            const formattedEnd = moment(slot.end_time, 'HH:mm:ss').format('HH:mm');
                                                             return `${formattedStart} - ${formattedEnd}`;
                                                         })() : 'N/A'}
                                                     </td>

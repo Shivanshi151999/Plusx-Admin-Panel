@@ -110,7 +110,7 @@ const PodDeviceList = () => {
                                 { key : 'avgBattery', label: 'Battery', format : (data) => setdecimal(data) },
                                 // { key : 'inverter', label: 'Inverter' },
                                 { key : 'charger', label: 'Charger' },
-                                { key : 'created_at', label: 'Regs Date & Time', format : (date) => moment(date).tz('Asia/Dubai').format('DD-MM-YYYY HH:mm A') },
+                                { key : 'created_at', label: 'Regs Date & Time', format : (date) => moment(date).tz('Asia/Dubai').format('DD-MM-YY HH:mm A') },
                                 { key : 'status', label: 'Status', format: (status) => statusMapping[status] || status },
                             ]}
                             pageHeading="POD Device List"

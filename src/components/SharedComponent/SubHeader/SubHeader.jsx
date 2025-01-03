@@ -65,8 +65,8 @@ const SubHeader = ({ heading, fetchFilteredData, dynamicFilters, filterValues, a
         setIsFilterAccordionOpen(!isFilterAccordionOpen);
         setIsSearchAccordionOpen(false);
     };
-
-    const shouldShowFilterButtonArr = [  "Offer List", "Pick & Drop Time Slot List", "Portable Charger Slot List", "Time Slot List" , "Register Interest List","Ev Buy & Sell List","Portable Charger List",'Ev Specialized Shop List', "Ev Specialized Shop Service List", "Ev Specialized Shop Brand List","Ev Insurance List", "Ev Discussion Board List", "Ev Rider Clubs List" , "Charger Installation List", "Notification List", "Electric Cars Leasing List", "Electric Bikes Leasing List", "EV Guide List" ]
+    // shouldShowFilterButtonArr = "Portable Charger Slot List", "Pick & Drop Time Slot List",  
+    const shouldShowFilterButtonArr = [  "Offer List", "Time Slot List" , "Register Interest List","Ev Buy & Sell List","Portable Charger List",'Ev Specialized Shop List', "Ev Specialized Shop Service List", "Ev Specialized Shop Brand List","Ev Insurance List", "Ev Discussion Board List", "Ev Rider Clubs List" , "Charger Installation List", "Notification List", "Electric Cars Leasing List", "Electric Bikes Leasing List", "EV Guide List" ]
     const shouldShowFilterButton = !shouldShowFilterButtonArr.includes(heading)
 
     const shouldShowSearchButtonArr = [ "Ev Road Assistance Invoice List" , "Pick & Drop Invoice List", "Notification List", "Ev Buy Sell List", "Offer List", "Pick & Drop Time Slot List","Portable Charger Slot List" ,"Time Slot List"]
@@ -75,12 +75,12 @@ const SubHeader = ({ heading, fetchFilteredData, dynamicFilters, filterValues, a
     const shouldShowAddButtonArr = ["App Signup List", "Portable Charger Booking List", "Pick & Drop Booking List", "Portable Charger Invoice List", "Notification List", "Pick & Drop Invoice List", "Charger Installation List", "Ev Road Assitance Booking List","Road Assistance Invoice List", "Board List", "Insurance List", "Buy Sell List", "Interest List","Subscription List", "EV Pre-Sale Testing Booking List", "Ev Road Assistance Invoice List", "Ev Discussion Board List","Ev Insurance List", "Ev Buy & Sell List", "Register Interest List"] ;
         
     const shouldShowAddButton = !shouldShowAddButtonArr.includes(heading);
-    const cardArray = [ "Offer List", "Subscription List", "Coupon List", "Register Interest List", "Ev Buy & Sell List", "Ev Specialized Shop List", "Ev Insurance List", "Ev Discussion Board List", "Ev Rider Clubs List", "EV Guide List", "Electric Bikes Leasing List", "Electric Cars Leasing List", "Public Chargers List"]
+    const cardArray = [ "Portable Charger Booking List", "Offer List", "Subscription List", "Coupon List", "Register Interest List", "Ev Buy & Sell List", "Ev Specialized Shop List", "Ev Insurance List", "Ev Discussion Board List", "Ev Rider Clubs List", "EV Guide List", "Electric Bikes Leasing List", "Electric Cars Leasing List", "Public Chargers List"]
 
     const showCard = cardArray.includes(heading);
-    const headingArray = [  "App Signup List", "Drivers List", "Portable Charger Booking List", "Portable Charger List", "Portable Charger Invoice List", "Portable Charger Slot List", "Pick & Drop Booking List", "Pick & Drop Invoice List", "Pick & Drop Time Slot List", "Charger Installation List", "Notification List", "EV Pre-Sale Testing Booking List", "Time Slot List", "Ev Road Assistance Invoice List", "Ev Specialized Shop Service List", "Ev Specialized Shop Brand List", "Ev Road Assitance Booking List", "Add POD List", "POD Brand List", "POD Device List","POD Area List"]
+    const headingArray = [ "App Signup List", "Drivers List",  "Portable Charger List", "Portable Charger Invoice List", "Portable Charger Slot List", "Pick & Drop Booking List", "Pick & Drop Invoice List", "Pick & Drop Time Slot List", "Charger Installation List", "Notification List", "EV Pre-Sale Testing Booking List", "Time Slot List", "Ev Road Assistance Invoice List", "Ev Specialized Shop Service List", "Ev Specialized Shop Brand List", "Ev Road Assitance Booking List", "Add POD List", "POD Brand List", "POD Device List","POD Area List"]
 
-    const showHeading = headingArray.includes(heading);
+    const showHeading = headingArray.includes(heading);  // "Portable Charger Booking List",
 
     // const handleDownloadClick = () => {
     //     setDownloadClicked(true)
@@ -94,13 +94,13 @@ const SubHeader = ({ heading, fetchFilteredData, dynamicFilters, filterValues, a
         <div className={styles.subHeaderContainer}>
             <div className={styles.headerCharger}>
                 { showHeading && (
-                    <div className={styles.headingList}>{heading}</div>
+                    <div className={styles.headingList}>{heading} </div>
                 )}
                 {showCard && (
-                <div className={styles.headCardSection}>
-                    <div className={styles.headCardNumber}>{count || 0}</div>
-                    <div className={styles.headCardText}>Total {heading}</div>
-                </div>
+                    <div className={styles.headCardSection}>
+                        <div className={styles.headCardNumber}>{count || 0}</div>
+                        <div className={styles.headCardText}>Total {heading}</div>
+                    </div>
                 )}
                 <div className={styles.subHeaderButtonSection}>
                     {shouldShowAddButton && (
@@ -154,7 +154,6 @@ const SubHeader = ({ heading, fetchFilteredData, dynamicFilters, filterValues, a
                         </div>
                         )
                     }
-                    
                 </div>
             </div>
 
