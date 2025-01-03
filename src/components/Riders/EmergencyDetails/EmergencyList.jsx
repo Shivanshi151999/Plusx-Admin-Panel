@@ -111,15 +111,17 @@ import AccordionFilter from '../../SharedComponent/Accordion/Accordions';
                 </div>
 
                 {isFilterAccordionOpen && (
-                    <AccordionFilter
-                        type={"Driver Details"}
-                        isOpen={isFilterAccordionOpen}
-                        fetchFilteredData={fetchFilteredData}
-                        dynamicFilters={dynamicFilters}
-                        filterValues={filters}
-                        scheduleDateChange={scheduleFilteredData}
-                        scheduleFilters={scheduleFilters}
-                    />
+                    <div className={styles.accordian}>
+                        <AccordionFilter
+                            type={"Driver Details"}
+                            isOpen={isFilterAccordionOpen}
+                            fetchFilteredData={fetchFilteredData}
+                            dynamicFilters={dynamicFilters}
+                            filterValues={filters}
+                            scheduleDateChange={scheduleFilteredData}
+                            scheduleFilters={scheduleFilters}
+                        />
+                    </div>
                 )}
                 
                 <table className={`table ${styles.customTable}`}>
