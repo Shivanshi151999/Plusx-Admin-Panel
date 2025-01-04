@@ -146,7 +146,7 @@ const RoadAssistanceBookingList = () => {
         });
         obj.service_type = 'Portable Charger'
 
-        postRequestWithToken('rsa-list', obj, async(response) => {
+        postRequestWithToken('all-rsa-list', obj, async(response) => {
             if (response.code === 200) {
                 setRsaList(response?.data)
             } else {

@@ -149,7 +149,7 @@ const BookingList = () => {
             page_no      : obj.page_no,
             service_type : 'Valet Charging',
         };
-        postRequestWithToken('rsa-list', rsaObj, async(response) => {
+        postRequestWithToken('all-rsa-list', rsaObj, async(response) => {
             if (response.code === 200) {
                 setRsaList(response?.data)
             } else {
