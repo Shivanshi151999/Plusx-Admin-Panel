@@ -282,13 +282,13 @@ const ChargerBookingList = () => {
             {loading ? <Loader /> :
                 chargerBookingList.length === 0 ? (
                     <EmptyList
-                        tableHeaders={["Booking Date","Schedule Date","Booking ID", "Customer Name", "Service Name", "Price",  "Status", "Driver Assign", "Action",""]}
+                        tableHeaders={["Booking Date","Schedule Date","Booking ID", "Customer Name", "Service Name", "Price",  "Status","Assigned Driver", "Driver Assign", "Action",""]}
                         message="No data available"
                     />
                 ) : (
                 <>
                     <List
-                        tableHeaders={["Booking Date","Schedule Date","Booking ID", "Customer Name", "Service Name", "Price",  "Status", "Driver Assign", "Action",""]}
+                        tableHeaders={["Booking Date","Schedule Date","Booking ID", "Customer Name", "Service Name", "Price",  "Status","Assigned Driver", "Driver Assign", "Action",""]}
                         listData={chargerBookingList}
                         keyMapping={[
                             { key: 'created_at', label: 'Date & Time', format: (date) => moment(date).format('DD MMM YYYY') },
@@ -298,7 +298,7 @@ const ChargerBookingList = () => {
                             { key: 'service_name', label: 'Service Name' },
                             { key: 'service_price', label: 'Price', format: (price) => (price ? `AED ${price}` : '') },   
                             { key: 'status', label: 'Status', format: (status) => statusMapping[status] || status },                    
-
+                            { key: 'rsa_name', label: 'Assigned Driver' }, 
                             {
                                 key: 'driver_assign',
                                 label: 'Driver Assign',

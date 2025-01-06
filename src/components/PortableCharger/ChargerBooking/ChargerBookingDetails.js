@@ -85,6 +85,8 @@ const ChargerBookingDetails = () => {
         driverName      : rsa_data ? rsa_data[0] : '',
         driverContact   : rsa_data ? rsa_data[1] : '',
         imageUrl        : bookingDetails?.imageUrl,
+        podId          : bookingDetails?.pod_id,
+        podName        : bookingDetails?.pod_name,
     };
     const sectionContent1 = {
         bookingStatus : statusMapping[bookingDetails?.status] || bookingDetails?.status,

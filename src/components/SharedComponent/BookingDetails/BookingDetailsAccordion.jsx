@@ -26,7 +26,7 @@ const BookingDetailsAccordion = ({history, rsa, imageUrl, fieldMapping, title })
     const sections = history?.map((item) => ({
         title       : statusTitles[item?.order_status] || 'Unknown Status',
         details     : item.details,
-        time        : item.created_at ? moment(item.created_at).format('MMMM Do YYYY, h:mm:ss a') : null,
+        time        : item.created_at ? moment(item.created_at).format('Do MMM YYYY, h:mm:ss a') : null,
         rsa_name     : item?.rsa_name,
         showRSA     : item?.order_status !== 'CNF',
         // showInvoice : item?.order_status === 'PU',
@@ -35,11 +35,13 @@ const BookingDetailsAccordion = ({history, rsa, imageUrl, fieldMapping, title })
         // imageUrl  : rsa.imageUrl + ''+item?.image,
         imageUrls    : item?.order_status === 'PU' ? item?.image.split('*').map(img => rsa.imageUrl + img) : [],
         order_status : item?.order_status,
-        cancel_by    : item?.cancel_by == 'Admin' ?  'Admin' : rsa?.customerName,
+        cancel_by    : item?.cancel_by === 'Admin' ?  'Admin' : rsa?.customerName,
         reason       : item?.reason,
+        podId        : rsa.podId,
+        podName      : rsa.podName,
     }));
     //  (Array.isArray(item.images.split('*')) ?   : [rsa.imageUrl + item?.image]) 
-    console.log(sections)
+
     const [activeKey, setActiveKey] = useState("0");
     const handleAccordionToggle = (key) => {
         setActiveKey(activeKey === key ? null : key);
@@ -62,13 +64,16 @@ const BookingDetailsAccordion = ({history, rsa, imageUrl, fieldMapping, title })
                         </Accordion.Header>
                         <Accordion.Body className={styles.accordionBody}>
                             {section.showRSA && section.rsa_name && (
-                                <p><strong>Driver:</strong> {section?.rsa_name}</p>
+                                <p className={styles.accodionPTag}><strong>Driver :</strong> {section?.rsa_name}</p>
                             )}
-                            {section.order_status == 'C' && (
+                            {section.order_status === 'C' && (
                                 <>
-                                    <p>Cancelled By : { section?.cancel_by } <br /></p>
-                                    <p>Reason : { section?.reason } <br /> </p> 
+                                    <p className={styles.accodionPTag}><strong>Cancelled By :</strong> { section?.cancel_by } <br /></p>
+                                    <p className={styles.accodionPTag}><strong>Reason :</strong> { section?.reason } <br /> </p> 
                                 </>
+                            )}
+                            {section.order_status === 'CS' && (
+                                <p className={styles.accodionPTag}><strong>Pod Name :</strong> { section?.podName }</p>
                             )}
                             {/* {section.showImage && (
                                 <div>
@@ -78,7 +83,7 @@ const BookingDetailsAccordion = ({history, rsa, imageUrl, fieldMapping, title })
                             )} */}
                             {section.showImage && section.imageUrls.length > 0 && (
                                 <div>
-                                    <p><strong>Images:</strong></p>
+                                    <p className={styles.accodionPTag}><strong>Images :</strong></p>
                                     <div className={styles.imageContainer}>
                                         {section.imageUrls.map((url, index) => (
                                             <img key={index} src={url} alt={`Img${index}`} style={{ maxWidth: '700px', height: '250px', margin: '5px' }} />
@@ -86,7 +91,7 @@ const BookingDetailsAccordion = ({history, rsa, imageUrl, fieldMapping, title })
                                     </div>
                                 </div>
                             )}
-                            {section.time && <p className={styles.accodionPTag}> {section.time}</p>}
+                            {section.time && <p className={styles.accodionPTag}><strong>Date :</strong> {section.time}</p>}
                         </Accordion.Body>
                     </Accordion.Item>
                 ))}
