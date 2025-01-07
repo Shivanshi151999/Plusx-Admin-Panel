@@ -74,6 +74,9 @@ const SubHeader = ({ heading, fetchFilteredData, dynamicFilters, filterValues, a
 
     const shouldShowAddButtonArr = ["App Signup List", "Portable Charger Booking List", "Pick & Drop Booking List", "Portable Charger Invoice List", "Notification List", "Pick & Drop Invoice List", "Charger Installation List", "Ev Road Assitance Booking List","Road Assistance Invoice List", "Board List", "Insurance List", "Buy Sell List", "Interest List","Subscription List", "EV Pre-Sale Testing Booking List", "Ev Road Assistance Invoice List", "Ev Discussion Board List","Ev Insurance List", "Ev Buy & Sell List", "Register Interest List"] ;
         
+    const shouldShowDownloadButtonArr = ["App Signup List", "Portable Charger Booking List",];
+    const shouldShowDownloadButton = shouldShowDownloadButtonArr.includes(heading)
+
     const shouldShowAddButton = !shouldShowAddButtonArr.includes(heading);
     const cardArray = [ "Portable Charger Booking List", "Offer List", "Subscription List", "Coupon List", "Register Interest List", "Ev Buy & Sell List", "Ev Specialized Shop List", "Ev Insurance List", "Ev Discussion Board List", "Ev Rider Clubs List", "EV Guide List", "Electric Bikes Leasing List", "Electric Cars Leasing List", "Public Chargers List"]
 
@@ -144,16 +147,16 @@ const SubHeader = ({ heading, fetchFilteredData, dynamicFilters, filterValues, a
                             <div className={styles.addButtonText}>Filter</div>
                         </div>
                     )}
-                    {
-                        heading === 'Portable Charger Booking List' && (
-                            <div className={styles.addButtonSection} onClick={handleDownloadClick}>
+                    
+                    {/* Download Button */}
+                    {shouldShowDownloadButton && (
+                        <div className={styles.addButtonSection} onClick={handleDownloadClick}>
                             <div className={styles.addButtonImg}>
-                                <img src={Download} alt='Filter' />
+                                <img src={Download} alt='Download' />
                             </div>
                             <div className={styles.addButtonText} >Download</div>
                         </div>
-                        )
-                    }
+                    )}
                 </div>
             </div>
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import styles from './appsign.module.css'
+import axios from 'axios';
 import List from '../SharedComponent/List/List'
 import SubHeader from '../SharedComponent/SubHeader/SubHeader'
 import Pagination from '../SharedComponent/Pagination/Pagination'
@@ -120,14 +120,48 @@ const SignupList = () => {
         }
     ]
 
+    const handleDownloadClick = async() => {
+        const { start_date, end_date, emirates,addedFrom } = filters;
+        
+        let url = process.env.REACT_APP_SERVER_URL+'admin/user-signup-list-download';
+    
+        // Append query parameters only if they are not null or undefined
+        const params = new URLSearchParams();
+        if (start_date) params.append('start_date', start_date);
+        if (end_date) params.append('end_date', end_date);
+        if (emirates) params.append('emirates', emirates);
+        if (addedFrom) params.append('addedFrom', addedFrom);
+    
+        // // If any query parameters were added, append them to the URL
+        if (params.toString()) {
+            url += `?${params.toString()}`;
+        }
+
+        try {
+            const response = await axios.get(url, { responseType: 'blob' });
+
+            const blob = new Blob([response.data], {
+                type : 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            });
+            const link    = document.createElement('a');
+            link.href     = window.URL.createObjectURL(blob);
+            link.download = 'user_signup_list.xlsx';
+            link.click(); 
+        } catch (error) {
+            console.error('Error downloading file:', error);
+        }      
+    }
+
     return (
         <div className='main-container'>
             <ToastContainer/>
             <SubHeader 
                 heading            = "App Signup List" 
                 fetchFilteredData  = {fetchFilteredData} 
-                dynamicFilters     = {dynamicFilters} filterValues={filters}
+                dynamicFilters     = {dynamicFilters} 
+                filterValues       = {filters}
                 searchTerm         = {searchTerm}
+                handleDownloadClick= {handleDownloadClick}
             />
 
             {loading ? <Loader /> :
