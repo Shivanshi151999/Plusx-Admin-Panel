@@ -108,7 +108,7 @@ const ChargerBookingInvoiceList = () => {
                             { 
                                 key: 'amount', 
                                 label: 'Amount', 
-                                format: (amount) => (amount ? `AED ${amount}` : amount) 
+                                format: (amount) => (amount ? `AED ${ ( amount/100 ).toFixed(2) }` : amount/100) 
                             },
                             { key: 'payment_status', label: 'Status', format: (status) => (status === "succeeded" ? "Completed" : "") }
                         

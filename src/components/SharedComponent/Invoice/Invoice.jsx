@@ -108,26 +108,26 @@ const Invoice = ({ title, service, details }) => {
                                                 <tr className={styles.serviceItem}>
                                                     <td>Dewa Charge</td>
                                                     <td>0.44</td>
-                                                    <td>{details?.kw}</td>
-                                                    <td className={styles.amountRightAlign}>{details?.kw_dewa_amt}</td>
+                                                    <td>{details?.kw.toFixed(2)}</td>
+                                                    <td className={styles.amountRightAlign}>{details?.kw_dewa_amt.toFixed(2)}</td>
                                                 </tr>
                                                 <tr className={styles.serviceItem}>
                                                     <td>CPO Charge</td>
                                                     <td>0.26</td>
-                                                    <td>{details?.kw}</td>
-                                                    <td className={styles.amountRightAlign}>{details?.kw_cpo_amt}</td>
+                                                    <td>{details?.kw.toFixed(2)}</td>
+                                                    <td className={styles.amountRightAlign}>{details?.kw_cpo_amt.toFixed(2)}</td>
                                                 </tr>
                                                 <tr className={styles.serviceItem}>
                                                     <td>Delivery Charge</td>
                                                     <td></td>
                                                     <td></td>
-                                                    <td className={styles.amountRightAlign}>{details?.delv_charge}</td>
+                                                    <td className={styles.amountRightAlign}>{details?.delv_charge.toFixed(2)}</td>
                                                 </tr>
                                                 <tr className={styles.serviceItem}>
                                                     <td>VAT 5%</td>
                                                     <td></td>
                                                     <td></td>
-                                                    <td className={styles.amountRightAlign}>{details?.t_vat_amt}</td>
+                                                    <td className={styles.amountRightAlign}>{details?.t_vat_amt.toFixed(2)}</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -140,7 +140,7 @@ const Invoice = ({ title, service, details }) => {
                                 </td>
                                 <td className={styles.amountRightAlign}>
                                     <p className={styles.totalAmountValue}>
-                                        {details?.currency?.toUpperCase() || 'AED'} {details?.price || 0}
+                                        {details?.currency?.toUpperCase() || 'AED'} {details?.price.toFixed(2) || 0}
                                     </p>
                                 </td>
                             </tr>

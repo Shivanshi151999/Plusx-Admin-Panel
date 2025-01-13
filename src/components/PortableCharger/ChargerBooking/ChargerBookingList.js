@@ -76,55 +76,50 @@ const ChargerBookingList = () => {
     const [loading, setLoading]                       = useState(false);
     const [downloadClicked, setDownloadClicked]       = useState(false)
 
-  const handleCancelClick = (bookingId, riderId) => {
-    setSelectedBookingId(bookingId);
-    setSelectedRiderId(riderId)
-    setShowPopup(true); 
-  };
-
-  const handleClosePopup = () => {
-    setShowPopup(false); 
-    setSelectedBookingId(null);
-    setSelectedRiderId(null)
-    setReason("");
-  };
-
-  const handleReasonChange = (e) => {
-    setReason(e.target.value); 
-  };
-
-  const handleConfirmCancel = () => {
-    if (!reason.trim()) {
-        toast("Please enter a reason for cancellation.", {type:'error'})
-        return;
-      }
-    
-    const obj = {
-        userId     : userDetails?.user_id,
-        email      : userDetails?.email,
-        booking_id : selectedBookingId,
-        rider_id   : selectedRiderId,
-        reason     : reason
+    const handleCancelClick = (bookingId, riderId) => {
+        setSelectedBookingId(bookingId);
+        setSelectedRiderId(riderId)
+        setShowPopup(true); 
+    };
+    const handleClosePopup = () => {
+        setShowPopup(false); 
+        setSelectedBookingId(null);
+        setSelectedRiderId(null)
+        setReason("");
+    };
+    const handleReasonChange = (e) => {
+        setReason(e.target.value); 
     };
 
-    postRequestWithToken('portable-charger-cancel', obj, async (response) => {
-        if (response.code === 200) {
-            toast(response.message[0], {type:'success'})
-                setTimeout(() => {
-                    fetchList(currentPage, filters);
-                }, 1500);
-            setShowPopup(false);
-            setSelectedBookingId(null);
-            setSelectedRiderId(null)
-        } else {
-            toast(response.message, {type:'error'})
-            console.log('error in charger-booking-list api', response);
+    const handleConfirmCancel = () => {
+        if (!reason.trim()) {
+            toast("Please enter a reason for cancellation.", {type:'error'})
+            return;
         }
-    });
-    
-  };
+        const obj = {
+            userId     : userDetails?.user_id,
+            email      : userDetails?.email,
+            booking_id : selectedBookingId,
+            rider_id   : selectedRiderId,
+            reason     : reason
+        };
+        postRequestWithToken('portable-charger-cancel', obj, async (response) => {
+            if (response.code === 200) {
+                toast(response.message[0], {type:'success'})
+                    setTimeout(() => {
+                        fetchList(currentPage, filters);
+                    }, 1500);
+                setShowPopup(false);
+                setSelectedBookingId(null);
+                setSelectedRiderId(null)
+            } else {
+                toast(response.message, {type:'error'})
+                console.log('error in charger-booking-list api', response);
+            }
+        });
+    };
 
-  const handleBookingDetails = (id) => navigate(`/portable-charger/charger-booking-details/${id}`)
+    const handleBookingDetails = (id) => navigate(`/portable-charger/charger-booking-details/${id}`)
 
     const fetchList = (page, appliedFilters = {}, scheduleFilters = {}) => {
         if (page === 1 && Object.keys(appliedFilters).length === 0) {
@@ -150,19 +145,7 @@ const ChargerBookingList = () => {
             setLoading(false);
         });
 
-        const rsaObj = {
-            userId       : obj.userId,
-            email        : obj.email,
-            page_no      : obj.page_no,
-            service_type : 'Portable Charger',
-        };
-        postRequestWithToken('all-rsa-list', rsaObj, async(response) => {
-            if (response.code === 200) {
-                setRsaList(response?.data) 
-            } else {
-                console.log('error in rsa-listt api', response);
-            }
-        })
+        
     };
 
     useEffect(() => {
@@ -186,6 +169,18 @@ const ChargerBookingList = () => {
         setCurrentPage(1);
     };
     const openModal = (bookingId) => {
+        const rsaObj = {
+            userId       : userDetails?.user_id,
+            email        : userDetails?.email,
+            service_type : 'Portable Charger',
+        };
+        postRequestWithToken('all-rsa-list', rsaObj, async(response) => {
+            if (response.code === 200) {
+                setRsaList(response?.data) 
+            } else {
+                console.log('error in rsa-listt api', response);
+            }
+        })
         setSelectedBookingId(bookingId);
         setIsModalOpen(true);
     };
@@ -195,7 +190,6 @@ const ChargerBookingList = () => {
         setSelectedBookingId(null);
         setSelectedRiderId(null)
     };
-
     const handleDriverSelect = (driver) => {
         setSelectedDriverId(driver);
     };
@@ -276,19 +270,20 @@ const ChargerBookingList = () => {
             />
             <ToastContainer />
             {/* <button className="export-button" onClick={exportToExcel}>
-                Download Excel
+                Download Excel "Price",   "Price",  
+
             </button> */}
 
             {loading ? <Loader /> :
                 chargerBookingList.length === 0 ? (
                     <EmptyList
-                        tableHeaders={["Booking Date","Schedule Date","Booking ID", "Customer Name", "Service Name", "Price",  "Status","Assigned Driver", "Driver Assign", "Action",""]}
+                        tableHeaders={["Booking Date","Schedule Date","Booking ID", "Customer Name", "Service Name", "Status","Assigned Driver", "Driver Assign", "Action",""]}
                         message="No data available"
                     />
-                ) : (
+                ) : (  
                 <>
                     <List
-                        tableHeaders={["Booking Date","Schedule Date","Booking ID", "Customer Name", "Service Name", "Price",  "Status","Assigned Driver", "Driver Assign", "Action",""]}
+                        tableHeaders={["Booking Date","Schedule Date","Booking ID", "Customer Name", "Service Name", "Status","Assigned Driver", "Driver Assign", "Action",""]}
                         listData={chargerBookingList}
                         keyMapping={[
                             { key: 'created_at', label: 'Date & Time', format: (date) => moment(date).format('DD MMM YYYY') },
@@ -296,7 +291,7 @@ const ChargerBookingList = () => {
                             { key: 'booking_id', label: 'ID' },
                             { key: 'user_name', label: 'Customer Name' },
                             { key: 'service_name', label: 'Service Name' },
-                            { key: 'service_price', label: 'Price', format: (price) => (price ? `AED ${price}` : '') },   
+                            // { key: 'service_price', label: 'Price', format: (price) => (price ? `AED ${price}` : '') },   
                             { key: 'status', label: 'Status', format: (status) => statusMapping[status] || status },                    
                             { key: 'rsa_name', label: 'Assigned Driver' }, 
                             {
@@ -304,7 +299,7 @@ const ChargerBookingList = () => {
                                 label: 'Driver Assign',
                                 relatedKeys: ['status'], 
                                 format: (data, key, relatedKeys) => {
-                                    const isBookingConfirmed = data[relatedKeys[0]] === 'CNF'; 
+                                    const isBookingConfirmed = (data[relatedKeys[0]] === 'CNF' || data[relatedKeys[0]] === 'A' || data[relatedKeys[0]] === 'RL' ); 
                                     
                                     return isBookingConfirmed ? (
                                         <img 

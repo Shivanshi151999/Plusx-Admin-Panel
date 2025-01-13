@@ -17,6 +17,7 @@ const SignupList = () => {
     const [signupList, setSignupList]     = useState([]);
     const [currentPage, setCurrentPage]   = useState(1);
     const [totalPages, setTotalPages]     = useState(1);
+    const [totalCount, setTotalCount]                 = useState(1);
     const [filters, setFilters]           = useState({start_date: null,end_date: null});
     const [refresh, setRefresh]           = useState(false);
     const [emiratesList, setEmiratesList] = useState([]);
@@ -41,6 +42,7 @@ const SignupList = () => {
                 setSignupList(response?.data || []);  
                 setEmiratesList(response.emirates || []);
                 setTotalPages(response?.total_page || 1);  
+                setTotalCount(response?.total || 1)
             } else {
                 toast(response.message || response.message[0], { type: 'error' });
                 console.log('error in rider-list API', response);
@@ -121,7 +123,7 @@ const SignupList = () => {
     ]
 
     const handleDownloadClick = async() => {
-        const { start_date, end_date, emirates,addedFrom } = filters;
+        const { start_date, end_date, emirates, addedFrom } = filters;
         
         let url = process.env.REACT_APP_SERVER_URL+'admin/user-signup-list-download';
     
@@ -156,12 +158,13 @@ const SignupList = () => {
         <div className='main-container'>
             <ToastContainer/>
             <SubHeader 
-                heading            = "App Signup List" 
-                fetchFilteredData  = {fetchFilteredData} 
-                dynamicFilters     = {dynamicFilters} 
-                filterValues       = {filters}
-                searchTerm         = {searchTerm}
-                handleDownloadClick= {handleDownloadClick}
+                heading             = "App Signup List" 
+                fetchFilteredData   = {fetchFilteredData} 
+                dynamicFilters      = {dynamicFilters} 
+                filterValues        = {filters}
+                searchTerm          = {searchTerm}
+                count               = {totalCount}
+                handleDownloadClick = {handleDownloadClick}
             />
 
             {loading ? <Loader /> :

@@ -78,10 +78,10 @@ const SubHeader = ({ heading, fetchFilteredData, dynamicFilters, filterValues, a
     const shouldShowDownloadButton = shouldShowDownloadButtonArr.includes(heading)
 
     const shouldShowAddButton = !shouldShowAddButtonArr.includes(heading);
-    const cardArray = [ "Portable Charger Booking List", "Offer List", "Subscription List", "Coupon List", "Register Interest List", "Ev Buy & Sell List", "Ev Specialized Shop List", "Ev Insurance List", "Ev Discussion Board List", "Ev Rider Clubs List", "EV Guide List", "Electric Bikes Leasing List", "Electric Cars Leasing List", "Public Chargers List"]
+    const cardArray = [ "App Signup List", "Portable Charger Booking List", "Offer List", "Subscription List", "Coupon List", "Register Interest List", "Ev Buy & Sell List", "Ev Specialized Shop List", "Ev Insurance List", "Ev Discussion Board List", "Ev Rider Clubs List", "EV Guide List", "Electric Bikes Leasing List", "Electric Cars Leasing List", "Public Chargers List"]
 
     const showCard = cardArray.includes(heading);
-    const headingArray = [ "App Signup List", "Drivers List",  "Portable Charger List", "Portable Charger Invoice List", "Portable Charger Slot List", "Pick & Drop Booking List", "Pick & Drop Invoice List", "Pick & Drop Time Slot List", "Charger Installation List", "Notification List", "EV Pre-Sale Testing Booking List", "Time Slot List", "Ev Road Assistance Invoice List", "Ev Specialized Shop Service List", "Ev Specialized Shop Brand List", "Ev Road Assitance Booking List", "Add POD List", "POD Brand List", "POD Device List","POD Area List"]
+    const headingArray = [ "Drivers List",  "Portable Charger List", "Portable Charger Invoice List", "Portable Charger Slot List", "Pick & Drop Booking List", "Pick & Drop Invoice List", "Pick & Drop Time Slot List", "Charger Installation List", "Notification List", "EV Pre-Sale Testing Booking List", "Time Slot List", "Ev Road Assistance Invoice List", "Ev Specialized Shop Service List", "Ev Specialized Shop Brand List", "Ev Road Assitance Booking List", "Add POD List", "POD Brand List", "POD Device List","POD Area List"]
 
     const showHeading = headingArray.includes(heading);  // "Portable Charger Booking List",
 

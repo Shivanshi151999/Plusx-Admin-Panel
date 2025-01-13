@@ -72,7 +72,7 @@ const ChargerInstallationDetails = () => {
         region       : "Region Specification",
     }
     const sectionTitles4 = {
-    description: "Description",
+        description : "Description",
     }
     const content = {
         bookingId       : bookingDetails?.request_id,

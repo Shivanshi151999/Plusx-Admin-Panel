@@ -26,8 +26,8 @@ const BookingDetailsAccordion = ({history, rsa, imageUrl, fieldMapping, title })
     const sections = history?.map((item) => ({
         title       : statusTitles[item?.order_status] || 'Unknown Status',
         details     : item.details,
-        time        : item.created_at ? moment(item.created_at).format('Do MMM YYYY, h:mm:ss a') : null,
-        rsa_name     : item?.rsa_name,
+        time        : item.created_at ? moment(item.created_at).format('Do MMM YYYY, h:mm:ss A') : null,
+        rsa_name    : item?.rsa_name,
         showRSA     : item?.order_status !== 'CNF',
         // showInvoice : item?.order_status === 'PU',
 
@@ -37,8 +37,8 @@ const BookingDetailsAccordion = ({history, rsa, imageUrl, fieldMapping, title })
         order_status : item?.order_status,
         cancel_by    : item?.cancel_by === 'Admin' ?  'Admin' : rsa?.customerName,
         reason       : item?.reason,
-        podId        : rsa.podId,
-        podName      : rsa.podName,
+        podId        : rsa?.podId || '',
+        podName      : rsa?.podName || '',
     }));
     //  (Array.isArray(item.images.split('*')) ?   : [rsa.imageUrl + item?.image]) 
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from './emergency.module.css'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Eye from '../../../assets/images/ViewEye.svg'
 import moment from 'moment';
 import Pagination from '../../SharedComponent/Pagination/Pagination';
@@ -45,7 +45,7 @@ import AccordionFilter from '../../SharedComponent/Accordion/Accordions';
     ];
 
     const EmergencyList = ({rsaId, bookingType}) => {
-        
+        const navigate = useNavigate();
         const userDetails                                       = JSON.parse(sessionStorage.getItem('userDetails')); 
         const [history, setHistory]                             = useState([]);
         const [currentPage, setCurrentPage]                     = useState(1);
@@ -98,6 +98,10 @@ import AccordionFilter from '../../SharedComponent/Accordion/Accordions';
         const toggleFilterAccordion = () => {
             setIsFilterAccordionOpen((prev)=> !prev);
         };
+        const renderBooking = (e) => {
+            const id = e.target.textContent.trim();
+            navigate(`/portable-charger/charger-booking-details/${id}`); 
+        }
         return (
             <div className={styles.addressListContainer}>
                 <div className={styles.headerCharger}>
@@ -127,9 +131,9 @@ import AccordionFilter from '../../SharedComponent/Accordion/Accordions';
                 <table className={`table ${styles.customTable}`}>
                     <thead>
                         <tr>
-                            <th>Booking Date</th>
-                            <th>Schedule Date</th>
                             <th>Booking ID</th>
+                            <th>Schedule Date</th>
+                            <th>Booking Date</th>
                             <th>Customer Name</th>
                             {/* <th>Price</th> */}
                             <th>Status</th>
@@ -140,9 +144,11 @@ import AccordionFilter from '../../SharedComponent/Accordion/Accordions';
                         {history && history?.length > 0 ? (
                             history?.map((item, index) => (
                                 <tr key={index}>
-                                    <td>{moment(item?.created_at).format('DD MMM YYYY') }</td>
+                                    <td>
+                                        <a onClick={renderBooking} style={{color : "#00ffc3 !important"}}>{item?.booking_id } </a> 
+                                    </td>
                                     <td>{moment(item?.slot_date).format('DD MMM YYYY') }</td>
-                                    <td>{item?.booking_id }</td>
+                                    <td>{moment(item?.created_at).format('DD MMM YYYY') }</td>
                                     <td>{item?.user_name}</td>
                                     {/* <td>{item?.price ? `${item?.price} AED` : '' }</td> */}
                                     <td>{pickDropStatusMapping[item?.status] || 'Confirmed'}</td>

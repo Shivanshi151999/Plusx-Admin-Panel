@@ -105,12 +105,11 @@ const PodDeviceList = () => {
                             keyMapping={[
                                 { key : 'pod_id', label: 'POD ID' },
                                 { key : 'pod_name', label: 'POD Name' },
-                                
                                 { key : 'design_model', label: 'Model Name' },
                                 { key : 'avgBattery', label: 'Battery', format : (data) => setdecimal(data) },
                                 // { key : 'inverter', label: 'Inverter' },
                                 { key : 'charger', label: 'Charger' },
-                                { key : 'created_at', label: 'Regs Date & Time', format : (date) => moment(date).tz('Asia/Dubai').format('DD-MM-YY HH:mm A') },
+                                { key : 'created_at', label: 'Regs Date & Time', format : (date) => moment(date).format('DD-MM-YY HH:mm A') },
                                 { key : 'status', label: 'Status', format: (status) => statusMapping[status] || status },
                             ]}
                             pageHeading="POD Device List"
@@ -122,7 +121,7 @@ const PodDeviceList = () => {
         </div>
     );
 };
-// const currentTime = moment(date).tz('Asia/Dubai').format("YYYY-MM-DD HH:mm:ss");
+// const currentTime = moment(date).format("YYYY-MM-DD HH:mm:ss");
 //     console.log('currentTime', currentTime)
 
 export default PodDeviceList;

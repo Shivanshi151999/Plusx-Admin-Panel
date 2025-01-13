@@ -45,7 +45,7 @@ const PODBookingList = ({podId}) => {
     var tableVal = []
     podBookingHistory.map((item) =>{ 
         // console.log( 'item', item.end_charging_level - item.start_charging_level );  //; 
-
+        // .tz('Asia/Dubai')
         var chargingLevels = ['start_charging_level', 'end_charging_level'].map(key => 
             item[key] ? item[key].split(',').map(Number) : []
         );
@@ -58,8 +58,8 @@ const PODBookingList = ({podId}) => {
             booiking_id : item.booking_id, 
             start_date  : moment(item.start_time).format('DD-MM-YYYY HH:mm A'), 
             end_date    : moment(item.end_time).format('DD-MM-YYYY HH:mm A'), 
-            kilowatt    : chargingLevelSum * 0.25 +' kw',
-            battery    : ( percentage > 0 ) ? ( percentage / batteryLength ).toFixed(2) +" %" : '0 %'
+            kilowatt    : (chargingLevelSum * 0.25).toFixed(2) +' kw',
+            battery     : ( percentage > 0 ) ? ( percentage / batteryLength ).toFixed(2) +" %" : '0 %'
         });
     });
     return (

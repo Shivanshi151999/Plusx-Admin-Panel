@@ -104,7 +104,7 @@ const DeviceDetails = () => {
         driverName   : ( percentage > 0 ) ? ( percentage / batteryLength ).toFixed(2) +" %" : '0 %',
         podTemp      : capacityKw.toFixed(2) +" kw", 
         chargingStatus : ( capacityKw > 0) ? 'Charging' : ( capacityKw <= -0 && capacityKw >= -3 ) ? 'Stand By' : 'Discharging',
-        lastupdate    : moment(deviceBatteryData[batteryLength-1].updated_at).tz('Asia/Dubai').format('DD MMM YYYY HH:mm A'),
+        lastupdate    : moment(deviceBatteryData[batteryLength-1].updated_at).format('DD MMM YYYY HH:mm A'),
     }; 
     // console.log(moment().tz('Asia/Dubai').format('DD MMM YYYY HH:mm A'))
     const sectionTitles1 = {
@@ -136,8 +136,8 @@ const DeviceDetails = () => {
     }
     const sectionContent3 = {
         charger               : deviceDetails?.charger,
-        date_of_manufacturing : moment(deviceDetails?.date_of_manufacturing).tz('Asia/Dubai').format('DD MMM YYYY'),
-        created_date          : moment(deviceDetails?.created_at).tz('Asia/Dubai').format('DD MMM YYYY HH:mm A'),
+        date_of_manufacturing : moment(deviceDetails?.date_of_manufacturing).format('DD MMM YYYY'),
+        created_date          : moment(deviceDetails?.created_at).format('DD MMM YYYY HH:mm A'),
     }
     
     return (

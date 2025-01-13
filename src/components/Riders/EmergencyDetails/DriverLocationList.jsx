@@ -16,7 +16,7 @@ const DriverLocationList = ({history}) => {  // postRequest
     // }
     return (
         <div className={styles.addressListContainer}>
-            <span className={styles.sectionTitle}>Location Details</span>
+            <span className={styles.sectionTitle}>Driver Location Details</span>
             <table className={`table ${styles.customTable}`}>
                 <thead>
                     <tr>

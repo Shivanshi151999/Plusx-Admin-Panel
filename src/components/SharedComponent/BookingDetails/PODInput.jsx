@@ -45,7 +45,7 @@ const PODInput = ({podId}) => {
         // console.log( 'item', item.end_charging_level - item.start_charging_level );  //;
         tableVal.push({ 
             start_date : moment(item.date_time).format('DD-MM-YYYY'), 
-            end_date   : moment(item.date_time).format('HH:mm A'), 
+            end_date   : moment(item.date_time).tz('Asia/Dubai').format('HH:mm A'), 
             kilowatt   : ( item.end_charging_level - item.start_charging_level ) * 0.25 +' kw'
         });
     });

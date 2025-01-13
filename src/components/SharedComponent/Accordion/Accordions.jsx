@@ -102,7 +102,7 @@ const AccordionFilter = ({ type, isOpen, fetchFilteredData, dynamicFilters, filt
                                                 </div>  
                                             )}
                                             <div className={`col-xl-4 col-lg-6 col-12 ${styles.filterItem}`}>
-                                                <label className={styles.filterLabel} htmlFor="date_filter">{type.includes('Booking') ? 'Booking Date' : 'Select  Date'}</label>
+                                                <label className={styles.filterLabel} htmlFor="date_filter">{type.includes('Booking') || type == 'Driver Details' ? 'Booking Date' : 'Select  Date'}</label>
                                                 <Calendar handleDateChange={handleDateChange}/>
                                             </div>
                                             {dynamicFilters?.map((filter) => (

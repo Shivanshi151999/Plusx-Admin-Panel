@@ -36,7 +36,7 @@ const Header = () => {
             if (response.code === 200) {
                 setNotifications(response?.data);
                 // setTotalPages(response?.total_page || 1);
-                setTotalCount(response?.totalRows || 0)
+                // setTotalCount(response?.totalRows || 0)
             } else {
                 console.log('error in notification-list api', response);
             }
@@ -52,7 +52,7 @@ const Header = () => {
         };
         postRequestWithToken('notification-list', objCount, async (response) => {
             if (response.code === 200) {
-                setTotalCount(response?.totalRows || 0)
+                setTotalCount(response?.totalRows || 0) //totalRows
             } 
         });
     };
@@ -88,6 +88,7 @@ const Header = () => {
     // Toggle functions
     const toggleNotification = () => {
         fetchList()
+        setTotalCount(0)
         setNotificationOpen(!isNotificationOpen);
         setProfileOpen(false);
     };

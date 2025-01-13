@@ -76,7 +76,7 @@ const ChargerBookingDetails = () => {
         slotTime : "Slot Time"
     }
     
-    let rsa_data = (bookingDetails?.rsa_data != null) ? bookingDetails?.rsa_data.split(",") : [];
+    let rsa_data  = (bookingDetails?.rsa_data != null) ? bookingDetails?.rsa_data.split(",") : [];
     const content = {
         bookingId       : bookingDetails?.booking_id,
         createdAt       : moment(bookingDetails?.created_at).format('DD MMM YYYY h:mm A'),
@@ -102,16 +102,16 @@ const ChargerBookingDetails = () => {
         // address: bookingDetails?.address,
         address: (
             <a
-                href={`https://www.google.com/maps?q=${bookingDetails?.latitude},${bookingDetails?.longitude}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className='linkSection'
+                href    = {`https://www.google.com/maps?q=${bookingDetails?.latitude},${bookingDetails?.longitude}`}
+                target    = "_blank"
+                rel       = "noopener noreferrer"
+                className = 'linkSection'
             >
                 {bookingDetails?.address || 'View on Map'}
             </a>
         ),
-        slotDate: moment(bookingDetails?.slot_date).format('DD MMM YYYY'),
-        slotTime: bookingDetails?.slot_time
+        slotDate : moment(bookingDetails?.slot_date).format('DD MMM YYYY'),
+        slotTime : bookingDetails?.slot_time
     }
     return (
         <div className='main-container'>
