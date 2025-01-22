@@ -17,7 +17,7 @@ const Details = () => {
     // const [history, setHistory]                 = useState([]);
     const [baseUrl, setBaseUrl]                 = useState();
     const [coordinates, setCoordinates]         = useState({ lat: 25.2048, lng: 55.2708 });
-    const [locationHistory, setLocationHistory] = useState([]);
+    // const [locationHistory, setLocationHistory] = useState([]);
     
     const fetchDetails = () => {
         const obj = {
@@ -30,7 +30,7 @@ const Details = () => {
                 setDetails(response?.rsaData || {});  
                 // setHistory(response?.bookingHistory || {});
                 setBaseUrl(response?.base_url);
-                setLocationHistory(response?.locationHistory)
+                // setLocationHistory(response?.locationHistory)
                 const lat = parseFloat(response?.rsaData?.latitude)
                 const lng = parseFloat(response?.rsaData?.longitude) 
                 if (!isNaN(lat) && !isNaN(lng)) {
@@ -59,7 +59,7 @@ const Details = () => {
             { details?.booking_type && 
                 <EmergencyList rsaId= {rsaId} bookingType= {details?.booking_type}/>
             }
-            <DriverLocationList history = {locationHistory} />
+            <DriverLocationList rsaId= {rsaId} />
         </div>
     );
 }

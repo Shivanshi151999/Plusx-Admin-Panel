@@ -1,8 +1,12 @@
 import React from 'react';
 import styles from '../details.module.css';
+import { useNavigate } from 'react-router-dom';
 
 const BookingDetailsHeader = ({ content, titles, sectionContent1, type, deviceBatteryData }) => {
-    
+    const userDetails          = JSON.parse(sessionStorage.getItem('userDetails'));
+    const navigate             = useNavigate();
+    const handleBookingDetails = (id) => navigate(`/portable-charger/customer-charger-booking-list/${id}`)
+
     return (
         <div className={styles.infoCard}>
             <div className="row">
@@ -23,12 +27,15 @@ const BookingDetailsHeader = ({ content, titles, sectionContent1, type, deviceBa
                  && type !== 'electricBikeLeasing'  && type !== 'buySell' && type !== 'discussionBoard'  && type !== 'shop' &&(
                     <div className="col-xl-3 col-lg-6 col-12">
                         <div className={styles.detailsHeaderSection}>
-                        <div className={styles.detailsImageSection}></div>
-                        <div className={styles.infoBlock}>
-                            <span className={styles.infoHeading}>{titles.customerDetailsTitle}</span>
-                            <span className={styles.infoHeadText}>{content.customerName}</span>
-                            <span className={styles.infoText}>{content.customerContact}</span>
-                        </div>
+                            <div className={styles.detailsImageSection}></div>
+                            <div className={styles.infoBlock}>
+                                <span className={styles.infoHeading}>{titles.customerDetailsTitle}</span>
+                                <span className={styles.infoHeadText}>{content.customerName}</span>
+                                <span className={styles.infoText}>{content.customerContact}</span>
+                                { type === 'portableChargerBooking' && 
+                                    <span onClick={() => handleBookingDetails(content.customerId)} className={styles.infoHeadText}>Prev. Booking Count : {content.custBookingCount}</span> 
+                                }
+                            </div>
                         </div>
                     </div>
                 )}
@@ -43,6 +50,7 @@ const BookingDetailsHeader = ({ content, titles, sectionContent1, type, deviceBa
                             <span className={styles.infoHeading}>{titles.driverDetailsTitle}</span>
                             <span className={styles.infoHeadText}>{content.driverName}</span>
                             <span className={styles.infoText}>{content.driverContact}</span>
+                            
                         </div>
                         </div>
                     </div>

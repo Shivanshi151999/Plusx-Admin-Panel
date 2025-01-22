@@ -87,7 +87,7 @@ const Invoice = ({ title, service, details }) => {
                                             <tbody>
                                                 <tr className={styles.serviceItem}>
                                                     <td>{service}</td>
-                                                    <td className={styles.amountRightAlign}>{details?.currency?.toUpperCase() || 'AED'} {details?.price || 49}</td>
+                                                    <td className={styles.amountRightAlign}>{details?.currency?.toUpperCase() || 'AED'} { details?.price.toFixed(2) || 49}</td>
                                                 </tr>
                                             </tbody>
                                         </table>

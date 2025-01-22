@@ -56,8 +56,8 @@ const PODBookingList = ({podId}) => {
         var batteryLength = item.pod_data.length;
         tableVal.push({ 
             booiking_id : item.booking_id, 
-            start_date  : moment(item.start_time).format('DD-MM-YYYY HH:mm A'), 
-            end_date    : moment(item.end_time).format('DD-MM-YYYY HH:mm A'), 
+            start_date  : moment(item.start_time).format('DD-MM-YYYY hh:mm A'), 
+            end_date    : moment(item.end_time).format('DD-MM-YYYY hh:mm A'), 
             kilowatt    : (chargingLevelSum * 0.25).toFixed(2) +' kw',
             battery     : ( percentage > 0 ) ? ( percentage / batteryLength ).toFixed(2) +" %" : '0 %'
         });

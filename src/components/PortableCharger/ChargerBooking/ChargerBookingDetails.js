@@ -79,14 +79,16 @@ const ChargerBookingDetails = () => {
     let rsa_data  = (bookingDetails?.rsa_data != null) ? bookingDetails?.rsa_data.split(",") : [];
     const content = {
         bookingId       : bookingDetails?.booking_id,
+        customerId       : bookingDetails?.rider_id,
         createdAt       : moment(bookingDetails?.created_at).format('DD MMM YYYY h:mm A'),
         customerName    : bookingDetails?.user_name,
         customerContact : `${bookingDetails?.country_code} ${bookingDetails?.contact_no}`,
         driverName      : rsa_data ? rsa_data[0] : '',
         driverContact   : rsa_data ? rsa_data[1] : '',
         imageUrl        : bookingDetails?.imageUrl,
-        podId          : bookingDetails?.pod_id,
-        podName        : bookingDetails?.pod_name,
+        podId           : bookingDetails?.pod_id,
+        podName         : bookingDetails?.pod_name,
+        custBookingCount : bookingDetails?.cust_booking_count || 0,
     };
     const sectionContent1 = {
         bookingStatus : statusMapping[bookingDetails?.status] || bookingDetails?.status,

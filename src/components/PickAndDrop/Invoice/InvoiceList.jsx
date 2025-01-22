@@ -111,9 +111,9 @@ const InvoiceList = () => {
                                 { 
                                     key: 'amount', 
                                     label: 'Amount', 
-                                    format: (price) => (price ? `AED ${price}` : 'AED 0') 
+                                    // format: (price) => (price ? `AED ${price}` : 'AED 0') 
+                                    format: (amount) => (`AED ${ ( amount/100 ).toFixed(2) }` )
                                 },
-                                
                                 { 
                                     key: 'payment_status', 
                                     label: 'Status',

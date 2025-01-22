@@ -117,7 +117,9 @@ import EditPodArea from "../components/PodDevice/Area/EditPodArea.jsx";
 import NotificationList from "../components/Notification/NotificationList.jsx";
 import Profile from "../components/Profile/index.jsx"
 
+import CustomerChargerBookingList from "../components/PortableCharger/ChargerBooking/CustomerChargerBookingList.js";
 
+// 
 const router = createBrowserRouter([
     {
         path    : "/login",
@@ -190,6 +192,10 @@ const router = createBrowserRouter([
                     {
                         path: "edit-charger/:chargerId",
                         element: <EditPortableCharger />,
+                    },
+                    {
+                        path: "customer-charger-booking-list/:customerId",
+                        element: <CustomerChargerBookingList />,
                     },
                     {
                         path: "charger-booking-list",
