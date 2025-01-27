@@ -244,7 +244,8 @@ const BookingList = () => {
                                 { 
                                     key: 'price', 
                                     label: 'Price', 
-                                    format: (price) => (price ? `AED ${price}` : 'AED 0') 
+                                    // format: (price) => (price ? `AED ${price}` : 'AED 0') 
+                                    format : (amount) => (`AED ${ ( amount/100 ).toFixed(2) }` )
                                 },
                                 
                                 {   key: 'order_status',

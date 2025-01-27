@@ -37,7 +37,6 @@ const Login = () => {
         } else if (password.length < 6) {
             validationErrors.password = 'Password must be at least 6 characters long';
         }
-
         setErrors(validationErrors);
 
         if (!validationErrors.username && !validationErrors.password) {
@@ -49,15 +48,17 @@ const Login = () => {
             }
             postRequest('login', obj, async(response) => {
                 if (response.code === 200) {
-                    toast(response.message || response.message[0], {type:'success'})
+                    
+                    toast(response.message || response.message[0], { type : 'success' })
                     const userDetails = {
                         user_id      : response.userDetails.id,
                         name         : response.userDetails.name,
                         email        : response.userDetails.email,
                         phone        : response.userDetails.phone,
                         image        : response.userDetails.image,
-                        access_token : response.Token ,
-                        base_url     : response.base_url 
+                        access_token : response.Token,
+                        base_url     : response.base_url,
+                        departmentId : response.userDetails.department_id 
                     };
                     sessionStorage.setItem('userDetails', JSON.stringify(userDetails));
                     

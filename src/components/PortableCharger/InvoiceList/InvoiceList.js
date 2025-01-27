@@ -111,12 +111,11 @@ const ChargerBookingInvoiceList = () => {
                                 format: (amount) => (`AED ${ ( amount/100 ).toFixed(2) }` )
                                 // format: (amount) => (amount ? `AED ${ ( amount/100 ).toFixed(2) }` : `AED ${ amount/100 }` )
                             },
-                            { key: 'payment_status', label: 'Status', format: (status) => (status === "succeeded" ? "Completed" : "") }
+                            { key : 'payment_status', label : 'Status', format: (status) => (status === "succeeded" ? "Completed" : "Approved") }
                         
                         ]}
                             pageHeading="Portable Charger Invoice List"
                         />
-           
                         <Pagination 
                             currentPage={currentPage} 
                             totalPages={totalPages} 

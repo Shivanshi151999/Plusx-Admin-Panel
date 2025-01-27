@@ -80,18 +80,17 @@ const PickAndDropBookingDetails = () => {
         customerContact : `${bookingDetails?.country_code} ${bookingDetails?.contact_no}`,
         driverName      : rsa_data ? rsa_data[0] : '-',
         driverContact   : rsa_data ? rsa_data[1] : '-',
-
     };
     const sectionContent1 = {
         bookingStatus : statusMapping[bookingDetails?.order_status] || bookingDetails?.order_status,
-        price         : bookingDetails?.price ? `${bookingDetails?.price} AED` : '',
+        price         : bookingDetails?.price ? `${ ( bookingDetails?.price/100 ).toFixed(2) } AED` : '0.0 AED',
         vehicle       : bookingDetails?.vehicle_data,
     }
     const sectionContent2 = {
         parking      : bookingDetails?.parking_number,
         parkingFloor : bookingDetails?.parking_floor,
         // address: bookingDetails?.pickup_address,
-        address: (
+        address : (
             <a
                 href={`https://www.google.com/maps?q=${bookingDetails?.pickup_latitude},${bookingDetails?.pickup_longitude}`}
                 target="_blank"

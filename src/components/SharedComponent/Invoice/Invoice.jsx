@@ -64,7 +64,7 @@ const Invoice = ({ title, service, details }) => {
                                             </td>
                                             <td className={styles.invoiceDetails}>
                                                 <p>
-                                                    Invoice Date: {moment(details?.created_at).format('DD MMM YYYY')}
+                                                    Invoice Date: {moment(details?.invoice_date).format('DD MMM YYYY')}
                                                 </p>
                                                 <p>
                                                     Invoice No.: {details?.invoice_id}
