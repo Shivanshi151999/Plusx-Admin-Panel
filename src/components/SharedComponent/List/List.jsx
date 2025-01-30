@@ -73,8 +73,9 @@ const List = ({ list, tableHeaders, listData, keyMapping, pageHeading, onDeleteS
     //Coupon
     const handleCouponEdit = (id) => navigate(`/coupon/edit-coupon/${id}`)
 
-    //Coupon
+    //Offer 
     const handleOfferEdit = (id) => navigate(`/offer/edit-offer/${id}`)
+    const handleOfferview = (id) => navigate(`/offer/offer-details/${id}`)
 
     //Shop
     const handleShopDetails = (id) => navigate(`/ev-specialized/shop-details/${id}`)
@@ -276,6 +277,7 @@ const List = ({ list, tableHeaders, listData, keyMapping, pageHeading, onDeleteS
 
                                     {pageHeading === 'Offer List' && (
                                         <>
+                                            <img src={View} alt="view" onClick={() => handleOfferview(data.offer_id)} />
                                             <img src={Edit} alt='edit' onClick={() => handleOfferEdit(data.offer_id)} />
                                             <img src={Delete} alt='delete' onClick={() => onDeleteSlot(data.offer_id)} />
                                         </>

@@ -1,0 +1,87 @@
+import React, { useEffect, useState } from 'react';
+import styles from './subscription.module.css'
+import BookingDetailsHeader from '../SharedComponent/Details/BookingDetails/BookingDetailsHeader'
+import { postRequestWithToken } from '../../api/Requests';
+import BookingLeftDetails from '../SharedComponent/BookingDetails/BookingLeftDetails.jsx'
+import { useParams } from 'react-router-dom';
+import moment from 'moment';
+import { toast, ToastContainer } from "react-toastify";
+import { useNavigate } from 'react-router-dom';
+import OfferHistory from './OfferHistory';
+
+const OfferDetails = () => {
+    const userDetails                         = JSON.parse(sessionStorage.getItem('userDetails'));
+    const navigate                            = useNavigate()
+    const { offerId }                         = useParams()
+    const [offerDetails, setOfferDetails] = useState()
+    const [imageGallery, setImageGallery]     = useState()
+    const [baseUrl, setBaseUrl]               = useState()
+
+    const fetchDetails = () => {
+        const obj = {
+            userId   : userDetails?.user_id,
+            email    : userDetails?.email,
+            offer_id : offerId
+        };
+        postRequestWithToken('offer-detail', obj, (response) => {
+            if (response.status == 1) {
+                
+                setOfferDetails(response?.data || {});
+                setImageGallery(response.galleryData)
+                setBaseUrl(response.base_url)
+            } else {
+                console.log('error in subscription-detail API', response);
+            }
+        });
+    };
+    useEffect(() => {
+        if (!userDetails || !userDetails.access_token) {
+            navigate('/login');
+            return;
+        }
+        fetchDetails();
+    }, []);
+    
+    const headerTitles = {
+        bookingIdTitle       : "Offer ID",
+        customerDetailsTitle : "Offer Name",
+    };
+    const content = {
+        bookingId       : offerId,
+        createdAt       : moment(offerDetails?.created_at).format('DD MMM YYYY hh:mm A'),
+        customerName    : offerDetails?.offer_name,
+        customerContact : '',
+    };
+    
+    const sectionTitles1 = {
+        status : "Status",
+        expiry : "Expiry Date",
+    }
+    const sectionContent1 = {
+        status : ( offerDetails?.status === 1 ) ? 'Active' : "Inactive",
+        expiry : moment(offerDetails?.offer_exp_date).format('DD MMM YYYY'),
+    }
+    const imageTitles = {
+        coverImage : "Cover Image",
+    }
+    const imageContent = {
+        coverImage    : offerDetails?.image,
+        baseUrl       : `${process.env.REACT_APP_SERVER_URL}uploads/offer/`,
+    }
+
+    return (
+        <div className={styles.appSignupSection}>
+            <BookingDetailsHeader
+                content={content} titles={headerTitles}
+                type='Offer Details'
+            />
+            <div className={styles.ChargerDetailsSection}>
+                <BookingLeftDetails titles={sectionTitles1} content={sectionContent1}
+                type='Offer Details' />
+            </div>
+            <OfferHistory offerId= {offerId} />
+        </div>
+    )
+}
+
+export default OfferDetails

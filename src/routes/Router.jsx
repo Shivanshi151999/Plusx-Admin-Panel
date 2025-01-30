@@ -78,7 +78,8 @@ import EditCoupon from "../components/Coupon/EditCoupon.jsx";
 import AddCoupon from "../components/Coupon/AddCoupon.jsx";
 import EditOffer from "../components/Offer/EditOffer.jsx";
 import AddOffer from "../components/Offer/AddOffer.jsx";
-import OfferList from "../components/Offer/OfferList.jsx";
+import OfferList from "../components/Offer/OfferList.jsx"; 
+import OfferDetails from "../components/Offer/OfferDetails.jsx";
 import EvPreSaleBookingList from "../components/EvPreSale/Booking/BookingList.jsx";
 import EvPreSaleBookingDetails from "../components/EvPreSale/Booking/BookingDetails.jsx";
 import EvPreSaleSlotList from "../components/EvPreSale/TimeSlot/SlotList.jsx";
@@ -588,6 +589,10 @@ const router = createBrowserRouter([
                     {
                         path: "offer-list",
                         element: <OfferList />,
+                    },
+                    {
+                        path: "offer-details/:offerId",
+                        element: <OfferDetails />,
                     },
                     {
                         path: "add-offer",
