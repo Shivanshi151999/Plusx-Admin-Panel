@@ -24,7 +24,7 @@ const BookingDetailsHeader = ({ content, titles, sectionContent1, type, deviceBa
                 </div>
                 
                 {type !== 'publicChargingStation' && type !== 'evGuide' && type !== 'electricCarLeasing'
-                 && type !== 'electricBikeLeasing'  && type !== 'buySell' && type !== 'discussionBoard'  && type !== 'shop' &&(
+                 && type !== 'electricBikeLeasing'  && type !== 'buySell' && type !== 'discussionBoard'  && type !== 'shop' && type !== 'Offer Details' &&(
                     <div className="col-xl-3 col-lg-6 col-12">
                         <div className={styles.detailsHeaderSection}>
                             <div className={styles.detailsImageSection}></div>
@@ -35,6 +35,18 @@ const BookingDetailsHeader = ({ content, titles, sectionContent1, type, deviceBa
                                 { type === 'portableChargerBooking' && 
                                     <span onClick={() => handleBookingDetails(content.customerId)} className={styles.infoHeadText}>See Previous Booking : {content.custBookingCount}</span> 
                                 }
+                            </div>
+                        </div>
+                    </div>
+                )}
+
+                {type === 'Offer Details' &&(
+                    <div className="col-xl-3 col-lg-6 col-12">
+                        <div className={styles.detailsHeaderSection}>
+                            <div className={styles.detailsImageSection}></div>
+                            <div className={styles.infoBlock}>
+                                <span className={styles.offerHeading}>{titles.customerDetailsTitle} : <span className={styles.offerHeadText}>{content.customerName}</span></span>
+                                <span className={styles.infoText}>Expire On : {content.customerContact}</span>
                             </div>
                         </div>
                     </div>

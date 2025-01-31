@@ -78,7 +78,7 @@ import AccordionFilter from '../SharedComponent/Accordion/Accordions';
                 <table className={`table ${styles.customTable}`}>
                     <thead>
                         <tr>
-                            <th>Sr. No.</th>
+                            {/* <th>Sr. No.</th> */}
                             <th>Date</th>
                             <th>No of clicks</th>
                         </tr>
@@ -87,14 +87,14 @@ import AccordionFilter from '../SharedComponent/Accordion/Accordions';
                         {history && history?.length > 0 ? (
                             history?.map((item, index) => (
                                 <tr key={index}>
-                                    <td>{ index + 1 }</td>
+                                    {/* <td>{ index + 1 }</td> */}
                                     <td>{ moment(item?.created_at).format('DD MMM YYYY') }</td>
                                     <td>{item?.click_count }</td>
                                 </tr>
                             ))
                         ) : (
                             <tr>
-                                <td colSpan="2" style={{ textAlign: 'start', padding: '10px' }}>
+                                <td colSpan="12" style={{ textAlign: 'start', padding: '10px' }}>
                                     No data available
                                 </td>
                             </tr>

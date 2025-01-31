@@ -260,3 +260,15 @@
   background: darkred;
 }
 /* End the multiple image container */
+
+.offerHeadText {
+  color: #00ffc3;
+}
+
+.detailsHeaderSection:hover .offerHeadText {
+  color: #000;
+}
+
+.offerHeading {
+  display: inline;
+}
