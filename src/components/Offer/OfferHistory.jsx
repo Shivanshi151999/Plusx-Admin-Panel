@@ -55,7 +55,7 @@ import AccordionFilter from '../SharedComponent/Accordion/Accordions';
         return (
             <div className={styles.addressListContainer}>
                 <div className={styles.headerCharger}>
-                    <span className={styles.sectionTitle}>Offer Click history</span>
+                    <span className={styles.sectionTitle}>History</span>
                     <div className={styles.addButtonSection} onClick={toggleFilterAccordion}>
                         <div className={styles.addButtonImg}>
                             <img src={Filter} alt='Filter' />
@@ -78,25 +78,23 @@ import AccordionFilter from '../SharedComponent/Accordion/Accordions';
                 <table className={`table ${styles.customTable}`}>
                     <thead>
                         <tr>
-                            <th>Offer ID</th>
-                            <th>Customer Name</th>
-                            <th>Click Count</th>
+                            <th>Sr. No.</th>
                             <th>Date</th>
+                            <th>No of clicks</th>
                         </tr>
                     </thead>
                     <tbody>
                         {history && history?.length > 0 ? (
                             history?.map((item, index) => (
                                 <tr key={index}>
-                                    <td> {item?.offer_id }</td>
-                                    <td>{item?.rider_name }</td>
-                                    <td>{item?.click_count }</td>
+                                    <td>{ index + 1 }</td>
                                     <td>{ moment(item?.created_at).format('DD MMM YYYY') }</td>
+                                    <td>{item?.click_count }</td>
                                 </tr>
                             ))
                         ) : (
                             <tr>
-                                <td colSpan="3" style={{ textAlign: 'start', padding: '10px' }}>
+                                <td colSpan="2" style={{ textAlign: 'start', padding: '10px' }}>
                                     No data available
                                 </td>
                             </tr>

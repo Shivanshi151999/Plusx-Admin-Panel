@@ -163,7 +163,7 @@ const CustomerChargerBookingList = () => {
     return (
         <div className='main-container'>
             <SubHeader
-                heading             = "Portable Charger Booking List"
+                heading             = "Customer POD Booking List"
                 fetchFilteredData   = {fetchFilteredData}
                 dynamicFilters      = {dynamicFilters}
                 filterValues        = {filters}
@@ -178,23 +178,23 @@ const CustomerChargerBookingList = () => {
             {loading ? <Loader /> :
                 chargerBookingList.length === 0 ? (
                     <EmptyList
-                        tableHeaders={["Booking Date","Schedule Date","Booking ID", "Customer Name", "Service Name", "Status","Assigned Driver", "Action"]}
+                        tableHeaders={["Booking Date", "Schedule Date", "Schedule Time", "Booking ID", "Customer Name", "Status","Driver Name", "Action"]}
                         message="No data available"
                     />
                 ) : (  
                 <>
                     <List
-                        tableHeaders={["Booking Date","Schedule Date","Booking ID", "Customer Name", "Service Name", "Status","Assigned Driver", "Action",""]}
+                        tableHeaders={["Booking Date", "Schedule Date", "Schedule Time", "Booking ID", "Customer Name", "Status","Driver Name", "Action",""]}
                         listData={chargerBookingList}
                         keyMapping={[
                             { key: 'created_at', label: 'Date & Time', format: (date) => moment(date).format('DD MMM YYYY') },
                             { key: 'slot_date', label: 'Schedule Date', format: (date) => moment(date).format('DD MMM YYYY') },
+                            { key: 'slot_time', label: 'Schedule Time', format: (date) => moment(date).format(' hh:mm A') },
                             { key: 'booking_id', label: 'ID' },
                             { key: 'user_name', label: 'Customer Name' },
-                            { key: 'service_name', label: 'Service Name' },
                             // { key: 'service_price', label: 'Price', format: (price) => (price ? `AED ${price}` : '') },   
                             { key: 'status', label: 'Status', format: (status) => statusMapping[status] || status },                    
-                            { key: 'rsa_name', label: 'Assigned Driver' }, 
+                            { key: 'rsa_name', label: 'Driver Name' }, 
                             {
                                 key: 'action',
                                 label: 'Action',
@@ -211,7 +211,7 @@ const CustomerChargerBookingList = () => {
                                 }
                             }
                         ]}
-                        pageHeading="Charger Booking List"
+                        pageHeading="Customer POD Booking List"
                     />
                     <Pagination
                         currentPage={currentPage}

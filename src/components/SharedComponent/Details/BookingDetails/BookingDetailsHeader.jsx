@@ -33,7 +33,7 @@ const BookingDetailsHeader = ({ content, titles, sectionContent1, type, deviceBa
                                 <span className={styles.infoHeadText}>{content.customerName}</span>
                                 <span className={styles.infoText}>{content.customerContact}</span>
                                 { type === 'portableChargerBooking' && 
-                                    <span onClick={() => handleBookingDetails(content.customerId)} className={styles.infoHeadText}>Prev. Booking Count : {content.custBookingCount}</span> 
+                                    <span onClick={() => handleBookingDetails(content.customerId)} className={styles.infoHeadText}>See Previous Booking : {content.custBookingCount}</span> 
                                 }
                             </div>
                         </div>

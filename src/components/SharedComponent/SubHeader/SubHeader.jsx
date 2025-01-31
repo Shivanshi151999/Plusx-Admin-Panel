@@ -72,7 +72,7 @@ const SubHeader = ({ heading, fetchFilteredData, dynamicFilters, filterValues, a
     const shouldShowSearchButtonArr = [ "Ev Road Assistance Invoice List" , "Pick & Drop Invoice List", "Notification List", "Ev Buy Sell List", "Offer List", "Pick & Drop Time Slot List","Portable Charger Slot List" ,"Time Slot List"]
     const shouldShowSearchButton = !shouldShowSearchButtonArr.includes(heading)
 
-    const shouldShowAddButtonArr = ["App Signup List", "Portable Charger Booking List", "Pick & Drop Booking List", "Portable Charger Invoice List", "Notification List", "Pick & Drop Invoice List", "Charger Installation List", "Ev Road Assitance Booking List","Road Assistance Invoice List", "Board List", "Insurance List", "Buy Sell List", "Interest List","Subscription List", "EV Pre-Sale Testing Booking List", "Ev Road Assistance Invoice List", "Ev Discussion Board List","Ev Insurance List", "Ev Buy & Sell List", "Register Interest List"] ;
+    const shouldShowAddButtonArr = ["App Signup List", "Portable Charger Booking List", "Pick & Drop Booking List", "Portable Charger Invoice List", "Notification List", "Pick & Drop Invoice List", "Charger Installation List", "Ev Road Assitance Booking List","Road Assistance Invoice List", "Board List", "Insurance List", "Buy Sell List", "Interest List","Subscription List", "EV Pre-Sale Testing Booking List", "Ev Road Assistance Invoice List", "Ev Discussion Board List","Ev Insurance List", "Ev Buy & Sell List", "Register Interest List", "Customer POD Booking List"] ;
         
     const shouldShowDownloadButtonArr = ["App Signup List", "Portable Charger Booking List",];
     const shouldShowDownloadButton = shouldShowDownloadButtonArr.includes(heading)
@@ -81,7 +81,7 @@ const SubHeader = ({ heading, fetchFilteredData, dynamicFilters, filterValues, a
     const cardArray = [ "App Signup List", "Portable Charger Booking List", "Offer List", "Subscription List", "Coupon List", "Register Interest List", "Ev Buy & Sell List", "Ev Specialized Shop List", "Ev Insurance List", "Ev Discussion Board List", "Ev Rider Clubs List", "EV Guide List", "Electric Bikes Leasing List", "Electric Cars Leasing List", "Public Chargers List"]
 
     const showCard = cardArray.includes(heading);
-    const headingArray = [ "Drivers List",  "Portable Charger List", "Portable Charger Invoice List", "Portable Charger Slot List", "Pick & Drop Booking List", "Pick & Drop Invoice List", "Pick & Drop Time Slot List", "Charger Installation List", "Notification List", "EV Pre-Sale Testing Booking List", "Time Slot List", "Ev Road Assistance Invoice List", "Ev Specialized Shop Service List", "Ev Specialized Shop Brand List", "Ev Road Assitance Booking List", "Add POD List", "POD Brand List", "POD Device List","POD Area List"]
+    const headingArray = [ "Drivers List",  "Portable Charger List", "Portable Charger Invoice List", "Portable Charger Slot List", "Pick & Drop Booking List", "Pick & Drop Invoice List", "Pick & Drop Time Slot List", "Charger Installation List", "Notification List", "EV Pre-Sale Testing Booking List", "Time Slot List", "Ev Road Assistance Invoice List", "Ev Specialized Shop Service List", "Ev Specialized Shop Brand List", "Ev Road Assitance Booking List", "Add POD List", "POD Brand List", "POD Device List","POD Area List", "Customer POD Booking List"]
 
     const showHeading = headingArray.includes(heading);  // "Portable Charger Booking List",
 

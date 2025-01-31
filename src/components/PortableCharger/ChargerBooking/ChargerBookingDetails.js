@@ -23,6 +23,7 @@ const statusMapping = {
     'WC' : 'Work Completed',
     'DO' : 'Drop Off',
     'C'  : 'Cancel',
+    'RO' : 'Reached Station',
 };
 
 const ChargerBookingDetails = () => {

@@ -21,6 +21,7 @@ const BookingDetailsAccordion = ({history, rsa, imageUrl, fieldMapping, title })
         WC  : 'Work Completed',
         DO  : 'Drop Off',
         C   : "Cancelled",
+        RO  : 'Reached Station',
     };
 
     const sections = history?.map((item) => ({
@@ -31,14 +32,15 @@ const BookingDetailsAccordion = ({history, rsa, imageUrl, fieldMapping, title })
         showRSA     : item?.order_status !== 'CNF',
         // showInvoice : item?.order_status === 'PU',
 
-        showImage    : item?.order_status === 'PU' || item?.order_status === 'WC',
+        showImage    : item?.order_status === 'CS' || item?.order_status === 'PU' || item?.order_status === 'WC',
         // imageUrl  : rsa.imageUrl + ''+item?.image,
-        imageUrls    : item?.order_status === 'PU' ? item?.image.split('*').map(img => rsa.imageUrl + img) : [],
+        imageUrls    : (item?.order_status === 'CS' || item?.order_status === 'PU') ? item?.image.split('*').map(img => rsa.imageUrl + img) : [],
         order_status : item?.order_status,
         cancel_by    : item?.cancel_by === 'Admin' ?  'Admin' : rsa?.customerName,
         reason       : item?.reason,
         podId        : rsa?.podId || '',
         podName      : rsa?.podName || '',
+        remarks      : item?.remarks || '',
     }));
     //  (Array.isArray(item.images.split('*')) ?   : [rsa.imageUrl + item?.image]) 
 
@@ -75,12 +77,9 @@ const BookingDetailsAccordion = ({history, rsa, imageUrl, fieldMapping, title })
                             {section.order_status === 'CS' && (
                                 <p className={styles.accodionPTag}><strong>Pod Name :</strong> { section?.podName }</p>
                             )}
-                            {/* {section.showImage && (
-                                <div>
-                                    <p><strong>Image:</strong></p>
-                                    <img src={section?.imageUrl} alt="Img" style={{ maxWidth: '700px', height: '250px', margin: '5px' }} />
-                                </div>
-                            )} */}
+                            {section.remarks && section.order_status === 'CS' && (
+                                <p className={styles.accodionPTag}><strong>Remarks :</strong> { section?.remarks }</p>
+                            )}
                             {section.showImage && section.imageUrls.length > 0 && (
                                 <div>
                                     <p className={styles.accodionPTag}><strong>Images :</strong></p>

@@ -43,31 +43,31 @@ const OfferDetails = () => {
     }, []);
     
     const headerTitles = {
-        bookingIdTitle       : "Offer ID",
-        customerDetailsTitle : "Offer Name",
+        bookingIdTitle       : "Offer Name",
+        customerDetailsTitle : "Status",
     };
     const content = {
-        bookingId       : offerId,
-        createdAt       : moment(offerDetails?.created_at).format('DD MMM YYYY hh:mm A'),
-        customerName    : offerDetails?.offer_name,
-        customerContact : '',
+        bookingId       : offerDetails?.offer_name, // Offer Expiry Date
+        createdAt       : '', //moment(offerDetails?.created_at).format('DD MMM YYYY hh:mm A'),
+        customerName    : ( offerDetails?.status === 1 ) ? 'Active' : "Inactive",
+        customerContact : moment(offerDetails?.offer_exp_date).format('DD MMM YYYY'),
     };
     
-    const sectionTitles1 = {
-        status : "Status",
-        expiry : "Expiry Date",
-    }
-    const sectionContent1 = {
-        status : ( offerDetails?.status === 1 ) ? 'Active' : "Inactive",
-        expiry : moment(offerDetails?.offer_exp_date).format('DD MMM YYYY'),
-    }
-    const imageTitles = {
-        coverImage : "Cover Image",
-    }
-    const imageContent = {
-        coverImage    : offerDetails?.image,
-        baseUrl       : `${process.env.REACT_APP_SERVER_URL}uploads/offer/`,
-    }
+    // const sectionTitles1 = {
+    //     status : "Status",
+    //     expiry : "Expiry Date",
+    // }
+    // const sectionContent1 = {
+    //     status : ( offerDetails?.status === 1 ) ? 'Active' : "Inactive",
+    //     expiry : moment(offerDetails?.offer_exp_date).format('DD MMM YYYY'),
+    // }
+    // const imageTitles = {
+    //     coverImage : "Cover Image",
+    // }
+    // const imageContent = {
+    //     coverImage    : offerDetails?.image,
+    //     baseUrl       : `${process.env.REACT_APP_SERVER_URL}uploads/offer/`,
+    // }
 
     return (
         <div className={styles.appSignupSection}>
@@ -75,10 +75,10 @@ const OfferDetails = () => {
                 content={content} titles={headerTitles}
                 type='Offer Details'
             />
-            <div className={styles.ChargerDetailsSection}>
+            {/* <div className={styles.ChargerDetailsSection}>
                 <BookingLeftDetails titles={sectionTitles1} content={sectionContent1}
                 type='Offer Details' />
-            </div>
+            </div> */}
             <OfferHistory offerId= {offerId} />
         </div>
     )
