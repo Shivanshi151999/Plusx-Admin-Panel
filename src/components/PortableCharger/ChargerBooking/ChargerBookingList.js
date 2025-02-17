@@ -28,7 +28,7 @@ import axios from 'axios';
         // 'PU' : 'POD Picked Up',
         'PU' : 'Completed',
         'C'  : 'Cancelled',
-        'RO' : 'Reached Station',
+        'RO' : 'POD Reached at Office',
     };
 
 const dynamicFilters = [
@@ -46,7 +46,7 @@ const dynamicFilters = [
             { value : 'CC',  label : 'Charging Completed' },
             // { value : 'PU',  label : 'POD Picked Up' },
             { value : 'PU',  label : 'Completed' },
-            { value : 'RO',  label : 'Reached Station' },
+            { value : 'RO',  label : 'POD Reached at Office' },
             { value : 'C',   label : 'Cancelled' },
         ]
     },
@@ -321,7 +321,7 @@ const ChargerBookingList = () => {
                                 relatedKeys: ['status'], 
                                 format: (data, key, relatedKeys) => {
                                     // const isCancelable = data[relatedKeys[0]] !== 'C'; 
-                                    const isCancelable = !['C', 'PU'].includes(data[relatedKeys[0]]);
+                                    const isCancelable = !['C', 'PU', 'RO'].includes(data[relatedKeys[0]]);
                             
                                     return (
                                         <div className="editButtonSection">

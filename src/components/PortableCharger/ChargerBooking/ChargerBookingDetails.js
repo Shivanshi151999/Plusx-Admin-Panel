@@ -23,7 +23,7 @@ const statusMapping = {
     'WC' : 'Work Completed',
     'DO' : 'Drop Off',
     'C'  : 'Cancel',
-    'RO' : 'Reached Station',
+    'RO' : 'POD Reached at Office',
 };
 
 const ChargerBookingDetails = () => {
@@ -94,7 +94,7 @@ const ChargerBookingDetails = () => {
     const sectionContent1 = {
         bookingStatus : statusMapping[bookingDetails?.status] || bookingDetails?.status,
         serviceName   : bookingDetails?.service_name,
-        price         : bookingDetails?.service_price ? `${bookingDetails?.service_price} AED` : '',
+        price         : bookingDetails?.service_price ? `${ ( bookingDetails?.service_price / 100).toFixed(2) } AED` : '0 AED',
     }
     const sectionContent2 = {
         vehicle        : bookingDetails?.vehicle_data,
@@ -102,7 +102,7 @@ const ChargerBookingDetails = () => {
         serviceFeature : bookingDetails?.service_feature,
     }
     const sectionContent3 = {
-        // address: bookingDetails?.address,
+        // address: bookingDetails?.address
         address: (
             <a
                 href    = {`https://www.google.com/maps?q=${bookingDetails?.latitude},${bookingDetails?.longitude}`}

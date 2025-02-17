@@ -21,7 +21,7 @@ const BookingDetailsAccordion = ({history, rsa, imageUrl, fieldMapping, title })
         WC  : 'Work Completed',
         DO  : 'Drop Off',
         C   : "Cancelled",
-        RO  : 'Reached Station',
+        RO  : 'POD Reached at Office',
     };
 
     const sections = history?.map((item) => ({
@@ -34,7 +34,8 @@ const BookingDetailsAccordion = ({history, rsa, imageUrl, fieldMapping, title })
 
         showImage    : item?.order_status === 'CS' || item?.order_status === 'PU' || item?.order_status === 'WC',
         // imageUrl  : rsa.imageUrl + ''+item?.image,
-        imageUrls    : (item?.order_status === 'CS' || item?.order_status === 'PU') ? item?.image.split('*').map(img => rsa.imageUrl + img) : [],
+        // imageUrls    : (item?.order_status === 'CS' || item?.order_status === 'PU') ? item?.image.split('*').map(img => rsa.imageUrl + img) : [],
+        imageUrls    : ( item?.image && (item?.image != '' || item?.image != null ) ) ? item?.image.split('*').map(img => rsa.imageUrl + img) : [],
         order_status : item?.order_status,
         cancel_by    : item?.cancel_by === 'Admin' ?  'Admin' : rsa?.customerName,
         reason       : item?.reason,

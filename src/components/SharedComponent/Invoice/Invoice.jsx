@@ -7,7 +7,7 @@ import html2pdf from 'html2pdf.js';
 import Download from '../../../assets/images/Download.svg'
 
 const Invoice = ({ title, service, details }) => {
-    console.log(details)
+    
     const handleDownload = () => {
         const invoiceElement = document.getElementById('invoiceToDownload');
         const options = {
@@ -87,7 +87,7 @@ const Invoice = ({ title, service, details }) => {
                                             <tbody>
                                                 <tr className={styles.serviceItem}>
                                                     <td>{service}</td>
-                                                    <td className={styles.amountRightAlign}>{details?.currency?.toUpperCase() || 'AED'} { details?.price.toFixed(2) || 49}</td>
+                                                    <td className={styles.amountRightAlign}>{details?.currency?.toUpperCase() || 'AED'} { details?.price.toFixed(2) || 39}</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -129,6 +129,15 @@ const Invoice = ({ title, service, details }) => {
                                                     <td></td>
                                                     <td className={styles.amountRightAlign}>{details?.t_vat_amt.toFixed(2)}</td>
                                                 </tr>
+                                                { details?.dis_price > 0 && (
+                                                    <tr className={styles.serviceItem}>
+                                                        <td>Coupon </td>
+                                                        {/* ({details?.discount+'%'}) */}
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td className={styles.amountRightAlign}>{details?.dis_price.toFixed(2)}</td>
+                                                    </tr>
+                                                )}
                                             </tbody>
                                         </table>
                                     </td>

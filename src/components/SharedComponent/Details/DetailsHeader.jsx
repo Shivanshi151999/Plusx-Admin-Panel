@@ -27,7 +27,7 @@ const RiderInfo = ({ headerDetails }) => {
     {
       label: 'Date of Birth',
       icon: DateofBirth,
-      value: moment(headerDetails?.date_of_birth).format('YYYY-MM-DD'),
+      value: moment(headerDetails?.date_of_birth).format('DD MMM YYYY'),
     },
   ];
 

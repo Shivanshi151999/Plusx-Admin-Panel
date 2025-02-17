@@ -83,7 +83,7 @@ const PickAndDropBookingDetails = () => {
     };
     const sectionContent1 = {
         bookingStatus : statusMapping[bookingDetails?.order_status] || bookingDetails?.order_status,
-        price         : bookingDetails?.price ? `${ ( bookingDetails?.price/100 ).toFixed(2) } AED` : '0.0 AED',
+        price         : bookingDetails?.price ? `${ ( bookingDetails?.price ).toFixed(2) } AED` : '0.0 AED',
         vehicle       : bookingDetails?.vehicle_data,
     }
     const sectionContent2 = {

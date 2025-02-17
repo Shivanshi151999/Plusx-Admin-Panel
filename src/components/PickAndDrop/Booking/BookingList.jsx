@@ -245,15 +245,13 @@ const BookingList = () => {
                                     key: 'price', 
                                     label: 'Price', 
                                     // format: (price) => (price ? `AED ${price}` : 'AED 0') 
-                                    format : (amount) => (`AED ${ ( amount/100 ).toFixed(2) }` )
+                                    format : (amount) => (`AED ${ ( amount ).toFixed(2) }` )
                                 },
-                                
                                 {   key: 'order_status',
                                     label: 'Status',
                                     format: (status) => statusMapping[status] || status 
 
                                 },
-                            
                                 {
                                     key: 'driver_assign',
                                     label: 'Driver Assign',

@@ -133,6 +133,7 @@ import AccordionFilter from '../../SharedComponent/Accordion/Accordions';
                         <tr>
                             <th>Booking ID</th>
                             <th>Schedule Date</th>
+                            <th>Schedule Time</th>
                             <th>Booking Date</th>
                             <th>Customer Name</th>
                             {/* <th>Price</th> */}
@@ -148,6 +149,7 @@ import AccordionFilter from '../../SharedComponent/Accordion/Accordions';
                                         <a onClick={renderBooking} style={{color : "#00ffc3 !important"}}>{item?.booking_id } </a> 
                                     </td>
                                     <td>{moment(item?.slot_date).format('DD MMM YYYY') }</td>
+                                    <td>{moment(item?.slot_time).format('hh:mm A') }</td>
                                     <td>{moment(item?.created_at).format('DD MMM YYYY') }</td>
                                     <td>{item?.user_name}</td>
                                     {/* <td>{item?.price ? `${item?.price} AED` : '' }</td> */}
