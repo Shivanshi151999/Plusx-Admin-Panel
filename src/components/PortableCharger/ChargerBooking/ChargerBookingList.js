@@ -7,6 +7,7 @@ import { postRequestWithToken, postRequest } from '../../../api/Requests';
 import moment from 'moment'; 
 import AddDriver from '../../../assets/images/AddDriver.svg';
 import Cancel from '../../../assets/images/Cancel.svg';
+import Alert from '../../../assets/images/Alert.svg';
 import View from '../../../assets/images/ViewEye.svg'
 import ModalAssign from '../../SharedComponent/BookingDetails/ModalAssign.jsx'
 import { toast, ToastContainer } from "react-toastify";
@@ -17,6 +18,8 @@ import Loader from "../../SharedComponent/Loader/Loader";
 import EmptyList from '../../SharedComponent/EmptyList/EmptyList.jsx';
 import { utils, writeFile } from 'xlsx';
 import axios from 'axios';
+import { Tooltip } from 'react-tooltip';
+import 'react-tooltip/dist/react-tooltip.css';
 
     const statusMapping = {
         'CNF': 'Booking Confirmed',
@@ -342,6 +345,16 @@ const ChargerBookingList = () => {
                                                     className="viewButton"
                                                 />
                                             )}
+
+                                            {/* Alert Icon */}
+                                            <img 
+                                                src={Alert} 
+                                                alt="alert" 
+                                                className="viewButton"
+                                                data-tooltip-id="alert-tooltip"
+                                                data-tooltip-content="Need Attention"
+                                            />
+                                            <Tooltip id="alert-tooltip" style={{backgroundColor: "#00ffcc", color: "#000"}} />
                                         </div>
                                     );
                                 }
