@@ -225,13 +225,13 @@ const BookingList = () => {
             {loading ? <Loader /> :
                 chargerBookingList.length === 0 ? (
                     <EmptyList
-                        tableHeaders={["Date", "Booking ID", "Customer Name", "Price", "Status", "Driver Assign", "Action",""]}
+                        tableHeaders={["Booking Date", "Booking ID", "Customer Name", "Price", "Status", "Driver Assign", "Action",""]}
                         message="No data available"
                     />
                     ) : (
                     <>
                         <List 
-                            tableHeaders={["Date", "Booking ID", "Customer Name", "Price", "Status", "Driver Assign", "Action",""]}
+                            tableHeaders={["Booking Date", "Booking ID", "Customer Name", "Price", "Status", "Driver Assign", "Action",""]}
                             listData = {chargerBookingList}
                             keyMapping={[
                                 { 

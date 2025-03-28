@@ -120,7 +120,15 @@ import Profile from "../components/Profile/index.jsx"
 
 import CustomerChargerBookingList from "../components/PortableCharger/ChargerBooking/CustomerChargerBookingList.js";
 
-// 
+
+import FailedChargerBookingList from "../components/PortableCharger/ChargerBooking/FailedChargerBookingList.js";
+import FailedPickAndDropBookingList from "../components/PickAndDrop/Booking/FailedBookingList.jsx";
+// Partners routes
+import Partners from "../components/PartnerPortal/index.jsx";
+import PartnerLists from "../components/PartnerPortal/PartnerLists.jsx";
+import AddPartner from "../components/PartnerPortal/AddPartner.jsx";
+import EditPartner from "../components/PartnerPortal/EditPartner.jsx";
+
 const router = createBrowserRouter([
     {
         path    : "/login",
@@ -262,6 +270,10 @@ const router = createBrowserRouter([
                         path    : "edit-area/:areaId",
                         element : <EditPodArea />,
                     },
+                    {
+                        path: "failed-booking-list",
+                        element: <FailedChargerBookingList />,
+                    },
                     // End Pod Device Route
                 ],
             },
@@ -298,6 +310,10 @@ const router = createBrowserRouter([
                     {
                         path: "edit-time-slot/:slotDate",
                         element: <EditPickAndDropTimeSlot />,
+                    },
+                    {
+                        path: "failed-booking-list",
+                        element: <FailedPickAndDropBookingList />,
                     },
                 ],
             },
@@ -579,8 +595,6 @@ const router = createBrowserRouter([
                 ],
             },
             
-           
-
             //Offer
             {
                 path: "/offer",
@@ -625,7 +639,6 @@ const router = createBrowserRouter([
                 ],
             },
            
-
             //Register Interest
             {
                 path: "/interest-list",
@@ -643,6 +656,29 @@ const router = createBrowserRouter([
                     {
                         path: "subscription-details/:subId",
                         element: <SubscriptionDetails />,
+                    },
+                ],
+            },
+            // Partner Portal
+            {
+                path: "/partners",
+                element: <Partners/>,
+                children: [
+                    {
+                        path: "partner-list",
+                        element: <PartnerLists />,
+                    },
+                    // {
+                    //     path: "partner-details/:rsaId",
+                    //     element: <EmergencyTeam />,
+                    // },
+                    {
+                        path: "add-partner",
+                        element: <AddPartner />,
+                    },
+                    {
+                        path: "edit-partner/:rsaId",
+                        element: <EditPartner />,
                     },
                 ],
             },

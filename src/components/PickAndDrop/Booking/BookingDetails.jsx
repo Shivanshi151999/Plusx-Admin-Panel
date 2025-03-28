@@ -10,6 +10,7 @@ import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
 
 const statusMapping = {
+    'PNR' : 'Payment Not Received',
     'CNF': 'Booking Confirmed',
     'A'  : 'Assigned',
     'RL' : 'POD Reached at Location',

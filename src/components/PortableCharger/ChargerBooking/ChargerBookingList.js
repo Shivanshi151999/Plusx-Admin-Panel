@@ -141,7 +141,7 @@ const ChargerBookingList = () => {
         };
         postRequestWithToken('charger-booking-list', obj, async (response) => {
             if (response.code === 200) {
-                console.log(response?.data);
+                // console.log(response?.data);
                 setChargerBookingList(response?.data);
                 setTotalPages(response?.total_page || 1);
                 setTotalCount(response?.total || 1)
@@ -345,16 +345,18 @@ const ChargerBookingList = () => {
                                                     className="viewButton"
                                                 />
                                             )}
-
                                             {/* Alert Icon */}
-                                            <img 
-                                                src={Alert} 
-                                                alt="alert" 
-                                                className="viewButton"
-                                                data-tooltip-id="alert-tooltip"
-                                                data-tooltip-content="Need Attention"
-                                            />
-                                            <Tooltip id="alert-tooltip" style={{backgroundColor: "#00ffcc", color: "#000"}} />
+                                            {data.address_alert && (<>
+                                                <img 
+                                                    src={Alert} 
+                                                    alt="alert" 
+                                                    className="viewButton"
+                                                    data-tooltip-id="alert-tooltip"
+                                                    data-tooltip-content={data.address_alert} 
+                                                />
+                                                <Tooltip id="alert-tooltip" style={{backgroundColor: "#00ffcc", color: "#000"}} />
+                                                </>
+                                            )}
                                         </div>
                                     );
                                 }

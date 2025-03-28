@@ -191,7 +191,7 @@ const SideNavbar = () => {
                     <SideBarLinkItem label="Register Interest" path="/interest-list" isActive={isActive("/interest-list")} />
                     <SideBarLinkItem label="Coupon" path="/coupon/coupon-list" isActive={isActive("/coupon")} />
                     <SideBarLinkItem label="Subscription Package" path="/subscription/subscription-list" isActive={isActive("/subscription")} />
-
+                    {/* <SideBarLinkItem label="Partners" path="/partners/partner-list" isActive={isActive("/partners")} /> */}
                 </ul>
             </div>
         </div>

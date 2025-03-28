@@ -7,11 +7,13 @@ export const menuItems = {
 
         { id: "deviceList", label: "Device List", path: "/portable-charger/device-list" },
         { id: "areaList", label: "Area List", path: "/portable-charger/area-list" },
+        { id: "failedBooking", label: "Failed Booking", path: "/portable-charger/failed-booking-list" },
     ],
     pickAndDrop: [
         { id: "bookingList", label: "Booking List", path: "/pick-and-drop/booking-list" },
         { id: "invoiceList", label: "Invoice List", path: "/pick-and-drop/invoice-list" },
         { id: "timeSlot", label: "Time Slot", path: "/pick-and-drop/time-slot-list" },
+        { id: "failedbookingList", label: "Failed Booking List", path: "/pick-and-drop/failed-booking-list" },
     ],
     evRoadAssistance: [
         { id: "bookingList", label: "Booking List", path: "/ev-road-assistance/booking-list" },

@@ -89,13 +89,14 @@ const DeviceDetails = () => {
     const capacity = parseFloat( capacityArr.reduce((sum, row) => sum + ( parseFloat(row) || 0), 0) );
     const capacityKw = ( capacity / 1000 ) ;
     const batteryLength = deviceBatteryData.length;
+
     const headerTitles = {
         bookingIdTitle       : "Current",
         customerDetailsTitle : "Voltage", 
         driverDetailsTitle   : "Percentage", 
         podTemp              : "Charging Speed", 
         chargingStatus       : 'Charging Status',
-        lastupdate       : 'Last Update',
+        lastupdate           : 'Last Update',
     };
     const content = {  
         bookingId    : ( current ).toFixed(2) +" A", 
@@ -106,7 +107,16 @@ const DeviceDetails = () => {
         chargingStatus : ( capacityKw > 0) ? 'Charging' : ( capacityKw <= -0 && capacityKw >= -3 ) ? 'Stand By' : 'Discharging',
         lastupdate    : moment(deviceBatteryData[batteryLength-1].updated_at).format('DD MMM YYYY HH:mm A'),
     }; 
-    // console.log(moment().tz('Asia/Dubai').format('DD MMM YYYY HH:mm A'))
+    const date1 = deviceBatteryData[batteryLength-1].updated_at; 
+    if(date1) {
+        let date2      = moment().tz("Asia/Dubai");
+        let activeTime =  date2.subtract(30, 'minutes').format('YYYY-MM-DD HH:mm:ss');
+        if(date1 < activeTime){
+            headerTitles.lastupdate = "Device Status";
+            content.lastupdate      = 'In-Active'
+        }
+    }
+    
     const sectionTitles1 = {
         bookingStatus : "POD ID",
         price         : "Pod Name",
