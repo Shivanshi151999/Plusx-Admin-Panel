@@ -145,12 +145,14 @@ const List = ({ list, tableHeaders, listData, keyMapping, pageHeading, onDeleteS
                                             <img src={Delete} alt='delete' onClick={() => onDeleteSlot(data.slot_id)} />
                                         </>
                                     )}
-                                    {pageHeading === 'App Signup List' && (
+                                    { (pageHeading === 'App Signup List' || pageHeading === 'Deleted Account List') && (
                                         <>
                                             <img src={View} alt="view"
                                                 onClick={() => handleSignupDetails(data.rider_id)}
                                             />
-                                            <img src={Delete} alt='delete' onClick={() => onDeleteSlot(data.rider_id)} />
+                                            {/* { pageHeading === 'App Signup List' && (
+                                                <img src={Delete} alt='delete' onClick={() => onDeleteSlot(data.rider_id)} />
+                                            )} */}
                                         </>
                                     )}
                                     {pageHeading === 'Pick & Drop Invoice List' && (

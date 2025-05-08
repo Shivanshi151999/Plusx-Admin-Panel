@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import Select from "react-select";
-import { GoogleMap, useJsApiLoader, useLoadScript, Marker } from "@react-google-maps/api";
+// import { GoogleMap, useJsApiLoader, useLoadScript, Marker } from "@react-google-maps/api";
 import UploadIcon from '../../assets/images/uploadicon.svg';
 import { AiOutlineClose } from 'react-icons/ai';
 import styles from './addcharger.module.css';
@@ -27,11 +27,12 @@ const AddChargerStation = () => {
     const [address, setAddress]               = useState('')
     const [latitude, setLatitude]             = useState('')
     const [longitude, setLongitude]           = useState('')
-    const [open, setOpen]                     = useState(false)
+    // const [open, setOpen]                     = useState(false)
     const [isAlwaysOpen, setIsAlwaysOpen]     = useState(false);
     const [loading, setLoading]               = useState(false);
 
-    const [openDays, setOpenDays] = useState()
+    const [availableChargingPoint, setAvailableChargingPoint] = useState('')
+    const [occupiedChargingPoint, setOccupiedChargingPoint]   = useState('')
 
     const [timeSlots, setTimeSlots] = useState({
         Monday    : { open: '', close: '', openMandatory: false, closeMandatory: false },
@@ -43,11 +44,9 @@ const AddChargerStation = () => {
         Sunday    : { open: '', close: '', openMandatory: false, closeMandatory: false },
     });
 
-    const { isLoaded } = useJsApiLoader({
-        googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY
-      });
-
-
+    // const { isLoaded } = useJsApiLoader({
+    //     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY
+    // });
     const handleTimeChange = (day, timeType) => (event) => {
         const value = event.target.value.replace(/[^0-9:-]/g, '');
 
@@ -59,7 +58,6 @@ const AddChargerStation = () => {
                     [timeType]: value,
                 },
             };
-
             if (timeType === 'open') {
                 if (value) {
                     updatedTimeSlots[day].closeMandatory = true;
@@ -73,7 +71,6 @@ const AddChargerStation = () => {
                     updatedTimeSlots[day].openMandatory = false;
                 }
             }
-
             return updatedTimeSlots;
         });
     };
@@ -81,25 +78,23 @@ const AddChargerStation = () => {
     const handleCancel = () => {
         navigate('/public-charger-station/public-charger-station-list')
     }
-
     const brandDropdownRef = useRef(null);
     const serviceDropdownRef = useRef(null);
 
     const handleAlwaysOpenChange = (event) => {
         setIsAlwaysOpen(event.target.checked);
     };
-
-    const [selectedService, setSelectedService] = useState(null);
+    // const [selectedService, setSelectedService] = useState(null);
+    // const handleServiceChange = (selectedOption) => setSelectedService(selectedOption);
 
     const handleChargingFor = (selectedOptions) => {
         setSelectedBrands(selectedOptions);
     };
-    const handleServiceChange = (selectedOption) => setSelectedService(selectedOption);
+    
 
     const handleChargingType = (selectedOption) => {
         setSelectedType(selectedOption);
     };
-
     const [price, setPrice] = useState(null);
     const priceOptions = [
         { value: "Free", label: "Free" },
@@ -116,7 +111,6 @@ const AddChargerStation = () => {
             alert('Please upload a valid image file.');
         }
     };
-
     const handleRemoveImage = () => setFile(null);
 
     const handleGalleryChange = (event) => {
@@ -127,33 +121,26 @@ const AddChargerStation = () => {
             alert('Please upload only valid image files.');
             return;
         }
-
         setGalleryFiles((prevFiles) => [...prevFiles, ...validFiles]);
         setErrors((prev) => ({ ...prev, gallery: "" }));
     };
-
     const handleRemoveGalleryImage = (index) => {
         setGalleryFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
     };
 
     const handleOnBlur = (value) => {
         const currentAddress = value
-    
-        const geocoder = new window.google.maps.Geocoder();
+        const geocoder       = new window.google.maps.Geocoder();
         geocoder.geocode({ address: currentAddress }, (results, status) => {
-          if (status === 'OK' && results[0]) {
-            const lat = results[0].geometry.location.lat();
-            const lng = results[0].geometry.location.lng();
-    
-            setLatitude(lat)
-            setLongitude(lng)
-          } else {
-           
-          }
+            if (status === 'OK' && results[0]) {
+                const lat = results[0].geometry.location.lat();
+                const lng = results[0].geometry.location.lng();
+        
+                setLatitude(lat)
+                setLongitude(lng)
+            }
         });
-      };
-
-
+    };
     useEffect(() => {
         return () => {
             galleryFiles.forEach((image) => URL.revokeObjectURL(image));
@@ -166,12 +153,11 @@ const AddChargerStation = () => {
             { name: "chargerType", value: selectedType, errorMessage: "Charging Type is required.", isArray: true },
             { name: "chargingFor", value: selectedBrands, errorMessage: "Charging For is required.", isArray: true },
             { name: "chargingPoint", value: chargingPoint, errorMessage: "Charging Point is required." },
+            { name: "availableChargingPoint", value: availableChargingPoint, errorMessage: "Available Charging Point is required." },
             { name: "description", value: description, errorMessage: "Description is required." },
             { name: "address", value: address, errorMessage: "Address is required." },
             { name: "latitude", value: latitude, errorMessage: "Latitude is required." },
             { name: "longitude", value: longitude, errorMessage: "Longitude is required." },
-            // { name: "file", value: file, errorMessage: "Image is required." },
-            // { name: "gallery", value: galleryFiles, errorMessage: "Station Gallery is required.", isArray: true },
             { name: "price", value: price, errorMessage: "Price selection is required." }
         ];
     
@@ -230,16 +216,16 @@ const AddChargerStation = () => {
                 const selectedBrandsString = selectedBrands.map(brand => brand.value).join(', ');
                 formData.append("charging_for", selectedBrandsString);
             }
-    
             if (selectedType) {
                 formData.append("charger_type", selectedType.value);
             }
-        
             formData.append("charging_point", chargingPoint);
             formData.append("description", description);
             formData.append("address", address);
             formData.append("latitude", latitude);
-            formData.append("longitude", longitude);
+            formData.append("longitude", longitude);  //
+            formData.append("availableChargingPoint", availableChargingPoint);
+            formData.append("occupiedChargingPoint", occupiedChargingPoint);
         
             if (price) {
                 formData.append("price", price.value);
@@ -340,7 +326,7 @@ const AddChargerStation = () => {
                                 value={stationName}
                                 onChange={(e) => setStationName(e.target.value)}
                             />
-                            {errors.stationName && stationName == '' && <p className={styles.error} style={{ color: 'red' }}>{errors.stationName}</p>}
+                            {errors.stationName && stationName === '' && <p className={styles.error} style={{ color: 'red' }}>{errors.stationName}</p>}
                         </div>
                         <div className={styles.addShopInputContainer}>
                             <label className={styles.addShopLabel} htmlFor="availableBrands">Charging For</label>
@@ -355,7 +341,7 @@ const AddChargerStation = () => {
                                     closeOnSelect={false}
                                 />
                             </div>
-                            {errors.chargingFor && selectedBrands.length == 0 && <p className={styles.error} style={{ color: 'red' }}>{errors.chargingFor}</p>}
+                            {errors.chargingFor && selectedBrands.length === 0 && <p className={styles.error} style={{ color: 'red' }}>{errors.chargingFor}</p>}
                         </div>
                     </div>
                     <div className={styles.row}>
@@ -393,7 +379,49 @@ const AddChargerStation = () => {
                                     }
                                 }}
                             />
-                            {errors.chargingPoint && chargingPoint == '' && <p className={styles.error} style={{ color: 'red' }}>{errors.chargingPoint}</p>}
+                            {errors.chargingPoint && chargingPoint === '' && <p className={styles.error} style={{ color: 'red' }}>{errors.chargingPoint}</p>}
+                        </div>
+                    </div>
+                    <div className={styles.row}>
+                        <div className={styles.addShopInputContainer}>
+                            <label className={styles.addShopLabel} htmlFor="availableChargingPoint">
+                                Available Charging Point
+                            </label>
+                            <input
+                                type="text"
+                                autoComplete="off"
+                                id="availableChargingPoint"
+                                placeholder="Available Charging Point"
+                                className={styles.inputField}
+                                value={availableChargingPoint}
+                                onChange={(e) => {
+                                    const value = e.target.value;
+                                    if (/^\d{0,4}$/.test(value)) {
+                                        setAvailableChargingPoint(value);
+                                    }
+                                }}
+                            />
+                            {errors.availableChargingPoint && availableChargingPoint === '' && <p className={styles.error} style={{ color: 'red' }}>{errors.availableChargingPoint}</p>}
+                        </div>
+                        <div className={styles.addShopInputContainer}>
+                            <label className={styles.addShopLabel} htmlFor="occupiedChargingPoint">
+                                Occupied Charging Point
+                            </label>
+                            <input
+                                type="text"
+                                autoComplete="off"
+                                id="occupiedChargingPoint"
+                                placeholder="Occupied Charging Point"
+                                className={styles.inputField}
+                                value={occupiedChargingPoint}
+                                onChange={(e) => {
+                                    const value = e.target.value;
+                                    if (/^\d{0,4}$/.test(value)) {
+                                        setOccupiedChargingPoint(value);
+                                    }
+                                }}
+                            />
+                            {errors.occupiedChargingPoint && occupiedChargingPoint === '' && <p className={styles.error} style={{ color: 'red' }}>{errors.occupiedChargingPoint}</p>}
                         </div>
                     </div>
                     <div className={styles.row}>
@@ -407,7 +435,7 @@ const AddChargerStation = () => {
                                 value={description}
                                 onChange={(e) => setDescription(e.target.value)}
                             />
-                            {errors.description && description == '' && <p className={styles.error} style={{ color: 'red' }}>{errors.description}</p>}
+                            {errors.description && description === '' && <p className={styles.error} style={{ color: 'red' }}>{errors.description}</p>}
                         </div>
                         <div className={styles.addShopInputContainer}>
                             <label className={styles.addShopLabel} htmlFor="fullAddress">Full Address</label>
@@ -420,7 +448,7 @@ const AddChargerStation = () => {
                                 onChange={(e) => setAddress(e.target.value)}
                                 onBlur={(e) => handleOnBlur(e.target.value)}
                             />
-                            {errors.address && address == '' && <p className={styles.error} style={{ color: 'red' }}>{errors.address}</p>}
+                            {errors.address && address === '' && <p className={styles.error} style={{ color: 'red' }}>{errors.address}</p>}
                         </div>
                     </div>
                     <div className={styles.locationRow}>
@@ -442,7 +470,7 @@ const AddChargerStation = () => {
                                 }}
                                 
                             />
-                            {errors.latitude && latitude == '' && <p className={styles.error} style={{ color: 'red' }}>{errors.latitude}</p>}
+                            {errors.latitude && latitude === '' && <p className={styles.error} style={{ color: 'red' }}>{errors.latitude}</p>}
                         </div>
                         <div className={styles.addShopInputContainer}>
                             <label className={styles.addShopLabel} htmlFor="longitude">Longitude</label>
@@ -460,7 +488,7 @@ const AddChargerStation = () => {
                                     }
                                 }}
                             />
-                            {errors.longitude && longitude == '' &&  <p className={styles.error} style={{ color: 'red' }}>{errors.longitude}</p>}
+                            {errors.longitude && longitude === '' &&  <p className={styles.error} style={{ color: 'red' }}>{errors.longitude}</p>}
                         </div>
                         <div className={styles.addShopInputContainer}>
                             <label className={styles.addShopLabel} htmlFor="location">Price</label>
@@ -472,7 +500,7 @@ const AddChargerStation = () => {
                                 isClearable
                                 className={styles.addShopSelect}
                             />
-                            {errors.price && price == null &&<p className={styles.error} style={{ color: 'red' }}>{errors.price}</p>}
+                            {errors.price && price === null &&<p className={styles.error} style={{ color: 'red' }}>{errors.price}</p>}
                         </div>
                     </div>
                     <div className={styles.scheduleSection}>

@@ -109,7 +109,7 @@ const RoadAssistanceInvoiceList = () => {
                             label: 'Amount', 
                             format: (amount) => (amount ? `AED ${amount}` : amount) 
                         },
-                        { key: 'payment_status', label: 'Status', format: (status) => (status === "succeeded" ? "Completed" : "") }
+                        { key: 'payment_status', label: 'Status', format: (status) => (status === "succeeded" ? "Completed" : "Approved") }
                     
                     ]}
                     pageHeading="Road Assistance Invoice List"

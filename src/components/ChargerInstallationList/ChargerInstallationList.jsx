@@ -90,13 +90,13 @@ const ChargerInstallationList = () => {
             {loading ? <Loader /> :
                 chargerInstallationList.length === 0 ? (
                     <EmptyList
-                        tableHeaders={["Date","Request ID", "Customer Name", "Service Type", "Vehicle Model",  "Status", "Action"]}
+                        tableHeaders={["Request Date", "Request ID", "Customer Name", "Residence Type", "Looking For", "Status", "Action"]}
                         message="No data available"
                     />
                 ) : (
                 <>
                     <List 
-                        tableHeaders={["Date","Request ID", "Customer Name", "Service Type", "Vehicle Model",  "Status", "Action"]}
+                        tableHeaders={["Request Date", "Request ID", "Customer Name", "Customer Email", "Residence Type", "Status", "Action"]}
                         listData = {chargerInstallationList}
                         keyMapping = {[
                             { 
@@ -106,8 +106,8 @@ const ChargerInstallationList = () => {
                             },
                             { key: 'request_id', label: 'Station Name' }, 
                             { key: 'name', label: 'Customer Name' }, 
-                            { key: 'service_type', label: 'Charging Type' },
-                            { key: 'vehicle_model', label: 'Vehicle Model' },
+                            { key: 'email', label: 'Customer Email' },
+                            { key: 'resident_type', label: 'Residence Type' },
                             { 
                                 key    : 'order_status', 
                                 label  : 'Status', 

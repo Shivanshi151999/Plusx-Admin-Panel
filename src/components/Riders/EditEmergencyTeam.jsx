@@ -75,8 +75,6 @@ const EditEmergencyTeam = () => {
                 fields.push({ name: "confirmPassword", value: confirmPassword, errorMessage: "Passwords do not match." });
             }
         }
-        
-    
         const newErrors = fields.reduce((errors, { name, value, errorMessage, isEmail, isMobile, isPasswordMatch }) => {
             if (!value) {
                 errors[name] = errorMessage;
@@ -255,6 +253,7 @@ const EditEmergencyTeam = () => {
                                 autoComplete='off'
                                 placeholder="Password"
                                 value={password}
+                                maxlength="12"
                                 onChange={(e) => setPassword(e.target.value)}
                             />
                             {errors.password && password.length < 6 && <p className="error">{errors.password}</p>}
@@ -267,6 +266,7 @@ const EditEmergencyTeam = () => {
                                 autoComplete='off'
                                 placeholder="Confirm Password"
                                 value={confirmPassword}
+                                maxlength="12"
                                 onChange={(e) => setConfirmPassword(e.target.value)}
                             />
                             {errors.confirmPassword &&  confirmPassword != password && <p className="error">{errors.confirmPassword}</p>}

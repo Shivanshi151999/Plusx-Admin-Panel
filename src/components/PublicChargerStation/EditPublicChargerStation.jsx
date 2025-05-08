@@ -30,11 +30,14 @@ const EditPublicChargerStation = () => {
     const [address, setAddress]             = useState()
     const [latitude, setLatitude]           = useState()
     const [longitude, setLongitude]         = useState()
-    const [open, setOpen]                   = useState(false)
+    // const [open, setOpen]                   = useState(false)
     const [isAlwaysOpen, setIsAlwaysOpen]   = useState(false);
-    const [status, setStatus]               = useState(true)
-    const [openDays, setOpenDays]           = useState()
+    // const [status, setStatus]               = useState(true)
+    // const [openDays, setOpenDays]           = useState()
     const [loading, setLoading]             = useState(false);
+
+    const [availableChargingPoint, setAvailableChargingPoint] = useState('')
+    const [occupiedChargingPoint, setOccupiedChargingPoint]   = useState('')
 
     const [timeSlots, setTimeSlots] = useState({
         Monday    : { open: '', close: '', openMandatory: false, closeMandatory: false },
@@ -46,14 +49,13 @@ const EditPublicChargerStation = () => {
         Sunday    : { open: '', close: '', openMandatory: false, closeMandatory: false },
     });
 
-    const { isLoaded } = useJsApiLoader({
-        googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY
-      });
+    // const { isLoaded } = useJsApiLoader({
+    //     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY
+    // });
 
     const handleTimeChange = (day, timeType) => (event) => {
 
         const value = event.target.value.replace(/[^0-9:-]/g, '');
-
         setTimeSlots((prev) => {
             const updatedTimeSlots = {
                 ...prev,
@@ -71,23 +73,21 @@ const EditPublicChargerStation = () => {
             return updatedTimeSlots;
         });
     };
-    const brandDropdownRef = useRef(null);
+    const brandDropdownRef   = useRef(null);
     const serviceDropdownRef = useRef(null);
 
     const handleAlwaysOpenChange = (event) => {
         setIsAlwaysOpen(event.target.checked);
     };
-    const [selectedService, setSelectedService] = useState(null);
+    // const [selectedService, setSelectedService] = useState(null);
+    // const handleServiceChange = (selectedOption) => setSelectedService(selectedOption);
 
     const handleChargingFor = (selectedOptions) => {
         setSelectedBrands(selectedOptions);
     };
-    const handleServiceChange = (selectedOption) => setSelectedService(selectedOption);
-
     const handleChargingType = (selectedOption) => {
         setSelectedType(selectedOption);
     };
-
     const [price, setPrice] = useState(null);
     const priceOptions = [
         { value: "Free", label: "Free" },
@@ -129,24 +129,21 @@ const EditPublicChargerStation = () => {
     
         const geocoder = new window.google.maps.Geocoder();
         geocoder.geocode({ address: currentAddress }, (results, status) => {
-          if (status === 'OK' && results[0]) {
-            const lat = results[0].geometry.location.lat();
-            const lng = results[0].geometry.location.lng();
-    
-            setLatitude(lat)
-            setLongitude(lng)
-          } else {
-           
-          }
+            if (status === 'OK' && results[0]) {
+                const lat = results[0].geometry.location.lat();
+                const lng = results[0].geometry.location.lng();
+        
+                setLatitude(lat)
+                setLongitude(lng)
+            } 
         });
-      };
+    };
 
     useEffect(() => {
         return () => {
             galleryFiles.forEach((image) => URL.revokeObjectURL(image));
         };
     }, [galleryFiles]);
-
 
     const validateForm = () => {
         const fields = [
@@ -158,11 +155,8 @@ const EditPublicChargerStation = () => {
             { name: "address", value: address, errorMessage: "Address is required." },
             { name: "latitude", value: latitude, errorMessage: "Latitude is required." },
             { name: "longitude", value: longitude, errorMessage: "Longitude is required." },
-            // { name: "file", value: file, errorMessage: "Image is required." },
-            // { name: "gallery", value: galleryFiles, errorMessage: "Station Gallery is required.", isArray: true },
             { name: "price", value: price, errorMessage: "Price selection is required." }
         ];
-    
         const newErrors = fields.reduce((errors, { name, value, errorMessage, isArray }) => {
             if ((isArray && (!value || value.length === 0)) || (!isArray && !value)) {
                 errors[name] = errorMessage;
@@ -173,11 +167,9 @@ const EditPublicChargerStation = () => {
         const hasValidTimeSlot = Object.values(timeSlots).some(
             (times) => times.open && times.close
         );
-    
         if (!isAlwaysOpen && !hasValidTimeSlot) {
             newErrors["timeSlots"] = "Either select 'Always Open' or fill at least one time slot.";
         }
-    
         // Validate time slots only if not always open
         if (!isAlwaysOpen) {
             Object.entries(timeSlots).forEach(([day, times]) => {
@@ -189,7 +181,6 @@ const EditPublicChargerStation = () => {
                 }
             });
         }
-    
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
@@ -234,6 +225,8 @@ const EditPublicChargerStation = () => {
             formData.append("latitude", latitude);
             formData.append("longitude", longitude);
             formData.append("status", isActive === true ? 1 : 0);
+            formData.append("availableChargingPoint", availableChargingPoint);
+            formData.append("occupiedChargingPoint", occupiedChargingPoint);
 
             if (price) {
                 formData.append("price", price.value);
@@ -325,6 +318,10 @@ const EditPublicChargerStation = () => {
                 setGalleryFiles(response?.gallery_data || []);
                 setIsAlwaysOpen(data?.always_open === 1 ? true : false)
                 setIsActive(data?.status)
+
+                setAvailableChargingPoint(data?.available_charging_point || 0);
+                setOccupiedChargingPoint(data?.occupied_charging_point || 0);
+
                 const transformedChargingFor = (response?.result?.chargingFor || []).map(item => ({
                     label: item,
                     value: item
@@ -383,7 +380,7 @@ const EditPublicChargerStation = () => {
                             <label className={styles.addShopLabel} htmlFor="shopName">Station Name</label>
                             <input
                                 type="text"
-                                 autoComplete="off"
+                                autoComplete="off"
                                 id="shopName"
                                 placeholder="Shop Name"
                                 className={styles.inputField}
@@ -435,7 +432,6 @@ const EditPublicChargerStation = () => {
                                 placeholder="Charging Point"
                                 className={styles.inputField}
                                 value={chargingPoint}
-                                // onChange={(e) => setChargingPoint(e.target.value)} 
                                 onChange={(e) => {
                                     const value = e.target.value;
                                     if (/^\d{0,4}$/.test(value)) {
@@ -444,6 +440,48 @@ const EditPublicChargerStation = () => {
                                 }}
                             />
                             {errors.chargingPoint && chargingPoint == '' && <p className="error">{errors.chargingPoint}</p>}
+                        </div>
+                    </div>
+                    <div className={styles.row}>
+                        <div className={styles.addShopInputContainer}>
+                            <label className={styles.addShopLabel} htmlFor="availableChargingPoint">
+                                Available Charging Point
+                            </label>
+                            <input
+                                type="text"
+                                autoComplete="off"
+                                id="availableChargingPoint"
+                                placeholder="Available Charging Point"
+                                className={styles.inputField}
+                                value={availableChargingPoint}
+                                onChange={(e) => {
+                                    const value = e.target.value;
+                                    if (/^\d{0,4}$/.test(value)) {
+                                        setAvailableChargingPoint(value);
+                                    }
+                                }}
+                            />
+                            {errors.availableChargingPoint && availableChargingPoint === '' && <p className={styles.error} style={{ color: 'red' }}>{errors.availableChargingPoint}</p>}
+                        </div>
+                        <div className={styles.addShopInputContainer}>
+                            <label className={styles.addShopLabel} htmlFor="occupiedChargingPoint">
+                                Occupied Charging Point
+                            </label>
+                            <input
+                                type="text"
+                                autoComplete="off"
+                                id="occupiedChargingPoint"
+                                placeholder="Occupied Charging Point"
+                                className={styles.inputField}
+                                value={occupiedChargingPoint}
+                                onChange={(e) => {
+                                    const value = e.target.value;
+                                    if (/^\d{0,4}$/.test(value)) {
+                                        setOccupiedChargingPoint(value);
+                                    }
+                                }}
+                            />
+                            {errors.occupiedChargingPoint && occupiedChargingPoint === '' && <p className={styles.error} style={{ color: 'red' }}>{errors.occupiedChargingPoint}</p>}
                         </div>
                     </div>
                     <div className={styles.row}>

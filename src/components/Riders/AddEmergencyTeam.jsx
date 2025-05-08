@@ -206,10 +206,11 @@ const AddEmergencyTeam = () => {
                             <label className={styles.addShopLabel}>Password</label>
                             <input
                                 className={styles.inputField}
-                                type="text"
+                                type="password"
                                 autoComplete='off'
                                 placeholder="Password"
                                 value={password}
+                                maxlength="12"
                                 onChange={(e) => setPassword(e.target.value)}
                             />
                             {errors.password && password.length < 6 &&  <p className="error">{errors.password}</p>}
@@ -218,10 +219,11 @@ const AddEmergencyTeam = () => {
                             <label className={styles.addShopLabel}>Confirm Password</label>
                             <input
                                 className={styles.inputField}
-                                type="text"
+                                type="password"
                                 autoComplete='off'
                                 placeholder="Confirm Password"
                                 value={confirmPassword}
+                                maxlength="12"
                                 onChange={(e) => setConfirmPassword(e.target.value)}
                             />
                             {errors.confirmPassword && confirmPassword != password && <p className="error">{errors.confirmPassword}</p>}

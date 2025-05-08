@@ -78,7 +78,7 @@ const BookingDetailsAccordion = ({history, rsa, imageUrl, fieldMapping, title })
                             {section.order_status === 'CS' && (
                                 <p className={styles.accodionPTag}><strong>Pod Name :</strong> { section?.podName }</p>
                             )}
-                            {section.remarks && section.order_status === 'CS' && (
+                            {section.remarks && (
                                 <p className={styles.accodionPTag}><strong>Remarks :</strong> { section?.remarks }</p>
                             )}
                             {section.showImage && section.imageUrls.length > 0 && (

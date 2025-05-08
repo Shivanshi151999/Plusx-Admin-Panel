@@ -236,7 +236,7 @@ const EditPortableChargerTimeSlot = () => {
                                 selected={date}
                                 onChange={(date) => setDate(date)}
                                 minDate={new Date()}
-                                maxDate={new Date().setDate(new Date().getDate() + 14)}
+                                maxDate={new Date().setDate(new Date().getDate() + 30)}
                                 readOnly
                             />
                             <img className={styles.datePickerImg} src={Calendar} alt="calendar" />

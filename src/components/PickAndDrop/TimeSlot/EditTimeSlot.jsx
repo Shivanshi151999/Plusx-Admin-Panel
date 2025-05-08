@@ -222,16 +222,16 @@ const EditPickAndDropTimeSlot = () => {
                     <div className={styles.inputGroup}>
                         <label className={styles.label}>Select Date</label>
                         <div className={styles.datePickerWrapper}>
-                        <DatePicker
-                            className={styles.inputCharger}
-                            selected={date}
-                            onChange={(date) => setDate(date)}
-                            minDate={new Date()}
-                            maxDate={new Date().setDate(new Date().getDate() + 14)}
-                            readOnly
-                        />
-                         <img className={styles.datePickerImg} src={Calendar} alt="calendar" />
-                         </div>
+                            <DatePicker
+                                className={styles.inputCharger}
+                                selected={date}
+                                onChange={(date) => setDate(date)}
+                                minDate={new Date()}
+                                maxDate={new Date().setDate(new Date().getDate() + 30)}
+                                readOnly
+                            />
+                            <img className={styles.datePickerImg} src={Calendar} alt="calendar" />
+                        </div>
                         {errors.date && <span className="error">{errors.date}</span>}
                     </div>
                     </div>

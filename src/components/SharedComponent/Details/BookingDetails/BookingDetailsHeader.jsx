@@ -1,12 +1,12 @@
 import React from 'react';
 import styles from '../details.module.css';
 import { useNavigate } from 'react-router-dom';
+import { StarRating } from '../../StarRating/StarRating';
 
-const BookingDetailsHeader = ({ content, titles, sectionContent1, type, deviceBatteryData }) => {
+const BookingDetailsHeader = ({ content, titles, sectionContent1, type, deviceBatteryData, feedBack }) => {
     const userDetails          = JSON.parse(sessionStorage.getItem('userDetails'));
     const navigate             = useNavigate();
     const handleBookingDetails = (id) => navigate(`/portable-charger/customer-charger-booking-list/${id}`)
-
     return (
         <div className={styles.infoCard}>
             <div className="row">
@@ -52,7 +52,7 @@ const BookingDetailsHeader = ({ content, titles, sectionContent1, type, deviceBa
                     </div>
                 )}
 
-                { (type === 'portableChargerBooking' || type === 'pickAndDropBooking') && sectionContent1?.bookingStatus !== 'Booking Confirmed' && (
+                { (type === 'portableChargerBooking' || type === 'pickAndDropBooking' || type === 'evRoadAssitanceBooking') && content.driverName && (
                     <div className="col-xl-3 col-lg-6 col-12">
                         <div className={styles.detailsHeaderSection}>
                         <div className={styles.detailsImageSection}>
@@ -62,8 +62,20 @@ const BookingDetailsHeader = ({ content, titles, sectionContent1, type, deviceBa
                             <span className={styles.infoHeading}>{titles.driverDetailsTitle}</span>
                             <span className={styles.infoHeadText}>{content.driverName}</span>
                             <span className={styles.infoText}>{content.driverContact}</span>
-                            
                         </div>
+                        </div>
+                    </div>
+                )}
+                { feedBack && (
+                    <div className="col-xl-3 col-lg-6 col-12">
+                        <div className={styles.detailsHeaderSection}>
+                            <div className={styles.detailsImageSection}>
+                            </div>
+                            <div className={styles.infoBlock}>
+                                <span className={styles.infoHeading}>Customer Feedback</span>
+                                <span className={styles.infoHeadText}><StarRating rating={feedBack.rating}  className={styles.infoHeadText} /></span>
+                                <span className={styles.infoText}>{feedBack.description}</span>
+                            </div>
                         </div>
                     </div>
                 )}

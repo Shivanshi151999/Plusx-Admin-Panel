@@ -203,7 +203,6 @@ const AddPickAndDropTimeSlot = () => {
             </div>
             <ToastContainer />
 
-
             <form className={styles.form} onSubmit={handleSubmit}>
                 <div className={styles.chargerSection}>
                     <div className={styles.addSection}>
@@ -215,7 +214,7 @@ const AddPickAndDropTimeSlot = () => {
                                     selected={date}
                                     onChange={(date) => setDate(date)}
                                     minDate={new Date()}
-                                    maxDate={new Date().setDate(new Date().getDate() + 14)}
+                                    maxDate={new Date().setDate(new Date().getDate() + 30)}
                                 />
                                 <img className={styles.datePickerImg} src={Calendar} alt="calendar" />
                                 {errors.date && <span className="error">{errors.date}</span>}

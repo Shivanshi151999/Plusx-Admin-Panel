@@ -18,7 +18,7 @@ const RoadAssistanceInvoiceDetails = () => {
         };
         postRequestWithToken('ev-road-assistance-invoice-data', obj, (response) => {
             if (response.code === 200) {
-                setBookingDetails(response?.invoice || {});  
+                setBookingDetails(response?.data || {});  
             } else {
                 console.log('error in ev-road-assistance-invoice-data API', response);
             }

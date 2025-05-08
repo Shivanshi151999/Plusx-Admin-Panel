@@ -1,4 +1,8 @@
 export const menuItems = {
+    userList: [
+        { id: "activeUser", label: "App Sign Up List", path: "/app-signup/app-signup-list" },
+        { id: "deletedUser", label: "Deleted Account", path: "/app-signup/deleted-account" },
+    ],
     portableCharger: [
         { id: "chargerList", label: "Charger List", path: "/portable-charger/charger-list" },
         { id: "chargerBooking", label: "Charger Booking", path: "/portable-charger/charger-booking-list" },
@@ -7,17 +11,18 @@ export const menuItems = {
 
         { id: "deviceList", label: "Device List", path: "/portable-charger/device-list" },
         { id: "areaList", label: "Area List", path: "/portable-charger/area-list" },
-        { id: "failedBooking", label: "Failed Booking", path: "/portable-charger/failed-booking-list" },
+        { id: "failedBookingList", label: "Failed Booking", path: "/portable-charger/failed-booking-list" },
     ],
     pickAndDrop: [
         { id: "bookingList", label: "Booking List", path: "/pick-and-drop/booking-list" },
         { id: "invoiceList", label: "Invoice List", path: "/pick-and-drop/invoice-list" },
         { id: "timeSlot", label: "Time Slot", path: "/pick-and-drop/time-slot-list" },
-        { id: "failedbookingList", label: "Failed Booking List", path: "/pick-and-drop/failed-booking-list" },
+        { id: "failedBookingList", label: "Failed Booking List", path: "/pick-and-drop/failed-booking-list" },
     ],
     evRoadAssistance: [
-        { id: "bookingList", label: "Booking List", path: "/ev-road-assistance/booking-list" },
-        { id: "invoiceList", label: "Invoice List", path: "/ev-road-assistance/invoice-list" },
+        { id: "bookingList",       label: "Booking List", path: "/ev-road-assistance/booking-list" },
+        { id: "invoiceList",       label: "Invoice List", path: "/ev-road-assistance/invoice-list" },
+        { id: "failedBookingList", label: "Failed Booking", path: "/ev-road-assistance/failed-booking-list" },
     ],
     evPreSalesTesting: [
         { id: "testingBooking", label: "Testing Booking", path: "/ev-pre-sales-testing/pre-sales-list" },

@@ -10,6 +10,8 @@ import moment from 'moment';
 import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from 'react-router-dom';
 
+
+// BookingDetailsHeader
 const statusMapping = {
     'PNR' : 'Payment Not Received',
     'CNF': 'Booking Confirmed',
@@ -33,6 +35,7 @@ const ChargerBookingDetails = () => {
     const { bookingId }                       = useParams()
     const [bookingDetails, setBookingDetails] = useState()
     const [history, setHistory]               = useState([])
+    const [feedBack, setFeedBack]             = useState()
 
     const fetchDetails = () => {
         const obj = {
@@ -43,7 +46,8 @@ const ChargerBookingDetails = () => {
         postRequestWithToken('charger-booking-details', obj, (response) => {
             if (response.code === 200) {
                 setBookingDetails(response?.data?.booking || {});
-                setHistory(response?.data?.history)
+                setHistory(response?.data?.history); 
+                setFeedBack(response?.data?.feedBack);
             } else {
                 console.log('error in rider-details API', response);
             }
@@ -62,26 +66,10 @@ const ChargerBookingDetails = () => {
         customerDetailsTitle : "Customer Details",
         driverDetailsTitle   : "Driver Details",
     };
-    const sectionTitles1 = {
-        bookingStatus : "Booking Status",
-        price         : "Price",
-        serviceName   : "Service Name",
-    }
-    const sectionTitles2 = {
-        vehicle        : "Vehicle",
-        serviceType    : "Service Type",
-        serviceFeature : "Service Feature",
-    }
-    const sectionTitles3 = {
-        address  : "Address",
-        slotDate : "Slot Date",
-        slotTime : "Slot Time"
-    }
-    
     let rsa_data  = (bookingDetails?.rsa_data != null) ? bookingDetails?.rsa_data.split(",") : [];
     const content = {
         bookingId       : bookingDetails?.booking_id,
-        customerId       : bookingDetails?.rider_id,
+        customerId      : bookingDetails?.rider_id,
         createdAt       : moment(bookingDetails?.created_at).format('DD MMM YYYY h:mm A'),
         customerName    : bookingDetails?.user_name,
         customerContact : `${bookingDetails?.country_code} ${bookingDetails?.contact_no}`,
@@ -92,15 +80,32 @@ const ChargerBookingDetails = () => {
         podName         : bookingDetails?.pod_name,
         custBookingCount : bookingDetails?.cust_booking_count || 0,
     };
+    const sectionTitles1 = {
+        bookingStatus : "Booking Status",
+        price         : "Price",
+        serviceName   : "Service Name",
+    }
     const sectionContent1 = {
         bookingStatus : statusMapping[bookingDetails?.status] || bookingDetails?.status,
         serviceName   : bookingDetails?.service_name,
         price         : bookingDetails?.service_price ? `${ ( bookingDetails?.service_price / 100).toFixed(2) } AED` : '0 AED',
     }
+    const sectionTitles2 = {
+        vehicle        : "Vehicle",
+        serviceType    : "Service Type",
+        serviceFeature : "Service Feature",
+    }
     const sectionContent2 = {
         vehicle        : bookingDetails?.vehicle_data,
         serviceType    : bookingDetails?.service_type,
         serviceFeature : bookingDetails?.service_feature,
+    }
+    const sectionTitles3 = {
+        address  : "Address",
+        slotDate : "Slot Date",
+        slotTime : "Slot Time",
+        parkingNumber : "Parking No.",
+        parkingFloor : "Parking Floor",
     }
     const sectionContent3 = {
         // address: bookingDetails?.address
@@ -114,13 +119,15 @@ const ChargerBookingDetails = () => {
                 {bookingDetails?.address || 'View on Map'}
             </a>
         ),
-        slotDate : moment(bookingDetails?.slot_date).format('DD MMM YYYY'),
-        slotTime : bookingDetails?.slot_time
-    }
+        slotDate      : moment(bookingDetails?.slot_date).format('DD MMM YYYY'),
+        slotTime      : bookingDetails?.slot_time,
+        parkingNumber : bookingDetails?.parking_number,
+        parkingFloor  : bookingDetails?.parking_floor,
+    } 
     return (
         <div className='main-container'>
             <BookingDetailsHeader content={content} titles={headerTitles} sectionContent={sectionContent1}
-                type='portableChargerBooking'
+                type='portableChargerBooking' feedBack={feedBack}
             />
             <div className={styles.bookingDetailsSection}>
                 <BookingLeftDetails titles={sectionTitles1} content={sectionContent1}

@@ -28,6 +28,7 @@ const PickAndDropBookingDetails = () => {
     const [bookingDetails, setBookingDetails] = useState()
     const [history, setHistory]               = useState([])
     const [imageUrl, setImageUrl]             = useState('')
+    const [feedBack, setFeedBack]             = useState()
 
     const fetchDetails = () => {
         const obj = {
@@ -40,7 +41,8 @@ const PickAndDropBookingDetails = () => {
             if (response.code === 200) {
                 setBookingDetails(response?.data[0] || {});
                 setHistory(response?.history)
-                setImageUrl(response.imageUrl)
+                setImageUrl(response.imageUrl);
+                setFeedBack(response?.feedBack);
             } else {
                 console.log('error in rider-details API', response);
             }
@@ -79,8 +81,9 @@ const PickAndDropBookingDetails = () => {
         createdAt       : moment(bookingDetails?.created_at).format('DD MMM YYYY h:mm A'),
         customerName    : bookingDetails?.name,
         customerContact : `${bookingDetails?.country_code} ${bookingDetails?.contact_no}`,
-        driverName      : rsa_data ? rsa_data[0] : '-',
-        driverContact   : rsa_data ? rsa_data[1] : '-',
+        driverName      : rsa_data ? rsa_data[0] : '',
+        driverContact   : rsa_data ? rsa_data[1] : '',
+        imageUrl        : imageUrl,
     };
     const sectionContent1 = {
         bookingStatus : statusMapping[bookingDetails?.order_status] || bookingDetails?.order_status,
@@ -108,11 +111,11 @@ const PickAndDropBookingDetails = () => {
     }
     return (
         <div className='main-container'>
-            <BookingDetailsHeader content={content} titles={headerTitles} sectionContent1={sectionContent1} type='pickAndDropBooking' />
+            <BookingDetailsHeader content={content} titles={headerTitles} sectionContent1={sectionContent1} type='pickAndDropBooking' feedBack={feedBack} />
             <div className={styles.pickBookingContainer}>
                 <BookingLeftDetails titles={sectionTitles1} content={sectionContent1} sectionTitles2={sectionTitles2} 
                 sectionContent2={sectionContent2} sectionTitles3={sectionTitles3} sectionContent3={sectionContent3} type='pickAndDropBooking' />
-                <BookingDetailsAccordion history={history} rsa={content} imageUrl={imageUrl} />
+                <BookingDetailsAccordion history={history} rsa={content} />
             </div>
         </div>
     )

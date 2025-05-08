@@ -6,9 +6,7 @@ import Pagination from '../../SharedComponent/Pagination/Pagination';
 import { postRequestWithToken, postRequest } from '../../../api/Requests';
 import moment from 'moment'; 
 
-
 import View from '../../../assets/images/ViewEye.svg'
-
 
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -43,7 +41,7 @@ const FailedChargerBookingList = () => {
     const [loading, setLoading]                       = useState(false);
     const [downloadClicked, setDownloadClicked]       = useState(false)
 
-    const handleBookingDetails = (id) => navigate(`/portable-charger/charger-booking-details/${id}`)
+    const handleBookingDetails = (id) => navigate(`/portable-charger/failed-charger-booking-details/${id}`)
 
     const fetchList = (page, appliedFilters = {}, scheduleFilters = {}) => {
         if (page === 1 && Object.keys(appliedFilters).length === 0) {
@@ -98,13 +96,14 @@ const FailedChargerBookingList = () => {
     
         // Append query parameters only if they are not null or undefined
         const params = new URLSearchParams();
+        params.append('status', 'PNR');
         if (start_date) params.append('start_date', start_date);
         if (end_date) params.append('end_date', end_date);
-        if (status) params.append('status', status);
+        // if (status) params.append('status', status);
         if (search_text) params.append('search_text', search_text);
         if (scheduleFilters?.start_date) params.append('scheduled_start_date', scheduleFilters.start_date);
         if (scheduleFilters?.end_date) params.append('scheduled_end_date', scheduleFilters.end_date);
-    
+        
         // If any query parameters were added, append them to the URL
         if (params.toString()) {
             url += `?${params.toString()}`;

@@ -10,20 +10,20 @@ import Filter from '../../../assets/images/Filter.svg';
 import AccordionFilter from '../../SharedComponent/Accordion/Accordions';
 
     const pickDropStatusMapping = {
-        'CNF': 'Booking Confirmed',
-        'A'  : 'Assigned',
-        'ER' : 'Enroute',
-        'RL' : 'POD Reached at Location',
-        'CS' : 'Charging Started',
-        'CC' : 'Charging Completed',
-        'PU' : 'Completed',
+        'CNF' : 'Booking Confirmed',
+        'A'   : 'Assigned',
+        'ER'  : 'Enroute',
+        'RL'  : 'POD Reached at Location',
+        'CS'  : 'Charging Started',
+        'CC'  : 'Charging Completed',
+        'PU'  : 'Completed',
         'P'   : 'Open',
         'VP'  : 'Vehicle Pickup',
         'RS'  : 'Reached Charging Spot',
         'WC'  : 'Work Completed',
         'DO'  : 'Drop Off',
         'C'   : "Cancelled",
-
+        'RO' : 'POD Reached at Office'
     };
     const dynamicFilters = [
         {
@@ -40,6 +40,7 @@ import AccordionFilter from '../../SharedComponent/Accordion/Accordions';
                 { value : 'CC',  label : 'Charging Completed' },
                 { value : 'PU',  label : 'Completed' },
                 { value : 'C',   label : 'Cancelled' },
+                { value : 'RO',   label : 'POD Reached at Office' },
             ]
         },
     ];

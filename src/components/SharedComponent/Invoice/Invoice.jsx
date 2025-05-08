@@ -7,14 +7,13 @@ import html2pdf from 'html2pdf.js';
 import Download from '../../../assets/images/Download.svg'
 
 const Invoice = ({ title, service, details }) => {
-    
     const handleDownload = () => {
         const invoiceElement = document.getElementById('invoiceToDownload');
         const options = {
             margin:       0.5,
             filename:     'Invoice.pdf',
             image:        { type: 'jpeg', quality: 0.98 },
-            html2canvas:  { scale: 2 },
+            html2canvas : { scale: 2 },
             jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
         };
         html2pdf().set(options).from(invoiceElement).save();
@@ -93,7 +92,7 @@ const Invoice = ({ title, service, details }) => {
                                         </table>
                                     </td>
                                 )}
-                                { title == 'Portable Charger Invoice Details' && (
+                                { ( title == 'Portable Charger Invoice Details' || title == 'Road Assistance Invoice Details' ) && (
                                     <td colSpan="2">
                                         <table style={{ width: '100%', borderSpacing: 0, marginTop:"16px" }}>
                                             <thead>

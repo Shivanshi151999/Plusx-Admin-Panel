@@ -120,16 +120,23 @@ import Profile from "../components/Profile/index.jsx"
 
 import CustomerChargerBookingList from "../components/PortableCharger/ChargerBooking/CustomerChargerBookingList.js";
 
-
-import FailedChargerBookingList from "../components/PortableCharger/ChargerBooking/FailedChargerBookingList.js";
-import FailedPickAndDropBookingList from "../components/PickAndDrop/Booking/FailedBookingList.jsx";
 // Partners routes
 import Partners from "../components/PartnerPortal/index.jsx";
 import PartnerLists from "../components/PartnerPortal/PartnerLists.jsx";
 import AddPartner from "../components/PartnerPortal/AddPartner.jsx";
 import EditPartner from "../components/PartnerPortal/EditPartner.jsx";
 
-const router = createBrowserRouter([
+import DeletedAccount from "../components/AppSignUp/DeletedAccount.js";
+
+import FailedChargerBookingList from "../components/PortableCharger/ChargerBooking/FailedChargerBookingList.js";
+import FailedBookingDetails from "../components/PortableCharger/ChargerBooking/FailedBookingDetails.js";
+import FailedPickAndDropBookingList from "../components/PickAndDrop/Booking/FailedBookingList.jsx";
+import FailedPickAndDropBookingDetails from "../components/PickAndDrop/Booking/FailedBookingDetails.jsx";
+
+import FailedRSABookingList from "../components/EvRoadAssistance/Booking/FailedBookingList.js";
+import FailedRSABookingDetails from "../components/EvRoadAssistance/Booking/FailedBookingDetails.js";
+
+const router = createBrowserRouter([ 
     {
         path    : "/login",
         element : <Login />,
@@ -142,18 +149,20 @@ const router = createBrowserRouter([
                 index   : true,
                 element : <Dashboard />,
             },
-             //App Signup
-             {
-                path: "/app-signup",
-                element: <AppSignUp/>,
-                children: [
+            //App Signup
+            {
+                path     : "/app-signup",
+                element  : <AppSignUp/>,
+                children : [
                     {
-                        path: "app-signup-list",
-                        element: <AppSignupList />,
-                    },
-                    {
-                        path: "rider-details/:riderId",
-                        element: <AppSignupDetails/>,
+                        path    : "app-signup-list",
+                        element : <AppSignupList />,
+                    }, {
+                        path    : "deleted-account",
+                        element : <DeletedAccount />,
+                    }, {
+                        path    : "rider-details/:riderId",
+                        element : <AppSignupDetails/>,
                     },
                 ],
             },
@@ -274,7 +283,11 @@ const router = createBrowserRouter([
                         path: "failed-booking-list",
                         element: <FailedChargerBookingList />,
                     },
-                    // End Pod Device Route
+                    {
+                        path: "failed-charger-booking-details/:bookingId",
+                        element: <FailedBookingDetails />,
+                    },
+                    // End Pod Device Route  
                 ],
             },
             // End the portable charger routes
@@ -314,6 +327,10 @@ const router = createBrowserRouter([
                     {
                         path: "failed-booking-list",
                         element: <FailedPickAndDropBookingList />,
+                    },
+                    {
+                        path: "failed-valet-booking-details/:requestId",
+                        element: <FailedPickAndDropBookingDetails />,
                     },
                 ],
             },
@@ -430,40 +447,39 @@ const router = createBrowserRouter([
 
             //road assistance
             {
-                path: "/ev-road-assistance",
-                element: <EvRoadAssistance />,
-                children: [
+                path     : "/ev-road-assistance",
+                element  : <EvRoadAssistance />,
+                children : [
                     {
                         path: "booking-list",
                         element: <RoadAssistanceBookingList />,
-                    },
-                    {
+                    }, {
                         path: "booking-details/:requestId",
                         element: <RoadAssistanceBookingDetails />,
-                    },
-                    {
+                    }, {
                         path: "invoice-list",
                         element: <RoadAssistanceInvoiceList />,
-                    },
-                    {
+                    },  {
                         path: "invoice-details/:invoiceId",
                         element: <RoadAssistanceInvoiceDetails />,
-                    },
-                    {
+                    }, {
                         path: "charger-booking-time-slot-list",
                         element: <PortableChargerTimeSlotList />,
-                    },
-                    {
+                    }, {
                         path: "add-time-slot",
                         element: <AddPortableChargerTimeSlot />,
-                    },
-                    {
+                    }, {
                         path: "edit-time-slot/:slotDate",
                         element: <EditPortableChargerTimeSlot />,
+                    }, {
+                        path: "failed-booking-list",
+                        element: <FailedRSABookingList />,
+                    }, {
+                        path: "failed-booking-details/:requestId",
+                        element: <FailedRSABookingDetails />,
                     },
                 ],
             },
-
             //Ev Rider Club
             {
                 path: "/ev-rider-club",

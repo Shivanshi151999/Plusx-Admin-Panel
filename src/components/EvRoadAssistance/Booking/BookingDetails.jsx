@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import styles from './roadassistance.module.css'
 import BookingDetailsHeader from '../../SharedComponent/Details/BookingDetails/BookingDetailsHeader'
-import BookingDetailsSection from '../../SharedComponent/Details/BookingDetails/BookingDetailsSection'
 import BookingLeftDetails from '../../SharedComponent/BookingDetails/BookingLeftDetails.jsx'
 import BookingDetailsAccordion from '../../SharedComponent/BookingDetails/BookingDetailsAccordion.jsx'
 import { postRequestWithToken } from '../../../api/Requests';
 import { useParams } from 'react-router-dom';
 import moment from 'moment';
-import { toast, ToastContainer } from "react-toastify";
+
 import { useNavigate } from 'react-router-dom';
 
 const statusMapping = {
+    'PNR' : 'Payment Not Received',
     'CNF': 'Booking Confirmed',
     'A'  : 'Assigned',
     'ER' : 'Enroute',
@@ -23,6 +23,7 @@ const statusMapping = {
     'WC' : 'Work Completed',
     'DO' : 'Drop Off',
     'C'  : 'Cancel',
+    'RO' : 'POD Reached at Office',
 };
 
 const RoadAssistanceBookingDetails = () => {
@@ -31,6 +32,7 @@ const RoadAssistanceBookingDetails = () => {
     const { requestId }                       = useParams()
     const [bookingDetails, setBookingDetails] = useState()
     const [history, setHistory]               = useState([])
+    const [feedBack, setFeedBack]             = useState()
 
     const fetchDetails = () => {
         const obj = {
@@ -40,8 +42,9 @@ const RoadAssistanceBookingDetails = () => {
         };
         postRequestWithToken('ev-road-assistance-booking-details', obj, (response) => {
             if (response.code === 200) {
-                setBookingDetails(response?.result?.booking || {});
-                setHistory(response?.data?.history)
+                setBookingDetails(response?.data?.booking || {});
+                setHistory(response?.data?.history);
+                setFeedBack(response?.data?.feedBack);
             } else {
                 console.log('error in rider-details API', response);
             }
@@ -56,12 +59,20 @@ const RoadAssistanceBookingDetails = () => {
     }, []);
 
     const headerTitles = {
-        bookingIdTitle: "Request ID",
-        customerDetailsTitle: "Customer Details",
+        bookingIdTitle       : "Booking ID",
+        customerDetailsTitle : "Customer Details",
+        driverDetailsTitle   : "Driver Details",
     };
+    let rsa_data  = (bookingDetails?.rsa_data != null) ? bookingDetails?.rsa_data.split(",") : [];
     const content = {
         bookingId       : bookingDetails?.request_id,
+        customerId      : bookingDetails?.rider_id,
         createdAt       : moment(bookingDetails?.created_at).format('DD MMM YYYY h:mm A'),
+        driverName      : rsa_data ? rsa_data[0] : '',
+        driverContact   : rsa_data ? rsa_data[1] : '',
+        podId           : bookingDetails?.pod_id,
+        podName         : bookingDetails?.pod_name,
+        // custBookingCount : bookingDetails?.cust_booking_count || 0,
         customerName    : bookingDetails?.name,
         customerContact : `${bookingDetails?.country_code} ${bookingDetails?.contact_no}`,
         imageUrl        : bookingDetails?.imageUrl,
@@ -69,34 +80,37 @@ const RoadAssistanceBookingDetails = () => {
     const sectionTitles1 = {
         bookingStatus : "Booking Status",
         price         : "Price",
-        typeOfIssue   : "Type of Issue",
+        vehicle       : "Vehicle",
+        address       : "Address",
+        parkingNumber : "Parking No.",
+        parkingFloor  : "Parking Floor",
     }
     const sectionContent1 = {
         bookingStatus : statusMapping[bookingDetails?.order_status] || bookingDetails?.order_status,
-        typeOfIssue   : bookingDetails?.types_of_issue,
         price         : bookingDetails?.price,
+        vehicle        : bookingDetails?.vehicle_data,
+        address : (
+            <a
+                href    = {`https://www.google.com/maps?q=${bookingDetails?.pickup_latitude},${bookingDetails?.pickup_longitude}`}
+                target    = "_blank"
+                rel       = "noopener noreferrer"
+                className = 'linkSection'
+            >
+                {bookingDetails?.pickup_address || 'View on Map'}
+            </a>
+        ),
+        parkingNumber : bookingDetails?.parking_number,
+        parkingFloor  : bookingDetails?.parking_floor,
     }
-    
-    const sectionTitles2 = {
-        pickupAddress : "Pick Up Address",
-        dropAddress   : "Drop Address",
-    }
-    const sectionContent2 = {
-        pickupAddress : bookingDetails?.pickup_address,
-        dropAddress   : bookingDetails?.drop_address,
-    }
-  
     return (
         <div className='main-container'>
             <BookingDetailsHeader content={content} titles={headerTitles} sectionContent={sectionContent1}
-                type='evRoadAssitanceBooking'
+                type='evRoadAssitanceBooking' feedBack={feedBack}
             />
             <div className={styles.bookingDetailsSection}>
                 <BookingLeftDetails titles={sectionTitles1} content={sectionContent1}
-                    sectionTitles2={sectionTitles2} sectionContent2={sectionContent2}
-                    // sectionTitles3={sectionTitles3} sectionContent3={sectionContent3}
                     type='evRoadAssitanceBooking' />
-                {/* <BookingDetailsAccordion history={history} rsa={content} /> */}
+                <BookingDetailsAccordion history={history} rsa={content} />
             </div>
         </div>
     )

@@ -35,7 +35,7 @@ const FailedBookingList = () => {
             type  : 'text'
         }
     ]
-    const handlePDBookingDetails = (id) => navigate(`/pick-and-drop/booking-details/${id}`)
+    const handlePDBookingDetails = (id) => navigate(`/pick-and-drop/failed-valet-booking-details/${id}`)
 
     const fetchList = (page, appliedFilters = {}) => {
         if (page === 1 && Object.keys(appliedFilters).length === 0) {
@@ -91,7 +91,7 @@ const FailedBookingList = () => {
                         tableHeaders={["Booking Date", "Booking ID", "Customer Name", "Price", "Status", "Driver Assign", "Action",""]}
                         message="No data available"
                     />
-                    ) : (
+                ) : (
                     <>
                         <List 
                             tableHeaders={["Booking Date", "Booking ID", "Customer Name", "Price", "Status", "Action",""]}
@@ -138,16 +138,14 @@ const FailedBookingList = () => {
                             ]}
                             pageHeading="Pick & Drop Booking List"
                         />
-                        
                         <Pagination 
                         currentPage={currentPage} 
                         totalPages={totalPages} 
                         onPageChange={handlePageChange} 
                         />
                     </>
-            )}
-
-            
+                )
+            }
         </div>
     );
 };

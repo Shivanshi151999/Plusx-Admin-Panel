@@ -140,8 +140,16 @@ const SignupList = () => {
         }
 
         try {
-            const response = await axios.get(url, { responseType: 'blob' });
-
+            const response = await axios.get(url, { responseType: 'blob', headers : {"authorization" : process.env.REACT_APP_Authorization, } });
+            // const response = axios.get(url, {
+            //     responseType: 'blob',
+            //     headers : {
+            //         "accesstoken"  : userDetails.access_token,
+            //         "userId"       : userDetails.user_id,
+            //         "authorization" : process.env.REACT_APP_Authorization,                  
+            //     }, 
+            // });
+            console.log(response.data)
             const blob = new Blob([response.data], {
                 type : 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
             });

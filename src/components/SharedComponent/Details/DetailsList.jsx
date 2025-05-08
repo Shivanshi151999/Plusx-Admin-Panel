@@ -4,8 +4,8 @@ import Pagination from '../Pagination/Pagination';
 
 const DetailsList = ({ addressList }) => {
     const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(1);
-    const itemsPerPage = 3;
+    const [totalPages, setTotalPages]   = useState(1);
+    const itemsPerPage                  = 3;
 
     useEffect(() => {
         if (addressList) {
@@ -17,7 +17,6 @@ const DetailsList = ({ addressList }) => {
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
-
     return (
         <div className={styles.addressListContainer}>
             <span className={styles.sectionTitle}>Address List</span>
@@ -27,28 +26,30 @@ const DetailsList = ({ addressList }) => {
                         <th>Building Name</th>
                         <th>Street Name</th>
                         <th>Area Name</th>
-                        <th>Unit No</th>
+                        <th>Flat No</th>
                         <th>Nick Name</th>
                         <th>Emirates</th>
+                        <th>Landmark</th>
                     </tr>
                 </thead>
                 <tbody>
-                {currentItems && currentItems.length > 0 ? (
+                    {currentItems && currentItems.length > 0 ? (
                         currentItems.map((address, index) => (
-                        <tr key={index}>
-                            <td>{address.building_name}</td>
-                            <td>{address.street}</td>
-                            <td>{address.area}</td>
-                            <td>{address.unit_no}</td>
-                            <td>{address.nick_name}</td>
-                            <td>{address.emirate}</td>
+                            <tr key={index}>
+                                <td>{address.building_name}</td>
+                                <td>{address.street_name}</td>
+                                <td>{address.area}</td>
+                                <td>{address.unit_no}</td>
+                                <td>{address.nick_name}</td>
+                                <td>{address.emirate}</td>
+                                <td>{address.landmark}</td>
+                            </tr>
+                        ))
+                    ) : (
+                        <tr>
+                            <td colSpan="12" className={styles.noData}>No Data Available</td>
                         </tr>
-                    ))
-                ) : (
-                    <tr>
-                        <td colSpan="12" className={styles.noData}>No Data Available</td>
-                    </tr>
-                )}
+                    )}
                 </tbody>
             </table>
 

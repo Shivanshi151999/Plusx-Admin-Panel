@@ -28,39 +28,37 @@ import 'react-tooltip/dist/react-tooltip.css';
         'RL' : 'POD Reached at Location',
         'CS' : 'Charging Started',
         'CC' : 'Charging Completed',
-        // 'PU' : 'POD Picked Up',
         'PU' : 'Completed',
         'C'  : 'Cancelled',
         'RO' : 'POD Reached at Office',
     };
 
-const dynamicFilters = [
-    {
-        label : 'Status', 
-        name  : 'status', 
-        type  : 'select', 
-        options : [
-            { value : '',    label : 'Select Status' },
-            { value : 'CNF', label : 'Booking Confirmed' },
-            { value : 'A',   label : 'Assigned' },
-            { value : 'ER',  label : 'Enroute' },
-            { value : 'RL',  label : 'POD Reached at Location' },
-            { value : 'CS',  label : 'Charging Started' },
-            { value : 'CC',  label : 'Charging Completed' },
-            // { value : 'PU',  label : 'POD Picked Up' },
-            { value : 'PU',  label : 'Completed' },
-            { value : 'RO',  label : 'POD Reached at Office' },
-            { value : 'C',   label : 'Cancelled' },
-        ]
-    },
-];
-const searchTerm = [
-    {
-        label : 'search', 
-        name  : 'search_text', 
-        type  : 'text'
-    }
-]
+    const dynamicFilters = [
+        {
+            label : 'Status', 
+            name  : 'status', 
+            type  : 'select', 
+            options : [
+                { value : '',    label : 'Select Status' },
+                { value : 'CNF', label : 'Booking Confirmed' },
+                { value : 'A',   label : 'Assigned' },
+                { value : 'ER',  label : 'Enroute' },
+                { value : 'RL',  label : 'POD Reached at Location' },
+                { value : 'CS',  label : 'Charging Started' },
+                { value : 'CC',  label : 'Charging Completed' },
+                { value : 'PU',  label : 'Completed' },
+                { value : 'RO',  label : 'POD Reached at Office' },
+                { value : 'C',   label : 'Cancelled' },
+            ]
+        },
+    ];
+    const searchTerm = [
+        {
+            label : 'search', 
+            name  : 'search_text', 
+            type  : 'text'
+        }
+    ]
 
 const ChargerBookingList = () => {
     const userDetails                                 = JSON.parse(sessionStorage.getItem('userDetails'));
@@ -247,7 +245,8 @@ const ChargerBookingList = () => {
         }
 
         try {
-            const response = await axios.get(url, { responseType: 'blob' });
+            // const response = await axios.get(url, { responseType: 'blob' });
+            const response = await axios.get(url, { responseType: 'blob', headers : {"authorization" : process.env.REACT_APP_Authorization, } });
 
             const blob = new Blob([response.data], {
                 type : 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
@@ -296,9 +295,7 @@ const ChargerBookingList = () => {
                             { key: 'slot_date', label: 'Schedule Date', format: (date) => moment(date).format('DD MMM YYYY') },
                             { key: 'slot_time', label: 'Schedule Time', format: (date) => moment(date).format(' hh:mm A') },
                             { key: 'booking_id', label: 'ID' },
-                            { key: 'user_name', label: 'Customer Name' },
-                            // { key: 'service_name', label: 'Service Name' },
-                            // { key: 'service_price', label: 'Price', format: (price) => (price ? `AED ${price}` : '') },   
+                            { key: 'user_name', label: 'Customer Name' }, 
                             { key: 'status', label: 'Status', format: (status) => statusMapping[status] || status },                    
                             { key: 'rsa_name', label: 'Driver Name' }, 
                             {
@@ -306,7 +303,7 @@ const ChargerBookingList = () => {
                                 label: 'Driver Assign',
                                 relatedKeys: ['status'], 
                                 format: (data, key, relatedKeys) => {
-                                    const isBookingConfirmed = (data[relatedKeys[0]] === 'CNF' || data[relatedKeys[0]] === 'A' || data[relatedKeys[0]] === 'RL' ); 
+                                    const isBookingConfirmed = ['CNF', 'A'].includes(data[relatedKeys[0]]);
                                     
                                     return isBookingConfirmed ? (
                                         <img 

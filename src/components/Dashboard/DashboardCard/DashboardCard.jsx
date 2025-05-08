@@ -34,57 +34,50 @@ const DashboardCard = ({ details }) => {
 
   const cardData = [
     {
-      icon: AppSignUpImage,
-      count: details?.find((item) => item.module === "App Sign Up")?.count || 0,
-      title: "App Sign Up",
-      route: "/app-signup/app-signup-list",
-    },
-    {
-      icon: NoOfRegsDriverImage,
-      count:
-        details?.find((item) => item.module === "No. of Regs. Drivers")
-          ?.count || 0,
-      title: "Active Drivers",
-      route: "/drivers/driver-list",
-    },
-    {
-      icon: PODBooking,
-      count:
-        details?.find((item) => item.module === "POD Bookings")?.count || 0,
-      title: "Today's POD Booking",
-      route: "/portable-charger/charger-booking-list",
-    },
-    {
-      icon: PickAndDropImage,
-      count:
-        details?.find((item) => item.module === "Pickup & Dropoff Bookings")
-          ?.count || 0,
-      title: "Pick & Drop off Bookings",
-      route: "/pick-and-drop/booking-list",
-    },
-    {
-      icon: EVRoadAssitanceImage,
-      count:
-        details?.find((item) => item.module === "EV Road Assistance")?.count ||
-        0,
-      title: "EV Road Assistance",
-      route: "/ev-road-assistance/booking-list",
-    },
-    {
-      icon: ChargerInstallationImage,
-      count:
-        details?.find((item) => item.module === "Charger Installation Bookings")
-          ?.count || 0,
-      title: "Charger Installation Bookings",
-      route: "/charger-installation/charger-installation-list",
-    },
-    {
-      icon: EVPreSalesImage,
-      count:
-        details?.find((item) => item.module === "Pre-Sale Testing Bookings")
-          ?.count || 0,
-      title: "EV Pre-Sales Testing Bookings",
-      route: "/ev-pre-sales-testing/pre-sales-list",
+        icon  : AppSignUpImage,
+        count : details?.find((item) => item.module === "App Sign Up")?.count || 0,
+        title : "App Sign Up",
+        route : "/app-signup/app-signup-list",
+    }, {
+        icon  : NoOfRegsDriverImage,
+        count : details?.find((item) => item.module === "No. of Regs. Drivers") ?.count || 0,
+        title : "Active Drivers",
+        route : "/drivers/driver-list",
+    }, {
+        icon  : PODBooking,
+        count : details?.find((item) => item.module === "POD Bookings")?.count || 0,
+        title : "Today's POD Booking",
+        route : "/portable-charger/charger-booking-list",
+    }, {
+        icon  : PickAndDropImage,
+        count : details?.find((item) => item.module === "Pickup & Dropoff Bookings") ?.count || 0,
+        title : "Pick & Drop off Bookings",
+        route : "/pick-and-drop/booking-list",
+    }, {
+        icon  : EVRoadAssitanceImage,
+        count : details?.find((item) => item.module === "EV Road Assistance")?.count || 0,
+        title : "EV Road Assistance",
+        route : "/ev-road-assistance/booking-list",
+    }, {
+        icon  : ChargerInstallationImage,
+        count : details?.find((item) => item.module === "Charger Installation Bookings") ?.count || 0,
+        title : "Charger Installation Bookings",
+        route : "/charger-installation/charger-installation-list",
+    }, {
+        icon  : EVPreSalesImage,
+        count : details?.find((item) => item.module === "Pre-Sale Testing Bookings") ?.count || 0,
+        title : "EV Pre-Sales Testing Bookings",
+        route : "/ev-pre-sales-testing/pre-sales-list",
+    }, {
+        icon  : PODBooking,
+        count : details?.find((item) => item.module === "Today POD Failed Bookings")?.count || 0,
+        title : "Today's POD Failed Bookings", 
+        route : "/portable-charger/failed-booking-list",
+    }, {
+        icon  : PickAndDropImage,
+        count : details?.find((item) => item.module === "Today Pickup & Dropoff Failed Bookings") ?.count || 0,
+        title : "Today's Pickup & Dropoff Failed Bookings",
+        route : "/pick-and-drop/failed-booking-list",
     },
     // {
     //   icon: PublicChargersImage,

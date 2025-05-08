@@ -25,14 +25,10 @@ const DetailsVehicleList = ({ vehicleList }) => {
                 <thead>
                     <tr>
                         <th>Vehicle Type</th>
-                        <th>Vehicle No.</th>
-                        <th>Vehicle Code</th>
-                        <th>Year Manufacture</th>
+                        <th>Plate Code</th>
+                        <th>Plate No.</th>
+                        <th>Vehicle Brand</th>
                         <th>Vehicle Model</th>
-                        <th>Vehicle Make</th>
-                        <th>Leased-From</th>
-                        <th>Owner Type</th>
-                        <th>Owner</th>
                         <th>Vehicle Specification</th>
                         <th>Emirates</th>
                     </tr>
@@ -42,14 +38,10 @@ const DetailsVehicleList = ({ vehicleList }) => {
                     currentItems?.map((vehicle, index) => (
                         <tr key={index}>
                             <td>{vehicle.vehicle_type}</td>
-                            <td>{vehicle.vehicle_number}</td>
                             <td>{vehicle.vehicle_code}</td>
-                            <td>{vehicle.year_manufacture}</td>
-                            <td>{vehicle.vehicle_model}</td>
+                            <td>{vehicle.vehicle_number}</td>
                             <td>{vehicle.vehicle_make}</td>
-                            <td>{vehicle.leased_from}</td>
-                            <td>{vehicle.owner_type}</td>
-                            <td>{vehicle.owner}</td>
+                            <td>{vehicle.vehicle_model}</td>                           
                             <td>{vehicle.vehicle_specification}</td>
                             <td>{vehicle.emirates}</td>
                         </tr>

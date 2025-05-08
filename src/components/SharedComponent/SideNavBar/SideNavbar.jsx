@@ -10,6 +10,7 @@ const SideNavbar = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [openDropdown, setOpenDropdown]   = useState(null);
     const [checkedItems, setCheckedItems]   = useState({
+        userList   : { activeUser    : false, deletedUser : false },
         portableCharger : {
             deviceList     : false,
             areaList       : false,
@@ -66,6 +67,9 @@ const SideNavbar = () => {
 
     useEffect(() => {
         setCheckedItems((prevState) => ({
+            userList: location.pathname.includes("/app-signup")
+                ? prevState.userList : { activeUser: false, deletedUser: false },
+
             portableCharger: location.pathname.includes("/portable-charger") ? prevState.portableCharger
                 : {
                     chargerList    : false,
@@ -93,6 +97,7 @@ const SideNavbar = () => {
             "/ev-road-assistance",
             "/ev-pre-sales-testing",
             "/ev-specialized",
+            "/app-signup",
         ];
         if (!dropdownPaths.some((path) => location.pathname.includes(path))) {
             sessionStorage.removeItem("checkedItems");
@@ -128,7 +133,20 @@ const SideNavbar = () => {
                 </div>
                 <ul className={styles.menuList}>
                     <SideBarLinkItem label="Dashboard" path="/" isActive={isActive("/")} />
-                    <SideBarLinkItem label="App Sign Up List" path="/app-signup/app-signup-list" isActive={isActive("/app-signup")} />
+
+                    {/* <SideBarLinkItem label="App Sign Up List" path="/app-signup/app-signup-list" isActive={isActive("/app-signup")} /> */}
+
+                    <SidebarDropdown
+                        menuName="App Sign Up List"
+                        menuItems={menuItems.userList}
+                        openDropdown={openDropdown}
+                        handleItemClick={(id, e) =>
+                            handleItemClicked("userList", id, e)
+                        }
+                        toggleDropdown={toggleDropdown}
+                        checkedItems={checkedItems.userList}
+                    />
+
                     <SideBarLinkItem label="Drivers" path="/drivers/driver-list" isActive={isActive("/drivers")} />
                     <SidebarDropdown
                         menuName="Portable Charger"

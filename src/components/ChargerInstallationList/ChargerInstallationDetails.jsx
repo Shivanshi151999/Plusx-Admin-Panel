@@ -56,48 +56,42 @@ const ChargerInstallationDetails = () => {
         bookingIdTitle       : "Service ID",
         customerDetailsTitle : "Customer Details",
     };
-    const sectionTitles1 = {
-        serviceType : "Service Type",
-        chargerFor  : "Charger For",
-        noOfCharger : "No of Charger",
-    }
-    const sectionTitles2 = {
-        bookingStatus : "Satus",
-        vehicleModel  : "Satus",
-        companyName   : "Company Name",
-    }
-    const sectionTitles3 = {
-        residentType : "Resident Type",
-        address      : "Address",
-        region       : "Region Specification",
-    }
-    const sectionTitles4 = {
-        description : "Description",
-    }
     const content = {
         bookingId       : bookingDetails?.request_id,
         createdAt       : moment(bookingDetails?.created_at).format('DD MMM YYYY h:mm A'),
         customerName    : bookingDetails?.name,
         customerContact : `${bookingDetails?.country_code} ${bookingDetails?.contact_no}`,
-        driverName      : bookingDetails?.driver?.rsa_name,
-        driverContact   : `${bookingDetails?.driver?.country_code} ${bookingDetails?.driver?.mobile}`,
+        // driverName      : bookingDetails?.driver?.rsa_name,
+        // driverContact   : `${bookingDetails?.driver?.country_code} ${bookingDetails?.driver?.mobile}`,
     };
+    const sectionTitles1 = {
+        customerEmail : "Customer Email",
+        bookingStatus : "Satus",
+        residentType  : "Resident Type",
+        looking_for   : "Looking For",
+        address       : "Address",
+    }
     const sectionContent1 = {
-        serviceType : bookingDetails?.service_type,
-        chargerFor  : bookingDetails?.charger_for,
-        noOfCharger : bookingDetails?.no_of_charger,
-    }
-    const sectionContent2 = {
+        customerEmail : bookingDetails?.email,
         bookingStatus : statusMapping[bookingDetails?.order_status] || bookingDetails?.order_status,
-        vehicleModel  : bookingDetails?.vehicle_model,
-        companyName   : bookingDetails?.company_name,
+        residentType  : bookingDetails?.resident_type,
+        looking_for   : bookingDetails?.looking_for,
+        address       : (
+            <a
+                href    = {`https://www.google.com/maps?q=${bookingDetails?.latitude},${bookingDetails?.longitude}`}
+                target    = "_blank"
+                rel       = "noopener noreferrer"
+                className = 'linkSection'
+            >
+                {bookingDetails?.address || 'View on Map'}
+            </a>
+        ),
     }
-    const sectionContent3 = {
-        residentType : bookingDetails?.resident_type,
-        address      : bookingDetails?.address,
-        region       : bookingDetails?.region_specification,
-       
+    const sectionTitles4 = {
+        description : "Description",
     }
+    
+    
     const sectionContent4 = {
         description: bookingDetails?.description,
     }
@@ -106,8 +100,6 @@ const ChargerInstallationDetails = () => {
             <BookingDetailsHeader content={content} titles={headerTitles} type='chargerInstallation' />
             <div className={styles.bookingLeftContainer}>
                 <BookingLeftDetails titles={sectionTitles1} content={sectionContent1} 
-                  sectionTitles2={sectionTitles2} sectionContent2={sectionContent2}
-                  sectionTitles3={sectionTitles3} sectionContent3={sectionContent3}
                   sectionTitles4={sectionTitles4} sectionContent4={sectionContent4}
                 type='chargerInstallation' />
                 <BookingDetailsAccordion history={history} />

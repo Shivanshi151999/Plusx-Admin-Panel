@@ -5,14 +5,14 @@ import SubHeader from '../../SharedComponent/SubHeader/SubHeader';
 import Pagination from '../../SharedComponent/Pagination/Pagination';
 import { postRequestWithToken, postRequest } from '../../../api/Requests';
 import moment from 'moment'; 
-import AddDriver from '../../../assets/images/AddDriver.svg';
-import Cancel from '../../../assets/images/Cancel.svg';
+// import AddDriver from '../../../assets/images/AddDriver.svg';
+// import Cancel from '../../../assets/images/Cancel.svg';
 import View from '../../../assets/images/ViewEye.svg'
-import ModalAssign from '../../SharedComponent/BookingDetails/ModalAssign.jsx'
-import { toast, ToastContainer } from "react-toastify";
+// import ModalAssign from '../../SharedComponent/BookingDetails/ModalAssign.jsx'
+// import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate, useParams } from 'react-router-dom';
-import Custommodal from '../../SharedComponent/CustomModal/CustomModal.jsx';
+// import Custommodal from '../../SharedComponent/CustomModal/CustomModal.jsx';
 import Loader from "../../SharedComponent/Loader/Loader";
 import EmptyList from '../../SharedComponent/EmptyList/EmptyList.jsx';
 import { utils, writeFile } from 'xlsx';
@@ -26,7 +26,8 @@ import axios from 'axios';
         'CS' : 'Charging Started',
         'CC' : 'Charging Completed',
         'PU' : 'Completed',
-        'C'  : 'Cancelled'
+        'C'  : 'Cancelled',
+        'RO' : 'POD Reached at Office'
     };
 
     const dynamicFilters = [
@@ -44,6 +45,7 @@ import axios from 'axios';
                 { value : 'CC',  label : 'Charging Completed' },
                 { value : 'PU',  label : 'Completed' },
                 { value : 'C',   label : 'Cancelled' },
+                { value : 'RO',   label : 'POD Reached at Office' },
             ]
         },
     ];
@@ -165,7 +167,6 @@ const CustomerChargerBookingList = () => {
                 scheduleDateChange  = {scheduleFilteredData}
                 scheduleFilters     = {scheduleFilters}
             />
-            <ToastContainer />
             {loading ? <Loader /> :
                 chargerBookingList.length === 0 ? (
                     <EmptyList

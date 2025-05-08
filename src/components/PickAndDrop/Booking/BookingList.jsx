@@ -231,7 +231,7 @@ const BookingList = () => {
                     ) : (
                     <>
                         <List 
-                            tableHeaders={["Booking Date", "Booking ID", "Customer Name", "Price", "Status", "Driver Assign", "Action",""]}
+                            tableHeaders={["Booking Date", "Booking ID", "Customer Name", "Price", "Status", "Driver Name", "Driver Assign", "Action",""]}
                             listData = {chargerBookingList}
                             keyMapping={[
                                 { 
@@ -250,8 +250,8 @@ const BookingList = () => {
                                 {   key: 'order_status',
                                     label: 'Status',
                                     format: (status) => statusMapping[status] || status 
-
                                 },
+                                { key: 'rsa_name', label: 'Driver Name' }, 
                                 {
                                     key: 'driver_assign',
                                     label: 'Driver Assign',
